@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>易 Yi · 灯 Dēng — The Lantern, One Body</title>
+<script>try{document.documentElement.classList.add("js");}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..800,0..100,0..1;1,9..144,300..800,0..100,0..1&family=Newsreader:opsz,wght@6..72,200..700&family=Space+Mono:wght@400;700&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<style>
+:root{
+  --paper:#FCFAF7; --paper2:#F8F0EA; --paper3:#F0E2D9;
+  --ink:#2C1D17; --iris:#5B2A1B; --iris-mid:#8A4530; --lilac:#A89087;
+  --brass:#9A7226; --teal:#2F6B72; --alarm:#9B3242;
+  --rule:#DFCEC5; --rule-soft:#EFE2DA; --shadow:0 18px 44px rgba(60,28,20,.08);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Newsreader",Georgia,"Noto Serif SC",serif;font-size:18px;line-height:1.66;overflow-x:hidden}
+:focus-visible{outline:2px solid var(--iris-mid);outline-offset:3px}
+.wrap{width:min(1140px,calc(100% - 34px));margin-inline:auto}
+.col{max-width:68ch}
+.mono,.kicker,.badge,.cap,.step,.tag,button,output{font-family:"Space Mono",ui-monospace,Menlo,monospace}
+.kicker{font-size:.66rem;letter-spacing:.19em;text-transform:uppercase;color:var(--iris-mid)}
+.cap{font-size:.78rem;line-height:1.55;color:var(--iris-mid)}
+.cover{position:relative;color:#F8EDE7;overflow:hidden;padding:clamp(42px,7vw,90px) 0 clamp(34px,5vw,58px);
+  background:radial-gradient(110% 90% at 72% 4%,#8A55A6 0,transparent 54%),linear-gradient(168deg,#3B2250,#1C1026)}
+.cover::after{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:soft-light;opacity:.58;
+  background:radial-gradient(120% 100% at 50% 40%,transparent 42%,rgba(20,8,5,.5) 100%),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
+.cover .wrap{position:relative;z-index:2}
+.cover .kicker{color:#EDC3AB}
+.rules{border-top:1px solid rgba(248,237,231,.45);border-bottom:1px solid rgba(248,237,231,.45);height:5px;margin:16px 0 24px}
+h1{font-family:"Fraunces","Noto Serif SC",serif;font-weight:600;font-variation-settings:"SOFT" 40,"WONK" 1;
+  font-size:clamp(2.6rem,9vw,6.4rem);line-height:.9;letter-spacing:-.032em;margin:0}
+h1 .en{display:block;font-size:clamp(.98rem,2.1vw,1.5rem);font-weight:400;font-style:italic;margin-top:.6em;color:#F2DACA;font-variation-settings:"WONK" 0}
+.deck{font-size:clamp(1.02rem,1.8vw,1.32rem);line-height:1.5;max-width:50ch;margin:22px 0 0;color:#F9EBE3}
+.deck b{color:#fff}
+section{padding:clamp(48px,7vw,96px) 0;border-top:1px solid var(--rule-soft)}
+.head{display:grid;grid-template-columns:152px 1fr;gap:clamp(14px,3vw,30px);align-items:start;margin-bottom:30px}
+.head .step{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--lilac);line-height:1.9}
+.head .step b{display:block;color:var(--iris);font-weight:700}
+h2{font-family:"Fraunces","Noto Serif SC",serif;font-weight:500;font-variation-settings:"SOFT" 30,"WONK" 1;
+  font-size:clamp(1.75rem,4.2vw,3.1rem);line-height:1.03;letter-spacing:-.025em;margin:0;color:var(--iris);max-width:25ch}
+h3{font-family:"Fraunces",serif;font-weight:600;font-size:1.08rem;margin:0 0 .45em;color:var(--iris)}
+p{margin:0 0 1.05em;max-width:68ch}
+.big{font-size:clamp(1.14rem,2.2vw,1.48rem);line-height:1.44;max-width:40ch;letter-spacing:-.01em}
+.hl{background:linear-gradient(180deg,transparent 58%,#CFE9E4 58%,#CFE9E4 92%,transparent 92%)}
+.pull{border-left:2px solid var(--brass);padding-left:22px;margin:30px 0;max-width:34ch;
+  font-family:"Fraunces",serif;font-style:italic;font-size:clamp(1.18rem,2.4vw,1.75rem);line-height:1.3;color:var(--iris)}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.card{background:#fff;border:1px solid var(--rule-soft);border-radius:3px;padding:18px;box-shadow:var(--shadow)}
+.card p{margin:0;font-size:.92rem}
+.card .n{font-family:"Fraunces",serif;font-size:1.9rem;color:var(--iris);line-height:1;display:block;margin-bottom:6px}
+.dead{border-left:3px solid var(--alarm)}
+.dead .n{color:var(--alarm)}
+figure{margin:28px 0;border:1px solid var(--rule);border-radius:3px;background:#fff;box-shadow:var(--shadow);overflow:hidden}
+figure .fhead{background:var(--paper2);border-bottom:1px solid var(--rule);padding:9px 16px;display:flex;
+  justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline}
+figure .fhead .tag{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--iris)}
+figure .fhead .hint{font-size:.62rem;color:var(--lilac)}
+figure .fbody{padding:18px}
+figcaption{padding:0 18px 18px;font-size:.8rem;line-height:1.55;color:var(--iris-mid);max-width:74ch}
+canvas{display:block;width:100%;touch-action:none}
+.fallnote{padding:15px 17px;background:var(--paper2);font-family:"Space Mono",monospace;font-size:.7rem;color:var(--iris)}
+html.ready .fallnote{display:none}
+button{appearance:none;border:1px solid var(--rule);background:#fff;color:var(--iris);padding:7px 11px;
+  font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:2px}
+button:hover{border-color:var(--iris-mid)}
+button.on{background:var(--iris);color:#F8EDE7;border-color:var(--iris)}
+.btns{display:flex;gap:7px;flex-wrap:wrap}
+.ctl{display:grid;grid-template-columns:120px 1fr 58px;gap:11px;align-items:center;margin:10px 0}
+.ctl label{font-size:.84rem}
+.ctl output{font-size:.7rem;text-align:right;color:var(--iris-mid)}
+input[type=range]{width:100%;height:20px;accent-color:var(--iris-mid)}
+.readout{font-size:.74rem;line-height:1.62;color:var(--iris-mid);font-family:"Space Mono",monospace;
+  border-top:1px dotted var(--rule);margin-top:14px;padding-top:11px}
+.readout b{color:var(--iris)}
+.readout .ok{color:var(--teal)}.readout .warn{color:var(--brass)}
+.hexdraw{display:flex;flex-direction:column-reverse;gap:5px;width:104px;margin:10px 0}
+.hexdraw i{display:block;height:8px;background:var(--iris);border-radius:1px}
+.hexdraw i.yin{background:linear-gradient(90deg,var(--iris) 0 42%,transparent 42% 58%,var(--iris) 58% 100%)}
+.plate{position:relative;margin:26px 0;padding:28px 24px 20px;overflow-x:auto;
+  background:radial-gradient(120% 140% at 18% 0%,#F9EFE9 0%,#FDFAF7 72%);border:1px solid var(--rule);border-radius:3px}
+.plate::before,.plate::after{content:"";position:absolute;width:12px;height:12px;border:1px solid var(--brass)}
+.plate::before{top:7px;left:7px;border-right:0;border-bottom:0}
+.plate::after{bottom:7px;right:7px;border-left:0;border-top:0}
+.plate .ptag{display:inline-block;border:1px solid var(--iris);color:var(--iris);font-family:"Space Mono",monospace;
+  font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;padding:3px 8px;margin-bottom:18px}
+.tex{font-size:1.02rem;overflow-x:auto;padding:2px 0;line-height:1.5}
+.tex.fallback{font-family:"Space Mono",monospace;white-space:pre-wrap;font-size:.85rem;line-height:1.7}
+.itex.fallback{font-family:"Space Mono",monospace;font-size:.9em}
+.plate .read{margin-top:18px;padding-top:12px;border-top:1px solid #A8CFCB;font-size:.86rem;line-height:1.55;color:var(--ink)}
+.plate .read b{display:block;font-family:"Space Mono",monospace;font-size:.6rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--teal);margin-bottom:5px;font-weight:400}
+.plate .legend{display:flex;flex-wrap:wrap;gap:7px 18px;margin-top:14px;font-size:.76rem;color:var(--iris-mid);font-family:"Space Mono",monospace}
+.plate .legend b{font-family:"Noto Serif SC",serif;font-weight:400;color:var(--iris);font-size:.95rem}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.88rem}
+th{text-align:left;padding:9px 8px;border-bottom:1px solid var(--iris);font-family:"Space Mono",monospace;
+  font-size:.57rem;letter-spacing:.12em;text-transform:uppercase;color:var(--iris-mid)}
+td{padding:9px 8px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+td.g{font-family:"Noto Serif SC",serif;color:var(--iris)}
+.prof{display:grid;gap:4px;margin:18px 0}
+.prof div{display:grid;grid-template-columns:70px 1fr 46px;gap:10px;align-items:center;font-size:.78rem}
+.prof .bar{height:13px;background:var(--paper3);border-radius:2px;overflow:hidden}
+.prof .bar i{display:block;height:100%;background:var(--iris)}
+.prof .lv{font-family:"Space Mono",monospace;font-size:.68rem;color:var(--iris-mid)}
+.prof .ct{font-family:"Space Mono",monospace;font-size:.68rem;text-align:right;color:var(--iris-mid)}
+.prof div.eq .bar i{background:var(--brass)}
+footer{border-top:1px solid var(--iris);background:var(--paper2);padding:42px 0 72px}
+footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
+@media(max-width:900px){
+  body{font-size:17px}
+  .head,.g2,.g3{grid-template-columns:1fr}
+  .head{gap:8px}
+  .ctl{grid-template-columns:96px 1fr 48px}
+}
+
+/* ── mobile containment ─────────────────────────────────────────────
+   Fixes a left/right swivel on phones. Two causes, both here:
+   (1) nothing stopped the PAGE from scrolling horizontally, so any wide
+       child dragged the whole document sideways;
+   (2) KaTeX display math is a single nowrap line and can be far wider
+       than a phone, and it had no scroll container of its own.
+   Now: the page cannot scroll sideways at all, wide equations scroll
+   inside their own plate, and overscroll-behavior stops iOS handing the
+   gesture up to the document (which is what produced the rubber-band).
+   ───────────────────────────────────────────────────────────────── */
+html,body{max-width:100%;overflow-x:hidden}
+.plate{overflow:hidden}
+.tex{overflow:visible;max-width:100%}
+.katex-display{margin:.35em 0;overflow-x:auto;overflow-y:hidden;padding:2px 0 8px;
+  overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+.katex-display>.katex{white-space:nowrap}
+.katex{max-width:100%}
+.itex{display:inline-block;max-width:100%;overflow-x:auto;overflow-y:hidden;
+  vertical-align:bottom;overscroll-behavior-x:contain}
+table{table-layout:fixed;width:100%}
+td,th{overflow-wrap:anywhere;word-break:break-word}
+img,svg,canvas{max-width:100%}
+@media(max-width:760px){
+  .katex{font-size:.88em}
+  .katex-display{font-size:.84em}
+  .plate{padding-left:16px;padding-right:16px}
+}
+@media(max-width:520px){
+  .katex{font-size:.76em}
+  .tex.fallback{font-size:.74rem}
+}
+</style>
+
+<style id="yinav-css">
+.yitop{border-bottom:1px solid var(--rule,#DFCEC5);background:var(--paper,#FCFAF7);
+  font-family:"Space Mono",ui-monospace,Menlo,monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase}
+.yitop .in{width:min(1120px,calc(100% - 34px));margin-inline:auto;display:flex;align-items:center;
+  gap:16px;padding:12px 0;flex-wrap:wrap}
+.yitop a{color:var(--iris-mid,#8A4530);text-decoration:none;opacity:.72}
+.yitop a:hover{opacity:1;text-decoration:underline}
+.yitop .sp{flex:1 1 auto}
+.yitop .now{color:var(--lilac,#A89087)}
+.yinav{border-top:1px solid var(--rule,#DFCEC5);margin-top:clamp(40px,6vw,86px);
+  padding:clamp(30px,5vw,58px) 0 clamp(44px,6vw,84px);font-family:"Space Mono",ui-monospace,Menlo,monospace}
+.yinav .in{width:min(1120px,calc(100% - 34px));margin-inline:auto}
+.yinav-lab{font-size:.62rem;letter-spacing:.19em;text-transform:uppercase;color:var(--lilac,#A89087);margin-bottom:24px}
+.yinav-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:36px}
+.yinav-pair a,.yinav-pair .void{display:block;border:1px solid var(--rule,#DFCEC5);border-radius:3px;
+  padding:20px 22px;text-decoration:none;color:var(--iris,#5B2A1B);transition:border-color .2s,background .2s}
+.yinav-pair a:hover{border-color:var(--iris-mid,#8A4530);background:rgba(91,42,27,.035)}
+.yinav-pair .void{border-style:dotted;opacity:.4}
+.yinav-pair .dir{display:block;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--lilac,#A89087);margin-bottom:9px}
+.yinav-pair .ttl{font-family:"Fraunces","Newsreader",serif;font-size:1.05rem;line-height:1.28;letter-spacing:-.01em}
+.yinav-rail{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.yinav-rail a,.yinav-rail .here{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
+  padding:8px 12px;border:1px solid var(--rule,#DFCEC5);border-radius:3px;color:var(--iris-mid,#8A4530);opacity:.72}
+.yinav-rail a:hover{opacity:1;border-color:var(--iris-mid,#8A4530)}
+.yinav-rail .here{background:var(--iris,#5B2A1B);border-color:var(--iris,#5B2A1B);color:#FAF1EC;opacity:1}
+.yinav-rail .g{font-family:"Noto Serif SC","Fraunces",serif;font-size:.86rem;letter-spacing:0;margin-right:7px}
+.yinav-rail .comp{border-style:dotted}
+.yinav-home{display:inline-block;margin-top:28px;font-size:.62rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--brass,#9A7226);text-decoration:none;opacity:.85}
+.yinav-home:hover{opacity:1;text-decoration:underline}
+@media(max-width:680px){.yinav-pair{grid-template-columns:1fr}}
+</style>
+
+<style id="yijump-css">
+.yijump{display:inline-block;margin-top:26px;padding:11px 18px;border:1px solid rgba(248,237,231,.55);
+ border-radius:3px;font-family:"Space Mono",ui-monospace,monospace;font-size:.62rem;letter-spacing:.18em;
+ text-transform:uppercase;color:#F8EDE7;text-decoration:none;transition:background .2s,border-color .2s}
+.yijump:hover{background:rgba(248,237,231,.14);border-color:#F8EDE7}
+</style>
+</head>
+<body>
+<nav class="yitop"><div class="in"><a href="index.html">↑ the polymathic learner</a><span class="now">Part five of the 易 iching sequence</span><span class="sp"></span><a href="yi-4-instrument.html">← previous</a><a href="yi-6-loom.html">next →</a></div></nav>
+
+
+<header class="cover">
+  <div class="wrap">
+    <div class="kicker">易 Yi · geometry hunt · iteration four · one body, nothing hidden</div>
+    <div class="rules"></div>
+    <h1>灯 dēng<span class="en">The lantern — sixty-four beads on a single closed curve</span></h1>
+    <p class="deck">Two cubes were two bodies. The conjugate pair was two bodies with a better excuse. You were right to reject both — so this iteration accepted the constraint properly: <b>one object, everything on its surface, and not a grid.</b></p>
+    <p class="deck" style="margin-top:12px">Four candidates were tested. Two died on collisions. The two that survived turned out to be the same object seen twice, and together they make a form whose <b>height is the number of yang lines</b> — 坤 kun a point at the base, 乾 qian a point at the apex, and the twenty balanced hexagrams as the widest ring at the equator.</p>
+    <a class="yijump" href="#figLantern">See the model first ↓</a>
+  </div>
+</header>
+
+<main>
+
+<!-- ══════ THE DEAD ONES ══════ -->
+<section id="dead">
+  <div class="wrap col">
+    <div class="head">
+      <div class="step"><b>One</b>Rejected first</div>
+      <h2>Two candidates that looked promising and are not.</h2>
+    </div>
+    <p>Both were tested before anything was drawn, because the whole point of the audit method is that beauty has to survive a count.</p>
+
+    <div class="g2" style="margin:22px 0">
+      <div class="card dead"><span class="n">49 / 64</span><h3>The Petrie mandala</h3><p>Projecting the six-cube onto its Coxeter plane gives the famous twelve-fold rosette — a single flat figure, architecturally the most natural thing here, essentially a plan. But <b>fifteen states collide</b>: only forty-nine distinct points come out, and the minimum separation is exactly zero. As a plan it is a lie in the same way the nested cube was.</p></div>
+      <div class="card dead"><span class="n">32 / 64</span><h3>Normalising onto a sphere</h3><p>The obvious cure for the zonotope's hidden interior: keep the direction, discard the radius, and every state lands on the surface. It halves the model. Thirty-two directions for sixty-four states — the radius <i>was</i> the information, and throwing it away merges each state with another.</p></div>
+    </div>
+
+    <div class="plate"><span class="ptag">Plate 08 · the count that decides</span>
+      <div class="tex fallback" data-tex="\begin{aligned}
+\text{Petrie plane}&amp;:\;64 \to 49\ \text{points}\\
+\text{sphere}&amp;:\;64 \to 32\ \text{directions}\\
+\text{lantern}&amp;:\;64 \to 64
+\end{aligned}">Petrie plane: 64 → 49 points        sphere: 64 → 32 directions        lantern: 64 → 64</div>
+      <div class="read"><b>How to read it</b>One number per candidate, and it is the only number that matters first. A representation that merges two hexagrams cannot be a representation of the sixty-four, however good it looks from across the room.</div>
+      <div class="legend"><span>collisions are disqualifying</span><span>hidden interiors are nearly as bad</span><span>only the third survives both</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ THE LANTERN ══════ -->
+<section id="lantern">
+  <div class="wrap col">
+    <div class="head">
+      <div class="step"><b>Two</b>The survivor</div>
+      <h2>Height is the yang count. The curve is the change.</h2>
+    </div>
+    <p>Two ideas survived the tests, and they fit together so exactly that they are better read as one.</p>
+    <p><b>The first is a height.</b> Count the yang lines in a hexagram and you get a number from zero to six. There is exactly one hexagram with none — 坤 — and exactly one with all six — 乾. In between the counts are six, fifteen, twenty, fifteen, six. Use that count as elevation and the widths give a silhouette on their own: a point at the bottom, a point at the top, widest in the middle.</p>
+
+    <div class="prof" id="profile"></div>
+
+    <div class="plate"><span class="ptag">Plate 09 · the silhouette is not a design choice</span>
+      <div class="tex fallback" data-tex="\begin{aligned}
+h(s)&amp;=\textstyle\sum_i s_i \;=\; \#\,\text{yang}\\
+r(h)&amp;=\sqrt{\tbinom{6}{h}}\\
+\tbinom{6}{h}&amp;:\;1,\,6,\,15,\,20,\,15,\,6,\,1
+\end{aligned}">h(s) = sum_i s_i = #yang,    r(h) = sqrt( C(6,h) ),    C(6,h) : 1, 6, 15, 20, 15, 6, 1</div>
+      <div class="read"><b>How to read it</b>The radius at each level is set by how many hexagrams live there, so the shape is drawn by the binomial coefficients rather than by taste. The spindle profile is what the sixty-four look like when you stop arranging them and let them stack.</div>
+      <div class="legend"><span>h elevation, 0 to 6</span><span>坤 the base point</span><span>乾 the apex point</span><span>20 balanced at the equator</span></div>
+    </div>
+
+    <p><b>The second is a thread.</b> There exists a closed ordering of all sixty-four hexagrams in which every consecutive pair differs in exactly one line — a Hamiltonian cycle on the six-cube, which is what a Gray code is. Verified: sixty-four beads, every step a single 变爻, and the sequence closes back on itself.</p>
+
+    <div class="plate"><span class="ptag">Plate 10 · one thread through all sixty-four</span>
+      <div class="tex fallback" data-tex="\begin{aligned}
+g(k)&amp;=k\oplus\lfloor k/2\rfloor,\quad k=0,\dots,63\\
+\Longrightarrow\; d_{\mathrm H}\big(g(k),g(k{+}1)\big)&amp;=1 \quad \forall k \bmod 64
+\end{aligned}">g(k) = k XOR floor(k/2),  k = 0..63    ⟹   Hamming( g(k), g(k+1) ) = 1  for all k mod 64</div>
+      <div class="read"><b>How to read it</b>A closed loop visiting every hexagram exactly once, where each step turns exactly one line. The traditional King Wen sequence does not have this property; this ordering does, and it is a better circle on the tradition's own terms — the terms being change.</div>
+      <div class="legend"><span>⊕ exclusive or</span><span>d<sub>H</sub> Hamming distance</span><span>64 beads, 64 steps, closed</span></div>
+    </div>
+
+    <p>Now put them together. Because each step of the thread turns one line, the yang count changes by exactly one at every step — so <span class="hl">the thread cannot help but rise and fall through the levels</span>, and it never stalls. Measured: the longest run at any single height is one. It is always moving.</p>
+
+    <div class="plate"><span class="ptag">Plate 11 · one step, three descriptions</span>
+      <div class="tex fallback" data-tex="\begin{aligned}
+\text{one }变爻 \;&amp;=\; \text{one bead along the curve}\\
+&amp;=\; \Delta\theta = 5.625^\circ\\
+&amp;=\; h \to h \pm 1
+\end{aligned}">one 变爻  =  one bead along the curve (Δθ = 5.625°)  =  one level up or down</div>
+      <div class="read"><b>How to read it</b>The same event read three ways: a line turning, a step along the thread, and a change of elevation. In the two-cube view a changing line was a jump between boxes; here it is a single stitch.</div>
+      <div class="legend"><span>5.625° = 360°/64</span><span>h → h ± 1 always</span><span>never two steps at one height</span></div>
+    </div>
+
+    <figure id="figLantern">
+      <div class="fhead"><span class="tag">Figure 4 · 灯</span><span class="hint">drag to rotate · tap a bead</span></div>
+      <div class="fbody">
+        <canvas id="cvLan" width="900" height="500"></canvas>
+        <div class="fallnote">This figure needs JavaScript. Every count in the text was computed offline and stands regardless.</div>
+        <div class="ctl" style="margin-top:14px">
+          <label for="mMorph">rings ⇄ thread</label>
+          <input id="mMorph" type="range" min="0" max="100" value="100"><output id="oMorph">1.00</output>
+        </div>
+        <div class="btns">
+          <button id="lThread" class="on">the thread</button>
+          <button id="lSurface" class="on">the vessel</button>
+          <button id="lRings" class="on">level rings</button>
+          <button id="lChords">the other four neighbours</button>
+          <button id="lSpin" class="on">rotate</button>
+          <button id="lWalk">walk the thread</button>
+          <button id="lLabel" class="on">labels: levels + 上下</button>
+        </div>
+        <div class="g2" style="margin-top:14px;align-items:start">
+          <div>
+            <div class="cap">the selected hexagram, bottom line first</div>
+            <div class="hexdraw" id="hexdraw"></div>
+          </div>
+          <div class="readout" id="rLan"></div>
+        </div>
+      </div>
+      <figcaption><b>Labels</b> cycles four ways. <i>Levels only</i> tags each ring with its yang count and how many hexagrams live there — 1, 6, 15, 20, 15, 6, 1 — so the silhouette can be read off the form itself. The further modes name the beads: trigram pair, or the six-bit word. Bead labels are culled to the near half and faded with depth so the far side does not print through, and the selected bead names itself from either side. <b>Walk the thread</b> now advances four times more slowly.<br><br>Sixty-four beads on one closed thread, wound once around. Height is the yang count, so the thread climbs and falls a level at every bead and the profile fills out into a vessel. Slide <b>rings ⇄ thread</b> to redistribute the beads into even rings per level and back — the same sixty-four, arranged two ways. <b>The other four neighbours</b> draws the Q₆ edges that the thread does not use: two of a hexagram's six neighbours lie along the thread, four are chords.</figcaption>
+    </figure>
+
+    <div class="pull">A changing line stops being a jump between boxes and becomes a single stitch in one continuous seam.</div>
+  </div>
+</section>
+
+<!-- ══════ THE COST ══════ -->
+<section id="cost">
+  <div class="wrap col">
+    <div class="head">
+      <div class="step"><b>Three</b>What it costs</div>
+      <h2>Every body chooses what to make visible.</h2>
+    </div>
+    <p>The lantern is one object, holds all sixty-four distinctly, hides nothing inside, and is not a grid. It also gives up something real, and the pattern across four iterations is now clear enough to state as a rule.</p>
+
+    <table>
+      <thead><tr><th>body</th><th>makes legible</th><th>hides</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td class="g">two cubes</td><td>lower / upper trigrams, and the octant structure</td><td>that it is one space; 土's pairing across the two</td><td>honest, inelegant</td></tr>
+        <tr><td class="g">zonotope · τ</td><td>icosahedral symmetry; the extremes</td><td>32 states inside, including 14 of the 20 balanced</td><td>beautiful, half-blind</td></tr>
+        <tr><td class="g">conjugate pair</td><td>everything, between the two</td><td>nothing — but it is still two bodies</td><td>proven, rejected on form</td></tr>
+        <tr><td class="g">四象 cube</td><td>the three paired axes; 土 as an axis</td><td>nothing — but cubic and orderly</td><td>exact, unexciting</td></tr>
+        <tr style="background:var(--paper2)"><td class="g"><b>灯 · the lantern</b></td><td><b>yang count as height; 变爻 as one stitch; 坤 and 乾 as poles; balance as the widest ring</b></td><td><b>the trigram decomposition entirely — and so 土's pairing again</b></td><td><b>one body, nothing hidden</b></td></tr>
+      </tbody>
+    </table>
+
+    <p class="big">There may be no single body that shows everything.</p>
+    <p>Six dimensions do not fit in three, and each honest projection chooses a different three things to keep. The two-cube view keeps the trigram structure and loses the unity. The zonotope keeps the symmetry and loses half the states. The lantern keeps the unity, the change and the yang-count and loses the trigrams. That is not a failure of any of them; it is what projection <i>is</i>.</p>
+    <p>Which suggests the actual answer is not one body but <b>one body and one plan</b> — the architect's own convention. Elevation and plan are not two objects; they are two drawings of one. The lantern is the elevation: it shows change and level. The 四象 cube, flattened, is the plan: it shows the trigram pairing. Neither pretends to be the whole, and together they do not read as a pair of rival solids — which was the thing you objected to.</p>
+
+    <div class="g3" style="margin-top:24px">
+      <div class="card"><span class="n">灯</span><h3>Next, for this form</h3><p>Wrap the thread on a torus rather than a cylinder of revolution, so the curve closes with curvature instead of a seam. Then the lantern becomes a knot, and the knot type is an invariant of the ordering rather than of the geometry.</p></div>
+      <div class="card"><span class="n">爻</span><h3>The unresolved one</h3><p>Whether any embedding can show both the yang count and the trigram pairing at once. My guess is no in three dimensions, and that guess should be tested rather than trusted — the last four guesses did not survive.</p></div>
+      <div class="card"><span class="n">相</span><h3>Still untested</h3><p>The phason reading of 变爻 from the quasicrystal lead. Asserted two iterations ago, never checked. On this project's record it is probably wrong.</p></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap col">
+    <div class="kicker">iteration four · one body · no build step</div>
+    <p class="big" style="margin-top:14px">Beauty is an elegant representation of truth — so the representation is what gets counted, not admired.</p>
+    <p class="cap" style="margin-top:14px">All counts computed rather than asserted: Petrie plane 49 distinct points of 64, minimum separation zero; sphere normalisation 32 distinct directions; Gray cycle verified Hamiltonian and closed with unit Hamming steps throughout; level widths 1, 6, 15, 20, 15, 6, 1 summing to 64; longest run at one height is 1; mean chords per bead 4.0. Maths via KaTeX with plain-text fallback. 16 Aug 2026.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+try{
+var $=function(id){return document.getElementById(id);};
+var CSS=getComputedStyle(document.documentElement),C={};
+["ink","iris","iris-mid","lilac","brass","teal","rule","paper3","alarm"].forEach(function(k){
+  C[k]=CSS.getPropertyValue("--"+k).trim()||"#333";});
+
+/* ── the 64, as a Gray-code cycle ── */
+function gray(k){ return k ^ (k>>1); }
+var BEAD=[];
+for(var k=0;k<64;k++){
+  var g=gray(k), s=[];
+  for(var b=5;b>=0;b--) s.push((g>>b)&1);
+  BEAD.push({k:k, s:s, w:s.join(""), h:s.reduce(function(a,c){return a+c;},0)});
+}
+var COMB=[1,6,15,20,15,6,1];
+var NAMES={"111":["乾","☰"],"110":["兌","☱"],"101":["離","☲"],"100":["震","☳"],
+           "011":["巽","☴"],"010":["坎","☵"],"001":["艮","☶"],"000":["坤","☷"]};
+/* even-ring angles: keep cycle order within each level, space evenly */
+var byLev={};
+BEAD.forEach(function(q){ (byLev[q.h]=byLev[q.h]||[]).push(q); });
+Object.keys(byLev).forEach(function(l){
+  byLev[l].forEach(function(q,j){ q.angEven = 2*Math.PI*j/byLev[l].length; });
+});
+BEAD.forEach(function(q){ q.angCyc = 2*Math.PI*q.k/64; });
+var idx={}; BEAD.forEach(function(q){ idx[q.w]=q; });
+function neighbours(q){
+  var out=[];
+  for(var b=0;b<6;b++){
+    var t=q.s.slice(); t[b]=1-t[b];
+    out.push(idx[t.join("")]);
+  }
+  return out;
+}
+var RMAX=Math.sqrt(20);
+function place(q,morph){
+  var ang = q.angEven + morph*(((q.angCyc-q.angEven+Math.PI*3)%(2*Math.PI))-Math.PI);
+  var r = Math.sqrt(COMB[q.h])/RMAX*1.15;
+  var y = (q.h-3)/3*1.35;
+  return [r*Math.cos(ang), y, r*Math.sin(ang)];
+}
+
+/* ── projector ── */
+function Stage(cv,h){
+  var st={ctx:cv.getContext("2d"),rx:-0.16,ry:0.6,w:600,h:h,drag:false,spin:true,moved:0};
+  st.fit=function(){
+    var dpr=Math.max(1,Math.min(2,window.devicePixelRatio||1));
+    var r=cv.getBoundingClientRect(); if(r.width<10) return;
+    st.w=r.width; cv.style.height=h+"px";
+    cv.width=Math.round(r.width*dpr); cv.height=Math.round(h*dpr);
+    st.ctx.setTransform(dpr,0,0,dpr,0,0);
+  };
+  st.proj=function(p,sc,cx,cy){
+    var cyy=Math.cos(st.ry),sy=Math.sin(st.ry),cxx=Math.cos(st.rx),sx=Math.sin(st.rx);
+    var x1=p[0]*cyy-p[2]*sy, z1=p[0]*sy+p[2]*cyy;
+    var y1=p[1]*cxx-z1*sx, z2=p[1]*sx+z1*cxx;
+    var f=1/(1+Math.max(-0.7,z2*0.11));
+    return [cx+x1*sc*f, cy-y1*sc*f, z2];
+  };
+  cv.addEventListener("pointerdown",function(e){st.drag=true;st.lx=e.clientX;st.ly=e.clientY;st.moved=0;
+    if(cv.setPointerCapture){try{cv.setPointerCapture(e.pointerId);}catch(x){}}});
+  cv.addEventListener("pointermove",function(e){
+    if(!st.drag)return;
+    st.ry+=(e.clientX-st.lx)*0.008; st.rx+=(e.clientY-st.ly)*0.006;
+    st.rx=Math.max(-1.2,Math.min(1.2,st.rx));
+    st.moved+=Math.abs(e.clientX-st.lx)+Math.abs(e.clientY-st.ly);
+    st.lx=e.clientX; st.ly=e.clientY;});
+  ["pointerup","pointercancel","pointerleave"].forEach(function(ev){
+    cv.addEventListener(ev,function(){st.drag=false;});});
+  st.cv=cv; return st;
+}
+var st=Stage($("cvLan"),500);
+var morph=1, sel=0, showThread=true, showSurf=true, showRings=true, showChords=false, walking=false, walkT=0;
+/* 0 none · 1 levels · 2 levels + trigram pair · 3 levels + binary
+   Sixty-four labels on a spindle would be a thicket, so bead labels are culled
+   to the near half of the form and faded with depth. */
+var LABEL=2, LABELNAME=["none","levels only","levels + 上下","levels + binary"];
+
+function seg(a,b,col,lw,al,sc,cx,cy){
+  var A=st.proj(a,sc,cx,cy),B=st.proj(b,sc,cx,cy),x=st.ctx;
+  x.save();x.strokeStyle=col;x.lineWidth=lw;x.globalAlpha=al;
+  x.beginPath();x.moveTo(A[0],A[1]);x.lineTo(B[0],B[1]);x.stroke();x.restore();
+}
+function bead(p,r,fill,ring,sc,cx,cy,al){
+  var P=st.proj(p,sc,cx,cy),x=st.ctx;
+  x.save();x.globalAlpha=al==null?1:al;
+  x.beginPath();x.arc(P[0],P[1],r,0,6.2832);x.fillStyle=fill;x.fill();
+  if(ring){x.strokeStyle=ring;x.lineWidth=1.7;x.stroke();}x.restore();return P;
+}
+/* Labels get a paper-coloured halo and a usable size. Without it, small iris
+   text over iris rings is drawn but effectively invisible — the mistake that
+   made the loom's labels look missing when they were all being rendered. */
+function halo(x,t,px,py,size,col,al,serif){
+  x.save();
+  x.globalAlpha=al==null?1:al;
+  x.font=size+'px '+(serif?'"Noto Serif SC",serif':'"Space Mono","Noto Serif SC",monospace');
+  x.textAlign="center"; x.lineWidth=Math.max(3,size*0.30); x.lineJoin="round";
+  x.strokeStyle="#FCFAF7"; x.strokeText(t,px,py);
+  x.fillStyle=col; x.fillText(t,px,py);
+  x.restore();
+}
+function label(p,t,col,dy,sc,cx,cy,size,al,serif){
+  var P=st.proj(p,sc,cx,cy);
+  halo(st.ctx,t,P[0],P[1]+(dy||0),size||12,col,al,serif);
+}
+function draw(){
+  var x=st.ctx; if(st.w<10) return;
+  x.clearRect(0,0,st.w,st.h);
+  var sc=Math.min(st.w*0.30,168), cx=st.w/2, cy=st.h/2;
+
+  /* the vessel: rings of revolution at each level, plus meridian hints */
+  if(showSurf){
+    for(var l=0;l<7;l++){
+      var r=Math.sqrt(COMB[l])/RMAX*1.15, y=(l-3)/3*1.35, prev=null;
+      for(var a=0;a<=48;a++){
+        var th=2*Math.PI*a/48, p=[r*Math.cos(th),y,r*Math.sin(th)];
+        if(prev) seg(prev,p,C.lilac,1,showRings?0.34:0.14,sc,cx,cy);
+        prev=p;
+      }
+    }
+    for(var m=0;m<12;m++){
+      var th2=2*Math.PI*m/12, pv=null;
+      for(var l2=0;l2<7;l2++){
+        var r2=Math.sqrt(COMB[l2])/RMAX*1.15;
+        var q=[r2*Math.cos(th2),(l2-3)/3*1.35,r2*Math.sin(th2)];
+        if(pv) seg(pv,q,C.lilac,1,0.16,sc,cx,cy);
+        pv=q;
+      }
+    }
+  }
+
+  /* the four chords per bead that the thread does not use */
+  if(showChords){
+    var q0=BEAD[sel], nb=neighbours(q0);
+    nb.forEach(function(n){
+      var along=Math.abs(n.k-q0.k)%64;
+      if(along===1||along===63) return;
+      seg(place(q0,morph),place(n,morph),C.teal,1.4,0.55,sc,cx,cy);
+    });
+  }
+
+  /* the thread */
+  if(showThread){
+    for(var i=0;i<64;i++){
+      var A=BEAD[i], B=BEAD[(i+1)%64];
+      var up=B.h>A.h;
+      seg(place(A,morph),place(B,morph),up?C.iris:C["iris-mid"],1.9,0.62,sc,cx,cy);
+    }
+  }
+
+  /* beads, depth sorted */
+  var order=BEAD.slice().sort(function(p,q){
+    return st.proj(place(q,morph),sc,cx,cy)[2]-st.proj(place(p,morph),sc,cx,cy)[2]; });
+  var selQ=BEAD[sel], nbSet={};
+  neighbours(selQ).forEach(function(n){ nbSet[n.w]=true; });
+  order.forEach(function(q){
+    var isSel=(q.k===sel), isNb=nbSet[q.w];
+    var col=isSel?C.brass:(q.h===3?C.iris:C["iris-mid"]);
+    if(isNb&&!isSel) col=C.teal;
+    bead(place(q,morph), isSel?9:(isNb?6:4.2), col, isSel?"#fff":null, sc,cx,cy, isSel?1:(isNb?0.95:0.8));
+  });
+  if(LABEL>=1){
+    for(var lv=0;lv<7;lv++){
+      var rr=Math.sqrt(COMB[lv])/RMAX*1.15, yy=(lv-3)/3*1.35;
+      /* place each level tag on the near side of its own ring */
+      var tag=[rr*1.0,yy,0], pz=st.proj(tag,sc,cx,cy);
+      var isEq=(lv===3);
+      halo(x, lv+" yang · "+COMB[lv], pz[0]+26, pz[1]+4,
+           isEq?12:11, isEq?C.brass:C["iris-mid"], isEq?1:0.85);
+    }
+  }
+  label([0,1.62,0],"乾 · six yang",C.brass,-8,sc,cx,cy,14,0.95,true);
+  label([0,-1.62,0],"坤 · six yin",C.brass,20,sc,cx,cy,14,0.95,true);
+
+  /* bead labels: near half only, faded with depth */
+  if(LABEL>=2){
+    order.forEach(function(q){
+      var P=st.proj(place(q,morph),sc,cx,cy);
+      if(P[2]>-0.10) return;
+      var fade=Math.min(1,(-P[2]-0.10)/0.9);
+      var isSel=(q.k===sel);
+      var lab = LABEL===3 ? q.w
+              : NAMES[q.s.slice(3).join("")][1]+NAMES[q.s.slice(0,3).join("")][1];
+      halo(x, lab, P[0], P[1]-(isSel?13:10),
+           LABEL===3?9.5:(isSel?18:13),
+           isSel?C.brass:C.iris, isSel?1:Math.max(0.5,fade), LABEL!==3);
+    });
+  }
+  /* the selected bead always names itself, either side of the form */
+  (function(){
+    var P=st.proj(place(selQ,morph),sc,cx,cy);
+    halo(x, NAMES[selQ.s.slice(3).join("")][1]+" 上 / "+NAMES[selQ.s.slice(0,3).join("")][1]+" 下",
+         P[0], P[1]-24, 15, C.brass, 1, true);
+  })();
+
+  /* the hexagram, drawn */
+  var hd="";
+  selQ.s.forEach(function(v){ hd+='<i class="'+(v?"":"yin")+'"></i>'; });
+  $("hexdraw").innerHTML=hd;
+
+  var nbList=neighbours(selQ).map(function(n){
+    var along=Math.abs(n.k-selQ.k)%64;
+    return n.w+(along===1||along===63?"*":"");
+  }).join(" ");
+  $("rLan").innerHTML="bead <b>"+selQ.k+"</b> of 64 · state <b>"+selQ.w+"</b> · height <b>"+selQ.h+
+    "</b> yang"+(selQ.h===3?" <span class='ok'>(on the equator — the widest ring)</span>":"")+
+    "<br>next bead turns line <b>"+(function(){
+      var nx=BEAD[(selQ.k+1)%64];
+      for(var b=0;b<6;b++) if(nx.s[b]!==selQ.s[b]) return b+1;
+      return "?";
+    })()+"</b> and moves "+(BEAD[(selQ.k+1)%64].h>selQ.h?"<span class='warn'>up</span>":"<span class='warn'>down</span>")+
+    " one level"+
+    "<br>its six 变爻 neighbours: "+nbList+"  <span class='ok'>* = along the thread</span>";
+}
+st.cv.addEventListener("pointerup",function(e){
+  if(st.moved>6) return;
+  var r=st.cv.getBoundingClientRect(), mx=e.clientX-r.left, my=e.clientY-r.top;
+  var sc=Math.min(st.w*0.30,168), cx=st.w/2, cy=st.h/2, best=null, bd=1e9;
+  BEAD.forEach(function(q){
+    var P=st.proj(place(q,morph),sc,cx,cy), d=Math.hypot(P[0]-mx,P[1]-my);
+    if(d<15 && d<bd){ bd=d; best=q.k; }
+  });
+  if(best!==null){ sel=best; walking=false; $("lWalk").classList.remove("on"); }
+});
+function loop(ts){
+  if(st.spin && !st.drag) st.ry+=0.0035;
+  if(walking){ walkT+=1; if(walkT%88===0) sel=(sel+1)%64; }   /* four times slower */
+  draw(); requestAnimationFrame(loop);
+}
+$("mMorph").addEventListener("input",function(){
+  morph=Number(this.value)/100; $("oMorph").textContent=morph.toFixed(2); });
+$("lThread").addEventListener("click",function(){showThread=!showThread;this.classList.toggle("on",showThread);});
+$("lSurface").addEventListener("click",function(){showSurf=!showSurf;this.classList.toggle("on",showSurf);});
+$("lRings").addEventListener("click",function(){showRings=!showRings;this.classList.toggle("on",showRings);});
+$("lChords").addEventListener("click",function(){showChords=!showChords;this.classList.toggle("on",showChords);});
+$("lSpin").addEventListener("click",function(){st.spin=!st.spin;this.classList.toggle("on",st.spin);});
+$("lWalk").addEventListener("click",function(){walking=!walking;this.classList.toggle("on",walking);});
+
+/* the level profile, as bars */
+(function(){
+  var names=["坤 only","","","balanced","","","乾 only"], html="";
+  for(var l=0;l<7;l++){
+    html+='<div class="'+(l===3?"eq":"")+'"><span class="lv">level '+l+'</span>'+
+      '<span class="bar"><i style="width:'+(COMB[l]/20*100).toFixed(1)+'%"></i></span>'+
+      '<span class="ct">'+COMB[l]+'</span></div>';
+  }
+  $("profile").innerHTML=html;
+})();
+
+$("oMorph").textContent="1.00";
+st.fit(); window.addEventListener("resize",function(){st.fit();});
+requestAnimationFrame(loop);
+document.documentElement.classList.add("ready");
+}catch(e){
+  try{
+    var b=document.createElement("div");
+    b.style.cssText="position:fixed;left:12px;right:12px;bottom:12px;z-index:99;background:#fff;border:1px solid #9B3242;border-left-width:3px;padding:10px 12px;font:12px monospace;color:#2C1D17";
+    b.textContent="Figure failed to start: "+(e&&e.message?e.message:e)+" — the written argument is unaffected.";
+    document.body.appendChild(b);
+  }catch(x){}
+}
+})();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" defer></script>
+<script>
+(function(){
+  function typeset(){
+    if(!window.katex) return;
+    var els=document.querySelectorAll("[data-tex]");
+    for(var i=0;i<els.length;i++){
+      var el=els[i], plain=el.textContent, display=el.classList.contains("tex");
+      try{
+        katex.render(el.getAttribute("data-tex"), el, {displayMode:display, throwOnError:true, strict:false});
+        el.classList.remove("fallback");
+      }catch(e){ el.textContent=plain; el.classList.add("fallback"); }
+    }
+  }
+  if(document.readyState==="complete") typeset();
+  else window.addEventListener("load",typeset);
+})();
+</script>
+
+<script>
+/* ── layout watchdog ───────────────────────────────────────────────────
+   Why this exists. Every figure sizes its canvas from getBoundingClientRect()
+   once, at startup, and bails out if the width comes back under 10px. On a
+   phone the script can run before the first layout pass, so that call returns
+   ZERO — the canvas keeps its default 300px backing store while the drawing
+   code works in ~600px coordinates, and everything lands outside the bitmap.
+   No error fires. html.ready is set. The figure is simply blank, which is
+   exactly the failure that made two documents look broken.
+   Since every figure already re-sizes on a resize event, the fix is to keep
+   sending them until the canvases actually have a sane backing store: poll
+   briefly at startup, watch for size changes, and cover orientation changes
+   and late webfont reflow. Stops as soon as everything measures correctly.
+   ──────────────────────────────────────────────────────────────────── */
+(function(){
+  function kick(){ try{ window.dispatchEvent(new Event("resize")); }catch(e){
+    try{ var ev=document.createEvent("Event"); ev.initEvent("resize",true,true);
+         window.dispatchEvent(ev); }catch(x){} } }
+  function healthy(){
+    var cs=document.querySelectorAll("canvas"), i;
+    if(!cs.length) return true;
+    for(i=0;i<cs.length;i++){
+      var want=cs[i].getBoundingClientRect().width;
+      if(want>10 && Math.abs(cs[i].width/(window.devicePixelRatio||1)-want)>2) return false;
+      if(want<=10) return false;
+    }
+    return true;
+  }
+  var tries=0;
+  function poll(){
+    kick();
+    if(healthy() || ++tries>40) return;      /* ~6s of grace, then give up quietly */
+    setTimeout(poll, 150);
+  }
+  if(document.readyState==="complete") poll();
+  else window.addEventListener("load", poll);
+  setTimeout(poll, 0);
+  window.addEventListener("orientationchange", function(){ setTimeout(kick,120); });
+  if(document.fonts && document.fonts.ready && document.fonts.ready.then){
+    document.fonts.ready.then(function(){ kick(); });
+  }
+  if(window.ResizeObserver){
+    try{
+      var ro=new ResizeObserver(function(){ kick(); });
+      document.querySelectorAll("canvas").forEach(function(c){ ro.observe(c); });
+    }catch(e){}
+  }
+})();
+</script>
+
+<nav class="yinav"><div class="in">
+  <div class="yinav-lab">Part five of the 易 iching sequence · continue</div>
+  <div class="yinav-pair">
+        <a href="yi-4-instrument.html"><span class="dir">Previous</span><span class="ttl">← The instrument · 易，真正动起来</span></a>
+        <a href="yi-6-loom.html"><span class="dir">Next</span><span class="ttl">The loom — the sixty-four on a torus  →</span></a>
+  </div>
+  <div class="yinav-rail">
+        <a href="yi-1-state-space.html"><span class="g">一</span>State space</a>
+        <a href="yi-2-motion.html"><span class="g">二</span>Motion</a>
+        <a href="yi-3-forces.html"><span class="g">三</span>Forces</a>
+        <a href="yi-4-instrument.html"><span class="g">四</span>Instrument</a>
+        <span class="here"><span class="g">灯</span>Lantern</span>
+        <a href="yi-6-loom.html"><span class="g">織</span>Loom</a>
+        <a class="comp" href="yi-lantern-thinking.html"><span class="g">灯</span>Companion</a>
+  </div>
+  <div class="yinav-lab" style="margin:26px 0 0;opacity:.85">linwei · with Claude and ChatGPT, and light touches of DeepSeek</div>
+  <a class="yinav-home" href="index.html">All six, plus the companion, on the polymathic learner →</a>
+</div></nav>
+</body>
+</html>

@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>易 Yi · 織 Zhī — The Loom</title>
+<script>try{document.documentElement.classList.add("js");}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..800,0..100,0..1;1,9..144,300..800,0..100,0..1&family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&family=Space+Mono:wght@400;700&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<style>
+:root{
+  --paper:#FCFAF7; --paper2:#F8F0EA; --paper3:#F0E2D9;
+  --ink:#2C1D17; --iris:#5B2A1B; --iris-mid:#8A4530; --lilac:#A89087;
+  --brass:#9A7226; --teal:#2F6B72; --alarm:#9B3242;
+  --rule:#DFCEC5; --rule-soft:#EFE2DA; --shadow:0 18px 44px rgba(60,28,20,.08);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Newsreader",Georgia,"Noto Serif SC",serif;font-size:19px;line-height:1.7;overflow-x:hidden}
+:focus-visible{outline:2px solid var(--iris-mid);outline-offset:3px}
+.wrap{width:min(1100px,calc(100% - 34px));margin-inline:auto}
+.col{max-width:66ch}
+.mono,.kicker,.badge,.cap,.tag,.num{font-family:"Space Mono",ui-monospace,Menlo,monospace}
+.kicker{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--iris-mid)}
+.cap{font-size:.78rem;line-height:1.55;color:var(--iris-mid)}
+.cover{position:relative;color:#F8EDE7;overflow:hidden;padding:clamp(48px,8vw,104px) 0 clamp(38px,5vw,66px);
+  background:radial-gradient(100% 82% at 70% 2%,#8E5AAC 0,transparent 52%),
+             radial-gradient(80% 70% at 8% 96%,#28143A 0,transparent 60%),
+             linear-gradient(170deg,#38204C,#190E22)}
+.cover::after{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:soft-light;opacity:.55;
+  background:radial-gradient(120% 100% at 50% 36%,transparent 40%,rgba(10,5,16,.55) 100%),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
+.cover .wrap{position:relative;z-index:2}
+.cover .kicker{color:#EEC5AE}
+.rules{border-top:1px solid rgba(248,237,231,.42);border-bottom:1px solid rgba(248,237,231,.42);height:5px;margin:18px 0 26px}
+h1{font-family:"Fraunces","Noto Serif SC",serif;font-weight:600;font-variation-settings:"SOFT" 44,"WONK" 1;
+  font-size:clamp(3.8rem,18vw,11rem);line-height:.84;letter-spacing:-.04em;margin:0}
+h1 .en{display:block;font-family:"Fraunces",serif;font-size:clamp(1rem,2.3vw,1.7rem);font-weight:400;
+  font-style:italic;margin-top:.44em;color:#F3DACB;font-variation-settings:"WONK" 0}
+.deck{font-size:clamp(1.04rem,1.9vw,1.36rem);line-height:1.52;max-width:50ch;margin:24px 0 0;color:#F9EBE3}
+.deck b{color:#fff;font-weight:600}
+section{padding:clamp(48px,7vw,92px) 0;border-top:1px solid var(--rule-soft)}
+.ch{display:grid;grid-template-columns:100px 1fr;gap:clamp(16px,3vw,32px);align-items:start}
+.ch .num{font-size:1.8rem;color:var(--paper3);line-height:1;font-weight:700;letter-spacing:-.04em}
+h2{font-family:"Fraunces","Noto Serif SC",serif;font-weight:500;font-variation-settings:"SOFT" 30,"WONK" 1;
+  font-size:clamp(1.75rem,4.3vw,3rem);line-height:1.04;letter-spacing:-.026em;margin:0 0 1.1em;color:var(--iris);max-width:24ch}
+h3{font-family:"Fraunces",serif;font-weight:600;font-size:1.08rem;margin:2em 0 .45em;color:var(--iris)}
+p{margin:0 0 1.15em;max-width:66ch}
+.lead{font-size:clamp(1.08rem,2.1vw,1.3rem);line-height:1.56}
+.lead::first-letter{float:left;font-family:"Fraunces",serif;font-weight:600;font-size:3.3em;line-height:.82;
+  margin:.05em .1em 0 0;color:var(--iris)}
+.big{font-size:clamp(1.2rem,2.4vw,1.58rem);line-height:1.4;max-width:38ch;letter-spacing:-.012em;color:var(--iris);
+  font-family:"Fraunces",serif;font-weight:500}
+.hl{background:linear-gradient(180deg,transparent 58%,#CFE9E4 58%,#CFE9E4 92%,transparent 92%)}
+.pull{border-left:2px solid var(--brass);padding-left:24px;margin:32px 0;max-width:33ch;
+  font-family:"Fraunces",serif;font-style:italic;font-size:clamp(1.22rem,2.5vw,1.9rem);line-height:1.28;color:var(--iris)}
+.aside{background:var(--paper2);border:1px solid var(--rule);border-radius:3px;padding:20px 22px;margin:28px 0}
+.aside .tag{display:block;font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brass);margin-bottom:9px}
+.aside p{margin:0 0 .7em;font-size:.95rem}.aside p:last-child{margin:0}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.card{background:#fff;border:1px solid var(--rule-soft);border-radius:3px;padding:18px;box-shadow:var(--shadow)}
+.card p{margin:0;font-size:.93rem}
+.card .n{font-family:"Fraunces",serif;font-size:1.7rem;color:var(--iris);line-height:1;display:block;margin-bottom:6px}
+figure{margin:28px 0;border:1px solid var(--rule);border-radius:3px;background:#fff;box-shadow:var(--shadow);overflow:hidden}
+figure .fhead{background:var(--paper2);border-bottom:1px solid var(--rule);padding:9px 15px;display:flex;
+  justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline}
+figure .fhead .tag{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--iris)}
+figure .fhead .hint{font-size:.62rem;color:var(--lilac)}
+figure .fbody{padding:18px}
+figcaption{padding:0 18px 18px;font-size:.79rem;line-height:1.5;color:var(--iris-mid);max-width:74ch}
+canvas{display:block;width:100%;touch-action:none}
+.fallnote{padding:15px 17px;background:var(--paper2);font-family:"Space Mono",monospace;font-size:.7rem;color:var(--iris)}
+html.ready .fallnote{display:none}
+button{appearance:none;border:1px solid var(--rule);background:#fff;color:var(--iris);padding:7px 11px;
+  font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:2px}
+button:hover{border-color:var(--iris-mid)}
+button.on{background:var(--iris);color:#F8EDE7;border-color:var(--iris)}
+.btns{display:flex;gap:7px;flex-wrap:wrap}
+.readout{font-size:.74rem;line-height:1.62;color:var(--iris-mid);font-family:"Space Mono",monospace;
+  border-top:1px dotted var(--rule);margin-top:14px;padding-top:11px}
+.readout b{color:var(--iris)}.readout .ok{color:var(--teal)}.readout .warn{color:var(--brass)}
+.hexdraw{display:flex;flex-direction:column-reverse;gap:5px;width:100px;margin:8px 0}
+.hexdraw i{display:block;height:8px;background:var(--iris);border-radius:1px}
+.hexdraw i.yin{background:linear-gradient(90deg,var(--iris) 0 42%,transparent 42% 58%,var(--iris) 58% 100%)}
+table{width:100%;border-collapse:collapse;margin:22px 0;font-size:.88rem}
+th{text-align:left;padding:10px 8px;border-bottom:1px solid var(--iris);font-family:"Space Mono",monospace;
+  font-size:.57rem;letter-spacing:.12em;text-transform:uppercase;color:var(--iris-mid)}
+td{padding:10px 8px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+td.g{font-family:"Noto Serif SC",serif;color:var(--iris);white-space:nowrap}
+td.yes{color:var(--teal);font-family:"Space Mono",monospace;font-size:.8rem}
+td.no{color:var(--alarm);font-family:"Space Mono",monospace;font-size:.8rem}
+.plate{position:relative;margin:26px 0;padding:28px 24px 20px;
+  background:radial-gradient(120% 140% at 18% 0%,#F9EFE9 0%,#FDFAF7 72%);border:1px solid var(--rule);border-radius:3px}
+.plate::before,.plate::after{content:"";position:absolute;width:12px;height:12px;border:1px solid var(--brass)}
+.plate::before{top:7px;left:7px;border-right:0;border-bottom:0}
+.plate::after{bottom:7px;right:7px;border-left:0;border-top:0}
+.plate .ptag{display:inline-block;border:1px solid var(--iris);color:var(--iris);font-family:"Space Mono",monospace;
+  font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;padding:3px 8px;margin-bottom:18px}
+.tex{font-size:1.02rem;padding:2px 0;line-height:1.5}
+.tex.fallback{font-family:"Space Mono",monospace;white-space:pre-wrap;font-size:.85rem;line-height:1.7}
+.itex.fallback{font-family:"Space Mono",monospace;font-size:.9em}
+.plate .read{margin-top:18px;padding-top:12px;border-top:1px solid #A8CFCB;font-size:.86rem;line-height:1.55;color:var(--ink)}
+.plate .read b{display:block;font-family:"Space Mono",monospace;font-size:.6rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--teal);margin-bottom:5px;font-weight:400}
+footer{border-top:1px solid var(--iris);background:var(--paper2);padding:46px 0 76px}
+footer .big{max-width:34ch}
+
+.tr{display:grid;grid-template-columns:52px 1fr 34px;gap:9px;align-items:center;margin:5px 0;font-size:.76rem}
+.tr .lb{font-family:"Noto Serif SC",serif;font-size:.8rem;color:var(--iris-mid)}
+.tr .bar{height:10px;background:var(--paper3);border-radius:2px;overflow:hidden}
+.tr .bar i{display:block;height:100%;border-radius:2px;transition:width .3s}
+.tr .vv{font-family:"Space Mono",monospace;font-size:.68rem;text-align:right;color:var(--iris-mid)}
+
+/* ── mobile containment ───────────────────────────────────────────── */
+html,body{max-width:100%;overflow-x:hidden}
+.plate{overflow:hidden}
+.tex{overflow:visible;max-width:100%}
+.katex-display{margin:.35em 0;overflow-x:auto;overflow-y:hidden;padding:2px 0 8px;
+  overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+.katex-display>.katex{white-space:nowrap}
+.katex{max-width:100%}
+.itex{display:inline-block;max-width:100%;overflow-x:auto;overflow-y:hidden;
+  vertical-align:bottom;overscroll-behavior-x:contain}
+table{table-layout:fixed;width:100%}
+td,th{overflow-wrap:anywhere;word-break:break-word}
+img,svg,canvas{max-width:100%}
+@media(max-width:900px){
+  body{font-size:18px}
+  .ch{grid-template-columns:1fr;gap:6px}
+  .ch .num{font-size:1.2rem}
+  .g2{grid-template-columns:1fr}
+}
+@media(max-width:760px){
+  .katex{font-size:.88em}
+  .katex-display{font-size:.84em}
+  .plate{padding-left:16px;padding-right:16px}
+}
+@media(max-width:520px){ .katex{font-size:.76em} .tex.fallback{font-size:.74rem} }
+</style>
+
+<style id="yinav-css">
+.yitop{border-bottom:1px solid var(--rule,#DFCEC5);background:var(--paper,#FCFAF7);
+  font-family:"Space Mono",ui-monospace,Menlo,monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase}
+.yitop .in{width:min(1120px,calc(100% - 34px));margin-inline:auto;display:flex;align-items:center;
+  gap:16px;padding:12px 0;flex-wrap:wrap}
+.yitop a{color:var(--iris-mid,#8A4530);text-decoration:none;opacity:.72}
+.yitop a:hover{opacity:1;text-decoration:underline}
+.yitop .sp{flex:1 1 auto}
+.yitop .now{color:var(--lilac,#A89087)}
+.yinav{border-top:1px solid var(--rule,#DFCEC5);margin-top:clamp(40px,6vw,86px);
+  padding:clamp(30px,5vw,58px) 0 clamp(44px,6vw,84px);font-family:"Space Mono",ui-monospace,Menlo,monospace}
+.yinav .in{width:min(1120px,calc(100% - 34px));margin-inline:auto}
+.yinav-lab{font-size:.62rem;letter-spacing:.19em;text-transform:uppercase;color:var(--lilac,#A89087);margin-bottom:24px}
+.yinav-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:36px}
+.yinav-pair a,.yinav-pair .void{display:block;border:1px solid var(--rule,#DFCEC5);border-radius:3px;
+  padding:20px 22px;text-decoration:none;color:var(--iris,#5B2A1B);transition:border-color .2s,background .2s}
+.yinav-pair a:hover{border-color:var(--iris-mid,#8A4530);background:rgba(91,42,27,.035)}
+.yinav-pair .void{border-style:dotted;opacity:.4}
+.yinav-pair .dir{display:block;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--lilac,#A89087);margin-bottom:9px}
+.yinav-pair .ttl{font-family:"Fraunces","Newsreader",serif;font-size:1.05rem;line-height:1.28;letter-spacing:-.01em}
+.yinav-rail{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.yinav-rail a,.yinav-rail .here{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
+  padding:8px 12px;border:1px solid var(--rule,#DFCEC5);border-radius:3px;color:var(--iris-mid,#8A4530);opacity:.72}
+.yinav-rail a:hover{opacity:1;border-color:var(--iris-mid,#8A4530)}
+.yinav-rail .here{background:var(--iris,#5B2A1B);border-color:var(--iris,#5B2A1B);color:#FAF1EC;opacity:1}
+.yinav-rail .g{font-family:"Noto Serif SC","Fraunces",serif;font-size:.86rem;letter-spacing:0;margin-right:7px}
+.yinav-rail .comp{border-style:dotted}
+.yinav-home{display:inline-block;margin-top:28px;font-size:.62rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--brass,#9A7226);text-decoration:none;opacity:.85}
+.yinav-home:hover{opacity:1;text-decoration:underline}
+@media(max-width:680px){.yinav-pair{grid-template-columns:1fr}}
+</style>
+
+<style id="yijump-css">
+.yijump{display:inline-block;margin-top:26px;padding:11px 18px;border:1px solid rgba(248,237,231,.55);
+ border-radius:3px;font-family:"Space Mono",ui-monospace,monospace;font-size:.62rem;letter-spacing:.18em;
+ text-transform:uppercase;color:#F8EDE7;text-decoration:none;transition:background .2s,border-color .2s}
+.yijump:hover{background:rgba(248,237,231,.14);border-color:#F8EDE7}
+</style>
+</head>
+<body>
+<nav class="yitop"><div class="in"><a href="index.html">↑ the polymathic learner</a><span class="now">Part six of the 易 iching sequence</span><span class="sp"></span><a href="yi-5-lantern.html">← previous</a></div></nav>
+
+
+<header class="cover">
+  <div class="wrap">
+    <div class="kicker">易 Yi · geometry hunt · iteration five · the torus</div>
+    <div class="rules"></div>
+    <h1>織 zhī<span class="en">The loom — the sixty-four on a torus, and what the thread turned out to be</span></h1>
+    <p class="deck">The lantern held everything except the trigrams. The torus fixes exactly that, and does it without adding a second body — because a torus has <b>two circulations</b>, and the lower and upper trigrams are each a closed ring of eight.</p>
+    <p class="deck" style="margin-top:14px">The thread was expected to become a knot. It does not. What it becomes is <b>a shuttle</b>: the lower trigram advances once around and never reverses while the upper runs back and forth across it, seven passes to every advance. The torus is not a doughnut. It is a loom.</p>
+    <a class="yijump" href="#figLoom">See the model first ↓</a>
+  </div>
+</header>
+
+<main>
+
+<!-- ═════ I ═════ -->
+<section>
+  <div class="wrap col">
+    <div class="ch"><div class="num">I</div><div>
+      <h2>Why a torus, and not just a nicer cylinder.</h2>
+      <p class="lead">The lantern's single failure was specific: it made the yang count, the change and the poles legible, and it hid the trigram structure completely. There was nowhere in it to see that lines one to three form a lower figure and four to six an upper one — and so nowhere to see the pairing between a line and its partner three places up.</p>
+      <p>A torus has exactly two independent circulations, a major and a minor. If each trigram can be laid out as a genuine <em>closed ring</em>, then the two trigrams become the two directions of one surface — and the split that forced two cubes becomes two ways of going around a single body.</p>
+      <p>The question is whether eight trigrams can be arranged in a ring where each step turns one line. They can. It is the same Gray-code argument as the lantern, one dimension down.</p>
+
+      <div class="plate"><span class="ptag">Plate 1 · the eight, as a closed ring</span>
+        <div class="tex fallback" data-tex="\begin{aligned}
+000 \to 001 &amp;\to 011 \to 010\\
+\to 110 \to 111 &amp;\to 101 \to 100 \to
+\end{aligned}">000 → 001 → 011 → 010 → 110 → 111 → 101 → 100 → back to 000</div>
+        <div class="read"><b>How to read it</b>Eight trigrams, each differing from the next in exactly one line, closing back on the start. Verified at all eight steps. This is the ring that becomes a direction of travel on the torus.</div>
+      </div>
+
+      <div class="plate"><span class="ptag">Plate 2 · the surface</span>
+        <div class="tex fallback" data-tex="\begin{aligned}
+\theta &amp;\leftarrow \text{lower trigram}\\
+\varphi &amp;\leftarrow \text{upper trigram}\\[3pt]
+8\times 8 &amp;= 64 \ \text{on } T^2
+\end{aligned}">θ ← lower trigram · φ ← upper trigram · 8 × 8 = 64 on T²</div>
+        <div class="read"><b>How to read it</b>Major angle from the lower trigram, minor angle from the upper. Verified bijective: sixty-four cells, sixty-four hexagrams, nothing doubled and nothing hidden — every state sits on the surface where you can see it.</div>
+      </div>
+
+      <p>And the adjacency behaves. Each trigram has three neighbours in the cube, and on the ring they land at offsets ±1 and one chord at ±3 — so a hexagram's six neighbours are <b>four adjacent cells and two chords</b>, three in each direction. Nothing is lost; two of the six are simply drawn as short arcs across the surface rather than as steps to the next cell.</p>
+
+      <div class="plate"><span class="ptag">Plate 3 · the six neighbours</span>
+        <div class="tex fallback" data-tex="\begin{aligned}
+\text{along }\theta &amp;:\; \pm1,\ \text{chord } \pm3\\
+\text{along }\varphi &amp;:\; \pm1,\ \text{chord } \pm3\\[3pt]
+&amp;\;4\ \text{adjacent} + 2\ \text{chords}
+\end{aligned}">along θ: ±1 and a chord at ±3 · along φ: ±1 and a chord at ±3 · total 4 adjacent + 2 chords</div>
+        <div class="read"><b>How to read it</b>Verified for all sixty-four hexagrams with zero exceptions: three neighbours along each circulation. The chords are three steps around, not diameters, so they stay local — they read as a weave rather than as wires across a void.</div>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<!-- ═════ II ═════ -->
+<section>
+  <div class="wrap col">
+    <div class="ch"><div class="num">II</div><div>
+      <h2>A knot was expected. That was wrong.</h2>
+      <p>The lantern's thread — the closed circuit through all sixty-four where every step turns one line — can be drawn on this surface. When the torus was proposed the thread was said to become a knot, and its knot type to be a property of the ordering rather than of the drawing. That was a nice sentence and it is false.</p>
+      <p>Computed: the thread winds <b>once</b> around the major circle and <b>zero</b> times around the minor. Homotopy class (1, 0). It is an unknot — a loop that can be shrunk on the surface without cutting. No knot, no invariant, nothing to classify.</p>
+      <p>But the reason it comes out that way is the interesting part, and it was not visible until the numbers came back.</p>
+
+      <div class="plate"><span class="ptag">Plate 4 · what the thread actually does</span>
+        <div class="tex fallback" data-tex="\begin{aligned}
+\text{warp}\;&amp;:\; 8\ \text{advances of }\theta\\
+\text{weft}\;&amp;:\; 56\ \text{passes of }\varphi\\
+&amp;\;\;\;28\uparrow + 28\downarrow\\[3pt]
+(p,q)&amp;=(1,0)
+\end{aligned}">warp: 8 advances of θ, never reversing · weft: 56 passes of φ, 28 up + 28 down · (p,q) = (1,0)</div>
+        <div class="read"><b>How to read it</b>Of the sixty-four steps, eight move the lower trigram and fifty-six move the upper. The eight lower advances are evenly spaced — one every eight steps — and every one of them goes <i>forward</i>. The lower trigram never backtracks. The upper accounts for all the reversing: twenty-eight forward, twenty-eight back, netting zero, which is why the minor winding is zero.</div>
+      </div>
+
+      <p class="big">The lower trigram is the warp. The upper trigram is the weft. The Gray ordering is the weaving pattern.</p>
+      <p>Eight advances against fifty-six passes: a ratio of one to seven. The warp is drawn taut around the major circle once and never reverses, and the shuttle runs across it seven times for each advance. That is not a metaphor imported to make the form sound nicer — it is what the step counts are, and it is why the winding class is (1,0) rather than a knot. A knot would require the thread to wander in both directions. A weave requires precisely that it does not.</p>
+
+      <div class="aside">
+        <span class="tag">an unexpected corroboration</span>
+        <p>Counting the steps also showed how often each individual line turns over one full circuit. The answer is a doubling cascade: <b>2, 2, 4, 8, 16, 32</b> from the bottom line to the top.</p>
+        <p>Which is the conjecture from Part Two — that the six positions run at six different speeds, sluggish at the base and twitchy at the top — arriving here <i>unbidden</i>, from a completely different direction. There it was asserted and fitted to nothing. Here it falls out of the Gray ordering as a matter of arithmetic. The bottom line turns twice per circuit; the top line turns thirty-two times.</p>
+        <p>That was not built in — but the ordering that produces it was chosen, and Section IV shows that the choice is doing all the work. Read this box as a description of the reflected Gray code, not as evidence for the conjecture.</p>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<!-- ═════ III ═════ -->
+<section>
+  <div class="wrap">
+    <div class="col">
+      <div class="ch"><div class="num">III</div><div>
+        <h2>The form.</h2>
+        <p>One body, sixty-four cells on its surface, the two trigrams as its two directions, the thread as a single closed curve running warp and weft. Tap any cell to see its hexagram and its six neighbours.</p>
+      </div></div>
+    </div>
+
+    <figure id="figLoom">
+      <div class="fhead"><span class="tag">Figure 1 · 織</span><span class="hint">drag to rotate · tap a cell</span></div>
+      <div class="fbody">
+        <canvas id="cvLoom" width="900" height="520"></canvas>
+        <div class="fallnote">This figure needs JavaScript. Every count in the text was computed offline and stands regardless.</div>
+        <div class="btns" style="margin-top:14px">
+          <button id="tSurf" class="on">the surface</button>
+          <button id="tWarp" class="on">warp · lower</button>
+          <button id="tWeft" class="on">weft · upper</button>
+          <button id="tThread">the thread</button>
+          <button id="tChord">the two chords</button>
+          <button id="tYang">colour by yang</button>
+          <button id="tSpin" class="on">rotate</button>
+          <button id="tWalk">walk the thread</button>
+        </div>
+        <div class="btns" style="margin-top:8px">
+          <span class="cap" style="align-self:center;margin-right:4px">ordering:</span>
+          <button id="oRef" class="on">reflected Gray</button>
+          <button id="oBal">balanced</button>
+          <button id="tLabel" class="on">labels: axes only</button>
+        </div>
+        <div id="turnbars" style="margin-top:14px"></div>
+        <div class="readout" id="ordStats"></div>
+        <div class="g2" style="margin-top:14px;align-items:start">
+          <div>
+            <div class="cap">the selected hexagram, bottom line first</div>
+            <div class="hexdraw" id="hexdraw"></div>
+          </div>
+          <div class="readout" id="rLoom"></div>
+        </div>
+      </div>
+      <figcaption><b>Labels</b> cycles through five modes. <i>Axes only</i> prints the eight trigram glyphs once around each circulation — sixteen marks, from which any cell can be decoded by reading its two coordinates. The further modes add glyphs at the cells themselves, culled to the near half of the surface and faded with depth so the far side does not print through; the selected cell keeps its full name on either side. Depth ordering was also inverted until this pass — far beads were painting over near ones — so occlusion now reads correctly.<br><br>The major circulation is the lower trigram, the minor is the upper. <b>Warp</b> and <b>weft</b> draw the two families of rings that make the surface a weave rather than a grid — the curvature is doing the work a flat 8×8 square cannot. <b>The thread</b> draws the single Gray circuit; <b>walk the thread</b> follows it bead by bead, and you can watch the shuttle run across the warp and come back.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ═════ IIIb ═════ -->
+<section>
+  <div class="wrap col">
+    <div class="ch"><div class="num">IV</div><div>
+      <h2>The surface is settled. The ordering is the choice.</h2>
+      <p class="lead">With the torus fixed, one thing is still free: the order you thread the sixty-four beads in. That looked like a detail. It is the whole remaining design space, and four things came out of testing it — two of which correct claims made earlier on this page.</p>
+
+      <h3>One · the chords are forced</h3>
+      <p>Enumerated exhaustively: the cube graph has exactly <b>six</b> Hamiltonian cycles up to rotation and reflection, and every one of them puts the two chords at ±3. There is no kinder ring to be found. The weave must have those two diagonal stitches per cell.</p>
+
+      <h3>Two · the frequency cascade is this project's, not the book's</h3>
+      <p>The cascade 2, 2, 4, 8, 16, 32 was presented as the timescale conjecture arriving unbidden. It arrives because the reflected Gray code was chosen, and a reflected Gray code is <i>defined</i> by that doubling. Across 2,197 sampled orderings the spread in turn counts ran 12 to 26, median 18 — and <b>not one</b> was as skewed as the reflected code's 30. It sits at the extreme edge of the space.</p>
+      <p>So the corroboration was circular. The hierarchy is a property of the ordering, and there are orderings where all six lines turn at nearly equal rates. Use the <b>balanced</b> button above and watch the warp disappear.</p>
+
+      <h3>Three · the thread cannot knot</h3>
+      <p>A knotted ordering was said to exist, and a (2,3) trefoil named. Wrong, because the condition that matters had not been checked: a curve only <i>has</i> a knot type if it does not cross itself. That trefoil crosses itself five times, so it has no knot type at all.</p>
+      <p>And the pattern is much stronger than one counterexample. Only about <b>4%</b> of orderings are embedded — crossing-free — at all. Among 144 embedded ones, <b>not a single one knots</b>: every winding class has min(|p|, |q|) ≤ 1, including cases like (3, 1) and (−4, 1) where one winding grows large and the other never does.</p>
+      <p class="big">Conjecture: an embedded thread through all sixty-four cannot knot on this torus.</p>
+      <p>One hundred and forty-four out of one hundred and forty-four is suggestive, not a proof, and the proof is still wanted. But the knot idea is dead as an aspiration — which is a relief, because it was the last piece of this hunt wanted for its own sake rather than because the mathematics offered it.</p>
+
+      <h3>Four · and the reflected code earns its place differently than expected</h3>
+      <p>The genuine virtue of the reflected Gray code is not its skew. It is that it has <b>zero self-crossings</b> — it lies flat on the surface and never passes over itself, which puts it in that rare 4%. This had never been checked and never claimed; it is the best property the loom has, and it turned up by accident while trying to disprove something else.</p>
+      <p>There was also a brief belief in a trade-off — that a clean weave cost you an uneven one, since the first balanced ordering found crossed itself nine times. That was one sample mistaken for a frontier. Mapping it properly turns up an <b>embedded ordering with the optimal spread of 2</b>: turns 10, 10, 12, 10, 12, 10, no crossings, warp and weft exactly 32 each. Balance and cleanliness are compatible, so the reflected code's extremity buys nothing that evenness could not also have.</p>
+
+      <table>
+        <thead><tr><th>ordering</th><th>turns per line</th><th>spread</th><th>crossings</th><th>class</th><th>warp : weft</th></tr></thead>
+        <tbody>
+          <tr><td class="g">reflected Gray</td><td>2, 2, 4, 8, 16, 32</td><td>30</td><td class="yes">0</td><td>(1, 0)</td><td>8 : 56</td></tr>
+          <tr style="background:var(--paper2)"><td class="g">balanced</td><td>10, 10, 12, 10, 12, 10</td><td><b>2</b></td><td class="yes">0</td><td>(−1, 2)</td><td><b>32 : 32</b></td></tr>
+        </tbody>
+      </table>
+      <p>Both are shipped in the figure above with the numbers they were measured with. The reflected one is a loom: a warp drawn once around, a shuttle crossing it seven times per advance. The balanced one is a plain weave — no warp, no shuttle, no privileged direction, winding twice one way and once the other. Same surface, same sixty-four cells, same six neighbours each. Only the thread differs.</p>
+      <div class="pull">The ordering looked like a detail. It is the only thing left that is a decision.</div>
+    </div></div>
+  </div>
+</section>
+
+<!-- ═════ IV ═════ -->
+<section>
+  <div class="wrap col">
+    <div class="ch"><div class="num">V</div><div>
+      <h2>Where it stands against the others.</h2>
+      <p>Five iterations, and this is the first form that loses nothing we have been able to name.</p>
+      <table>
+        <thead><tr><th>body</th><th>one object</th><th>nothing hidden</th><th>trigrams visible</th><th>change visible</th></tr></thead>
+        <tbody>
+          <tr><td class="g">two cubes</td><td class="no">no</td><td class="yes">yes</td><td class="yes">yes</td><td class="no">no</td></tr>
+          <tr><td class="g">zonotope</td><td class="yes">yes</td><td class="no">32 buried</td><td class="no">no</td><td class="no">no</td></tr>
+          <tr><td class="g">conjugate pair</td><td class="no">no</td><td class="yes">yes</td><td class="no">no</td><td class="no">no</td></tr>
+          <tr><td class="g">四象 cube</td><td class="yes">yes</td><td class="yes">yes</td><td class="yes">as axes</td><td class="no">no</td></tr>
+          <tr><td class="g">灯 lantern</td><td class="yes">yes</td><td class="yes">yes</td><td class="no">no</td><td class="yes">yes</td></tr>
+          <tr style="background:var(--paper2)"><td class="g"><b>織 loom</b></td><td class="yes"><b>yes</b></td><td class="yes"><b>yes</b></td><td class="yes"><b>yes</b></td><td class="yes"><b>yes</b></td></tr>
+        </tbody>
+      </table>
+
+      <p>What it gives up relative to the lantern is the <b>silhouette</b>. In the lantern the yang count was elevation, so 坤 and 乾 were the poles of the form and balance was its equator — you could read the whole distribution from the outline. On the torus the yang count is not a direction at all; it becomes a colouring, and the profile says nothing. That is a real loss and it is why <i>colour by yang</i> is in the controls rather than being the default.</p>
+      <p>So the pair actually worth keeping is not lantern-or-loom. It is <b>灯 for the distribution, 織 for the structure</b> — and unlike every earlier pair, these two are not rival solids competing to be the object. They are one surface and one section through it.</p>
+
+      <div class="pull">A knot would need the thread to wander both ways. A weave needs precisely that it does not.</div>
+
+      <h3>What to test next</h3>
+      <div class="g2" style="margin-top:18px">
+        <div class="card"><span class="n">織</span><h3>Is the chord placement forced?</h3><p>The two chords land at ±3 because of the particular Gray ring chosen for the eight trigrams. There are other Hamiltonian cycles on the cube graph. Whether any of them puts the chords somewhere kinder — or whether ±3 is forced for all of them — is a small, finite, checkable question, and the answer decides how clean the weave can be.</p></div>
+        <div class="card"><span class="n">爻</span><h3>Does the cascade survive a different ring?</h3><p>The 2, 2, 4, 8, 16, 32 cascade came out of the standard reflected Gray code. A different Hamiltonian circuit through the sixty-four would give a different frequency profile — and if some circuit gives a cleaner geometric progression, that circuit is a better candidate for the timescale conjecture than the one Part Two assumed.</p></div>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap col">
+    <div class="kicker">iteration five · one surface, two circulations</div>
+    <p class="big" style="margin-top:16px">The split that forced two bodies became two ways of going around one.</p>
+    <p class="cap" style="margin-top:16px">Computed, not asserted: the eight trigrams form a closed Gray ring with unit steps at all eight transitions; the 8 × 8 torus map is bijective over all 64 hexagrams; every hexagram has exactly three neighbours along each circulation, at offsets ±1 and one chord at ±3, verified with zero exceptions; the Gray-64 thread has winding class (1, 0), using 8 forward advances of the lower trigram — evenly spaced every eight steps, never reversing — and 56 passes of the upper, 28 up and 28 down; per-line turn counts over one circuit are 2, 2, 4, 8, 16, 32 from bottom to top. Maths set with KaTeX, plain-text fallback. 16 August 2026.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+try{
+var $=function(id){return document.getElementById(id);};
+var CSS=getComputedStyle(document.documentElement),C={};
+["ink","iris","iris-mid","lilac","brass","teal","rule","paper3","alarm"].forEach(function(k){
+  C[k]=CSS.getPropertyValue("--"+k).trim()||"#333";});
+
+/* ── the trigram Gray ring, and the 64 as cells on T^2 ── */
+function g3(n){ return n^(n>>1); }
+var RING=[], POS={};   /* RING[i] = the trigram at ring position i */
+for(var i=0;i<8;i++){
+  var v=g3(i), b=((v>>2)&1)+""+((v>>1)&1)+""+(v&1);
+  RING.push(b); POS[b]=i;
+}
+var NAMES={"111":["乾","☰"],"110":["兌","☱"],"101":["離","☲"],"100":["震","☳"],
+           "011":["巽","☴"],"010":["坎","☵"],"001":["艮","☶"],"000":["坤","☷"]};
+var ORDERINGS={
+  reflected:{name:'reflected Gray',cycle:[0, 1, 3, 2, 6, 7, 5, 4, 12, 13, 15, 14, 10, 11, 9, 8, 24, 25, 27, 26, 30, 31, 29, 28, 20, 21, 23, 22, 18, 19, 17, 16, 48, 49, 51, 50, 54, 55, 53, 52, 60, 61, 63, 62, 58, 59, 57, 56, 40, 41, 43, 42, 46, 47, 45, 44, 36, 37, 39, 38, 34, 35, 33, 32],
+    turns:[2, 2, 4, 8, 16, 32],spread:30,cross:0,p:1,q:0,warp:8,weft:56,
+    note:'embedded, maximally skewed — a loom with a warp'},
+  balanced:{name:'balanced',cycle:[0, 4, 36, 44, 45, 47, 63, 61, 60, 52, 20, 16, 48, 32, 40, 56, 57, 59, 58, 62, 46, 42, 34, 2, 6, 38, 54, 55, 53, 49, 51, 50, 18, 26, 24, 8, 10, 14, 30, 22, 23, 31, 15, 7, 39, 37, 5, 21, 17, 19, 27, 25, 29, 28, 12, 13, 9, 41, 33, 35, 43, 11, 3, 1],
+    turns:[10, 10, 12, 10, 12, 10],spread:2,cross:0,p:-1,q:2,warp:32,weft:32,
+    note:'embedded and even — a weave with no warp direction'}
+};
+/* The cells are fixed by the hexagrams; only the THREAD ORDER changes. Both
+   orderings below were measured offline and shipped with their numbers, so
+   what the readout claims is what was actually computed. */
+var ORD='reflected';
+function gray(n){ return n^(n>>1); }
+var CELL=[], BYIJ={}, BYVAL={};
+for(var k=0;k<64;k++){
+  var gg=gray(k), s=[];
+  for(var b=5;b>=0;b--) s.push((gg>>b)&1);
+  var low=s.slice(0,3).join(""), up=s.slice(3).join("");
+  var o={k:k,s:s,w:s.join(""),low:low,up:up,i:POS[low],j:POS[up],
+         h:s.reduce(function(a,c){return a+c;},0)};
+  CELL.push(o); BYIJ[o.i+","+o.j]=o; BYVAL[gg]=o;
+}
+CELL.sort(function(a,b){return a.k-b.k;});
+function threadSeq(){
+  var cyc=ORDERINGS[ORD].cycle, out=[], i;
+  for(i=0;i<64;i++) out.push(BYVAL[cyc[i]]);
+  return out;
+}
+function paintStats(){
+  var d=ORDERINGS[ORD], html="", mx=Math.max.apply(null,d.turns), i;
+  for(i=0;i<6;i++){
+    html+='<div class="tr"><span class="lb">爻 '+(i+1)+'</span>'+
+      '<span class="bar"><i style="width:'+(d.turns[i]/mx*100).toFixed(1)+'%;background:'+
+      (d.turns[i]===mx?C.brass:C.iris)+'"></i></span>'+
+      '<span class="vv">'+d.turns[i]+'</span></div>';
+  }
+  $("turnbars").innerHTML=html;
+  $("ordStats").innerHTML=
+    "<b>"+d.name+"</b> — "+d.note+
+    "<br>turns per line, bottom to top: <b>"+d.turns.join(", ")+"</b> · spread <b>"+d.spread+"</b>"+
+    "<br>self-crossings <b>"+d.cross+"</b> <span class='ok'>(embedded)</span> · winding class <b>("+d.p+", "+d.q+")</b>"+
+    "<br>warp steps <b>"+d.warp+"</b> · weft steps <b>"+d.weft+"</b>"+
+    (d.warp===d.weft
+      ? " — <span class='warn'>equal: no privileged direction</span>"
+      : " — <span class='warn'>1 : "+(d.weft/d.warp)+", a warp and a shuttle</span>");
+}
+function neighbours(o){
+  var out=[];
+  for(var b=0;b<6;b++){
+    var t=o.s.slice(); t[b]=1-t[b];
+    var l=t.slice(0,3).join(""), u=t.slice(3).join("");
+    out.push(BYIJ[POS[l]+","+POS[u]]);
+  }
+  return out;
+}
+/* torus geometry */
+var R=1.0, r=0.42;
+function pt(i,j,dr){
+  var th=2*Math.PI*i/8, ph=2*Math.PI*j/8, rr=r+(dr||0);
+  return [(R+rr*Math.cos(ph))*Math.cos(th), rr*Math.sin(ph), (R+rr*Math.cos(ph))*Math.sin(th)];
+}
+function ptf(ti,tj,dr){
+  var th=2*Math.PI*ti/8, ph=2*Math.PI*tj/8, rr=r+(dr||0);
+  return [(R+rr*Math.cos(ph))*Math.cos(th), rr*Math.sin(ph), (R+rr*Math.cos(ph))*Math.sin(th)];
+}
+
+/* ── projector ── */
+function Stage(cv,h){
+  var st={ctx:cv.getContext("2d"),rx:-0.52,ry:0.6,w:600,h:h,drag:false,spin:true,moved:0};
+  st.fit=function(){
+    var dpr=Math.max(1,Math.min(2,window.devicePixelRatio||1));
+    var b=cv.getBoundingClientRect(); if(b.width<10) return;
+    st.w=b.width; cv.style.height=h+"px";
+    cv.width=Math.round(b.width*dpr); cv.height=Math.round(h*dpr);
+    st.ctx.setTransform(dpr,0,0,dpr,0,0);
+  };
+  st.proj=function(p,sc,cx,cy){
+    var cyy=Math.cos(st.ry),sy=Math.sin(st.ry),cxx=Math.cos(st.rx),sx=Math.sin(st.rx);
+    var x1=p[0]*cyy-p[2]*sy, z1=p[0]*sy+p[2]*cyy;
+    var y1=p[1]*cxx-z1*sx, z2=p[1]*sx+z1*cxx;
+    var f=1/(1+Math.max(-0.7,z2*0.16));
+    return [cx+x1*sc*f, cy-y1*sc*f, z2];
+  };
+  cv.addEventListener("pointerdown",function(e){st.drag=true;st.lx=e.clientX;st.ly=e.clientY;st.moved=0;
+    if(cv.setPointerCapture){try{cv.setPointerCapture(e.pointerId);}catch(x){}}});
+  cv.addEventListener("pointermove",function(e){
+    if(!st.drag)return;
+    st.ry+=(e.clientX-st.lx)*0.008; st.rx+=(e.clientY-st.ly)*0.006;
+    st.rx=Math.max(-1.4,Math.min(1.4,st.rx));
+    st.moved+=Math.abs(e.clientX-st.lx)+Math.abs(e.clientY-st.ly);
+    st.lx=e.clientX; st.ly=e.clientY;});
+  ["pointerup","pointercancel","pointerleave"].forEach(function(ev){
+    cv.addEventListener(ev,function(){st.drag=false;});});
+  st.cv=cv; return st;
+}
+var st=Stage($("cvLoom"),520);
+var sel=0, showSurf=true, showWarp=true, showWeft=true, showThread=false,
+    showChord=false, byYang=false, walking=false, wtick=0;
+/* Labelling. 64 glyphs on a torus would be a thicket, so two devices:
+   AXIS RINGS — the eight trigram glyphs once around each circulation, which is
+   only sixteen marks and lets any cell be decoded by reading its coordinates;
+   and BEAD LABELS — per-cell glyphs, culled to the near half of the surface and
+   faded with depth so the far side does not print through. */
+var LABEL=1;                       /* 0 none · 1 axes only · 2 + upper glyph · 3 + both · 4 + 6-bit */
+var LABELNAME=["none","axes only","axes + 上","axes + 上下","axes + binary"];
+
+function seg(a,b,col,lw,al,sc,cx,cy){
+  var A=st.proj(a,sc,cx,cy),B=st.proj(b,sc,cx,cy),x=st.ctx;
+  x.save();x.strokeStyle=col;x.lineWidth=lw;x.globalAlpha=al;
+  x.beginPath();x.moveTo(A[0],A[1]);x.lineTo(B[0],B[1]);x.stroke();x.restore();
+}
+function ring(fixed,which,col,lw,al,sc,cx,cy,dr){
+  var N=64, prev=null;
+  for(var n=0;n<=N;n++){
+    var t=8*n/N;
+    var p = which==="warp" ? ptf(t,fixed,dr) : ptf(fixed,t,dr);
+    if(prev) seg(prev,p,col,lw,al,sc,cx,cy);
+    prev=p;
+  }
+}
+function bead(p,rad,fill,rg,sc,cx,cy,al){
+  var P=st.proj(p,sc,cx,cy),x=st.ctx;
+  x.save();x.globalAlpha=al==null?1:al;
+  x.beginPath();x.arc(P[0],P[1],rad,0,6.2832);x.fillStyle=fill;x.fill();
+  if(rg){x.strokeStyle=rg;x.lineWidth=1.7;x.stroke();}x.restore();
+}
+function txt(p,t,col,dy,sc,cx,cy,size,al){
+  var P=st.proj(p,sc,cx,cy),x=st.ctx;
+  x.save();x.globalAlpha=al==null?1:al;x.fillStyle=col;
+  x.font=(size||11)+'px "Space Mono","Noto Serif SC",monospace';
+  x.textAlign="center";x.fillText(t,P[0],P[1]+(dy||0));x.restore();
+}
+var YCOL=["#2F6B72","#4A6E86","#8A4530","#9A7226","#8A5A6E","#7A4A90","#B0863A"];
+
+function draw(){
+  var x=st.ctx; if(st.w<10) return;
+  x.clearRect(0,0,st.w,st.h);
+  var sc=Math.min(st.w*0.30,168), cx=st.w/2, cy=st.h/2;
+
+  if(showSurf){
+    if(showWarp) for(var j=0;j<8;j++) ring(j,"warp",C.iris,1.5,0.30,sc,cx,cy,0);
+    if(showWeft) for(var i2=0;i2<8;i2++) ring(i2,"weft",C.lilac,1.1,0.34,sc,cx,cy,0);
+  }
+  var selO=CELL[sel], nb=neighbours(selO), nbSet={};
+  nb.forEach(function(n){ nbSet[n.k]=true; });
+
+  if(showChord){
+    nb.forEach(function(n){
+      /* One line changing moves exactly one of the two ring coordinates, so the
+         test is simply whether that single offset is adjacent (±1) or a chord. */
+      var di=((n.i-selO.i)+8)%8, dj=((n.j-selO.j)+8)%8;
+      var d = (di!==0) ? di : dj;
+      if(d===1 || d===7) return;      /* adjacent, not a chord */
+      seg(pt(selO.i,selO.j,0.045),pt(n.i,n.j,0.045),C.teal,2,0.75,sc,cx,cy);
+    });
+  }
+  if(showThread){
+    var seq=threadSeq();
+    for(var t2=0;t2<64;t2++){
+      var A=seq[t2], B=seq[(t2+1)%64];
+      var warpStep=(A.i!==B.i);
+      seg(pt(A.i,A.j,0.055),pt(B.i,B.j,0.055),warpStep?C.brass:C["iris-mid"],
+          warpStep?2.6:1.6, warpStep?0.9:0.5, sc,cx,cy);
+    }
+  }
+
+  /* Painter's order: FAR first. Larger projected z is further away in this
+     projection (verified: a point at world z = +1.5 scales to 0.85, a point at
+     −1.5 to 1.21), so a descending sort is required. This was ascending, which
+     let the far beads paint over the near ones — occlusion inverted. */
+  /* axis rings: eight trigram glyphs around each circulation */
+  if(LABEL>=1){
+    for(var ai=0;ai<8;ai++){
+      var wp=pt(ai,0,0.30);                       /* outside the tube, on the warp ring */
+      var pz=st.proj(wp,sc,cx,cy)[2];
+      if(pz<0.35) txt(wp, RING[ai]?NAMES[RING[ai]][1]:"", C.iris, 4, sc,cx,cy, 15, 0.95);
+      var vp=ptf(0.5,ai,0.34);                    /* around a meridian, for the weft */
+      var pz2=st.proj(vp,sc,cx,cy)[2];
+      if(pz2<0.35) txt(vp, RING[ai]?NAMES[RING[ai]][1]:"", C["iris-mid"], 4, sc,cx,cy, 13, 0.9);
+    }
+    txt(pt(0,0,0.62),"下 warp",C.iris,-6,sc,cx,cy,10,0.75);
+    txt(ptf(0.5,0,0.66),"上 weft",C["iris-mid"],-6,sc,cx,cy,10,0.75);
+  }
+
+  var order=CELL.slice().sort(function(a,b){
+    return st.proj(pt(b.i,b.j,0.045),sc,cx,cy)[2]-st.proj(pt(a.i,a.j,0.045),sc,cx,cy)[2]; });
+  order.forEach(function(o){
+    var isSel=(o.k===sel), isNb=nbSet[o.k];
+    var col=isSel?C.brass:(byYang?YCOL[o.h]:(isNb?C.teal:C.iris));
+    if(isNb&&!isSel&&!byYang) col=C.teal;
+    bead(pt(o.i,o.j,0.045), isSel?9:(isNb?6:4), col, isSel?"#fff":null, sc,cx,cy,
+         isSel?1:(isNb?0.95:0.78));
+  });
+
+  /* bead labels, near half only */
+  if(LABEL>=2){
+    order.forEach(function(o){
+      var P=st.proj(pt(o.i,o.j,0.045),sc,cx,cy);
+      if(P[2]>-0.15) return;                       /* far half: skip entirely */
+      var fade=Math.min(1,(-P[2]-0.15)/0.9)*0.95;
+      var isSel=(o.k===sel);
+      var lab = LABEL===2 ? NAMES[o.up][1]
+              : LABEL===3 ? NAMES[o.up][1]+NAMES[o.low][1]
+              : o.w;
+      var x2=st.ctx;
+      x2.save();
+      x2.globalAlpha=isSel?1:fade;
+      x2.fillStyle=isSel?C.brass:C.ink;
+      x2.font=(LABEL===4?7.5:(isSel?13:10.5))+'px "Noto Serif SC","Space Mono",serif';
+      x2.textAlign="center";
+      x2.fillText(lab, P[0], P[1]-(isSel?11:9));
+      x2.restore();
+    });
+  }
+  /* the selected cell always carries its full name, whichever side it is on */
+  (function(){
+    var P=st.proj(pt(selO.i,selO.j,0.13),sc,cx,cy), x3=st.ctx;
+    x3.save(); x3.globalAlpha=.95; x3.fillStyle=C.brass;
+    x3.font='12px "Noto Serif SC","Space Mono",serif'; x3.textAlign="center";
+    x3.fillText(NAMES[selO.up][1]+" over "+NAMES[selO.low][1], P[0], P[1]-16);
+    x3.restore();
+  })();
+
+  var hd="";
+  selO.s.forEach(function(v){ hd+='<i class="'+(v?"":"yin")+'"></i>'; });
+  $("hexdraw").innerHTML=hd;
+
+  var nx=CELL[(selO.k+1)%64], turned=0;
+  for(var b2=0;b2<6;b2++) if(nx.s[b2]!==selO.s[b2]) turned=b2+1;
+  var warpNext=(nx.i!==selO.i);
+  $("rLoom").innerHTML=
+    "cell <b>("+selO.i+", "+selO.j+")</b> · state <b>"+selO.w+"</b> · "+selO.h+" yang"+
+    "<br>下 <b>"+NAMES[selO.low][1]+" "+NAMES[selO.low][0]+"</b> on the warp &nbsp;·&nbsp; 上 <b>"+
+      NAMES[selO.up][1]+" "+NAMES[selO.up][0]+"</b> on the weft"+
+    "<br>next bead turns 爻 <b>"+turned+"</b> — "+
+      (warpNext?"<span class='warn'>the warp advances</span>":"<span class='ok'>the shuttle moves</span>")+
+    "<br>bead <b>"+selO.k+"</b> of 64 · warp advances at beads 7, 15, 23 … 63";
+}
+st.cv.addEventListener("pointerup",function(e){
+  if(st.moved>6) return;
+  var b=st.cv.getBoundingClientRect(), mx=e.clientX-b.left, my=e.clientY-b.top;
+  var sc=Math.min(st.w*0.30,168), cx=st.w/2, cy=st.h/2, best=null, bd=1e9;
+  CELL.forEach(function(o){
+    var P=st.proj(pt(o.i,o.j,0.045),sc,cx,cy), d=Math.hypot(P[0]-mx,P[1]-my);
+    if(d<16 && d<bd){ bd=d; best=o.k; }
+  });
+  if(best!==null){ sel=best; walking=false; $("tWalk").classList.remove("on"); }
+});
+function loop(){
+  if(st.spin && !st.drag) st.ry+=0.0032;
+  if(walking){ wtick++; if(wtick%20===0){
+      var sq=threadSeq(), at=0, z;
+      for(z=0;z<64;z++) if(sq[z].k===sel){ at=z; break; }
+      sel=sq[(at+1)%64].k;
+    } }
+  draw(); requestAnimationFrame(loop);
+}
+function tog(id,get,set){
+  $(id).addEventListener("click",function(){ set(!get()); this.classList.toggle("on",get()); });
+}
+tog("tSurf",function(){return showSurf;},function(v){showSurf=v;});
+tog("tWarp",function(){return showWarp;},function(v){showWarp=v;});
+tog("tWeft",function(){return showWeft;},function(v){showWeft=v;});
+tog("tThread",function(){return showThread;},function(v){showThread=v;});
+tog("tChord",function(){return showChord;},function(v){showChord=v;});
+tog("tYang",function(){return byYang;},function(v){byYang=v;});
+tog("tSpin",function(){return st.spin;},function(v){st.spin=v;});
+tog("tWalk",function(){return walking;},function(v){walking=v;});
+function pickOrd(which,btn){
+  ORD=which;
+  $("oRef").classList.toggle("on",which==="reflected");
+  $("oBal").classList.toggle("on",which==="balanced");
+  showThread=true; $("tThread").classList.add("on");
+  paintStats();
+}
+$("tLabel").addEventListener("click",function(){
+  LABEL=(LABEL+1)%5;
+  this.textContent="labels: "+LABELNAME[LABEL];
+  this.classList.toggle("on",LABEL>0);
+});
+$("oRef").addEventListener("click",function(){pickOrd("reflected","oRef");});
+$("oBal").addEventListener("click",function(){pickOrd("balanced","oBal");});
+paintStats();
+st.fit(); window.addEventListener("resize",function(){st.fit();});
+requestAnimationFrame(loop);
+document.documentElement.classList.add("ready");
+}catch(e){
+  try{
+    var b=document.createElement("div");
+    b.style.cssText="position:fixed;left:12px;right:12px;bottom:12px;z-index:99;background:#fff;border:1px solid #9B3242;border-left-width:3px;padding:10px 12px;font:12px monospace;color:#2C1D17";
+    b.textContent="Figure failed to start: "+(e&&e.message?e.message:e)+" — the written argument is unaffected.";
+    document.body.appendChild(b);
+  }catch(x){}
+}
+})();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" defer></script>
+<script>
+(function(){
+  function typeset(){
+    if(!window.katex) return;
+    var els=document.querySelectorAll("[data-tex]");
+    for(var i=0;i<els.length;i++){
+      var el=els[i], plain=el.textContent, display=el.classList.contains("tex");
+      try{
+        katex.render(el.getAttribute("data-tex"), el, {displayMode:display, throwOnError:true, strict:false});
+        el.classList.remove("fallback");
+      }catch(e){ el.textContent=plain; el.classList.add("fallback"); }
+    }
+  }
+  if(document.readyState==="complete") typeset();
+  else window.addEventListener("load",typeset);
+})();
+</script>
+
+<script>
+/* ── layout watchdog ───────────────────────────────────────────────────
+   Why this exists. Every figure sizes its canvas from getBoundingClientRect()
+   once, at startup, and bails out if the width comes back under 10px. On a
+   phone the script can run before the first layout pass, so that call returns
+   ZERO — the canvas keeps its default 300px backing store while the drawing
+   code works in ~600px coordinates, and everything lands outside the bitmap.
+   No error fires. html.ready is set. The figure is simply blank, which is
+   exactly the failure that made two documents look broken.
+   Since every figure already re-sizes on a resize event, the fix is to keep
+   sending them until the canvases actually have a sane backing store: poll
+   briefly at startup, watch for size changes, and cover orientation changes
+   and late webfont reflow. Stops as soon as everything measures correctly.
+   ──────────────────────────────────────────────────────────────────── */
+(function(){
+  function kick(){ try{ window.dispatchEvent(new Event("resize")); }catch(e){
+    try{ var ev=document.createEvent("Event"); ev.initEvent("resize",true,true);
+         window.dispatchEvent(ev); }catch(x){} } }
+  function healthy(){
+    var cs=document.querySelectorAll("canvas"), i;
+    if(!cs.length) return true;
+    for(i=0;i<cs.length;i++){
+      var want=cs[i].getBoundingClientRect().width;
+      if(want>10 && Math.abs(cs[i].width/(window.devicePixelRatio||1)-want)>2) return false;
+      if(want<=10) return false;
+    }
+    return true;
+  }
+  var tries=0;
+  function poll(){
+    kick();
+    if(healthy() || ++tries>40) return;      /* ~6s of grace, then give up quietly */
+    setTimeout(poll, 150);
+  }
+  if(document.readyState==="complete") poll();
+  else window.addEventListener("load", poll);
+  setTimeout(poll, 0);
+  window.addEventListener("orientationchange", function(){ setTimeout(kick,120); });
+  if(document.fonts && document.fonts.ready && document.fonts.ready.then){
+    document.fonts.ready.then(function(){ kick(); });
+  }
+  if(window.ResizeObserver){
+    try{
+      var ro=new ResizeObserver(function(){ kick(); });
+      document.querySelectorAll("canvas").forEach(function(c){ ro.observe(c); });
+    }catch(e){}
+  }
+})();
+</script>
+
+<nav class="yinav"><div class="in">
+  <div class="yinav-lab">Part six of the 易 iching sequence · continue</div>
+  <div class="yinav-pair">
+        <a href="yi-5-lantern.html"><span class="dir">Previous</span><span class="ttl">← The lantern — one body</span></a>
+        <div class="void"><span class="dir">Next</span><span class="ttl">—</span></div>
+  </div>
+  <div class="yinav-rail">
+        <a href="yi-1-state-space.html"><span class="g">一</span>State space</a>
+        <a href="yi-2-motion.html"><span class="g">二</span>Motion</a>
+        <a href="yi-3-forces.html"><span class="g">三</span>Forces</a>
+        <a href="yi-4-instrument.html"><span class="g">四</span>Instrument</a>
+        <a href="yi-5-lantern.html"><span class="g">灯</span>Lantern</a>
+        <span class="here"><span class="g">織</span>Loom</span>
+        <a class="comp" href="yi-lantern-thinking.html"><span class="g">灯</span>Companion</a>
+  </div>
+  <div class="yinav-lab" style="margin:26px 0 0;opacity:.85">linwei · with Claude and ChatGPT, and light touches of DeepSeek</div>
+  <a class="yinav-home" href="index.html">All six, plus the companion, on the polymathic learner →</a>
+</div></nav>
+</body>
+</html>

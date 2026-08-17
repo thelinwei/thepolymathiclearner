@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+title: "The Polymathic Learner: a visual learning archive"
+message: "If you refer to this archive or any document within it, please cite it as below."
+type: software
+abstract: >-
+  A collection of twenty-three self-contained interactive HTML documents in which
+  mathematical, geometric and speculative ideas are given manipulable form. Includes
+  the 易 (Yi) sequence, a seven-part working model of change that reconstructs the
+  I Ching's notation as a continuous dynamical state space.
+authors:
+  - name: "linwei"
+    website: "https://thelinwei.github.io"
+  - name: "Claude"
+    affiliation: "Anthropic"
+  - name: "ChatGPT"
+    affiliation: "OpenAI"
+repository-code: "https://github.com/thelinwei/thepolymathiclearner"
+url: "https://thelinwei.github.io/thepolymathiclearner/"
+date-released: 2026-08-17
+license: CC-BY-NC-SA-4.0
+keywords:
+  - interactive mathematics
+  - geometry
+  - I Ching
+  - Yi
+  - speculative design
+  - research through making
+  - epistemology
+  - human-AI collaboration
+  - exhibition

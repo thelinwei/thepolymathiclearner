@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Polymathic Learner — United Design Practice</title>
+<title>The Polymathic Learner — linwei</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
@@ -23,6 +23,13 @@
     --geometry: #6fb2a2;
     --geometry-faint: rgba(111,178,162,0.06);
     --geometry-line: rgba(111,178,162,0.12);
+    --rose: #c48b93;
+    --rose-faint: rgba(196,139,147,0.06);
+    --rose-line: rgba(196,139,147,0.12);
+    --yi: #cf6b4d;
+    --yi-dim: #8a4530;
+    --yi-faint: rgba(207,107,77,0.07);
+    --yi-line: rgba(207,107,77,0.14);
     --ash: #5a5a5a;
     --ash-light: #888;
     --paper: #d4cec4;
@@ -59,7 +66,7 @@
   header {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 90px 60px 72px;
+    padding: clamp(64px, 8vw, 118px) 60px clamp(60px, 6vw, 86px);
     position: relative;
   }
 
@@ -80,31 +87,48 @@
   }
 
   /* ─── TITLE BLOCK ─── */
+  /* two-up, generously spaced — four narrow columns could not hold a word
+     like "Representation" and forced the headings to overflow their cells */
   .title-block {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 36px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(44px, 5vw, 76px) clamp(40px, 6vw, 84px);
     align-items: start;
-    margin-bottom: 52px;
+    margin-bottom: clamp(56px, 7vw, 88px);
   }
+
+  .title-half {
+    position: relative;
+    container-type: inline-size;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .tint-warm     { border-top-color: var(--warm-line); }
+  .tint-geometry { border-top-color: var(--geometry-line); }
+  .tint-cool     { border-top-color: var(--cool-line); }
+  .tint-rose     { border-top-color: var(--rose-line); }
 
   .title-divider {
     display: none;
   }
 
-  .title-half {
-    position: relative;
-  }
-
   .title-half-label {
     font-family: 'JetBrains Mono', monospace;
     font-size: 9px;
-    letter-spacing: 0.3em;
+    letter-spacing: 0.34em;
     text-transform: uppercase;
-    margin-bottom: 14px;
+    margin-bottom: 20px;
     display: flex;
-    align-items: center;
-    gap: 10px;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .title-half-label::before {
+    content: '\00BB\00BB';
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    opacity: 0.55;
   }
 
   .title-half-label::after {
@@ -113,12 +137,131 @@
     height: 1px;
     flex: 1;
     background: currentColor;
-    opacity: 0.2;
+    opacity: 0.22;
+    transform: translateY(-3px);
+  }
+
+  .title-index {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    opacity: 0.5;
   }
 
   .label-cool { color: var(--lavender); }
   .label-geometry { color: var(--geometry); }
   .label-warm { color: var(--gold); }
+  .label-rose { color: var(--rose); }
+  .label-yi { color: var(--yi); }
+
+  /* ─── TITLE LEAD — the current investigation, ahead of the collections ─── */
+  .title-lead {
+    container-type: inline-size;
+    padding: clamp(32px, 4vw, 54px) 0 clamp(34px, 4vw, 56px);
+    margin-bottom: clamp(48px, 6vw, 78px);
+    border-top: 1px solid var(--yi-line);
+    border-bottom: 1px solid var(--yi-line);
+    background: linear-gradient(100deg, var(--yi-faint) 0%, transparent 62%);
+  }
+  .title-lead .title-half-label { margin-bottom: 16px; }
+  .title-lead h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+  }
+  .title-lead-desc {
+    margin-top: 24px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-weight: 300;
+    color: var(--paper-dim);
+    line-height: 1.9;
+    max-width: 56ch;
+  }
+  .enter-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 26px;
+    padding: 9px 16px 9px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: currentColor;
+    border: 1px solid currentColor;
+    border-radius: 2px;
+    opacity: 0.58;
+    transition: opacity 0.22s ease, gap 0.22s ease;
+  }
+  .enter-link:hover { opacity: 1; gap: 14px; }
+  .enter-warm     { color: var(--gold); }
+  .enter-geometry { color: var(--geometry); }
+  .enter-cool     { color: var(--lavender); }
+  .enter-rose     { color: var(--rose); }
+
+  .lead-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 24px;
+    padding: 9px 16px 9px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--yi);
+    border: 1px solid currentColor;
+    border-radius: 2px;
+    opacity: 0.62;
+    transition: opacity 0.22s ease, gap 0.22s ease;
+  }
+  .lead-link:hover { opacity: 1; gap: 14px; }
+
+  /* ─── PREFACE: why this archive exists ─── */
+  .preface {
+    margin: 0 0 56px;
+    padding: 34px 0 38px;
+    border-top: 1px solid var(--warm-line);
+    border-bottom: 1px solid var(--warm-line);
+    max-width: 720px;
+  }
+  .preface-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .preface-eyebrow::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.3;
+  }
+  .preface p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.02rem;
+    font-weight: 300;
+    color: var(--paper-dim);
+    line-height: 1.85;
+    margin-bottom: 16px;
+  }
+  .preface p:last-child { margin-bottom: 0; }
+  .preface em { color: var(--paper); font-style: italic; }
+  .preface .seed {
+    color: var(--rose);
+    font-style: italic;
+  }
 
   .title-half h1 {
     font-family: 'Playfair Display', Georgia, serif;
@@ -128,31 +271,42 @@
   }
 
   .h1-main {
-    font-size: clamp(2rem, 3.8vw, 3.2rem);
+    font-size: 2.1rem;
+    font-size: clamp(1.75rem, 11.5cqi, 2.75rem);
+    letter-spacing: -0.022em;
     color: var(--paper);
     display: block;
+    overflow-wrap: break-word;
+    hyphens: auto;
   }
 
   .h1-sub {
-    font-size: clamp(1.1rem, 2vw, 1.55rem);
+    font-size: 1.3rem;
+    font-size: clamp(1.05rem, 6cqi, 1.5rem);
     display: block;
-    margin-top: 10px;
+    margin-top: 12px;
     font-style: italic;
+    letter-spacing: -0.005em;
+    overflow-wrap: break-word;
   }
 
   .h1-sub-cool { color: var(--lavender); }
   .h1-sub-geometry { color: var(--geometry); }
   .h1-sub-warm { color: var(--gold); }
+  .h1-sub-rose { color: var(--rose); }
+  .h1-sub-yi { color: var(--yi); }
 
   .title-half-desc {
-    margin-top: 20px;
+    margin-top: 26px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(255,255,255,0.05);
     font-family: 'Cormorant Garamond', serif;
     font-size: 0.92rem;
     font-weight: 300;
     font-style: italic;
     color: var(--paper-dim);
-    line-height: 1.75;
-    max-width: 340px;
+    line-height: 1.85;
+    max-width: 42ch;
   }
 
   /* super-title above both halves */
@@ -263,6 +417,8 @@
   .section-header-cool { border-color: var(--cool-line); }
   .section-header-geometry { border-color: var(--geometry-line); }
   .section-header-warm { border-color: var(--warm-line); }
+  .section-header-rose { border-color: var(--rose-line); }
+  .section-header-yi { border-color: var(--yi-line); }
 
   .section-title {
     font-family: 'JetBrains Mono', monospace;
@@ -274,6 +430,8 @@
   .section-title-cool { color: var(--lavender); }
   .section-title-geometry { color: var(--geometry); }
   .section-title-warm { color: var(--gold); }
+  .section-title-rose { color: var(--rose); }
+  .section-title-yi { color: var(--yi); }
 
   .section-title-desc {
     font-family: 'Cormorant Garamond', serif;
@@ -362,6 +520,51 @@
   }
   .card-warm:hover::before { opacity: 1; }
 
+  /* rose cards — Reflection & Method */
+  .card-rose {
+    background: #110d0e;
+  }
+  .card-rose:hover {
+    background: #181113;
+  }
+  .card-rose::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--rose-faint) 0%, transparent 55%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .card-rose:hover::before { opacity: 1; }
+
+  /* cinnabar cards — 易, the current investigation */
+  .card-yi {
+    background: #120d0a;
+  }
+  .card-yi:hover {
+    background: #1a120d;
+  }
+  .card-yi::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--yi-faint) 0%, transparent 55%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .card-yi:hover::before { opacity: 1; }
+
+  /* pending cards — documents in preparation */
+  .card-pending {
+    cursor: default;
+  }
+  .card-pending h2,
+  .card-pending p { opacity: 0.6; }
+  .card-pending .card-arrow {
+    border-style: dashed;
+    opacity: 0.35 !important;
+  }
+
   /* accent bar */
   .card-accent {
     position: absolute;
@@ -376,6 +579,8 @@
   .accent-teal     { background: var(--teal); }
   .accent-geometry { background: var(--geometry); }
   .accent-gold     { background: var(--gold); }
+  .accent-rose     { background: var(--rose); }
+  .accent-yi       { background: var(--yi); }
 
   /* card internals */
   .card-number {
@@ -414,6 +619,8 @@
   .tag-teal     { color: var(--teal); }
   .tag-geometry { color: var(--geometry); }
   .tag-gold     { color: var(--gold); }
+  .tag-rose     { color: var(--rose); }
+  .tag-yi       { color: var(--yi); }
 
   .card h2 {
     font-family: 'Playfair Display', Georgia, serif;
@@ -491,6 +698,36 @@
   .card-warm:hover .card-arrow::before { opacity: 0.08; }
   .card-warm:hover .card-arrow .arrow-icon { transform: translateX(3px); }
 
+  /* rose section button */
+  .card-rose .card-arrow { color: var(--rose); opacity: 0.55; }
+  .card-rose:hover .card-arrow { opacity: 1; gap: 14px; }
+  .card-rose:hover .card-arrow::before { opacity: 0.08; }
+  .card-rose:hover .card-arrow .arrow-icon { transform: translateX(3px); }
+
+  /* 易 section button */
+  .card-yi .card-arrow { color: var(--yi); opacity: 0.55; }
+  .card-yi:hover .card-arrow { opacity: 1; gap: 14px; }
+  .card-yi:hover .card-arrow::before { opacity: 0.08; }
+  .card-yi:hover .card-arrow .arrow-icon { transform: translateX(3px); }
+
+  /* reflective caption — what the making revealed */
+  .card-note {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.84rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--ash-light);
+    line-height: 1.6;
+    margin: -12px 0 22px;
+    padding-left: 14px;
+    border-left: 1px solid rgba(255,255,255,0.08);
+  }
+  .card-note::before {
+    content: '⟡ ';
+    font-style: normal;
+    opacity: 0.6;
+  }
+
   /* card body needs flex column so button sits at bottom */
   .card:not(.featured) {
     display: flex;
@@ -539,6 +776,69 @@
     color: var(--paper-dim);
   }
 
+  /* ─── SEQUENCE RAIL — 易 reads in order ─── */
+  .sequence-note {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 14px;
+    padding: 22px 0 26px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ash);
+  }
+  .sequence-note .seq-lead {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    font-style: italic;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--paper-dim);
+  }
+  .seq-step {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--yi);
+    opacity: 0.62;
+    text-decoration: none;
+    padding: 5px 9px;
+    border: 1px solid var(--yi-line);
+    border-radius: 2px;
+    transition: opacity 0.2s, border-color 0.2s;
+  }
+  .seq-step:hover { opacity: 1; border-color: var(--yi); }
+  .seq-step .seq-glyph {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    letter-spacing: 0;
+  }
+  .seq-arrow { color: var(--yi-dim); opacity: 0.7; }
+
+  /* 易 cards number with their own glyphs, not archive indices */
+  .card-yi .card-number {
+    color: var(--yi);
+    opacity: 0.7;
+    font-size: 10px;
+  }
+  .card-yi .card-number .num-glyph {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    letter-spacing: 0;
+    line-height: 1;
+  }
+
+  .status-line {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--yi-dim);
+    margin: -8px 0 20px;
+  }
+
   /* ─── FOOTER ─── */
   footer {
     max-width: 1100px;
@@ -576,6 +876,8 @@
   .section:nth-child(1) { animation: fadeUp 0.7s 0.15s ease both; }
   .section:nth-child(2) { animation: fadeUp 0.7s 0.3s  ease both; }
   .section:nth-child(3) { animation: fadeUp 0.7s 0.45s ease both; }
+  .section:nth-child(4) { animation: fadeUp 0.7s 0.6s  ease both; }
+  .section:nth-child(5) { animation: fadeUp 0.7s 0.75s ease both; }
 
   /* ─── RESPONSIVE ─── */
   @media (max-width: 760px) {
@@ -584,7 +886,7 @@
 
     .title-block {
       grid-template-columns: 1fr;
-      gap: 32px 0;
+      gap: 40px 0;
     }
     .title-divider { display: none; }
 
@@ -606,7 +908,7 @@
 
 <header>
   <div class="header-rule"></div>
-  <div class="header-eyebrow">United Design Practice · Interactive Collection</div>
+  <div class="header-eyebrow">linwei · an interactive archive · research as speculative play</div>
 
   <div class="super-row">
     <span class="super-title-preface">The</span>
@@ -680,42 +982,69 @@
     </svg>
 
     <div class="super-title-rule"></div>
-    <div class="super-sub">A visual learning archive where design, mathematics, geometry, speculative thought, and AI meet. A journey of learning by making — turning abstractions into interactive forms, and using computation as a companion for deeper inquiry.</div>
+    <div class="super-sub">A visual learning archive where design, mathematics, geometry, speculative thought and AI meet — a record of learning by making. Abstractions are given forms that can be turned, tested and broken; computation is treated as a companion for inquiry rather than an oracle.</div>
+  </div>
+
+  <div class="preface">
+    <div class="preface-eyebrow">Why this archive exists</div>
+    <p>Every document here began as something not understood. Rather than reading a way toward comprehension, the method is to build: an abstraction is given a body that can be turned, tested and broken, and the understanding arrives through the handling. <em>What accumulates is not a shelf of explanations but a set of instruments.</em></p>
+    <p>The register is closer to art than to engineering — research as speculative play. Nothing here is trying to become a product. The questions are chosen because they are strange enough to be worth living inside for a while: what mathematics other civilisations might have grown, what shapes know that proofs do not, and what a three-thousand-year-old book about change would look like if it could actually move.</p>
+    <p>The work is published while still in motion. <em>易 iching — a working model of change</em> is the current strand, and its retractions and unresolved questions are left visible on purpose; an archive about learning should show the edge as the edge actually looks.</p>
+  </div>
+
+  <div class="title-lead">
+    <div class="title-half-label label-yi"><span class="title-index">NOW</span>易 iching — Current Investigation</div>
+    <h1>
+      <span class="h1-main">易 iching</span>
+      <span class="h1-sub h1-sub-yi">A working model of change.</span>
+    </h1>
+    <p class="title-lead-desc">A three-thousand-year-old notation for change, held perfectly still by everything built on it since — given back its motion. Six lines become six continuous numbers, 五行 wuxing, the five phases, becomes a field of forces, and the sixty-four are hunted across one body after another until a form appears that was not chosen but forced. Seven documents, still moving.</p>
+    <a class="lead-link" href="#yi"><span>Enter the sequence</span><span class="arrow-icon">»»</span></a>
   </div>
 
   <div class="title-block">
-    <div class="title-half">
-      <div class="title-half-label label-cool">I — Representation</div>
+    <div class="title-half tint-warm">
+      <div class="title-half-label label-warm"><span class="title-index">01 / 04</span>I — Speculative &amp; Play</div>
       <h1>
-        <span class="h1-main">Representation</span>
-        <span class="h1-sub h1-sub-cool">Structure, model, proof.</span>
+        <span class="h1-main">Speculative &amp; Play</span>
+        <span class="h1-sub h1-sub-warm">Alternative, plural, strategic.</span>
       </h1>
-      <p class="title-half-desc">Documents grounded in formal mathematics — topology, modelling, epistemology, and the logic of high-dimensional thought.</p>
+      <p class="title-half-desc">Epistemic plurality in practice — what mathematics becomes when grown from other civilisations, other minds, other games. 算學, Daoist relationality, xenomathematics.</p>
+      <a class="enter-link enter-warm" href="#speculative"><span>Enter the collection</span><span class="arrow-icon">»»</span></a>
     </div>
-
-    <div class="title-half">
-      <div class="title-half-label label-geometry">II — Geometry</div>
+    <div class="title-half tint-geometry">
+      <div class="title-half-label label-geometry"><span class="title-index">02 / 04</span>II — Geometry</div>
       <h1>
         <span class="h1-main">Geometry</span>
         <span class="h1-sub h1-sub-geometry">Pattern, surface, growth.</span>
       </h1>
-      <p class="title-half-desc">Interactive geometric instruments for spatial partition, aperiodic order, minimal surfaces, and biological growth logics.</p>
+      <p class="title-half-desc">Instruments for thinking-through-making — spatial intuition as a mode of understanding surface, growth, territory, and order.</p>
+      <a class="enter-link enter-geometry" href="#geometry"><span>Enter the collection</span><span class="arrow-icon">»»</span></a>
     </div>
-
-    <div class="title-half">
-      <div class="title-half-label label-warm">III — Exploratory</div>
+    <div class="title-half tint-cool">
+      <div class="title-half-label label-cool"><span class="title-index">03 / 04</span>III — Representation</div>
       <h1>
-        <span class="h1-main">Speculative &amp; Play</span>
-        <span class="h1-sub h1-sub-warm">Alternative, alien, strategic.</span>
+        <span class="h1-main">Representation</span>
+        <span class="h1-sub h1-sub-cool">Structure, model, proof.</span>
       </h1>
-      <p class="title-half-desc">Documents that ask what mathematics could have been, or might be — in other civilisations, other minds, other games.</p>
+      <p class="title-half-desc">How formal ideas become learnable when given interactive form — topology, modelling, and the logic of high-dimensional thought, made walkable.</p>
+      <a class="enter-link enter-cool" href="#representation"><span>Enter the collection</span><span class="arrow-icon">»»</span></a>
+    </div>
+    <div class="title-half tint-rose">
+      <div class="title-half-label label-rose"><span class="title-index">04 / 04</span>IV — Reflection &amp; Method</div>
+      <h1>
+        <span class="h1-main">Reflection &amp; Method</span>
+        <span class="h1-sub h1-sub-rose">Condition, encounter, trace.</span>
+      </h1>
+      <p class="title-half-desc">Documents that study the studying — reflection as a relational, designed condition; the limits of formal self-knowledge; the learner as a system observing itself.</p>
+      <a class="enter-link enter-rose" href="#reflection"><span>Enter the collection</span><span class="arrow-icon">»»</span></a>
     </div>
   </div>
 
   <div class="header-meta">
-    <span class="meta-item">13 documents</span>
+    <span class="meta-item">23 documents</span>
     <div class="meta-divider"></div>
-    <span class="meta-item">3 collections</span>
+    <span class="meta-item">5 collections</span>
     <div class="meta-divider"></div>
     <span class="meta-item">Self-contained HTML</span>
     <div class="meta-divider"></div>
@@ -725,70 +1054,188 @@
 
 <main>
 
-  <!-- ═══ SECTION I: RIGOROUS ═══ -->
-  <div class="section">
-    <div class="section-header section-header-cool">
-      <span class="section-title section-title-cool">I — Representation</span>
-      <span class="section-title-desc">rigorous · formal · structural</span>
-      <span class="section-count">04 documents</span>
+  <!-- ═══ SECTION 易: CURRENT INVESTIGATION ═══ -->
+  <div class="section" id="yi">
+    <div class="section-header section-header-yi">
+      <span class="section-title section-title-yi">易 iching — Current Investigation</span>
+      <span class="section-title-desc">a working model of change · state space, motion, forces, instrument, two bodies</span>
+      <span class="section-count">07 documents · in progress</span>
+    </div>
+
+    <div class="sequence-note">
+      <span class="seq-lead">This one reads in order —</span>
+      <a class="seq-step" href="yi-1-state-space.html"><span class="seq-glyph">一</span> state space</a>
+      <span class="seq-arrow">→</span>
+      <a class="seq-step" href="yi-2-motion.html"><span class="seq-glyph">二</span> motion</a>
+      <span class="seq-arrow">→</span>
+      <a class="seq-step" href="yi-3-forces.html"><span class="seq-glyph">三</span> forces</a>
+      <span class="seq-arrow">→</span>
+      <a class="seq-step" href="yi-4-instrument.html"><span class="seq-glyph">四</span> instrument</a>
+      <span class="seq-arrow">→</span>
+      <a class="seq-step" href="yi-5-lantern.html"><span class="seq-glyph">灯</span> lantern</a>
+      <span class="seq-arrow">→</span>
+      <a class="seq-step" href="yi-6-loom.html"><span class="seq-glyph">織</span> loom</a>
     </div>
 
     <div class="grid">
 
-      <!-- Featured: Calabi–Yau -->
-      <a class="card featured card-cool" href="calabi_yau_fixed_final_with_interactives.html">
-        <div class="card-accent accent-lavender"></div>
+      <!-- Featured: Part One -->
+      <a class="card featured card-yi" href="yi-1-state-space.html">
+        <div class="card-accent accent-yi"></div>
         <div class="featured-left">
-          <div class="card-number">01</div>
-          <div class="card-tag tag-lavender">Geometry · Topology</div>
-          <h2>From Everyday Geometry<br>to Calabi–Yau Manifolds</h2>
-          <p>A guided ascent from the triangles of childhood to the six-dimensional shapes at the heart of string theory — rendered interactive at every step.</p>
-          <div class="card-arrow"><span>Open document</span><span class="arrow-icon">→</span></div>
+          <div class="card-number"><span class="num-glyph">一</span> PART ONE</div>
+          <div class="card-tag tag-yi">易 iching · State Space</div>
+          <h2>From One Line<br>to Two Cubes</h2>
+          <p>The I Ching calls itself a book about change, then holds itself perfectly still. Part One gives the notation back its motion: a 爻 yao — one line of the six — becomes a dial rather than a switch, six lines become six continuous numbers, and the sixty-four become sign-regions of a six-dimensional cube — drawn honestly as two cubes rather than nested boxes.</p>
+          <div class="card-note">The tradition already knew what its notation could not hold — that is what 变爻 <i>bianyao</i>, the changing line, is for. Building the space showed the gap to be structural rather than mystical.</div>
+          <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
         </div>
         <div class="featured-divider"></div>
         <div class="featured-right">
-          <div class="featured-detail"><strong>Topics</strong><br>Gaussian curvature · Riemann surfaces · Kähler geometry · Holonomy groups · Yau's theorem</div>
-          <div class="featured-detail"><strong>Format</strong><br>WebGL canvas · Interactive modules · Proof walkthroughs</div>
-          <div class="featured-detail"><strong>Start here</strong><br>Establishes the geometric intuitions that run through the whole collection.</div>
+          <div class="featured-detail"><strong>Core move</strong><br>Read the configuration, attend to the transformation, situate the reading — taken literally, as arithmetic.</div>
+          <div class="featured-detail"><strong>Topics</strong><br>爻 as dial · Q₆ state space · trigram as octant · why two cubes and not one nested figure</div>
+          <div class="featured-detail"><strong>Start here</strong><br>Everything the later parts use is built in this one, from nothing.</div>
         </div>
       </a>
 
-      <!-- Mathematical Modelling -->
-      <a class="card card-cool" href="mathematical_modelling_notes_dark.html">
-        <div class="card-accent accent-teal"></div>
-        <div class="card-number">02</div>
-        <div class="card-tag tag-teal">Modelling · Applied</div>
-        <h2>Mathematical Modelling Course Notes</h2>
-        <p>A dense, annotated companion covering the formal mechanics of building mathematical models of the physical world.</p>
-        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">→</span></div>
+      <!-- Part Two -->
+      <a class="card card-yi" href="yi-2-motion.html">
+        <div class="card-accent accent-yi"></div>
+        <div class="card-number"><span class="num-glyph">二</span> PART TWO</div>
+        <div class="card-tag tag-yi">易 iching · Kinematics</div>
+        <h2>Making It Move</h2>
+        <p>Give each of the six numbers a velocity, and three things become sayable that the classical glyph cannot: which line turns next, in how long, and whether you are arriving or leaving.</p>
+        <div class="card-note">This part is kinematics only, and says so. Naming what a model does not yet explain turned out to be the move that made the next part possible.</div>
+        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
       </a>
 
-      <!-- Problems as Projections -->
-      <a class="card card-cool" href="higher_dimensional_epistemology_redesigned.html">
-        <div class="card-accent accent-lavender"></div>
-        <div class="card-number">03</div>
-        <div class="card-tag tag-lavender">Epistemology · Cognition</div>
-        <h2>Problems as Projections</h2>
-        <p>Higher-dimensional epistemology — every problem we perceive is a shadow cast by a structure we cannot directly see.</p>
-        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">→</span></div>
+      <!-- Part Three -->
+      <a class="card card-yi" href="yi-3-forces.html">
+        <div class="card-accent accent-yi"></div>
+        <div class="card-number"><span class="num-glyph">三</span> PART THREE</div>
+        <div class="card-tag tag-yi">易 iching · Dynamics · 五行</div>
+        <h2>What Moves It</h2>
+        <p>五行 wuxing — the five phases — read as five verbs rather than five substances — store, branch, amplify, couple, prune — becomes a vector field over the whole space. The situation itself is also moving.</p>
+        <div class="card-note">Eight counts configurations; five counts transformations. Nobody asks a map's legend to have as many entries as its compass rose.</div>
+        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
       </a>
 
-      <!-- Catalan Face Explorer -->
-      <a class="card card-cool" href="catalan_angle_explorer.html">
-        <div class="card-accent accent-teal"></div>
-        <div class="card-number">04</div>
-        <div class="card-tag tag-teal">Combinatorics · Geometry</div>
-        <h2>Catalan Face Explorer</h2>
-        <p>An interactive navigator of the pentagonal hexecontahedron — moving through Catalan solids via angle relationships and symmetry groups.</p>
-        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">→</span></div>
+      <!-- Part Four -->
+      <a class="card card-yi" href="yi-4-instrument.html">
+        <div class="card-accent accent-yi"></div>
+        <div class="card-number"><span class="num-glyph">四</span> PART FOUR · v0.8</div>
+        <div class="card-tag tag-yi">易 iching · Instrument · Double Cube</div>
+        <h2>The Instrument<br>易，真正动起来</h2>
+        <p>The working instrument. Bounded dynamics, a self-turning mix of the five phases, an inverse solver over all sixty-four, per-爻 timescales, a moving external field (后天 houtian, the situation itself), and a measured reach-versus-foresight frontier.</p>
+        <div class="status-line">Two of its own claims retracted in this pass</div>
+        <div class="card-note">The retraction is the instrument working, not the instrument failing. This is where the double cube earns its keep as an argument rather than a picture.</div>
+        <div class="card-arrow"><span>Open instrument</span><span class="arrow-icon">»»</span></div>
+      </a>
+
+      <!-- Lantern -->
+      <a class="card card-yi" href="yi-5-lantern.html">
+        <div class="card-accent accent-yi"></div>
+        <div class="card-number"><span class="num-glyph">灯</span> DĒNG · LANTERN</div>
+        <div class="card-tag tag-yi">易 iching · One Body · 灯</div>
+        <h2>The Lantern — One Body</h2>
+        <p>Sixty-four beads on a single closed curve. Height is the yang count: 坤 kun (all yin) a point at the base, 乾 qian (all yang) a point at the apex, and the twenty balanced hexagrams as the widest ring at the equator.</p>
+        <div class="card-note">Four candidates were counted before anything was drawn. Two died on collisions — beauty has to survive a count.</div>
+        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
+      </a>
+
+      <!-- Lantern: the thinking -->
+      <a class="card card-yi" href="yi-lantern-thinking.html">
+        <div class="card-accent accent-yi"></div>
+        <div class="card-number"><span class="num-glyph">灯</span> LANTERN · COMPANION</div>
+        <div class="card-tag tag-yi">易 iching · Method · Reflection</div>
+        <h2>How the Lantern<br>Was Arrived At</h2>
+        <p>The reasoning behind the form. Five bodies tried and rejected; a shape that was not designed at all but fell out of two facts about the number sixty-four and a parity argument that makes its weave compulsory.</p>
+        <div class="card-note">The objection was that it was ugly. The ugliness was carrying information — the eye had noticed a structural lie before the argument could.</div>
+        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
+      </a>
+
+      <!-- Featured: The Loom -->
+      <a class="card featured card-yi" href="yi-6-loom.html">
+        <div class="card-accent accent-yi"></div>
+        <div class="featured-left">
+          <div class="card-number"><span class="num-glyph">織</span> ZHĪ · LOOM · NEWEST</div>
+          <div class="card-tag tag-yi">易 iching · The Loom · 織</div>
+          <h2>The Sixty-Four<br>on a Torus</h2>
+          <p>A torus has two independent circulations, and each trigram is a closed ring of eight — so the split that once forced two bodies becomes two ways of going around one. The thread was expected to become a knot. It becomes a shuttle: the lower trigram advances once around and never reverses while the upper runs back and forth across it, seven passes to every advance. The torus is not a doughnut. It is a loom.</p>
+          <div class="status-line">In progress · the surface is settled, the ordering is still the open choice</div>
+          <div class="card-note">灯 <i>dēng</i> the lantern for the distribution, 織 <i>zhī</i> the loom for the structure — the first pair in this hunt that are not rival solids, but one surface and one section through it.</div>
+          <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
+        </div>
+        <div class="featured-divider"></div>
+        <div class="featured-right">
+          <div class="featured-detail"><strong>Computed, not asserted</strong><br>A closed Gray ring with unit steps at all eight transitions · the 8 × 8 map bijective over all sixty-four · three neighbours along each circulation at ±1 and one chord at ±3, zero exceptions · winding class (1, 0).</div>
+          <div class="featured-detail"><strong>Still open</strong><br>Whether the ±3 chord placement is forced for every Hamiltonian cycle on the cube graph — and whether some other circuit gives a cleaner cascade than 2, 2, 4, 8, 16, 32.</div>
+          <div class="featured-detail"><strong>Why it is here unfinished</strong><br>An archive about learning should show the edge as it actually looks. This is the edge.</div>
+        </div>
       </a>
 
     </div>
   </div>
 
+  <!-- ═══ SECTION I: SPECULATIVE & PLAY ═══ -->
+  <div class="section" id="speculative">
+    <div class="section-header section-header-warm">
+      <span class="section-title section-title-warm">I — Speculative &amp; Play</span>
+      <span class="section-title-desc">alternative · plural · strategic</span>
+      <span class="section-count">04 documents</span>
+    </div>
+
+    <div class="grid">
+
+      <!-- 算學 Alternative -->
+      <a class="card card-warm" href="chinese-math-reimagined.html">
+        <div class="card-accent accent-gold"></div>
+        <div class="card-number">01</div>
+        <div class="card-tag tag-gold">算學 · Alternative Histories</div>
+        <h2>算學 — An Alternative Mathematics</h2>
+        <p>What if mathematics had grown from the abacus, not the axiom? A speculative reconstruction of a Chinese-rooted formal tradition.</p>
+        <div class="card-note">Rebuilding mathematics from another civilisation loosens any certainty about which parts of knowledge are necessary — and which are merely inherited.</div>
+        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
+      </a>
+
+      <!-- Ramanujan × 算學 -->
+      <a class="card card-warm" href="ramanujan-suanxue-integrated.html">
+        <div class="card-accent accent-gold"></div>
+        <div class="card-number">02</div>
+        <div class="card-tag tag-gold">History · Epistemology</div>
+        <h2>Ramanujan × 算學 — The Transformation Engine</h2>
+        <p>The goddess-given intuitions of Ramanujan meet the relational calculus of classical Chinese mathematics — two traditions placed in generative dialogue.</p>
+        <div class="card-note">Two ways of knowing refused to merge; the dialogue itself became the finding.</div>
+        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
+      </a>
+
+      <!-- Xenomathematics -->
+      <a class="card card-warm" href="alien-math-fixed.html">
+        <div class="card-accent accent-gold"></div>
+        <div class="card-number">03</div>
+        <div class="card-tag tag-gold">Xenomathematics</div>
+        <h2>Xenomathematics</h2>
+        <p>If cognition shapes formal systems, what mathematics might non-human minds arrive at? An inquiry into the deep contingency of our notation.</p>
+        <div class="card-note">Imagining alien notation is really a mirror — it reveals the contingency of one's own mind.</div>
+        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
+      </a>
+
+      <!-- Von Neumann × Sun Tzu -->
+      <a class="card card-warm" href="neumann-suntzu-live-fixed.html">
+        <div class="card-accent accent-gold"></div>
+        <div class="card-number">04</div>
+        <div class="card-tag tag-gold">Game Theory · Strategy</div>
+        <h2>Von Neumann × Sun Tzu</h2>
+        <p>A living seminar: the architect of game theory in conversation with the oldest strategic treatise — finding formal structure beneath the art of war.</p>
+        <div class="card-note">Placing formalism beside the art of war shows where models end and judgement begins.</div>
+        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
+      </a>
+
+    </div>
+  </div>
 
   <!-- ═══ SECTION II: GEOMETRY ═══ -->
-  <div class="section">
+  <div class="section" id="geometry">
     <div class="section-header section-header-geometry">
       <span class="section-title section-title-geometry">II — Geometry</span>
       <span class="section-title-desc">surface · growth · tiling · spatial logic</span>
@@ -805,7 +1252,8 @@
           <div class="card-tag tag-geometry">Minimal Surface · Topology</div>
           <h2>Gyroid Explorer</h2>
           <p>A triply periodic minimal surface rendered as an interactive spatial instrument — where curvature, channels, and material logic become visible.</p>
-          <div class="card-arrow"><span>Open document</span><span class="arrow-icon">→</span></div>
+          <div class="card-note">A surface specified in practice for years — understood only once it could be walked inside mathematically.</div>
+          <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
         </div>
         <div class="featured-divider"></div>
         <div class="featured-right">
@@ -822,7 +1270,8 @@
         <div class="card-tag tag-geometry">Growth · Spiral Order</div>
         <h2>Phyllotaxis</h2>
         <p>A golden-angle growth study: how simple angular recurrence produces botanical density, spiral families, and emergent natural order.</p>
-        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">→</span></div>
+        <div class="card-note">Order emerging from one repeated angle teaches patience with processes that look like chaos early.</div>
+        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
       </a>
 
       <!-- Voronoi Gallery -->
@@ -832,7 +1281,8 @@
         <div class="card-tag tag-geometry">Partition · Territory</div>
         <h2>Voronoi · A Geometry Gallery</h2>
         <p>Five variations on one geometric question: which seed owns each point in space? A gallery of Delaunay, power, Manhattan, Apollonius, and spherical logics.</p>
-        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">→</span></div>
+        <div class="card-note">Five logics of territory — a quiet lesson in how the rule chosen decides what fairness looks like.</div>
+        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
       </a>
 
       <!-- 3D Phyllotaxis -->
@@ -842,7 +1292,8 @@
         <div class="card-tag tag-geometry">3D Growth · Morphogenesis</div>
         <h2>3D Phyllotaxis — Growth Instrument</h2>
         <p>A spatial extension of botanical phyllotaxis, turning spiral recurrence into a manipulable 3D growth field and sculptural mathematical object.</p>
-        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">→</span></div>
+        <div class="card-note">Extending a pattern into space shows how quickly intuition fails — and how making restores it.</div>
+        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
       </a>
 
       <!-- Penrose Tiling -->
@@ -852,60 +1303,120 @@
         <div class="card-tag tag-geometry">Aperiodic Order</div>
         <h2>Penrose Tiling</h2>
         <p>An exploration of order without repetition — golden-ratio geometry, inflation rules, local constraints, and the strange discipline of non-periodic beauty.</p>
-        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">→</span></div>
+        <div class="card-note">Order without repetition, held by local constraint — the closest geometry comes to describing a life.</div>
+        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
       </a>
 
     </div>
   </div>
 
-  <!-- ═══ SECTION III: EXPLORATORY ═══ -->
-  <div class="section">
-    <div class="section-header section-header-warm">
-      <span class="section-title section-title-warm">III — Speculative &amp; Play</span>
-      <span class="section-title-desc">alternative · alien · strategic</span>
+  <!-- ═══ SECTION III: REPRESENTATION ═══ -->
+  <div class="section" id="representation">
+    <div class="section-header section-header-cool">
+      <span class="section-title section-title-cool">III — Representation</span>
+      <span class="section-title-desc">rigorous · formal · structural</span>
       <span class="section-count">04 documents</span>
     </div>
 
     <div class="grid">
 
-      <!-- Ramanujan × 算學 -->
-      <a class="card card-warm" href="ramanujan-suanxue-integrated.html">
-        <div class="card-accent accent-gold"></div>
-        <div class="card-number">10</div>
-        <div class="card-tag tag-gold">History · Epistemology</div>
-        <h2>Ramanujan × 算學 — The Transformation Engine</h2>
-        <p>The goddess-given intuitions of Ramanujan meet the relational calculus of classical Chinese mathematics — two traditions placed in generative dialogue.</p>
-        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">→</span></div>
+      <!-- Featured: Calabi–Yau -->
+      <a class="card featured card-cool" href="calabi_yau_fixed_final_with_interactives.html">
+        <div class="card-accent accent-lavender"></div>
+        <div class="featured-left">
+          <div class="card-number">10</div>
+          <div class="card-tag tag-lavender">Geometry · Topology</div>
+          <h2>From Everyday Geometry<br>to Calabi–Yau Manifolds</h2>
+          <p>A guided ascent from the triangles of childhood to the six-dimensional shapes at the heart of string theory — rendered interactive at every step.</p>
+          <div class="card-note">Difficulty dissolves when an idea is given a form the hand can turn.</div>
+          <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
+        </div>
+        <div class="featured-divider"></div>
+        <div class="featured-right">
+          <div class="featured-detail"><strong>Topics</strong><br>Gaussian curvature · Riemann surfaces · Kähler geometry · Holonomy groups · Yau's theorem</div>
+          <div class="featured-detail"><strong>Format</strong><br>WebGL canvas · Interactive modules · Proof walkthroughs</div>
+          <div class="featured-detail"><strong>Start here</strong><br>Establishes the geometric intuitions that run through the whole collection.</div>
+        </div>
       </a>
 
-      <!-- 算學 Alternative -->
-      <a class="card card-warm" href="chinese-math-reimagined.html">
-        <div class="card-accent accent-gold"></div>
+      <!-- Mathematical Modelling -->
+      <a class="card card-cool" href="mathematical_modelling_notes_dark.html">
+        <div class="card-accent accent-teal"></div>
         <div class="card-number">11</div>
-        <div class="card-tag tag-gold">算學 · Alternative Histories</div>
-        <h2>算學 — An Alternative Mathematics</h2>
-        <p>What if mathematics had grown from the abacus, not the axiom? A speculative reconstruction of a Chinese-rooted formal tradition.</p>
-        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">→</span></div>
+        <div class="card-tag tag-teal">Modelling · Applied</div>
+        <h2>Mathematical Modelling Course Notes</h2>
+        <p>A dense, annotated companion covering the formal mechanics of building mathematical models of the physical world.</p>
+        <div class="card-note">Annotating a course exposes where understanding is borrowed rather than owned.</div>
+        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
       </a>
 
-      <!-- Xenomathematics -->
-      <a class="card card-warm" href="alien-math-fixed.html">
-        <div class="card-accent accent-gold"></div>
+      <!-- Problems as Projections -->
+      <a class="card card-cool" href="higher_dimensional_epistemology_redesigned.html">
+        <div class="card-accent accent-lavender"></div>
         <div class="card-number">12</div>
-        <div class="card-tag tag-gold">Xenomathematics</div>
-        <h2>Xenomathematics</h2>
-        <p>If cognition shapes formal systems, what mathematics might non-human minds arrive at? An inquiry into the deep contingency of our notation.</p>
-        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">→</span></div>
+        <div class="card-tag tag-lavender">Epistemology · Cognition</div>
+        <h2>Problems as Projections</h2>
+        <p>Higher-dimensional epistemology — every problem we perceive is a shadow cast by a structure we cannot directly see.</p>
+        <div class="card-note">It changed how this practice listens: most stated problems are shadows of unstated ones.</div>
+        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
       </a>
 
-      <!-- Von Neumann × Sun Tzu -->
-      <a class="card card-warm" href="neumann-suntzu-live-fixed.html">
-        <div class="card-accent accent-gold"></div>
+      <!-- Catalan Face Explorer -->
+      <a class="card card-cool" href="catalan_angle_explorer.html">
+        <div class="card-accent accent-teal"></div>
         <div class="card-number">13</div>
-        <div class="card-tag tag-gold">Game Theory · Strategy</div>
-        <h2>Von Neumann × Sun Tzu</h2>
-        <p>A living seminar: the architect of game theory in conversation with the oldest strategic treatise — finding formal structure beneath the art of war.</p>
-        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">→</span></div>
+        <div class="card-tag tag-teal">Combinatorics · Geometry</div>
+        <h2>Catalan Face Explorer</h2>
+        <p>An interactive navigator of the pentagonal hexecontahedron — moving through Catalan solids via angle relationships and symmetry groups.</p>
+        <div class="card-note">Built to answer one small question; the interface then revealed the questions that could not yet be asked.</div>
+        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
+      </a>
+
+    </div>
+  </div>
+
+
+  <!-- ═══ SECTION IV: REFLECTION & METHOD ═══ -->
+  <div class="section" id="reflection">
+    <div class="section-header section-header-rose">
+      <span class="section-title section-title-rose">IV — Reflection &amp; Method</span>
+      <span class="section-title-desc">condition · encounter · trace</span>
+      <span class="section-count">03 open documents</span>
+    </div>
+
+    <div class="grid">
+
+      <!-- Reflection as Relational State Shift -->
+      <a href="node%2001%20reflection_relational_state_shift.html" class="card card-rose">
+        <div class="card-accent accent-rose"></div>
+        <div class="card-number">14</div>
+        <div class="card-tag tag-rose">Reflection · Design Theory</div>
+        <h2>Reflection as Relational State Shift</h2>
+        <p>A design-theoretic account of reflection — not as private introspection, but as a shift of state that emerges between person, artefact, place, and situation.</p>
+        <div class="card-note">Written to understand the consultation itself — why the room, the object and the pause matter as much as the question.</div>
+        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
+      </a>
+
+      <!-- The Cathedral, the Mirror & the Machine -->
+      <a href="node%2003%20Cathedral%20Mirror%20and%20Machine.html" class="card card-rose">
+        <div class="card-accent accent-rose"></div>
+        <div class="card-number">15</div>
+        <div class="card-tag tag-rose">Formal Epistemology</div>
+        <h2>The Cathedral, the Mirror &amp; the Machine</h2>
+        <p>Hilbert, Gödel, Turing: what formal systems can and cannot know about themselves — and what those limits mean for anyone designing tools for human reflection.</p>
+        <div class="card-note">The limits of formal self-knowledge turn out to be an argument for human-led meaning-making.</div>
+        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
+      </a>
+
+      <!-- Cybernetics notes -->
+      <a href="node%2002%20cybernetics-second-order-janghee.html" class="card card-rose">
+        <div class="card-accent accent-rose"></div>
+        <div class="card-number">16</div>
+        <div class="card-tag tag-rose">Cybernetics · Second Order</div>
+        <h2>Steering &amp; Listening — Notes on Cybernetics</h2>
+        <p>Feedback, observation, and second-order systems: the learner understood as a system that studies itself, and the teacher as part of the loop.</p>
+        <div class="card-note">Second-order cybernetics supplies formal language for what teaching had already shown.</div>
+        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
       </a>
 
     </div>
@@ -914,10 +1425,10 @@
 </main>
 
 <footer>
-  <div class="footer-mark">United Design Practice</div>
+  <div class="footer-mark">linwei</div>
   <div class="footer-note">
-    <span>Mathematical opacity is a property</span><br>
-    <span>of notation — geometry makes it visible.</span>
+    <span>linwei · with Claude and ChatGPT, light touches of DeepSeek</span><br>
+    <span>Mathematical opacity is a property of notation — geometry makes it visible.</span>
   </div>
 </footer>
 

@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>易 Yi · Part One — From One Line to Two Cubes</title>
+<script>try{document.documentElement.classList.add("js");}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..800,0..100,0..1;1,9..144,300..800,0..100,0..1&family=Newsreader:opsz,wght@6..72,200..700&family=Space+Mono:wght@400;700&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<style>
+/* ═══ BLACK IRIS · light only ══════════════════════════════════════
+   Part One of the 易 sequence. Everything here is pedagogy: no claim
+   appears before the reader has the object it is a claim about.
+   ══════════════════════════════════════════════════════════════════ */
+:root{
+  --paper:#FCFAF7; --paper2:#F8F0EA; --paper3:#F0E2D9;
+  --ink:#2C1D17; --iris:#5B2A1B; --iris-mid:#8A4530; --lilac:#A89087;
+  --brass:#9A7226; --teal:#2F6B72; --alarm:#9B3242;
+  --rule:#DFCEC5; --rule-soft:#EFE2DA;
+  --shadow:0 18px 44px rgba(60,28,20,.08);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Newsreader",Georgia,"Noto Serif SC",serif;font-size:18px;line-height:1.66;overflow-x:hidden}
+:focus-visible{outline:2px solid var(--iris-mid);outline-offset:3px}
+.wrap{width:min(1120px,calc(100% - 34px));margin-inline:auto}
+.col{max-width:68ch}
+.mono,.kicker,.badge,.cap,.step,.val,.tag,button{font-family:"Space Mono",ui-monospace,Menlo,monospace}
+.kicker{font-size:.66rem;letter-spacing:.19em;text-transform:uppercase;color:var(--iris-mid)}
+.cap{font-size:.78rem;line-height:1.55;color:var(--iris-mid)}
+
+/* ── cover ── */
+.cover{position:relative;color:#F8EDE7;overflow:hidden;
+  padding:clamp(46px,8vw,110px) 0 clamp(38px,5vw,72px);
+  background:radial-gradient(115% 95% at 78% 8%,#A6553A 0,transparent 58%),
+             radial-gradient(90% 80% at 8% 92%,#38150D 0,transparent 62%),
+             linear-gradient(166deg,#5A2416,#34140C 62%,#200D08)}
+.cover::after{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:soft-light;opacity:.6;
+  background:radial-gradient(120% 100% at 50% 40%,transparent 42%,rgba(20,8,5,.5) 100%),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
+.cover .wrap{position:relative;z-index:2}
+.cover .kicker{color:#EFC0A6}
+.rules{border-top:1px solid rgba(248,237,231,.45);border-bottom:1px solid rgba(248,237,231,.45);height:5px;margin:16px 0 26px}
+h1{font-family:"Fraunces","Noto Serif SC",serif;font-weight:600;font-variation-settings:"SOFT" 40,"WONK" 1;
+  font-size:clamp(2.7rem,9vw,6.6rem);line-height:.9;letter-spacing:-.032em;margin:0}
+h1 .en{display:block;font-size:clamp(1rem,2.3vw,1.65rem);font-weight:400;font-style:italic;
+  margin-top:.6em;color:#F0D4C3;font-variation-settings:"WONK" 0;letter-spacing:0}
+.deck{font-size:clamp(1.06rem,1.9vw,1.4rem);line-height:1.5;max-width:48ch;margin:26px 0 0;color:#F9EBE3}
+.deck b{color:#fff;font-weight:600}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:30px}
+.badge{font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;padding:6px 10px;
+  border:1px solid var(--rule);color:var(--iris);background:#fff}
+.cover .badge{border-color:rgba(248,237,231,.5);color:#F5DFD2;background:transparent}
+.cover .badge.now{background:#F8EDE7;color:#34140C;border-color:#F8EDE7}
+
+/* ── sections ── */
+section{padding:clamp(52px,7vw,104px) 0;border-top:1px solid var(--rule-soft)}
+.head{display:grid;grid-template-columns:158px 1fr;gap:clamp(14px,3vw,32px);align-items:start;margin-bottom:34px}
+.head .step{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--lilac);line-height:1.9}
+.head .step b{display:block;color:var(--iris);font-weight:700}
+h2{font-family:"Fraunces","Noto Serif SC",serif;font-weight:500;font-variation-settings:"SOFT" 30,"WONK" 1;
+  font-size:clamp(1.85rem,4.4vw,3.3rem);line-height:1.03;letter-spacing:-.025em;margin:0;color:var(--iris);max-width:25ch}
+h3{font-family:"Fraunces",serif;font-weight:600;font-size:1.1rem;margin:0 0 .45em;color:var(--iris)}
+p{margin:0 0 1.05em;max-width:68ch}
+.lead::first-letter{float:left;font-family:"Fraunces",serif;font-weight:600;font-size:3.4em;line-height:.82;
+  margin:.06em .1em 0 0;color:var(--iris)}
+.big{font-size:clamp(1.15rem,2.2vw,1.5rem);line-height:1.44;max-width:40ch;letter-spacing:-.01em}
+.hl{background:linear-gradient(180deg,transparent 58%,#CFE9E4 58%,#CFE9E4 92%,transparent 92%)}
+.pull{border-left:2px solid var(--brass);padding-left:22px;margin:32px 0;max-width:34ch;
+  font-family:"Fraunces",serif;font-style:italic;font-size:clamp(1.2rem,2.4vw,1.8rem);line-height:1.3;color:var(--iris)}
+.div{display:flex;align-items:center;gap:12px;margin:42px 0;color:var(--lilac)}
+.div::before,.div::after{content:"";flex:1;border-top:1px dotted var(--rule)}
+.div span{font-family:"Space Mono",monospace;font-size:.78rem}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.card{background:#fff;border:1px solid var(--rule-soft);border-radius:3px;padding:19px;box-shadow:var(--shadow)}
+.card p{margin:0;font-size:.94rem}
+.chip{display:inline-grid;place-items:center;width:25px;height:25px;border-radius:50%;
+  border:1px solid var(--iris);color:var(--iris);font-family:"Space Mono",monospace;font-size:.7rem;margin-bottom:10px}
+.glyph{font-family:"Noto Serif SC",serif;color:var(--iris)}
+
+
+/* ── maths · gallery plates ─────────────────────────────────────────
+   Standing treatment: plum-glow ground, brass corner registration
+   ticks, boxed mono tag, teal "how to read it" rule, colour-coded
+   symbols, symbol legend. Every TeX string in these files was
+   validated against KaTeX 0.18 offline before shipping.
+   FAILSAFE: each .tex / .itex holds readable plain-text maths as its
+   own content. KaTeX overwrites it on load; if the CDN is missing the
+   plain text simply stays, so the document never loses its equations.
+   ───────────────────────────────────────────────────────────────── */
+.plate{position:relative;margin:26px 0;padding:28px 24px 20px;
+  background:radial-gradient(120% 140% at 18% 0%,#F9EFE9 0%,#FDFAF7 72%);
+  border:1px solid var(--rule);border-radius:3px;overflow-x:auto}
+.plate::before,.plate::after{content:"";position:absolute;width:12px;height:12px;border:1px solid var(--brass)}
+.plate::before{top:7px;left:7px;border-right:0;border-bottom:0}
+.plate::after{bottom:7px;right:7px;border-left:0;border-top:0}
+.plate .ptag{display:inline-block;border:1px solid var(--iris);color:var(--iris);
+  font-family:"Space Mono",monospace;font-size:.58rem;letter-spacing:.15em;
+  text-transform:uppercase;padding:3px 8px;margin-bottom:18px}
+.tex{font-size:1.02rem;overflow-x:auto;overflow-y:hidden;padding:2px 0;line-height:1.5}
+.tex.fallback{font-family:"Space Mono",monospace;white-space:pre-wrap;font-size:.86rem;line-height:1.7}
+.itex{font-size:.98em;white-space:nowrap}
+.itex.fallback{font-family:"Space Mono",monospace;font-size:.9em}
+.plate .read{margin-top:18px;padding-top:12px;border-top:1px solid #A8CFCB;font-size:.86rem;line-height:1.55;color:var(--ink)}
+.plate .read b{display:block;font-family:"Space Mono",monospace;font-size:.6rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--teal);margin-bottom:5px;font-weight:400}
+.plate .legend{display:flex;flex-wrap:wrap;gap:7px 18px;margin-top:14px;font-size:.76rem;color:var(--iris-mid);
+  font-family:"Space Mono",monospace}
+.plate .legend b{font-family:"Noto Serif SC",serif;font-weight:400;color:var(--iris);font-size:.95rem}
+.katex{font-size:1.04em}
+.katex-display{margin:.3em 0}
+/* ── figures ── */
+figure{margin:30px 0;border:1px solid var(--rule);border-radius:3px;background:#fff;box-shadow:var(--shadow);overflow:hidden}
+figure .fhead{background:var(--paper2);border-bottom:1px solid var(--rule);padding:9px 16px;
+  display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline}
+figure .fhead .tag{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--iris)}
+figure .fhead .hint{font-size:.62rem;color:var(--lilac);font-family:"Space Mono",monospace}
+figure .fbody{padding:18px}
+figcaption{padding:0 18px 18px;font-size:.8rem;line-height:1.55;color:var(--iris-mid);max-width:74ch}
+canvas{display:block;width:100%;touch-action:none}
+.fallnote{padding:16px 18px;background:var(--paper2);font-family:"Space Mono",monospace;font-size:.7rem;color:var(--iris)}
+html.ready .fallnote{display:none}
+button{appearance:none;border:1px solid var(--rule);background:#fff;color:var(--iris);
+  padding:7px 11px;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:2px}
+button:hover{border-color:var(--iris-mid)}
+button.on{background:var(--iris);color:#F8EDE7;border-color:var(--iris)}
+.btns{display:flex;gap:7px;flex-wrap:wrap}
+.ctl{display:grid;grid-template-columns:96px 1fr 54px;gap:11px;align-items:center;margin:9px 0}
+.ctl label{font-size:.85rem}
+.ctl output{font-family:"Space Mono",monospace;font-size:.72rem;text-align:right;color:var(--iris-mid)}
+input[type=range]{width:100%;height:20px;accent-color:var(--iris-mid)}
+.readout{font-family:"Space Mono",monospace;font-size:.74rem;line-height:1.6;color:var(--iris-mid);
+  border-top:1px dotted var(--rule);margin-top:14px;padding-top:11px}
+.readout b{color:var(--iris)}
+
+/* one-line figure */
+.linefig{display:grid;grid-template-columns:1fr 190px;gap:24px;align-items:center}
+.yao{width:150px;margin:16px auto;display:flex;gap:15px;height:13px}
+.yao i{display:block;height:100%;background:var(--iris);border-radius:2px}
+.yao.yang i:first-child{width:150px}.yao.yang i:last-child{display:none}
+.yao.yin i{width:67.5px}
+.yao.near i{background:var(--brass)}
+.dial{position:relative;height:44px;margin:8px 0}
+.dial .track{position:absolute;top:20px;left:0;right:0;height:3px;background:var(--paper3)}
+.dial .zero{position:absolute;top:8px;bottom:8px;left:50%;width:1px;background:var(--brass)}
+.dial .knob{position:absolute;top:12px;width:19px;height:19px;border-radius:50%;background:var(--iris);
+  border:2px solid #fff;box-shadow:0 2px 6px rgba(60,28,20,.3);transform:translateX(-50%);transition:left .12s}
+.dial .lab{position:absolute;top:30px;font-family:"Space Mono",monospace;font-size:.6rem;color:var(--lilac)}
+
+/* trigram table */
+.tri8{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:7px;margin-top:16px}
+.tri8 div{border:1px solid var(--rule-soft);border-radius:2px;padding:10px 4px;text-align:center}
+.tri8 div.on{border-color:var(--brass);background:var(--paper2);box-shadow:inset 0 0 0 1px var(--brass)}
+.tri8 b{display:block;font-family:"Noto Serif SC",serif;font-size:1.15rem;color:var(--iris);font-weight:400}
+.tri8 span{font-family:"Space Mono",monospace;font-size:.56rem;color:var(--lilac);letter-spacing:.05em}
+
+/* 8x8 */
+.m64{display:grid;grid-template-columns:auto repeat(8,minmax(0,1fr));gap:2px;margin-top:14px}
+.m64 .c{aspect-ratio:1;border:1px solid var(--rule-soft);border-radius:1px}
+.m64 .c.on{background:var(--iris)}
+.m64 .c.row,.m64 .c.colh{background:var(--paper2)}
+.m64 .ax{display:grid;place-items:center;font-family:"Noto Serif SC",serif;font-size:.72rem;color:var(--iris-mid)}
+.m64 .ax.corner{font-family:"Space Mono",monospace;font-size:.46rem;letter-spacing:.05em}
+
+/* roadmap */
+.road{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.road .r{background:#fff;padding:15px 18px;display:grid;grid-template-columns:96px 1fr;gap:18px;align-items:baseline}
+.road .n{font-family:"Space Mono",monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--lilac)}
+.road .r.here{background:var(--paper2)}
+.road .r.here .n{color:var(--brass)}
+.road b{font-family:"Fraunces",serif;font-size:1.02rem;color:var(--iris);display:block;margin-bottom:2px}
+.road p{margin:0;font-size:.88rem}
+footer{border-top:1px solid var(--iris);background:var(--paper2);padding:44px 0 74px}
+footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
+
+@media(max-width:900px){
+  body{font-size:17px}
+  .head,.g2,.g3,.linefig,.road .r{grid-template-columns:1fr}
+  .head{gap:8px}
+  .tri8{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .m64 .ax{font-size:.6rem}
+  .ctl{grid-template-columns:80px 1fr 46px}
+}
+</style>
+
+<style id="yinav-css">
+.yitop{border-bottom:1px solid var(--rule,#DFCEC5);background:var(--paper,#FCFAF7);
+  font-family:"Space Mono",ui-monospace,Menlo,monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase}
+.yitop .in{width:min(1120px,calc(100% - 34px));margin-inline:auto;display:flex;align-items:center;
+  gap:16px;padding:12px 0;flex-wrap:wrap}
+.yitop a{color:var(--iris-mid,#8A4530);text-decoration:none;opacity:.72}
+.yitop a:hover{opacity:1;text-decoration:underline}
+.yitop .sp{flex:1 1 auto}
+.yitop .now{color:var(--lilac,#A89087)}
+.yinav{border-top:1px solid var(--rule,#DFCEC5);margin-top:clamp(40px,6vw,86px);
+  padding:clamp(30px,5vw,58px) 0 clamp(44px,6vw,84px);font-family:"Space Mono",ui-monospace,Menlo,monospace}
+.yinav .in{width:min(1120px,calc(100% - 34px));margin-inline:auto}
+.yinav-lab{font-size:.62rem;letter-spacing:.19em;text-transform:uppercase;color:var(--lilac,#A89087);margin-bottom:24px}
+.yinav-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:36px}
+.yinav-pair a,.yinav-pair .void{display:block;border:1px solid var(--rule,#DFCEC5);border-radius:3px;
+  padding:20px 22px;text-decoration:none;color:var(--iris,#5B2A1B);transition:border-color .2s,background .2s}
+.yinav-pair a:hover{border-color:var(--iris-mid,#8A4530);background:rgba(91,42,27,.035)}
+.yinav-pair .void{border-style:dotted;opacity:.4}
+.yinav-pair .dir{display:block;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--lilac,#A89087);margin-bottom:9px}
+.yinav-pair .ttl{font-family:"Fraunces","Newsreader",serif;font-size:1.05rem;line-height:1.28;letter-spacing:-.01em}
+.yinav-rail{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.yinav-rail a,.yinav-rail .here{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
+  padding:8px 12px;border:1px solid var(--rule,#DFCEC5);border-radius:3px;color:var(--iris-mid,#8A4530);opacity:.72}
+.yinav-rail a:hover{opacity:1;border-color:var(--iris-mid,#8A4530)}
+.yinav-rail .here{background:var(--iris,#5B2A1B);border-color:var(--iris,#5B2A1B);color:#FAF1EC;opacity:1}
+.yinav-rail .g{font-family:"Noto Serif SC","Fraunces",serif;font-size:.86rem;letter-spacing:0;margin-right:7px}
+.yinav-rail .comp{border-style:dotted}
+.yinav-home{display:inline-block;margin-top:28px;font-size:.62rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--brass,#9A7226);text-decoration:none;opacity:.85}
+.yinav-home:hover{opacity:1;text-decoration:underline}
+@media(max-width:680px){.yinav-pair{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="yitop"><div class="in"><a href="index.html">↑ the polymathic learner</a><span class="now">Part one of the 易 iching sequence</span><span class="sp"></span><a href="yi-2-motion.html">next →</a></div></nav>
+
+
+<header class="cover">
+  <div class="wrap">
+    <div class="kicker">易 Yi · a working model of change · part one of four</div>
+    <div class="rules"></div>
+    <h1>From one line<br>to two cubes<span class="en">Everything the instrument needs, built from nothing</span></h1>
+    <p class="deck">The <i>I Ching</i> is three thousand years old and describes itself as a book about change. Almost everything built on it since has been <b>static</b> — a fixed set of sixty-four names you draw from like cards.</p>
+    <p class="deck" style="margin-top:14px">This is an attempt to give it back its motion. Not by proving the old cosmology with modern maths, and not by flattening it into generic systems theory. By taking its central move seriously: <b>read the configuration, attend to the transformation, situate the reading.</b></p>
+    <div class="chips">
+      <span class="badge now">1 · one line to two cubes</span>
+      <span class="badge">2 · making it move</span>
+      <span class="badge">3 · what moves it</span>
+      <span class="badge">4 · the instrument</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ═════════ WHY ═════════ -->
+<section id="why">
+  <div class="wrap col">
+    <div class="head">
+      <div class="step"><b>Before we start</b>What is broken</div>
+      <h2>A book about change, held perfectly still.</h2>
+    </div>
+    <p class="lead">Strip away the mysticism and the <i>I Ching</i> contains a piece of engineering. Six positions, each one of two values, giving sixty-four configurations — and a body of commentary about how those configurations turn into one another. As a <span class="hl">notation for the state of a situation</span>, it is remarkably economical.</p>
+    <p>What it lacks is everything between the states. A line is yin or yang and nothing else — no sense of <i>barely</i> yang, no sense of a line that has been yang for years and one that flipped this morning. The tradition knows this gap exists; that is what 变爻, the changing line, is for. But the notation cannot hold it, so the knowledge went into the commentary instead, as story.</p>
+    <p>So the question this sequence asks is narrow and technical: <b>what happens if we let the notation hold it?</b> Give each line a magnitude and a velocity. Then see what the old structure looks like from inside a model that can actually move.</p>
+    <div class="pull">Three things went missing when the lines became bits: how strongly, how fast, and which way.</div>
+    <p>Four short chapters. This one builds the space — and by the end of it, the two cubes you may have already seen in the instrument will look like the only sensible way to draw the thing.</p>
+  </div>
+</section>
+
+<!-- ═════════ CH 1 ═════════ -->
+<section id="ch1">
+  <div class="wrap col">
+    <div class="head">
+      <div class="step"><b>Chapter one</b>One line</div>
+      <h2>A 爻 <i>yao</i> line is a dial, not a switch.</h2>
+    </div>
+    <p>Start with the smallest object in the system. A single line: unbroken is 阳, broken is 阴. One bit of information.</p>
+    <p>Now replace the bit with a number between −1 and +1. The drawn line is just the <b>sign</b> of that number — so nothing classical is lost, and two new things are gained: how far the value sits from zero, and how close it is to flipping.</p><div class="plate"><span class="ptag">Plate 01 · the sign map</span><div class="tex fallback" data-tex="
+\underbrace{x_i \in (-1,\,+1)}_{\textstyle\text{what we store}}
+\qquad\longrightarrow\qquad
+\underbrace{\operatorname{sign}(x_i)}_{\textstyle\text{what the glyph draws}}
+\;=\;\begin{cases}\textcolor{#9A7226}{\text{solid}} &amp; x_i \geq 0\\[2pt] \textcolor{#9A7226}{\text{broken}} &amp; x_i &lt; 0\end{cases}">x_i in (-1, +1)   →   sign(x_i) = solid if x_i >= 0, broken if x_i < 0</div><div class="read"><b>How to read it</b>Everything to the left of the arrow is what the model keeps. Everything to the right is what the classical glyph draws. The arrow is where the information goes missing — and it is one-way.</div><div class="legend"><span><b>阳</b> solid line</span><span><b>阴</b> broken line</span><span>x<sub>i</sub> the stored value</span></div></div>
+
+    <figure>
+      <div class="fhead"><span class="tag">Figure 1 · the line as a dial</span><span class="hint">drag the slider</span></div>
+      <div class="fbody">
+        <div class="linefig">
+          <div>
+            <div class="dial">
+              <div class="track"></div><div class="zero"></div>
+              <div class="knob" id="k1"></div>
+              <div class="lab" style="left:0">−1 · fully 阴</div>
+              <div class="lab" style="right:0;text-align:right">fully 阳 · +1</div>
+            </div>
+            <div class="ctl"><label for="s1">value</label><input id="s1" type="range" min="-100" max="100" value="62"><output id="o1">+0.62</output></div>
+            <div class="readout" id="r1"></div>
+          </div>
+          <div>
+            <div class="cap" style="text-align:center">drawn as</div>
+            <div class="yao yang" id="y1"><i></i><i></i></div>
+            <div class="cap" id="y1lab" style="text-align:center">阳 · solid</div>
+          </div>
+        </div>
+      </div>
+      <figcaption>The classical line is the sign, and only the sign. Everything between −1 and +1 collapses to one of two pictures. Slide slowly through zero and watch how much information the drawing throws away at the moment it flips — a line at +0.03 and a line at +0.97 are the same glyph, and they are not the same situation.</figcaption>
+    </figure>
+
+    <p>That single change already buys something the tradition wanted and could not write down. A 变爻 stops being a special mark and becomes an ordinary fact about a number: <b>it is near zero, and it is moving.</b> No separate category needed.</p>
+    <div class="div"><span>+</span></div>
+  </div>
+</section>
+
+<!-- ═════════ CH 2 ═════════ -->
+<section id="ch2">
+  <div class="wrap col">
+    <div class="head">
+      <div class="step"><b>Chapter two</b>Three lines</div>
+      <h2>Three dials make a cube.</h2>
+    </div>
+    <p>Trigrams stack three lines, so we now have three numbers. And three numbers that each run from −1 to +1 are a point in a cube. This is not a metaphor or a visualisation choice — it is what three numbers <i>are</i>.</p>
+    <p>Watch the space get built one axis at a time.</p>
+
+    <figure>
+      <div class="fhead"><span class="tag">Figure 2 · one axis, then two, then three</span><span class="hint">step through it</span></div>
+      <div class="fbody">
+        <canvas id="cvLadder" height="330"></canvas>
+        <div class="fallnote">This figure needs JavaScript. The argument continues in the text below either way.</div>
+        <div class="btns" style="margin-top:14px">
+          <button id="lad1" class="on">1 line</button>
+          <button id="lad2">2 lines</button>
+          <button id="lad3">3 lines</button>
+        </div>
+        <div class="readout" id="rLad"></div>
+      </div>
+      <figcaption>One line: a segment, cut in two by its zero. Two lines: a square, cut into four quadrants. Three lines: a cube, cut into eight. The count of regions is <span class="itex fallback" data-tex="2^{n}">2^n</span>, which is exactly the classical count — two 爻 states, four pairs, eight trigrams. The combinatorics survive untouched. What is new is the <i>room</i> inside each region.</figcaption>
+    </figure>
+
+    <p>Here is the part worth slowing down for, because it is where most attempts to draw this go wrong.</p>
+    <p class="big">A trigram is not a corner of the cube. It is a whole eighth of it.</p>
+    <p>The eight corners are the extreme cases — every line at full strength. But a trigram is defined by the <i>signs</i> of the three numbers, and an enormous number of different points share the same three signs. Two situations can be "the same trigram" and be nowhere near each other.</p>
+
+    <figure>
+      <div class="fhead"><span class="tag">Figure 3 · the trigram is the region</span><span class="hint">drag to rotate · move the sliders</span></div>
+      <div class="fbody">
+        <canvas id="cvCube" height="380"></canvas>
+        <div class="fallnote">This figure needs JavaScript. The argument continues in the text below either way.</div>
+        <div class="g3" style="margin-top:14px">
+          <div class="ctl"><label for="cx1">line 1</label><input id="cx1" type="range" min="-99" max="99" value="66"><output id="cxo1"></output></div>
+          <div class="ctl"><label for="cx2">line 2</label><input id="cx2" type="range" min="-99" max="99" value="41"><output id="cxo2"></output></div>
+          <div class="ctl"><label for="cx3">line 3</label><input id="cx3" type="range" min="-99" max="99" value="-52"><output id="cxo3"></output></div>
+        </div>
+        <div class="btns" style="margin-top:6px">
+          <button id="bShade" class="on">shade the region</button>
+          <button id="bTwin">show a distant twin</button>
+        </div>
+        <div class="tri8" id="tri8"></div>
+        <div class="readout" id="rCube"></div>
+      </div>
+      <figcaption>The lit cell below the cube is the trigram you are currently in. Press <b>show a distant twin</b> to place a second point — the teal one — as near to the centre as the region allows, and a third as far out as it allows. Both points are the same classical trigram. The glyph cannot tell them apart; the cube can.</figcaption>
+    </figure>
+
+    <div class="plate"><span class="ptag">Plate 02 · the counting survives</span><div class="tex fallback" data-tex="2^{1}=2 \qquad 2^{2}=4 \qquad 2^{3}=8 \qquad 2^{6}=64">2^1 = 2    2^2 = 4    2^3 = 8    2^6 = 64</div><div class="read"><b>How to read it</b>One line has two states, three lines have eight, six lines have sixty-four. These are the classical counts exactly. Making the lines continuous adds room inside each region without changing how many regions there are.</div><div class="legend"><span>2ⁿ regions for n lines</span><span>8 = <b>八卦</b></span><span>64 = <b>六十四卦</b></span></div></div>
+    <p>This is the first real gain. In the classical notation, "we are in 巽" is the whole of what can be said. In the cube it is the beginning: <i>where</i> in 巽, how close to which wall, and — once we add motion in the next chapter — heading towards which one.</p>
+    <div class="div"><span>+ +</span></div>
+  </div>
+</section>
+
+<!-- ═════════ CH 3 ═════════ -->
+<section id="ch3">
+  <div class="wrap col">
+    <div class="head">
+      <div class="step"><b>Chapter three</b>Six lines</div>
+      <h2>Why there are two cubes.</h2>
+    </div>
+    <p>A hexagram is six lines, so the state is six numbers, so the space is a six-dimensional cube with <span class="itex fallback" data-tex="2^{n}">2^6</span> = 64 regions. The sixty-four are still there, exactly. The problem is only that nobody can draw a six-dimensional cube.</p>
+    <p>There are two ways to respond to that. The tempting one is to squash six dimensions into three and accept the distortion. The better one is to notice that <b>a 6-cube factors perfectly into two 3-cubes</b> — <span class="itex fallback" data-tex="Q_6 = Q_3\times Q_3">Q6 = Q3 × Q3</span> — and that the split the mathematics wants is a split the tradition has been using for three thousand years.</p>
+    <p class="big">Lines 1–3 are the lower trigram. Lines 4–6 are the upper. Two cubes. Nothing lost.</p>
+    <p>A point in the left cube together with a point in the right cube specifies one point in six dimensions <i>exactly</i>. No projection, no distortion, nothing thrown away. And the region counting works out on its own: eight regions on the left times eight on the right is sixty-four.</p><div class="plate"><span class="ptag">Plate 03 · why two cubes</span><div class="tex fallback" data-tex="Q_6 \;=\; \underbrace{Q_3}_{\textstyle\text{lower }x_1x_2x_3} \times \underbrace{Q_3}_{\textstyle\text{upper }x_4x_5x_6}
+\qquad 8\times 8 \;=\; 64">Q6 = Q3 (lower x1x2x3)  ×  Q3 (upper x4x5x6)      8 × 8 = 64</div><div class="read"><b>How to read it</b>A six-dimensional cube is the product of two three-dimensional ones, and the factorisation the mathematics wants is the one the tradition has always used. This is not a compromise for the sake of drawing; it is an identity.</div><div class="legend"><span>Q₃ a trigram cube</span><span><b>下</b> lower · <b>上</b> upper</span><span>× the product, not a projection</span></div></div>
+
+    <figure>
+      <div class="fhead"><span class="tag">Figure 4 · lower × upper = the sixty-four</span><span class="hint">drag either cube · move any slider</span></div>
+      <div class="fbody">
+        <canvas id="cvDual" height="330"></canvas>
+        <div class="fallnote">This figure needs JavaScript. The argument continues in the text below either way.</div>
+        <div class="g2" style="margin-top:14px">
+          <div>
+            <div class="cap" style="margin-bottom:6px">lower trigram · 下</div>
+            <div class="ctl"><label for="d1">line 1</label><input id="d1" type="range" min="-99" max="99" value="58"><output id="do1"></output></div>
+            <div class="ctl"><label for="d2">line 2</label><input id="d2" type="range" min="-99" max="99" value="-28"><output id="do2"></output></div>
+            <div class="ctl"><label for="d3">line 3</label><input id="d3" type="range" min="-99" max="99" value="18"><output id="do3"></output></div>
+          </div>
+          <div>
+            <div class="cap" style="margin-bottom:6px">upper trigram · 上</div>
+            <div class="ctl"><label for="d4">line 4</label><input id="d4" type="range" min="-99" max="99" value="-46"><output id="do4"></output></div>
+            <div class="ctl"><label for="d5">line 5</label><input id="d5" type="range" min="-99" max="99" value="36"><output id="do5"></output></div>
+            <div class="ctl"><label for="d6">line 6</label><input id="d6" type="range" min="-99" max="99" value="72"><output id="do6"></output></div>
+          </div>
+        </div>
+        <div class="m64" id="m64"></div>
+        <div class="readout" id="rDual"></div>
+      </div>
+      <figcaption>Rows are the lower trigram, columns the upper; the lit cell is your hexagram. Move any of the six sliders and watch the cell travel. This grid is the sixty-four laid out flat — and later, when the instrument starts measuring which of them a situation can actually reach, it is this grid that gets shaded in.</figcaption>
+    </figure>
+
+    <h3>Why not nest the cubes instead?</h3>
+    <p>An earlier version of this work drew one big cube with eight small cubes hung on its eight corners — the lower trigram as the outer cube, the upper as a little cube attached at each corner. It looks clever and it is wrong, for the reason Chapter Two spent so long on: <b>a trigram is a region, not a corner.</b> Hanging the upper cube on a vertex attaches it to the extreme case rather than to the eighth of space it is supposed to sit over.</p>
+    <p>Two plain cubes side by side make a weaker-looking picture and a true one. That trade is worth making every time.</p>
+
+    <div class="g2" style="margin-top:26px">
+      <div class="card"><span class="chip">✓</span><h3>What we now have</h3><p>Six continuous numbers. Sixty-four sign-regions, intact. A drawing with no distortion in it. And room, inside every region, for situations the classical glyph cannot distinguish.</p></div>
+      <div class="card"><span class="chip">→</span><h3>What is still missing</h3><p>All of the motion. Nothing here moves yet — this is still a snapshot, just a much richer one. Chapter Two of the sequence gives the six numbers velocities, and that is where 变爻 gets a clock attached to it.</p></div>
+    </div>
+    <div class="pull">Two honest projections beat one clever wrong one.</div>
+  </div>
+</section>
+
+<!-- ═════════ ROADMAP ═════════ -->
+<section id="next">
+  <div class="wrap col">
+    <div class="head">
+      <div class="step"><b>The sequence</b>What comes next</div>
+      <h2>Where this is going.</h2>
+    </div>
+    <div class="road">
+      <div class="r here">
+        <div class="n">Part one · here</div>
+        <div><b>From one line to two cubes</b><p>The space. A line as a dial, three lines as a cube, six as two cubes, and the sixty-four laid out as an 8×8 grid.</p></div>
+      </div>
+      <div class="r">
+        <div class="n">Part two</div>
+        <div><b>Making it move</b><p>Give each of the six numbers a velocity. 变爻 stops being a mark and becomes a <i>time</i>: which line crosses next, and in how long. Then the idea that the six lines run at six different speeds — sluggish at the bottom, twitchy at the top — which turns the hexagram's stacking order into something with real work to do.</p></div>
+      </div>
+      <div class="r">
+        <div class="n">Part three</div>
+        <div><b>What moves it</b><p>五行 as five operators rather than five substances — a vector field over the whole space. The 生 and 克 cycles as a coupling that makes the mix circulate rather than settle. And 后天 as a moving target the state is pulled towards, which is where “the situation” finally enters the mathematics.</p></div>
+      </div>
+      <div class="r">
+        <div class="n">Part four</div>
+        <div><b>The instrument, and what it found</b><p>The live simulation, plus the results that came out of it: how long a reading stays valid, which of the sixty-four a situation can actually reach, and the finding that surprised us most — that the operator which rescues you under constraint actively harms you without it.</p></div>
+      </div>
+    </div>
+    <p style="margin-top:26px">Each part stands alone and each one ends with something you can push on. If you want the destination first, the instrument is Part Four; it will make considerably more sense with these two cubes already in hand.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap col">
+    <div class="kicker">Part one of four · no build step · maths via KaTeX, with a plain-text fallback if it is unavailable</div>
+    <p class="big" style="margin-top:16px">The most faithful thing one can do to a book about change is to allow it to change.</p>
+    <p class="cap" style="margin-top:16px">易 · a working model of change. Developed in conversation — Wei with ChatGPT and Claude — through seven versions of a simulation before it became clear the simulation needed a way in. Part One built 13 Aug 2026.</p>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   Part One · figure code.  Four small self-contained figures, one
+   idea each, sharing a single tiny 3D projector. No libraries.
+
+   PEDAGOGICAL ORDER — do not rearrange without re-reading the text:
+     Fig 1  a line is a sign PLUS a magnitude          (what is gained)
+     Fig 2  2^n regions: segment → square → cube       (nothing is lost)
+     Fig 3  a trigram is an OCTANT, not a vertex       (the key idea)
+     Fig 4  Q6 = Q3 x Q3, and 8x8 = 64                 (why two cubes)
+   Fig 3 is the load-bearing one: the nesting mistake in earlier
+   versions of this project follows directly from getting it wrong.
+   ═══════════════════════════════════════════════════════════════════ */
+(function(){
+"use strict";
+try{
+var $=function(id){return document.getElementById(id);};
+var NAMES={"111":["乾","☰"],"110":["兌","☱"],"101":["離","☲"],"100":["震","☳"],
+           "011":["巽","☴"],"010":["坎","☵"],"001":["艮","☶"],"000":["坤","☷"]};
+var ORDER=["000","001","010","011","100","101","110","111"];
+var CSS=getComputedStyle(document.documentElement);
+var C={};["ink","iris","iris-mid","lilac","brass","teal","rule","paper3"].forEach(function(k){
+  C[k]=CSS.getPropertyValue("--"+k).trim()||"#333";});
+function sgn(v){return v>=0?1:0;}
+function bits(a,b,c){return ""+sgn(a)+sgn(b)+sgn(c);}
+
+/* ── shared projector ─────────────────────────────────────────── */
+function Stage(canvas,h){
+  var st={cv:canvas,ctx:canvas.getContext("2d"),rx:-0.40,ry:0.68,zoom:1,w:600,h:h,drag:false};
+  st.fit=function(){
+    var dpr=Math.max(1,Math.min(2,window.devicePixelRatio||1));
+    var r=canvas.getBoundingClientRect();
+    if(r.width<10)return;
+    st.w=r.width;st.h=h;
+    canvas.style.height=h+"px";
+    canvas.width=Math.round(r.width*dpr);canvas.height=Math.round(h*dpr);
+    st.ctx.setTransform(dpr,0,0,dpr,0,0);
+  };
+  st.proj=function(p,scale,cx,cy){
+    var cy2=Math.cos(st.ry),sy=Math.sin(st.ry),cx2=Math.cos(st.rx),sx=Math.sin(st.rx);
+    var x1=p[0]*cy2-p[2]*sy, z1=p[0]*sy+p[2]*cy2;
+    var y1=p[1]*cx2-z1*sx, z2=p[1]*sx+z1*cx2;
+    var k=1/(1+Math.max(-0.7,z2*0.13));
+    return [cx+x1*scale*k, cy-y1*scale*k, z2];
+  };
+  canvas.addEventListener("pointerdown",function(e){st.drag=true;st.lx=e.clientX;st.ly=e.clientY;
+    if(canvas.setPointerCapture){try{canvas.setPointerCapture(e.pointerId);}catch(x){}}});
+  canvas.addEventListener("pointermove",function(e){
+    if(!st.drag)return;
+    st.ry+=(e.clientX-st.lx)*0.008; st.rx+=(e.clientY-st.ly)*0.008;
+    st.rx=Math.max(-1.4,Math.min(1.4,st.rx)); st.lx=e.clientX; st.ly=e.clientY;
+    st.draw&&st.draw();});
+  ["pointerup","pointercancel","pointerleave"].forEach(function(ev){
+    canvas.addEventListener(ev,function(){st.drag=false;});});
+  return st;
+}
+var CORN=[];(function(){for(var a=-1;a<=1;a+=2)for(var b=-1;b<=1;b+=2)for(var c=-1;c<=1;c+=2)CORN.push([a,b,c]);})();
+var EDG=[];(function(){for(var i=0;i<8;i++)for(var j=i+1;j<8;j++){var d=0;
+  for(var k=0;k<3;k++)if(CORN[i][k]!==CORN[j][k])d++;if(d===1)EDG.push([CORN[i],CORN[j]]);}})();
+
+function line(st,a,b,col,lw,al,sc,cx,cy,dash){
+  var A=st.proj(a,sc,cx,cy),B=st.proj(b,sc,cx,cy),x=st.ctx;
+  x.save();x.strokeStyle=col;x.lineWidth=lw;x.globalAlpha=al;
+  if(dash)x.setLineDash(dash);
+  x.beginPath();x.moveTo(A[0],A[1]);x.lineTo(B[0],B[1]);x.stroke();x.restore();
+}
+function ball(st,p,r,fill,ring,sc,cx,cy){
+  var P=st.proj(p,sc,cx,cy),x=st.ctx;
+  x.save();x.beginPath();x.arc(P[0],P[1],r,0,6.2832);x.fillStyle=fill;x.fill();
+  if(ring){x.strokeStyle=ring;x.lineWidth=2;x.stroke();}x.restore();return P;
+}
+function text(st,p,t,col,dy,sc,cx,cy,size,al){
+  var P=st.proj(p,sc,cx,cy),x=st.ctx;
+  x.save();x.globalAlpha=al==null?1:al;x.fillStyle=col;
+  x.font=(size||11)+'px "Space Mono","Noto Serif SC",monospace';
+  x.textAlign="center";x.fillText(t,P[0],P[1]+(dy||0));x.restore();
+}
+function quad(st,pts,fill,al,sc,cx,cy,stroke){
+  var x=st.ctx;x.save();x.globalAlpha=al;x.beginPath();
+  pts.forEach(function(p,i){var P=st.proj(p,sc,cx,cy);
+    if(i===0)x.moveTo(P[0],P[1]);else x.lineTo(P[0],P[1]);});
+  x.closePath();x.fillStyle=fill;x.fill();
+  if(stroke){x.globalAlpha=al*1.6;x.strokeStyle=stroke;x.lineWidth=1;x.stroke();}
+  x.restore();
+}
+/* the eight octant boxes: corner-to-centre, i.e. the REGION not the vertex */
+function octant(s){ /* s = [±1,±1,±1] sign triple */
+  var lo=[Math.min(0,s[0]),Math.min(0,s[1]),Math.min(0,s[2])];
+  var hi=[Math.max(0,s[0]),Math.max(0,s[1]),Math.max(0,s[2])];
+  return {lo:lo,hi:hi};
+}
+function drawOctant(st,s,col,al,sc,cx,cy){
+  var o=octant(s),L=o.lo,H=o.hi;
+  var f=[
+   [[L[0],L[1],L[2]],[H[0],L[1],L[2]],[H[0],H[1],L[2]],[L[0],H[1],L[2]]],
+   [[L[0],L[1],H[2]],[H[0],L[1],H[2]],[H[0],H[1],H[2]],[L[0],H[1],H[2]]],
+   [[L[0],L[1],L[2]],[L[0],L[1],H[2]],[L[0],H[1],H[2]],[L[0],H[1],L[2]]],
+   [[H[0],L[1],L[2]],[H[0],L[1],H[2]],[H[0],H[1],H[2]],[H[0],H[1],L[2]]],
+   [[L[0],L[1],L[2]],[H[0],L[1],L[2]],[H[0],L[1],H[2]],[L[0],L[1],H[2]]],
+   [[L[0],H[1],L[2]],[H[0],H[1],L[2]],[H[0],H[1],H[2]],[L[0],H[1],H[2]]]];
+  f.forEach(function(face){ quad(st,face,col,al,sc,cx,cy,col); });
+}
+
+/* ═════ FIGURE 1 · the dial ═════ */
+(function(){
+  function upd(){
+    var v=Number($("s1").value)/100;
+    $("o1").textContent=(v<0?"":"+")+v.toFixed(2);
+    $("k1").style.left=((v+1)/2*100)+"%";
+    var near=Math.abs(v)<0.12;
+    var y=$("y1");
+    y.className="yao "+(v>=0?"yang":"yin")+(near?" near":"");
+    $("y1lab").textContent=(v>=0?"阳 · solid":"阴 · broken")+(near?" — and a hair from flipping":"");
+    $("r1").innerHTML="sign <b>"+(v>=0?"+":"−")+"</b> — this is all the classical glyph records"+
+      "<br>magnitude <b>"+Math.abs(v).toFixed(2)+"</b> — how definite it is"+
+      "<br>distance to flipping <b>"+Math.abs(v).toFixed(2)+"</b>"+
+      (near?" — <span style='color:var(--brass)'>this is what 变爻 means, with no extra machinery</span>":"");
+  }
+  $("s1").addEventListener("input",upd);upd();
+})();
+
+/* ═════ FIGURE 2 · the dimension ladder ═════ */
+(function(){
+  var st=Stage($("cvLadder"),330),dim=1;
+  st.draw=function(){
+    var x=st.ctx;if(st.w<10)return;
+    x.clearRect(0,0,st.w,st.h);
+    var sc=Math.min(st.w*0.16,80),cx=st.w/2,cy=st.h/2-6;
+    var A=[[-1,0,0],[1,0,0]];
+    if(dim===1){
+      line(st,A[0],A[1],C.iris,2.4,.8,sc,cx,cy);
+      ball(st,[0,0,0],4,C.brass,null,sc,cx,cy);
+      text(st,[-0.5,0,0],"阴",C.iris,26,sc,cx,cy,15,.9);
+      text(st,[0.5,0,0],"阳",C.iris,26,sc,cx,cy,15,.9);
+      text(st,[0,0,0],"0",C.brass,-14,sc,cx,cy,10,.9);
+    } else if(dim===2){
+      [[[-1,-1,0],[1,-1,0]],[[1,-1,0],[1,1,0]],[[1,1,0],[-1,1,0]],[[-1,1,0],[-1,-1,0]]]
+        .forEach(function(e){line(st,e[0],e[1],C.iris,1.8,.7,sc,cx,cy);});
+      line(st,[-1,0,0],[1,0,0],C.brass,1,.55,sc,cx,cy,[5,4]);
+      line(st,[0,-1,0],[0,1,0],C.brass,1,.55,sc,cx,cy,[5,4]);
+      [[-.5,-.5],[.5,-.5],[.5,.5],[-.5,.5]].forEach(function(q,i){
+        text(st,[q[0],q[1],0],["00","10","11","01"][i],C["iris-mid"],4,sc,cx,cy,10,.85);});
+    } else {
+      [[[0,-1,-1],[0,1,-1],[0,1,1],[0,-1,1]],
+       [[-1,0,-1],[1,0,-1],[1,0,1],[-1,0,1]],
+       [[-1,-1,0],[1,-1,0],[1,1,0],[-1,1,0]]].forEach(function(pl){
+        quad(st,pl,C.brass,.07,sc,cx,cy,C.brass);});
+      EDG.forEach(function(e){line(st,e[0],e[1],C.iris,1.5,.45,sc,cx,cy);});
+      CORN.forEach(function(v){
+        ball(st,v,3,C.iris,null,sc,cx,cy);
+        text(st,v,NAMES[bits(v[0],v[1],v[2])][1],C.iris,-9,sc,cx,cy,13,.75);});
+    }
+    var n=dim,reg=Math.pow(2,n);
+    $("rLad").innerHTML=n+" line"+(n>1?"s":"")+" · "+n+"-dimensional · <b>2"+
+      ["","","²","³"][n]+" = "+reg+" region"+(reg>1?"s":"")+
+      (n===3?" — <b>the eight trigrams</b>, each an eighth of the cube":"");
+  };
+  function set(d){dim=d;[1,2,3].forEach(function(i){$("lad"+i).classList.toggle("on",i===d);});st.draw();}
+  $("lad1").onclick=function(){set(1);};$("lad2").onclick=function(){set(2);};$("lad3").onclick=function(){set(3);};
+  st.fit();st.draw();
+  window.addEventListener("resize",function(){st.fit();st.draw();});
+})();
+
+/* ═════ FIGURE 3 · trigram = region (the load-bearing figure) ═════ */
+(function(){
+  var st=Stage($("cvCube"),380),shade=true,twin=false;
+  var html="";
+  ORDER.forEach(function(b){html+='<div data-b="'+b+'"><b>'+NAMES[b][1]+" "+NAMES[b][0]+"</b><span>"+b+"</span></div>";});
+  $("tri8").innerHTML=html;
+  function val(i){return Number($("cx"+i).value)/100;}
+  st.draw=function(){
+    var x=st.ctx;if(st.w<10)return;
+    x.clearRect(0,0,st.w,st.h);
+    var sc=Math.min(st.w*0.20,120),cx=st.w/2,cy=st.h/2;
+    var p=[val(1),val(2),val(3)];
+    var s=[p[0]>=0?1:-1,p[1]>=0?1:-1,p[2]>=0?1:-1];
+    if(shade) drawOctant(st,s,C.brass,.10,sc,cx,cy);
+    [[[0,-1,-1],[0,1,-1],[0,1,1],[0,-1,1]],
+     [[-1,0,-1],[1,0,-1],[1,0,1],[-1,0,1]],
+     [[-1,-1,0],[1,-1,0],[1,1,0],[-1,1,0]]].forEach(function(pl){
+      quad(st,pl,C["iris-mid"],.05,sc,cx,cy,C.lilac);});
+    EDG.forEach(function(e){line(st,e[0],e[1],C.iris,1.3,.32,sc,cx,cy);});
+    CORN.forEach(function(v){ball(st,v,2.4,C.iris,null,sc,cx,cy);});
+    var tw=null;
+    if(twin){
+      /* farthest point sharing all three signs: the opposite end of the octant */
+      tw=[s[0]*0.94,s[1]*0.94,s[2]*0.94];
+      var near=[s[0]*0.06,s[1]*0.06,s[2]*0.06];
+      line(st,near,tw,C.teal,1.4,.5,sc,cx,cy,[4,4]);
+      ball(st,tw,6,"#fff",C.teal,sc,cx,cy);
+      ball(st,tw,2.5,C.teal,null,sc,cx,cy);
+      ball(st,near,6,"#fff",C.teal,sc,cx,cy);
+      ball(st,near,2.5,C.teal,null,sc,cx,cy);
+    }
+    ball(st,p,7,C.iris,"#fff",sc,cx,cy);
+    var b=bits(p[0],p[1],p[2]);
+    [1,2,3].forEach(function(i){var v=val(i);$("cxo"+i).textContent=(v<0?"":"+")+v.toFixed(2);});
+    Array.prototype.forEach.call($("tri8").children,function(d){
+      d.classList.toggle("on",d.getAttribute("data-b")===b);});
+    var d=Math.sqrt(p[0]*p[0]+p[1]*p[1]+p[2]*p[2]);
+    var wall=Math.min(Math.abs(p[0]),Math.abs(p[1]),Math.abs(p[2]));
+    $("rCube").innerHTML="signs <b>"+b+"</b> → trigram <b>"+NAMES[b][1]+" "+NAMES[b][0]+"</b>"+
+      "<br>distance from the centre <b>"+d.toFixed(2)+"</b> · nearest wall <b>"+wall.toFixed(2)+"</b> away"+
+      (twin?"<br><span style='color:var(--teal)'>both teal points are also "+NAMES[b][0]+
+        " — the glyph cannot separate them, yet they sit "+(0.88*Math.sqrt(3)).toFixed(2)+
+        " apart, which is "+((0.88*Math.sqrt(3))/(2*Math.sqrt(3))*100).toFixed(0)+
+        "% of the whole cube's diagonal</span>":"");
+  };
+  [1,2,3].forEach(function(i){$("cx"+i).addEventListener("input",st.draw);});
+  $("bShade").onclick=function(){shade=!shade;this.classList.toggle("on",shade);st.draw();};
+  $("bTwin").onclick=function(){twin=!twin;this.classList.toggle("on",twin);
+    this.textContent=twin?"hide the twin":"show a distant twin";st.draw();};
+  st.fit();st.draw();
+  window.addEventListener("resize",function(){st.fit();st.draw();});
+})();
+
+/* ═════ FIGURE 4 · two cubes and the 8x8 ═════ */
+(function(){
+  var st=Stage($("cvDual"),330);
+  var html='<div class="ax corner">下 ╲ 上</div>';
+  ORDER.forEach(function(u){html+='<div class="ax">'+NAMES[u][1]+'</div>';});
+  ORDER.forEach(function(l){
+    html+='<div class="ax">'+NAMES[l][1]+'</div>';
+    ORDER.forEach(function(u){html+='<div class="c" data-w="'+l+u+'"></div>';});
+  });
+  $("m64").innerHTML=html;
+  function v(i){return Number($("d"+i).value)/100;}
+  st.draw=function(){
+    var x=st.ctx;if(st.w<10)return;
+    x.clearRect(0,0,st.w,st.h);
+    var sc=Math.min(st.w*0.115,74),cy=st.h/2-4;
+    var offs=[st.w*0.27,st.w*0.73];
+    [[v(1),v(2),v(3)],[v(4),v(5),v(6)]].forEach(function(p,k){
+      var cx=offs[k];
+      var s=[p[0]>=0?1:-1,p[1]>=0?1:-1,p[2]>=0?1:-1];
+      drawOctant(st,s,C.brass,.10,sc,cx,cy);
+      [[[0,-1,-1],[0,1,-1],[0,1,1],[0,-1,1]],
+       [[-1,0,-1],[1,0,-1],[1,0,1],[-1,0,1]],
+       [[-1,-1,0],[1,-1,0],[1,1,0],[-1,1,0]]].forEach(function(pl){
+        quad(st,pl,C["iris-mid"],.04,sc,cx,cy,C.lilac);});
+      EDG.forEach(function(e){line(st,e[0],e[1],C.iris,1.2,.30,sc,cx,cy);});
+      CORN.forEach(function(vv){ball(st,vv,2.2,C.iris,null,sc,cx,cy);});
+      ball(st,p,6.5,k?C.teal:C.iris,"#fff",sc,cx,cy);
+      var b=bits(p[0],p[1],p[2]);
+      text(st,[0,-1.42,0],(k?"上 upper · x₄x₅x₆ · ":"下 lower · x₁x₂x₃ · ")+NAMES[b][1]+" "+NAMES[b][0],
+        k?C.teal:C.iris,16,sc,cx,cy,11,.95);
+    });
+    var lb=bits(v(1),v(2),v(3)),ub=bits(v(4),v(5),v(6));
+    for(var i=1;i<=6;i++){var q=v(i);$("do"+i).textContent=(q<0?"":"+")+q.toFixed(2);}
+    Array.prototype.forEach.call($("m64").querySelectorAll(".c"),function(c){
+      c.classList.toggle("on",c.getAttribute("data-w")===lb+ub);});
+    $("rDual").innerHTML="lower <b>"+NAMES[lb][1]+" "+NAMES[lb][0]+"</b> ("+lb+
+      ") &nbsp;·&nbsp; upper <b>"+NAMES[ub][1]+" "+NAMES[ub][0]+"</b> ("+ub+
+      ") &nbsp;→&nbsp; one of 64, region <b>"+lb+ub+"</b>"+
+      "<br>8 regions on the left × 8 on the right = <b>64</b>. The classical count, from the geometry, with nothing added.";
+  };
+  for(var i=1;i<=6;i++)$("d"+i).addEventListener("input",st.draw);
+  st.fit();st.draw();
+  window.addEventListener("resize",function(){st.fit();st.draw();});
+})();
+
+document.documentElement.classList.add("ready");
+}catch(e){
+  try{
+    var b=document.createElement("div");
+    b.style.cssText="position:fixed;left:12px;right:12px;bottom:12px;z-index:99;background:#fff;border:1px solid #9B3242;border-left-width:3px;padding:10px 12px;font:12px monospace;color:#2C1D17";
+    b.textContent="Figures failed to start: "+(e&&e.message?e.message:e)+" — the written argument above is unaffected.";
+    document.body.appendChild(b);
+  }catch(x){}
+}
+})();
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" defer></script>
+<script>
+/* Maths rendering, deliberately last and deliberately optional. Every
+   element carries its own plain-text fallback as content; KaTeX replaces
+   it only on success, so a missing CDN degrades to readable monospace
+   instead of an empty box. */
+(function(){
+  function typeset(){
+    if(!window.katex) return;
+    var els=document.querySelectorAll("[data-tex]");
+    for(var i=0;i<els.length;i++){
+      var el=els[i], plain=el.textContent, display=el.classList.contains("tex");
+      try{
+        katex.render(el.getAttribute("data-tex"), el, {displayMode:display, throwOnError:true, strict:false});
+        el.classList.remove("fallback");
+      }catch(e){ el.textContent=plain; el.classList.add("fallback"); }
+    }
+  }
+  if(document.readyState==="complete") typeset();
+  else window.addEventListener("load",typeset);
+})();
+</script>
+
+<nav class="yinav"><div class="in">
+  <div class="yinav-lab">Part one of the 易 iching sequence · continue</div>
+  <div class="yinav-pair">
+        <div class="void"><span class="dir">Previous</span><span class="ttl">—</span></div>
+        <a href="yi-2-motion.html"><span class="dir">Next</span><span class="ttl">Making it move  →</span></a>
+  </div>
+  <div class="yinav-rail">
+        <span class="here"><span class="g">一</span>State space</span>
+        <a href="yi-2-motion.html"><span class="g">二</span>Motion</a>
+        <a href="yi-3-forces.html"><span class="g">三</span>Forces</a>
+        <a href="yi-4-instrument.html"><span class="g">四</span>Instrument</a>
+        <a href="yi-5-lantern.html"><span class="g">灯</span>Lantern</a>
+        <a href="yi-6-loom.html"><span class="g">織</span>Loom</a>
+        <a class="comp" href="yi-lantern-thinking.html"><span class="g">灯</span>Companion</a>
+  </div>
+  <div class="yinav-lab" style="margin:26px 0 0;opacity:.85">linwei · with Claude and ChatGPT, and light touches of DeepSeek</div>
+  <a class="yinav-home" href="index.html">All six, plus the companion, on the polymathic learner →</a>
+</div></nav>
+</body>
+</html>

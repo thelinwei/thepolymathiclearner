@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>易 Yi · 灯 Dēng — How the Lantern Was Arrived At</title>
+<script>try{document.documentElement.classList.add("js");}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..800,0..100,0..1;1,9..144,300..800,0..100,0..1&family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&family=Space+Mono:wght@400;700&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<style>
+:root{
+  --paper:#FCFAF7; --paper2:#F8F0EA; --paper3:#F0E2D9;
+  --ink:#2C1D17; --iris:#5B2A1B; --iris-mid:#8A4530; --lilac:#A89087;
+  --brass:#9A7226; --teal:#2F6B72; --alarm:#9B3242;
+  --rule:#DFCEC5; --rule-soft:#EFE2DA; --shadow:0 18px 44px rgba(60,28,20,.08);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Newsreader",Georgia,"Noto Serif SC",serif;font-size:19px;line-height:1.72;overflow-x:hidden}
+:focus-visible{outline:2px solid var(--iris-mid);outline-offset:3px}
+.wrap{width:min(1080px,calc(100% - 34px));margin-inline:auto}
+.col{max-width:65ch}
+.mono,.kicker,.badge,.cap,.tag,.num{font-family:"Space Mono",ui-monospace,Menlo,monospace}
+.kicker{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--iris-mid)}
+.cap{font-size:.78rem;line-height:1.55;color:var(--iris-mid)}
+
+/* cover */
+.cover{position:relative;color:#F8EDE7;overflow:hidden;padding:clamp(52px,9vw,120px) 0 clamp(40px,6vw,72px);
+  background:radial-gradient(100% 80% at 68% 2%,#9A63B8 0,transparent 52%),
+             radial-gradient(80% 70% at 10% 96%,#2A1436 0,transparent 60%),
+             linear-gradient(170deg,#3A2150,#1A0F24)}
+.cover::after{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:soft-light;opacity:.55;
+  background:radial-gradient(120% 100% at 50% 36%,transparent 40%,rgba(10,5,16,.55) 100%),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
+.cover .wrap{position:relative;z-index:2}
+.cover .kicker{color:#EEC5AE}
+.rules{border-top:1px solid rgba(248,237,231,.42);border-bottom:1px solid rgba(248,237,231,.42);height:5px;margin:18px 0 28px}
+h1{font-family:"Fraunces","Noto Serif SC",serif;font-weight:600;font-variation-settings:"SOFT" 44,"WONK" 1;
+  font-size:clamp(4.2rem,20vw,13rem);line-height:.82;letter-spacing:-.04em;margin:0}
+h1 .en{display:block;font-family:"Fraunces",serif;font-size:clamp(1.05rem,2.4vw,1.85rem);font-weight:400;
+  font-style:italic;letter-spacing:-.01em;margin-top:.42em;color:#F3DACB;font-variation-settings:"WONK" 0}
+.deck{font-size:clamp(1.06rem,1.9vw,1.4rem);line-height:1.52;max-width:50ch;margin:26px 0 0;color:#F9EBE3}
+.deck b{color:#fff;font-weight:600}
+.byline{margin-top:30px;font-family:"Space Mono",monospace;font-size:.68rem;letter-spacing:.14em;
+  text-transform:uppercase;color:#DFAA8E}
+
+/* chapters */
+section{padding:clamp(52px,7vw,96px) 0;border-top:1px solid var(--rule-soft)}
+.ch{display:grid;grid-template-columns:104px 1fr;gap:clamp(16px,3vw,34px);align-items:start}
+.ch .num{font-size:1.9rem;color:var(--paper3);line-height:1;font-weight:700;letter-spacing:-.04em}
+h2{font-family:"Fraunces","Noto Serif SC",serif;font-weight:500;font-variation-settings:"SOFT" 30,"WONK" 1;
+  font-size:clamp(1.8rem,4.4vw,3.1rem);line-height:1.03;letter-spacing:-.026em;margin:0 0 1.1em;color:var(--iris);max-width:24ch}
+h3{font-family:"Fraunces",serif;font-weight:600;font-size:1.1rem;margin:2em 0 .45em;color:var(--iris)}
+p{margin:0 0 1.15em;max-width:65ch}
+.lead{font-size:clamp(1.1rem,2.1vw,1.34rem);line-height:1.55}
+.lead::first-letter{float:left;font-family:"Fraunces",serif;font-weight:600;font-size:3.3em;line-height:.82;
+  margin:.05em .1em 0 0;color:var(--iris)}
+.big{font-size:clamp(1.2rem,2.4vw,1.6rem);line-height:1.4;max-width:38ch;letter-spacing:-.012em;color:var(--iris);
+  font-family:"Fraunces",serif;font-weight:500}
+.hl{background:linear-gradient(180deg,transparent 58%,#CFE9E4 58%,#CFE9E4 92%,transparent 92%)}
+em.q{font-style:italic;color:var(--iris-mid)}
+.pull{border-left:2px solid var(--brass);padding-left:24px;margin:34px 0;max-width:33ch;
+  font-family:"Fraunces",serif;font-style:italic;font-size:clamp(1.24rem,2.6vw,1.95rem);line-height:1.28;color:var(--iris)}
+.aside{background:var(--paper2);border:1px solid var(--rule);border-radius:3px;padding:20px 22px;margin:30px 0}
+.aside .tag{display:block;font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brass);margin-bottom:9px}
+.aside p{margin:0 0 .7em;font-size:.95rem}
+.aside p:last-child{margin:0}
+.dot{display:flex;align-items:center;gap:12px;margin:44px 0;color:var(--lilac)}
+.dot::before,.dot::after{content:"";flex:1;border-top:1px dotted var(--rule)}
+.dot span{font-family:"Noto Serif SC",serif;font-size:1rem;color:var(--iris-mid)}
+table{width:100%;border-collapse:collapse;margin:24px 0;font-size:.9rem}
+th{text-align:left;padding:10px 8px;border-bottom:1px solid var(--iris);font-family:"Space Mono",monospace;
+  font-size:.57rem;letter-spacing:.12em;text-transform:uppercase;color:var(--iris-mid)}
+td{padding:10px 8px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+td.g{font-family:"Noto Serif SC",serif;color:var(--iris);white-space:nowrap}
+td.no{color:var(--alarm);font-family:"Space Mono",monospace;font-size:.82rem}
+td.yes{color:var(--teal);font-family:"Space Mono",monospace;font-size:.82rem}
+/* diagrams */
+.dia{margin:30px 0;border:1px solid var(--rule);border-radius:3px;background:#fff;box-shadow:var(--shadow);overflow:hidden}
+.dia .dh{background:var(--paper2);border-bottom:1px solid var(--rule);padding:8px 15px;font-family:"Space Mono",monospace;
+  font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--iris)}
+.dia .db{padding:18px}
+.dia svg{display:block;width:100%;height:auto}
+.dia .dc{padding:0 18px 16px;font-size:.78rem;line-height:1.5;color:var(--iris-mid)}
+/* maths plates */
+.plate{position:relative;margin:28px 0;padding:28px 24px 20px;overflow-x:auto;
+  background:radial-gradient(120% 140% at 18% 0%,#F9EFE9 0%,#FDFAF7 72%);border:1px solid var(--rule);border-radius:3px}
+.plate::before,.plate::after{content:"";position:absolute;width:12px;height:12px;border:1px solid var(--brass)}
+.plate::before{top:7px;left:7px;border-right:0;border-bottom:0}
+.plate::after{bottom:7px;right:7px;border-left:0;border-top:0}
+.plate .ptag{display:inline-block;border:1px solid var(--iris);color:var(--iris);font-family:"Space Mono",monospace;
+  font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;padding:3px 8px;margin-bottom:18px}
+.tex{font-size:1.02rem;overflow-x:auto;padding:2px 0;line-height:1.5}
+.tex.fallback{font-family:"Space Mono",monospace;white-space:pre-wrap;font-size:.85rem;line-height:1.7}
+.itex.fallback{font-family:"Space Mono",monospace;font-size:.9em}
+.plate .read{margin-top:18px;padding-top:12px;border-top:1px solid #A8CFCB;font-size:.87rem;line-height:1.55;color:var(--ink)}
+.plate .read b{display:block;font-family:"Space Mono",monospace;font-size:.6rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--teal);margin-bottom:5px;font-weight:400}
+footer{border-top:1px solid var(--iris);background:var(--paper2);padding:48px 0 80px}
+footer .big{max-width:34ch}
+@media(max-width:900px){
+  body{font-size:18px}
+  .ch{grid-template-columns:1fr;gap:6px}
+  .ch .num{font-size:1.2rem}
+}
+
+/* ── mobile containment ─────────────────────────────────────────────
+   Fixes a left/right swivel on phones. Two causes, both here:
+   (1) nothing stopped the PAGE from scrolling horizontally, so any wide
+       child dragged the whole document sideways;
+   (2) KaTeX display math is a single nowrap line and can be far wider
+       than a phone, and it had no scroll container of its own.
+   Now: the page cannot scroll sideways at all, wide equations scroll
+   inside their own plate, and overscroll-behavior stops iOS handing the
+   gesture up to the document (which is what produced the rubber-band).
+   ───────────────────────────────────────────────────────────────── */
+html,body{max-width:100%;overflow-x:hidden}
+.plate{overflow:hidden}
+.tex{overflow:visible;max-width:100%}
+.katex-display{margin:.35em 0;overflow-x:auto;overflow-y:hidden;padding:2px 0 8px;
+  overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+.katex-display>.katex{white-space:nowrap}
+.katex{max-width:100%}
+.itex{display:inline-block;max-width:100%;overflow-x:auto;overflow-y:hidden;
+  vertical-align:bottom;overscroll-behavior-x:contain}
+table{table-layout:fixed;width:100%}
+td,th{overflow-wrap:anywhere;word-break:break-word}
+img,svg,canvas{max-width:100%}
+@media(max-width:760px){
+  .katex{font-size:.88em}
+  .katex-display{font-size:.84em}
+  .plate{padding-left:16px;padding-right:16px}
+}
+@media(max-width:520px){
+  .katex{font-size:.76em}
+  .tex.fallback{font-size:.74rem}
+}
+</style>
+
+<style id="yinav-css">
+.yitop{border-bottom:1px solid var(--rule,#DFCEC5);background:var(--paper,#FCFAF7);
+  font-family:"Space Mono",ui-monospace,Menlo,monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase}
+.yitop .in{width:min(1120px,calc(100% - 34px));margin-inline:auto;display:flex;align-items:center;
+  gap:16px;padding:12px 0;flex-wrap:wrap}
+.yitop a{color:var(--iris-mid,#8A4530);text-decoration:none;opacity:.72}
+.yitop a:hover{opacity:1;text-decoration:underline}
+.yitop .sp{flex:1 1 auto}
+.yitop .now{color:var(--lilac,#A89087)}
+.yinav{border-top:1px solid var(--rule,#DFCEC5);margin-top:clamp(40px,6vw,86px);
+  padding:clamp(30px,5vw,58px) 0 clamp(44px,6vw,84px);font-family:"Space Mono",ui-monospace,Menlo,monospace}
+.yinav .in{width:min(1120px,calc(100% - 34px));margin-inline:auto}
+.yinav-lab{font-size:.62rem;letter-spacing:.19em;text-transform:uppercase;color:var(--lilac,#A89087);margin-bottom:24px}
+.yinav-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:36px}
+.yinav-pair a,.yinav-pair .void{display:block;border:1px solid var(--rule,#DFCEC5);border-radius:3px;
+  padding:20px 22px;text-decoration:none;color:var(--iris,#5B2A1B);transition:border-color .2s,background .2s}
+.yinav-pair a:hover{border-color:var(--iris-mid,#8A4530);background:rgba(91,42,27,.035)}
+.yinav-pair .void{border-style:dotted;opacity:.4}
+.yinav-pair .dir{display:block;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--lilac,#A89087);margin-bottom:9px}
+.yinav-pair .ttl{font-family:"Fraunces","Newsreader",serif;font-size:1.05rem;line-height:1.28;letter-spacing:-.01em}
+.yinav-rail{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.yinav-rail a,.yinav-rail .here{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
+  padding:8px 12px;border:1px solid var(--rule,#DFCEC5);border-radius:3px;color:var(--iris-mid,#8A4530);opacity:.72}
+.yinav-rail a:hover{opacity:1;border-color:var(--iris-mid,#8A4530)}
+.yinav-rail .here{background:var(--iris,#5B2A1B);border-color:var(--iris,#5B2A1B);color:#FAF1EC;opacity:1}
+.yinav-rail .g{font-family:"Noto Serif SC","Fraunces",serif;font-size:.86rem;letter-spacing:0;margin-right:7px}
+.yinav-rail .comp{border-style:dotted}
+.yinav-home{display:inline-block;margin-top:28px;font-size:.62rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--brass,#9A7226);text-decoration:none;opacity:.85}
+.yinav-home:hover{opacity:1;text-decoration:underline}
+@media(max-width:680px){.yinav-pair{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="yitop"><div class="in"><a href="index.html">↑ the polymathic learner</a><span class="now">Companion to 灯 · the lantern</span><span class="sp"></span><a href="yi-5-lantern.html">← previous</a><a href="yi-6-loom.html">next →</a></div></nav>
+
+
+<header class="cover">
+  <div class="wrap">
+    <div class="kicker">易 · one page · the thinking behind a form</div>
+    <div class="rules"></div>
+    <h1>灯 dēng<span class="en">How the lantern was arrived at — and why its shape was not chosen</span></h1>
+    <p class="deck">Five bodies were tried and rejected before this one. Each rejection taught the same lesson in a different accent, and the form that finally worked was <b>not designed at all</b>.</p>
+    <p class="deck" style="margin-top:14px">It fell out of two facts about the number sixty-four, and a third fact — a parity argument — that makes its weave <b>compulsory</b>.</p>
+    <div class="byline">a companion to 灯 · the interactive form</div>
+  </div>
+</header>
+
+<main>
+
+<!-- ═════ I ═════ -->
+<section>
+  <div class="wrap col">
+    <div class="ch"><div class="num">I</div><div>
+      <h2>The complaint was the data.</h2>
+      <p class="lead">It began with an objection that sounded like taste. Two cubes side by side, one for the lower trigram and one for the upper — mathematically exact, entirely honest, and <em class="q">ugly</em>. The reasonable answer would have been that beauty is subjective and the geometry is correct, so we should get on with it.</p>
+      <p>That answer would have been wrong, and it took three more iterations to see why. The ugliness was carrying information. A hexagram is <i>one</i> situation. Drawing it as two separate objects makes a claim about the world — that the lower and upper halves are two things — and that claim is false. The visual awkwardness was the eye noticing a structural lie before the argument could.</p>
+      <p>So the objection got promoted from preference to specification: <span class="hl">one body, everything visible, and not a grid.</span></p>
+    </div></div>
+  </div>
+</section>
+
+<!-- ═════ II ═════ -->
+<section>
+  <div class="wrap col">
+    <div class="ch"><div class="num">II</div><div>
+      <h2>A form has to survive a count.</h2>
+      <p>The temptation with geometry is to fall for a solid because it photographs well. The discipline that saved this hunt was banal: before drawing anything, count what it loses. Two questions, asked of every candidate.</p>
+      <p><b>Does anything collide?</b> If two different hexagrams land on the same point, the form is not a representation of sixty-four things. <b>Is anything hidden?</b> If a state sits inside a solid where no rotation reaches it, it exists in the model and not in the drawing.</p>
+      <p>Four candidates were put through that. The results were unkind and fast.</p>
+
+      <table>
+        <thead><tr><th>candidate</th><th>the count</th><th>fate</th></tr></thead>
+        <tbody>
+          <tr><td class="g">two cubes</td><td>64 distinct, none hidden</td><td class="no">two bodies</td></tr>
+          <tr><td class="g">icosahedral zonotope</td><td>64 distinct, <b>32 buried inside</b> — including 14 of the 20 balanced hexagrams</td><td class="no">half-blind</td></tr>
+          <tr><td class="g">its conjugate twin</td><td>together, nothing hidden at all</td><td class="no">still two bodies</td></tr>
+          <tr><td class="g">Petrie mandala</td><td>64 → <b>49 points</b>; minimum separation exactly zero</td><td class="no">collides</td></tr>
+          <tr><td class="g">sphere normalisation</td><td>64 → <b>32 directions</b></td><td class="no">halves the model</td></tr>
+        </tbody>
+      </table>
+
+      <p>The zonotope was the painful one. It is the most beautiful object in the whole hunt, it has icosahedral symmetry, its radii sit in the golden ratio — and it buries the balanced hexagrams, the ones a reader is usually actually in. It shows you 乾 and 坤 in perpetuity and hides the middle of life inside itself.</p>
+      <div class="pull">A body that conceals the states you most often occupy is a portrait, not an instrument.</div>
+    </div></div>
+  </div>
+</section>
+
+<!-- ═════ III ═════ -->
+<section>
+  <div class="wrap col">
+    <div class="ch"><div class="num">III</div><div>
+      <h2>Then the question changed.</h2>
+      <p>Every failure had the same shape: the search was for <em class="q">a container</em>. A solid with sixty-four slots, into which the hexagrams could be filed. Cubes, zonotopes, spheres, mandalas — all of them answers to <i>what shape holds sixty-four points?</i></p>
+      <p>But the book is not a catalogue of sixty-four things. It says so in its title. It is a book about <b>change</b>, and the sixty-four are not its subject — they are the alphabet it uses to talk about its subject. A form built to hold them nicely was answering a question nobody had asked.</p>
+      <p class="big">So: stop looking for a container. Build from the change itself, and let the shape be whatever the change implies.</p>
+      <p>Two facts were already lying around. Neither was new; neither had been used.</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- ═════ IV ═════ -->
+<section>
+  <div class="wrap col">
+    <div class="ch"><div class="num">IV</div><div>
+      <h2>The first fact: counting gives you a silhouette.</h2>
+      <p>Count the yang lines in a hexagram. The answer is between zero and six, and it is not evenly distributed. Exactly one hexagram has no yang lines at all — 坤. Exactly one has six — 乾. In between, the counts run six, fifteen, twenty, fifteen, six: the binomial coefficients, because choosing which lines are yang is exactly a choice of a subset.</p>
+      <p>Now use that count as <b>elevation</b> — how high up the form a hexagram sits — and let the width at each level be set by how many hexagrams live there. You have not designed anything. You have stacked, and a shape has appeared.</p>
+
+      <div class="plate"><span class="ptag">Plate 1 · the shape is drawn by arithmetic</span>
+        <div class="tex fallback" data-tex="\begin{aligned}
+\tbinom{6}{h}&amp;:\;1,\,6,\,15,\,20,\,15,\,6,\,1\\
+r(h)&amp;=\sqrt{\tbinom{6}{h}}
+\end{aligned}">C(6,h) : 1, 6, 15, 20, 15, 6, 1          r(h) = sqrt( C(6,h) )</div>
+        <div class="read"><b>How to read it</b>The radius at each height comes from the number of hexagrams at that height, so nothing about the silhouette is a matter of taste. A point at the base, a point at the apex, widest in the middle — that is simply what the sixty-four look like when you let them settle.</div>
+      </div>
+
+      <div class="dia">
+        <div class="dh">the silhouette, before anything was drawn</div>
+        <div class="db"><svg id="svgProfile" viewBox="0 0 640 260" aria-label="the binomial silhouette"></svg></div>
+        <div class="dc">乾 alone at the top, 坤 alone at the base, and the twenty balanced hexagrams as the widest ring. This is already the exact inverse of the zonotope's failure: the states most often occupied are given the <b>most</b> surface rather than being buried.</div>
+      </div>
+      <p>That felt like luck at the time. It was not — see chapter VI.</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- ═════ V ═════ -->
+<section>
+  <div class="wrap col">
+    <div class="ch"><div class="num">V</div><div>
+      <h2>The second fact: there is a single thread through all of them.</h2>
+      <p>Take the sixty-four hexagrams and ask for an order in which each one differs from the next in <b>exactly one line</b>. Not two lines, not a reshuffle — one line turning, which is the only elementary event the system has.</p>
+      <p>Such an order exists, it visits every hexagram once, and it closes back on itself. In graph terms it is a Hamiltonian cycle on the six-dimensional cube; in engineering it is a Gray code, invented so that a rotary encoder never misreads a position because only one bit changes at a time. Here it means something better: <span class="hl">a closed circuit through the entire book in which every single step is one changing line.</span></p>
+
+      <div class="plate"><span class="ptag">Plate 2 · one thread, sixty-four beads</span>
+        <div class="tex fallback" data-tex="\begin{aligned}
+g(k)&amp;=k\oplus\lfloor k/2\rfloor\\
+d_{\mathrm H}\big(g(k),g(k{+}1)\big)&amp;=1 \quad\text{for all }k \bmod 64
+\end{aligned}">g(k) = k XOR floor(k/2)        Hamming( g(k), g(k+1) ) = 1   for every k mod 64</div>
+        <div class="read"><b>How to read it</b>Sixty-four states in a closed loop, each adjacent pair separated by a single line. Verified across all sixty-four steps including the wrap-around. The traditional King Wen sequence does not have this property, which makes this — on the tradition's own terms, the terms being change — a better circle than the received one.</div>
+      </div>
+
+      <p>Worth pausing on how ordinary both ingredients are. Binomial coefficients and a Gray code: nothing exotic, nothing borrowed from quasicrystals or Coxeter groups, no golden ratio. Two facts a schoolchild could be shown.</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- ═════ VI ═════ -->
+<section>
+  <div class="wrap col">
+    <div class="ch"><div class="num">VI</div><div>
+      <h2>And then they collide, and the form stops being optional.</h2>
+      <p class="lead">Here is the moment the thing became interesting rather than pretty.</p>
+      <p>Put the two facts together. The thread moves by turning one line. Turning one line changes the yang count by exactly one — up if the line went yang, down if it went yin. There is no third option: <b>a single line cannot leave the count where it was</b>.</p>
+      <p>Which means the yang count's parity — odd or even — flips at every single step. And parity has only two values. So the thread is forced to alternate, forever, between the even levels and the odd ones. It <em class="q">cannot</em> take two steps at the same height. It cannot stall, cannot dwell, cannot circle at one elevation waiting.</p>
+
+      <div class="plate"><span class="ptag">Plate 3 · why the weave is compulsory</span>
+        <div class="tex fallback" data-tex="\begin{aligned}
+\text{one line turns}\;&amp;\Longrightarrow\; h \to h\pm 1\\
+&amp;\Longrightarrow\; h \bmod 2 \ \text{flips, every step}\\[4pt]
+\{h\ \text{even}\}=32 \;&amp;\sqcup\; \{h\ \text{odd}\}=32
+\end{aligned}">one line turns ⟹ h → h ± 1 ⟹ h mod 2 flips every step        { h even } ⊔ { h odd } = 32 ⊔ 32</div>
+        <div class="read"><b>How to read it</b>The six-cube is bipartite, and the yang count is what splits it. Even levels 0, 2, 4, 6 hold 1 + 15 + 15 + 1 = 32 hexagrams; odd levels 1, 3, 5 hold 6 + 20 + 6 = 32. The thread must step between the two families at every bead, so its rising and falling is not a stylistic decision about how to lay out a curve. It is a theorem.</div>
+      </div>
+
+      <p>Measured, to be sure of it: the longest run at any single height is <b>one</b>. Thirty-two ascents, thirty-two descents, exactly balanced as a closed curve must be. And the thread passes through 坤 exactly once and through 乾 exactly once per circuit — one visit to each pole, no more.</p>
+
+      <div class="dia">
+        <div class="dh">the level sequence · sixty-four beads, one circuit</div>
+        <div class="db"><svg id="svgWeave" viewBox="0 0 660 180" aria-label="the height of the thread along its circuit"></svg></div>
+        <div class="dc">Height along the thread, bead by bead, from 坤 round to 坤. Every segment rises or falls — never level, never twice in the same place. The vessel's woven surface is this line wrapped once around, and the weave is what parity makes it.</div>
+      </div>
+
+      <div class="aside">
+        <span class="tag">on whether this "adds nothing mathematically"</span>
+        <p>The objection came back that the lantern is poetic rather than mathematical. It is worth pushing back, gently, because the opposite is closer to true — this is the most mathematically <i>determined</i> form in the hunt.</p>
+        <p>The zonotope required choosing six generators from an icosahedron: a decision, and an imported one. The lantern requires no choices at all. The silhouette is the binomial coefficients. The circuit is a Gray code. The weave is forced by the bipartiteness of the hypercube. Nothing in it is adjustable, which is precisely why it is not a design — and, probably, why it reads as poetic. Forms that could not have been otherwise tend to.</p>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<!-- ═════ VII ═════ -->
+<section>
+  <div class="wrap col">
+    <div class="ch"><div class="num">VII</div><div>
+      <h2>The same thirty-two, finally in one object.</h2>
+      <p>Now the part that closes the loop on four iterations of complaint.</p>
+      <p>Every form that failed was failing at the same split. The two cubes: thirty-two lower-trigram states beside thirty-two upper. The conjugate pair: thirty-two on one body's surface, thirty-two on the other's. Each time, a genuine 32 / 32 structure in the mathematics, and each time it forced <b>two objects</b>, and each time you objected — correctly.</p>
+      <p>The lantern has a 32 / 32 split too. It is the parity split from chapter VI. But because the thread alternates between the two families at every bead, those thirty-twos are not two objects sitting next to each other. They are <b>alternate stitches of a single seam.</b></p>
+
+      <div class="plate"><span class="ptag">Plate 4 · three ways to show one split</span>
+        <div class="tex fallback" data-tex="\begin{aligned}
+32 \,\vert\, 32 \quad&amp;\text{two cubes} &amp;&amp;\text{two objects}\\
+32 \,\vert\, 32 \quad&amp;\text{conjugate pair} &amp;&amp;\text{two objects}\\
+32 \,\vert\, 32 \quad&amp;\text{the lantern} &amp;&amp;\text{one seam}
+\end{aligned}">32 | 32  (two cubes: two objects)      32 | 32  (conjugate pair: two objects)      32 | 32  (the lantern: alternating stitches of one seam)</div>
+        <div class="read"><b>How to read it</b>The same structural fact three times over. What changed across the iterations was never the mathematics; it was whether the duality got expressed as two bodies or as one body's rhythm. That is the whole distance travelled.</div>
+      </div>
+
+      <div class="pull">The duality did not need to be two things. It needed to become a rhythm.</div>
+    </div></div>
+  </div>
+</section>
+
+<!-- ═════ VIII ═════ -->
+<section>
+  <div class="wrap col">
+    <div class="ch"><div class="num">VIII</div><div>
+      <h2>What the form then says on its own.</h2>
+      <p>A good representation starts making claims you did not put into it. Three came out of this one, and they are marked here as readings rather than results — the mathematics is settled, the meanings are offered.</p>
+      <p><b>You cannot stay level.</b> The thread has no flat segments, so in this geometry there is no such thing as change that leaves your overall balance untouched. Turn any line and you become more yang or more yin. The system has no lateral move.</p>
+      <p><b>The poles are thin and the middle is wide.</b> 乾 and 坤 are single points, visited once per circuit, structurally isolated — each has six neighbours and every one of them is a step back toward the middle. Purity in this form is not an achievement so much as a place with only exits. Meanwhile the widest, most densely populated ring is the balanced one, which is where the thread spends most of its length.</p>
+      <p><b>Change is a stitch, not a jump.</b> In the two-cube view a changing line moved you between boxes, which made every 变爻 look like a discontinuity. Here consecutive hexagrams are adjacent beads on one continuous curve. The old figure and the new one are not two cards; they are neighbours on a thread you were already travelling.</p>
+      <div class="dot"><span>灯</span></div>
+    </div></div>
+  </div>
+</section>
+
+<!-- ═════ IX ═════ -->
+<section>
+  <div class="wrap col">
+    <div class="ch"><div class="num">IX</div><div>
+      <h2>What it costs, plainly.</h2>
+      <p>The lantern hides the trigrams. Completely. Nowhere in it can you see that lines one to three form a lower figure and four to six an upper one, which means the classical vocabulary of <i>this over that</i> — the whole apparatus of trigram pairs — is invisible. And with it goes the coupling between a line and its partner three places up, which was the sharpest criticism ever made of the two-cube view and which the two-cube view at least had the decency to make visible.</p>
+      <p>Four iterations in, that is no longer a surprise. It is the pattern.</p>
+      <table>
+        <thead><tr><th>body</th><th>keeps</th><th>loses</th></tr></thead>
+        <tbody>
+          <tr><td class="g">two cubes</td><td class="yes">the trigram structure</td><td class="no">the unity of the figure</td></tr>
+          <tr><td class="g">zonotope</td><td class="yes">symmetry, and the extremes</td><td class="no">half the states, including balance</td></tr>
+          <tr><td class="g">四象 cube</td><td class="yes">the paired axes, and the coupling</td><td class="no">nothing — but it is a grid</td></tr>
+          <tr><td class="g">灯 lantern</td><td class="yes">unity, change, level, balance</td><td class="no">the trigrams entirely</td></tr>
+        </tbody>
+      </table>
+      <p class="big">Six dimensions do not fit in three. Every honest form chooses which three things to keep.</p>
+      <p>Which is not a defeat, and it is your own discipline's ordinary condition. An architect does not demand a single drawing that shows structure, circulation, services and light at once. There is a plan and there is a section, and nobody thinks of them as rival buildings. The lantern is the section: it shows level and change. The 四象 square is the plan: it shows the pairing. They do not compete, because they were never claiming to be the object.</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- ═════ X ═════ -->
+<section>
+  <div class="wrap col">
+    <div class="ch"><div class="num">X</div><div>
+      <h2>Why it is called 灯 dēng, the lantern.</h2>
+      <p>The name came after the form, from the silhouette — a woven vessel, wide at the waist, drawn to a point at both ends, with a single thread wound once around it. A paper lantern has exactly that construction: ribs, a spiral seam, and light that only exists because the frame holds it apart from itself.</p>
+      <p>There is a reading available in that; it is stated once here and then left alone. The sixty-four are not the content of the book. They are the ribs. What the frame is holding is change, which has no shape of its own and shows up only as the tension in what is holding it.</p>
+      <p>Whether the lantern is <i>the</i> form is not a claim this project makes. It is the first one that answered the specification without an excuse attached, and the first whose shape was not chosen. Next it wants to be wound on a torus rather than a cylinder, so the circuit closes with curvature instead of a seam — and then the knot it makes becomes a property of the ordering rather than of the drawing. But that is the next iteration, and this one is worth sitting with first.</p>
+      <div class="pull">The best forms are the ones you could not have decided.</div>
+    </div></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap col">
+    <div class="kicker">灯 dēng · one page · companion to the interactive form</div>
+    <p class="big" style="margin-top:18px">Nothing in it is adjustable, which is why it is not a design.</p>
+    <p class="cap" style="margin-top:18px">Every count in this page was computed, not asserted. Level widths 1, 6, 15, 20, 15, 6, 1 summing to 64. Gray cycle verified Hamiltonian and closed, unit Hamming step at all 64 transitions including the wrap. Parity alternation verified at every step; longest run at one height, 1. Thirty-two ascents and thirty-two descents. One visit each to 坤 and 乾. Even levels 32 hexagrams, odd levels 32. Petrie plane 49 distinct points of 64; sphere normalisation 32 distinct directions of 64. Maths set with KaTeX, with plain-text fallback. 16 August 2026.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+try{
+var $=function(id){return document.getElementById(id);};
+var CSS=getComputedStyle(document.documentElement),C={};
+["ink","iris","iris-mid","lilac","brass","teal","rule","paper3"].forEach(function(k){
+  C[k]=CSS.getPropertyValue("--"+k).trim()||"#333";});
+var COMB=[1,6,15,20,15,6,1];
+
+/* ── the binomial silhouette, as a static profile ── */
+(function(){
+  var W=640,H=260,cx=W/2,top=26,bot=H-34,rmax=Math.sqrt(20);
+  function y(h){ return bot-(h/6)*(bot-top); }
+  function r(h){ return Math.sqrt(COMB[h])/rmax*168; }
+  var h="",k;
+  var left=[],right=[];
+  for(k=0;k<7;k++){ left.push([cx-r(k),y(k)]); right.push([cx+r(k),y(k)]); }
+  var path="M"+left[0][0].toFixed(1)+" "+left[0][1].toFixed(1);
+  for(k=1;k<7;k++) path+=" L"+left[k][0].toFixed(1)+" "+left[k][1].toFixed(1);
+  for(k=6;k>=0;k--) path+=" L"+right[k][0].toFixed(1)+" "+right[k][1].toFixed(1);
+  path+=" Z";
+  h+='<path d="'+path+'" fill="'+C.iris+'" fill-opacity=".07" stroke="'+C.iris+'" stroke-opacity=".45"/>';
+  for(k=0;k<7;k++){
+    var yy=y(k), rr=r(k), bal=(k===3);
+    h+='<ellipse cx="'+cx+'" cy="'+yy.toFixed(1)+'" rx="'+rr.toFixed(1)+'" ry="'+(rr*0.20).toFixed(1)+
+       '" fill="none" stroke="'+(bal?C.brass:C.lilac)+'" stroke-width="'+(bal?2:1)+'" stroke-opacity="'+(bal?1:.6)+'"/>';
+    h+='<text x="'+(cx-rr-12).toFixed(1)+'" y="'+(yy+4).toFixed(1)+'" text-anchor="end" font-family="Space Mono, monospace" font-size="11" fill="'+C["iris-mid"]+'">'+k+'</text>';
+    h+='<text x="'+(cx+rr+12).toFixed(1)+'" y="'+(yy+4).toFixed(1)+'" font-family="Space Mono, monospace" font-size="11" fill="'+(bal?C.brass:C["iris-mid"])+'">'+COMB[k]+(bal?"  balanced":"")+'</text>';
+  }
+  h+='<text x="'+cx+'" y="'+(y(6)-12).toFixed(1)+'" text-anchor="middle" font-family="Noto Serif SC, serif" font-size="15" fill="'+C.brass+'">乾</text>';
+  h+='<text x="'+cx+'" y="'+(y(0)+22).toFixed(1)+'" text-anchor="middle" font-family="Noto Serif SC, serif" font-size="15" fill="'+C.brass+'">坤</text>';
+  $("svgProfile").innerHTML=h;
+})();
+
+/* ── the level sequence along the thread ── */
+(function(){
+  function gray(k){ return k^(k>>1); }
+  var lev=[];
+  for(var k=0;k<64;k++){
+    var g=gray(k), c=0;
+    for(var b=0;b<6;b++) c+=(g>>b)&1;
+    lev.push(c);
+  }
+  var W=660,H=180,L=34,R=W-16,T=22,B=H-30;
+  function x(i){ return L+(i/64)*(R-L); }
+  function y(v){ return B-(v/6)*(B-T); }
+  var h="",i;
+  for(var v=0;v<=6;v++){
+    h+='<line x1="'+L+'" y1="'+y(v).toFixed(1)+'" x2="'+R+'" y2="'+y(v).toFixed(1)+
+       '" stroke="'+(v===3?C.brass:C.rule)+'" stroke-opacity="'+(v===3?.5:.4)+'" stroke-dasharray="'+(v===3?"":"3 4")+'"/>';
+    h+='<text x="'+(L-8)+'" y="'+(y(v)+4).toFixed(1)+'" text-anchor="end" font-family="Space Mono, monospace" font-size="10" fill="'+C["iris-mid"]+'">'+v+'</text>';
+  }
+  var pts="";
+  for(i=0;i<=64;i++){ var v2=lev[i%64]; pts+=x(i).toFixed(1)+","+y(v2).toFixed(1)+" "; }
+  h+='<polyline points="'+pts.trim()+'" fill="none" stroke="'+C.iris+'" stroke-width="1.6" stroke-opacity=".85"/>';
+  for(i=0;i<64;i++){
+    var v3=lev[i], pole=(v3===0||v3===6);
+    h+='<circle cx="'+x(i).toFixed(1)+'" cy="'+y(v3).toFixed(1)+'" r="'+(pole?4:2.4)+
+       '" fill="'+(pole?C.brass:(v3===3?C.iris:C["iris-mid"]))+'"/>';
+  }
+  h+='<text x="'+L+'" y="'+(H-10)+'" font-family="Space Mono, monospace" font-size="10" fill="'+C.lilac+'">bead 0 · 坤</text>';
+  h+='<text x="'+R+'" y="'+(H-10)+'" text-anchor="end" font-family="Space Mono, monospace" font-size="10" fill="'+C.lilac+'">bead 64 · back to 坤</text>';
+  $("svgWeave").innerHTML=h;
+})();
+
+document.documentElement.classList.add("ready");
+}catch(e){
+  try{
+    var b=document.createElement("div");
+    b.style.cssText="position:fixed;left:12px;right:12px;bottom:12px;z-index:99;background:#fff;border:1px solid #9B3242;border-left-width:3px;padding:10px 12px;font:12px monospace;color:#2C1D17";
+    b.textContent="Diagrams failed to draw: "+(e&&e.message?e.message:e)+" — the written argument is unaffected.";
+    document.body.appendChild(b);
+  }catch(x){}
+}
+})();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" defer></script>
+<script>
+(function(){
+  function typeset(){
+    if(!window.katex) return;
+    var els=document.querySelectorAll("[data-tex]");
+    for(var i=0;i<els.length;i++){
+      var el=els[i], plain=el.textContent, display=el.classList.contains("tex");
+      try{
+        katex.render(el.getAttribute("data-tex"), el, {displayMode:display, throwOnError:true, strict:false});
+        el.classList.remove("fallback");
+      }catch(e){ el.textContent=plain; el.classList.add("fallback"); }
+    }
+  }
+  if(document.readyState==="complete") typeset();
+  else window.addEventListener("load",typeset);
+})();
+</script>
+
+<nav class="yinav"><div class="in">
+  <div class="yinav-lab">Companion to 灯 · the lantern · continue</div>
+  <div class="yinav-pair">
+        <a href="yi-5-lantern.html"><span class="dir">Previous</span><span class="ttl">← The lantern — one body</span></a>
+        <a href="yi-6-loom.html"><span class="dir">Next</span><span class="ttl">The loom — the sixty-four on a torus  →</span></a>
+  </div>
+  <div class="yinav-rail">
+        <a href="yi-1-state-space.html"><span class="g">一</span>State space</a>
+        <a href="yi-2-motion.html"><span class="g">二</span>Motion</a>
+        <a href="yi-3-forces.html"><span class="g">三</span>Forces</a>
+        <a href="yi-4-instrument.html"><span class="g">四</span>Instrument</a>
+        <a href="yi-5-lantern.html"><span class="g">灯</span>Lantern</a>
+        <a href="yi-6-loom.html"><span class="g">織</span>Loom</a>
+        <span class="here comp"><span class="g">灯</span>Companion</span>
+  </div>
+  <div class="yinav-lab" style="margin:26px 0 0;opacity:.85">linwei · with Claude and ChatGPT, and light touches of DeepSeek</div>
+  <a class="yinav-home" href="index.html">All six, plus the companion, on the polymathic learner →</a>
+</div></nav>
+</body>
+</html>
