@@ -2,7 +2,7 @@
 
 **A visual learning archive where design, mathematics, geometry, speculative thought and AI meet.**
 
-Twenty-three self-contained interactive documents. Every one began as something not
+Twenty-four self-contained interactive documents. Every one began as something not
 understood; each is an attempt to give an abstraction a body that can be turned, tested
 and broken, on the premise that the understanding arrives through the handling rather
 than before it.
@@ -19,24 +19,47 @@ about change would look like if it could actually move.
 
 ## Current investigation — 易 *Yi*, a working model of change
 
-The newest strand, and the reason this repository is being shared now. The *I Ching*
-describes itself as a book about change and has been held perfectly still by almost
-everything built on it since. This sequence gives the notation back its motion: six
-lines become six continuous numbers, 五行 *wuxing* (the five phases) becomes a field
-of forces, and the sixty-four hexagrams are hunted across one geometric body after
-another until a form appears that was not chosen but forced.
+The newest strand, and the reason this repository is being shared now.
 
-It reads in order.
+易 *yi* is not an abandoned machine waiting to be switched back on. 阴阳 *yinyang*,
+五行 *wuxing* and 八卦 *bagua* are carried in Chinese cultural memory as a working
+grammar of relation — advance and retreat, fullness and emptiness, timing and
+position — and the sequence therefore **begins with the inheritance**, not with the
+reconstruction. Two genealogies are held side by side: the lineage the tradition tells
+about itself, and what texts, inscriptions and archaeology can presently demonstrate.
+
+Only then does it put the second question. Divination was a pre-computational
+technology for thinking under uncertainty: framing, constrained variation, symbolic
+encoding, retrieval, judgment. So what happens when that inheritance is rebuilt with
+instruments its makers did not have — continuous variables, trajectories,
+counterfactuals, graph theory, a model that can disagree with its makers?
+
+This project does **not** claim the *Yi* secretly contained hypercubes or differential
+equations. It asks what becomes visible when an inherited symbolic technology is
+reconstructed with contemporary formal and computational tools.
+
+**The argument** runs in order, 00 to 03. **The instruments** can be opened in any order —
+three turnable bodies, each of which the argument earns. The double cube belongs to 00–03;
+the lantern and the loom ask a separate question: what single shape holds all sixty-four
+with their adjacencies intact?
+
+### The argument
 
 | | Document | What it establishes |
 |---|---|---|
-| 一 | [`yi-1-state-space.html`](yi-1-state-space.html) | 爻 *yao* as a dial rather than a switch; the sixty-four as sign-regions of a six-cube |
-| 二 | [`yi-2-motion.html`](yi-2-motion.html) | Velocity: which line turns next, in how long, and whether you are arriving or leaving |
-| 三 | [`yi-3-forces.html`](yi-3-forces.html) | 五行 *wuxing* read as five verbs — a vector field over the whole space |
-| 四 | [`yi-4-instrument.html`](yi-4-instrument.html) | The working instrument, v0.8: bounded dynamics, an inverse solver, a reach/foresight frontier |
-| 灯 | [`yi-5-lantern.html`](yi-5-lantern.html) | *Dēng*, the lantern — sixty-four beads on a single closed curve |
-| 織 | [`yi-6-loom.html`](yi-6-loom.html) | *Zhī*, the loom — the sixty-four on a torus; the thread is a shuttle, not a knot |
-| 灯 | [`yi-lantern-thinking.html`](yi-lantern-thinking.html) | Companion: how the lantern was arrived at, and why its shape was not chosen |
+| 序 00 | [`yi-0-inheritance.html`](yi-0-inheritance.html) | The inheritance. Two genealogies — received and critically reconstructed — how 阴阳, 五行 and 八卦 were braided into one language, and divination as pre-computational procedure |
+| 一 01 | [`yi-1-state-space.html`](yi-1-state-space.html) | 爻 *yao* as a dial rather than a switch; the sixty-four as sign-regions of a six-cube |
+| 二 02 | [`yi-2-motion.html`](yi-2-motion.html) | Velocity: which line turns next, in how long, and whether you are arriving or leaving |
+| 三 03 | [`yi-3-forces.html`](yi-3-forces.html) | 五行 *wuxing* read as five verbs — a vector field over the whole space |
+
+### The instruments
+
+| | Document | What it does |
+|---|---|---|
+| 儀 04 | [`yi-4-instrument.html`](yi-4-instrument.html) | **The double cube** — 兩儀 *liǎngyí*, the two forms. Bounded dynamics, an inverse solver, a measured reach/foresight frontier |
+| 灯 05 | [`yi-5-lantern.html`](yi-5-lantern.html) | **The lantern** — sixty-four beads on a single closed curve |
+| 織 06 | [`yi-6-loom.html`](yi-6-loom.html) | **The loom** — the sixty-four on a torus; the thread is a shuttle, not a knot |
+| 灯 — | [`yi-lantern-thinking.html`](yi-lantern-thinking.html) | Companion: how the lantern was arrived at, and why its shape was not chosen |
 
 **Status: in progress, deliberately.** Part Four carries two retracted claims. The loom's
 surface is settled but its ordering is not, and two open questions are stated at the end
@@ -66,7 +89,8 @@ cd thepolymathiclearner && python3 -m http.server 8000
 
 ## Authorship
 
-**linwei** — direction, argument, design, and the objections that killed four geometries.
+**Lin Wei 林威** (writing as **linwei**) — direction, argument, design, and the objections that
+killed four geometries.
 With **Claude** (Anthropic) and **ChatGPT** (OpenAI) as sustained collaborators, and light
 touches of **DeepSeek**. The AI contribution is not decorative and it is not concealed:
 these documents were argued into existence in dialogue, and where a model's claim was
@@ -90,7 +114,7 @@ Open an issue on this repository, or reach out through https://thelinwei.github.
 
 See [`CITATION.cff`](CITATION.cff). Short form:
 
-> linwei, with Claude and ChatGPT (2026). *The Polymathic Learner: a visual learning
+> Lin Wei, with Claude and ChatGPT (2026). *The Polymathic Learner: a visual learning
 > archive*. https://thelinwei.github.io/thepolymathiclearner/
 
 To cite one document, name it: *易 Yi · The Loom — the sixty-four on a torus* (2026),

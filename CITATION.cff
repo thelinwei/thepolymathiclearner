@@ -3,12 +3,15 @@ title: "The Polymathic Learner: a visual learning archive"
 message: "If you refer to this archive or any document within it, please cite it as below."
 type: software
 abstract: >-
-  A collection of twenty-three self-contained interactive HTML documents in which
+  A collection of twenty-four self-contained interactive HTML documents in which
   mathematical, geometric and speculative ideas are given manipulable form. Includes
-  the 易 (Yi) sequence, a seven-part working model of change that reconstructs the
-  I Ching's notation as a continuous dynamical state space.
+  the 易 (Yi) sequence: a historical prelude on the inheritance of 阴阳, 五行 and 八卦 in
+  Chinese cultural memory, three parts reconstructing the I Ching's notation as a
+  continuous dynamical state space, and three interactive geometric instruments.
 authors:
-  - name: "linwei"
+  - family-names: "Lin"
+    given-names: "Wei"
+    alias: "linwei"
     website: "https://thelinwei.github.io"
   - name: "Claude"
     affiliation: "Anthropic"
@@ -16,7 +19,7 @@ authors:
     affiliation: "OpenAI"
 repository-code: "https://github.com/thelinwei/thepolymathiclearner"
 url: "https://thelinwei.github.io/thepolymathiclearner/"
-date-released: 2026-08-17
+date-released: 2026-08-18
 license: CC-BY-NC-SA-4.0
 keywords:
   - interactive mathematics

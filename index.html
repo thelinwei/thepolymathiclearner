@@ -202,6 +202,65 @@
   .enter-cool     { color: var(--lavender); }
   .enter-rose     { color: var(--rose); }
 
+  /* solid button — the three turnable instruments */
+  .card-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: auto;
+    align-self: flex-start;
+    padding: 12px 19px 12px 17px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.19em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #14100d;
+    background: var(--yi);
+    border-radius: 2px;
+    transition: gap 0.22s ease, filter 0.22s ease;
+  }
+  .card-yi:hover .card-btn { gap: 15px; filter: brightness(1.12); }
+
+  /* the sequence splits into two threads, not six chapters */
+  .thread-head {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin: 14px 0 -6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--yi);
+    opacity: 0.75;
+  }
+  .thread-head:first-child { margin-top: 0; }
+  .thread-head::after {
+    content: '';
+    height: 1px;
+    flex: 1;
+    background: var(--yi-line);
+  }
+  .thread-head span.note {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.92rem;
+    font-style: italic;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--paper-dim);
+  }
+  .thread-head em {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.92rem;
+    font-style: italic;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--paper-dim);
+    opacity: 0.9;
+  }
+
   .lead-link {
     display: inline-flex;
     align-items: center;
@@ -998,8 +1057,8 @@
       <span class="h1-main">易 iching</span>
       <span class="h1-sub h1-sub-yi">A working model of change.</span>
     </h1>
-    <p class="title-lead-desc">A three-thousand-year-old notation for change, held perfectly still by everything built on it since — given back its motion. Six lines become six continuous numbers, 五行 wuxing, the five phases, becomes a field of forces, and the sixty-four are hunted across one body after another until a form appears that was not chosen but forced. Seven documents, still moving.</p>
-    <a class="lead-link" href="#yi"><span>Enter the sequence</span><span class="arrow-icon">»»</span></a>
+    <p class="title-lead-desc">易 <em>yi</em> is not an abandoned machine waiting to be switched back on. 阴阳, 五行 and 八卦 are carried in Chinese memory as a working grammar of relation, so this begins with the inheritance. Then a second question: divination was thinking under uncertainty before there were computers — what happens when it is rebuilt with instruments its makers did not have?</p>
+    <a class="lead-link" href="#yi"><span>Open the sequence</span><span class="arrow-icon">»»</span></a>
   </div>
 
   <div class="title-block">
@@ -1042,7 +1101,7 @@
   </div>
 
   <div class="header-meta">
-    <span class="meta-item">23 documents</span>
+    <span class="meta-item">24 documents</span>
     <div class="meta-divider"></div>
     <span class="meta-item">5 collections</span>
     <div class="meta-divider"></div>
@@ -1058,122 +1117,114 @@
   <div class="section" id="yi">
     <div class="section-header section-header-yi">
       <span class="section-title section-title-yi">易 iching — Current Investigation</span>
-      <span class="section-title-desc">a working model of change · state space, motion, forces, instrument, two bodies</span>
-      <span class="section-count">07 documents · in progress</span>
+      <span class="section-title-desc">the inheritance, then the argument, then the instruments</span>
+      <span class="section-count">04 argument · 03 instruments · in progress</span>
     </div>
 
     <div class="sequence-note">
-      <span class="seq-lead">This one reads in order —</span>
-      <a class="seq-step" href="yi-1-state-space.html"><span class="seq-glyph">一</span> state space</a>
+      <span class="seq-lead">The argument, in order —</span>
+      <a class="seq-step" href="yi-0-inheritance.html"><span class="seq-glyph">序</span> 00 inheritance</a>
       <span class="seq-arrow">→</span>
-      <a class="seq-step" href="yi-2-motion.html"><span class="seq-glyph">二</span> motion</a>
+      <a class="seq-step" href="yi-1-state-space.html"><span class="seq-glyph">一</span> 01 state space</a>
       <span class="seq-arrow">→</span>
-      <a class="seq-step" href="yi-3-forces.html"><span class="seq-glyph">三</span> forces</a>
+      <a class="seq-step" href="yi-2-motion.html"><span class="seq-glyph">二</span> 02 motion</a>
       <span class="seq-arrow">→</span>
-      <a class="seq-step" href="yi-4-instrument.html"><span class="seq-glyph">四</span> instrument</a>
-      <span class="seq-arrow">→</span>
-      <a class="seq-step" href="yi-5-lantern.html"><span class="seq-glyph">灯</span> lantern</a>
-      <span class="seq-arrow">→</span>
-      <a class="seq-step" href="yi-6-loom.html"><span class="seq-glyph">織</span> loom</a>
+      <a class="seq-step" href="yi-3-forces.html"><span class="seq-glyph">三</span> 03 forces</a>
+    </div>
+
+    <div class="sequence-note" style="padding-top:0">
+      <span class="seq-lead">The instruments, any order —</span>
+      <a class="seq-step" href="yi-4-instrument.html"><span class="seq-glyph">儀</span> 04 double cube</a>
+      <a class="seq-step" href="yi-5-lantern.html"><span class="seq-glyph">灯</span> 05 lantern</a>
+      <a class="seq-step" href="yi-6-loom.html"><span class="seq-glyph">織</span> 06 loom</a>
+      <a class="seq-step" href="yi-lantern-thinking.html"><span class="seq-glyph">灯</span> companion</a>
     </div>
 
     <div class="grid">
 
-      <!-- Featured: Part One -->
-      <a class="card featured card-yi" href="yi-1-state-space.html">
+      <div class="thread-head">The argument · in order <span class="note">what was inherited, and what happens when it is given motion</span></div>
+
+      <a class="card card-yi" href="yi-0-inheritance.html">
         <div class="card-accent accent-yi"></div>
-        <div class="featured-left">
-          <div class="card-number"><span class="num-glyph">一</span> PART ONE</div>
-          <div class="card-tag tag-yi">易 iching · State Space</div>
-          <h2>From One Line<br>to Two Cubes</h2>
-          <p>The I Ching calls itself a book about change, then holds itself perfectly still. Part One gives the notation back its motion: a 爻 yao — one line of the six — becomes a dial rather than a switch, six lines become six continuous numbers, and the sixty-four become sign-regions of a six-dimensional cube — drawn honestly as two cubes rather than nested boxes.</p>
-          <div class="card-note">The tradition already knew what its notation could not hold — that is what 变爻 <i>bianyao</i>, the changing line, is for. Building the space showed the gap to be structural rather than mystical.</div>
-          <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
-        </div>
-        <div class="featured-divider"></div>
-        <div class="featured-right">
-          <div class="featured-detail"><strong>Core move</strong><br>Read the configuration, attend to the transformation, situate the reading — taken literally, as arithmetic.</div>
-          <div class="featured-detail"><strong>Topics</strong><br>爻 as dial · Q₆ state space · trigram as octant · why two cubes and not one nested figure</div>
-          <div class="featured-detail"><strong>Start here</strong><br>Everything the later parts use is built in this one, from nothing.</div>
-        </div>
+        <div class="card-number"><span class="num-glyph">序</span> 00 · INHERITANCE</div>
+        <div class="card-tag tag-yi">易 iching · Where this begins</div>
+        <h2>The Inheritance<br>of Change</h2>
+        <p>Two genealogies held side by side: the lineage the tradition tells about itself, and what texts and archaeology can demonstrate. Neither erases the other.</p>
+        <div class="card-note">Divination was thinking under uncertainty before there were computers. Everything after depends on establishing that first.</div>
+        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
       </a>
 
-      <!-- Part Two -->
+      <a class="card card-yi" href="yi-1-state-space.html">
+        <div class="card-accent accent-yi"></div>
+        <div class="card-number"><span class="num-glyph">一</span> 01 · STATE SPACE</div>
+        <div class="card-tag tag-yi">易 iching · State Space</div>
+        <h2>From One Line<br>to Two Cubes</h2>
+        <p>A 爻 <i>yao</i> line becomes a dial, not a switch: six continuous numbers, and the sixty-four as regions of a six-dimensional cube — drawn honestly as two.</p>
+        <div class="card-note">The tradition knew what its notation could not hold — that is what 变爻 <i>bianyao</i> is for. The gap is structural, not mystical.</div>
+        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
+      </a>
+
       <a class="card card-yi" href="yi-2-motion.html">
         <div class="card-accent accent-yi"></div>
-        <div class="card-number"><span class="num-glyph">二</span> PART TWO</div>
+        <div class="card-number"><span class="num-glyph">二</span> 02 · MOTION</div>
         <div class="card-tag tag-yi">易 iching · Kinematics</div>
         <h2>Making It Move</h2>
-        <p>Give each of the six numbers a velocity, and three things become sayable that the classical glyph cannot: which line turns next, in how long, and whether you are arriving or leaving.</p>
-        <div class="card-note">This part is kinematics only, and says so. Naming what a model does not yet explain turned out to be the move that made the next part possible.</div>
+        <p>Give each of the six numbers a velocity, and three things become sayable: which line turns next, in how long, and whether you are arriving or leaving.</p>
+        <div class="card-note">Kinematics only, and it says so. Naming what a model cannot yet explain is what made the next part possible.</div>
         <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
       </a>
 
-      <!-- Part Three -->
       <a class="card card-yi" href="yi-3-forces.html">
         <div class="card-accent accent-yi"></div>
-        <div class="card-number"><span class="num-glyph">三</span> PART THREE</div>
-        <div class="card-tag tag-yi">易 iching · Dynamics · 五行</div>
+        <div class="card-number"><span class="num-glyph">三</span> 03 · FORCES</div>
+        <div class="card-tag tag-yi">易 iching · Dynamics</div>
         <h2>What Moves It</h2>
-        <p>五行 wuxing — the five phases — read as five verbs rather than five substances — store, branch, amplify, couple, prune — becomes a vector field over the whole space. The situation itself is also moving.</p>
-        <div class="card-note">Eight counts configurations; five counts transformations. Nobody asks a map's legend to have as many entries as its compass rose.</div>
+        <p>五行 <i>wuxing</i> read as five verbs rather than substances — store, branch, amplify, couple, prune — becomes a vector field over the whole space.</p>
+        <div class="card-note">Eight counts configurations; five counts transformations. A map’s legend need not match its compass rose.</div>
         <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
       </a>
 
-      <!-- Part Four -->
+      <div class="thread-head">The instruments · any order <span class="note">the double cube completes the argument above; the lantern and loom ask what shape holds all sixty-four</span></div>
+
       <a class="card card-yi" href="yi-4-instrument.html">
         <div class="card-accent accent-yi"></div>
-        <div class="card-number"><span class="num-glyph">四</span> PART FOUR · v0.8</div>
-        <div class="card-tag tag-yi">易 iching · Instrument · Double Cube</div>
-        <h2>The Instrument<br>易，真正动起来</h2>
-        <p>The working instrument. Bounded dynamics, a self-turning mix of the five phases, an inverse solver over all sixty-four, per-爻 timescales, a moving external field (后天 houtian, the situation itself), and a measured reach-versus-foresight frontier.</p>
-        <div class="status-line">Two of its own claims retracted in this pass</div>
-        <div class="card-note">The retraction is the instrument working, not the instrument failing. This is where the double cube earns its keep as an argument rather than a picture.</div>
-        <div class="card-arrow"><span>Open instrument</span><span class="arrow-icon">»»</span></div>
+        <div class="card-number"><span class="num-glyph">儀</span> 04 · DOUBLE CUBE</div>
+        <div class="card-tag tag-yi">易 iching · Instrument · v0.8</div>
+        <h2>The Double Cube</h2>
+        <p>兩儀 <i>liǎngyí</i>, the two forms. Bounded dynamics, a self-turning five-phase mix, an inverse solver over all sixty-four, and a reach-versus-foresight frontier.</p>
+        <div class="card-note">Two of its own claims retracted in this pass — the instrument working, not failing.</div>
+        <div class="card-btn"><span>Open the instrument</span><span class="arrow-icon">»»</span></div>
       </a>
 
-      <!-- Lantern -->
       <a class="card card-yi" href="yi-5-lantern.html">
         <div class="card-accent accent-yi"></div>
-        <div class="card-number"><span class="num-glyph">灯</span> DĒNG · LANTERN</div>
-        <div class="card-tag tag-yi">易 iching · One Body · 灯</div>
-        <h2>The Lantern — One Body</h2>
-        <p>Sixty-four beads on a single closed curve. Height is the yang count: 坤 kun (all yin) a point at the base, 乾 qian (all yang) a point at the apex, and the twenty balanced hexagrams as the widest ring at the equator.</p>
-        <div class="card-note">Four candidates were counted before anything was drawn. Two died on collisions — beauty has to survive a count.</div>
-        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
+        <div class="card-number"><span class="num-glyph">灯</span> 05 · LANTERN</div>
+        <div class="card-tag tag-yi">易 iching · One Body</div>
+        <h2>The Lantern</h2>
+        <p>Sixty-four beads on one closed curve. Height is the yang count: 坤 <i>kun</i> a point at the base, 乾 <i>qian</i> at the apex, the balanced twenty as the widest ring.</p>
+        <div class="card-note">Four candidates counted before anything was drawn. Two died on collisions — beauty has to survive a count.</div>
+        <div class="card-btn"><span>Open the instrument</span><span class="arrow-icon">»»</span></div>
       </a>
 
-      <!-- Lantern: the thinking -->
+      <a class="card card-yi" href="yi-6-loom.html">
+        <div class="card-accent accent-yi"></div>
+        <div class="card-number"><span class="num-glyph">織</span> 06 · LOOM</div>
+        <div class="card-tag tag-yi">易 iching · The Loom</div>
+        <h2>The Loom</h2>
+        <p>Two circulations, each trigram a ring of eight. The thread was expected to knot; it becomes a shuttle. The torus is not a doughnut — it is a loom.</p>
+        <div class="card-note">Newest work, unfinished on purpose. The computations and open questions are stated at the end of the document.</div>
+        <div class="card-btn"><span>Open the instrument</span><span class="arrow-icon">»»</span></div>
+      </a>
+
       <a class="card card-yi" href="yi-lantern-thinking.html">
         <div class="card-accent accent-yi"></div>
-        <div class="card-number"><span class="num-glyph">灯</span> LANTERN · COMPANION</div>
-        <div class="card-tag tag-yi">易 iching · Method · Reflection</div>
+        <div class="card-number"><span class="num-glyph">灯</span> — · COMPANION</div>
+        <div class="card-tag tag-yi">易 iching · Method</div>
         <h2>How the Lantern<br>Was Arrived At</h2>
-        <p>The reasoning behind the form. Five bodies tried and rejected; a shape that was not designed at all but fell out of two facts about the number sixty-four and a parity argument that makes its weave compulsory.</p>
-        <div class="card-note">The objection was that it was ugly. The ugliness was carrying information — the eye had noticed a structural lie before the argument could.</div>
+        <p>Five bodies tried and rejected — and a shape that was not designed at all, but fell out of two facts about the number sixty-four.</p>
+        <div class="card-note">The objection was that it was ugly. The ugliness carried information: the eye caught a structural lie before the argument could.</div>
         <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
       </a>
-
-      <!-- Featured: The Loom -->
-      <a class="card featured card-yi" href="yi-6-loom.html">
-        <div class="card-accent accent-yi"></div>
-        <div class="featured-left">
-          <div class="card-number"><span class="num-glyph">織</span> ZHĪ · LOOM · NEWEST</div>
-          <div class="card-tag tag-yi">易 iching · The Loom · 織</div>
-          <h2>The Sixty-Four<br>on a Torus</h2>
-          <p>A torus has two independent circulations, and each trigram is a closed ring of eight — so the split that once forced two bodies becomes two ways of going around one. The thread was expected to become a knot. It becomes a shuttle: the lower trigram advances once around and never reverses while the upper runs back and forth across it, seven passes to every advance. The torus is not a doughnut. It is a loom.</p>
-          <div class="status-line">In progress · the surface is settled, the ordering is still the open choice</div>
-          <div class="card-note">灯 <i>dēng</i> the lantern for the distribution, 織 <i>zhī</i> the loom for the structure — the first pair in this hunt that are not rival solids, but one surface and one section through it.</div>
-          <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
-        </div>
-        <div class="featured-divider"></div>
-        <div class="featured-right">
-          <div class="featured-detail"><strong>Computed, not asserted</strong><br>A closed Gray ring with unit steps at all eight transitions · the 8 × 8 map bijective over all sixty-four · three neighbours along each circulation at ±1 and one chord at ±3, zero exceptions · winding class (1, 0).</div>
-          <div class="featured-detail"><strong>Still open</strong><br>Whether the ±3 chord placement is forced for every Hamiltonian cycle on the cube graph — and whether some other circuit gives a cleaner cascade than 2, 2, 4, 8, 16, 32.</div>
-          <div class="featured-detail"><strong>Why it is here unfinished</strong><br>An archive about learning should show the edge as it actually looks. This is the edge.</div>
-        </div>
-      </a>
-
     </div>
   </div>
 
@@ -1245,22 +1296,14 @@
     <div class="grid">
 
       <!-- Gyroid Explorer -->
-      <a class="card featured card-geometry" href="gyroid_explorer_with_maths.html">
+      <a class="card card-geometry" href="gyroid_explorer_with_maths.html">
         <div class="card-accent accent-geometry"></div>
-        <div class="featured-left">
-          <div class="card-number">05</div>
+        <div class="card-number">05</div>
           <div class="card-tag tag-geometry">Minimal Surface · Topology</div>
           <h2>Gyroid Explorer</h2>
           <p>A triply periodic minimal surface rendered as an interactive spatial instrument — where curvature, channels, and material logic become visible.</p>
           <div class="card-note">A surface specified in practice for years — understood only once it could be walked inside mathematically.</div>
           <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
-        </div>
-        <div class="featured-divider"></div>
-        <div class="featured-right">
-          <div class="featured-detail"><strong>Core idea</strong><br>Surface as equation, structure, and material possibility.</div>
-          <div class="featured-detail"><strong>Topics</strong><br>Level sets · Mean curvature · Periodicity · Interlocking channels</div>
-          <div class="featured-detail"><strong>Why here</strong><br>It anchors the geometry section in a rigorous but visually inhabitable spatial form.</div>
-        </div>
       </a>
 
       <!-- 2D Phyllotaxis -->
@@ -1321,29 +1364,21 @@
     <div class="grid">
 
       <!-- Featured: Calabi–Yau -->
-      <a class="card featured card-cool" href="calabi_yau_fixed_final_with_interactives.html">
+      <a class="card card-cool" href="calabi_yau_fixed_final_with_interactives.html">
         <div class="card-accent accent-lavender"></div>
-        <div class="featured-left">
-          <div class="card-number">10</div>
+        <div class="card-number">10</div>
           <div class="card-tag tag-lavender">Geometry · Topology</div>
           <h2>From Everyday Geometry<br>to Calabi–Yau Manifolds</h2>
           <p>A guided ascent from the triangles of childhood to the six-dimensional shapes at the heart of string theory — rendered interactive at every step.</p>
           <div class="card-note">Difficulty dissolves when an idea is given a form the hand can turn.</div>
           <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
-        </div>
-        <div class="featured-divider"></div>
-        <div class="featured-right">
-          <div class="featured-detail"><strong>Topics</strong><br>Gaussian curvature · Riemann surfaces · Kähler geometry · Holonomy groups · Yau's theorem</div>
-          <div class="featured-detail"><strong>Format</strong><br>WebGL canvas · Interactive modules · Proof walkthroughs</div>
-          <div class="featured-detail"><strong>Start here</strong><br>Establishes the geometric intuitions that run through the whole collection.</div>
-        </div>
       </a>
 
       <!-- Mathematical Modelling -->
       <a class="card card-cool" href="mathematical_modelling_notes_dark.html">
-        <div class="card-accent accent-teal"></div>
+        <div class="card-accent accent-lavender"></div>
         <div class="card-number">11</div>
-        <div class="card-tag tag-teal">Modelling · Applied</div>
+        <div class="card-tag tag-lavender">Modelling · Applied</div>
         <h2>Mathematical Modelling Course Notes</h2>
         <p>A dense, annotated companion covering the formal mechanics of building mathematical models of the physical world.</p>
         <div class="card-note">Annotating a course exposes where understanding is borrowed rather than owned.</div>
@@ -1363,9 +1398,9 @@
 
       <!-- Catalan Face Explorer -->
       <a class="card card-cool" href="catalan_angle_explorer.html">
-        <div class="card-accent accent-teal"></div>
+        <div class="card-accent accent-lavender"></div>
         <div class="card-number">13</div>
-        <div class="card-tag tag-teal">Combinatorics · Geometry</div>
+        <div class="card-tag tag-lavender">Combinatorics · Geometry</div>
         <h2>Catalan Face Explorer</h2>
         <p>An interactive navigator of the pentagonal hexecontahedron — moving through Catalan solids via angle relationships and symmetry groups.</p>
         <div class="card-note">Built to answer one small question; the interface then revealed the questions that could not yet be asked.</div>
