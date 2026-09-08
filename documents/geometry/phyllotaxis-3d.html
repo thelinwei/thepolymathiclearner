@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>3D Phyllotaxis — Growth Instrument</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=JetBrains+Mono:wght@300;400&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --void: #070707;
+    --gold: #c9a84c;
+    --gold-dim: #756234;
+    --sage: #6f9174;
+    --jade: #6fb2a2;
+    --rose: #b9807f;
+    --cream: #e9dfc7;
+    --text-body: #b8b0a0;
+    --text-dim: #666157;
+    --panel: rgba(255,255,255,0.028);
+    --panel-strong: rgba(255,255,255,0.052);
+    --border: rgba(201,168,76,0.14);
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at 50% 12%, rgba(201,168,76,0.09), transparent 34rem),
+      radial-gradient(circle at 15% 70%, rgba(111,178,162,0.08), transparent 28rem),
+      var(--void);
+    color: var(--cream);
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
+  }
+
+  header {
+    text-align: center;
+    padding: 2.6rem 1rem 1rem;
+  }
+  h1 {
+    color: var(--gold);
+    font-size: clamp(1.9rem, 5vw, 4rem);
+    font-weight: 300;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+  header p {
+    margin-top: 0.55rem;
+    color: var(--text-dim);
+    font-style: italic;
+    letter-spacing: 0.06em;
+  }
+
+  .stage {
+    width: min(94vw, 960px);
+    margin: 1rem auto 0;
+    display: grid;
+    grid-template-columns: minmax(280px, 1fr) minmax(260px, 330px);
+    gap: 1.2rem;
+    align-items: stretch;
+  }
+
+  .canvas-card {
+    position: relative;
+    min-height: min(76vw, 720px);
+    border: 1px solid var(--border);
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.03), transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(201,168,76,0.035), transparent 50%),
+      var(--panel);
+    box-shadow: 0 0 100px rgba(201,168,76,0.055);
+    overflow: hidden;
+  }
+
+  canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+    touch-action: none;
+  }
+  canvas:active { cursor: grabbing; }
+
+  .hud {
+    position: absolute;
+    left: 1rem;
+    bottom: 1rem;
+    right: 1rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    pointer-events: none;
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .hud b { color: var(--gold); font-weight: 400; }
+
+  .panel {
+    border: 1px solid var(--border);
+    background: var(--panel);
+    padding: 1rem;
+  }
+  .panel h2 {
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    margin-bottom: 0.75rem;
+  }
+  .panel p {
+    color: var(--text-body);
+    line-height: 1.65;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .controls {
+    display: grid;
+    gap: 0.85rem;
+  }
+  .ctrl {
+    display: grid;
+    gap: 0.34rem;
+  }
+  .row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  label, .mono {
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .val {
+    color: var(--gold);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+  }
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 2px;
+    background: rgba(201,168,76,0.23);
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 0;
+    transition: transform 0.15s ease;
+  }
+  input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.35); }
+  select {
+    width: 100%;
+    background: rgba(0,0,0,0.28);
+    border: 1px solid var(--gold-dim);
+    color: var(--cream);
+    padding: 0.5rem 0.6rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+  }
+
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.2rem;
+  }
+  button {
+    background: transparent;
+    border: 1px solid var(--gold-dim);
+    color: var(--cream);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.45rem 0.65rem;
+    cursor: pointer;
+    transition: 0.18s ease;
+  }
+  button:hover, button.active {
+    background: rgba(201,168,76,0.12);
+    color: var(--gold);
+    border-color: var(--gold);
+  }
+
+  .formula {
+    margin-top: 1rem;
+    padding: 0.85rem 0.9rem;
+    background: var(--panel-strong);
+    border-left: 2px solid var(--gold-dim);
+    color: var(--cream);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    line-height: 1.9;
+    overflow-x: auto;
+  }
+  .comment { color: var(--text-dim); }
+
+  .gallery {
+    width: min(94vw, 960px);
+    margin: 1.2rem auto 5rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.8rem;
+  }
+  .idea {
+    border: 1px solid var(--border);
+    background: var(--panel);
+    padding: 1rem;
+    min-height: 13rem;
+  }
+  .idea .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--gold-dim);
+    letter-spacing: 0.16em;
+    font-size: 0.58rem;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .idea h3 {
+    color: var(--gold);
+    font-weight: 300;
+    font-size: 1.25rem;
+    line-height: 1.18;
+    margin-bottom: 0.55rem;
+  }
+  .idea p {
+    color: var(--text-body);
+    font-size: 0.96rem;
+    line-height: 1.55;
+  }
+
+
+
+  /* ── DEEPER EXPLAINER ── */
+  .deep {
+    width: min(94vw, 960px);
+    margin: 0 auto 6rem;
+  }
+  .deep-section {
+    border-top: 1px solid rgba(201,168,76,0.16);
+    padding: 3.2rem 0 0;
+    margin-top: 3.2rem;
+  }
+  .deep-label {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--gold-dim);
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+  .deep h2 {
+    color: var(--gold);
+    font-size: clamp(1.55rem, 3.2vw, 2.35rem);
+    font-weight: 300;
+    line-height: 1.12;
+    letter-spacing: 0.055em;
+    margin-bottom: 1.1rem;
+  }
+  .deep p {
+    color: var(--text-body);
+    font-size: 1.05rem;
+    line-height: 1.85;
+    max-width: 760px;
+    margin-bottom: 1.1rem;
+  }
+  .deep p strong { color: var(--cream); font-weight: 400; }
+  .deep em { color: var(--cream); }
+  .math-grid,
+  .implication-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 0.9rem;
+    margin: 1.4rem 0 1.8rem;
+  }
+  .math-card,
+  .implication-card {
+    border: 1px solid var(--border);
+    background: var(--panel);
+    padding: 1rem 1.05rem;
+    min-height: 10.5rem;
+  }
+  .math-card h3,
+  .implication-card h3 {
+    color: var(--gold);
+    font-weight: 300;
+    font-size: 1.2rem;
+    margin-bottom: 0.55rem;
+    letter-spacing: 0.04em;
+  }
+  .math-card p,
+  .implication-card p {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    margin-bottom: 0.7rem;
+  }
+  .equation {
+    margin: 1rem 0 1.2rem;
+    padding: 1rem 1.1rem;
+    border-left: 2px solid var(--gold-dim);
+    background: var(--panel-strong);
+    color: var(--cream);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(0.72rem, 1.6vw, 0.86rem);
+    line-height: 2.05;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .equation .small {
+    color: var(--text-dim);
+    font-size: 0.78em;
+  }
+  .map-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.2rem 0 1.8rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+  }
+  .map-table th,
+  .map-table td {
+    border: 1px solid var(--border);
+    padding: 0.75rem 0.7rem;
+    vertical-align: top;
+    color: var(--text-body);
+    line-height: 1.55;
+  }
+  .map-table th {
+    color: var(--gold);
+    font-weight: 400;
+    text-align: left;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(201,168,76,0.045);
+  }
+  .map-table td:first-child { color: var(--cream); width: 9.5rem; }
+  .code-block {
+    margin: 1.3rem 0 1.8rem;
+    padding: 1.1rem 1.15rem;
+    border: 1px solid var(--border);
+    background: rgba(0,0,0,0.22);
+    color: var(--cream);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    line-height: 1.85;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .process {
+    counter-reset: step;
+    display: grid;
+    gap: 0.75rem;
+    margin: 1.4rem 0 1.8rem;
+  }
+  .process-item {
+    counter-increment: step;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    padding: 0.9rem 1rem 0.9rem 3.1rem;
+    position: relative;
+    color: var(--text-body);
+    line-height: 1.65;
+  }
+  .process-item::before {
+    content: counter(step, decimal-leading-zero);
+    position: absolute;
+    top: 0.95rem;
+    left: 1rem;
+    color: var(--gold);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+  }
+  .thesis {
+    margin: 2rem 0 0;
+    padding: 1.5rem 1.6rem;
+    border: 1px solid rgba(201,168,76,0.24);
+    background:
+      radial-gradient(circle at 15% 20%, rgba(201,168,76,0.12), transparent 18rem),
+      var(--panel);
+    color: var(--cream);
+    font-size: clamp(1.18rem, 2.5vw, 1.55rem);
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  @media (max-width: 820px) {
+    .stage { grid-template-columns: 1fr; }
+    .canvas-card { height: 76vh; min-height: 420px; }
+    .gallery { grid-template-columns: 1fr 1fr; }
+    .math-grid, .implication-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) {
+    h1 { letter-spacing: 0.14em; }
+    .gallery { grid-template-columns: 1fr; }
+    .map-table { font-size: 0.62rem; }
+    .map-table th, .map-table td { padding: 0.62rem 0.55rem; }
+    .hud { flex-direction: column; gap: 0.25rem; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>3D Phyllotaxis</h1>
+  <p>a growth instrument for botanical geometry, shells, domes, planets, and policy landscapes</p>
+</header>
+
+<section class="stage">
+  <div class="canvas-card">
+    <canvas id="world"></canvas>
+    <div class="hud">
+      <span>drag to rotate · wheel/pinch to zoom</span>
+      <span><b id="hudMode">Meristem dome</b></span>
+    </div>
+  </div>
+
+  <aside class="panel">
+    <h2>From disc to organism</h2>
+    <p>
+      The 2D rule stays almost untouched. We keep the golden turn, then reinterpret the radius as height, curvature, latitude, or time. The same arithmetic can become a sunflower head, pinecone, sphere, shell, torus, or a living architectural canopy.
+    </p>
+
+    <div class="controls">
+      <div class="ctrl">
+        <label for="mode">Growth body</label>
+        <select id="mode">
+          <option value="dome">Meristem dome</option>
+          <option value="bowl">Sunflower bowl</option>
+          <option value="cone">Pinecone / tower</option>
+          <option value="sphere">Planetary seeds</option>
+          <option value="cylinder">Columnar stem</option>
+          <option value="torus">Toroidal wreath</option>
+          <option value="shell">Logarithmic shell</option>
+          <option value="canopy">Architectural canopy</option>
+        </select>
+      </div>
+
+      <div class="ctrl">
+        <div class="row"><label>Divergence angle</label><span class="val" id="vAngle">137.508°</span></div>
+        <input type="range" id="angle" min="90" max="180" step="0.001" value="137.508" />
+      </div>
+      <div class="ctrl">
+        <div class="row"><label>Seed count</label><span class="val" id="vN">900</span></div>
+        <input type="range" id="count" min="80" max="2400" step="20" value="900" />
+      </div>
+      <div class="ctrl">
+        <div class="row"><label>Height / curvature</label><span class="val" id="vHeight">1.00</span></div>
+        <input type="range" id="height" min="0" max="2.4" step="0.01" value="1" />
+      </div>
+      <div class="ctrl">
+        <div class="row"><label>Twist / memory</label><span class="val" id="vTwist">0.65</span></div>
+        <input type="range" id="twist" min="-2.5" max="2.5" step="0.01" value="0.65" />
+      </div>
+      <div class="ctrl">
+        <div class="row"><label>Particle scale</label><span class="val" id="vSize">1.00×</span></div>
+        <input type="range" id="dot" min="0.35" max="2.5" step="0.01" value="1" />
+      </div>
+
+      <div class="buttons">
+        <button data-preset="golden" class="active">golden</button>
+        <button data-preset="near">near</button>
+        <button data-preset="tri">triad</button>
+        <button data-preset="square">square</button>
+        <button id="pause">pause</button>
+        <button id="reset">reset view</button>
+      </div>
+    </div>
+
+    <div class="formula">
+      θₙ = nα<br>
+      ρₙ = √(n/N)<br>
+      x,y,z = F(ρₙ, θₙ, t)<br>
+      <span class="comment">// 3D phyllotaxis is not a new formula; it is a new surface.</span>
+    </div>
+  </aside>
+</section>
+
+<section class="gallery">
+  <article class="idea">
+    <div class="kicker">01 · dome</div>
+    <h3>Let radius become altitude</h3>
+    <p>Map the flat sunflower into a meristem: young primordia rise near the centre, older ones descend outward. Growth becomes terrain.</p>
+  </article>
+  <article class="idea">
+    <div class="kicker">02 · sphere</div>
+    <h3>Use index as latitude</h3>
+    <p>On a sphere, z = 1 − 2n/N. The golden angle distributes points like stars, pollen, satellites, or pores on an organism.</p>
+  </article>
+  <article class="idea">
+    <div class="kicker">03 · shell</div>
+    <h3>Make time logarithmic</h3>
+    <p>Let radius and height expand with age. The phyllotactic rule becomes a fossil record of turns, not just a packing diagram.</p>
+  </article>
+  <article class="idea">
+    <div class="kicker">04 · architecture</div>
+    <h3>Turn it into a canopy</h3>
+    <p>Each seed can become a skylight, acoustic baffle, plant module, policy node, or sensor. The geometry becomes inhabitable.</p>
+  </article>
+</section>
+
+
+<section class="deep" id="maths">
+  <div class="deep-section">
+    <div class="deep-label">§ 01 · mathematical engine</div>
+    <h2>The old rule survives. Only the world changes.</h2>
+    <p>
+      The important conceptual move is that 3D phyllotaxis does not require a totally new law.
+      We keep the original sequencing rule: each new point turns by a fixed divergence angle, and
+      the normalised radius grows with the square root of its index. What changes is the <em>surface</em>
+      on which that sequence is allowed to live.
+    </p>
+
+    <div class="equation">
+      φ = (1 + √5) / 2<br>
+      α = 2π(1 − 1/φ) = 2π / φ² ≈ 2.399963 rad ≈ 137.507764°<br>
+      uₙ = (n + 1/2) / N &nbsp;&nbsp;&nbsp; ρₙ = √uₙ &nbsp;&nbsp;&nbsp; θₙ = nα<br>
+      <span class="small">// u is age/progress, ρ is normalised radial growth, θ is angular memory.</span>
+    </div>
+
+    <p>
+      In the flat sunflower, the embedding is simply a disc. In the 3D version, the same sequence is
+      passed through a surface function. This is why the piece can become a dome, sphere, torus, cone,
+      shell, or canopy without changing its underlying arithmetic.
+    </p>
+
+    <div class="equation">
+      flat disc: &nbsp;&nbsp; Pₙ = (Rρₙ cos θₙ, Rρₙ sin θₙ)<br>
+      3D body: &nbsp;&nbsp;&nbsp; Pₙ = F(ρₙ, θₙ, uₙ, t) = (xₙ, yₙ, zₙ)<br>
+      <span class="small">// 3D phyllotaxis is a parameterised embedding of a 1D growth sequence into a 3D body.</span>
+    </div>
+  </div>
+
+  <div class="deep-section">
+    <div class="deep-label">§ 02 · surface grammar</div>
+    <h2>Each mode is a different interpretation of growth.</h2>
+    <p>
+      The dropdown menu is not a collection of decorative presets. It is a small grammar of possible
+      bodies. Each mode asks: what should radius mean? What should height mean? Is the plant growing
+      outward, upward, around, inward, or through time?
+    </p>
+
+    <table class="map-table">
+      <thead>
+        <tr><th>Mode</th><th>Core mapping</th><th>Interpretation</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Meristem dome</td>
+          <td>x = Rρcosθ, y = Rρsinθ, z = H√(1−ρ²)</td>
+          <td>The centre rises as the active growing tip; older primordia migrate outward and downward.</td>
+        </tr>
+        <tr>
+          <td>Sunflower bowl</td>
+          <td>z = −H(ρ² − c) + wave(ρ,t)</td>
+          <td>The disc becomes a shallow receptacle, closer to a real flower head or concave terrain.</td>
+        </tr>
+        <tr>
+          <td>Pinecone / tower</td>
+          <td>r = R(a + bρ), z = H(u − 1/2), θ′ = θ + kρ</td>
+          <td>The pattern becomes vertical accretion: a cone, tower, seed stack, or pagoda-like growth.</td>
+        </tr>
+        <tr>
+          <td>Sphere</td>
+          <td>z = R(1−2u), r = √(R²−z²), x = rcosθ, y = rsinθ</td>
+          <td>Index becomes latitude. The golden turn distributes points across a globe or organism skin.</td>
+        </tr>
+        <tr>
+          <td>Cylinder</td>
+          <td>r ≈ constant, z = H(2u−1), θ′ = θ + ku</td>
+          <td>Useful for stems, columns, facades, data towers, or vertical urban systems.</td>
+        </tr>
+        <tr>
+          <td>Torus</td>
+          <td>x = (A + Bcosψ)cosθ, y = (A + Bcosψ)sinθ, z = Bsinψ</td>
+          <td>The sequence becomes a wreath, orbital ring, necklace, or closed ecological cycle.</td>
+        </tr>
+        <tr>
+          <td>Shell</td>
+          <td>r = Rρφ<sup>βu</sup>, θ′ = θ + γu, z = H(u − c)</td>
+          <td>The phyllotactic trace becomes historical: a fossilised memory of growth over time.</td>
+        </tr>
+        <tr>
+          <td>Canopy</td>
+          <td>z = H[(1−ρ²) + wave(θ,ρ,t)]</td>
+          <td>The pattern becomes inhabitable: skylights, acoustic modules, planters, sensors, or social nodes.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="deep-section">
+    <div class="deep-label">§ 03 · why √u matters</div>
+    <h2>The square root is the quiet density corrector.</h2>
+    <p>
+      The square-root radius is not an aesthetic trick. In a disc, area grows with radius squared:
+      A = πr². If every new seed is meant to occupy roughly equal area, then the radius must grow with
+      the square root of the seed index. This prevents overcrowding at the centre and thinning at the edge.
+    </p>
+
+    <div class="math-grid">
+      <article class="math-card">
+        <h3>Wrong intuition</h3>
+        <p>If r grows linearly with n, the early points are pushed outward too aggressively and the centre becomes visually distorted.</p>
+        <div class="equation">rₙ ∝ n</div>
+      </article>
+      <article class="math-card">
+        <h3>Area-corrected growth</h3>
+        <p>If equal index increments correspond to equal area increments, then r² grows linearly, so r grows as √n.</p>
+        <div class="equation">πr² ∝ n → rₙ ∝ √n</div>
+      </article>
+    </div>
+
+    <p>
+      In the 3D prototype, this remains useful even when the body is not flat. The variable ρ behaves like
+      a stable growth coordinate: it says where the point sits in the organism’s history, before each mode
+      reinterprets that history as height, latitude, curvature, or time.
+    </p>
+  </div>
+
+  <div class="deep-section">
+    <div class="deep-label">§ 04 · programming anatomy</div>
+    <h2>The code is a small rendering pipeline.</h2>
+    <p>
+      The program follows a simple pipeline: generate points from the phyllotactic sequence, map them
+      onto a 3D surface, rotate the virtual object, project it onto the 2D canvas, depth-sort it, and draw
+      the points from back to front.
+    </p>
+
+    <div class="process">
+      <div class="process-item"><strong>Generate.</strong> For each index n, compute u, ρ, and θ. This gives each point a place in the sequence.</div>
+      <div class="process-item"><strong>Embed.</strong> The function <code>pointFor(i,p)</code> converts the abstract sequence into x, y, z using the selected growth body.</div>
+      <div class="process-item"><strong>Rotate.</strong> The drag interaction changes two angles, <code>rotX</code> and <code>rotY</code>, producing a virtual camera orbit.</div>
+      <div class="process-item"><strong>Project.</strong> Perspective projection makes farther points smaller and nearer points larger.</div>
+      <div class="process-item"><strong>Sort and draw.</strong> Points are ordered by depth, then painted back-to-front so the body reads spatially.</div>
+    </div>
+
+    <div class="code-block">for each seed i:
+    u   = (i + 0.5) / N
+    ρ   = sqrt(u)
+    θ   = i * goldenAngle + twist(ρ)
+
+    point3D = surfaceMode(ρ, θ, u, time)
+    point3D = rotateXrotateY(point3D, dragAngles)
+    point2D = perspectiveProject(point3D)
+
+sort points by z-depth
+paint far points first, near points last</div>
+
+    <p>
+      The animation is deliberately subtle. A small breathing term perturbs the points so the object feels
+      botanical instead of mechanical. This is not biologically exact simulation; it is a visual essay about
+      how a local ordering rule can acquire different bodies.
+    </p>
+  </div>
+
+  <div class="deep-section">
+    <div class="deep-label">§ 05 · implications</div>
+    <h2>What changes when phyllotaxis becomes 3D?</h2>
+    <p>
+      The implication is larger than “sunflower, but spatial.” Once phyllotaxis becomes a surface grammar,
+      it becomes a bridge between mathematics, biology, architecture, computation, and systems thinking.
+    </p>
+
+    <div class="implication-grid">
+      <article class="implication-card">
+        <h3>Mathematical</h3>
+        <p>The rule separates <em>sequence</em> from <em>embedding</em>. This is powerful: the same arithmetic order can inhabit multiple geometries, suggesting a family of related forms rather than one canonical diagram.</p>
+      </article>
+      <article class="implication-card">
+        <h3>Biological</h3>
+        <p>It helps us see morphogenesis as local decision-making under constraint. A plant does not need to know φ; repeated local placement can still generate globally elegant order.</p>
+      </article>
+      <article class="implication-card">
+        <h3>Architectural</h3>
+        <p>Phyllotaxis can become a method for distributing apertures, columns, plant modules, acoustic baffles, sensors, or gathering points without imposing a rigid grid.</p>
+      </article>
+      <article class="implication-card">
+        <h3>Computational</h3>
+        <p>This is a compact lesson in generative design: a small set of parameters can generate a large design space, while preserving recognisable structural coherence.</p>
+      </article>
+      <article class="implication-card">
+        <h3>Urban / policy</h3>
+        <p>As metaphor, it shows how a repeated local rule can create emergent global pattern. That is relevant to city form, infrastructure, public-space distribution, and policy terrain thinking.</p>
+      </article>
+      <article class="implication-card">
+        <h3>Pedagogical</h3>
+        <p>It reframes mathematics as transformation rather than notation. Students can feel how a formula becomes a body by rotating, tuning, and comparing outcomes.</p>
+      </article>
+    </div>
+
+    <div class="thesis">
+      2D phyllotaxis explains optimal packing. 3D phyllotaxis asks a deeper question: if growth has memory, what kind of body does that memory choose to become?
+    </div>
+  </div>
+</section>
+
+<script>
+(() => {
+  const canvas = document.getElementById('world');
+  const ctx = canvas.getContext('2d');
+  const els = {
+    mode: document.getElementById('mode'), angle: document.getElementById('angle'), count: document.getElementById('count'),
+    height: document.getElementById('height'), twist: document.getElementById('twist'), dot: document.getElementById('dot'),
+    vAngle: document.getElementById('vAngle'), vN: document.getElementById('vN'), vHeight: document.getElementById('vHeight'),
+    vTwist: document.getElementById('vTwist'), vSize: document.getElementById('vSize'), hudMode: document.getElementById('hudMode'),
+    pause: document.getElementById('pause'), reset: document.getElementById('reset')
+  };
+
+  let W = 800, H = 620, dpr = 1;
+  let rotX = -0.72, rotY = 0.52, zoom = 1.0;
+  let dragging = false, lastX = 0, lastY = 0;
+  let t = 0, paused = false;
+  const phi = (1 + Math.sqrt(5)) / 2;
+
+  function resize() {
+    const rect = canvas.parentElement.getBoundingClientRect();
+    W = Math.max(300, rect.width);
+    H = Math.max(360, rect.height);
+    dpr = Math.min(2, window.devicePixelRatio || 1);
+    canvas.width = Math.round(W * dpr);
+    canvas.height = Math.round(H * dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  function lerp(a,b,u){ return a + (b-a)*u; }
+  function clamp(x,a,b){ return Math.max(a, Math.min(b,x)); }
+
+  function params() {
+    return {
+      mode: els.mode.value,
+      angle: +els.angle.value * Math.PI / 180,
+      count: +els.count.value,
+      height: +els.height.value,
+      twist: +els.twist.value,
+      dot: +els.dot.value
+    };
+  }
+
+  function pointFor(i, p) {
+    const n = p.count;
+    const u = (i + 0.5) / n;
+    const rho = Math.sqrt(u);
+    let th = i * p.angle + p.twist * rho * 2.4 + 0.06 * Math.sin(t * 0.6 + i * 0.013);
+    let x = 0, y = 0, z = 0;
+    const R = 210;
+    const hh = 190 * p.height;
+
+    if (p.mode === 'sphere') {
+      z = (1 - 2*u) * R * 0.9 * p.height;
+      const rr = Math.sqrt(Math.max(0, (R*0.92)**2 - z*z));
+      th = i * p.angle + p.twist * Math.sin(u * Math.PI * 2);
+      x = rr * Math.cos(th); y = rr * Math.sin(th);
+    } else if (p.mode === 'cone') {
+      const rr = R * (0.16 + 0.88 * rho);
+      z = hh * (u - 0.5);
+      th += rho * p.twist * 4.5;
+      x = rr * Math.cos(th); y = rr * Math.sin(th);
+    } else if (p.mode === 'cylinder') {
+      const rr = R * (0.58 + 0.06 * Math.sin(i * p.angle * 5));
+      z = hh * (2*u - 1);
+      th += p.twist * u * 7.0;
+      x = rr * Math.cos(th); y = rr * Math.sin(th);
+    } else if (p.mode === 'torus') {
+      const major = R * 0.72;
+      const minor = R * (0.18 + 0.16 * p.height);
+      const tube = 2 * Math.PI * rho + p.twist * 0.5;
+      const rr = major + minor * Math.cos(tube);
+      z = minor * Math.sin(tube);
+      x = rr * Math.cos(th); y = rr * Math.sin(th);
+    } else if (p.mode === 'shell') {
+      const grow = Math.pow(phi, 1.7 * u) / Math.pow(phi, 1.7);
+      const rr = R * (0.12 + 0.98 * rho * grow);
+      z = hh * (u - 0.45) + 40 * Math.sin(5.5*rho + t*0.3);
+      th += 9.5 * u + p.twist * 2.8 * u;
+      x = rr * Math.cos(th); y = rr * Math.sin(th);
+    } else if (p.mode === 'canopy') {
+      const rr = R * (0.18 + 0.92 * rho);
+      const ripple = Math.sin(5*th + t) * Math.cos(3*Math.PI*rho);
+      z = -70 + hh * (0.72 * (1 - rho*rho) + 0.22 * ripple);
+      th += p.twist * Math.pow(rho, 1.8) * 3.0;
+      x = rr * Math.cos(th); y = rr * Math.sin(th);
+    } else if (p.mode === 'bowl') {
+      const rr = R * rho;
+      z = -hh * (rho*rho - 0.18) + 24 * Math.sin(8*rho - t*0.7);
+      x = rr * Math.cos(th); y = rr * Math.sin(th);
+    } else { // dome
+      const rr = R * rho;
+      z = hh * Math.sqrt(Math.max(0, 1 - rho*rho)) - hh * 0.28;
+      z += 14 * Math.sin(10 * rho + t * 0.8);
+      x = rr * Math.cos(th); y = rr * Math.sin(th);
+    }
+
+    // A faint breathing term makes the object feel botanical rather than mechanical.
+    const breathe = 1 + 0.018 * Math.sin(t + i * 0.021);
+    return { x: x*breathe, y: y*breathe, z, u, i };
+  }
+
+  function rotate(p) {
+    const cx = Math.cos(rotX), sx = Math.sin(rotX);
+    const cy = Math.cos(rotY), sy = Math.sin(rotY);
+    let y1 = p.y * cx - p.z * sx;
+    let z1 = p.y * sx + p.z * cx;
+    let x2 = p.x * cy + z1 * sy;
+    let z2 = -p.x * sy + z1 * cy;
+    return { x:x2, y:y1, z:z2, u:p.u, i:p.i };
+  }
+
+  function colorFor(p, depth) {
+    const hue = 38 + 98 * p.u + 18 * Math.sin(p.i * 0.017);
+    const sat = 44 + 30 * p.u;
+    const light = 35 + 24 * p.u + 10 * depth;
+    return `hsl(${hue}, ${sat}%, ${light}%)`;
+  }
+
+  function draw() {
+    if (!paused) t += 0.006;
+    const p = params();
+    updateLabels(p);
+    ctx.clearRect(0,0,W,H);
+
+    const grd = ctx.createRadialGradient(W*0.5,H*0.45,0,W*0.5,H*0.45,Math.max(W,H)*0.68);
+    grd.addColorStop(0,'rgba(201,168,76,0.08)');
+    grd.addColorStop(0.58,'rgba(111,145,116,0.035)');
+    grd.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle = grd;
+    ctx.fillRect(0,0,W,H);
+
+    const pts = [];
+    for (let i=0; i<p.count; i++) {
+      const q = rotate(pointFor(i, p));
+      const focal = 620;
+      const s = focal / (focal + q.z + 260);
+      pts.push({
+        x: W/2 + q.x * s * zoom,
+        y: H/2 + q.y * s * zoom,
+        z: q.z,
+        s,
+        u: q.u,
+        i: q.i
+      });
+    }
+    pts.sort((a,b)=>a.z-b.z);
+
+    // Soft structural meridians: low-alpha lines between Fibonacci-neighbour indices.
+    ctx.save();
+    ctx.globalAlpha = 0.075;
+    ctx.lineWidth = 0.55;
+    ctx.strokeStyle = 'rgba(201,168,76,0.75)';
+    const skip = p.count > 1300 ? 13 : 8;
+    const fibStep = 34;
+    for (let i=0; i<p.count-fibStep; i+=skip) {
+      const a = pts.find(pt => pt.i === i);
+      const b = pts.find(pt => pt.i === i + fibStep);
+      if (!a || !b) continue;
+      ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+    }
+    ctx.restore();
+
+    for (const q of pts) {
+      const depth = clamp((q.z + 260) / 520, 0, 1);
+      const r = (1.15 + 3.4*(1-q.u)) * p.dot * q.s * zoom;
+      const alpha = 0.28 + 0.72 * depth;
+      ctx.globalAlpha = alpha;
+      ctx.beginPath();
+      ctx.arc(q.x, q.y, Math.max(0.45, r), 0, Math.PI*2);
+      ctx.fillStyle = colorFor(q, depth);
+      ctx.fill();
+      if (q.i % 21 === 0) {
+        ctx.globalAlpha = alpha * 0.18;
+        ctx.beginPath();
+        ctx.arc(q.x, q.y, Math.max(2, r*3.2), 0, Math.PI*2);
+        ctx.fillStyle = 'rgba(233,223,199,0.55)';
+        ctx.fill();
+      }
+    }
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(draw);
+  }
+
+  function updateLabels(p) {
+    els.vAngle.textContent = (+els.angle.value).toFixed(3) + '°';
+    els.vN.textContent = p.count;
+    els.vHeight.textContent = p.height.toFixed(2);
+    els.vTwist.textContent = p.twist.toFixed(2);
+    els.vSize.textContent = p.dot.toFixed(2) + '×';
+    const text = els.mode.options[els.mode.selectedIndex].textContent;
+    els.hudMode.textContent = text;
+  }
+
+  // Interaction
+  canvas.addEventListener('pointerdown', e => { dragging = true; lastX = e.clientX; lastY = e.clientY; canvas.setPointerCapture(e.pointerId); });
+  canvas.addEventListener('pointermove', e => {
+    if (!dragging) return;
+    const dx = e.clientX - lastX, dy = e.clientY - lastY;
+    rotY += dx * 0.008;
+    rotX += dy * 0.008;
+    rotX = clamp(rotX, -Math.PI*0.92, Math.PI*0.92);
+    lastX = e.clientX; lastY = e.clientY;
+  });
+  window.addEventListener('pointerup', () => dragging = false);
+  canvas.addEventListener('wheel', e => {
+    e.preventDefault();
+    zoom *= Math.exp(-e.deltaY * 0.0008);
+    zoom = clamp(zoom, 0.42, 2.25);
+  }, { passive: false });
+
+  document.querySelectorAll('[data-preset]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const map = { golden:137.508, near:137.3, tri:120, square:90 };
+      els.angle.value = map[btn.dataset.preset];
+      document.querySelectorAll('[data-preset]').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+  els.pause.addEventListener('click', () => {
+    paused = !paused;
+    els.pause.textContent = paused ? 'play' : 'pause';
+    els.pause.classList.toggle('active', paused);
+  });
+  els.reset.addEventListener('click', () => { rotX = -0.72; rotY = 0.52; zoom = 1; });
+
+  [els.angle, els.count, els.height, els.twist, els.dot, els.mode].forEach(el => el.addEventListener('input', () => updateLabels(params())));
+  draw();
+})();
+</script>
+</body>
+</html>

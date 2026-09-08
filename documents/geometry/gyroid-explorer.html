@@ -1,0 +1,1761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Gyroid Explorer — United Design Practice (Fixed)</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=JetBrains+Mono:wght@300;400&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0a0a0b;
+  --surface: #111114;
+  --border: #1e1e24;
+  --border-light: #2a2a34;
+  --text: #e8e4dc;
+  --muted: #6b6875;
+  --gold: #c9a84c;
+  --gold-dim: #7a6530;
+  --lavender: #9b8fc4;
+  --teal: #4a9e8a;
+  --red: #c46a5a;
+}
+
+html {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.interactive-shell {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  grid-template-rows: auto 1fr;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* HEADER */
+header {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+  padding: 1.2rem 2rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  z-index: 10;
+}
+
+.title-block h1 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  font-size: 1.3rem;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  line-height: 1;
+}
+
+.title-block h1 em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.subtitle {
+  font-size: 0.6rem;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 0.3rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.equation-display {
+  margin-left: auto;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--muted);
+  letter-spacing: 0.03em;
+}
+
+.equation-display span {
+  color: var(--gold);
+}
+
+/* CANVAS AREA */
+.canvas-wrap {
+  position: relative;
+  background: var(--bg);
+  cursor: grab;
+  overflow: hidden;
+}
+
+.canvas-wrap:active { cursor: grabbing; }
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  outline: none;
+}
+
+.canvas-overlay {
+  position: absolute;
+  bottom: 1.2rem;
+  left: 1.5rem;
+  font-size: 0.58rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  pointer-events: none;
+  line-height: 1.8;
+  background: rgba(0,0,0,0.4);
+  padding: 0.2rem 0.6rem;
+  border-radius: 2px;
+  backdrop-filter: blur(4px);
+}
+
+.building-indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+  transition: opacity 0.4s;
+  background: rgba(0,0,0,0.75);
+  padding: 1rem 1.8rem;
+  border-radius: 32px;
+  backdrop-filter: blur(8px);
+  z-index: 20;
+  border: 1px solid var(--gold-dim);
+}
+
+.building-indicator.hidden { opacity: 0; visibility: hidden; }
+
+.building-indicator .label {
+  font-size: 0.7rem;
+  color: var(--gold);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.progress-bar {
+  width: 180px;
+  height: 2px;
+  background: var(--border-light);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--gold);
+  width: 0%;
+  transition: width 0.08s linear;
+}
+
+/* SIDE PANEL */
+.panel {
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-light) transparent;
+}
+
+.panel-section {
+  padding: 1.2rem 1.4rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.panel-section:last-child { border-bottom: none; }
+
+.section-label {
+  font-size: 0.55rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+
+/* SLIDERS */
+.slider-row {
+  margin-bottom: 1rem;
+}
+
+.slider-row:last-child { margin-bottom: 0; }
+
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.4rem;
+}
+
+.slider-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.slider-name sub {
+  font-size: 0.6em;
+  font-style: normal;
+}
+
+.slider-value {
+  font-size: 0.62rem;
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+  min-width: 3rem;
+  text-align: right;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 2px;
+  background: var(--border-light);
+  border-radius: 1px;
+  outline: none;
+  cursor: pointer;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+}
+
+input[type=range]::-webkit-slider-thumb:hover {
+  background: #e8c870;
+  transform: scale(1.3);
+}
+
+input[type=range].lavender::-webkit-slider-thumb { background: var(--lavender); }
+input[type=range].teal::-webkit-slider-thumb { background: var(--teal); }
+input[type=range].red::-webkit-slider-thumb { background: var(--red); }
+
+/* PRESETS */
+.presets {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.preset-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  padding: 0.5rem 0.4rem;
+  border: 1px solid var(--border-light);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.preset-btn:hover {
+  border-color: var(--gold-dim);
+  color: var(--gold);
+  background: rgba(201, 168, 76, 0.04);
+}
+
+.preset-btn.active {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(201, 168, 76, 0.07);
+}
+
+/* TOGGLES */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.7rem;
+}
+
+.toggle-row:last-child { margin-bottom: 0; }
+
+.toggle-label {
+  font-size: 0.65rem;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+.toggle {
+  position: relative;
+  width: 32px;
+  height: 16px;
+}
+
+.toggle input { opacity: 0; width: 0; height: 0; }
+
+.toggle-track {
+  position: absolute;
+  inset: 0;
+  background: var(--border-light);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.toggle-track::after {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--muted);
+  transition: transform 0.2s, background 0.2s;
+}
+
+.toggle input:checked + .toggle-track {
+  background: rgba(201, 168, 76, 0.25);
+}
+
+.toggle input:checked + .toggle-track::after {
+  transform: translateX(16px);
+  background: var(--gold);
+}
+
+/* COLOR MODE */
+.color-swatches {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+.swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.swatch:hover { transform: scale(1.15); }
+.swatch.active { border-color: var(--text); }
+
+/* INFO FOOTER */
+.info-block {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.78rem;
+  line-height: 1.7;
+  color: var(--muted);
+  font-weight: 300;
+}
+
+.info-block strong {
+  color: var(--text);
+  font-weight: 400;
+}
+</style>
+</head>
+<body>
+<div class="interactive-shell">
+
+<header>
+  <div class="title-block">
+    <h1><em>Gyroid</em> Explorer</h1>
+    <div class="subtitle">United Design Practice · Triply Periodic Minimal Surface</div>
+  </div>
+  <div class="equation-display">
+    sin <span>x</span> cos <span>y</span> + sin <span>y</span> cos <span>z</span> + sin <span>z</span> cos <span>x</span> = <span id="eq-t">0.00</span>
+  </div>
+</header>
+
+<div class="canvas-wrap" id="canvasWrap">
+  <canvas id="glCanvas" tabindex="0"></canvas>
+  <div class="building-indicator hidden" id="buildIndicator">
+    <div class="label">Computing surface</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+  <div class="canvas-overlay">
+    🖱️ drag to rotate · scroll to zoom
+  </div>
+</div>
+
+<div class="panel">
+  <!-- SURFACE PARAMS -->
+  <div class="panel-section">
+    <div class="section-label">Surface Parameters</div>
+
+    <div class="slider-row">
+      <div class="slider-header">
+        <span class="slider-name">Threshold <em>t</em></span>
+        <span class="slider-value" id="val-t">0.00</span>
+      </div>
+      <input type="range" id="sl-t" min="-1.4" max="1.4" step="0.01" value="0" class="">
+    </div>
+
+    <div class="slider-row">
+      <div class="slider-header">
+        <span class="slider-name">Period <em>λ</em></span>
+        <span class="slider-value" id="val-lambda">1.00</span>
+      </div>
+      <input type="range" id="sl-lambda" min="0.5" max="2.0" step="0.01" value="1.0" class="lavender">
+    </div>
+
+    <div class="slider-row">
+      <div class="slider-header">
+        <span class="slider-name">Resolution</span>
+        <span class="slider-value" id="val-res">48</span>
+      </div>
+      <input type="range" id="sl-res" min="20" max="64" step="2" value="48" class="teal">
+    </div>
+  </div>
+
+  <!-- RENDER -->
+  <div class="panel-section">
+    <div class="section-label">Render</div>
+
+    <div class="slider-row">
+      <div class="slider-header">
+        <span class="slider-name">Opacity</span>
+        <span class="slider-value" id="val-opacity">0.92</span>
+      </div>
+      <input type="range" id="sl-opacity" min="0.1" max="1.0" step="0.01" value="0.92" class="">
+    </div>
+
+    <div class="slider-row">
+      <div class="slider-header">
+        <span class="slider-name">Shininess</span>
+        <span class="slider-value" id="val-shine">64</span>
+      </div>
+      <input type="range" id="sl-shine" min="4" max="256" step="4" value="64" class="">
+    </div>
+
+    <div class="toggle-row" style="margin-top:0.8rem">
+      <span class="toggle-label">Wireframe overlay</span>
+      <label class="toggle"><input type="checkbox" id="tog-wire"><span class="toggle-track"></span></label>
+    </div>
+
+    <div class="toggle-row">
+      <span class="toggle-label">Auto-rotate</span>
+      <label class="toggle"><input type="checkbox" id="tog-rotate" checked><span class="toggle-track"></span></label>
+    </div>
+
+    <div class="toggle-row">
+      <span class="toggle-label">Show dual surface</span>
+      <label class="toggle"><input type="checkbox" id="tog-dual"><span class="toggle-track"></span></label>
+    </div>
+
+    <div style="margin-top:0.8rem">
+      <div class="section-label" style="margin-bottom:0.5rem">Colour mode</div>
+      <div class="color-swatches">
+        <div class="swatch active" data-mode="gold" style="background:radial-gradient(circle at 35% 35%, #e8c870, #8a5f20)" title="Gold"></div>
+        <div class="swatch" data-mode="lavender" style="background:radial-gradient(circle at 35% 35%, #c4b8f0, #5a4a8a)" title="Lavender"></div>
+        <div class="swatch" data-mode="teal" style="background:radial-gradient(circle at 35% 35%, #7ad4c4, #2a6a5a)" title="Teal"></div>
+        <div class="swatch" data-mode="normal" style="background:radial-gradient(circle at 35% 35%, #e88080, #80e8c0, #8080e8)" title="Normal map"></div>
+        <div class="swatch" data-mode="depth" style="background:radial-gradient(circle at 35% 35%, #e8e4dc, #2a2a34)" title="Depth"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRESETS -->
+  <div class="panel-section">
+    <div class="section-label">Presets</div>
+    <div class="presets">
+      <button class="preset-btn active" data-preset="standard">Standard<br><span style="color:var(--gold-dim);font-size:0.55rem">t = 0</span></button>
+      <button class="preset-btn" data-preset="channel">Channel<br><span style="color:var(--gold-dim);font-size:0.55rem">t = −0.9</span></button>
+      <button class="preset-btn" data-preset="lidinoid">Lidinoid<br><span style="color:var(--gold-dim);font-size:0.55rem">λ = 0.7</span></button>
+      <button class="preset-btn" data-preset="foam">Foam<br><span style="color:var(--gold-dim);font-size:0.55rem">t = 1.2</span></button>
+      <button class="preset-btn" data-preset="dense">Dense<br><span style="color:var(--gold-dim);font-size:0.55rem">λ = 1.8</span></button>
+      <button class="preset-btn" data-preset="open">Open<br><span style="color:var(--gold-dim);font-size:0.55rem">t = 0.6</span></button>
+    </div>
+  </div>
+
+  <!-- INFO -->
+  <div class="panel-section">
+    <div class="section-label">About</div>
+    <div class="info-block">
+      The <strong>gyroid</strong> is a triply periodic minimal surface — zero mean curvature everywhere, no self-intersections. Discovered by Alan Schoen in 1970.<br><br>
+      Varying <em>t</em> interpolates between the two interlocking channel networks that partition space. At <em>t</em> = 0 the surface is perfectly balanced; near ±√2 the channels close.
+    </div>
+  </div>
+</div>
+
+</div><!-- /.interactive-shell -->
+
+<!-- ============================================================
+     MATHEMATICS SECTION
+     ============================================================ -->
+<section class="math-section">
+
+  <!-- scroll cue -->
+  <div class="scroll-cue">
+    <span class="scroll-cue-line"></span>
+    <span class="scroll-cue-label">scroll for mathematics</span>
+    <span class="scroll-cue-line"></span>
+  </div>
+
+  <div class="math-inner">
+
+    <!-- HEADER -->
+    <div class="math-header">
+      <p class="math-kicker">Mathematical Anatomy</p>
+      <h2 class="math-title">The Gyroid: <em>geometry, topology, and physics</em></h2>
+      <p class="math-deck">
+        A triply periodic minimal surface discovered by Alan Schoen in 1970 — born from differential geometry,
+        residing at the intersection of materials science, soft matter physics, and computational topology.
+      </p>
+    </div>
+
+    <!-- ── 1. THE DEFINING EQUATION ── -->
+    <div class="math-block">
+      <div class="math-block-label">01</div>
+      <div class="math-block-body">
+        <h3 class="block-title">The Defining Equation</h3>
+        <p class="block-prose">
+          The gyroid is the zero-level set of a scalar field <span class="inline-math">F : ℝ³ → ℝ</span>.
+          In the nodal (Schoen–Schwarz) approximation the field is:
+        </p>
+        <div class="formula-card primary">
+          <div class="formula-main">
+            F(x, y, z) = sin(λx)·cos(λy) + sin(λy)·cos(λz) + sin(λz)·cos(λx)
+          </div>
+          <div class="formula-label">nodal approximation to the gyroid TPMS</div>
+        </div>
+        <p class="block-prose">
+          The surface itself is the iso-set <span class="inline-math">{ F(x,y,z) = t }</span>, where <span class="inline-math">t</span> is the
+          threshold parameter and <span class="inline-math">λ</span> controls spatial frequency (period scaling).
+          At <span class="inline-math">t = 0</span> the surface is perfectly balanced and minimal in the strict differential-geometric sense.
+          Displacing <span class="inline-math">t</span> toward <span class="inline-math">±√2 ≈ ±1.414</span> progressively closes the tunnels
+          of one interlocking channel network until the surface self-intersects and the approximation breaks down.
+        </p>
+        <div class="formula-card secondary">
+          <div class="formula-main">t ∈ (−√2, √2) &nbsp;⟹&nbsp; valid, non-self-intersecting surface</div>
+          <div class="formula-label">admissible threshold range</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 2. MINIMAL SURFACE THEORY ── -->
+    <div class="math-block">
+      <div class="math-block-label">02</div>
+      <div class="math-block-body">
+        <h3 class="block-title">Minimal Surface Theory</h3>
+        <p class="block-prose">
+          A surface is <em>minimal</em> when its mean curvature vanishes identically: <span class="inline-math">H = 0</span> everywhere.
+          Mean curvature is the arithmetic mean of the two principal curvatures <span class="inline-math">κ₁</span> and <span class="inline-math">κ₂</span>:
+        </p>
+        <div class="formula-card primary">
+          <div class="formula-main">H = (κ₁ + κ₂) / 2 = 0</div>
+          <div class="formula-label">minimality condition — equal and opposite principal curvatures everywhere</div>
+        </div>
+        <p class="block-prose">
+          This is equivalent to saying the surface is a critical point of the area functional — it locally minimises area for any compactly supported variation of the embedding.
+          The Euler–Lagrange equation for the area functional is precisely <span class="inline-math">H = 0</span>.
+          For the gyroid, <span class="inline-math">κ₁ = −κ₂</span> at every point, so despite the surface curving in every direction, it does so in
+          perfectly balanced saddle geometry. The Gaussian curvature <span class="inline-math">K = κ₁κ₂ &lt; 0</span> is strictly negative —
+          the gyroid is everywhere hyperbolic (saddle-shaped).
+        </p>
+        <div class="formula-card accent-teal">
+          <div class="formula-main">K = κ₁ · κ₂ &lt; 0 &nbsp;&nbsp;(hyperbolic everywhere)</div>
+          <div class="formula-label">negative Gaussian curvature — no elliptic (bowl-shaped) patches exist</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 3. TRIPLE PERIODICITY & SPACE GROUP ── -->
+    <div class="math-block">
+      <div class="math-block-label">03</div>
+      <div class="math-block-body">
+        <h3 class="block-title">Triple Periodicity &amp; Space Group</h3>
+        <p class="block-prose">
+          The gyroid is <em>triply periodic</em>: it tiles all of ℝ³ under three independent lattice translations.
+          Specifically, it belongs to the cubic lattice system with fundamental domain a cube of side <span class="inline-math">a = 2π/λ</span>.
+        </p>
+        <div class="two-col-formulas">
+          <div class="formula-card secondary">
+            <div class="formula-main">F(x + 2π/λ, y, z) = F(x, y, z)</div>
+            <div class="formula-label">x-periodicity (and similarly for y, z)</div>
+          </div>
+          <div class="formula-card secondary">
+            <div class="formula-main">Space group: Ia3̄d (no. 230)</div>
+            <div class="formula-label">highest-symmetry cubic space group</div>
+          </div>
+        </div>
+        <p class="block-prose">
+          The space group <strong>Ia3̄d</strong> has order 96, containing screw axes, glide planes, and improper rotations.
+          Crucially, it has no mirror planes — the gyroid is <em>chiral</em>. Its mirror image (the left-handed gyroid)
+          cannot be superimposed on the right-handed form by any rigid motion, making it one of the few known
+          embedded minimal surfaces with this property. This chirality drives the optical activity observed in
+          gyroid-structured butterfly wing scales and block-copolymer thin films.
+        </p>
+      </div>
+    </div>
+
+    <!-- ── 4. MARCHING CUBES — THE NUMERICAL ENGINE ── -->
+    <div class="math-block">
+      <div class="math-block-label">04</div>
+      <div class="math-block-body">
+        <h3 class="block-title">Marching Cubes — the Numerical Engine</h3>
+        <p class="block-prose">
+          The interactive renderer uses the <strong>Marching Cubes</strong> algorithm (Lorensen &amp; Cline, 1987)
+          to extract a triangulated approximation of the iso-surface <span class="inline-math">{ F = t }</span>
+          from a uniform voxel grid of resolution <span class="inline-math">N³</span>.
+        </p>
+        <div class="algo-steps">
+          <div class="algo-step">
+            <div class="algo-step-num">①</div>
+            <div class="algo-step-body">
+              <strong>Sample the field.</strong> Evaluate <span class="inline-math">F(x,y,z)</span> at each of the
+              <span class="inline-math">(N+1)³</span> grid vertices. Store the scalar field as a flat array.
+            </div>
+          </div>
+          <div class="algo-step">
+            <div class="algo-step-num">②</div>
+            <div class="algo-step-body">
+              <strong>Classify each cube.</strong> For each of the <span class="inline-math">N³</span> voxels, form an
+              8-bit index by comparing each corner's field value to the threshold <span class="inline-math">t</span>:
+              bit <span class="inline-math">i = 1</span> iff <span class="inline-math">F(vᵢ) &gt; t</span>.
+              The 256 possible configurations reduce to 15 topologically distinct cases by symmetry.
+            </div>
+          </div>
+          <div class="algo-step">
+            <div class="algo-step-num">③</div>
+            <div class="algo-step-body">
+              <strong>Look up edge intersections.</strong> The <span class="inline-math">edgeTable[config]</span>
+              bitmask encodes which of the 12 cube edges are crossed by the iso-surface.
+              The <span class="inline-math">triTable[config]</span> encodes how those edge-intersection points
+              form triangles.
+            </div>
+          </div>
+          <div class="algo-step">
+            <div class="algo-step-num">④</div>
+            <div class="algo-step-body">
+              <strong>Interpolate vertex positions.</strong> Along each crossed edge <span class="inline-math">(a, b)</span>,
+              the intersection point is:
+              <div class="formula-card secondary" style="margin-top:0.7rem">
+                <div class="formula-main">p = a + (t − F(a)) / (F(b) − F(a)) · (b − a)</div>
+                <div class="formula-label">linear interpolation along the edge</div>
+              </div>
+            </div>
+          </div>
+          <div class="algo-step">
+            <div class="algo-step-num">⑤</div>
+            <div class="algo-step-body">
+              <strong>Compute vertex normals</strong> via the gradient of <span class="inline-math">F</span>,
+              estimated by central differences on the grid. The gradient <span class="inline-math">∇F</span>
+              is perpendicular to the iso-surface, giving accurate smooth shading without computing
+              face normals explicitly.
+            </div>
+          </div>
+        </div>
+        <div class="formula-card accent-lavender" style="margin-top:1.4rem">
+          <div class="formula-main">Complexity: O(N³) — resolution slider trades quality vs. build time</div>
+          <div class="formula-label">N = 48 gives ~110k triangles; N = 64 approaches 350k</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 5. THE GRADIENT & NORMAL VECTOR ── -->
+    <div class="math-block">
+      <div class="math-block-label">05</div>
+      <div class="math-block-body">
+        <h3 class="block-title">The Gradient &amp; Surface Normal</h3>
+        <p class="block-prose">
+          The unit normal to the iso-surface at any point is the normalised gradient of the field:
+        </p>
+        <div class="formula-card primary">
+          <div class="formula-main">n̂ = ∇F / |∇F|</div>
+          <div class="formula-label">outward unit normal to the level set</div>
+        </div>
+        <p class="block-prose">The three partial derivatives of the gyroid field are:</p>
+        <div class="derivative-grid">
+          <div class="formula-card secondary">
+            <div class="formula-main">∂F/∂x = λ[cos(λx)cos(λy) − sin(λz)sin(λx)]</div>
+          </div>
+          <div class="formula-card secondary">
+            <div class="formula-main">∂F/∂y = λ[cos(λy)cos(λz) − sin(λx)sin(λy)]</div>
+          </div>
+          <div class="formula-card secondary">
+            <div class="formula-main">∂F/∂z = λ[cos(λz)cos(λx) − sin(λy)sin(λz)]</div>
+          </div>
+        </div>
+        <p class="block-prose">
+          The renderer uses central-difference approximations of these on the voxel grid,
+          then passes normals as vertex attributes to the WebGL pipeline, where the
+          normal matrix (the inverse-transpose of the model matrix) transforms them correctly
+          under non-uniform scaling:
+        </p>
+        <div class="formula-card secondary">
+          <div class="formula-main">n_world = (Mᵀ)⁻¹ · n_object</div>
+          <div class="formula-label">normal transformation — preserves perpendicularity under arbitrary linear maps</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 6. RENDERING: BLINN-PHONG ── -->
+    <div class="math-block">
+      <div class="math-block-label">06</div>
+      <div class="math-block-body">
+        <h3 class="block-title">Rendering: Blinn–Phong Illumination</h3>
+        <p class="block-prose">
+          The fragment shader implements the <strong>Blinn–Phong</strong> reflectance model,
+          decomposed into ambient, diffuse, and specular terms:
+        </p>
+        <div class="formula-card primary">
+          <div class="formula-main">
+            I = k<sub>a</sub>·Iₐ &nbsp;+&nbsp; k<sub>d</sub>·(n̂ · L̂)·I<sub>d</sub> &nbsp;+&nbsp; k<sub>s</sub>·(n̂ · Ĥ)<sup>α</sup>·I<sub>s</sub>
+          </div>
+          <div class="formula-label">total reflected radiance at a surface point</div>
+        </div>
+        <div class="term-table">
+          <div class="term-row">
+            <div class="term-symbol">n̂</div>
+            <div class="term-desc">unit surface normal (from ∇F)</div>
+          </div>
+          <div class="term-row">
+            <div class="term-symbol">L̂</div>
+            <div class="term-desc">unit vector toward the light source</div>
+          </div>
+          <div class="term-row">
+            <div class="term-symbol">Ĥ</div>
+            <div class="term-desc">halfway vector = normalise(L̂ + V̂), where V̂ is the view direction</div>
+          </div>
+          <div class="term-row">
+            <div class="term-symbol">α</div>
+            <div class="term-desc">shininess exponent — the <em>Shininess</em> slider in the panel</div>
+          </div>
+          <div class="term-row">
+            <div class="term-symbol">k<sub>s</sub></div>
+            <div class="term-desc">specular coefficient, tuned to maintain highlight intensity across color modes</div>
+          </div>
+        </div>
+        <p class="block-prose">
+          Two-sided lighting is applied: the dot product <span class="inline-math">n̂ · L̂</span> is taken as
+          <span class="inline-math">|n̂ · L̂|</span> so that back-faces of the thin gyroid sheet illuminate correctly,
+          reproducing the translucent mineral appearance at low opacity values.
+        </p>
+      </div>
+    </div>
+
+    <!-- ── 7. IMPLICATIONS & CONNECTIONS ── -->
+    <div class="math-block">
+      <div class="math-block-label">07</div>
+      <div class="math-block-body">
+        <h3 class="block-title">Implications &amp; Connections</h3>
+        <div class="implications-grid">
+          <div class="implication-card">
+            <div class="implication-icon" style="color:var(--gold)">⬡</div>
+            <h4>Soft Matter &amp; Self-Assembly</h4>
+            <p>Block copolymers — two chemically incompatible polymer chains joined end-to-end — spontaneously
+            self-assemble into gyroid morphology at specific volume fractions (~35% minority phase).
+            The gyroid minimises interfacial area while maximising connectivity of both channels,
+            making it thermodynamically stable. This explains why gyroid nanostructures appear in
+            shampoo, cell membranes, and butterfly wing scales without any external templating.</p>
+          </div>
+          <div class="implication-card">
+            <div class="implication-icon" style="color:var(--teal)">◈</div>
+            <h4>Topology &amp; Euler Characteristic</h4>
+            <p>The gyroid's two interlocking channel networks are each topologically equivalent to a
+            3-periodic triply connected graph — neither is simply connected. The Euler characteristic
+            of the fundamental domain (one unit cell) satisfies <span class="inline-math">χ = −8</span>,
+            connecting the gyroid to the genus-5 surface in the classification of compact 2-manifolds.
+            This topology is what makes each channel labyrinthine and non-trivially knotted with respect to the other.</p>
+          </div>
+          <div class="implication-card">
+            <div class="implication-icon" style="color:var(--lavender)">∿</div>
+            <h4>Photonics &amp; Structural Colour</h4>
+            <p>A gyroid with lattice period <span class="inline-math">a ≈ 300 nm</span> has photonic bandgaps
+            in the visible spectrum. This is why the green wing scales of <em>Callophrys rubi</em> (the
+            Green Hairstreak butterfly) produce iridescent colour without pigment — a purely structural
+            optical effect arising from Bragg-like scattering in the chiral gyroid lattice. The single-network
+            gyroid (one channel filled) breaks inversion symmetry, producing different bandgap behaviour for
+            left- and right-circularly polarised light.</p>
+          </div>
+          <div class="implication-card">
+            <div class="implication-icon" style="color:var(--red)">⬡</div>
+            <h4>Architecture &amp; Design</h4>
+            <p>The gyroid's combination of <em>maximal surface area, minimal material, high connectivity,
+            and structural rigidity</em> makes it an extreme point in structural optimisation space.
+            For a given enclosed volume the gyroid achieves near-optimal stiffness-to-weight ratio.
+            In additive manufacturing, gyroid infill patterns outperform rectilinear and honeycomb
+            patterns in isotropic compression tests. In architecture, gyroid-derived facades and
+            partition systems offer acoustic damping, thermal mass, and visual porosity simultaneously —
+            three properties rarely coexistent in flat assemblies.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="math-footer">
+      <div class="math-footer-eq">F(x,y,z) = sin x·cos y + sin y·cos z + sin z·cos x = t</div>
+      <div class="math-footer-label">United Design Practice &nbsp;·&nbsp; Gyroid Explorer</div>
+    </div>
+
+  </div><!-- /.math-inner -->
+</section>
+
+<!-- MATH SECTION STYLES -->
+<style>
+/* ── LAYOUT OVERRIDE ── */
+.interactive-shell header {
+  grid-column: 1 / -1;
+}
+.interactive-shell .canvas-wrap {
+  /* already correct */
+}
+
+/* ── SCROLL CUE ── */
+.scroll-cue {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.4rem 3rem;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+}
+.scroll-cue-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border-light);
+}
+.scroll-cue-label {
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* ── MATH SECTION SHELL ── */
+.math-section {
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+}
+.math-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 4rem 3rem 6rem;
+}
+
+/* ── HEADER ── */
+.math-header {
+  margin-bottom: 4rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid var(--border);
+}
+.math-kicker {
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+.math-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  font-size: 2.4rem;
+  line-height: 1.2;
+  color: var(--text);
+  margin-bottom: 1.2rem;
+  letter-spacing: -0.01em;
+}
+.math-title em {
+  font-style: italic;
+  color: var(--gold);
+}
+.math-deck {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 680px;
+  font-style: italic;
+}
+
+/* ── CONTENT BLOCKS ── */
+.math-block {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  gap: 0 2.5rem;
+  margin-bottom: 3.5rem;
+  padding-bottom: 3.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.math-block:last-of-type {
+  border-bottom: none;
+}
+.math-block-label {
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  color: var(--gold-dim);
+  padding-top: 0.2rem;
+  font-family: 'JetBrains Mono', monospace;
+  text-align: right;
+}
+.block-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  font-size: 1.35rem;
+  color: var(--text);
+  margin-bottom: 1.1rem;
+  letter-spacing: 0.01em;
+}
+.block-prose {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: rgba(232,228,220,0.82);
+  margin-bottom: 1.1rem;
+}
+.block-prose:last-child {
+  margin-bottom: 0;
+}
+.inline-math {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82em;
+  color: var(--gold);
+  background: rgba(201,168,76,0.06);
+  padding: 0.05em 0.35em;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+/* ── FORMULA CARDS ── */
+.formula-card {
+  margin: 1rem 0;
+  padding: 1.1rem 1.4rem;
+  border-left: 2px solid var(--border-light);
+  background: var(--surface);
+}
+.formula-card.primary {
+  border-left-color: var(--gold);
+  background: rgba(201,168,76,0.04);
+}
+.formula-card.secondary {
+  border-left-color: var(--border-light);
+}
+.formula-card.accent-teal {
+  border-left-color: var(--teal);
+  background: rgba(74,158,138,0.04);
+}
+.formula-card.accent-lavender {
+  border-left-color: var(--lavender);
+  background: rgba(155,143,196,0.04);
+}
+.formula-main {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--text);
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+}
+.formula-main sub {
+  font-size: 0.75em;
+}
+.formula-main sup {
+  font-size: 0.72em;
+}
+.formula-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.56rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+}
+
+/* ── LAYOUT HELPERS ── */
+.two-col-formulas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+.derivative-grid {
+  display: grid;
+  gap: 0.6rem;
+}
+
+/* ── ALGO STEPS ── */
+.algo-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+.algo-step {
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: 0 1rem;
+  align-items: start;
+}
+.algo-step-num {
+  font-size: 0.9rem;
+  color: var(--gold);
+  padding-top: 0.1rem;
+}
+.algo-step-body {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: rgba(232,228,220,0.82);
+}
+.algo-step-body strong {
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ── TERM TABLE ── */
+.term-table {
+  margin: 1rem 0;
+  border: 1px solid var(--border);
+}
+.term-row {
+  display: grid;
+  grid-template-columns: 5rem 1fr;
+  border-bottom: 1px solid var(--border);
+  padding: 0.6rem 1rem;
+}
+.term-row:last-child {
+  border-bottom: none;
+}
+.term-symbol {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  color: var(--gold);
+}
+.term-symbol sub { font-size: 0.7em; }
+.term-desc {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: rgba(232,228,220,0.78);
+  line-height: 1.5;
+}
+
+/* ── IMPLICATIONS GRID ── */
+.implications-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+  margin-top: 0.5rem;
+}
+.implication-card {
+  padding: 1.4rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: border-color 0.2s;
+}
+.implication-card:hover {
+  border-color: var(--border-light);
+}
+.implication-icon {
+  font-size: 1.2rem;
+  margin-bottom: 0.6rem;
+  display: block;
+}
+.implication-card h4 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  font-size: 0.95rem;
+  color: var(--text);
+  margin-bottom: 0.65rem;
+  letter-spacing: 0.01em;
+}
+.implication-card p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.97rem;
+  line-height: 1.65;
+  color: rgba(232,228,220,0.7);
+}
+
+/* ── FOOTER ── */
+.math-footer {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.math-footer-eq {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--gold-dim);
+  letter-spacing: 0.06em;
+  margin-bottom: 0.8rem;
+}
+.math-footer-label {
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 720px) {
+  .math-inner { padding: 2.5rem 1.5rem 4rem; }
+  .math-title { font-size: 1.6rem; }
+  .math-block { grid-template-columns: 1fr; gap: 0.4rem; }
+  .math-block-label { text-align: left; }
+  .two-col-formulas,
+  .implications-grid { grid-template-columns: 1fr; }
+  .interactive-shell { height: 100svh; }
+}
+</style>
+
+<script>
+// ======================= MARCHING CUBES TABLES =======================
+// Edge table (standard)
+const edgeTable = new Int32Array([
+0x0,0x109,0x203,0x30a,0x406,0x50f,0x605,0x70c,0x80c,0x905,0xa0f,0xb06,0xc0a,0xd03,0xe09,0xf00,
+0x190,0x99,0x393,0x29a,0x596,0x49f,0x795,0x69c,0x99c,0x895,0xb9f,0xa96,0xd9a,0xc93,0xf99,0xe90,
+0x230,0x339,0x33,0x13a,0x636,0x73f,0x435,0x53c,0xa3c,0xb35,0x83f,0x936,0xe3a,0xf33,0xc39,0xd30,
+0x3a0,0x2a9,0x1a3,0xaa,0x7a6,0x6af,0x5a5,0x4ac,0xbac,0xaa5,0x9af,0x8a6,0xfaa,0xea3,0xda9,0xca0,
+0x460,0x569,0x663,0x76a,0x66,0x16f,0x265,0x36c,0xc6c,0xd65,0xe6f,0xf66,0x86a,0x963,0xa69,0xb60,
+0x5f0,0x4f9,0x7f3,0x6fa,0x1f6,0xff,0x3f5,0x2fc,0xdfc,0xcf5,0xfff,0xef6,0x9fa,0x8f3,0xbf9,0xaf0,
+0x650,0x759,0x453,0x55a,0x256,0x35f,0x55,0x15c,0xe5c,0xf55,0xc5f,0xd56,0xa5a,0xb53,0x859,0x950,
+0x7c0,0x6c9,0x5c3,0x4ca,0x3c6,0x2cf,0x1c5,0xcc,0xfcc,0xec5,0xdcf,0xcc6,0xbca,0xac3,0x9c9,0x8c0,
+0x8c0,0x9c9,0xac3,0xbca,0xcc6,0xdcf,0xec5,0xfcc,0xcc,0x1c5,0x2cf,0x3c6,0x4ca,0x5c3,0x6c9,0x7c0,
+0x950,0x859,0xb53,0xa5a,0xd56,0xc5f,0xf55,0xe5c,0x15c,0x55,0x35f,0x256,0x55a,0x453,0x759,0x650,
+0xaf0,0xbf9,0x8f3,0x9fa,0xef6,0xfff,0xcf5,0xdfc,0x2fc,0x3f5,0xff,0x1f6,0x6fa,0x7f3,0x4f9,0x5f0,
+0xb60,0xa69,0x963,0x86a,0xf66,0xe6f,0xd65,0xc6c,0x36c,0x265,0x16f,0x66,0x76a,0x663,0x569,0x460,
+0xca0,0xda9,0xea3,0xfaa,0x8a6,0x9af,0xaa5,0xbac,0x4ac,0x5a5,0x6af,0x7a6,0xaa,0x1a3,0x2a9,0x3a0,
+0xd30,0xc39,0xf33,0xe3a,0x936,0x83f,0xb35,0xa3c,0x53c,0x435,0x73f,0x636,0x13a,0x33,0x339,0x230,
+0xe90,0xf99,0xc93,0xd9a,0xa96,0xb9f,0x895,0x99c,0x69c,0x795,0x49f,0x596,0x29a,0x393,0x99,0x190,
+0xf00,0xe09,0xd03,0xc0a,0xb06,0xa0f,0x905,0x80c,0x70c,0x605,0x50f,0x406,0x30a,0x203,0x109,0x0
+]);
+
+// CORRECTED triangle table parser: skip leading -1,-1,-1 triples, then read real triangles
+const rawTriTable = [
+[],[-1,-1,-1,0,8,3,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,0,1,9,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,1,8,3,9,8,1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,1,2,10,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,0,8,3,1,2,10,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,9,2,10,0,2,9,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,2,8,3,2,10,8,10,9,8,-1,-1,-1,-1],[-1,-1,-1,3,11,2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,0,11,2,8,11,0,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,1,9,0,2,3,11,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,1,11,2,1,9,11,9,8,11,-1,-1,-1,-1],[-1,-1,-1,3,10,1,11,10,3,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,0,10,1,0,8,10,8,11,10,-1,-1,-1,-1],[-1,-1,-1,3,9,0,3,11,9,11,10,9,-1,-1,-1,-1],[-1,-1,-1,9,8,10,10,8,11,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,4,7,8,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,4,3,0,7,3,4,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,0,1,9,8,4,7,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,4,1,9,4,7,1,7,3,1,-1,-1,-1,-1],[-1,-1,-1,1,2,10,8,4,7,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,3,4,7,3,0,4,1,2,10,-1,-1,-1,-1],[-1,-1,-1,9,2,10,9,0,2,8,4,7,-1,-1,-1,-1],[-1,-1,-1,2,10,9,2,9,7,2,7,3,7,9,4,-1],[-1,-1,-1,8,4,7,3,11,2,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,11,4,7,11,2,4,2,0,4,-1,-1,-1,-1],[-1,-1,-1,9,0,1,8,4,7,2,3,11,-1,-1,-1,-1],[-1,-1,-1,4,7,11,9,4,11,9,11,2,9,2,1,-1],[-1,-1,-1,3,10,1,3,11,10,7,8,4,-1,-1,-1,-1],[-1,-1,-1,1,11,10,1,4,11,1,0,4,7,11,4,-1],[-1,-1,-1,4,7,8,9,0,11,9,11,10,11,0,3,-1],[-1,-1,-1,4,7,11,4,11,9,9,11,10,-1,-1,-1,-1],[-1,-1,-1,9,5,4,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,9,5,4,0,8,3,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,0,5,4,1,5,0,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,8,5,4,8,3,5,3,1,5,-1,-1,-1,-1],[-1,-1,-1,1,2,10,9,5,4,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,3,0,8,1,2,10,4,9,5,-1,-1,-1,-1],[-1,-1,-1,5,2,10,5,4,2,4,0,2,-1,-1,-1,-1],[-1,-1,-1,2,10,5,3,2,5,3,5,4,3,4,8,-1],[-1,-1,-1,9,5,4,2,3,11,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,0,11,2,0,8,11,4,9,5,-1,-1,-1,-1],[-1,-1,-1,0,5,4,0,1,5,2,3,11,-1,-1,-1,-1],[-1,-1,-1,2,1,5,2,5,8,2,8,11,4,8,5,-1],[-1,-1,-1,10,3,11,10,1,3,9,5,4,-1,-1,-1,-1],[-1,-1,-1,4,9,5,0,8,1,8,10,1,8,11,10,-1],[-1,-1,-1,5,4,0,5,0,11,5,11,10,11,0,3,-1],[-1,-1,-1,5,4,8,5,8,10,10,8,11,-1,-1,-1,-1],[-1,-1,-1,9,7,8,5,7,9,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,9,3,0,9,5,3,5,7,3,-1,-1,-1,-1],[-1,-1,-1,0,7,8,0,1,7,1,5,7,-1,-1,-1,-1],[-1,-1,-1,1,5,3,3,5,7,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,9,7,8,9,5,7,10,1,2,-1,-1,-1,-1],[-1,-1,-1,10,1,2,9,5,0,5,3,0,5,7,3,-1],[-1,-1,-1,8,0,2,8,2,5,8,5,7,10,5,2,-1],[-1,-1,-1,2,10,5,2,5,3,3,5,7,-1,-1,-1,-1],[-1,-1,-1,7,9,5,7,8,9,3,11,2,-1,-1,-1,-1],[-1,-1,-1,9,5,7,9,7,2,9,2,0,2,7,11,-1],[-1,-1,-1,2,3,11,0,1,8,1,7,8,1,5,7,-1],[-1,-1,-1,11,2,1,11,1,7,7,1,5,-1,-1,-1,-1],[-1,-1,-1,9,5,8,8,5,7,10,1,3,10,3,11,-1],[-1,-1,-1,5,7,0,5,0,9,7,11,0,1,0,10,11,10,0],[-1,-1,-1,11,10,0,11,0,3,10,5,0,8,0,7,5,7,0],[-1,-1,-1,11,10,5,7,11,5,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,10,6,5,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,0,8,3,5,10,6,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,9,0,1,5,10,6,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,1,8,3,1,9,8,5,10,6,-1,-1,-1,-1],[-1,-1,-1,1,6,5,2,6,1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,1,6,5,1,2,6,3,0,8,-1,-1,-1,-1],[-1,-1,-1,9,6,5,9,0,6,0,2,6,-1,-1,-1,-1],[-1,-1,-1,5,9,8,5,8,2,5,2,6,3,2,8,-1],[-1,-1,-1,2,3,11,10,6,5,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,11,0,8,11,2,0,10,6,5,-1,-1,-1,-1],[-1,-1,-1,0,1,9,2,3,11,5,10,6,-1,-1,-1,-1],[-1,-1,-1,5,10,6,1,9,2,9,11,2,9,8,11,-1],[-1,-1,-1,6,3,11,6,5,3,5,1,3,-1,-1,-1,-1],[-1,-1,-1,0,8,11,0,11,5,0,5,1,5,11,6,-1],[-1,-1,-1,3,11,6,0,3,6,0,6,5,0,5,9,-1],[-1,-1,-1,6,5,9,6,9,11,11,9,8,-1,-1,-1,-1],[-1,-1,-1,5,10,6,4,7,8,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,4,3,0,4,7,3,6,5,10,-1,-1,-1,-1],[-1,-1,-1,1,9,0,5,10,6,8,4,7,-1,-1,-1,-1],[-1,-1,-1,10,6,5,1,9,7,1,7,3,7,9,4,-1],[-1,-1,-1,6,1,2,6,5,1,4,7,8,-1,-1,-1,-1],[-1,-1,-1,1,2,5,5,2,6,3,0,4,3,4,7,-1],[-1,-1,-1,8,4,7,9,0,5,0,6,5,0,2,6,-1],[-1,-1,-1,7,3,9,7,9,4,3,2,9,5,9,6,2,6,9],[-1,-1,-1,3,11,2,7,8,4,10,6,5,-1,-1,-1,-1],[-1,-1,-1,5,10,6,4,7,2,4,2,0,2,7,11,-1],[-1,-1,-1,0,1,9,4,7,8,2,3,11,5,10,6,-1],[-1,-1,-1,9,2,1,9,11,2,9,4,11,7,11,4,5,10,6],[-1,-1,-1,8,4,7,3,11,5,3,5,1,5,11,6,-1],[-1,-1,-1,5,1,11,5,11,6,1,0,11,7,11,4,0,4,11],[-1,-1,-1,0,5,9,0,6,5,0,3,6,11,6,3,8,4,7],[-1,-1,-1,6,5,9,6,9,11,4,7,9,7,11,9,-1],[-1,-1,-1,10,4,9,6,4,10,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,4,10,6,4,9,10,0,8,3,-1,-1,-1,-1],[-1,-1,-1,10,0,1,10,6,0,6,4,0,-1,-1,-1,-1],[-1,-1,-1,8,3,1,8,1,6,8,6,4,6,1,10,-1],[-1,-1,-1,1,4,9,1,2,4,2,6,4,-1,-1,-1,-1],[-1,-1,-1,3,0,8,1,2,9,2,4,9,2,6,4,-1],[-1,-1,-1,0,2,4,4,2,6,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,8,3,2,8,2,4,4,2,6,-1,-1,-1,-1],[-1,-1,-1,10,4,9,10,6,4,11,2,3,-1,-1,-1,-1],[-1,-1,-1,0,8,2,2,8,11,4,9,10,4,10,6,-1],[-1,-1,-1,3,11,2,0,1,6,0,6,4,6,1,10,-1],[-1,-1,-1,6,4,1,6,1,10,4,8,1,2,1,11,8,11,1],[-1,-1,-1,9,6,4,9,3,6,9,1,3,11,6,3,-1],[-1,-1,-1,8,11,1,8,1,0,11,6,1,9,1,4,6,4,1],[-1,-1,-1,3,11,6,3,6,0,0,6,4,-1,-1,-1,-1],[-1,-1,-1,6,4,8,11,6,8,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,7,10,6,7,8,10,8,9,10,-1,-1,-1,-1],[-1,-1,-1,0,7,3,0,10,7,0,9,10,6,7,10,-1],[-1,-1,-1,10,6,7,1,10,7,1,7,8,1,8,0,-1],[-1,-1,-1,10,6,7,10,7,1,1,7,3,-1,-1,-1,-1],[-1,-1,-1,1,2,6,1,6,8,1,8,9,8,6,7,-1],[-1,-1,-1,2,6,9,2,9,1,6,7,9,0,9,3,7,3,9],[-1,-1,-1,7,8,0,7,0,6,6,0,2,-1,-1,-1,-1],[-1,-1,-1,7,3,2,6,7,2,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,2,3,11,10,6,8,10,8,9,8,6,7,-1],[-1,-1,-1,2,0,7,2,7,11,0,9,7,6,7,10,9,10,7],[-1,-1,-1,1,8,0,1,7,8,1,10,7,6,7,10,2,3,11],[-1,-1,-1,11,2,1,11,1,7,10,6,1,6,7,1,-1],[-1,-1,-1,8,9,6,8,6,7,9,1,6,11,6,3,1,3,6],[-1,-1,-1,0,9,1,11,6,7,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,7,8,0,7,0,6,3,11,0,11,6,0,-1],[-1,-1,-1,7,11,6,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,7,6,11,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,3,0,8,11,7,6,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,0,1,9,11,7,6,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,8,1,9,8,3,1,11,7,6,-1,-1,-1,-1],[-1,-1,-1,10,1,2,6,11,7,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,1,2,10,3,0,8,6,11,7,-1,-1,-1,-1],[-1,-1,-1,2,9,0,2,10,9,6,11,7,-1,-1,-1,-1],[-1,-1,-1,6,11,7,2,10,3,10,8,3,10,9,8,-1],[-1,-1,-1,7,2,3,6,2,7,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,7,0,8,7,6,0,6,2,0,-1,-1,-1,-1],[-1,-1,-1,2,7,6,2,3,7,0,1,9,-1,-1,-1,-1],[-1,-1,-1,1,6,2,1,8,6,1,9,8,8,7,6,-1],[-1,-1,-1,10,7,6,10,1,7,1,3,7,-1,-1,-1,-1],[-1,-1,-1,10,7,6,1,7,10,1,8,7,1,0,8,-1],[-1,-1,-1,0,3,7,0,7,10,0,10,9,6,10,7,-1],[-1,-1,-1,7,6,10,7,10,8,8,10,9,-1,-1,-1,-1],[-1,-1,-1,6,8,4,11,8,6,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,3,6,11,3,0,6,0,4,6,-1,-1,-1,-1],[-1,-1,-1,8,6,11,8,4,6,9,0,1,-1,-1,-1,-1],[-1,-1,-1,9,4,6,9,6,3,9,3,1,11,3,6,-1],[-1,-1,-1,6,8,4,6,11,8,2,10,1,-1,-1,-1,-1],[-1,-1,-1,1,2,10,3,0,11,0,6,11,0,4,6,-1],[-1,-1,-1,4,11,8,4,6,11,0,2,9,2,10,9,-1],[-1,-1,-1,10,9,3,10,3,2,9,4,3,11,3,6,4,6,3],[-1,-1,-1,8,2,3,8,4,2,4,6,2,-1,-1,-1,-1],[-1,-1,-1,0,4,2,4,6,2,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,1,9,0,2,3,4,2,4,6,4,3,8,-1],[-1,-1,-1,1,9,4,1,4,2,2,4,6,-1,-1,-1,-1],[-1,-1,-1,8,1,3,8,6,1,8,4,6,6,10,1,-1],[-1,-1,-1,10,1,0,10,0,6,6,0,4,-1,-1,-1,-1],[-1,-1,-1,4,6,3,4,3,8,6,10,3,0,3,9,10,9,3],[-1,-1,-1,10,9,4,6,10,4,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,4,9,5,7,6,11,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,0,8,3,4,9,5,11,7,6,-1,-1,-1,-1],[-1,-1,-1,5,0,1,5,4,0,7,6,11,-1,-1,-1,-1],[-1,-1,-1,11,7,6,8,3,4,3,5,4,3,1,5,-1],[-1,-1,-1,9,5,4,10,1,2,7,6,11,-1,-1,-1,-1],[-1,-1,-1,6,11,7,1,2,10,0,8,3,4,9,5,-1],[-1,-1,-1,7,6,11,5,4,10,4,2,10,4,0,2,-1],[-1,-1,-1,3,4,8,3,5,4,3,2,5,10,5,2,11,7,6],[-1,-1,-1,7,2,3,7,6,2,5,4,9,-1,-1,-1,-1],[-1,-1,-1,9,5,4,0,8,6,0,6,2,6,8,7,-1],[-1,-1,-1,3,6,2,3,7,6,1,5,0,5,4,0,-1],[-1,-1,-1,6,2,8,6,8,7,2,1,8,4,8,5,1,5,8],[-1,-1,-1,9,5,4,10,1,6,1,7,6,1,3,7,-1],[-1,-1,-1,1,6,10,1,7,6,1,0,7,8,7,0,9,5,4],[-1,-1,-1,4,0,10,4,10,5,0,3,10,6,10,7,3,7,10],[-1,-1,-1,7,6,10,7,10,8,5,4,10,4,8,10,-1],[-1,-1,-1,6,9,5,6,11,9,11,8,9,-1,-1,-1,-1],[-1,-1,-1,3,6,11,0,6,3,0,5,6,0,9,5,-1],[-1,-1,-1,0,11,8,0,5,11,0,1,5,5,6,11,-1],[-1,-1,-1,6,11,3,6,3,5,5,3,1,-1,-1,-1,-1],[-1,-1,-1,1,2,10,9,5,11,9,11,8,11,5,6,-1],[-1,-1,-1,0,11,3,0,6,11,0,9,6,5,6,9,1,2,10],[-1,-1,-1,11,8,5,11,5,6,8,0,5,10,5,2,0,2,5],[-1,-1,-1,6,11,3,6,3,5,2,10,3,10,5,3,-1],[-1,-1,-1,5,8,9,5,2,8,5,6,2,3,8,2,-1],[-1,-1,-1,9,5,6,9,6,0,0,6,2,-1,-1,-1,-1],[-1,-1,-1,1,5,8,1,8,0,5,6,8,3,8,2,6,2,8],[-1,-1,-1,1,5,6,2,1,6,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,1,3,6,1,6,10,3,8,6,5,6,9,8,9,6],[-1,-1,-1,10,1,0,10,0,6,9,5,0,5,6,0,-1],[-1,-1,-1,0,3,8,5,6,10,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,10,5,6,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,11,5,10,7,5,11,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,11,5,10,11,7,5,8,3,0,-1,-1,-1,-1],[-1,-1,-1,5,11,7,5,10,11,1,9,0,-1,-1,-1,-1],[-1,-1,-1,10,7,5,10,11,7,9,8,1,8,3,1,-1],[-1,-1,-1,11,1,2,11,7,1,7,5,1,-1,-1,-1,-1],[-1,-1,-1,0,8,3,1,2,7,1,7,5,7,2,11,-1],[-1,-1,-1,9,7,5,9,2,7,9,0,2,2,11,7,-1],[-1,-1,-1,7,5,2,7,2,11,5,9,2,3,2,8,9,8,2],[-1,-1,-1,2,5,10,2,3,5,3,7,5,-1,-1,-1,-1],[-1,-1,-1,8,2,0,8,5,2,8,7,5,10,2,5,-1],[-1,-1,-1,9,0,1,2,3,5,2,5,10,5,3,7,-1],[-1,-1,-1,8,2,9,8,9,7,2,1,9,5,9,3,1,3,9],[-1,-1,-1,3,5,1,3,7,5,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,0,8,7,0,7,1,1,7,5,-1,-1,-1,-1],[-1,-1,-1,9,0,3,9,3,5,5,3,7,-1,-1,-1,-1],[-1,-1,-1,9,8,7,5,9,7,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,5,8,4,5,10,8,10,11,8,-1,-1,-1,-1],[-1,-1,-1,5,0,4,5,11,0,5,10,11,11,3,0,-1],[-1,-1,-1,0,1,9,8,4,10,8,10,11,10,4,5,-1],[-1,-1,-1,10,11,4,10,4,5,11,3,4,9,4,1,3,1,4],[-1,-1,-1,2,5,1,2,8,5,2,11,8,4,5,8,-1],[-1,-1,-1,0,4,11,0,11,3,4,5,11,2,11,1,5,1,11],[-1,-1,-1,0,2,5,0,5,9,2,11,5,4,5,8,11,8,5],[-1,-1,-1,9,4,5,2,11,3,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,2,5,10,3,5,2,3,4,5,3,8,4,-1],[-1,-1,-1,5,10,2,5,2,4,4,2,0,-1,-1,-1,-1],[-1,-1,-1,3,10,2,3,5,10,3,8,5,4,5,8,0,1,9],[-1,-1,-1,5,10,2,5,2,4,1,9,2,9,4,2,-1],[-1,-1,-1,8,4,5,8,5,3,3,5,1,-1,-1,-1,-1],[-1,-1,-1,0,4,5,1,0,5,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,8,4,5,8,5,3,9,0,5,0,3,5,-1],[-1,-1,-1,9,4,5,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,4,11,7,4,9,11,9,10,11,-1,-1,-1,-1],[-1,-1,-1,0,8,3,4,9,7,9,11,7,9,10,11,-1],[-1,-1,-1,1,10,11,1,11,4,1,4,0,7,4,11,-1],[-1,-1,-1,3,1,4,3,4,8,1,10,4,7,4,11,10,11,4],[-1,-1,-1,4,11,7,9,11,4,9,2,11,9,1,2,-1],[-1,-1,-1,9,7,4,9,11,7,9,1,11,2,11,1,0,8,3],[-1,-1,-1,11,7,4,11,4,2,2,4,0,-1,-1,-1,-1],[-1,-1,-1,11,7,4,11,4,2,8,3,4,3,2,4,-1],[-1,-1,-1,2,9,10,2,7,9,2,3,7,7,4,9,-1],[-1,-1,-1,9,10,7,9,7,4,10,2,7,8,7,0,2,0,7],[-1,-1,-1,3,7,10,3,10,2,7,4,10,1,10,0,4,0,10],[-1,-1,-1,1,10,2,8,7,4,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,4,9,1,4,1,7,7,1,3,-1,-1,-1,-1],[-1,-1,-1,4,9,1,4,1,7,0,8,1,8,7,1,-1],[-1,-1,-1,4,0,3,7,4,3,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,4,8,7,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,9,10,8,10,11,8,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,3,0,9,3,9,11,11,9,10,-1,-1,-1,-1],[-1,-1,-1,0,1,10,0,10,8,8,10,11,-1,-1,-1,-1],[-1,-1,-1,3,1,10,11,3,10,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,1,2,11,1,11,9,9,11,8,-1,-1,-1,-1],[-1,-1,-1,3,0,9,3,9,11,1,2,9,2,11,9,-1],[-1,-1,-1,0,2,11,8,0,11,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,3,2,11,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,2,3,8,2,8,10,10,8,9,-1,-1,-1,-1],[-1,-1,-1,9,10,2,0,9,2,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,2,3,8,2,8,10,0,1,8,1,10,8,-1],[-1,-1,-1,1,10,2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,1,3,8,9,1,8,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,0,9,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],[-1,-1,-1,0,3,8,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
+];
+
+// Parse triangle table correctly: skip leading -1,-1,-1 triple then read triples until -1
+const triTable = rawTriTable.map(row => {
+  const triangles = [];
+  let i = 0;
+  // skip any leading -1 triple
+  while (i + 2 < row.length && row[i] === -1 && row[i+1] === -1 && row[i+2] === -1) i += 3;
+  // now read triangles
+  for (; i + 2 < row.length; i += 3) {
+    if (row[i] === -1) break;
+    triangles.push(row[i], row[i+1], row[i+2]);
+  }
+  return triangles;
+});
+
+// ======================== WEBGL SETUP ========================
+const canvas = document.getElementById('glCanvas');
+const wrap = document.getElementById('canvasWrap');
+const gl = canvas.getContext('webgl', { antialias: true, alpha: false }) ||
+           canvas.getContext('experimental-webgl', { antialias: true, alpha: false });
+
+if (!gl) {
+  wrap.innerHTML = '<p style="color:var(--red);padding:2rem">WebGL not supported</p>';
+  throw new Error('WebGL missing');
+}
+
+// Shader sources
+const vsSource = `
+  attribute vec3 aPos;
+  attribute vec3 aNorm;
+  uniform mat4 uMVP;
+  uniform mat4 uModel;
+  uniform mat3 uNormalMat;
+  varying vec3 vNorm;
+  varying vec3 vWorldPos;
+  varying vec3 vPos;
+  void main() {
+    vPos = aPos;
+    vNorm = normalize(uNormalMat * aNorm);
+    vec4 wp = uModel * vec4(aPos, 1.0);
+    vWorldPos = wp.xyz;
+    gl_Position = uMVP * vec4(aPos, 1.0);
+  }
+`;
+
+const fsSource = `
+  precision highp float;
+  varying vec3 vNorm;
+  varying vec3 vWorldPos;
+  varying vec3 vPos;
+  uniform vec3 uColor1;
+  uniform vec3 uColor2;
+  uniform float uShininess;
+  uniform float uOpacity;
+  uniform int uColorMode;
+  uniform vec3 uCamPos;
+
+  void main() {
+    vec3 N = normalize(vNorm);
+    vec3 L1 = normalize(vec3(1.5, 2.0, 2.0));
+    vec3 L2 = normalize(vec3(-1.5, -0.5, 1.0));
+    vec3 V = normalize(uCamPos - vWorldPos);
+
+    vec3 baseColor;
+    if (uColorMode == 0) {
+      float t = clamp((vPos.y + 1.5) / 3.0, 0.0, 1.0);
+      baseColor = mix(uColor1 * 0.4, uColor1, t);
+    } else if (uColorMode == 1) {
+      float t = clamp((vPos.z + 1.5) / 3.0, 0.0, 1.0);
+      baseColor = mix(uColor1 * 0.35, uColor1, t);
+    } else if (uColorMode == 2) {
+      float t = clamp((vPos.x + 1.5) / 3.0, 0.0, 1.0);
+      baseColor = mix(uColor1 * 0.35, uColor1, t);
+    } else if (uColorMode == 3) {
+      baseColor = abs(N);
+    } else {
+      float d = clamp(length(vWorldPos) / 2.2, 0.0, 1.0);
+      baseColor = mix(uColor2, uColor1, 1.0 - d);
+    }
+
+    float diff1 = max(dot(N, L1), 0.0);
+    float diff2 = max(dot(N, L2), 0.0) * 0.4;
+    float diff = diff1 + diff2;
+
+    vec3 H1 = normalize(L1 + V);
+    float spec = pow(max(dot(N, H1), 0.0), uShininess) * 0.6;
+
+    float ambient = 0.18;
+    vec3 color = baseColor * (ambient + diff) + vec3(1.0, 0.97, 0.88) * spec;
+
+    float rim = 1.0 - max(dot(N, V), 0.0);
+    rim = pow(rim, 3.0) * 0.25;
+    color += uColor1 * rim * 0.5;
+
+    gl_FragColor = vec4(color, uOpacity);
+  }
+`;
+
+function compileShader(src, type) {
+  const s = gl.createShader(type);
+  gl.shaderSource(s, src);
+  gl.compileShader(s);
+  if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+    console.error(gl.getShaderInfoLog(s));
+  }
+  return s;
+}
+
+const prog = gl.createProgram();
+gl.attachShader(prog, compileShader(vsSource, gl.VERTEX_SHADER));
+gl.attachShader(prog, compileShader(fsSource, gl.FRAGMENT_SHADER));
+gl.linkProgram(prog);
+if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) console.error('shader link error');
+gl.useProgram(prog);
+
+const aPos  = gl.getAttribLocation(prog, 'aPos');
+const aNorm = gl.getAttribLocation(prog, 'aNorm');
+const uMVP      = gl.getUniformLocation(prog, 'uMVP');
+const uModel    = gl.getUniformLocation(prog, 'uModel');
+const uNormMat  = gl.getUniformLocation(prog, 'uNormalMat');
+const uColor1   = gl.getUniformLocation(prog, 'uColor1');
+const uColor2   = gl.getUniformLocation(prog, 'uColor2');
+const uShininess= gl.getUniformLocation(prog, 'uShininess');
+const uOpacity  = gl.getUniformLocation(prog, 'uOpacity');
+const uColorMode= gl.getUniformLocation(prog, 'uColorMode');
+const uCamPos   = gl.getUniformLocation(prog, 'uCamPos');
+
+// Wire shader
+const vsWire = `
+  attribute vec3 aPos;
+  uniform mat4 uMVP;
+  void main() { gl_Position = uMVP * vec4(aPos, 1.0); }
+`;
+const fsWire = `
+  precision mediump float;
+  uniform float uOpacity;
+  void main() { gl_FragColor = vec4(0.78, 0.65, 0.3, uOpacity * 0.35); }
+`;
+const wireProg = gl.createProgram();
+gl.attachShader(wireProg, compileShader(vsWire, gl.VERTEX_SHADER));
+gl.attachShader(wireProg, compileShader(fsWire, gl.FRAGMENT_SHADER));
+gl.linkProgram(wireProg);
+const wPos   = gl.getAttribLocation(wireProg, 'aPos');
+const wMVP   = gl.getUniformLocation(wireProg, 'uMVP');
+const wOpacity = gl.getUniformLocation(wireProg, 'uOpacity');
+
+// Buffers
+const posBuf  = gl.createBuffer();
+const normBuf = gl.createBuffer();
+const wireBuf = gl.createBuffer();
+
+// ======================== GYROID FUNCTIONS ========================
+function gyroid(x, y, z, t, lambda) {
+  const s = (2 * Math.PI) / lambda;
+  return Math.sin(x*s)*Math.cos(y*s) + Math.sin(y*s)*Math.cos(z*s) + Math.sin(z*s)*Math.cos(x*s) - t;
+}
+
+function gyroidGrad(x, y, z, lambda) {
+  const s = (2 * Math.PI) / lambda;
+  const gx = s*(Math.cos(x*s)*Math.cos(y*s) - Math.sin(z*s)*Math.sin(x*s));
+  const gy = s*(-Math.sin(x*s)*Math.sin(y*s) + Math.cos(y*s)*Math.cos(z*s));
+  const gz = s*(-Math.sin(y*s)*Math.sin(z*s) + Math.cos(z*s)*Math.cos(x*s));
+  return [gx, gy, gz];
+}
+
+function lerp3(p0, p1, v0, v1) {
+  if (Math.abs(v1 - v0) < 1e-9) return p0;
+  const t = -v0 / (v1 - v0);
+  return [p0[0]+t*(p1[0]-p0[0]), p0[1]+t*(p1[1]-p0[1]), p0[2]+t*(p1[2]-p0[2])];
+}
+
+let meshVerts = new Float32Array(0);
+let meshNorms = new Float32Array(0);
+let wireVerts = new Float32Array(0);
+let meshCount = 0;
+let wireCount = 0;
+let buildInProgress = false;
+let currentBuildParams = null;
+
+function buildMesh(params) {
+  const { threshold, lambda, resolution } = params;
+  const N = Math.min(resolution, 72);
+  const range = 1.5 * lambda;
+  const step = (2 * range) / N;
+
+  const verts = [];
+  const norms = [];
+  const wires = [];
+
+  const EDGE_CONN = [
+    [0,1],[1,2],[2,3],[3,0],
+    [4,5],[5,6],[6,7],[7,4],
+    [0,4],[1,5],[2,6],[3,7]
+  ];
+
+  for (let ix = 0; ix < N; ix++) {
+    for (let iy = 0; iy < N; iy++) {
+      for (let iz = 0; iz < N; iz++) {
+        const x0 = -range + ix*step;
+        const y0 = -range + iy*step;
+        const z0 = -range + iz*step;
+
+        const corners = [
+          [x0,       y0,       z0      ],
+          [x0+step,  y0,       z0      ],
+          [x0+step,  y0+step,  z0      ],
+          [x0,       y0+step,  z0      ],
+          [x0,       y0,       z0+step ],
+          [x0+step,  y0,       z0+step ],
+          [x0+step,  y0+step,  z0+step ],
+          [x0,       y0+step,  z0+step ],
+        ];
+
+        const vals = corners.map(([cx,cy,cz]) => gyroid(cx, cy, cz, threshold, lambda));
+
+        let cubeIdx = 0;
+        for (let i = 0; i < 8; i++) if (vals[i] < 0) cubeIdx |= (1 << i);
+
+        const eMask = edgeTable[cubeIdx];
+        if (eMask === 0) continue;
+
+        const edgePts = new Array(12);
+        for (let e = 0; e < 12; e++) {
+          if (eMask & (1 << e)) {
+            const [a, b] = EDGE_CONN[e];
+            edgePts[e] = lerp3(corners[a], corners[b], vals[a], vals[b]);
+          }
+        }
+
+        const tris = triTable[cubeIdx];
+        for (let i = 0; i < tris.length; i += 3) {
+          const p0 = edgePts[tris[i]];
+          const p1 = edgePts[tris[i+1]];
+          const p2 = edgePts[tris[i+2]];
+          const mid = [(p0[0]+p1[0]+p2[0])/3, (p0[1]+p1[1]+p2[1])/3, (p0[2]+p1[2]+p2[2])/3];
+          const [gx, gy, gz] = gyroidGrad(mid[0], mid[1], mid[2], lambda);
+          const len = Math.sqrt(gx*gx+gy*gy+gz*gz) || 1;
+          const n = [gx/len, gy/len, gz/len];
+          verts.push(...p0, ...p1, ...p2);
+          norms.push(...n, ...n, ...n);
+          wires.push(...p0, ...p1, ...p1, ...p2, ...p2, ...p0);
+        }
+      }
+    }
+  }
+
+  return {
+    verts: new Float32Array(verts),
+    norms: new Float32Array(norms),
+    wires: new Float32Array(wires)
+  };
+}
+
+function scheduleBuild(params) {
+  if (buildInProgress) return;
+  const snapshot = { ...params };
+  currentBuildParams = snapshot;
+  buildInProgress = true;
+
+  const indicator = document.getElementById('buildIndicator');
+  const progressFill = document.getElementById('progressFill');
+  indicator.classList.remove('hidden');
+  progressFill.style.width = '0%';
+
+  const N = Math.min(snapshot.resolution, 72);
+  const range = 1.5 * snapshot.lambda;
+  const step = (2 * range) / N;
+  const total = N;
+  let processed = 0;
+
+  const verts = [];
+  const norms = [];
+  const wires = [];
+  const EDGE_CONN = [
+    [0,1],[1,2],[2,3],[3,0],
+    [4,5],[5,6],[6,7],[7,4],
+    [0,4],[1,5],[2,6],[3,7]
+  ];
+
+  let ix = 0;
+
+  const processChunk = () => {
+    if (currentBuildParams !== snapshot) {
+      // aborted by newer request
+      buildInProgress = false;
+      indicator.classList.add('hidden');
+      return;
+    }
+
+    const chunkSize = 2;
+    for (let ci = 0; ci < chunkSize && ix < N; ci++, ix++) {
+      for (let iy = 0; iy < N; iy++) {
+        for (let iz = 0; iz < N; iz++) {
+          const x0 = -range + ix*step;
+          const y0 = -range + iy*step;
+          const z0 = -range + iz*step;
+          const corners = [
+            [x0,       y0,       z0      ],
+            [x0+step,  y0,       z0      ],
+            [x0+step,  y0+step,  z0      ],
+            [x0,       y0+step,  z0      ],
+            [x0,       y0,       z0+step ],
+            [x0+step,  y0,       z0+step ],
+            [x0+step,  y0+step,  z0+step ],
+            [x0,       y0+step,  z0+step ],
+          ];
+          const vals = corners.map(([cx,cy,cz]) => gyroid(cx, cy, cz, snapshot.threshold, snapshot.lambda));
+          let cubeIdx = 0;
+          for (let k = 0; k < 8; k++) if (vals[k] < 0) cubeIdx |= (1 << k);
+          const eMask = edgeTable[cubeIdx];
+          if (eMask === 0) continue;
+          const edgePts = new Array(12);
+          for (let e = 0; e < 12; e++) {
+            if (eMask & (1 << e)) {
+              const [a, b] = EDGE_CONN[e];
+              edgePts[e] = lerp3(corners[a], corners[b], vals[a], vals[b]);
+            }
+          }
+          const tris = triTable[cubeIdx];
+          for (let i = 0; i < tris.length; i += 3) {
+            const p0 = edgePts[tris[i]];
+            const p1 = edgePts[tris[i+1]];
+            const p2 = edgePts[tris[i+2]];
+            const mid = [(p0[0]+p1[0]+p2[0])/3, (p0[1]+p1[1]+p2[1])/3, (p0[2]+p1[2]+p2[2])/3];
+            const [gx, gy, gz] = gyroidGrad(mid[0], mid[1], mid[2], snapshot.lambda);
+            const len = Math.sqrt(gx*gx+gy*gy+gz*gz) || 1;
+            const n = [gx/len, gy/len, gz/len];
+            verts.push(...p0, ...p1, ...p2);
+            norms.push(...n, ...n, ...n);
+            wires.push(...p0, ...p1, ...p1, ...p2, ...p2, ...p0);
+          }
+        }
+      }
+      processed++;
+      const percent = (processed / total) * 100;
+      progressFill.style.width = percent + '%';
+    }
+
+    if (ix < N && currentBuildParams === snapshot) {
+      requestAnimationFrame(processChunk);
+    } else if (ix >= N && currentBuildParams === snapshot) {
+      meshVerts = new Float32Array(verts);
+      meshNorms = new Float32Array(norms);
+      wireVerts = new Float32Array(wires);
+      meshCount = verts.length / 3;
+      wireCount = wires.length / 3;
+
+      gl.bindBuffer(gl.ARRAY_BUFFER, posBuf);
+      gl.bufferData(gl.ARRAY_BUFFER, meshVerts, gl.STATIC_DRAW);
+      gl.bindBuffer(gl.ARRAY_BUFFER, normBuf);
+      gl.bufferData(gl.ARRAY_BUFFER, meshNorms, gl.STATIC_DRAW);
+      gl.bindBuffer(gl.ARRAY_BUFFER, wireBuf);
+      gl.bufferData(gl.ARRAY_BUFFER, wireVerts, gl.STATIC_DRAW);
+
+      indicator.classList.add('hidden');
+      buildInProgress = false;
+      currentBuildParams = null;
+    }
+  };
+
+  requestAnimationFrame(processChunk);
+}
+
+// ======================== MATRIX HELPERS ========================
+function mat4() { return new Float32Array(16); }
+function identity(m) {
+  m[0]=1;m[1]=0;m[2]=0;m[3]=0;
+  m[4]=0;m[5]=1;m[6]=0;m[7]=0;
+  m[8]=0;m[9]=0;m[10]=1;m[11]=0;
+  m[12]=0;m[13]=0;m[14]=0;m[15]=1;
+  return m;
+}
+function perspective(m, fov, aspect, near, far) {
+  const f = 1/Math.tan(fov/2);
+  m[0]=f/aspect;m[1]=0;m[2]=0;m[3]=0;
+  m[4]=0;m[5]=f;m[6]=0;m[7]=0;
+  m[8]=0;m[9]=0;m[10]=(far+near)/(near-far);m[11]=-1;
+  m[12]=0;m[13]=0;m[14]=(2*far*near)/(near-far);m[15]=0;
+  return m;
+}
+function multiply(out, a, b) {
+  // WebGL expects column-major matrices when transpose=false.
+  // This computes out = a * b using column-major indexing.
+  const a00 = a[0],  a01 = a[1],  a02 = a[2],  a03 = a[3];
+  const a10 = a[4],  a11 = a[5],  a12 = a[6],  a13 = a[7];
+  const a20 = a[8],  a21 = a[9],  a22 = a[10], a23 = a[11];
+  const a30 = a[12], a31 = a[13], a32 = a[14], a33 = a[15];
+
+  const b00 = b[0],  b01 = b[1],  b02 = b[2],  b03 = b[3];
+  const b10 = b[4],  b11 = b[5],  b12 = b[6],  b13 = b[7];
+  const b20 = b[8],  b21 = b[9],  b22 = b[10], b23 = b[11];
+  const b30 = b[12], b31 = b[13], b32 = b[14], b33 = b[15];
+
+  out[0]  = a00*b00 + a10*b01 + a20*b02 + a30*b03;
+  out[1]  = a01*b00 + a11*b01 + a21*b02 + a31*b03;
+  out[2]  = a02*b00 + a12*b01 + a22*b02 + a32*b03;
+  out[3]  = a03*b00 + a13*b01 + a23*b02 + a33*b03;
+
+  out[4]  = a00*b10 + a10*b11 + a20*b12 + a30*b13;
+  out[5]  = a01*b10 + a11*b11 + a21*b12 + a31*b13;
+  out[6]  = a02*b10 + a12*b11 + a22*b12 + a32*b13;
+  out[7]  = a03*b10 + a13*b11 + a23*b12 + a33*b13;
+
+  out[8]  = a00*b20 + a10*b21 + a20*b22 + a30*b23;
+  out[9]  = a01*b20 + a11*b21 + a21*b22 + a31*b23;
+  out[10] = a02*b20 + a12*b21 + a22*b22 + a32*b23;
+  out[11] = a03*b20 + a13*b21 + a23*b22 + a33*b23;
+
+  out[12] = a00*b30 + a10*b31 + a20*b32 + a30*b33;
+  out[13] = a01*b30 + a11*b31 + a21*b32 + a31*b33;
+  out[14] = a02*b30 + a12*b31 + a22*b32 + a32*b33;
+  out[15] = a03*b30 + a13*b31 + a23*b32 + a33*b33;
+  return out;
+}
+function rotateX(m, angle) {
+  const c=Math.cos(angle), s=Math.sin(angle);
+  const t=mat4(); identity(t);
+  t[5]=c;t[6]=s;t[9]=-s;t[10]=c;
+  return multiply(mat4(), m, t);
+}
+function rotateY(m, angle) {
+  const c=Math.cos(angle), s=Math.sin(angle);
+  const t=mat4(); identity(t);
+  t[0]=c;t[2]=-s;t[8]=s;t[10]=c;
+  return multiply(mat4(), m, t);
+}
+function translate(m, tx, ty, tz) {
+  const t=mat4(); identity(t);
+  t[12]=tx;t[13]=ty;t[14]=tz;
+  return multiply(mat4(), m, t);
+}
+function normalMatrix3(m4) {
+  return new Float32Array([m4[0],m4[1],m4[2], m4[4],m4[5],m4[6], m4[8],m4[9],m4[10]]);
+}
+
+// ======================== STATE & UI ========================
+let params = { threshold: 0, lambda: 1.0, resolution: 48 };
+let renderState = { opacity: 0.92, shininess: 64, wireframe: false, autoRotate: true, dual: false, colorMode: 0 };
+const colorPalettes = {
+  gold:     { c1: [0.8, 0.66, 0.3],  c2: [0.15, 0.08, 0.02] },
+  lavender: { c1: [0.6, 0.55, 0.77], c2: [0.08, 0.05, 0.15] },
+  teal:     { c1: [0.29, 0.62, 0.54],c2: [0.02, 0.1, 0.08]  },
+  normal:   { c1: [1,1,1],            c2: [0,0,0]            },
+  depth:    { c1: [0.91, 0.89, 0.86], c2: [0.06, 0.06, 0.09] }
+};
+let colorMode = 'gold';
+
+let rotX = 0.3, rotY = 0.4, zoom = 5.0;
+let autoAngle = 0;
+let dragging = false, lastX = 0, lastY = 0;
+
+function resize() {
+  const dpr = window.devicePixelRatio || 1;
+  const w = wrap.clientWidth, h = wrap.clientHeight;
+  canvas.width = w * dpr;
+  canvas.height = h * dpr;
+  gl.viewport(0, 0, canvas.width, canvas.height);
+}
+window.addEventListener('resize', resize);
+resize();
+
+function render() {
+  requestAnimationFrame(render);
+  resize();
+
+  if (renderState.autoRotate) autoAngle += 0.0035;
+
+  gl.clearColor(0.039, 0.039, 0.043, 1);
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+  gl.enable(gl.DEPTH_TEST);
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+  if (meshCount === 0) return;
+
+  const aspect = canvas.width / canvas.height;
+  const proj = perspective(mat4(), Math.PI/4, aspect, 0.1, 100);
+
+  let model = identity(mat4());
+  model = rotateX(model, rotX);
+  model = rotateY(model, rotY + autoAngle);
+  const view = translate(identity(mat4()), 0, 0, -zoom);
+  const mv = multiply(mat4(), view, model);
+  const mvp = multiply(mat4(), proj, mv);
+
+  const pal = colorPalettes[colorMode];
+
+  gl.useProgram(prog);
+  gl.uniform3fv(uColor1, pal.c1);
+  gl.uniform3fv(uColor2, pal.c2);
+  gl.uniform1f(uShininess, renderState.shininess);
+  gl.uniform1f(uOpacity, renderState.opacity);
+  gl.uniform1i(uColorMode, renderState.colorMode);
+  gl.uniform3f(uCamPos, 0, 0, zoom);
+  gl.uniformMatrix4fv(uMVP, false, mvp);
+  gl.uniformMatrix4fv(uModel, false, model);
+  gl.uniformMatrix3fv(uNormMat, false, normalMatrix3(model));
+
+  gl.bindBuffer(gl.ARRAY_BUFFER, posBuf);
+  gl.enableVertexAttribArray(aPos);
+  gl.vertexAttribPointer(aPos, 3, gl.FLOAT, false, 0, 0);
+  gl.bindBuffer(gl.ARRAY_BUFFER, normBuf);
+  gl.enableVertexAttribArray(aNorm);
+  gl.vertexAttribPointer(aNorm, 3, gl.FLOAT, false, 0, 0);
+  gl.drawArrays(gl.TRIANGLES, 0, meshCount);
+
+  if (renderState.dual) {
+    gl.uniform3fv(uColor1, colorMode === 'gold' ? [0.54, 0.29, 0.62] : pal.c2);
+    gl.uniform1f(uOpacity, renderState.opacity * 0.45);
+    gl.drawArrays(gl.TRIANGLES, 0, meshCount);
+    gl.uniform1f(uOpacity, renderState.opacity);
+    gl.uniform3fv(uColor1, pal.c1);
+  }
+
+  if (renderState.wireframe) {
+    gl.useProgram(wireProg);
+    gl.uniformMatrix4fv(wMVP, false, mvp);
+    gl.uniform1f(wOpacity, renderState.opacity);
+    gl.bindBuffer(gl.ARRAY_BUFFER, wireBuf);
+    gl.enableVertexAttribArray(wPos);
+    gl.vertexAttribPointer(wPos, 3, gl.FLOAT, false, 0, 0);
+    gl.drawArrays(gl.LINES, 0, wireCount);
+  }
+}
+
+// Interaction
+wrap.addEventListener('mousedown', e => { dragging = true; lastX = e.clientX; lastY = e.clientY; });
+window.addEventListener('mouseup', () => dragging = false);
+window.addEventListener('mousemove', e => {
+  if (!dragging) return;
+  rotY += (e.clientX - lastX) * 0.008;
+  rotX += (e.clientY - lastY) * 0.008;
+  lastX = e.clientX; lastY = e.clientY;
+});
+wrap.addEventListener('wheel', e => {
+  zoom = Math.max(2.5, Math.min(12, zoom + e.deltaY * 0.008));
+  e.preventDefault();
+}, { passive: false });
+wrap.addEventListener('touchstart', e => { lastTouchX = e.touches[0].clientX; lastTouchY = e.touches[0].clientY; });
+let lastTouchX = 0, lastTouchY = 0;
+wrap.addEventListener('touchmove', e => {
+  rotY += (e.touches[0].clientX - lastTouchX) * 0.008;
+  rotX += (e.touches[0].clientY - lastTouchY) * 0.008;
+  lastTouchX = e.touches[0].clientX; lastTouchY = e.touches[0].clientY;
+  e.preventDefault();
+}, { passive: false });
+
+// UI bindings
+let rebuildTimer = null;
+function requestRebuild() {
+  if (buildInProgress) return;
+  clearTimeout(rebuildTimer);
+  rebuildTimer = setTimeout(() => scheduleBuild(params), 200);
+}
+function bindSlider(id, valId, key, obj, fmt, onChange) {
+  const sl = document.getElementById(id);
+  const vl = document.getElementById(valId);
+  sl.addEventListener('input', () => {
+    const v = parseFloat(sl.value);
+    obj[key] = v;
+    vl.textContent = fmt(v);
+    onChange && onChange(v);
+  });
+  vl.textContent = fmt(parseFloat(sl.value));
+}
+bindSlider('sl-t', 'val-t', 'threshold', params, v => v.toFixed(2), v => { document.getElementById('eq-t').textContent = v.toFixed(2); requestRebuild(); });
+bindSlider('sl-lambda', 'val-lambda', 'lambda', params, v => v.toFixed(2), requestRebuild);
+bindSlider('sl-res', 'val-res', 'resolution', params, v => Math.round(v), requestRebuild);
+bindSlider('sl-opacity', 'val-opacity', 'opacity', renderState, v => v.toFixed(2));
+bindSlider('sl-shine', 'val-shine', 'shininess', renderState, v => Math.round(v));
+document.getElementById('tog-wire').addEventListener('change', e => { renderState.wireframe = e.target.checked; });
+document.getElementById('tog-rotate').addEventListener('change', e => { renderState.autoRotate = e.target.checked; });
+document.getElementById('tog-dual').addEventListener('change', e => { renderState.dual = e.target.checked; });
+const modeMap = { gold: 0, lavender: 1, teal: 2, normal: 3, depth: 4 };
+document.querySelectorAll('.swatch').forEach(sw => {
+  sw.addEventListener('click', () => {
+    document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+    sw.classList.add('active');
+    colorMode = sw.dataset.mode;
+    renderState.colorMode = modeMap[colorMode];
+  });
+});
+const presetData = {
+  standard: { threshold: 0,    lambda: 1.0, resolution: 48 },
+  channel:  { threshold: -0.9, lambda: 1.0, resolution: 48 },
+  lidinoid: { threshold: 0,    lambda: 0.7, resolution: 56 },
+  foam:     { threshold: 1.2,  lambda: 1.0, resolution: 48 },
+  dense:    { threshold: 0,    lambda: 1.8, resolution: 44 },
+  open:     { threshold: 0.6,  lambda: 1.0, resolution: 48 },
+};
+document.querySelectorAll('.preset-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const p = presetData[btn.dataset.preset];
+    Object.assign(params, p);
+    document.getElementById('sl-t').value = p.threshold;
+    document.getElementById('sl-lambda').value = p.lambda;
+    document.getElementById('sl-res').value = p.resolution;
+    document.getElementById('val-t').textContent = p.threshold.toFixed(2);
+    document.getElementById('val-lambda').textContent = p.lambda.toFixed(2);
+    document.getElementById('val-res').textContent = Math.round(p.resolution);
+    document.getElementById('eq-t').textContent = p.threshold.toFixed(2);
+    requestRebuild();
+  });
+});
+
+scheduleBuild(params);
+render();
+</script>
+</body>
+</html>

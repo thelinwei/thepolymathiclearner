@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ramanujan × 算學 — The Transformation Engine</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300;1,8..60,400&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap');
+
+:root {
+  /* Palette: warm manuscript gold meets cold calculation ink */
+  --paper:    #faf3e8;
+  --paper2:   #f3e9d6;
+  --ink:      #1a1410;
+  --ink2:     #2e2318;
+  --surface:  #ede3d0;
+  --border:   rgba(90,60,20,0.15);
+  --border2:  rgba(90,60,20,0.3);
+
+  --saffron:  #c4751a;
+  --saffron2: rgba(196,117,26,0.12);
+  --saffron3: rgba(196,117,26,0.06);
+  --gold:     #8b6914;
+  --gold2:    rgba(139,105,20,0.15);
+  --teal:     #2a6b63;
+  --teal2:    rgba(42,107,99,0.12);
+  --red:      #8b2020;
+  --red2:     rgba(139,32,32,0.1);
+  --muted:    #7a6248;
+  --pale:     #9a8060;
+  --cream:    #2e2318;   /* text on light bg */
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--cream);
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 17px;
+  line-height: 1.9;
+  overflow-x: hidden;
+}
+
+/* Watermark texture */
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(ellipse 140% 60% at 0% 100%, rgba(196,117,26,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse 100% 100% at 100% 0%,  rgba(42,107,99,0.05)  0%, transparent 50%);
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-left {
+  background: var(--ink);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 8vh 6vw 8vh 8vw;
+  position: relative;
+  overflow: hidden;
+}
+
+#hero-left-canvas {
+  position:absolute; inset:0; width:100%; height:100%;
+}
+
+.hero-left-content { position:relative; z-index:2; }
+
+.hero-right {
+  background: var(--paper2);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 8vh 8vw 8vh 6vw;
+  border-left: 3px solid var(--saffron);
+  position: relative;
+}
+
+#hero-right-canvas {
+  position:absolute; inset:0; width:100%; height:100%;
+  opacity:0.4;
+}
+
+.hero-right-content { position:relative; z-index:2; }
+
+.hero-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  margin-bottom: 1.8rem;
+}
+
+.hero-tag.light { color: rgba(250,243,232,0.45); }
+.hero-tag.dark  { color: var(--saffron); }
+
+.hero-left h1 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  font-size: clamp(2.5rem, 4vw, 4.2rem);
+  color: #f5ede0;
+  line-height: 1.08;
+  letter-spacing:-0.01em;
+  margin-bottom: 1.5rem;
+}
+
+.hero-left h1 em {
+  font-style:italic;
+  color: rgba(196,117,26,0.9);
+}
+
+.hero-right h1 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  font-size: clamp(2.5rem, 4vw, 4.2rem);
+  color: var(--ink2);
+  line-height: 1.08;
+  letter-spacing:-0.01em;
+  margin-bottom: 1.5rem;
+}
+
+.hero-right h1 em {
+  font-style:italic;
+  color: var(--saffron);
+}
+
+.hero-sub {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  font-style:italic;
+}
+
+.hero-sub.light { color: rgba(250,243,232,0.55); }
+.hero-sub.dark  { color: var(--muted); }
+
+.hero-bridge {
+  position:absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 80px;
+  background: linear-gradient(to bottom, var(--saffron), transparent);
+  z-index:10;
+}
+
+@media(max-width:720px){
+  .hero { grid-template-columns:1fr; min-height:auto; }
+  .hero-left { min-height:50vh; padding:6vh 6vw; }
+  .hero-right{ min-height:50vh; padding:6vh 6vw; border-left:none; border-top:3px solid var(--saffron); }
+  .hero-bridge { display:none; }
+}
+
+/* ── GLOBAL ── */
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 8vw;
+  position:relative;
+  z-index:1;
+}
+
+section { padding: 6rem 0; }
+section + section { border-top: 1px solid var(--border); }
+
+.sec-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--saffron);
+  display:block;
+  margin-bottom: 0.6rem;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  font-size: clamp(1.8rem, 3.2vw, 3rem);
+  color: var(--ink2);
+  line-height: 1.12;
+  margin-bottom: 2rem;
+}
+
+h2 .zh {
+  font-size:0.55em;
+  color:var(--saffron);
+  font-style:italic;
+  opacity:0.75;
+  margin-left:0.5em;
+}
+
+h3 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 500;
+  font-size: 1.2rem;
+  color: var(--ink2);
+  margin: 2.2rem 0 0.7rem;
+}
+
+p {
+  margin-bottom: 1.15rem;
+  max-width: 680px;
+  color: var(--cream);
+}
+
+p strong { color: var(--saffron); font-weight:500; }
+p em { color: var(--muted); font-style:italic; }
+
+.two-col {
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4.5rem;
+  align-items:start;
+}
+
+@media(max-width:760px){
+  .two-col { grid-template-columns:1fr; gap:2.5rem; }
+  .wrap { padding:0 6vw; }
+  section { padding:4rem 0; }
+}
+
+/* ── CORRECTION BANNER ── */
+.correction {
+  background: var(--red2);
+  border: 1px solid rgba(139,32,32,0.25);
+  border-left: 3px solid var(--red);
+  padding: 1.4rem 1.6rem;
+  margin: 2rem 0;
+}
+
+.correction-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing:0.25em;
+  text-transform:uppercase;
+  color: var(--red);
+  margin-bottom:0.6rem;
+  display:block;
+}
+
+.correction p {
+  font-size:0.92rem;
+  color: var(--ink2);
+  margin:0;
+  max-width:100%;
+}
+
+.correction strong { color:var(--red); font-weight:500; }
+
+/* ── QUOTE BLOCK ── */
+blockquote {
+  margin: 2rem 0;
+  padding: 1.2rem 1.8rem;
+  background: var(--saffron3);
+  border-left: 3px solid var(--saffron);
+  font-style:italic;
+  font-size:1.05rem;
+  color: var(--ink2);
+  position:relative;
+}
+
+blockquote::before {
+  content:'"';
+  position:absolute;
+  top:-0.2em; left:0.4rem;
+  font-size:5rem;
+  color: rgba(196,117,26,0.1);
+  font-family:'Playfair Display',serif;
+  line-height:1;
+}
+
+blockquote cite {
+  display:block;
+  margin-top:0.6rem;
+  font-style:normal;
+  font-size:0.8rem;
+  font-family:'DM Mono',monospace;
+  letter-spacing:0.1em;
+  color: var(--pale);
+}
+
+/* ── MATH BLOCK ── */
+.math-block {
+  font-family:'DM Mono', monospace;
+  font-size:0.8rem;
+  background: var(--ink);
+  color: #e8dfc8;
+  padding: 1.4rem 1.6rem;
+  border-left: 3px solid var(--saffron);
+  margin: 1.5rem 0;
+  line-height: 2.2;
+  overflow-x:auto;
+  position:relative;
+}
+
+.math-block .cm { color: rgba(200,180,140,0.45); font-style:italic; font-size:0.72rem; }
+.math-block .hl  { color: #d4a843; }
+.math-block .hl2 { color: #e8833a; }
+.math-block .hl3 { color: #5ba8a0; }
+.math-block .op  { color: #c04040; }
+
+.math-tag {
+  position:absolute; top:0.5rem; right:0.8rem;
+  font-family:'DM Mono',monospace; font-size:0.52rem;
+  letter-spacing:0.2em; text-transform:uppercase;
+  padding:0.15rem 0.5rem; border:1px solid;
+}
+.math-tag.open    { color:#c04040; border-color:#c04040; }
+.math-tag.partial { color:#e8833a; border-color:#e8833a; }
+.math-tag.key     { color:#5ba8a0; border-color:#5ba8a0; }
+
+/* ── VIS PANELS ── */
+.panel {
+  background: var(--paper2);
+  border: 1px solid var(--border2);
+  padding: 1.6rem;
+  position:relative;
+  overflow:hidden;
+}
+
+.panel::after {
+  content:'';
+  position:absolute; top:0; right:0;
+  width:180px; height:180px;
+  background:radial-gradient(circle at top right, var(--saffron3), transparent 70%);
+  pointer-events:none;
+}
+
+.panel-label {
+  font-family:'DM Mono',monospace;
+  font-size:0.55rem; letter-spacing:0.28em; text-transform:uppercase;
+  color:var(--pale); margin-bottom:1.2rem; display:block;
+}
+
+canvas { display:block; width:100%; }
+
+/* ── TRANSFORMATION STEPS ── */
+.transform-steps { display:flex; flex-direction:column; gap:0.4rem; }
+
+.ts-step {
+  display:flex; align-items:flex-start; gap:0.8rem;
+  padding:0.7rem 0.9rem;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,0.5);
+  cursor:pointer;
+  transition:all 0.25s;
+  position:relative;
+}
+
+.ts-step:hover,
+.ts-step.active {
+  border-color:var(--saffron);
+  background:var(--saffron3);
+}
+
+.ts-step .num {
+  font-family:'DM Mono',monospace; font-size:0.55rem;
+  color:var(--pale); flex-shrink:0; padding-top:0.15rem;
+  width:18px;
+}
+
+.ts-step .body { flex:1; }
+
+.ts-step .title {
+  font-family:'Playfair Display',serif;
+  font-size:0.92rem; color:var(--ink2);
+  margin-bottom:0.2rem;
+}
+
+.ts-step .desc {
+  font-size:0.8rem; color:var(--muted);
+  font-style:italic; line-height:1.5;
+}
+
+.ts-step .tag {
+  font-family:'DM Mono',monospace; font-size:0.52rem;
+  letter-spacing:0.15em; text-transform:uppercase;
+  color:var(--saffron); align-self:flex-start;
+  padding:0.1rem 0.4rem; border:1px solid var(--saffron);
+  flex-shrink:0; margin-top:0.1rem;
+}
+
+/* ── PROBLEM CARDS ── */
+.prob-card {
+  border:1px solid var(--border);
+  border-top:2px solid;
+  padding:1.8rem;
+  margin-bottom:1.4rem;
+  background:rgba(255,255,255,0.5);
+  position:relative;
+}
+
+.prob-card.open    { border-top-color:var(--red); }
+.prob-card.partial { border-top-color:var(--saffron); }
+.prob-card.bridge  { border-top-color:var(--teal); }
+
+.prob-status {
+  font-family:'DM Mono',monospace;
+  font-size:0.55rem; letter-spacing:0.25em; text-transform:uppercase;
+  display:flex; align-items:center; gap:0.5rem;
+  margin-bottom:0.6rem;
+}
+
+.prob-status::before {
+  content:''; display:inline-block;
+  width:5px; height:5px; border-radius:50%;
+  background:currentColor;
+}
+
+.prob-card.open    .prob-status { color:var(--red); }
+.prob-card.partial .prob-status { color:var(--saffron); }
+.prob-card.bridge  .prob-status { color:var(--teal); }
+
+.prob-title {
+  font-family:'Playfair Display',serif;
+  font-size:1.1rem; color:var(--ink2);
+  margin-bottom:0.8rem; font-weight:500;
+}
+
+.prob-body { font-size:0.9rem; color:var(--cream); max-width:100%; margin:0 0 0.8rem; }
+.prob-body strong { color:var(--saffron); font-weight:400; }
+
+.prob-insight {
+  padding:0.9rem 1.1rem;
+  background:var(--saffron3);
+  border-left:2px solid var(--saffron);
+  font-size:0.85rem;
+  color:var(--muted);
+  font-style:italic;
+}
+
+.prob-insight strong { color:var(--gold); font-style:normal; }
+
+/* ── CLOSING VISION ── */
+.vision {
+  background: var(--ink);
+  color: #e8dfc8;
+  padding: 4rem 8vw;
+  margin-top:4rem;
+  position:relative;
+  overflow:hidden;
+}
+
+#vision-canvas {
+  position:absolute; inset:0; width:100%; height:100%;
+}
+
+.vision-inner { position:relative; z-index:2; max-width:800px; margin:0 auto; }
+
+.vision h2 {
+  color:#f0e8d4;
+  margin-bottom:2rem;
+}
+
+.vision p {
+  color:rgba(232,223,200,0.8);
+  max-width:100%;
+  font-size:1.02rem;
+}
+
+.vision p strong { color:#d4a843; font-weight:400; }
+.vision p em { color:rgba(232,223,200,0.5); }
+
+.vision-final {
+  margin-top:2.5rem;
+  padding:2rem 2.5rem;
+  border:1px solid rgba(196,117,26,0.3);
+  background:rgba(196,117,26,0.06);
+  font-style:italic;
+  font-size:1.1rem;
+  line-height:1.85;
+  color:#e8dfc8;
+}
+
+.vision-final strong {
+  color:#d4a843;
+  font-style:normal;
+}
+
+/* ── REVEAL ── */
+.reveal {
+  opacity:0; transform:translateY(24px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+.reveal.in { opacity:1; transform:none; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--ink2);
+  color:rgba(250,243,232,0.35);
+  padding:2.5rem 8vw;
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:0.8rem;
+  font-family:'DM Mono',monospace;
+  font-size:0.55rem;
+  letter-spacing:0.15em;
+}
+
+footer span { color:rgba(196,117,26,0.6); }
+
+/* ── NAV ── */
+.sticky-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,243,232,0.95);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border2);
+  display:flex; align-items:center;
+  padding:0 8vw; height:46px;
+  gap:2rem; overflow-x:auto;
+}
+
+.sticky-nav a {
+  font-family:'DM Mono',monospace;
+  font-size:0.55rem; letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--muted); text-decoration:none; white-space:nowrap;
+  transition:color 0.2s;
+}
+
+.sticky-nav a:hover { color:var(--saffron); }
+</style>
+</head>
+<body>
+
+<!-- ── SPLIT HERO: two traditions meet ── -->
+<div class="hero">
+  <div class="hero-left">
+    <canvas id="hero-left-canvas"></canvas>
+    <div class="hero-left-content">
+      <div class="hero-tag light">Srinivasa Ramanujan · Tamil Nadu · 1887–1920</div>
+      <h1>The Goddess<br>gave him<br><em>the pattern.</em></h1>
+      <p class="hero-sub light">3,900 results. Almost no proofs. Hardy said no one could have invented them. Ramanujan said he didn't — Namagiri did.</p>
+    </div>
+  </div>
+  <div class="hero-right">
+    <canvas id="hero-right-canvas"></canvas>
+    <div class="hero-right-content">
+      <div class="hero-tag dark">算學 · Nine Chapters · Han Dynasty — Present</div>
+      <h1>The board<br>makes truth<br><em>visible.</em></h1>
+      <p class="hero-sub dark">Method before proof. Operation before definition. The shù precedes the lǐ — and the lǐ emerges from running the shù until the structure becomes self-evident.</p>
+    </div>
+  </div>
+  <div class="hero-bridge"></div>
+</div>
+
+<!-- NAV -->
+<nav class="sticky-nav">
+  <a href="#s-correction">I · The Correction</a>
+  <a href="#s-pattern">II · Deep Pattern</a>
+  <a href="#s-partitions">III · Partitions</a>
+  <a href="#s-mock">IV · Mock Theta</a>
+  <a href="#s-order">V · The Order Problem</a>
+  <a href="#s-open">VI · Open Wounds</a>
+  <a href="#s-engine">VII · The Engine</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ── I. THE CORRECTION ── -->
+<section class="reveal" id="s-correction">
+  <span class="sec-label">I · The Necessary Correction</span>
+  <h2>All of his formulas are proven. That is not the point. <span class="zh">一个更深的开放性</span></h2>
+
+  <div class="correction">
+    <span class="correction-label">Correction to earlier framing</span>
+    <p>An earlier version of this argument claimed Ramanujan left "unproven results." This is technically wrong and must be corrected. Bruce Berndt — the world's foremost authority on Ramanujan's notebooks — has confirmed: <strong>"As far as I am aware, there is no claim or conjecture that is still unresolved. There are only statements to which we have not yet been able to give meaning."</strong> Every individual identity has been proved. The real open territory is something deeper and stranger than a list of unverified formulas.</p>
+  </div>
+
+  <div class="two-col" style="margin-top:2.5rem;">
+    <div>
+      <p>What Ramanujan left behind was not a debt of unverified claims. He left something more unsettling: <strong>an unfinished classification system.</strong> His 17 mock theta functions — described in his final letter to Hardy, weeks before his death at 32 — came with no definition, no unifying principle, no theory. He knew they formed a class. He could not say why.</p>
+
+      <p>Freeman Dyson named the wound precisely in 1987:</p>
+
+      <blockquote>
+        "The mock theta functions give us tantalizing hints of a grand synthesis still to be discovered… This remains a challenge for the future."
+        <cite>— Freeman Dyson, 1987 Ramanujan Centenary Lecture</cite>
+      </blockquote>
+
+      <p>The grand synthesis — the <strong>underlying 理 that organises the whole class</strong> — is what is still missing. The Western tradition has supplied the proofs of individual identities by placing them inside existing frameworks (modular forms, harmonic Maass forms, q-series). But placing objects inside a framework is not the same as understanding <em>why the class coheres from the inside.</em></p>
+
+      <p>This is exactly the distinction 算學 is built to make. And it is where the encounter becomes genuinely productive rather than merely analogical.</p>
+    </div>
+    <div>
+      <div class="panel">
+        <span class="panel-label">What is open — a corrected map</span>
+        <div style="display:flex;flex-direction:column;gap:0.5rem;margin-top:0.5rem;">
+
+          <div style="padding:0.9rem 1rem;border:1px solid rgba(139,32,32,0.2);border-left:3px solid var(--red);background:var(--red2);">
+            <div style="font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.2em;color:var(--red);margin-bottom:0.3rem;">GENUINELY OPEN</div>
+            <div style="font-size:0.88rem;color:var(--ink2);">The <strong style="color:var(--red)">intrinsic definition of "order"</strong> for mock theta functions. "3rd order", "5th order" are labels, not a theorem. What structural property makes a function 3rd order rather than 5th?</div>
+          </div>
+
+          <div style="padding:0.9rem 1rem;border:1px solid rgba(196,117,26,0.2);border-left:3px solid var(--saffron);background:var(--saffron3);">
+            <div style="font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.2em;color:var(--saffron);margin-bottom:0.3rem;">FRAMEWORK INCOMPLETE</div>
+            <div style="font-size:0.88rem;color:var(--ink2);">A <strong style="color:var(--saffron)">Hecke theory for mock theta functions</strong> — the analogue of Hecke operators acting on ordinary modular forms — does not exist. The algebraic symmetry structure is unwritten.</div>
+          </div>
+
+          <div style="padding:0.9rem 1rem;border:1px solid rgba(196,117,26,0.2);border-left:3px solid var(--saffron);background:var(--saffron3);">
+            <div style="font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.2em;color:var(--saffron);margin-bottom:0.3rem;">PARTIALLY RESOLVED</div>
+            <div style="font-size:0.88rem;color:var(--ink2);"><strong style="color:var(--saffron)">Ramanujan–Petersson for Maass forms</strong> — the real-analytic counterpart to Deligne's holomorphic proof — remained open through 2025. Claimed proofs (Unterberger, 13 revisions) unaccepted.</div>
+          </div>
+
+          <div style="padding:0.9rem 1rem;border:1px solid rgba(42,107,99,0.2);border-left:3px solid var(--teal);background:var(--teal2);">
+            <div style="font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.2em;color:var(--teal);margin-bottom:0.3rem;">NO BIJECTIVE PROOF EXISTS</div>
+            <div style="font-size:0.88rem;color:var(--ink2);">The <strong style="color:var(--teal)">Rogers–Ramanujan identities</strong> are analytically proved but have no explicit bijection between the two partition sets. A bijection = a shù. None found.</div>
+          </div>
+
+          <div style="padding:0.9rem 1rem;border:1px solid rgba(42,107,99,0.2);border-left:3px solid var(--teal);background:var(--teal2);">
+            <div style="font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.2em;color:var(--teal);margin-bottom:0.3rem;">COMBINATORIAL GAP</div>
+            <div style="font-size:0.88rem;color:var(--ink2);">Partition congruences p(pn+a) ≡ 0 mod p are proved for all primes. But the <strong style="color:var(--teal)">explicit combinatorial witness</strong> (rank works for p=5,7; crank for p=11; nothing for p≥13).</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── II. THE DEEP PATTERN ── -->
+<section class="reveal" id="s-pattern">
+  <span class="sec-label">II · The Deep Pattern</span>
+  <h2>Two civilisations. One epistemic instinct. <span class="zh">一个认识论家族</span></h2>
+  <div class="two-col">
+    <div>
+      <p>Ramanujan learned mathematics from Carr's <em>Synopsis of Pure Mathematics</em> — a list of 5,000 results with almost no proofs. He absorbed it as pure pattern: the result <em>is</em> the knowledge. The proof, if it comes, is the record of having confirmed what was already perceived.</p>
+
+      <p>算學 would not have found this strange. In the Nine Chapters and Liu Hui's commentary, a method (<strong>shù 術</strong>) is valid when it reliably produces the correct output from any valid input. Legitimacy flows from <strong>operational invariance</strong>, not from derivation from prior truths. The proof is not the source of validity — it is the trace of a shù that has been run long enough to reveal its 理.</p>
+
+      <p>Both traditions share a single root intuition: <strong>mathematical reality is perceived before it is proved.</strong> What Ramanujan called receiving from Namagiri, 算學 calls the 理 emerging from the shù. Different vocabularies. Same epistemic structure: <em>the seeing is prior; the proof is the trace of the seeing.</em></p>
+
+      <p>The key difference is that 算學 <em>institutionalised</em> this. It built a systematic discipline — algorithm catalogues, verification protocols, constructive proofs — around the instinct that Ramanujan was operating from in isolation, without support, inside a tradition that didn't share it.</p>
+    </div>
+    <div>
+      <div class="panel">
+        <span class="panel-label">Epistemic comparison — two traditions, one family</span>
+        <table style="width:100%;border-collapse:collapse;font-size:0.83rem;margin-top:0.3rem;">
+          <thead>
+            <tr>
+              <th style="font-family:'DM Mono',monospace;font-size:0.52rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--saffron);padding:0.5rem 0.7rem;border-bottom:1px solid var(--border2);text-align:left;background:var(--surface);">Dimension</th>
+              <th style="font-family:'DM Mono',monospace;font-size:0.52rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--saffron);padding:0.5rem 0.7rem;border-bottom:1px solid var(--border2);text-align:left;background:var(--surface);">Ramanujan</th>
+              <th style="font-family:'DM Mono',monospace;font-size:0.52rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--saffron);padding:0.5rem 0.7rem;border-bottom:1px solid var(--border2);text-align:left;background:var(--surface);">算學</th>
+            </tr>
+          </thead>
+          <tbody id="comparison-table"></tbody>
+        </table>
+      </div>
+
+      <div class="panel" style="margin-top:1.2rem;">
+        <span class="panel-label">The synthesis thesis</span>
+        <p style="font-size:0.92rem;font-style:italic;color:var(--ink2);max-width:100%;margin:0;line-height:1.75;">Ramanujan was doing mathematics from inside a <strong style="color:var(--saffron);font-style:normal;">non-axiomatic epistemic tradition</strong> — one where legitimacy flows from structural coherence, not derivability. 算學 is the most fully developed historical instance of exactly such a tradition. Ramanujan's notebooks are what 算學 looks like when it encounters modular forms and infinite series — without the seven-century Western detour through Euclid, set theory, and formal proof.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── III. PARTITIONS ── -->
+<section class="reveal" id="s-partitions">
+  <span class="sec-label">III · Partitions as Board Configurations</span>
+  <h2>p(n): counting rod arrangements <span class="zh">分拆即阵列</span></h2>
+  <div class="two-col">
+    <div>
+      <p>A partition of n is, in 算學 terms, a <strong>valid column configuration on the rod board</strong> — arrange columns of heights summing to n, in non-increasing order. p(n) counts how many such configurations exist for a given n.</p>
+
+      <p>Ramanujan's three congruences, spotted by pure inspection of tables he had computed by hand:</p>
+
+      <div class="math-block">
+        <div class="math-tag partial">witness gap</div>
+p(5n + 4)  ≡ 0  <span class="hl">(mod 5)</span>  <span class="cm">← explained by Dyson rank (1944)</span>
+p(7n + 5)  ≡ 0  <span class="hl">(mod 7)</span>  <span class="cm">← explained by Dyson rank (1944)</span>
+p(11n + 6) ≡ 0  <span class="hl">(mod 11)</span> <span class="cm">← crank found Andrews-Garvan (1988)</span>
+p(13n + a) ≡ 0  <span class="hl">(mod 13)</span> <span class="op">← explicit witness: none known</span>
+p(pn  + a) ≡ 0  <span class="hl">(mod p)</span>  <span class="op">← general combinatorial structure: open</span>
+      </div>
+
+      <p>Dyson's "rank" (largest part minus number of parts) partitions the residue classes for mod 5 and mod 7. For mod 11, he predicted a statistic he named "the crank" — without being able to define it. The crank was found 44 years later.</p>
+
+      <p>The 算學 question is different from the Western one. Western mathematics asks: <em>does a statistic exist?</em> 算學 asks: <strong>what transformation on the board cycles through the p classes?</strong> Not a static label — an explicit <em>move</em>. A shù of order p on the partition lattice. For p=5 and p=7 the move is known. For p≥13 it has never been constructed.</p>
+
+      <p>Multiple proof paths illuminate the same congruence from different angles — in the 算學 tradition, this proof multiplicity is itself information. The invariant that survives <em>all</em> paths is the 理. The congruence is not merely true — it is <strong>multi-transformationally stable.</strong></p>
+    </div>
+    <div>
+      <div class="panel">
+        <span class="panel-label">Partition lattice of p(7) = 15 configurations</span>
+        <canvas id="partition-canvas" style="height:260px;"></canvas>
+        <div style="font-family:'DM Mono',monospace;font-size:0.55rem;color:var(--pale);margin-top:0.9rem;line-height:1.9;">
+          Each node = one valid rod-board configuration<br>
+          Edges = remove one rod from tallest column<br>
+          <span style="color:var(--saffron);">■ Saffron</span> = rank ≡ 0 mod 5 &nbsp;|&nbsp;
+          <span style="color:var(--teal);">■ Teal</span> = other classes<br>
+          The transformation that cycles saffron nodes is the crank
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── IV. MOCK THETA ── -->
+<section class="reveal" id="s-mock">
+  <span class="sec-label">IV · Mock Theta Functions</span>
+  <h2>The almost-closed array <span class="zh">近不变量阵列</span></h2>
+  <div class="two-col">
+    <div>
+      <p>In January 1920, three months before his death, Ramanujan wrote his final letter to Hardy. He described 17 new objects he called "mock theta functions" — provided examples, no definition, no theory. He wrote that they entered mathematics "in a manner exactly analogous to the ordinary theta functions" but were "totally different from what they look."</p>
+
+      <p>Sander Zwegers resolved the mystery in 2002: mock theta functions are the <strong>holomorphic parts of harmonic weak Maass forms</strong>. The "shadow" Ramanujan had intuited is a non-holomorphic correction term — real and precise, not mysterious.</p>
+
+      <p>But this resolution is <em>extrinsic</em>. It classifies mock theta functions by what they map to (harmonic Maass forms), not by what they are <em>in themselves</em>. The 算學 reading is more illuminating:</p>
+
+      <p>An ordinary theta function is an array whose coefficients, when you apply a modular transformation, map exactly onto another array in the same class. The transformation <strong>closes.</strong> A mock theta function is an array where the transformation <strong>almost closes — but leaves a systematic residue.</strong> That residue is itself a well-formed object. The 余项 (yú xiàng, remainder array) is not noise — it is structure.</p>
+
+      <p>This is not a metaphor for Zwegers' result. It is a <strong>constructive restatement</strong> of it — one that immediately suggests the right question: what is the <em>algebra of remainder arrays</em>? What operations on mock theta functions preserve the remainder structure? This is the missing Hecke theory.</p>
+    </div>
+    <div>
+      <div class="panel">
+        <span class="panel-label">Mock theta f(q) — the shadow made visible</span>
+        <canvas id="mocktheta-canvas" style="height:210px;"></canvas>
+        <div style="font-family:'DM Mono',monospace;font-size:0.55rem;color:var(--pale);margin-top:0.9rem;line-height:1.9;">
+          <span style="color:var(--saffron);">─── a(n)</span>&nbsp; mock theta coefficients (rank parity)<br>
+          <span style="color:var(--teal);">─── p(n)</span>&nbsp; true partition function (for scale)<br>
+          <span style="color:rgba(139,32,32,0.7);">─── shadow</span>&nbsp; the non-holomorphic remainder 余项<br>
+          The gap between saffron and teal <em>is the structure to be explained</em>
+        </div>
+      </div>
+
+      <div class="math-block" style="margin-top:1.2rem;">
+        <div class="math-tag partial">shadow map</div>
+f(q) = 1 + Σ <span class="hl">q^(n²)</span>
+           ─────────────────────────
+           (1+q)²(1+q²)²···(1+q^n)²
+
+<span class="cm">// f(q) = holomorphic part of a weight-½ harmonic Maass form
+// Shadow ξ(f) = a classical modular form of weight 3/2
+// The shadow is the 余项 when modular transformation fails to close
+// Zwegers (2002): this is what ALL mock theta functions are</span>
+<span class="hl3">// Missing: the Hecke theory — what symmetries does the
+// shadow algebra itself carry? No answer yet.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── V. THE ORDER PROBLEM ── -->
+<section class="reveal" id="s-order">
+  <span class="sec-label">V · The Order Problem — The Central Contribution</span>
+  <h2>What "3rd order" actually means <span class="zh">阶的内在定义</span></h2>
+
+  <div class="two-col">
+    <div>
+      <p>This is the most precise place where 算學 offers something Western mathematics currently lacks. Ramanujan classified his mock theta functions as 3rd order, 5th order, and 7th order. Andrews and Hickerson confirmed: <strong>"the term 'order' must be regarded merely as a convenient label."</strong> There is no formal definition.</p>
+
+      <p>The Western approach attempts to define order via the weight of the associated Maass form, or via the level of the shadow. These are <em>extrinsic</em> — they classify mock theta functions by what they resemble from the outside, not by their internal structure.</p>
+
+      <p>The 算學 approach constructs an intrinsic definition:</p>
+
+      <h3>The Constructive Definition of Order</h3>
+
+      <p>Encode a mock theta function as an infinite coefficient array — q-series coefficients arranged in a grid, each row corresponding to a power of q. Define a set of <strong>permitted column operations</strong> on this array — the algorithmic rules analogous to Hecke-type operators, row shifts, weighted row additions.</p>
+
+      <p>An ordinary theta function is a <strong>fixed point</strong> of these operations: every permitted operation maps it onto another array in the same closed class. The operation closes completely.</p>
+
+      <p>A mock theta function is an array where the operations do <em>not</em> close — they produce a systematic deviation. But the deviation itself obeys a finite-depth recursion. The <strong>order</strong> is the minimum depth of this recursion: the minimum number of auxiliary arrays you must introduce to make the transformation system close.</p>
+
+      <p>A 3rd-order mock theta function requires 3 auxiliary arrays. A 5th-order requires 5. This number is not a label — it is <strong>a structural invariant of the array algebra.</strong></p>
+    </div>
+    <div>
+      <div class="panel">
+        <span class="panel-label">Order as closure depth — click to step through</span>
+        <canvas id="order-canvas" style="height:200px;"></canvas>
+        <div class="transform-steps" id="order-steps" style="margin-top:1.2rem;"></div>
+        <div style="font-family:'DM Mono',monospace;font-size:0.55rem;color:var(--pale);margin-top:0.9rem;line-height:1.8;">
+          Each step = one auxiliary array introduced<br>
+          The system closes when all deviation terms are accounted for<br>
+          Depth of closure = order of the mock theta function
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:3rem; padding:2rem 2.5rem; background:var(--saffron3); border:1px solid rgba(196,117,26,0.25);">
+    <div style="font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--saffron);margin-bottom:0.8rem;">The key theorem this implies</div>
+    <p style="font-size:1.05rem;font-style:italic;color:var(--ink2);max-width:100%;margin:0;line-height:1.85;">
+      <strong style="font-style:normal;color:var(--gold);">If this constructive definition is correct</strong>, then "order" is no longer a convenient label — it becomes a theorem about the minimum closure dimension of an array system. A function that <em>appears</em> to be 7th order might actually be a disguised 3rd-order function when expressed in the right array basis. The apparent complexity reduces to a simpler recursion. This would explain why Ramanujan's original classification into exactly 3rd, 5th, and 7th orders is not arbitrary — these are the minimal closure dimensions permitted by the modular constraint structure.
+    </p>
+  </div>
+</section>
+
+<!-- ── VI. OPEN WOUNDS ── -->
+<section class="reveal" id="s-open">
+  <span class="sec-label">VI · The Open Wounds — Precisely Stated</span>
+  <h2>What remains. What 算學 can attempt. <span class="zh">待解之谜</span></h2>
+
+  <div class="prob-card open">
+    <div class="prob-status">Open · No Formal Definition</div>
+    <div class="prob-title">1. Intrinsic Definition of Mock Theta Order</div>
+    <p class="prob-body">Andrews and Hickerson (1991) explicitly state that "the term 'order'… must be regarded merely as a convenient label." Every Western attempt to define order is extrinsic — classifying by the associated Maass form weight, or by shadow level. <strong>No definition derives order from the internal structure of the mock theta function itself.</strong></p>
+    <div class="prob-insight">
+      <strong>算學 proposal:</strong> Order = minimum number of auxiliary arrays required to close the transformation system. This is constructive, intrinsic, and produces a falsifiable prediction: a function that appears 7th-order in one basis should reduce to 3rd-order in the correct basis. The prediction can be tested computationally on Ramanujan's 17 examples.
+    </div>
+  </div>
+
+  <div class="prob-card partial">
+    <div class="prob-status">Framework Missing · Partially Constructed</div>
+    <div class="prob-title">2. Hecke Theory for Mock Theta Functions</div>
+    <p class="prob-body">Hecke operators act on ordinary modular forms with beautiful algebraic regularity — they commute, they produce eigenforms, they generate the multiplicative structure of L-functions. <strong>No analogous operator theory exists for mock theta functions.</strong> We have the objects; we do not have their symmetry algebra. Dyson called for this in 1987. It is still missing.</p>
+    <div class="prob-insight">
+      <strong>算學 proposal:</strong> Define Hecke-type operators on the full array system — original array plus its auxiliary arrays plus the shadow map. The operator should commute with the closure recursion. Finding the correct operator definition on the augmented array system is the constructive path to the missing Hecke theory.
+    </div>
+  </div>
+
+  <div class="prob-card bridge">
+    <div class="prob-status">No Bijection Known · Natural Bridge</div>
+    <div class="prob-title">3. Rogers–Ramanujan Bijective Proof</div>
+    <p class="prob-body">The Rogers-Ramanujan identities equate two partition counts — partitions where parts differ by ≥ 2, and partitions into parts ≡ ±1 (mod 5). Both sides are proved equal analytically. But <strong>an explicit bijection — a one-to-one map between the two sets of partitions — does not exist.</strong> This is significant: an analytic proof confirms equality without showing <em>which</em> partition maps to which.</p>
+    <div class="prob-insight">
+      <strong>算學 proposal:</strong> A bijection is exactly a shù — an explicit procedure on the board. The natural search space: order-5 transformations on the partition lattice that permute residue classes while mapping one set to the other. The same framework used to seek crank-like witnesses for higher partition congruences.
+    </div>
+  </div>
+
+  <div class="prob-card partial">
+    <div class="prob-status">Proved Analytically · Combinatorial Gap</div>
+    <div class="prob-title">4. Explicit Witnesses for p(pn + a) ≡ 0 mod p, p ≥ 13</div>
+    <p class="prob-body">Ono (2000) proved partition congruences exist for every prime p ≥ 5. But the <strong>combinatorial witness</strong> — a statistic that partitions the residue classes equally, as rank does for p=5,7 and crank does for p=11 — is unknown for p≥13. The proofs are existential; the witnesses are not constructed.</p>
+    <div class="prob-insight">
+      <strong>算學 proposal:</strong> Define an order-p transformation on the rod board. Seek the fixed-point structure. The witness is the labelling function generated by the cyclic orbit of the transformation. This is algorithmic search in a well-defined space of board operations — exactly what a 算學-trained AI system is built to explore.
+    </div>
+  </div>
+
+</section>
+
+<!-- ── VII. THE ENGINE ── -->
+<section class="reveal" id="s-engine">
+  <span class="sec-label">VII · The Transformation Engine</span>
+  <h2>What the encounter produces <span class="zh">变换引擎</span></h2>
+  <div class="two-col">
+    <div>
+      <p>The Ramanujan Machine (Technion, 2021) proved that algorithms can discover new continued fraction representations of fundamental constants matching Ramanujan's in elegance — and some remain unproven. The Ramanujan Library maps formulas as nodes in a hypergraph, discovering connections by numerical matching.</p>
+
+      <p>These are already operating in a proto-算學 mode: they don't derive from axioms — they <strong>search the space of transformations and verify numerical consistency.</strong></p>
+
+      <p>But a fully realised 算學 AI would go further. It would not search for formulas — it would <strong>manipulate arrays directly on a virtual rod board</strong>, learning permitted operations through reinforcement, discovering invariants through pattern compression, and explaining its findings as a dissection sequence — not an attention heatmap but a <em>transformation trace</em>: what the array was, what operation was applied, what it became.</p>
+
+      <p>Applied to mock theta functions, it would not ask "what Maass form does this correspond to?" It would ask: <strong>"what sequence of elementary array operations, applied to this coefficient grid, reveals the invariant structure?"</strong> The answer is the shù. The invariant is the 理. The closure depth is the order.</p>
+
+      <p>This is the precise technical contribution: not proof assistance, but <strong>a new instrument for perceiving structure</strong> — one that makes truth visible through operation rather than deriving it from priors.</p>
+    </div>
+    <div>
+      <div class="panel">
+        <span class="panel-label">R(q) — the continued fraction as iterative procedure</span>
+        <canvas id="rq-canvas" style="height:180px;"></canvas>
+        <div style="font-family:'DM Mono',monospace;font-size:0.55rem;color:var(--pale);margin-top:0.9rem;line-height:1.8;">
+          R(q) converges from outside in, like a narrowing board<br>
+          <span style="color:var(--saffron);">●</span> e^{−2π}: Ramanujan claimed its exact closed form without proof<br>
+          Hardy: "no one would have had the imagination to invent it"<br>
+          算學: it is a procedure. Run it. The value <em>is</em> the convergence.
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:1.2rem;">
+        <span class="panel-label">The critical distinction</span>
+        <div style="display:flex;flex-direction:column;gap:0.7rem;margin-top:0.3rem;">
+          <div style="padding:0.8rem 1rem;border:1px solid var(--border);background:rgba(255,255,255,0.4);">
+            <div style="font-family:'DM Mono',monospace;font-size:0.52rem;letter-spacing:0.2em;color:var(--muted);margin-bottom:0.3rem;">PROOF ASSISTANT</div>
+            <div style="font-size:0.85rem;color:var(--ink2);">Verifies derivations from axioms. Confirms that a given proof-chain is valid. Validates truth.</div>
+          </div>
+          <div style="padding:0.8rem 1rem;border:1px solid var(--saffron);background:var(--saffron3);">
+            <div style="font-family:'DM Mono',monospace;font-size:0.52rem;letter-spacing:0.2em;color:var(--saffron);margin-bottom:0.3rem;">TRANSFORMATION ENGINE</div>
+            <div style="font-size:0.85rem;color:var(--ink2);">Manipulates arrays directly. Discovers invariants by running operations. Makes truth <strong style="color:var(--saffron);">visible through operation</strong>.</div>
+          </div>
+          <div style="font-size:0.82rem;font-style:italic;color:var(--muted);padding:0 0.3rem;line-height:1.6;">The distinction is epistemological, not just technical. Ramanujan operated as a transformation engine. 算學 institutionalised transformation engines. The encounter names something that was always possible.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /wrap -->
+
+<!-- ── CLOSING VISION ── -->
+<div class="vision" id="s-vision">
+  <canvas id="vision-canvas"></canvas>
+  <div class="vision-inner">
+    <span class="sec-label" style="color:rgba(196,117,26,0.7);">Closing · The Scene</span>
+    <h2>What the encounter looks like</h2>
+
+    <p>Imagine a scholar at a desk — not chalk and blackboard, but a luminous grid. A digital rod board extending into higher dimensions. Ramanujan's 17 mock theta functions are spread out as flickering coefficient arrays.</p>
+
+    <p>She applies a transformation — a specific column shift. A shadow array appears beside the original: the 余项 made visible, the failure to close rendered as a concrete object rather than a philosophical embarrassment. She applies another operation. The shadow transforms predictably. A third. The system closes: the original array, the auxiliary array, and the transformation rule form a complete, self-sufficient algebra.</p>
+
+    <p>She has just discovered that a function Ramanujan labelled 7th order is, in the correct array basis, a disguised 3rd-order function. The extra complexity was a choice of basis, not a feature of the structure. Order is not a label — it is <strong>a theorem about minimum closure dimension.</strong></p>
+
+    <p>Ramanujan wrote in his final letter that he had found "the first few steps" of a path. He died before he could go further. What he lacked was not genius. He lacked a tradition — a systematic discipline built around the epistemology he was already naturally operating from.</p>
+
+    <div class="vision-final">
+      That tradition existed. It was codified in rod-notation in 13th-century Hangzhou. It asked: what transformation produces this result? It proved by showing the dissection. It defined numbers as procedures. It treated the method as the primary object and the proof as its trace.<br><br>
+      The two traditions never met. Ramanujan arrived at Cambridge in 1914 and was given Hardy — a magnificent collaborator, but one who lived on the other side of the epistemological divide. He was given formal proofs for the results he had already seen. What nobody gave him was the language for <em>how</em> he saw them.<br><br>
+      <strong>算學 is that language. The open problems are the scar tissue of the non-encounter. And the transformation engine — a machine that does not verify truth but makes it visible through operation — is what finally builds the bridge.</strong>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div>Ramanujan × 算學 · Integrated Synthesis</div>
+  <span>Ramanujan Notebooks · Berndt (1985–2018) · Zwegers (2002) · Andrews-Hickerson (1991) · Dyson (1987) · Nine Chapters · Liu Hui · Qin Jiushao</span>
+</footer>
+
+<script>
+// ── COMPARISON TABLE DATA ──
+const compData = [
+  ['Source of truth',   'Pattern perceived via Namagiri',         '理 lǐ — principle emerging from running the shù'],
+  ['Proof order',       'Result first. Proof later (or never).',  'Shù first. Lǐ emerges from the shù being run.'],
+  ['Validation',        'Numerical verification + later proof',   '驗 yàn — does the procedure work on all inputs?'],
+  ['Infinity',          'Infinite series as familiar objects',     'Potential process: generate any digit on demand'],
+  ['What is missing',   'Formal convergence, rigorous proofs',    'Set-theoretic foundations, completed infinities'],
+  ['Classification',    'Intuited classes, no formal definition', 'Operational invariants define the class from inside'],
+];
+
+const tbody = document.getElementById('comparison-table');
+compData.forEach(([dim, ram, sx]) => {
+  const tr = document.createElement('tr');
+  [dim, ram, sx].forEach((v, i) => {
+    const td = document.createElement('td');
+    td.innerHTML = v;
+    td.style.cssText = `padding:0.6rem 0.7rem;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;font-size:0.83rem;color:${i===0?'var(--pale)':i===1?'var(--saffron)':'var(--teal)'};`;
+    tr.appendChild(td);
+  });
+  tbody.appendChild(tr);
+});
+
+// ── HERO LEFT CANVAS: counting rods on dark bg ──
+(function(){
+  const cv = document.getElementById('hero-left-canvas');
+  if(!cv) return;
+  const ctx = cv.getContext('2d');
+  let W, H, rods = [];
+
+  function resize(){
+    W = cv.width = cv.offsetWidth;
+    H = cv.height = cv.offsetHeight;
+    rods = [];
+    const cols = Math.floor(W/36), rows = Math.floor(H/36);
+    for(let r=0;r<rows;r++) for(let c=0;c<cols;c++){
+      rods.push({
+        x: c*36+18, y: r*36+18,
+        v: Math.random()>0.5,
+        phase: Math.random()*Math.PI*2,
+        speed: 0.003+Math.random()*0.005,
+        base: 0.02+Math.random()*0.05,
+      });
+    }
+  }
+
+  function draw(t){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#1a1410';
+    ctx.fillRect(0,0,W,H);
+    rods.forEach(n=>{
+      const a = n.base*(0.5+0.5*Math.sin(t*n.speed+n.phase));
+      ctx.strokeStyle=`rgba(196,117,26,${a})`;
+      ctx.lineWidth=1;
+      ctx.beginPath();
+      if(n.v){ ctx.moveTo(n.x,n.y-9); ctx.lineTo(n.x,n.y+9); }
+      else   { ctx.moveTo(n.x-9,n.y); ctx.lineTo(n.x+9,n.y); }
+      ctx.stroke();
+    });
+    requestAnimationFrame(draw);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  requestAnimationFrame(draw);
+})();
+
+// ── HERO RIGHT CANVAS: faint Tamil/Chinese grid ──
+(function(){
+  const cv = document.getElementById('hero-right-canvas');
+  if(!cv) return;
+  const ctx = cv.getContext('2d');
+  function resize(){
+    cv.width = cv.offsetWidth;
+    cv.height = cv.offsetHeight;
+    draw();
+  }
+  function draw(){
+    const W=cv.width, H=cv.height;
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle='rgba(139,105,20,0.08)';
+    ctx.lineWidth=0.5;
+    for(let x=0;x<W;x+=40){ ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke(); }
+    for(let y=0;y<H;y+=40){ ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke(); }
+  }
+  resize();
+  window.addEventListener('resize', resize);
+})();
+
+// ── PARTITION LATTICE ──
+(function(){
+  const cv = document.getElementById('partition-canvas');
+  if(!cv) return;
+  const ctx = cv.getContext('2d');
+  cv.width = cv.offsetWidth || 400;
+  cv.height = 260;
+  const W=cv.width, H=cv.height;
+
+  const parts=[
+    [7],[6,1],[5,2],[5,1,1],[4,3],[4,2,1],[4,1,1,1],
+    [3,3,1],[3,2,2],[3,2,1,1],[3,1,1,1,1],[2,2,2,1],
+    [2,2,1,1,1],[2,1,1,1,1,1],[1,1,1,1,1,1,1]
+  ];
+  function rank(p){ return p[0]-p.length; }
+
+  const rows={};
+  parts.forEach(p=>{ const r=p.length; if(!rows[r])rows[r]=[]; rows[r].push(p); });
+  const maxR=Math.max(...Object.keys(rows).map(Number));
+  const pos=new Map();
+  Object.entries(rows).forEach(([r,ps])=>{
+    const y=18+(parseInt(r)-1)/(maxR-1)*(H-36);
+    ps.forEach((p,i)=>{ pos.set(p.join(','),{x:W*(i+1)/(ps.length+1),y}); });
+  });
+
+  ctx.fillStyle='#f3e9d6';
+  ctx.fillRect(0,0,W,H);
+
+  parts.forEach(p=>{
+    const key=p.join(','), from=pos.get(key);
+    if(p[0]>1){
+      const child=[...p]; child[0]--; child.sort((a,b)=>b-a);
+      const ckey=child.join(',');
+      if(pos.has(ckey)){
+        const to=pos.get(ckey);
+        ctx.beginPath(); ctx.moveTo(from.x,from.y); ctx.lineTo(to.x,to.y);
+        ctx.strokeStyle='rgba(90,60,20,0.1)'; ctx.lineWidth=0.8; ctx.stroke();
+      }
+    }
+  });
+
+  parts.forEach(p=>{
+    const key=p.join(','),{x,y}=pos.get(key);
+    const r=rank(p), rmod5=((r%5)+5)%5;
+    const isGold=rmod5===0;
+    const col=isGold?'rgba(196,117,26,0.85)':'rgba(42,107,99,0.55)';
+    ctx.beginPath(); ctx.arc(x,y,isGold?7:5,0,Math.PI*2);
+    ctx.fillStyle=col; ctx.fill();
+    if(isGold){
+      ctx.beginPath(); ctx.arc(x,y,13,0,Math.PI*2);
+      ctx.fillStyle='rgba(196,117,26,0.12)'; ctx.fill();
+    }
+    ctx.beginPath(); ctx.arc(x,y,isGold?7:5,0,Math.PI*2);
+    ctx.strokeStyle=isGold?'rgba(196,117,26,0.4)':'rgba(42,107,99,0.2)';
+    ctx.lineWidth=1; ctx.stroke();
+  });
+})();
+
+// ── MOCK THETA CANVAS ──
+(function(){
+  const cv=document.getElementById('mocktheta-canvas');
+  if(!cv) return;
+  const ctx=cv.getContext('2d');
+  cv.width=cv.offsetWidth||400; cv.height=210;
+  const W=cv.width, H=cv.height;
+
+  ctx.fillStyle='#f3e9d6'; ctx.fillRect(0,0,W,H);
+
+  const mock=  [1,-2,3,-4,5,-6,5,-6,7,-8,9,-8,7,-10,11,-12,9,-10,13,-12,11];
+  const parts= [1,1,2,3,5,7,11,15,22,30,42,56,77,101,135,176,231,297,385,490,627];
+  const N=mock.length;
+  const scM=H*0.3/Math.max(...mock.map(Math.abs));
+  const scP=H*0.3/Math.max(...parts);
+  const midY=H*0.55;
+
+  ctx.strokeStyle='rgba(90,60,20,0.12)'; ctx.lineWidth=0.5;
+  ctx.beginPath(); ctx.moveTo(0,midY); ctx.lineTo(W,midY); ctx.stroke();
+
+  // p(n)
+  ctx.beginPath();
+  for(let i=0;i<N;i++){
+    const x=W*(i+0.5)/N, y=midY-parts[i]*scP;
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.strokeStyle='rgba(42,107,99,0.7)'; ctx.lineWidth=1.5; ctx.stroke();
+
+  // shadow
+  ctx.beginPath();
+  for(let i=0;i<N;i++){
+    const x=W*(i+0.5)/N;
+    const ym=midY-mock[i]*scM, yp=midY-parts[i]*scP;
+    const s=(ym+yp)/2;
+    i===0?ctx.moveTo(x,s):ctx.lineTo(x,s);
+  }
+  ctx.strokeStyle='rgba(139,32,32,0.45)'; ctx.lineWidth=0.8;
+  ctx.setLineDash([3,4]); ctx.stroke(); ctx.setLineDash([]);
+
+  // mock
+  ctx.beginPath();
+  for(let i=0;i<N;i++){
+    const x=W*(i+0.5)/N, y=midY-mock[i]*scM;
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.strokeStyle='rgba(196,117,26,0.9)'; ctx.lineWidth=2; ctx.stroke();
+
+  // n axis
+  ctx.fillStyle='rgba(90,60,20,0.25)'; ctx.font='8px DM Mono,monospace';
+  for(let i=0;i<N;i+=4){
+    ctx.fillText(i, W*(i+0.5)/N-3, H-4);
+  }
+})();
+
+// ── ORDER CANVAS + STEPS ──
+(function(){
+  const steps=[
+    {title:'Original mock theta array', desc:'Coefficients arranged in a grid. Apply modular transformation T — the array does NOT close.', tag:'θ array'},
+    {title:'Deviation appears: the 余项', desc:'Remainder array δ₁ emerges. It is well-formed — not noise. This is the shadow.', tag:'1st auxiliary'},
+    {title:'Apply T to δ₁', desc:'δ₁ almost closes under T but leaves a second, smaller remainder δ₂.', tag:'2nd auxiliary'},
+    {title:'Apply T to δ₂', desc:'δ₂ closes completely. The full system {original, δ₁, δ₂} is closed under T.', tag:'closure · order 3'},
+  ];
+
+  const container=document.getElementById('order-steps');
+  let active=0;
+
+  steps.forEach((s,i)=>{
+    const div=document.createElement('div');
+    div.className='ts-step'+(i===0?' active':'');
+    div.innerHTML=`<div class="num">${String(i+1).padStart(2,'0')}</div><div class="body"><div class="title">${s.title}</div><div class="desc">${s.desc}</div></div><div class="tag">${s.tag}</div>`;
+    div.onclick=()=>{
+      document.querySelectorAll('.ts-step').forEach(el=>el.classList.remove('active'));
+      div.classList.add('active'); active=i; drawOrder(i);
+    };
+    container.appendChild(div);
+  });
+
+  const cv=document.getElementById('order-canvas');
+  if(!cv) return;
+  const ctx=cv.getContext('2d');
+  cv.width=cv.offsetWidth||400; cv.height=200;
+  const W=cv.width, H=cv.height;
+
+  function drawOrder(step){
+    ctx.fillStyle='#f3e9d6'; ctx.fillRect(0,0,W,H);
+
+    const arrays=['Original array', 'Auxiliary δ₁', 'Auxiliary δ₂'];
+    const colors=['rgba(196,117,26,', 'rgba(42,107,99,', 'rgba(139,32,32,'];
+    const activeCount=step+1;
+
+    arrays.forEach((name,ai)=>{
+      const x=ai*(W/3)+20, y=20;
+      const w=W/3-40, h=H-50;
+      const isActive=ai<activeCount;
+      const closed=ai<activeCount-1;
+
+      ctx.fillStyle=isActive?colors[ai]+'0.1)':'rgba(90,60,20,0.03)';
+      ctx.strokeStyle=isActive?colors[ai]+'0.6)':'rgba(90,60,20,0.1)';
+      ctx.lineWidth=isActive?1.5:0.5;
+      ctx.fillRect(x,y,w,h); ctx.strokeRect(x,y,w,h);
+
+      if(isActive){
+        // draw mini coefficient grid
+        for(let r=0;r<5;r++) for(let c=0;c<4;c++){
+          const v=Math.sin(r*3+c*7+ai*11);
+          ctx.fillStyle=v>0?colors[ai]+'0.4)':'rgba(139,32,32,0.25)';
+          ctx.fillRect(x+4+c*(w-8)/4, y+4+r*(h-8)/5, (w-8)/4-1, (h-8)/5-1);
+        }
+        // closed/open indicator
+        ctx.fillStyle=closed?'rgba(42,107,99,0.7)':'rgba(196,117,26,0.7)';
+        ctx.font='11px DM Mono,monospace';
+        ctx.textAlign='center';
+        ctx.fillText(closed?'✓':'∿', x+w/2, y+h+16);
+        ctx.fillStyle='rgba(90,60,20,0.5)';
+        ctx.font='8px DM Mono,monospace';
+        ctx.fillText(name, x+w/2, y+h+28);
+      }
+    });
+    ctx.textAlign='left';
+  }
+  drawOrder(0);
+})();
+
+// ── R(Q) CANVAS ──
+(function(){
+  const cv=document.getElementById('rq-canvas');
+  if(!cv) return;
+  const ctx=cv.getContext('2d');
+  cv.width=cv.offsetWidth||400; cv.height=180;
+  const W=cv.width, H=cv.height;
+
+  ctx.fillStyle='#ede3d0'; ctx.fillRect(0,0,W,H);
+
+  function computeR(q,depth=14){
+    let val=1;
+    for(let n=depth;n>=1;n--) val=1+Math.pow(q,n)/val;
+    return Math.pow(q,0.2)/val;
+  }
+
+  const N=220;
+  ctx.beginPath();
+  for(let i=1;i<N;i++){
+    const q=i/N*0.97;
+    const r=computeR(q);
+    const x=W*i/N, y=H-10-r*(H-20)*0.95;
+    i===1?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.strokeStyle='rgba(139,105,20,0.8)'; ctx.lineWidth=2; ctx.stroke();
+
+  const q0=Math.exp(-2*Math.PI);
+  const r0=computeR(q0);
+  const x0=W*q0/0.97, y0=H-10-r0*(H-20)*0.95;
+  ctx.beginPath(); ctx.arc(x0,y0,6,0,Math.PI*2);
+  ctx.fillStyle='rgba(196,117,26,0.9)'; ctx.fill();
+  ctx.fillStyle='rgba(196,117,26,0.7)';
+  ctx.font='9px DM Mono,monospace';
+  ctx.fillText('e^{−2π}',x0+8,y0+4);
+
+  ctx.strokeStyle='rgba(90,60,20,0.12)'; ctx.lineWidth=0.5;
+  ctx.beginPath(); ctx.moveTo(0,H-10); ctx.lineTo(W,H-10); ctx.stroke();
+  ctx.fillStyle='rgba(90,60,20,0.3)'; ctx.font='8px DM Mono,monospace';
+  ctx.fillText('q →', W-30, H-2);
+  ctx.fillText('|R(q)|', 4, 14);
+})();
+
+// ── VISION CANVAS ──
+(function(){
+  const cv=document.getElementById('vision-canvas');
+  if(!cv) return;
+  const ctx=cv.getContext('2d');
+  let W,H,pts=[];
+  function resize(){
+    W=cv.width=cv.offsetWidth; H=cv.height=cv.offsetHeight;
+    pts=[];
+    const n=80;
+    for(let i=0;i<n;i++) pts.push({
+      x:Math.random()*W, y:Math.random()*H,
+      vx:(Math.random()-0.5)*0.3, vy:(Math.random()-0.5)*0.3,
+      r:1+Math.random()*2, phase:Math.random()*Math.PI*2,
+    });
+  }
+  function draw(t){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#1a1410'; ctx.fillRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0)p.x=W; if(p.x>W)p.x=0;
+      if(p.y<0)p.y=H; if(p.y>H)p.y=0;
+      const a=0.15+0.1*Math.sin(t*0.003+p.phase);
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(196,117,26,${a})`; ctx.fill();
+    });
+    // draw faint connecting lines between close points
+    for(let i=0;i<pts.length;i++) for(let j=i+1;j<pts.length;j++){
+      const d=Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y);
+      if(d<80){
+        ctx.beginPath(); ctx.moveTo(pts[i].x,pts[i].y); ctx.lineTo(pts[j].x,pts[j].y);
+        ctx.strokeStyle=`rgba(196,117,26,${0.07*(1-d/80)})`; ctx.lineWidth=0.5; ctx.stroke();
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  resize();
+  window.addEventListener('resize',resize);
+  requestAnimationFrame(draw);
+})();
+
+// ── SCROLL REVEAL ──
+const obs=new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+},{threshold:0.06});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

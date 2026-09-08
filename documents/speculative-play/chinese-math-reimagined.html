@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>算學 — An Alternative Mathematics</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+  :root {
+    --ink: #1a1208;
+    --paper: #f5ede0;
+    --warm: #e8d9c4;
+    --red: #c0392b;
+    --black-rod: #1a1208;
+    --accent: #8b5e3c;
+    --muted: #7a6552;
+    --grid: rgba(139,94,60,0.15);
+    --fade: rgba(245,237,224,0);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Libre Baskerville', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.85;
+    overflow-x: hidden;
+  }
+
+  /* GRID TEXTURE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 6rem 8vw;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '算學';
+    position: absolute;
+    right: -2vw;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 38vw;
+    font-family: 'IM Fell English', serif;
+    color: rgba(139,94,60,0.06);
+    line-height: 1;
+    pointer-events: none;
+    letter-spacing: -0.05em;
+  }
+
+  .hero-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: rise 1s ease forwards 0.3s;
+  }
+
+  .hero h1 {
+    font-family: 'IM Fell English', serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 1.1;
+    font-weight: 400;
+    max-width: 700px;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: rise 1s ease forwards 0.5s;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--muted);
+    max-width: 520px;
+    font-style: italic;
+    opacity: 0;
+    animation: rise 1s ease forwards 0.8s;
+    border-left: 2px solid var(--accent);
+    padding-left: 1.2rem;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTIONS */
+  .section {
+    position: relative;
+    padding: 5rem 8vw;
+    max-width: 1100px;
+    margin: 0 auto;
+    z-index: 1;
+  }
+
+  .section-number {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  h2 {
+    font-family: 'IM Fell English', serif;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  h2 .zh {
+    font-size: 0.65em;
+    color: var(--accent);
+    font-style: italic;
+    margin-left: 0.5em;
+  }
+
+  p {
+    margin-bottom: 1.2rem;
+    color: #2e241a;
+    max-width: 660px;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+    margin-top: 2rem;
+  }
+
+  @media (max-width: 700px) {
+    .two-col { grid-template-columns: 1fr; gap: 2rem; }
+    .hero { padding: 4rem 6vw; }
+    .section { padding: 3rem 6vw; }
+  }
+
+  /* DIVIDER */
+  .divider {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 8vw;
+    border: none;
+    border-top: 1px solid rgba(139,94,60,0.25);
+  }
+
+  /* ── VISUAL: COUNTING ROD NOTATION ── */
+  .rod-demo {
+    background: var(--warm);
+    border: 1px solid rgba(139,94,60,0.3);
+    padding: 2rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    line-height: 2;
+  }
+
+  .rod-demo .label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+
+  /* SVG-based rod notation */
+  .rod-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.3rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .rod-cell {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(139,94,60,0.2);
+    background: rgba(255,255,255,0.5);
+    font-size: 0.7rem;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .rod-cell.active { background: rgba(192,57,43,0.08); border-color: var(--red); }
+  .rod-cell svg { width: 28px; height: 28px; }
+
+  /* ── VISUAL: ARRAY ALGEBRA ── */
+  .matrix-vis {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .matrix-vis::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(245,237,224,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245,237,224,0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .matrix-vis .label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(245,237,224,0.5);
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+
+  .array-system {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 0.5rem 1.5rem;
+    align-items: center;
+    justify-content: start;
+    font-family: 'Space Mono', monospace;
+    position: relative;
+    z-index: 1;
+  }
+
+  .array-col {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .array-cell {
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(245,237,224,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: var(--paper);
+    transition: all 0.3s;
+    cursor: default;
+    position: relative;
+  }
+
+  .array-cell.red { color: var(--red); border-color: rgba(192,57,43,0.5); }
+  .array-cell.pivot { background: rgba(245,237,224,0.1); border-color: rgba(245,237,224,0.5); }
+  .array-cell:hover { background: rgba(245,237,224,0.1); }
+
+  .array-label {
+    font-size: 0.6rem;
+    color: rgba(245,237,224,0.35);
+    text-align: center;
+    margin-top: 4px;
+    letter-spacing: 0.1em;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .array-arrow {
+    font-size: 1.5rem;
+    color: rgba(245,237,224,0.3);
+    padding: 0 0.5rem;
+    align-self: center;
+  }
+
+  /* ── VISUAL: TRANSFORMATION PROOF ── */
+  .proof-canvas {
+    background: var(--warm);
+    border: 1px solid rgba(139,94,60,0.25);
+    padding: 2rem;
+    position: relative;
+  }
+
+  .proof-canvas .label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+
+  .proof-step {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.2rem;
+    flex-wrap: wrap;
+  }
+
+  .proof-shape {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .proof-step-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    max-width: 200px;
+  }
+
+  /* ── VISUAL: CONSTRUCTIVE REAL ── */
+  .converge-vis {
+    background: var(--ink);
+    padding: 2rem;
+    color: var(--paper);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .converge-vis .label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(245,237,224,0.5);
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+
+  #converge-canvas {
+    display: block;
+    width: 100%;
+    height: 160px;
+  }
+
+  .converge-seq {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: rgba(245,237,224,0.7);
+    margin-top: 1rem;
+    line-height: 2;
+  }
+
+  .converge-seq .pi-digit {
+    display: inline-block;
+    width: 1.4em;
+    text-align: center;
+    transition: color 0.3s;
+  }
+
+  .converge-seq .pi-digit.lit { color: #e8a87c; }
+
+  /* ── VISUAL: ABACUS LANGUAGE ── */
+  .abacus-lang {
+    background: var(--warm);
+    border: 1px solid rgba(139,94,60,0.25);
+    padding: 2rem;
+  }
+
+  .abacus-lang .label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+
+  .code-block {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    line-height: 2;
+    color: var(--ink);
+    background: rgba(255,255,255,0.6);
+    padding: 1rem 1.2rem;
+    border-left: 3px solid var(--accent);
+  }
+
+  .code-block .kw { color: var(--red); }
+  .code-block .cm { color: var(--muted); font-style: italic; }
+  .code-block .num { color: #5a3e2b; font-weight: 700; }
+
+  /* ── COMPARISON TABLE ── */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    margin-top: 1.5rem;
+  }
+
+  .compare-table th {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-align: left;
+    padding: 0.6rem 1rem;
+    border-bottom: 2px solid var(--accent);
+    background: transparent;
+  }
+
+  .compare-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(139,94,60,0.15);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table td:first-child { font-style: italic; color: var(--muted); font-size: 0.8rem; }
+  .compare-table td:nth-child(2) { font-weight: 500; }
+  .compare-table td:nth-child(3) { color: var(--accent); }
+
+  /* ── FOOTER ── */
+  .footer {
+    padding: 3rem 8vw;
+    border-top: 1px solid rgba(139,94,60,0.25);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  /* SCROLL ANIMATION */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* Interactive rod cells on hover */
+  .rod-cell:hover svg line, .rod-cell:hover svg rect {
+    stroke: var(--red);
+    fill: var(--red);
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <span class="hero-label">Counterfactual Mathematics · 算學</span>
+  <h1>What if mathematics had grown<br>from <em>the abacus,</em><br>not the axiom?</h1>
+  <p class="hero-sub">A visual exploration of an indigenous Chinese mathematical tradition — equally rigorous, radically different in its foundations.</p>
+</section>
+
+<hr class="divider">
+
+<!-- SECTION 1: PHILOSOPHICAL GROUND -->
+<section class="section reveal">
+  <span class="section-number">01 · 術 shù</span>
+  <h2>Procedure over Proof <span class="zh">以術代理</span></h2>
+  <div class="two-col">
+    <div>
+      <p>Western mathematics rests on axioms and deductive chains going back to Euclid. Its foundational question: <em>"Does this hold, from first principles?"</em></p>
+      <p>Chinese mathematics was built on <strong>shù</strong> — method, procedure, algorithm. Its foundational question: <em>"Does this procedure always yield the correct result?"</em></p>
+      <p>Rigour exists in both traditions. But its source is different: not a fixed bedrock of axioms, but the <strong>operational invariance</strong> of a method across all valid inputs. Closer, in spirit, to what we now call a correctness proof for a program.</p>
+    </div>
+    <div>
+      <table class="compare-table">
+        <tr>
+          <th>Concept</th><th>Western</th><th>Chinese 算學</th>
+        </tr>
+        <tr><td>Foundation</td><td>Axiom</td><td>術 Shù (procedure)</td></tr>
+        <tr><td>Validation</td><td>Deductive proof</td><td>驗 Yàn (verification)</td></tr>
+        <tr><td>Truth-carrier</td><td>Proposition</td><td>理 Lǐ (operative principle)</td></tr>
+        <tr><td>Basic tool</td><td>Compass & rule</td><td>算籌 Counting rods</td></tr>
+        <tr><td>Logic unit</td><td>Proposition</td><td>Transformation on structure</td></tr>
+        <tr><td>Infinity</td><td>Completed set</td><td>Potential process</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SECTION 2: NOTATION -->
+<section class="section reveal">
+  <span class="section-number">02 · 算籌 suàn chóu</span>
+  <h2>A Grid-Based Notation <span class="zh">算籌符號</span></h2>
+  <div class="two-col">
+    <div>
+      <p>Without Arabic numerals or Latin letters, the native foundation would be <strong>counting-rod notation</strong> — a base-10 positional system using vertical and horizontal rod arrangements, placed on a physical grid.</p>
+      <p>Each cell position carries the semantic weight. The <em>layout itself</em> is the syntax. Unknowns are not labelled <em>x</em> or <em>y</em> — they are <strong>positions in an array</strong>.</p>
+      <p>Hover over the cells below to feel how the grid operates.</p>
+    </div>
+    <div class="rod-demo">
+      <span class="label">Rod Notation · Numbers 1–9</span>
+      <div class="rod-grid" id="rod-grid"></div>
+      <div style="font-size:0.7rem; color:var(--muted); font-family:'Space Mono',monospace; margin-top:0.5rem;">
+        Vertical rods = units position &nbsp;|&nbsp; Horizontal rods = tens position<br>
+        Red rods = negative values
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SECTION 3: ARRAY ALGEBRA -->
+<section class="section reveal">
+  <span class="section-number">03 · 方程術 fāngchéng shù</span>
+  <h2>Array Algebra <span class="zh">方程術</span></h2>
+  <p>Rather than equations written as strings of symbols, polynomial systems are represented as <strong>column arrays on a grid</strong>. Each column is a polynomial; the rows are coefficient degrees. This is not a metaphor — it is the literal notation of the 13th-century <em>Tianyuan</em> algebra.</p>
+  <p>What we call Gaussian elimination, they called <em>fāngchéng shù</em> — "the procedure of rectangular arrays." It preceded the European method by centuries.</p>
+
+  <div class="matrix-vis reveal" style="margin-top:2rem;">
+    <span class="label">Solving 3x + 2y = 12, x − y = 1 · via column operations</span>
+    <div id="array-demo"></div>
+    <div style="font-family:'Space Mono',monospace; font-size:0.7rem; color:rgba(245,237,224,0.5); margin-top:1.5rem; line-height:2;">
+      Red values = negative (black rods → red rods on the physical board)<br>
+      Column operations proceed rightward · pivot column highlighted
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SECTION 4: TRANSFORMATION PROOFS -->
+<section class="section reveal">
+  <span class="section-number">04 · 出入相補 chūrù xiāng bǔ</span>
+  <h2>Proof by Transformation <span class="zh">出入相補</span></h2>
+  <div class="two-col">
+    <div>
+      <p>Liu Hui's principle: <em>"What goes out must equal what comes in."</em> A geometric identity is proved by dissecting and rearranging — until the equality becomes visually self-evident.</p>
+      <p>This is not informal hand-waving. It is a formal rewrite system: each dissection step is constrained by rules of area-preservation, and the final arrangement constitutes the proof.</p>
+      <p>In a matured tradition, this evolves into a <strong>transformation logic</strong> — where the unit of reasoning is an area-preserving operation on a structure, rather than a logical implication between propositions.</p>
+    </div>
+    <div class="proof-canvas">
+      <span class="label">Pythagoras / Gougu · by dissection</span>
+      <canvas id="proof-canvas" width="300" height="260" style="display:block; width:100%; max-width:300px;"></canvas>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SECTION 5: CONSTRUCTIVE CALCULUS -->
+<section class="section reveal">
+  <span class="section-number">05 · 穷竭 qióng jié</span>
+  <h2>Constructive Calculus <span class="zh">算法微積</span></h2>
+  <p>No limits, no infinitesimals. Instead: <strong>exhaustion as explicit algorithm</strong>. A derivative is not a static limit — it is the procedure "take the difference quotient, then narrow the interval." A real number is not a Dedekind cut (a completed infinite set) but a program that can generate any desired decimal digit on demand.</p>
+  <p>Zu Chongzhi computed π to 3.14159265 in the 5th century — not via abstract analysis, but by running the polygon-inscribing procedure further. In an unbroken tradition, this becomes the natural foundation for all of analysis.</p>
+
+  <div class="converge-vis reveal" style="margin-top:2rem;">
+    <span class="label">π as iterative procedure · inscribed polygon exhaustion</span>
+    <canvas id="converge-canvas" width="800" height="160"></canvas>
+    <div class="converge-seq" id="pi-seq"></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SECTION 6: ABACUS LANGUAGE -->
+<section class="section reveal">
+  <span class="section-number">06 · 算板語言</span>
+  <h2>The Abacus as Programming Language <span class="zh">算板語言</span></h2>
+  <div class="two-col">
+    <div>
+      <p>If the grid-layout is the syntax, and rod-movements are operations, then the abacus board is literally a two-dimensional programming language. Each "computation" is a sequence of legal moves on the grid.</p>
+      <p>What we call a function is a <strong>術 shù</strong> — a named procedure. What we call a variable is a <strong>column position</strong>. What we call a proof is a demonstration that a sequence of moves always produces the desired configuration.</p>
+      <p>This tradition, developed further, would have arrived at <strong>formal rewriting systems</strong>, symbolic computation, and something very close to combinatory logic — centuries before Schönfinkel.</p>
+    </div>
+    <div class="abacus-lang">
+      <span class="label">術 · Shù — A Polynomial Root Procedure (Qin Jiushao, 1247 CE)</span>
+      <div class="code-block">
+<span class="cm">// Find root of f(x) = x³ − 15x − 126</span>
+<span class="cm">// using repeated interval halving (jiǎn bàn shù)</span>
+
+<span class="kw">shù</span> find-root(array: <span class="num">[1, 0, −15, −126]</span>, interval: [<span class="num">4</span>, <span class="num">6</span>]):
+  mid ← <span class="kw">bisect</span>(interval)
+  val ← <span class="kw">horner-eval</span>(array, mid)   <span class="cm">// 秦九韶術</span>
+  <span class="kw">if</span> val = <span class="num">○</span>  → <span class="kw">return</span> mid
+  <span class="kw">if</span> val &gt; <span class="num">○</span>  → <span class="kw">recurse</span>(array, [interval.lo, mid])
+  <span class="kw">if</span> val &lt; <span class="num">○</span>  → <span class="kw">recurse</span>(array, [mid, interval.hi])
+
+<span class="cm">// ○ = zero (empty position on the rod board)</span>
+<span class="cm">// Terminates when error &lt; any given limit 限</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SECTION 7: WHAT IS GAINED / LOST -->
+<section class="section reveal">
+  <span class="section-number">07 · 得失</span>
+  <h2>What Is Gained. What Is Lost. <span class="zh">得失</span></h2>
+  <div class="two-col">
+    <div>
+      <p style="font-family:'Space Mono',monospace; font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); margin-bottom:1rem;">Gained</p>
+      <ul style="list-style:none; padding:0;">
+        <li style="padding:0.6rem 0; border-bottom:1px solid rgba(139,94,60,0.15); font-size:0.9rem;">Computation and reasoning are <em>unified from the start</em> — the symbol is executable.</li>
+        <li style="padding:0.6rem 0; border-bottom:1px solid rgba(139,94,60,0.15); font-size:0.9rem;">Linear algebra, polynomial systems, and combinatorics share a natural common notation (the array).</li>
+        <li style="padding:0.6rem 0; border-bottom:1px solid rgba(139,94,60,0.15); font-size:0.9rem;">Constructive mathematics is the default — no set-theoretic foundations crisis in 1900.</li>
+        <li style="padding:0.6rem 0; border-bottom:1px solid rgba(139,94,60,0.15); font-size:0.9rem;">Symbolic computation as a natural extension of traditional methods.</li>
+        <li style="padding:0.6rem 0; font-size:0.9rem;">A geometric language of transformation and invariance, rather than of definitions and deduction.</li>
+      </ul>
+    </div>
+    <div>
+      <p style="font-family:'Space Mono',monospace; font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:1rem;">Absent or Late</p>
+      <ul style="list-style:none; padding:0;">
+        <li style="padding:0.6rem 0; border-bottom:1px solid rgba(139,94,60,0.15); font-size:0.9rem; color:var(--muted);">Set theory and the concept of actual infinity.</li>
+        <li style="padding:0.6rem 0; border-bottom:1px solid rgba(139,94,60,0.15); font-size:0.9rem; color:var(--muted);">The axiomatic method and the idea of a mathematical "structure" defined by relations.</li>
+        <li style="padding:0.6rem 0; border-bottom:1px solid rgba(139,94,60,0.15); font-size:0.9rem; color:var(--muted);">A sharp separation between geometry and number — they remain fused as "computable shapes."</li>
+        <li style="padding:0.6rem 0; font-size:0.9rem; color:var(--muted);">Formal logic as an independent discipline.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p style="margin-top:3rem; font-family:'IM Fell English',serif; font-size:1.15rem; font-style:italic; max-width:700px; border-left:3px solid var(--accent); padding-left:1.5rem; color:var(--ink);">
+    "An entirely native Chinese mathematics would not be a stunted version of the Western tradition. It would be an alternative edifice — equally rigorous, but operating differently throughout. In it, <em>operation and proof are inseparable</em>, and the abacus board, not the straight-edge and compass, is the ultimate instrument of abstract thought."
+  </p>
+</section>
+
+<footer class="footer">
+  <span>算學 · Suàn Xué · The Study of Computation</span>
+  <span>Source: Nine Chapters · Tianyuan Algebra · Liu Hui · Zu Chongzhi · Qin Jiushao</span>
+</footer>
+
+<script>
+// ── COUNTING ROD SVGs ──
+const ROD_SVGS = {
+  1: `<svg viewBox="0 0 28 28"><line x1="14" y1="4" x2="14" y2="24" stroke="#1a1208" stroke-width="2.5" stroke-linecap="round"/></svg>`,
+  2: `<svg viewBox="0 0 28 28"><line x1="10" y1="4" x2="10" y2="24" stroke="#1a1208" stroke-width="2.5" stroke-linecap="round"/><line x1="18" y1="4" x2="18" y2="24" stroke="#1a1208" stroke-width="2.5" stroke-linecap="round"/></svg>`,
+  3: `<svg viewBox="0 0 28 28"><line x1="7" y1="4" x2="7" y2="24" stroke="#1a1208" stroke-width="2" stroke-linecap="round"/><line x1="14" y1="4" x2="14" y2="24" stroke="#1a1208" stroke-width="2" stroke-linecap="round"/><line x1="21" y1="4" x2="21" y2="24" stroke="#1a1208" stroke-width="2" stroke-linecap="round"/></svg>`,
+  4: `<svg viewBox="0 0 28 28"><line x1="5" y1="4" x2="5" y2="24" stroke="#1a1208" stroke-width="2" stroke-linecap="round"/><line x1="11" y1="4" x2="11" y2="24" stroke="#1a1208" stroke-width="2" stroke-linecap="round"/><line x1="17" y1="4" x2="17" y2="24" stroke="#1a1208" stroke-width="2" stroke-linecap="round"/><line x1="23" y1="4" x2="23" y2="24" stroke="#1a1208" stroke-width="2" stroke-linecap="round"/></svg>`,
+  5: `<svg viewBox="0 0 28 28"><line x1="4" y1="4" x2="4" y2="24" stroke="#1a1208" stroke-width="1.8" stroke-linecap="round"/><line x1="9" y1="4" x2="9" y2="24" stroke="#1a1208" stroke-width="1.8" stroke-linecap="round"/><line x1="14" y1="4" x2="14" y2="24" stroke="#1a1208" stroke-width="1.8" stroke-linecap="round"/><line x1="19" y1="4" x2="19" y2="24" stroke="#1a1208" stroke-width="1.8" stroke-linecap="round"/><line x1="24" y1="4" x2="24" y2="24" stroke="#1a1208" stroke-width="1.8" stroke-linecap="round"/></svg>`,
+  6: `<svg viewBox="0 0 28 28"><line x1="4" y1="20" x2="24" y2="20" stroke="#1a1208" stroke-width="2.5" stroke-linecap="round"/><line x1="14" y1="4" x2="14" y2="18" stroke="#1a1208" stroke-width="2.5" stroke-linecap="round"/></svg>`,
+  7: `<svg viewBox="0 0 28 28"><line x1="4" y1="20" x2="24" y2="20" stroke="#1a1208" stroke-width="2.5" stroke-linecap="round"/><line x1="10" y1="4" x2="10" y2="18" stroke="#1a1208" stroke-width="2.5" stroke-linecap="round"/><line x1="18" y1="4" x2="18" y2="18" stroke="#1a1208" stroke-width="2.5" stroke-linecap="round"/></svg>`,
+  8: `<svg viewBox="0 0 28 28"><line x1="4" y1="20" x2="24" y2="20" stroke="#1a1208" stroke-width="2.5" stroke-linecap="round"/><line x1="7" y1="4" x2="7" y2="18" stroke="#1a1208" stroke-width="2" stroke-linecap="round"/><line x1="14" y1="4" x2="14" y2="18" stroke="#1a1208" stroke-width="2" stroke-linecap="round"/><line x1="21" y1="4" x2="21" y2="18" stroke="#1a1208" stroke-width="2" stroke-linecap="round"/></svg>`,
+  9: `<svg viewBox="0 0 28 28"><line x1="4" y1="20" x2="24" y2="20" stroke="#1a1208" stroke-width="2.5" stroke-linecap="round"/><line x1="5" y1="4" x2="5" y2="18" stroke="#1a1208" stroke-width="2" stroke-linecap="round"/><line x1="11" y1="4" x2="11" y2="18" stroke="#1a1208" stroke-width="2" stroke-linecap="round"/><line x1="17" y1="4" x2="17" y2="18" stroke="#1a1208" stroke-width="2" stroke-linecap="round"/><line x1="23" y1="4" x2="23" y2="18" stroke="#1a1208" stroke-width="2" stroke-linecap="round"/></svg>`,
+  0: `<svg viewBox="0 0 28 28"><circle cx="14" cy="14" r="5" stroke="#1a1208" stroke-width="2" fill="none"/></svg>`,
+};
+
+// Render rod grid
+const grid = document.getElementById('rod-grid');
+if (grid) {
+  [1,2,3,4,5,6,7,8,9].forEach(n => {
+    const cell = document.createElement('div');
+    cell.className = 'rod-cell';
+    cell.innerHTML = `${ROD_SVGS[n]}<div style="font-family:'Space Mono',monospace;font-size:0.55rem;color:var(--muted);margin-top:2px;">${n}</div>`;
+    cell.title = `Rod notation for ${n}`;
+    grid.appendChild(cell);
+  });
+  // Add zero
+  const z = document.createElement('div');
+  z.className = 'rod-cell';
+  z.innerHTML = `${ROD_SVGS[0]}<div style="font-family:'Space Mono',monospace;font-size:0.55rem;color:var(--muted);margin-top:2px;">○</div>`;
+  grid.appendChild(z);
+}
+
+// ── ARRAY DEMO ──
+const arrayDemo = document.getElementById('array-demo');
+if (arrayDemo) {
+  const steps = [
+    {
+      label: "Initial array — columns are equations",
+      cols: [
+        { cells: ['3','2','12'], label: 'eq 1', pivots: [] },
+        { cells: ['1','−1','1'], label: 'eq 2', pivots: [] },
+      ]
+    },
+    {
+      label: "Subtract 3× col 2 from col 1",
+      cols: [
+        { cells: ['○','5','9'], label: 'eq 1 reduced', pivots: [0] },
+        { cells: ['1','−1','1'], label: 'eq 2', pivots: [] },
+      ]
+    },
+    {
+      label: "Solve: y = 9/5... wait, integer system",
+      cols: [
+        { cells: ['○','5','9'], label: '→ 5y = 9', pivots: [0] },
+        { cells: ['1','−1','1'], label: 'x − y = 1', pivots: [] },
+      ]
+    }
+  ];
+
+  let step = 0;
+  function renderArray() {
+    const s = steps[step];
+    arrayDemo.innerHTML = '';
+    const sys = document.createElement('div');
+    sys.className = 'array-system';
+
+    s.cols.forEach((col, ci) => {
+      const colDiv = document.createElement('div');
+      col.cells.forEach((v, i) => {
+        const cell = document.createElement('div');
+        cell.className = 'array-cell' + (v.includes('−') ? ' red' : '') + (col.pivots.includes(i) ? ' pivot' : '');
+        cell.textContent = v;
+        colDiv.appendChild(cell);
+      });
+      const lbl = document.createElement('div');
+      lbl.className = 'array-label';
+      lbl.textContent = col.label;
+      colDiv.appendChild(lbl);
+      sys.appendChild(colDiv);
+
+      if (ci < s.cols.length - 1) {
+        const sep = document.createElement('div');
+        sep.style.cssText = 'width:1px;background:rgba(245,237,224,0.15);align-self:stretch;margin:0 0.5rem;';
+        sys.appendChild(sep);
+      }
+    });
+
+    const info = document.createElement('div');
+    info.style.cssText = 'font-family:"Space Mono",monospace;font-size:0.7rem;color:rgba(245,237,224,0.6);margin-top:1.5rem;width:100%;position:relative;z-index:1;display:flex;align-items:center;gap:1rem;';
+    info.innerHTML = `<span style="flex:1">${s.label}</span><button onclick="nextStep()" style="background:rgba(245,237,224,0.1);border:1px solid rgba(245,237,224,0.3);color:rgba(245,237,224,0.8);padding:0.3rem 0.8rem;cursor:pointer;font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;">NEXT STEP →</button>`;
+    arrayDemo.appendChild(sys);
+    arrayDemo.appendChild(info);
+  }
+
+  window.nextStep = () => { step = (step + 1) % steps.length; renderArray(); };
+  renderArray();
+}
+
+// ── GOUGU (PYTHAGOREAN) PROOF BY DISSECTION ──
+const proofCanvas = document.getElementById('proof-canvas');
+if (proofCanvas) {
+  const ctx = proofCanvas.getContext('2d');
+  const W = proofCanvas.width, H = proofCanvas.height;
+  const a = 60, b = 90, c = Math.sqrt(a*a + b*b);
+  
+  let t = 0;
+  const colors = {
+    bg: '#f0e8d8',
+    sq_c: 'rgba(139,94,60,0.15)',
+    sq_a: 'rgba(192,57,43,0.2)',
+    sq_b: 'rgba(90,62,43,0.18)',
+    tri: 'rgba(139,94,60,0.35)',
+    stroke: '#8b5e3c',
+    red: '#c0392b',
+  };
+
+  function drawProof(phase) {
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = colors.bg;
+    ctx.fillRect(0, 0, W, H);
+
+    const ox = 30, oy = H - 30;
+
+    // Draw large square (c²)
+    ctx.save();
+    ctx.translate(ox + 10, oy - 10);
+    ctx.rotate(-Math.atan2(a, b));
+    ctx.fillStyle = colors.sq_c;
+    ctx.strokeStyle = colors.stroke;
+    ctx.lineWidth = 1.5;
+    ctx.fillRect(0, -c, c, c);
+    ctx.strokeRect(0, -c, c, c);
+    ctx.restore();
+
+    // Draw triangle
+    ctx.beginPath();
+    ctx.moveTo(ox + 10, oy - 10);
+    ctx.lineTo(ox + 10 + b, oy - 10);
+    ctx.lineTo(ox + 10, oy - 10 - a);
+    ctx.closePath();
+    ctx.fillStyle = colors.tri;
+    ctx.fill();
+    ctx.strokeStyle = colors.red;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Labels
+    ctx.font = `italic 13px "IM Fell English", serif`;
+    ctx.fillStyle = colors.red;
+    ctx.fillText('a', ox, oy - 10 - a/2);
+    ctx.fillStyle = '#5a3e2b';
+    ctx.fillText('b', ox + 10 + b/2, oy + 10);
+    ctx.fillStyle = colors.stroke;
+    ctx.fillText('c', ox + 10 + b/2 + 18, oy - 10 - a/2 + 10);
+
+    // Squares on legs
+    ctx.fillStyle = colors.sq_a;
+    ctx.strokeStyle = colors.red;
+    ctx.lineWidth = 1.5;
+    ctx.fillRect(ox - a - 10, oy - 10 - a, a, a);
+    ctx.strokeRect(ox - a - 10, oy - 10 - a, a, a);
+
+    ctx.fillStyle = colors.sq_b;
+    ctx.strokeStyle = '#5a3e2b';
+    ctx.fillRect(ox + 10, oy - 10, b, b * 0.6);
+    ctx.strokeRect(ox + 10, oy - 10, b, b * 0.6);
+
+    // Annotation
+    ctx.font = `11px "Space Mono", monospace`;
+    ctx.fillStyle = colors.stroke;
+    ctx.fillText('a² + b² = c²', W - 130, 30);
+    ctx.fillStyle = 'rgba(139,94,60,0.5)';
+    ctx.font = `10px "Space Mono", monospace`;
+    ctx.fillText('出入相補', W - 100, 48);
+    ctx.fillText('"what goes out = what comes in"', 10, H - 8);
+  }
+
+  drawProof(0);
+}
+
+// ── CONVERGENCE VIS (π) ──
+const convergeCanvas = document.getElementById('converge-canvas');
+if (convergeCanvas) {
+  const ctx = convergeCanvas.getContext('2d');
+  const W = convergeCanvas.width, H = convergeCanvas.height;
+  const PI_DIGITS = '3.14159265358979323846';
+  
+  function drawConverge() {
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = '#1a1208';
+    ctx.fillRect(0, 0, W, H);
+
+    // Draw polygon approximations
+    const cx = W / 2, cy = H / 2, r = H * 0.38;
+    const polys = [4, 6, 8, 12, 24, 48, 96];
+    
+    polys.forEach((n, i) => {
+      const alpha = 0.08 + i * 0.12;
+      ctx.beginPath();
+      for (let k = 0; k <= n; k++) {
+        const angle = (2 * Math.PI * k / n) - Math.PI / 2;
+        const x = cx + r * Math.cos(angle);
+        const y = cy + r * Math.sin(angle);
+        k === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = `rgba(245,237,224,${alpha})`;
+      ctx.lineWidth = i === polys.length - 1 ? 1.5 : 0.8;
+      ctx.stroke();
+    });
+
+    // True circle
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+    ctx.strokeStyle = 'rgba(192,57,43,0.6)';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([4, 4]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Labels on right
+    ctx.font = '11px "Space Mono", monospace';
+    ctx.fillStyle = 'rgba(245,237,224,0.4)';
+    polys.forEach((n, i) => {
+      const approx = (Math.PI * Math.sin(Math.PI / n) * n).toFixed(6);
+      ctx.fillText(`n=${n.toString().padStart(3)}: π ≈ ${approx}`, W * 0.58, 20 + i * 20);
+    });
+    ctx.fillStyle = 'rgba(192,57,43,0.7)';
+    ctx.fillText(`n→∞: π = 3.14159265...`, W * 0.58, 20 + polys.length * 20);
+  }
+
+  drawConverge();
+
+  // Animate PI digits
+  const piSeq = document.getElementById('pi-seq');
+  if (piSeq) {
+    piSeq.innerHTML = 'π = ' + PI_DIGITS.split('').map((d, i) =>
+      `<span class="pi-digit" style="transition-delay:${i * 0.08}s">${d}</span>`
+    ).join('');
+    
+    let idx = 0;
+    const digits = piSeq.querySelectorAll('.pi-digit');
+    const interval = setInterval(() => {
+      if (idx < digits.length) {
+        digits[idx].classList.add('lit');
+        idx++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 120);
+  }
+}
+
+// ── SCROLL REVEAL ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

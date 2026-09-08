@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A historical-cultural prelude to the Yi sequence: inherited memory, textual formation, divination as decision technology, and a contemporary computational reconstruction.">
+  <meta name="color-scheme" content="light">
+  <title>易 Yi · Prelude — The Inheritance of Change</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..800,0..100,0..1;1,9..144,300..800,0..100,0..1&family=Newsreader:opsz,wght@6..72,200..700&family=Space+Mono:wght@400;700&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --paper:#fcfaf7;
+      --paper-2:#f3eee8;
+      --ink:#2c1d17;
+      --wine:#5b2a1b;
+      --rust:#a6553a;
+      --rust-dark:#4b1c12;
+      --rust-deep:#200d08;
+      --cream:#f8ede7;
+      --gold:#b58d46;
+      --jade:#3f756b;
+      --muted:#7d6d65;
+      --hair:rgba(91,42,27,.18);
+      --display:Fraunces,"Noto Serif SC",serif;
+      --serif:Newsreader,Georgia,"Noto Serif SC",serif;
+      --mono:"Space Mono",ui-monospace,Menlo,monospace;
+      --max:1110px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;background:var(--paper)}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.58}
+    a{color:inherit;text-decoration-color:rgba(166,85,58,.45);text-underline-offset:.2em}
+    a:hover{text-decoration-color:var(--rust)}
+    p{margin:.65rem 0 1rem}
+    strong{font-weight:650}
+    sup a{font:700 .62em/1 var(--mono);color:var(--rust);text-decoration:none}
+
+    .topbar{position:sticky;top:0;z-index:30;height:40px;background:rgba(252,250,247,.95);border-bottom:1px solid var(--hair);backdrop-filter:blur(12px)}
+    .topbar-inner{max-width:var(--max);height:100%;margin:auto;padding:0 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;font:400 .62rem/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#846f66}
+    .topbar a{text-decoration:none}
+    .topbar a:hover{color:var(--rust)}
+
+    .hero{color:var(--cream);background:
+      radial-gradient(115% 95% at 78% 8%,#a6553a 0,transparent 58%),
+      radial-gradient(90% 80% at 8% 92%,#38150d 0,transparent 62%),
+      linear-gradient(166deg,#5a2416,#34140c 62%,#200d08);padding:clamp(5.5rem,10vw,8.2rem) 1.25rem clamp(4.2rem,8vw,6rem);position:relative;overflow:hidden}
+    .hero::after{content:"易";position:absolute;right:-.05em;bottom:-.42em;font-family:"Noto Serif SC",serif;font-size:clamp(25rem,52vw,48rem);line-height:1;color:rgba(248,237,231,.035);pointer-events:none}
+    .hero-inner{max-width:var(--max);margin:auto;position:relative;z-index:1}
+    .eyebrow{font:400 .66rem/1.5 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:#e1b9a9;border-bottom:1px solid rgba(248,237,231,.35);padding-bottom:1.1rem}
+    .hero-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:clamp(2rem,7vw,7rem);align-items:end;margin-top:2rem}
+    h1,h2,h3{font-family:var(--display)}
+    h1{font-size:clamp(4.25rem,9.2vw,8.2rem);line-height:.88;letter-spacing:-.055em;font-weight:520;margin:0}
+    h1 span{display:block}
+    h1 .second{margin-left:.75em}
+    .hero .sub{font-family:var(--display);font-size:clamp(1.35rem,2.5vw,2rem);font-style:italic;color:#efd7cd;margin:1.3rem 0 1.8rem}
+    .hero .intro{max-width:720px;font-size:clamp(1.08rem,1.7vw,1.28rem);line-height:1.5;color:#f1e4de}
+    .hero-aside{border-left:1px solid rgba(248,237,231,.32);padding-left:1.3rem;color:#d6c3bb;font-size:.95rem}
+    .hero-aside .mark{width:3.1rem;height:3.1rem;display:grid;place-items:center;border:1px solid #e18b70;color:#ed9f87;font-size:1.45rem;margin-bottom:1.3rem}
+    .hero-aside strong{display:block;font:700 .61rem/1.5 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#f7e6de;margin-top:1rem}
+    .hero-nav{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:2rem}
+    .hero-nav a{padding:.58rem .72rem;border:1px solid rgba(248,237,231,.32);font:400 .58rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:#eadbd4}
+    .hero-nav a:hover{background:var(--cream);color:var(--wine)}
+
+    main{max-width:var(--max);margin:auto;padding:0 1.25rem 6rem}
+    .section{padding:clamp(4.6rem,8vw,7.2rem) 0;border-top:1px solid var(--hair)}
+    .section:first-child{border-top:0}
+    .section-head{display:grid;grid-template-columns:180px minmax(0,1fr);gap:2rem;margin-bottom:2.7rem}
+    .kicker{font:700 .62rem/1.55 var(--mono);letter-spacing:.17em;text-transform:uppercase;color:var(--rust)}
+    h2{font-size:clamp(2.6rem,5.3vw,4.8rem);font-weight:480;letter-spacing:-.045em;line-height:.98;color:var(--wine);margin:0 0 .9rem}
+    h3{font-size:1.55rem;line-height:1.12;font-weight:540;margin:.1rem 0 .65rem;color:var(--wine)}
+    .lede{font-size:clamp(1.15rem,1.9vw,1.35rem);line-height:1.52;max-width:820px;color:#49362e}
+    .measure{max-width:790px}
+
+    .quote{display:grid;grid-template-columns:200px minmax(0,1fr);gap:2rem;align-items:center;margin:2.4rem 0;padding:2rem 0;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+    .quote .zh{font-family:"Noto Serif SC",serif;font-size:clamp(2rem,4vw,3.7rem);color:var(--rust);white-space:nowrap}
+    .quote blockquote{margin:0;font-family:var(--display);font-size:clamp(1.35rem,2.4vw,2rem);line-height:1.3;font-style:italic;color:var(--wine)}
+    .quote cite{display:block;font:400 .6rem/1.5 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:.8rem;font-style:normal}
+
+    .recognition{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair);margin-top:2rem}
+    .recognition article{background:var(--paper);padding:1.2rem}
+    .recognition .n{font:700 .58rem/1 var(--mono);letter-spacing:.1em;color:var(--rust)}
+    .recognition h3{font-size:1.15rem;margin:.75rem 0 .45rem}
+    .recognition p{font-size:.9rem;line-height:1.48;color:var(--muted);margin:0}
+
+    .dual{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .register{padding:clamp(1.4rem,3vw,2.25rem);background:var(--paper-2);border:1px solid var(--hair)}
+    .register.memory{border-top:4px solid var(--rust)}
+    .register.history{border-top:4px solid var(--jade)}
+    .register .label{font:700 .59rem/1.4 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+    .register h3{font-size:clamp(1.65rem,2.8vw,2.25rem);margin:.7rem 0 1rem}
+    .register ol{margin:0;padding-left:1.15rem}
+    .register li{padding:.45rem 0 .65rem;border-bottom:1px solid var(--hair)}
+    .register li:last-child{border:0}
+    .register small{display:block;color:var(--muted);font-size:.82rem;margin-top:.2rem}
+    .boundary{margin-top:1.1rem;padding:1rem 1.1rem;border-left:3px solid var(--gold);background:#f5efe4;color:#5b4b42;font-size:.94rem}
+
+    .timeline{margin-top:1rem}
+    .era{display:grid;grid-template-columns:150px minmax(0,1fr);gap:2.2rem;padding:1.25rem 0;border-top:1px solid var(--hair)}
+    .era:first-child{border-top:0}
+    .era .when{font:700 .59rem/1.5 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--rust)}
+    .era .when span{display:block;color:var(--muted);font-weight:400}
+    .era h3{font-size:1.35rem;margin:0 0 .4rem}
+    .era p{font-size:.95rem;line-height:1.5;color:#5b4b42;margin:0}
+
+    .grammar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin-top:2rem}
+    .term{padding:1.2rem;border:1px solid var(--hair);background:var(--paper-2);position:relative;overflow:hidden}
+    .term::after{content:attr(data-mark);position:absolute;right:-.08em;bottom:-.36em;font-family:"Noto Serif SC",serif;font-size:6rem;line-height:1;color:rgba(91,42,27,.055)}
+    .term .zh{font-family:"Noto Serif SC",serif;font-size:1.55rem;color:var(--rust)}
+    .term h3{font-size:1.15rem;margin:.4rem 0 .6rem}
+    .term p{font-size:.88rem;line-height:1.48;color:var(--muted);margin:0;position:relative;z-index:1}
+    .questions{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1.4rem}
+    .question{padding:.48rem .65rem;border:1px solid rgba(63,117,107,.32);color:#42675f;font:700 .59rem/1.25 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+
+    .computation{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);background:#21120d;color:var(--cream)}
+    .computation-inner{max-width:var(--max);margin:auto;padding:clamp(5rem,9vw,8rem) 1.25rem}
+    .computation .kicker{color:#d59c78}
+    .computation h2{color:var(--cream);max-width:900px}
+    .computation .lede{color:#d9c6bd}
+    .flow{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));margin-top:2.7rem;border:1px solid rgba(248,237,231,.22)}
+    .flow-step{min-height:142px;padding:1rem;border-right:1px solid rgba(248,237,231,.22);position:relative}
+    .flow-step:last-child{border:0}
+    .flow-step:not(:last-child)::after{content:"→";position:absolute;right:-.52rem;top:50%;transform:translateY(-50%);width:1rem;background:#21120d;text-align:center;color:#d9a16f;z-index:2}
+    .flow-step .n{font:700 .56rem/1 var(--mono);color:#d9a16f}
+    .flow-step h3{font-family:var(--mono);font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;color:#f7e8df;margin:.8rem 0 .55rem}
+    .flow-step p{font-size:.79rem;line-height:1.42;color:#baa9a1;margin:0}
+    .definition{margin-top:1.4rem;max-width:900px;padding:1.15rem;border:1px solid rgba(217,161,111,.4);color:#d7c7bf;font-size:.96rem}
+    .definition strong{color:#f1caa9}
+
+    .translation{width:100%;border-collapse:collapse;margin-top:1rem}
+    .translation th,.translation td{text-align:left;vertical-align:top;padding:1rem;border-bottom:1px solid var(--hair)}
+    .translation th{font:700 .59rem/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--rust)}
+    .translation td{font-size:.95rem;color:#56463e}
+    .translation td:first-child{color:var(--wine);font-weight:600;width:33%}
+    .ai-note{margin-top:1.5rem;padding:1.1rem 1.2rem;border-left:3px solid var(--jade);background:#eaf0ec;color:#435d56;font-size:.94rem}
+
+    .path{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.7rem;margin-top:2rem}
+    .path a{display:flex;flex-direction:column;min-height:185px;padding:1.1rem;border:1px solid var(--hair);text-decoration:none;background:var(--paper);transition:transform .15s ease,background .15s ease}
+    .path a:hover{transform:translateY(-2px);background:var(--paper-2)}
+    .path .part{font:700 .58rem/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--rust)}
+    .path h3{font-size:1.18rem;margin:.8rem 0 .5rem}
+    .path p{font-size:.84rem;line-height:1.45;color:var(--muted);margin:0}
+    .path .go{margin-top:auto;padding-top:.8rem;color:var(--rust)}
+
+    details{border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);padding:1rem 0}
+    summary{cursor:pointer;font:700 .63rem/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--rust)}
+    .sources{display:grid;grid-template-columns:1fr 1fr;gap:.65rem 1.5rem;margin-top:1.2rem}
+    .source{font-size:.84rem;line-height:1.45;color:var(--muted)}
+    .source b{display:block;color:var(--ink);font-weight:600}
+
+    .next{margin-top:4rem;background:var(--wine);color:var(--cream);display:grid;grid-template-columns:1fr auto;align-items:center;gap:2rem;padding:clamp(1.4rem,4vw,2.5rem);text-decoration:none}
+    .next:hover{background:#6c301f}
+    .next .label{font:700 .58rem/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#e4ad92}
+    .next h3{font-size:clamp(1.7rem,3vw,2.5rem);color:var(--cream);margin:.4rem 0 0}
+    .next .arrow{font-size:2rem}
+
+    footer{background:var(--rust-deep);color:#bca9a0;padding:2.5rem 1.25rem}
+    .footer-inner{max-width:var(--max);margin:auto;display:flex;justify-content:space-between;gap:2rem;font:400 .59rem/1.7 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+    footer strong{color:var(--cream)}
+
+    @media(max-width:900px){
+      .recognition,.grammar{grid-template-columns:repeat(2,1fr)}
+      .flow{grid-template-columns:repeat(3,1fr)}
+      .flow-step:nth-child(3){border-right:0}
+      .flow-step:nth-child(3)::after{display:none}
+      .flow-step:nth-child(-n+3){border-bottom:1px solid rgba(248,237,231,.22)}
+      .path{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:720px){
+      .hero-grid,.section-head,.dual{grid-template-columns:1fr}
+      .hero-aside{border-left:0;border-top:1px solid rgba(248,237,231,.3);padding:1.2rem 0 0}
+      .quote{grid-template-columns:1fr;gap:.7rem}
+      .era{grid-template-columns:1fr;gap:.45rem}
+      .era .when span{display:inline;margin-left:.5rem}
+      .sources{grid-template-columns:1fr}
+    }
+    @media(max-width:500px){
+      body{font-size:17px}
+      .topbar-inner{font-size:.53rem;letter-spacing:.08em}
+      .hero{padding-top:4.5rem}
+      h1{font-size:clamp(3.9rem,20vw,5.5rem)}
+      h1 .second{margin-left:0}
+      .recognition,.grammar,.flow,.path{grid-template-columns:1fr}
+      .flow-step{border-right:0;border-bottom:1px solid rgba(248,237,231,.22)}
+      .flow-step:not(:last-child)::after{content:"↓";right:auto;top:auto;left:50%;bottom:-.75rem;transform:translateX(-50%)}
+      .flow-step:nth-child(3)::after{display:block}
+      .translation th:nth-child(3),.translation td:nth-child(3){display:none}
+      .next{grid-template-columns:1fr auto}
+      .footer-inner{display:block}
+    }
+    @media print{
+      .topbar,.hero-nav{display:none}
+      body{background:#fff}
+      .hero,.computation{background:#fff;color:#000;border-bottom:2px solid #000}
+      .hero .intro,.hero .sub,.hero-aside,.computation .lede,.flow-step p,.definition{color:#333}
+      h1,.computation h2,.flow-step h3{color:#000}
+      .hero::after{display:none}
+      .register,.term,.path a{break-inside:avoid}
+    }
+  </style>
+
+
+<style id="yinav-css">
+.yitop{border-bottom:1px solid var(--rule,#DFCEC5);background:var(--paper,#FCFAF7);
+ font-family:"Space Mono",ui-monospace,Menlo,monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase}
+.yitop .in{width:min(1120px,calc(100% - 34px));margin-inline:auto;display:flex;align-items:center;gap:16px;padding:12px 0;flex-wrap:wrap}
+.yitop a{color:var(--iris-mid,#8A4530);text-decoration:none;opacity:.72}
+.yitop a:hover{opacity:1;text-decoration:underline}
+.yitop .sp{flex:1 1 auto}
+.yitop .now{color:var(--lilac,#A89087)}
+.yinav{border-top:1px solid var(--rule,#DFCEC5);margin-top:clamp(40px,6vw,86px);
+ padding:clamp(30px,5vw,58px) 0 clamp(44px,6vw,84px);font-family:"Space Mono",ui-monospace,Menlo,monospace}
+.yinav .in{width:min(1120px,calc(100% - 34px));margin-inline:auto}
+.yinav-lab{font-size:.62rem;letter-spacing:.19em;text-transform:uppercase;color:var(--lilac,#A89087);margin-bottom:24px}
+.yinav-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:34px}
+.yinav-pair a,.yinav-pair .void{display:block;border:1px solid var(--rule,#DFCEC5);border-radius:3px;
+ padding:20px 22px;text-decoration:none;color:var(--iris,#5B2A1B);transition:border-color .2s,background .2s}
+.yinav-pair a:hover{border-color:var(--iris-mid,#8A4530);background:rgba(91,42,27,.035)}
+.yinav-pair .void{border-style:dotted;opacity:.4}
+.yinav-pair .dir{display:block;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--lilac,#A89087);margin-bottom:9px}
+.yinav-pair .ttl{font-family:"Fraunces","Newsreader",serif;font-size:1.05rem;line-height:1.28;letter-spacing:-.01em}
+.yinav-grp{font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--lilac,#A89087);
+ margin:0 4px 0 6px;white-space:nowrap}
+.yinav-rail{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.yinav-rail a,.yinav-rail .here{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
+ padding:8px 12px;border:1px solid var(--rule,#DFCEC5);border-radius:3px;color:var(--iris-mid,#8A4530);opacity:.72}
+.yinav-rail a:hover{opacity:1;border-color:var(--iris-mid,#8A4530)}
+.yinav-rail .here{background:var(--iris,#5B2A1B);border-color:var(--iris,#5B2A1B);color:#FAF1EC;opacity:1}
+.yinav-rail .g{font-family:"Noto Serif SC","Fraunces",serif;font-size:.86rem;letter-spacing:0;margin-right:7px}
+.yinav-rail .comp{border-style:dotted}
+.yinav-home{display:inline-block;margin-top:26px;font-size:.62rem;letter-spacing:.18em;
+ text-transform:uppercase;color:var(--brass,#9A7226);text-decoration:none;opacity:.85}
+.yinav-home:hover{opacity:1;text-decoration:underline}
+@media(max-width:680px){.yinav-pair{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="yitop"><div class="in"><a href="../../index.html">↑ The Polymathic Learner</a><span class="now">00 · the argument begins here</span><span class="sp"></span><a href="yi-01-state-space.html">next →</a></div></nav>
+
+
+  
+  <header class="hero" id="top">
+    <div class="hero-inner">
+      <div class="eyebrow">易 Yi · Historical-cultural prelude · Before Part One</div>
+      <div class="hero-grid">
+        <div>
+          <h1><span>The inheritance</span><span class="second">of change</span></h1>
+          <div class="sub">A book we already half know.</div>
+          <p class="intro">Before the <em>Yi</em> became an object of study, it had already entered Chinese memory—as language, image, ritual, cosmology, medicine, governance, timing and the intuition that no situation remains what it is.</p>
+        </div>
+        <aside class="hero-aside">
+          <div class="mark" aria-hidden="true">变 <i>biàn</i></div>
+          <strong>First question</strong>
+          What kind of intellectual technology was inherited, and how did generations change it?
+          <strong>Then ours</strong>
+          What might it become when given computers, AI and mathematical instruments its makers did not possess?
+        </aside>
+      </div>
+      <div class="hero-nav" aria-label="Prelude sections">
+        <a href="#memory">Memory</a><a href="#genealogy">Two genealogies</a><a href="#formation">Formation</a><a href="#computation">Computation</a><a href="#translation">Reconstruction</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section" id="memory">
+      <div class="section-head">
+        <div class="kicker">00 · Recognition</div>
+        <div>
+          <h2>Not a blank slate.</h2>
+          <p class="lede">The Yi is not an abandoned machine waiting for modern people to switch it back on. It is a living inheritance, carried unevenly but persistently through Chinese cultural memory.</p>
+        </div>
+      </div>
+      <div class="measure">
+        <p>阴阳 <i>yinyang</i> (polarity), 五行 <i>wuxing</i> (five phases), 八卦 <i>bagua</i> (eight trigrams) and 易 <i>yi</i> (change) survive not only as doctrines but as a grammar of relation: advance and retreat, fullness and emptiness, timing and position, generation and restraint, auspiciousness and danger. Their images circulate far beyond readers of the original text.</p>
+        <p>The comparison with the Bible or Qur’an is useful if kept civilizational rather than theological. The <em>Yi</em> occupied a different religious and doctrinal position, but it likewise became a reference complex through which generations discussed nature, government, ethics, the body, uncertainty and right action.<sup><a href="#s4">4</a></sup></p>
+      </div>
+
+      <div class="quote">
+        <div class="zh" lang="zh-Hans">生生之谓易</div>
+        <blockquote>“Continuous generation is what is called change.”<cite>《繫辭上》 Xici I · our translation</cite></blockquote>
+      </div>
+
+      <div class="recognition">
+        <article><div class="n">01</div><h3>Language</h3><p>Change, reversal, balance, position and timing enter everyday reasoning.</p></article>
+        <article><div class="n">02</div><h3>Practice</h3><p>Divination, medicine, fengshui and calendrics repeatedly adapt shared symbols.</p></article>
+        <article><div class="n">03</div><h3>Institutions</h3><p>Commentary, canonisation and political cosmology made the text publicly consequential.</p></article>
+        <article><div class="n">04</div><h3>Image</h3><p>Lines, trigrams and later diagrams remain legible even when their histories are not.</p></article>
+      </div>
+    </section>
+
+    <section class="section" id="genealogy">
+      <div class="section-head">
+        <div class="kicker">01 · Two genealogies</div>
+        <div>
+          <h2>Memory and history must be held together.</h2>
+          <p class="lede">One account records how the tradition understood its authority. The other asks what texts, inscriptions and archaeology can presently demonstrate. Neither should erase the other.</p>
+        </div>
+      </div>
+
+      <div class="dual">
+        <article class="register memory">
+          <div class="label">The received genealogy · 传统记忆 <i>chuantong jiyi</i>, inherited memory</div>
+          <h3>Culture heroes give change a lineage.</h3>
+          <ol>
+            <li><strong>伏羲 Fuxi</strong> draws the trigrams.<small>Cosmos becomes image.</small></li>
+            <li><strong>文王 King Wen</strong> orders the hexagrams and their judgments.<small>Image becomes situational and political counsel.</small></li>
+            <li><strong>周公 Duke of Zhou</strong> supplies the line statements.<small>Each situation acquires position and internal movement.</small></li>
+            <li><strong>孔子 Confucius</strong> transmits or authors the Ten Wings.<small>Divination becomes philosophy and moral cultivation.</small></li>
+          </ol>
+        </article>
+
+        <article class="register history">
+          <div class="label">The critical reconstruction · 历史考证 <i>lishi kaozheng</i>, historical verification</div>
+          <h3>A composite text accumulates over centuries.</h3>
+          <ol>
+            <li><strong>Bronze Age practices</strong> provide several divinatory precursors.<small>Oracle-bone pyromancy and milfoil divination are related but not identical.</small></li>
+            <li><strong>The Western Zhou core</strong> develops during the early first millennium BCE.<small>Its exact compilation history remains debated.</small></li>
+            <li><strong>Warring States writings</strong> elaborate symbolic, cosmological and moral readings.<small>The Ten Wings are later than their traditional attribution.</small></li>
+            <li><strong>By the mid-second century BCE</strong>, core and commentary form the canonised <em>Yijing</em>.<small>The book is an archive of accretion, not one act of authorship.</small></li>
+          </ol>
+        </article>
+      </div>
+      <div class="boundary"><strong>The distinction matters.</strong> Traditional attribution tells us about cultural meaning and legitimacy. Critical chronology tells us about composition and transmission. We will name the register whenever they differ.</div>
+    </section>
+
+    <section class="section" id="formation">
+      <div class="section-head">
+        <div class="kicker">02 · Formation</div>
+        <div>
+          <h2>How the Changes became the Changes.</h2>
+          <p class="lede">The familiar unity of 阴阳、五行、八卦 — polarity, five phases, eight trigrams — is itself a historical achievement: heterogeneous systems gradually braided through interpretation, use and institutional power.</p>
+        </div>
+      </div>
+
+      <div class="timeline">
+        <article class="era"><div class="when">Before the book<span>Late Shang</span></div><div><h3>Divination as state technology</h3><p>Inscribed bones and shells record organised inquiries about harvests, warfare, weather, illness, sacrifice and royal action. Cracks were produced, read and sometimes verified. This was institutional knowledge-making under uncertainty—but not yet the <em>Zhouyi</em>.</p></div></article>
+        <article class="era"><div class="when">Early 1st millennium BCE<span>Western Zhou</span></div><div><h3>A finite grammar of situations</h3><p>The <em>Zhouyi</em> core associates sixty-four six-line figures with compressed judgments and line statements. A rule-bound operation selects a figure; interpretation joins image, precedent and circumstance.<sup><a href="#s2">2</a></sup></p></div></article>
+        <article class="era"><div class="when">770–221 BCE<span>Spring & Autumn · Warring States</span></div><div><h3>Prognostication becomes philosophy</h3><p>Political narratives and later commentaries draw moral, symbolic and cosmological arguments from the figures. The manual becomes a book of wisdom without ceasing to be divinatory.</p></div></article>
+        <article class="era"><div class="when">206 BCE–220 CE<span>Han</span></div><div><h3>Correlative synthesis</h3><p>Yin–yang, seasons, directions, qi, calendrical cycles and five-phase classifications are increasingly coordinated with hexagram systems. The braid becomes a language for medicine, governance and cosmic order.<sup><a href="#s6">6</a></sup></p></div></article>
+        <article class="era"><div class="when">960–1279 CE<span>Song and after</span></div><div><h3>Diagrams organise a cosmos</h3><p>Images, numbers and sequences are systematised with new force. Arrangements later called 先天 <i>xiantian</i> (prior heaven) and 后天 <i>houtian</i> (later heaven) become culturally authoritative even as legendary attribution and demonstrable history remain different questions.<sup><a href="#s8">8</a></sup></p></div></article>
+      </div>
+
+      <div class="grammar">
+        <article class="term" data-mark="阴"><div class="zh">阴阳</div><h3>Relational polarity</h3><p>Contrast, dependence, alternation and reversal—not two isolated substances.</p></article>
+        <article class="term" data-mark="卦"><div class="zh">八卦 · 六十四卦</div><h3>Configuration</h3><p>A finite repertoire of differentiated situations, structured by position and relation.</p></article>
+        <article class="term" data-mark="行"><div class="zh">五行</div><h3>Transformation</h3><p>Plural classifications of characteristic tendencies, relations and processes.</p></article>
+        <article class="term" data-mark="占"><div class="zh">占筮 <i>zhanshi</i></div><h3>Situated judgment</h3><p>A ritualised encounter among uncertainty, symbolic state, textual precedent and action.</p></article>
+      </div>
+      <div class="questions" aria-label="Questions organised by the inherited system">
+        <span class="question">What is the configuration?</span><span class="question">What is my position?</span><span class="question">What is changing?</span><span class="question">What is ripe?</span><span class="question">What conduct fits?</span>
+      </div>
+      <div class="boundary"><strong>Our later distinction.</strong> Reading 八卦 as configuration and 五行 as transformation is productive—but it is our reconstruction, not the recovered blueprint of one original ancient system.</div>
+    </section>
+  </main>
+
+  <section class="computation" id="computation">
+    <div class="computation-inner">
+      <div class="kicker">03 · The hinge</div>
+      <h2>Before computers, there was procedure.</h2>
+      <p class="lede">Divination was a pre-digital technology for thinking with uncertainty: a repeatable process of framing, constrained variation, symbolic encoding, retrieval and judgment.</p>
+
+      <div class="flow" aria-label="Divinatory information process">
+        <div class="flow-step"><div class="n">01</div><h3>Situation</h3><p>A difficulty exceeds unaided certainty.</p></div>
+        <div class="flow-step"><div class="n">02</div><h3>Question</h3><p>Open anxiety becomes addressable.</p></div>
+        <div class="flow-step"><div class="n">03</div><h3>Operation</h3><p>A rule-bound method introduces variation.</p></div>
+        <div class="flow-step"><div class="n">04</div><h3>State</h3><p>A finite configuration makes relation legible.</p></div>
+        <div class="flow-step"><div class="n">05</div><h3>Archive</h3><p>Text and commentary supply precedent.</p></div>
+        <div class="flow-step"><div class="n">06</div><h3>Judgment</h3><p>A person decides what the response means now.</p></div>
+      </div>
+
+      <div class="definition"><strong>“Computation” is an analogy with limits.</strong> The procedure transforms inputs into symbolically organised outputs. But ritual, authority, affect and practical wisdom are not reducible to an algorithm. The answer was never simply stored inside the cast.</div>
+    </div>
+  </section>
+
+  <main>
+    <section class="section" id="translation">
+      <div class="section-head">
+        <div class="kicker">04 · The digital turn</div>
+        <div>
+          <h2>Not a superior picture. A new instrument.</h2>
+          <p class="lede">The consequential difference is not that modern people can finally draw in three dimensions. Ancient diagrams were abstractions, not failed sculptures. The difference is computation through time.</p>
+        </div>
+      </div>
+
+      <p class="measure">We can now maintain continuous variables, update them simultaneously, run trajectories, compare counterfactuals, perturb initial conditions and make assumptions answerable to results. Advanced geometry and graph theory reveal relations among the sixty-four; dynamical systems ask what moves them; simulation allows the model to disagree with its makers.</p>
+
+      <table class="translation">
+        <thead><tr><th>Inherited structure</th><th>Contemporary extension</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Broken or unbroken line</td><td>A continuous coordinate whose sign determines the visible line</td><td>Our modelling choice</td></tr>
+          <tr><td>Eight and sixty-four figures</td><td>Sign-regions of three- and six-dimensional Boolean spaces</td><td>Modern formalisation</td></tr>
+          <tr><td>Changing line</td><td>Threshold crossing along a trajectory, with direction and estimated arrival</td><td>Modern extension</td></tr>
+          <tr><td>五行 tendencies and relations</td><td>Five explicitly defined operators mixed into a vector field</td><td>Our proposal</td></tr>
+          <tr><td>One cast interpreted in context</td><td>An ensemble of perturbed futures measuring model sensitivity—not fate</td><td>Modern instrument</td></tr>
+          <tr><td>Planar arrangements</td><td>Lantern and torus representations testing what survives in three dimensions</td><td>Geometry experiments</td></tr>
+        </tbody>
+      </table>
+
+      <div class="ai-note"><strong>Where AI enters.</strong> Not as a synthetic oracle. AI can traverse competing commentaries, expose modelling choices, generate counterexamples and help interrogate simulations. It remains collaborator and critic—not the source of legitimacy and never the bearer of responsibility.</div>
+      <div class="boundary"><strong>No secret mathematics.</strong> This project does not argue that the <em>Yi</em> secretly contained hypercubes, differential equations or evolutionary dynamics. It asks what becomes visible when an inherited symbolic technology is reconstructed through contemporary formal and computational tools.</div>
+    </section>
+
+    <section class="section" id="path">
+      <div class="section-head">
+        <div class="kicker">05 · The sequence ahead</div>
+        <div>
+          <h2>Now the experiment may begin.</h2>
+          <p class="lede">The prelude restores the inheritance. The documents that follow perform the translation one claim at a time—and retain the failures.</p>
+        </div>
+      </div>
+
+      <div class="path">
+        <a href="yi-01-state-space.html"><div class="part">一 · State</div><h3>From lines to space</h3><p>Continuous interiors beneath discrete signs; sixty-four regions of a six-dimensional state space.</p><div class="go">→</div></a>
+        <a href="yi-02-motion.html"><div class="part">二 · Motion</div><h3>From change to trajectory</h3><p>Velocity, threshold crossing, dwell time and ordered timescales.</p><div class="go">→</div></a>
+        <a href="yi-03-forces.html"><div class="part">三 · Forces</div><h3>五行 reopened</h3><p>Five defined operators test a modern language of transformation.</p><div class="go">→</div></a>
+        <a href="yi-04-instrument.html"><div class="part">四 · Instrument</div><h3>A model that can object</h3><p>Counterfactuals, ensemble horizons, numerical findings and retractions.</p><div class="go">→</div></a>
+        <a href="yi-05-lantern.html"><div class="part">灯 · Lantern</div><h3>Distribution becomes body</h3><p>Binomial levels and a Gray cycle organise all sixty-four states.</p><div class="go">→</div></a>
+        <a href="yi-lantern-thinking.html"><div class="part">灯 · Companion</div><h3>The rejected forms</h3><p>Failed projections reveal why one representation survives.</p><div class="go">→</div></a>
+        <a href="yi-06-loom.html"><div class="part">織 · Loom</div><h3>Trigrams on a torus</h3><p>An 8 × 8 topology preserves lower and upper trigram structure.</p><div class="go">→</div></a>
+      </div>
+
+      <details id="sources" open>
+        <summary>Sources, lineage and method</summary>
+        <div class="sources">
+          <div class="source" id="s1"><b><a href="https://academic.oup.com/book/8934">Redmond & Hon, <em>Teaching the I Ching</em></a></b>Oxford University Press, 2014. Principal historical narrative.</div>
+          <div class="source" id="s2"><b><a href="https://doi.org/10.1163/9789004513945">Shaughnessy, <em>The Origin and Early Development of the Zhou Changes</em></a></b>Brill, 2022. Bronze Age divination and textual formation.</div>
+          <div class="source" id="s3"><b><a href="https://plato.stanford.edu/entries/chinese-change/">Hon, “Chinese Philosophy of Change”</a></b>Stanford Encyclopedia of Philosophy, revised 2023.</div>
+          <div class="source" id="s4"><b><a href="https://search.worldcat.org/title/758646815">Smith, <em>The I Ching: A Biography</em></a></b>Princeton University Press, 2012. Cultural and global life.</div>
+          <div class="source" id="s5"><b><a href="https://www.cambridge.org/core/books/divination-and-prediction-in-early-china-and-ancient-greece/639441291AE23D2F069EE6A6A593D4D7">Raphals, <em>Divination and Prediction</em></a></b>Cambridge University Press, 2013. Practices, methods and systematic inquiry.</div>
+          <div class="source" id="s6"><b><a href="https://www.cambridge.org/core/books/cosmology-and-political-culture-in-early-china/EF524D79C1EE401FE0E2D6ACC00E422D">Aihe Wang, <em>Cosmology and Political Culture</em></a></b>Cambridge University Press, 2000. 五行, history and power.</div>
+          <div class="source" id="s7"><b><a href="https://www.cambridge.org/core/books/yinyang/contents/38D6C5C321F44E7FABBA7356A71E438E">Robin Wang, <em>Yinyang</em></a></b>Cambridge University Press, 2012. Relational polarity in Chinese sources.</div>
+          <div class="source" id="s8"><b><a href="https://doi.org/10.1111/1540-6253.12086">Nielsen, “Cycles and Sequences of the Eight Trigrams”</a></b><em>Journal of Chinese Philosophy</em> 41, 2014.</div>
+          <div class="source"><b><a href="https://ctext.org/book-of-changes/xi-ci-shang">《周易·繫辭上》 Xici I</a></b>Primary received text via Chinese Text Project.</div>
+        </div>
+      </details>
+
+      <a class="next" href="yi-01-state-space.html">
+        <div><div class="label">Next · Part One</div><h3>From one line to two cubes</h3></div><div class="arrow">→</div>
+      </a>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div><strong>易 Yi · The Inheritance of Change</strong><br>序 Xù · historical-cultural prelude</div>
+      <div>Lin Wei 林威 — conceptual direction<br>with ChatGPT and Claude · light touches of DeepSeek<br>August 2026</div>
+    </div>
+  </footer>
+
+<nav class="yinav"><div class="in">
+  <div class="yinav-lab">00 · the argument begins here · continue</div>
+  <div class="yinav-pair">
+        <div class="void"><span class="dir">Previous</span><span class="ttl">—</span></div>
+        <a href="yi-01-state-space.html"><span class="dir">Next</span><span class="ttl">From one line to two cubes  →</span></a>
+  </div>
+  <div class="yinav-rail">
+        <span class="yinav-grp">the argument ›</span>
+        <span class="here"><span class="g">序</span>00 Inheritance</span>
+        <a class="" href="yi-01-state-space.html"><span class="g">一</span>01 State space</a>
+        <a class="" href="yi-02-motion.html"><span class="g">二</span>02 Motion</a>
+        <a class="" href="yi-03-forces.html"><span class="g">三</span>03 Forces</a>
+        <span class="yinav-grp">the instruments ›</span>
+        <a class="" href="yi-04-instrument.html"><span class="g">儀</span>04 Double cube</a>
+        <a class="" href="yi-05-lantern.html"><span class="g">灯</span>05 Lantern</a>
+        <a class="" href="yi-06-loom.html"><span class="g">織</span>06 Loom</a>
+        <a class="comp" href="yi-lantern-thinking.html"><span class="g">灯</span>— Companion</a>
+  </div>
+  <div class="yinav-lab" style="margin:26px 0 0;opacity:.85">Lin Wei 林威 · with Claude and ChatGPT, and light touches of DeepSeek</div>
+  <a class="yinav-home" href="../../index.html">The whole 易 Yi sequence on the polymathic learner →</a>
+</div></nav>
+</body>
+</html>

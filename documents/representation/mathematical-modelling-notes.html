@@ -1,0 +1,4021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mathematical Modelling Course Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=JetBrains+Mono:wght@400;500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [["\\(","\\)"]], displayMath: [["\\[","\\]"]], processEscapes: true },
+  svg: { fontCache: "global" },
+  startup: {
+    pageReady: () => {
+      return MathJax.startup.defaultPageReady().then(() => {
+        document.documentElement.classList.add("mathjax-ready");
+      });
+    }
+  }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+/* ===== DESIGN TOKENS ===== */
+:root {
+  --bg: #0d1117;
+  --bg2: #161b22;
+  --surface: #1c2230;
+  --surface2: #1a2035;
+  --card: #1c2230;
+  --border: #2d3748;
+  --border-soft: #243044;
+
+  --ink: #e8dfc8;         /* warm parchment */
+  --ink-dim: #9aa3b0;
+  --ink-muted: #6b7786;
+  --ink-faint: #3d4754;
+
+  --gold: #d4a84b;
+  --gold-dim: #8a6a26;
+  --gold-glow: rgba(212,168,75,0.12);
+  --amber: #f59e0b;
+  --teal: #2dd4bf;
+  --blue: #60a5fa;
+  --purple: #a78bfa;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "EB Garamond", "Libre Baskerville", Georgia, serif;
+  font-size: 18px;
+  line-height: 1.78;
+  min-height: 100vh;
+}
+
+/* ===== BACKGROUND TEXTURE ===== */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse 900px 600px at 10% 20%, rgba(212,168,75,0.03) 0%, transparent 70%),
+    radial-gradient(ellipse 700px 500px at 90% 80%, rgba(96,165,250,0.03) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===== LAYOUT ===== */
+.wrap {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 28px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== HEADER ===== */
+header {
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, #0a0e15 0%, var(--bg) 100%);
+  padding: 60px 0 48px;
+  position: relative;
+  overflow: hidden;
+}
+
+header::after {
+  content: "";
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+}
+
+.header-eyebrow {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.header-eyebrow::before {
+  content: "";
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: var(--gold);
+}
+
+h1 {
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 18px;
+  max-width: 720px;
+}
+
+h1 em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.subtitle {
+  color: var(--ink-dim);
+  font-size: 1rem;
+  max-width: 680px;
+  line-height: 1.65;
+  margin-bottom: 32px;
+}
+
+.notice {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-left: 3px solid var(--gold-dim);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  color: var(--ink-muted);
+  font-size: 0.9rem;
+  font-family: "JetBrains Mono", monospace;
+  margin-bottom: 28px;
+}
+
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+button, .pill {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--ink-dim);
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: 0.85rem;
+  font-family: "JetBrains Mono", monospace;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+button:hover, .pill:hover {
+  border-color: var(--gold-dim);
+  color: var(--gold);
+  background: var(--gold-glow);
+  text-decoration: none;
+}
+
+/* ===== TOC ===== */
+.toc {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px 32px;
+  margin: 44px 0 52px;
+  position: relative;
+  overflow: hidden;
+}
+
+.toc::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold-dim), var(--gold), var(--gold-dim));
+  opacity: 0.6;
+}
+
+.toc-header {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.toc h2 {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+.toc ol {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px 32px;
+}
+
+.toc li {
+  font-size: 0.88rem;
+  line-height: 1.45;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border-soft);
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.toc li:last-child { border-bottom: none; }
+
+.toc-num {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.68rem;
+  color: var(--gold-dim);
+  flex-shrink: 0;
+  width: 22px;
+}
+
+a { color: var(--teal); text-decoration: none; }
+a:hover { color: var(--gold); text-decoration: underline; }
+
+.toc a {
+  color: var(--ink-dim);
+  font-style: italic;
+}
+.toc a:hover { color: var(--gold); text-decoration: none; }
+
+/* ===== LESSONS ===== */
+main { padding: 0 0 80px; }
+
+.lesson {
+  margin: 0 0 18px;
+}
+
+details {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg2);
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+details:hover {
+  border-color: var(--border-soft);
+}
+
+details[open] {
+  border-color: var(--gold-dim);
+}
+
+summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 20px 26px;
+  display: flex;
+  gap: 16px;
+  align-items: baseline;
+  background: var(--surface);
+  user-select: none;
+  position: relative;
+}
+summary::-webkit-details-marker { display: none; }
+
+summary::after {
+  content: "+";
+  position: absolute;
+  right: 26px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 1.1rem;
+  color: var(--gold-dim);
+  transition: transform 0.2s, color 0.2s;
+}
+
+details[open] summary::after {
+  content: "−";
+  color: var(--gold);
+}
+
+details[open] summary {
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(135deg, var(--surface) 0%, rgba(212,168,75,0.05) 100%);
+}
+
+.lesson-number {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--bg);
+  background: var(--gold-dim);
+  border-radius: 999px;
+  padding: 2px 9px 3px;
+  flex-shrink: 0;
+}
+
+details[open] .lesson-number {
+  background: var(--gold);
+}
+
+summary .lesson-title {
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.35;
+  padding-right: 40px;
+}
+
+.lesson-body {
+  padding: 30px 32px 38px;
+}
+
+/* ===== TYPOGRAPHY ===== */
+.lesson-body h3 {
+  font-size: 0.78rem;
+  font-family: "JetBrains Mono", monospace;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 2rem 0 0.6rem;
+  font-weight: 500;
+}
+
+p { margin: 0.8rem 0; color: var(--ink); }
+
+ul {
+  margin: 0.6rem 0 1rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+li {
+  margin: 0.35rem 0;
+  padding-left: 1.2rem;
+  position: relative;
+  color: var(--ink);
+}
+
+li::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+  color: var(--gold-dim);
+}
+
+blockquote {
+  margin: 1.2rem 0;
+  padding: 1rem 1.4rem;
+  border-left: 2px solid var(--gold);
+  background: linear-gradient(135deg, rgba(212,168,75,0.06) 0%, transparent 100%);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  color: var(--ink);
+  font-style: italic;
+  font-size: 1.05rem;
+}
+
+/* ===== MATH BLOCKS ===== */
+.mathblock {
+  margin: 1rem 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface2);
+  overflow: hidden;
+  break-inside: avoid;
+  position: relative;
+}
+
+.mathblock::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--gold-dim);
+  opacity: 0.5;
+}
+
+.math-render {
+  padding: 1rem 1.2rem 0.5rem 1.4rem;
+  overflow-x: auto;
+  min-height: 1.2rem;
+}
+
+.math-render mjx-container {
+  color: var(--ink) !important;
+}
+
+.math-fallback {
+  margin: 0;
+  padding: 0.7rem 1.2rem;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--teal);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+
+.mathjax-ready .math-fallback { display: none; }
+
+/* ===== DIAGRAM CARDS ===== */
+.diagram-card {
+  margin: 1.5rem 0 1.8rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--card);
+  overflow: hidden;
+}
+
+.diagram-title {
+  padding: 12px 18px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.diagram-title::before {
+  content: "◈";
+  color: var(--gold-dim);
+  font-size: 0.8rem;
+}
+
+.diagram-wrap {
+  padding: 1rem 1rem 0.4rem;
+  background: var(--bg);
+}
+
+.diagram-wrap svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.diagram-caption {
+  padding: 10px 18px 14px;
+  border-top: 1px solid var(--border);
+  color: var(--ink-muted);
+  font-size: 0.85rem;
+  font-style: italic;
+  background: var(--surface);
+}
+
+/* ===== FOOTER ===== */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 32px 0;
+  color: var(--ink-muted);
+  font-size: 0.88rem;
+  font-family: "JetBrains Mono", monospace;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold-dim); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 760px) {
+  body { font-size: 16px; }
+  .wrap { padding: 0 16px; }
+  h1 { font-size: 1.8rem; }
+  .toc ol { grid-template-columns: 1fr; }
+  .lesson-body { padding: 22px 20px 28px; }
+  summary { padding: 18px 20px; align-items: flex-start; }
+  header { padding: 40px 0 36px; }
+}
+
+/* ===== PRINT ===== */
+@media print {
+  body { background: white; color: #111; font-size: 11pt; }
+  :root { --ink: #111; --bg: white; --bg2: white; --surface: #f5f5f5; --card: white; --border: #ddd; --gold: #666; }
+  header { background: white; }
+  .tools, .notice { display: none; }
+  details { border: 0; }
+  details:not([open]) .lesson-body { display: block; }
+  summary { background: white; padding: 0; font-size: 14pt; margin-top: 20pt; }
+  .lesson-body { padding: 0; }
+  .diagram-card { page-break-inside: avoid; }
+  .mathblock { page-break-inside: avoid; }
+}
+</style>
+<script>
+function openAll() {
+  document.querySelectorAll("details").forEach(d => d.open = true);
+}
+function closeAll() {
+  document.querySelectorAll("details").forEach((d, i) => d.open = i === 0);
+}
+function printAll() {
+  openAll();
+  setTimeout(() => window.print(), 350);
+}
+</script>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p class="header-eyebrow">Course Notes — Illustrated Edition</p>
+    <h1>Mathematical <em>Modelling</em></h1>
+    <p class="subtitle">From iterative functions and probability to machine learning, attention, variational inference, FEP, Markov blankets, graph models, state-space systems, RL, information theory, Bayesian modelling, causal inference, econometrics, dynamical systems, complexity science, computational architecture, and PTM.</p>
+    <div class="notice">Standalone HTML. Allow internet access for MathJax equation rendering. Each equation also appears as a LaTeX fallback block if MathJax is unavailable.</div>
+    <div class="tools">
+      <button onclick="openAll()">Open all lessons</button>
+      <button onclick="closeAll()">Collapse lessons</button>
+      <button onclick="printAll()">Print / Save as PDF</button>
+      <a class="pill" href="#contents">↓ Contents</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+  <nav class="toc" id="contents">
+    <div class="toc-header"><h2>Contents</h2></div>
+    <ol>
+      <li><span class="toc-num">01</span><a href="#lesson-1">Iterative Functions: The Mathematics of "What Happens Next?"</a></li>
+      <li><span class="toc-num">02</span><a href="#lesson-2">Nonlinearity and the Logistic Map</a></li>
+      <li><span class="toc-num">03</span><a href="#lesson-3">Probability: From Certainty to Structured Uncertainty</a></li>
+      <li><span class="toc-num">04</span><a href="#lesson-4">Bayesian Updating: Evidence, Priors, and Posterior Belief</a></li>
+      <li><span class="toc-num">05</span><a href="#lesson-5">Markov Chains: Probabilistic Movement Through States</a></li>
+      <li><span class="toc-num">06</span><a href="#lesson-6">Hidden Markov Models: Observation Is Not Reality</a></li>
+      <li><span class="toc-num">07</span><a href="#lesson-7">Linear Algebra: Vectors, Matrices, and Transformations</a></li>
+      <li><span class="toc-num">08</span><a href="#lesson-8">Calculus for Machine Learning</a></li>
+      <li><span class="toc-num">09</span><a href="#lesson-9">Machine Learning Maths: Regression to Neural Networks</a></li>
+      <li><span class="toc-num">10</span><a href="#lesson-10">Attention and Transformers</a></li>
+      <li><span class="toc-num">11</span><a href="#lesson-11">Latent Variables, Variational Inference, Free Energy</a></li>
+      <li><span class="toc-num">12</span><a href="#lesson-12">Markov Blankets: Boundaries as Informational Structures</a></li>
+      <li><span class="toc-num">13</span><a href="#lesson-13">Graphs, Networks, and Graph Neural Networks</a></li>
+      <li><span class="toc-num">14</span><a href="#lesson-14">State-Space Models and Kalman Filtering</a></li>
+      <li><span class="toc-num">15</span><a href="#lesson-15">Reinforcement Learning and Active Decision-Making</a></li>
+      <li><span class="toc-num">16</span><a href="#lesson-16">Information Theory: Surprise, Entropy, KL, Mutual Information</a></li>
+      <li><span class="toc-num">17</span><a href="#lesson-17">Bayesian Modelling and Hierarchical Models</a></li>
+      <li><span class="toc-num">18</span><a href="#lesson-18">Causal Inference: Correlation, Intervention, do(·)</a></li>
+      <li><span class="toc-num">19</span><a href="#lesson-19">Econometrics and Statistical Identification</a></li>
+      <li><span class="toc-num">20</span><a href="#lesson-20">Dynamical Systems, Stability, and Bifurcation</a></li>
+      <li><span class="toc-num">21</span><a href="#lesson-21">Complexity Science: Emergence, Scaling, Networks, Agents</a></li>
+      <li><span class="toc-num">22</span><a href="#lesson-22">The Full Mathematical Map</a></li>
+      <li><span class="toc-num">23</span><a href="#lesson-23">How to Read Mathematical Papers Without Panic</a></li>
+      <li><span class="toc-num">24</span><a href="#lesson-24">Symbol Glossary for Your Research World</a></li>
+    </ol>
+  </nav>
+
+<section id="lesson-1" class="lesson">
+  <details open>
+    <summary><span class="lesson-number">01</span><span class="lesson-title">Lesson 1 — Iterative Functions: The Mathematics of “What Happens Next?”</span></summary>
+    <div class="lesson-body">
+      
+
+    <figure class="diagram-card">
+      <div class="diagram-title">Diagram — Iterative Update Logic</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 860 210" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#cbd5e1"/>
+    </marker>
+  </defs>
+  <rect x="35" y="60" width="130" height="70" rx="18" fill="#2a3345" stroke="#4a5568"/>
+  <text x="100" y="102" font-size="28" text-anchor="middle" fill="#e2e8f0">xₜ</text>
+
+  <line x1="165" y1="95" x2="295" y2="95" stroke="#94a3b8" stroke-width="3.5" marker-end="url(#arrow1)"/>
+  <rect x="295" y="45" width="230" height="100" rx="22" fill="#1e3a5f" stroke="#3b82f6"/>
+  <text x="410" y="86" font-size="24" text-anchor="middle" fill="#e2e8f0">apply update rule</text>
+  <text x="410" y="116" font-size="28" text-anchor="middle" fill="#1d4ed8">f(·)</text>
+
+  <line x1="525" y1="95" x2="660" y2="95" stroke="#94a3b8" stroke-width="3.5" marker-end="url(#arrow1)"/>
+  <rect x="660" y="60" width="165" height="70" rx="18" fill="#1a3d2b" stroke="#22c55e"/>
+  <text x="742" y="102" font-size="28" text-anchor="middle" fill="#e2e8f0">xₜ₊₁</text>
+
+  <text x="430" y="185" font-size="22" text-anchor="middle" fill="#94a3b8">The next state is generated from the current state by a rule.</text>
+</svg>
+      </div>
+      <div class="diagram-caption">A simple update diagram for xₜ → f(·) → xₜ₊₁.</div>
+    </figure>
+    
+<p>We begin with one of the simplest but most powerful forms in mathematics:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+x_{t+1}=f(x_t)
+\]</div>
+  <pre class="math-fallback">x_{t+1}=f(x_t)</pre>
+</div>
+
+<p>Read this slowly:</p>
+
+<blockquote>The next state is a function of the current state.</blockquote>
+
+<p>This is the seed of dynamical systems, complexity science, machine learning, state-space modelling, reinforcement learning, and even parts of FEP. It is also a much more natural way to enter mathematics than memorising formulas. Instead of asking “which formula do I apply?”, we ask:</p>
+
+<ul>
+<li>What is the current state?</li>
+<li>What rule transforms it?</li>
+<li>What happens if we repeat the rule?</li>
+<li>Does the system settle, explode, oscillate, or become unpredictable?</li>
+</ul>
+
+<p>The symbol \(x_t\) means the state at time \(t\). The symbol \(x_{t+1}\) means the next state. The function \(f\) is the update rule.</p>
+
+<p>A simple example is:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+x_{t+1}=0.8x_t+5
+\]</div>
+  <pre class="math-fallback">x_{t+1}=0.8x_t+5</pre>
+</div>
+
+<p>This says: keep 80% of the current state and add 5. If this represented a stock of something — money, energy, population, public trust, or attention — then each step both retains some past condition and adds a new input.</p>
+
+<p>Now the interesting question is not just “what is the next value?” but:</p>
+
+<blockquote>What kind of behaviour does this rule generate if repeated?</blockquote>
+
+<p>That is the first complexity intuition. A mathematical rule is not merely an answer-getting device. It is a generator of behaviour.</p>
+
+<p>When a state reproduces itself under the update rule, we call it a fixed point:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+x^*=f(x^*)
+\]</div>
+  <pre class="math-fallback">x^*=f(x^*)</pre>
+</div>
+
+<p>Read:</p>
+
+<blockquote>\(x^*\) is a state that remains unchanged when the rule is applied.</blockquote>
+
+<p>In ordinary language, it is an equilibrium. But equilibrium does not mean “good.” It simply means self-reproducing. A dysfunctional organisation can be in equilibrium. An underused public space can be in equilibrium. A low-trust policy environment can be in equilibrium. Mathematics lets us ask whether a system stabilises, but design and ethics ask whether that stable state is desirable.</p>
+
+<p>For your work, this distinction is important. In PTM or computational architecture, we may not only ask what variables exist. We ask what update rules make social, spatial, affective, or policy states reproduce themselves over time.</p>
+
+<p>The conceptual takeaway:</p>
+
+<blockquote>A system is not only defined by what it is. It is defined by how it updates.</blockquote>
+
+    </div>
+  </details>
+</section>
+
+<section id="lesson-2" class="lesson">
+  <details>
+    <summary><span class="lesson-number">02</span><span class="lesson-title">Lesson 2 — Nonlinearity and the Logistic Map: When Simple Rules Become Complex</span></summary>
+    <div class="lesson-body">
+      
+
+    <figure class="diagram-card">
+      <div class="diagram-title">Diagram — Logistic Map Regimes</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 860 270" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <line x1="70" y1="220" x2="800" y2="220" stroke="#64748b" stroke-width="2.5"/>
+  <line x1="70" y1="35" x2="70" y2="220" stroke="#64748b" stroke-width="2.5"/>
+  <text x="805" y="225" font-size="18" fill="#94a3b8">r</text>
+  <text x="50" y="40" font-size="18" fill="#94a3b8">x</text>
+
+  <rect x="95" y="165" width="120" height="38" rx="10" fill="#fee2e2" stroke="#f87171"/>
+  <text x="155" y="189" text-anchor="middle" font-size="18" fill="#fca5a5">extinction</text>
+
+  <rect x="245" y="130" width="135" height="38" rx="10" fill="#1e3a5f" stroke="#3b82f6"/>
+  <text x="312" y="154" text-anchor="middle" font-size="18" fill="#93c5fd">fixed point</text>
+  <circle cx="312" cy="190" r="5" fill="#60a5fa"/>
+
+  <rect x="430" y="102" width="140" height="38" rx="10" fill="#2d1f4e" stroke="#7c3aed"/>
+  <text x="500" y="126" text-anchor="middle" font-size="18" fill="#c4b5fd">oscillation</text>
+  <circle cx="470" cy="178" r="4.5" fill="#a78bfa"/>
+  <circle cx="500" cy="155" r="4.5" fill="#a78bfa"/>
+  <circle cx="530" cy="178" r="4.5" fill="#a78bfa"/>
+  <line x1="470" y1="178" x2="500" y2="155" stroke="#7c3aed"/>
+  <line x1="500" y1="155" x2="530" y2="178" stroke="#7c3aed"/>
+
+  <rect x="620" y="70" width="120" height="38" rx="10" fill="#1a3d2b" stroke="#22c55e"/>
+  <text x="680" y="94" text-anchor="middle" font-size="18" fill="#22c55e">chaos</text>
+  <g fill="#4ade80">
+    <circle cx="640" cy="180" r="3.8"/>
+    <circle cx="654" cy="145" r="3.2"/>
+    <circle cx="668" cy="195" r="3.5"/>
+    <circle cx="682" cy="132" r="3.4"/>
+    <circle cx="696" cy="176" r="3.5"/>
+    <circle cx="710" cy="118" r="3.0"/>
+    <circle cx="724" cy="188" r="3.6"/>
+  </g>
+
+  <text x="440" y="248" font-size="20" text-anchor="middle" fill="#94a3b8">As r changes, the system changes regime — not just speed.</text>
+</svg>
+      </div>
+      <div class="diagram-caption">A conceptual sketch of how the logistic map moves from stability to oscillation to chaos.</div>
+    </figure>
+    
+<p>The next major step is to see how a very simple equation can generate surprisingly rich behaviour:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+x_{t+1}=rx_t(1-x_t)
+\]</div>
+  <pre class="math-fallback">x_{t+1}=rx_t(1-x_t)</pre>
+</div>
+
+<p>This is the logistic map. It is famous in complexity science because it shows that complex behaviour does not always require complicated equations.</p>
+
+<p>Decode the terms:</p>
+
+<ul>
+<li>\(x_t\): current state, often interpreted as a population proportion between 0 and 1.</li>
+<li>\(r\): growth parameter.</li>
+<li>\(1-x_t\): limiting term, representing saturation or carrying capacity.</li>
+</ul>
+
+<p>The equation contains a tension:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+x_t
+\]</div>
+  <pre class="math-fallback">x_t</pre>
+</div>
+
+<p>supports growth, while:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+1-x_t
+\]</div>
+  <pre class="math-fallback">1-x_t</pre>
+</div>
+
+<p>limits growth as the system approaches capacity.</p>
+
+<p>This matters because real systems often contain both expansion and constraint. A public space can attract more people, but too many people may reduce comfort. A brand can gain popularity, but overexposure may reduce desirability. A city can generate economic density, but congestion and cost can reduce livability. A policy can increase access, but create new pressures elsewhere.</p>
+
+<p>The parameter \(r\) does not merely change the speed of the system. It changes the regime of behaviour. At different values of \(r\), the logistic map can settle to a fixed point, oscillate, double its period, or become chaotic.</p>
+
+<p>This is a profound idea:</p>
+
+<blockquote>A parameter can be a regime switch, not merely a quantity.</blockquote>
+
+<p>In your PTM language, a parameter might be interest rates, housing elasticity, public trust, service reliability, demographic pressure, or institutional response time. In computational architecture, a parameter might be density, porosity, visibility, acoustic leakage, thermal comfort, or threshold strength.</p>
+
+<p>The mathematical lesson is that nonlinear feedback can produce disproportionate outcomes. The design lesson is that small changes near critical thresholds may reorganise the whole system.</p>
+
+<p>So rather than seeing equations as formulae to memorise, we begin to see them as:</p>
+
+<blockquote>compressed worlds of behaviour.</blockquote>
+
+    </div>
+  </details>
+</section>
+
+<section id="lesson-3" class="lesson">
+  <details>
+    <summary><span class="lesson-number">03</span><span class="lesson-title">Lesson 3 — Probability: From Certainty to Structured Uncertainty</span></summary>
+    <div class="lesson-body">
+      
+
+    <figure class="diagram-card">
+      <div class="diagram-title">Diagram — Conditional Probability</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 860 250" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <rect x="90" y="40" width="500" height="150" rx="18" fill="#f8fafc" stroke="#4a5568" stroke-width="2"/>
+  <text x="110" y="68" font-size="20" fill="#cbd5e1">All possible cases</text>
+
+  <rect x="165" y="78" width="260" height="92" rx="15" fill="#1e3a5f" stroke="#3b82f6" stroke-width="2"/>
+  <text x="185" y="106" font-size="19" fill="#93c5fd">B</text>
+
+  <rect x="285" y="95" width="180" height="70" rx="15" fill="#1a3d2b" stroke="#22c55e" stroke-width="2"/>
+  <text x="305" y="123" font-size="19" fill="#22c55e">A ∩ B</text>
+
+  <text x="645" y="102" font-size="26" fill="#e2e8f0">P(A|B)</text>
+  <text x="645" y="140" font-size="22" fill="#94a3b8">= portion of B</text>
+  <text x="645" y="168" font-size="22" fill="#94a3b8">that is also A</text>
+
+  <text x="430" y="220" text-anchor="middle" font-size="20" fill="#94a3b8">Conditioning means “restrict attention to B first, then ask about A.”</text>
+</svg>
+      </div>
+      <div class="diagram-caption">A visual intuition for P(A|B): the probability of A within the restricted world B.</div>
+    </figure>
+    
+<p>Probability enters when we stop pretending that systems are perfectly deterministic. Instead of saying exactly what will happen, we say what could happen and with what likelihood.</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P(A)
+\]</div>
+  <pre class="math-fallback">P(A)</pre>
+</div>
+
+<p>means the probability of event \(A\).</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P(A\mid B)
+\]</div>
+  <pre class="math-fallback">P(A\mid B)</pre>
+</div>
+
+<p>means the probability of \(A\), given \(B\). The vertical bar \(\mid\) means “given.”</p>
+
+<p>This is not just notation. It is a shift in thinking. A probability statement is always conditional on some state of knowledge or model. For example:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P(\text{high dwell time}\mid \text{shade})
+\]</div>
+  <pre class="math-fallback">P(\text{high dwell time}\mid \text{shade})</pre>
+</div>
+
+<p>means:</p>
+
+<blockquote>Among spaces with shade, how likely is high dwell time?</blockquote>
+
+<p>But this does not yet mean shade causes dwell time. It only describes an observed or modelled conditional relation. Later, causal inference will teach us the difference between:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P(Y\mid X)
+\]</div>
+  <pre class="math-fallback">P(Y\mid X)</pre>
+</div>
+
+<p>and:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P(Y\mid do(X))
+\]</div>
+  <pre class="math-fallback">P(Y\mid do(X))</pre>
+</div>
+
+<p>For now, probability gives us a language for uncertainty. In social, urban, architectural, organisational, and policy systems, uncertainty is not a nuisance to eliminate. It is part of the system.</p>
+
+<p>A probability distribution assigns probabilities across possible outcomes:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\sum_x p(x)=1
+\]</div>
+  <pre class="math-fallback">\sum_x p(x)=1</pre>
+</div>
+
+<p>This means the probabilities across all possible values sum to 1.</p>
+
+<p>In your research world, probability becomes essential because the things you care about are not directly measurable in clean ways:</p>
+
+<ul>
+<li>comfort</li>
+<li>trust</li>
+<li>social permission</li>
+<li>institutional legitimacy</li>
+<li>urban vitality</li>
+<li>affective states</li>
+<li>policy stress</li>
+<li>organisational resilience</li>
+</ul>
+
+<p>These are not simple objects. They are uncertain constructs inferred through signals.</p>
+
+<p>The conceptual takeaway:</p>
+
+<blockquote>Probability is not merely about randomness. It is a disciplined language for uncertainty under assumptions.</blockquote>
+
+    </div>
+  </details>
+</section>
+
+<section id="lesson-4" class="lesson">
+  <details>
+    <summary><span class="lesson-number">04</span><span class="lesson-title">Lesson 4 — Bayesian Updating: Evidence, Priors, and Posterior Belief</span></summary>
+    <div class="lesson-body">
+      
+
+    <figure class="diagram-card">
+      <div class="diagram-title">Diagram — Bayes Update Flow</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 860 240" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#cbd5e1"/>
+    </marker>
+  </defs>
+  <rect x="40" y="70" width="170" height="90" rx="18" fill="#2d1f4e" stroke="#7c3aed"/>
+  <text x="125" y="103" text-anchor="middle" font-size="26" fill="#c4b5fd">Prior</text>
+  <text x="125" y="132" text-anchor="middle" font-size="20" fill="#94a3b8">P(H)</text>
+
+  <line x1="210" y1="115" x2="330" y2="115" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow4)"/>
+
+  <rect x="330" y="55" width="200" height="120" rx="18" fill="#1e3a5f" stroke="#3b82f6"/>
+  <text x="430" y="95" text-anchor="middle" font-size="26" fill="#93c5fd">Likelihood</text>
+  <text x="430" y="125" text-anchor="middle" font-size="20" fill="#94a3b8">P(D|H)</text>
+  <text x="430" y="151" text-anchor="middle" font-size="16" fill="#94a3b8">How compatible is the data with the hypothesis?</text>
+
+  <line x1="530" y1="115" x2="660" y2="115" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow4)"/>
+
+  <rect x="660" y="70" width="160" height="90" rx="18" fill="#1a3d2b" stroke="#22c55e"/>
+  <text x="740" y="103" text-anchor="middle" font-size="26" fill="#22c55e">Posterior</text>
+  <text x="740" y="132" text-anchor="middle" font-size="20" fill="#94a3b8">P(H|D)</text>
+
+  <text x="430" y="214" text-anchor="middle" font-size="20" fill="#94a3b8">Belief is updated by evidence, not replaced by evidence.</text>
+</svg>
+      </div>
+      <div class="diagram-caption">Prior → likelihood/evidence → posterior.</div>
+    </figure>
+    
+<p>Bayes’ theorem gives us one of the most important symbolic structures in all of modelling:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P(H\mid D)=\frac{P(D\mid H)P(H)}{P(D)}
+\]</div>
+  <pre class="math-fallback">P(H\mid D)=\frac{P(D\mid H)P(H)}{P(D)}</pre>
+</div>
+
+<p>Read:</p>
+
+<blockquote>The probability of a hypothesis after seeing data equals the likelihood of the data under that hypothesis, times prior belief, normalised by the probability of the data.</blockquote>
+
+<p>Decode the parts:</p>
+
+<ul>
+<li>\(H\): hypothesis</li>
+<li>\(D\): data</li>
+<li>\(P(H)\): prior belief</li>
+<li>\(P(D\mid H)\): likelihood</li>
+<li>\(P(H\mid D)\): posterior belief</li>
+<li>\(P(D)\): evidence or normalising constant</li>
+</ul>
+
+<p>The crucial distinction is between:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P(D\mid H)
+\]</div>
+  <pre class="math-fallback">P(D\mid H)</pre>
+</div>
+
+<p>and:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P(H\mid D)
+\]</div>
+  <pre class="math-fallback">P(H\mid D)</pre>
+</div>
+
+<p>They are not the same. The first asks:</p>
+
+<blockquote>If the hypothesis were true, how likely would the data be?</blockquote>
+
+<p>The second asks:</p>
+
+<blockquote>After seeing the data, how likely is the hypothesis?</blockquote>
+
+<p>This distinction is everywhere. For example:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P(\text{irritability}\mid \text{stress})
+\]</div>
+  <pre class="math-fallback">P(\text{irritability}\mid \text{stress})</pre>
+</div>
+
+<p>is not the same as:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P(\text{stress}\mid \text{irritability})
+\]</div>
+  <pre class="math-fallback">P(\text{stress}\mid \text{irritability})</pre>
+</div>
+
+<p>In design research, this is powerful. Observing dwell time, gesture, facial expression, or movement does not directly reveal comfort, anxiety, or curiosity. It updates belief about those hidden states.</p>
+
+<p>Bayesian thinking is also philosophically aligned with your intuition that mathematical claims are not absolute truth. A posterior is not truth itself. It is updated belief under a model, prior, and evidence.</p>
+
+<p>The conceptual takeaway:</p>
+
+<blockquote>Evidence does not speak by itself. Evidence updates belief through a model.</blockquote>
+
+    </div>
+  </details>
+</section>
+
+<section id="lesson-5" class="lesson">
+  <details>
+    <summary><span class="lesson-number">05</span><span class="lesson-title">Lesson 5 — Markov Chains: Probabilistic Movement Through States</span></summary>
+    <div class="lesson-body">
+      
+
+    <figure class="diagram-card">
+      <div class="diagram-title">Diagram — Markov Chain State Transitions</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 860 260" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#cbd5e1"/>
+    </marker>
+  </defs>
+  <circle cx="220" cy="130" r="56" fill="#1e3a5f" stroke="#3b82f6" stroke-width="2.2"/>
+  <circle cx="430" cy="130" r="56" fill="#2d1f4e" stroke="#7c3aed" stroke-width="2.2"/>
+  <circle cx="640" cy="130" r="56" fill="#1a3d2b" stroke="#22c55e" stroke-width="2.2"/>
+  <text x="220" y="136" text-anchor="middle" font-size="22" fill="#e2e8f0">State A</text>
+  <text x="430" y="136" text-anchor="middle" font-size="22" fill="#e2e8f0">State B</text>
+  <text x="640" y="136" text-anchor="middle" font-size="22" fill="#e2e8f0">State C</text>
+
+  <path d="M276 120 C320 90, 340 90, 376 118" fill="none" stroke="#94a3b8" stroke-width="2.6" marker-end="url(#arrow5)"/>
+  <text x="327" y="88" font-size="18" fill="#cbd5e1">0.2</text>
+
+  <path d="M484 142 C530 172, 553 172, 586 145" fill="none" stroke="#94a3b8" stroke-width="2.6" marker-end="url(#arrow5)"/>
+  <text x="540" y="190" font-size="18" fill="#cbd5e1">0.3</text>
+
+  <path d="M584 112 C545 75, 510 74, 473 108" fill="none" stroke="#94a3b8" stroke-width="2.6" marker-end="url(#arrow5)"/>
+  <text x="528" y="68" font-size="18" fill="#cbd5e1">0.4</text>
+
+  <path d="M186 88 C145 50, 144 198, 190 170" fill="none" stroke="#94a3b8" stroke-width="2.6" marker-end="url(#arrow5)"/>
+  <text x="112" y="130" font-size="18" fill="#cbd5e1">0.8 stay</text>
+
+  <text x="430" y="235" text-anchor="middle" font-size="20" fill="#94a3b8">The next state depends probabilistically on the current state.</text>
+</svg>
+      </div>
+      <div class="diagram-caption">A state diagram representation of a Markov chain.</div>
+    </figure>
+    
+<p>A Markov chain models probabilistic movement between states over time.</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P(X_{t+1}\mid X_t)
+\]</div>
+  <pre class="math-fallback">P(X_{t+1}\mid X_t)</pre>
+</div>
+
+<p>Read:</p>
+
+<blockquote>The probability of the next state depends on the current state.</blockquote>
+
+<p>The Markov property says:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P(X_{t+1}\mid X_t,X_{t-1},X_{t-2},\dots)=P(X_{t+1}\mid X_t)
+\]</div>
+  <pre class="math-fallback">P(X_{t+1}\mid X_t,X_{t-1},X_{t-2},\dots)=P(X_{t+1}\mid X_t)</pre>
+</div>
+
+<p>This means that once we know the current state, the past adds no extra information for predicting the next state.</p>
+
+<p>This does not mean history is irrelevant in reality. It means the model assumes the relevant history has been compressed into the present state. That is an important modelling assumption.</p>
+
+<p>Transition probabilities can be written in a matrix:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P=
+\begin{bmatrix}
+0.8 & 0.2\\
+0.4 & 0.6
+\end{bmatrix}
+\]</div>
+  <pre class="math-fallback">P=
+\begin{bmatrix}
+0.8 & 0.2\\
+0.4 & 0.6
+\end{bmatrix}</pre>
+</div>
+
+<p>Rows are current states. Columns are next states. A probability distribution over states can be written as a vector:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{v}_t=
+\begin{bmatrix}
+0.7 & 0.3
+\end{bmatrix}
+\]</div>
+  <pre class="math-fallback">\mathbf{v}_t=
+\begin{bmatrix}
+0.7 & 0.3
+\end{bmatrix}</pre>
+</div>
+
+<p>The update is:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{v}_{t+1}=\mathbf{v}_tP
+\]</div>
+  <pre class="math-fallback">\mathbf{v}_{t+1}=\mathbf{v}_tP</pre>
+</div>
+
+<p>This is beautiful because it shows linear algebra becoming a language of system evolution. The vector is the current probability landscape. The matrix is the transition structure. Multiplying them moves the system forward.</p>
+
+<p>A stationary distribution satisfies:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\boldsymbol{\pi}P=\boldsymbol{\pi}
+\]</div>
+  <pre class="math-fallback">\boldsymbol{\pi}P=\boldsymbol{\pi}</pre>
+</div>
+
+<p>This means the distribution remains unchanged after applying the transition matrix.</p>
+
+<p>For policy or architecture, this can model transitions between states such as:</p>
+
+<ul>
+<li>comfortable / neutral / stressed</li>
+<li>trusting / uncertain / distrustful</li>
+<li>lingering / passing / avoiding</li>
+<li>stable / vulnerable / crisis-prone</li>
+</ul>
+
+<p>The conceptual takeaway:</p>
+
+<blockquote>A Markov chain is a probabilistic grammar of state-to-state movement.</blockquote>
+
+    </div>
+  </details>
+</section>
+
+<section id="lesson-6" class="lesson">
+  <details>
+    <summary><span class="lesson-number">06</span><span class="lesson-title">Lesson 6 — Hidden Markov Models: Observation Is Not Reality</span></summary>
+    <div class="lesson-body">
+      
+
+    <figure class="diagram-card">
+      <div class="diagram-title">Diagram — Hidden Markov Model</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 860 260" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#cbd5e1"/>
+    </marker>
+  </defs>
+  <text x="90" y="35" font-size="21" fill="#cbd5e1">Hidden states</text>
+  <text x="90" y="165" font-size="21" fill="#cbd5e1">Observations</text>
+
+  <g>
+    <circle cx="220" cy="85" r="42" fill="#1e3a5f" stroke="#3b82f6" />
+    <circle cx="430" cy="85" r="42" fill="#1e3a5f" stroke="#3b82f6" />
+    <circle cx="640" cy="85" r="42" fill="#1e3a5f" stroke="#3b82f6" />
+    <text x="220" y="92" text-anchor="middle" font-size="22">X₁</text>
+    <text x="430" y="92" text-anchor="middle" font-size="22">X₂</text>
+    <text x="640" y="92" text-anchor="middle" font-size="22">X₃</text>
+  </g>
+
+  <line x1="262" y1="85" x2="388" y2="85" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow6)"/>
+  <line x1="472" y1="85" x2="598" y2="85" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow6)"/>
+
+  <g>
+    <rect x="170" y="180" width="100" height="48" rx="14" fill="#1a3d2b" stroke="#22c55e"/>
+    <rect x="380" y="180" width="100" height="48" rx="14" fill="#1a3d2b" stroke="#22c55e"/>
+    <rect x="590" y="180" width="100" height="48" rx="14" fill="#1a3d2b" stroke="#22c55e"/>
+    <text x="220" y="211" text-anchor="middle" font-size="22">Y₁</text>
+    <text x="430" y="211" text-anchor="middle" font-size="22">Y₂</text>
+    <text x="640" y="211" text-anchor="middle" font-size="22">Y₃</text>
+  </g>
+
+  <line x1="220" y1="127" x2="220" y2="180" stroke="#94a3b8" stroke-width="2.6" marker-end="url(#arrow6)"/>
+  <line x1="430" y1="127" x2="430" y2="180" stroke="#94a3b8" stroke-width="2.6" marker-end="url(#arrow6)"/>
+  <line x1="640" y1="127" x2="640" y2="180" stroke="#94a3b8" stroke-width="2.6" marker-end="url(#arrow6)"/>
+
+  <text x="430" y="248" text-anchor="middle" font-size="18" fill="#94a3b8">Hidden states evolve over time and generate observations.</text>
+</svg>
+      </div>
+      <div class="diagram-caption">A classic HMM structure: hidden state sequence above, emitted observations below.</div>
+    </figure>
+    
+<p>A normal Markov chain assumes that we can directly observe the state. But in real systems, the state we care about is often hidden.</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+X_t=\text{hidden state}
+\]</div>
+  <pre class="math-fallback">X_t=\text{hidden state}</pre>
+</div>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+Y_t=\text{observation}
+\]</div>
+  <pre class="math-fallback">Y_t=\text{observation}</pre>
+</div>
+
+<p>A Hidden Markov Model has two layers:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P(X_{t+1}\mid X_t)
+\]</div>
+  <pre class="math-fallback">P(X_{t+1}\mid X_t)</pre>
+</div>
+
+<p>which describes how hidden states evolve, and:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P(Y_t\mid X_t)
+\]</div>
+  <pre class="math-fallback">P(Y_t\mid X_t)</pre>
+</div>
+
+<p>which describes how hidden states generate observations.</p>
+
+<p>The hidden state might be:</p>
+
+<ul>
+<li>actual emotional state</li>
+<li>public trust</li>
+<li>spatial comfort</li>
+<li>student understanding</li>
+<li>market confidence</li>
+<li>organisational morale</li>
+</ul>
+
+<p>The observation might be:</p>
+
+<ul>
+<li>facial expression</li>
+<li>survey response</li>
+<li>dwell time</li>
+<li>test score</li>
+<li>trading volume</li>
+<li>employee feedback</li>
+</ul>
+
+<p>The crucial lesson is:</p>
+
+<blockquote>The observation is not the hidden state. The observation is evidence generated from the hidden state.</blockquote>
+
+<p>For example, long dwell time may suggest comfort, but it may also mean waiting, confusion, social obligation, lack of exits, rain, charging a phone, or avoiding something else. So we should not write:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\text{long dwell time}=\text{comfort}
+\]</div>
+  <pre class="math-fallback">\text{long dwell time}=\text{comfort}</pre>
+</div>
+
+<p>Instead we ask:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P(\text{comfort}\mid \text{long dwell time})
+\]</div>
+  <pre class="math-fallback">P(\text{comfort}\mid \text{long dwell time})</pre>
+</div>
+
+<p>This is where Bayes enters. The observation updates our belief about the hidden state.</p>
+
+<p>Filtering over time asks:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P(X_t\mid Y_1,\dots,Y_t)
+\]</div>
+  <pre class="math-fallback">P(X_t\mid Y_1,\dots,Y_t)</pre>
+</div>
+
+<p>Read:</p>
+
+<blockquote>What is the current hidden state, given all observations so far?</blockquote>
+
+<p>This idea is foundational for FEP, state-space models, active inference, computational architecture, and PTM. It protects us from the common mistake of treating visible data as reality itself.</p>
+
+<p>The conceptual takeaway:</p>
+
+<blockquote>Data is evidence about reality, not direct access to reality.</blockquote>
+
+    </div>
+  </details>
+</section>
+
+<section id="lesson-7" class="lesson">
+  <details>
+    <summary><span class="lesson-number">07</span><span class="lesson-title">Lesson 7 — Linear Algebra: Vectors, Matrices, and Transformations</span></summary>
+    <div class="lesson-body">
+      
+
+    <figure class="diagram-card">
+      <div class="diagram-title">Diagram — Vector, Matrix, Transformation</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 860 240" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#cbd5e1"/>
+    </marker>
+  </defs>
+  <rect x="70" y="55" width="110" height="120" rx="16" fill="#182540" stroke="#3b82f6"/>
+  <text x="125" y="87" text-anchor="middle" font-size="22">x</text>
+  <text x="125" y="118" text-anchor="middle" font-size="20">x₁</text>
+  <text x="125" y="143" text-anchor="middle" font-size="20">x₂</text>
+  <text x="125" y="168" text-anchor="middle" font-size="20">x₃</text>
+
+  <line x1="180" y1="115" x2="305" y2="115" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow7)"/>
+
+  <rect x="305" y="42" width="210" height="146" rx="18" fill="#2d1f4e" stroke="#7c3aed"/>
+  <text x="410" y="77" text-anchor="middle" font-size="26">W</text>
+  <text x="410" y="109" text-anchor="middle" font-size="18">learned transformation</text>
+  <text x="410" y="136" text-anchor="middle" font-size="18">weights / geometry</text>
+
+  <line x1="515" y1="115" x2="645" y2="115" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow7)"/>
+
+  <rect x="645" y="55" width="135" height="120" rx="16" fill="#1a3d2b" stroke="#22c55e"/>
+  <text x="712" y="87" text-anchor="middle" font-size="22">h</text>
+  <text x="712" y="118" text-anchor="middle" font-size="20">h₁</text>
+  <text x="712" y="143" text-anchor="middle" font-size="20">h₂</text>
+  <text x="712" y="168" text-anchor="middle" font-size="20">h₃</text>
+
+  <text x="430" y="220" text-anchor="middle" font-size="18" fill="#94a3b8">Vectors carry structured information; matrices transform that information.</text>
+</svg>
+      </div>
+      <div class="diagram-caption">An intuitive view of a matrix turning one representation into another.</div>
+    </figure>
+    
+<p>Linear algebra is the mathematics of many quantities arranged together and transformed together.</p>
+
+<p>A scalar is a single number:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+x=3
+\]</div>
+  <pre class="math-fallback">x=3</pre>
+</div>
+
+<p>A vector is a bundle of numbers:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{x}=
+\begin{bmatrix}
+2\\5\\7
+\end{bmatrix}
+\]</div>
+  <pre class="math-fallback">\mathbf{x}=
+\begin{bmatrix}
+2\\5\\7
+\end{bmatrix}</pre>
+</div>
+
+<p>A matrix is a rectangular structure of numbers:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+A=
+\begin{bmatrix}
+1&2\\3&4
+\end{bmatrix}
+\]</div>
+  <pre class="math-fallback">A=
+\begin{bmatrix}
+1&2\\3&4
+\end{bmatrix}</pre>
+</div>
+
+<p>In machine learning, a vector often represents a feature bundle. For example, a space might be represented as:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{x}=
+\begin{bmatrix}
+\text{openness}\\
+\text{brightness}\\
+\text{noise}\\
+\text{thermal comfort}
+\end{bmatrix}
+\]</div>
+  <pre class="math-fallback">\mathbf{x}=
+\begin{bmatrix}
+\text{openness}\\
+\text{brightness}\\
+\text{noise}\\
+\text{thermal comfort}
+\end{bmatrix}</pre>
+</div>
+
+<p>The dot product:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{w}\cdot \mathbf{x}=\sum_{i=1}^{n}w_ix_i
+\]</div>
+  <pre class="math-fallback">\mathbf{w}\cdot \mathbf{x}=\sum_{i=1}^{n}w_ix_i</pre>
+</div>
+
+<p>means multiply corresponding components and add them up. This becomes a weighted score.</p>
+
+<p>A simple predictive model is:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\hat{y}=\mathbf{w}^T\mathbf{x}+b
+\]</div>
+  <pre class="math-fallback">\hat{y}=\mathbf{w}^T\mathbf{x}+b</pre>
+</div>
+
+<p>Read:</p>
+
+<blockquote>Prediction equals weighted sum of features plus bias.</blockquote>
+
+<p>A matrix-vector product:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+A\mathbf{x}
+\]</div>
+  <pre class="math-fallback">A\mathbf{x}</pre>
+</div>
+
+<p>means transforming vector \(\mathbf{x}\) using matrix \(A\). In neural networks, this becomes:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{h}=\sigma(W\mathbf{x}+\mathbf{b})
+\]</div>
+  <pre class="math-fallback">\mathbf{h}=\sigma(W\mathbf{x}+\mathbf{b})</pre>
+</div>
+
+<p>where \(W\) is a weight matrix, \(\mathbf{b}\) is bias, \(\sigma\) is a nonlinear activation, and \(\mathbf{h}\) is a hidden representation.</p>
+
+<p>For computational architecture, this lets us imagine mapping spatial features into latent experiential dimensions:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{h}=
+\begin{bmatrix}
+\text{comfort}\\
+\text{safety}\\
+\text{sociability}
+\end{bmatrix}
+\]</div>
+  <pre class="math-fallback">\mathbf{h}=
+\begin{bmatrix}
+\text{comfort}\\
+\text{safety}\\
+\text{sociability}
+\end{bmatrix}</pre>
+</div>
+
+<p>The conceptual takeaway:</p>
+
+<blockquote>A vector describes what a thing is; a matrix describes how a thing is transformed.</blockquote>
+
+    </div>
+  </details>
+</section>
+
+<section id="lesson-8" class="lesson">
+  <details>
+    <summary><span class="lesson-number">08</span><span class="lesson-title">Lesson 8 — Calculus for Machine Learning: Change, Gradients, and Optimisation</span></summary>
+    <div class="lesson-body">
+      
+
+    <figure class="diagram-card">
+      <div class="diagram-title">Diagram — Gradient Descent on a Loss Landscape</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 860 280" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <path d="M80 210 C180 90, 260 250, 360 150 S560 70, 760 190" fill="none" stroke="#3b82f6" stroke-width="5"/>
+  <circle cx="145" cy="136" r="8" fill="#ef4444"/>
+  <circle cx="250" cy="210" r="8" fill="#f59e0b"/>
+  <circle cx="352" cy="152" r="8" fill="#f59e0b"/>
+  <circle cx="470" cy="103" r="8" fill="#f59e0b"/>
+  <circle cx="620" cy="118" r="8" fill="#4ade80"/>
+  <text x="125" y="120" font-size="18" fill="#fca5a5">start</text>
+  <text x="606" y="98" font-size="18" fill="#22c55e">minimum</text>
+
+  <defs>
+    <marker id="arrow8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <line x1="153" y1="143" x2="237" y2="201" stroke="#64748b" stroke-width="2.5" marker-end="url(#arrow8)"/>
+  <line x1="258" y1="204" x2="344" y2="157" stroke="#64748b" stroke-width="2.5" marker-end="url(#arrow8)"/>
+  <line x1="360" y1="147" x2="460" y2="106" stroke="#64748b" stroke-width="2.5" marker-end="url(#arrow8)"/>
+  <line x1="478" y1="105" x2="610" y2="117" stroke="#64748b" stroke-width="2.5" marker-end="url(#arrow8)"/>
+
+  <line x1="80" y1="245" x2="800" y2="245" stroke="#64748b" stroke-width="2"/>
+  <line x1="80" y1="35" x2="80" y2="245" stroke="#64748b" stroke-width="2"/>
+  <text x="805" y="250" font-size="18" fill="#94a3b8">parameter space</text>
+  <text x="48" y="40" font-size="18" fill="#94a3b8">loss</text>
+
+  <text x="430" y="272" text-anchor="middle" font-size="19" fill="#94a3b8">Training repeatedly updates parameters to move toward lower loss.</text>
+</svg>
+      </div>
+      <div class="diagram-caption">A conceptual loss landscape showing iterative movement toward lower error.</div>
+    </figure>
+    
+<p>Calculus gives machine learning its learning mechanism.</p>
+
+<p>The derivative:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\frac{dy}{dx}
+\]</div>
+  <pre class="math-fallback">\frac{dy}{dx}</pre>
+</div>
+
+<p>means the rate of change of \(y\) with respect to \(x\). In machine learning, we care about how loss changes when parameters change:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\frac{\partial L}{\partial w}
+\]</div>
+  <pre class="math-fallback">\frac{\partial L}{\partial w}</pre>
+</div>
+
+<p>Read:</p>
+
+<blockquote>How sensitive is the loss \(L\) to the weight \(w\)?</blockquote>
+
+<p>A loss function measures error. For squared error:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+L=(y-\hat{y})^2
+\]</div>
+  <pre class="math-fallback">L=(y-\hat{y})^2</pre>
+</div>
+
+<p>where \(y\) is true value and \(\hat{y}\) is prediction.</p>
+
+<p>Learning means adjusting parameters so loss becomes smaller. Gradient descent does this:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\theta\leftarrow\theta-\eta\nabla L(\theta)
+\]</div>
+  <pre class="math-fallback">\theta\leftarrow\theta-\eta\nabla L(\theta)</pre>
+</div>
+
+<p>Decode:</p>
+
+<ul>
+<li>\(\theta\): model parameters</li>
+<li>\(\eta\): learning rate</li>
+<li>\(\nabla L(\theta)\): gradient of loss</li>
+<li>\(\leftarrow\): update</li>
+</ul>
+
+<p>The gradient points in the direction of increasing loss. So to reduce loss, we move against it.</p>
+
+<p>For one parameter:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+w\leftarrow w-\eta\frac{\partial L}{\partial w}
+\]</div>
+  <pre class="math-fallback">w\leftarrow w-\eta\frac{\partial L}{\partial w}</pre>
+</div>
+
+<p>Backpropagation computes gradients through a neural network. Gradient descent uses those gradients to update parameters.</p>
+
+<p>This connects back to iterative functions:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\theta_{t+1}=\theta_t-\eta\nabla L(\theta_t)
+\]</div>
+  <pre class="math-fallback">\theta_{t+1}=\theta_t-\eta\nabla L(\theta_t)</pre>
+</div>
+
+<p>Machine learning training is itself a dynamical system: parameters move through a loss landscape.</p>
+
+<p>The conceptual takeaway:</p>
+
+<blockquote>Machine learning learns by changing parameters in the direction that reduces error.</blockquote>
+
+    </div>
+  </details>
+</section>
+
+<section id="lesson-9" class="lesson">
+  <details>
+    <summary><span class="lesson-number">09</span><span class="lesson-title">Lesson 9 — Machine Learning Maths: From Linear Regression to Neural Networks</span></summary>
+    <div class="lesson-body">
+      
+
+    <figure class="diagram-card">
+      <div class="diagram-title">Diagram — Simple Neural Network</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 860 290" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <g fill="#1e3a5f" stroke="#3b82f6" stroke-width="2">
+    <circle cx="120" cy="75" r="22"/><circle cx="120" cy="145" r="22"/><circle cx="120" cy="215" r="22"/>
+    <circle cx="380" cy="100" r="22"/><circle cx="380" cy="190" r="22"/>
+    <circle cx="650" cy="145" r="24" fill="#1a3d2b" stroke="#22c55e"/>
+  </g>
+  <g stroke="#4a5568" stroke-width="2">
+    <line x1="142" y1="75" x2="358" y2="100"/>
+    <line x1="142" y1="75" x2="358" y2="190"/>
+    <line x1="142" y1="145" x2="358" y2="100"/>
+    <line x1="142" y1="145" x2="358" y2="190"/>
+    <line x1="142" y1="215" x2="358" y2="100"/>
+    <line x1="142" y1="215" x2="358" y2="190"/>
+    <line x1="402" y1="100" x2="626" y2="145"/>
+    <line x1="402" y1="190" x2="626" y2="145"/>
+  </g>
+  <text x="120" y="34" text-anchor="middle" font-size="21" fill="#cbd5e1">input</text>
+  <text x="380" y="34" text-anchor="middle" font-size="21" fill="#cbd5e1">hidden</text>
+  <text x="650" y="34" text-anchor="middle" font-size="21" fill="#cbd5e1">output</text>
+
+  <text x="120" y="81" text-anchor="middle" font-size="18">x₁</text>
+  <text x="120" y="151" text-anchor="middle" font-size="18">x₂</text>
+  <text x="120" y="221" text-anchor="middle" font-size="18">x₃</text>
+  <text x="380" y="106" text-anchor="middle" font-size="18">h₁</text>
+  <text x="380" y="196" text-anchor="middle" font-size="18">h₂</text>
+  <text x="650" y="151" text-anchor="middle" font-size="18">ŷ</text>
+
+  <text x="430" y="265" text-anchor="middle" font-size="19" fill="#94a3b8">Inputs are transformed into hidden representations, then into predictions.</text>
+</svg>
+      </div>
+      <div class="diagram-caption">A minimal feedforward neural network: inputs → hidden layer → output.</div>
+    </figure>
+    
+<p>Supervised learning starts with data pairs:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+(x_1,y_1),(x_2,y_2),\dots,(x_N,y_N)
+\]</div>
+  <pre class="math-fallback">(x_1,y_1),(x_2,y_2),\dots,(x_N,y_N)</pre>
+</div>
+
+<p>Each \(x_i\) is an input and \(y_i\) is the true output. A model predicts:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\hat{y}_i=f_\theta(x_i)
+\]</div>
+  <pre class="math-fallback">\hat{y}_i=f_\theta(x_i)</pre>
+</div>
+
+<p>The simplest model is linear regression:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\hat{y}=\mathbf{w}^T\mathbf{x}+b
+\]</div>
+  <pre class="math-fallback">\hat{y}=\mathbf{w}^T\mathbf{x}+b</pre>
+</div>
+
+<p>For one example, squared error loss is:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\ell_i=(y_i-\hat{y}_i)^2
+\]</div>
+  <pre class="math-fallback">\ell_i=(y_i-\hat{y}_i)^2</pre>
+</div>
+
+<p>For the whole dataset:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+L(\mathbf{w},b)=
+\frac{1}{N}\sum_{i=1}^{N}
+(y_i-(\mathbf{w}^T\mathbf{x}_i+b))^2
+\]</div>
+  <pre class="math-fallback">L(\mathbf{w},b)=
+\frac{1}{N}\sum_{i=1}^{N}
+(y_i-(\mathbf{w}^T\mathbf{x}_i+b))^2</pre>
+</div>
+
+<p>The training objective is:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+(\mathbf{w}^*,b^*)=
+\arg\min_{\mathbf{w},b}L(\mathbf{w},b)
+\]</div>
+  <pre class="math-fallback">(\mathbf{w}^*,b^*)=
+\arg\min_{\mathbf{w},b}L(\mathbf{w},b)</pre>
+</div>
+
+<p>For classification, logistic regression uses:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\hat{p}=\sigma(\mathbf{w}^T\mathbf{x}+b)
+\]</div>
+  <pre class="math-fallback">\hat{p}=\sigma(\mathbf{w}^T\mathbf{x}+b)</pre>
+</div>
+
+<p>where sigmoid maps a score into a probability:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\sigma(z)=\frac{1}{1+e^{-z}}
+\]</div>
+  <pre class="math-fallback">\sigma(z)=\frac{1}{1+e^{-z}}</pre>
+</div>
+
+<p>A neural network stacks transformations:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{h}_1=\sigma(W_1\mathbf{x}+\mathbf{b}_1)
+\]</div>
+  <pre class="math-fallback">\mathbf{h}_1=\sigma(W_1\mathbf{x}+\mathbf{b}_1)</pre>
+</div>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\hat{y}=W_2\mathbf{h}_1+\mathbf{b}_2
+\]</div>
+  <pre class="math-fallback">\hat{y}=W_2\mathbf{h}_1+\mathbf{b}_2</pre>
+</div>
+
+<p>The key shift is representation learning. Instead of only fitting a final output, a neural network learns intermediate hidden representations:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{h}=g_\theta(\mathbf{x})
+\]</div>
+  <pre class="math-fallback">\mathbf{h}=g_\theta(\mathbf{x})</pre>
+</div>
+
+<p>For your work, this is important because hidden representations might encode spatial-affective patterns, policy terrain states, or organisational dynamics that are difficult to hand-define.</p>
+
+<p>The conceptual takeaway:</p>
+
+<blockquote>Machine learning is not magic; it is function fitting through iterative optimisation over parameterised transformations.</blockquote>
+
+    </div>
+  </details>
+</section>
+
+<section id="lesson-10" class="lesson">
+  <details>
+    <summary><span class="lesson-number">10</span><span class="lesson-title">Lesson 10 — Attention and Transformers: Learned Relational Relevance</span></summary>
+    <div class="lesson-body">
+      
+
+    <figure class="diagram-card">
+      <div class="diagram-title">Diagram — Attention: Query, Key, Value</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 860 285" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <rect x="70" y="48" width="130" height="170" rx="16" fill="#2a3345" stroke="#4a5568"/>
+  <text x="135" y="78" text-anchor="middle" font-size="24">Input X</text>
+  <text x="135" y="114" text-anchor="middle" font-size="18">tokens / items</text>
+
+  <rect x="270" y="35" width="120" height="60" rx="14" fill="#1e3a5f" stroke="#3b82f6"/>
+  <rect x="270" y="113" width="120" height="60" rx="14" fill="#2d1f4e" stroke="#7c3aed"/>
+  <rect x="270" y="191" width="120" height="60" rx="14" fill="#1a3d2b" stroke="#22c55e"/>
+  <text x="330" y="72" text-anchor="middle" font-size="22">Q</text>
+  <text x="330" y="150" text-anchor="middle" font-size="22">K</text>
+  <text x="330" y="228" text-anchor="middle" font-size="22">V</text>
+
+  <line x1="200" y1="133" x2="270" y2="65" stroke="#94a3b8" stroke-width="2.5"/>
+  <line x1="200" y1="133" x2="270" y2="143" stroke="#94a3b8" stroke-width="2.5"/>
+  <line x1="200" y1="133" x2="270" y2="221" stroke="#94a3b8" stroke-width="2.5"/>
+
+  <rect x="500" y="82" width="140" height="110" rx="18" fill="#3d2a12" stroke="#f97316"/>
+  <text x="570" y="118" text-anchor="middle" font-size="18">compare Q with K</text>
+  <text x="570" y="146" text-anchor="middle" font-size="18">softmax weights</text>
+  <text x="570" y="174" text-anchor="middle" font-size="18">mix V</text>
+
+  <line x1="390" y1="65" x2="500" y2="118" stroke="#94a3b8" stroke-width="2.5"/>
+  <line x1="390" y1="143" x2="500" y2="136" stroke="#94a3b8" stroke-width="2.5"/>
+  <line x1="390" y1="221" x2="500" y2="161" stroke="#94a3b8" stroke-width="2.5"/>
+
+  <rect x="700" y="104" width="95" height="65" rx="14" fill="#1a3d2b" stroke="#22c55e"/>
+  <text x="748" y="145" text-anchor="middle" font-size="21">output</text>
+  <line x1="640" y1="137" x2="700" y2="137" stroke="#94a3b8" stroke-width="2.5"/>
+
+  <text x="430" y="272" text-anchor="middle" font-size="18" fill="#94a3b8">Each element learns which other elements matter for interpreting it.</text>
+</svg>
+      </div>
+      <div class="diagram-caption">A simplified attention pipeline: input X projected to Q, K, V, then recombined.</div>
+    </figure>
+    
+<p>Attention is one of the central mathematical mechanisms of modern AI. Its core purpose is:</p>
+
+<blockquote>Let each element decide which other elements are relevant to interpreting it.</blockquote>
+
+<p>Given input matrix \(X\), attention creates three learned projections:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+Q=XW_Q
+\]</div>
+  <pre class="math-fallback">Q=XW_Q</pre>
+</div>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+K=XW_K
+\]</div>
+  <pre class="math-fallback">K=XW_K</pre>
+</div>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+V=XW_V
+\]</div>
+  <pre class="math-fallback">V=XW_V</pre>
+</div>
+
+<p>Queries \(Q\) ask: what am I looking for?</p>
+<p>Keys \(K\) say: what do I contain or offer?</p>
+<p>Values \(V\) say: what information should be passed along if attended to?</p>
+
+<p>The attention equation is:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathrm{Attention}(Q,K,V)=
+\mathrm{softmax}\left(
+\frac{QK^T}{\sqrt{d_k}}
+\right)V
+\]</div>
+  <pre class="math-fallback">\mathrm{Attention}(Q,K,V)=
+\mathrm{softmax}\left(
+\frac{QK^T}{\sqrt{d_k}}
+\right)V</pre>
+</div>
+
+<p>Step by step:</p>
+
+<ul>
+<li>\(QK^T\): compare every query with every key.</li>
+<li>\(\sqrt{d_k}\): scale scores to stabilise training.</li>
+<li>\(\mathrm{softmax}\): turn scores into weights.</li>
+<li>\(V\): mix value vectors using those weights.</li>
+</ul>
+
+<p>So the sentence is:</p>
+
+<blockquote>Compare elements, convert comparisons into relevance weights, then mix information accordingly.</blockquote>
+
+<p>This is not only useful for language. It gives a mathematical intuition for relational interpretation.</p>
+
+<p>In architecture, a threshold might “attend” to visibility, sound, adjacent programme, crowd density, and climatic condition. In PTM, a housing affordability variable may attend to wage growth, interest rates, land supply, fertility, political trust, and transport access.</p>
+
+<p>The deeper idea is that meaning is not stored only inside isolated elements. Meaning is recomposed relationally.</p>
+
+<p>The conceptual takeaway:</p>
+
+<blockquote>Attention is a learned relevance field.</blockquote>
+
+    </div>
+  </details>
+</section>
+
+<section id="lesson-11" class="lesson">
+  <details>
+    <summary><span class="lesson-number">11</span><span class="lesson-title">Lesson 11 — Latent Variables, Variational Inference, and the Free Energy Bridge</span></summary>
+    <div class="lesson-body">
+      
+
+    <figure class="diagram-card">
+      <div class="diagram-title">Diagram — Latent Variable / VAE Intuition</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 860 270" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#cbd5e1"/>
+    </marker>
+  </defs>
+  <rect x="45" y="85" width="170" height="100" rx="18" fill="#2a3345" stroke="#4a5568"/>
+  <text x="130" y="122" text-anchor="middle" font-size="25">x</text>
+  <text x="130" y="152" text-anchor="middle" font-size="18" fill="#94a3b8">observed data</text>
+
+  <line x1="215" y1="135" x2="340" y2="135" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow11)"/>
+  <rect x="340" y="58" width="180" height="155" rx="18" fill="#1e3a5f" stroke="#3b82f6"/>
+  <text x="430" y="98" text-anchor="middle" font-size="22">encoder</text>
+  <text x="430" y="129" text-anchor="middle" font-size="18">q(z|x)</text>
+  <circle cx="430" cy="170" r="28" fill="#fff" stroke="#3b82f6"/>
+  <text x="430" y="177" text-anchor="middle" font-size="24">z</text>
+
+  <line x1="520" y1="135" x2="650" y2="135" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow11)"/>
+  <rect x="650" y="85" width="165" height="100" rx="18" fill="#1a3d2b" stroke="#22c55e"/>
+  <text x="732" y="122" text-anchor="middle" font-size="22">decoder</text>
+  <text x="732" y="150" text-anchor="middle" font-size="18">p(x|z)</text>
+
+  <text x="430" y="248" text-anchor="middle" font-size="19" fill="#94a3b8">Observed data is compressed into a latent code, then reconstructed.</text>
+</svg>
+      </div>
+      <div class="diagram-caption">Encoder → latent variable z → decoder.</div>
+    </figure>
+    
+<p>A latent variable is a hidden variable that helps explain observed data.</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+z=\text{latent variable}
+\]</div>
+  <pre class="math-fallback">z=\text{latent variable}</pre>
+</div>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+x=\text{observed data}
+\]</div>
+  <pre class="math-fallback">x=\text{observed data}</pre>
+</div>
+
+<p>A generative model says hidden causes generate observations:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+p_\theta(x,z)=p_\theta(x\mid z)p(z)
+\]</div>
+  <pre class="math-fallback">p_\theta(x,z)=p_\theta(x\mid z)p(z)</pre>
+</div>
+
+<p>Read:</p>
+
+<blockquote>The joint probability of observation and latent variable factorises into a prior over latent variables and a likelihood that generates observations from latent causes.</blockquote>
+
+<p>The generative story is:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+z\sim p(z)
+\]</div>
+  <pre class="math-fallback">z\sim p(z)</pre>
+</div>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+x\sim p_\theta(x\mid z)
+\]</div>
+  <pre class="math-fallback">x\sim p_\theta(x\mid z)</pre>
+</div>
+
+<p>But after observing \(x\), we want to infer \(z\):</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+p_\theta(z\mid x)
+\]</div>
+  <pre class="math-fallback">p_\theta(z\mid x)</pre>
+</div>
+
+<p>By Bayes:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+p_\theta(z\mid x)=
+\frac{p_\theta(x\mid z)p(z)}{p_\theta(x)}
+\]</div>
+  <pre class="math-fallback">p_\theta(z\mid x)=
+\frac{p_\theta(x\mid z)p(z)}{p_\theta(x)}</pre>
+</div>
+
+<p>The denominator is often difficult:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+p_\theta(x)=\int p_\theta(x\mid z)p(z)\,dz
+\]</div>
+  <pre class="math-fallback">p_\theta(x)=\int p_\theta(x\mid z)p(z)\,dz</pre>
+</div>
+
+<p>So we approximate the posterior:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+q_\phi(z\mid x)\approx p_\theta(z\mid x)
+\]</div>
+  <pre class="math-fallback">q_\phi(z\mid x)\approx p_\theta(z\mid x)</pre>
+</div>
+
+<p>The variational objective, the ELBO, is:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathcal{L}(\theta,\phi)=
+\mathbb{E}_{q_\phi(z\mid x)}
+[\log p_\theta(x\mid z)]
+-
+\mathrm{KL}(q_\phi(z\mid x)\|p(z))
+\]</div>
+  <pre class="math-fallback">\mathcal{L}(\theta,\phi)=
+\mathbb{E}_{q_\phi(z\mid x)}
+[\log p_\theta(x\mid z)]
+-
+\mathrm{KL}(q_\phi(z\mid x)\|p(z))</pre>
+</div>
+
+<p>The first term says: infer latents that reconstruct the data well. The second term says: keep the approximate posterior close to the prior.</p>
+
+<p>Free energy is often the negative ELBO:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+F=-\mathcal{L}
+\]</div>
+  <pre class="math-fallback">F=-\mathcal{L}</pre>
+</div>
+
+<p>In FEP terms, minimising free energy can be understood as improving the fit between approximate beliefs and the hidden causes of sensory observations.</p>
+
+<p>For architecture, \(z\) might be latent comfort, anxiety, curiosity, social permission, or perceived safety. For PTM, \(z\) might be latent public trust, affordability stress, institutional strain, or social fatigue.</p>
+
+<p>The conceptual takeaway:</p>
+
+<blockquote>When hidden causes are inaccessible, models learn approximate beliefs about them.</blockquote>
+
+    </div>
+  </details>
+</section>
+
+<section id="lesson-12" class="lesson">
+  <details>
+    <summary><span class="lesson-number">12</span><span class="lesson-title">Lesson 12 — Markov Blankets: Boundaries as Informational Structures</span></summary>
+    <div class="lesson-body">
+      
+
+    <figure class="diagram-card">
+      <div class="diagram-title">Diagram — Markov Blanket Structure</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 860 300" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="430" cy="150" rx="280" ry="120" fill="#f8fafc" stroke="#4a5568" stroke-width="2"/>
+  <ellipse cx="430" cy="150" rx="170" ry="78" fill="#2d1f4e" stroke="#7c3aed" stroke-width="2"/>
+  <circle cx="430" cy="150" r="55" fill="#1e3a5f" stroke="#3b82f6" stroke-width="2"/>
+  <text x="430" y="155" text-anchor="middle" font-size="24">μ</text>
+  <text x="430" y="182" text-anchor="middle" font-size="16" fill="#cbd5e1">internal states</text>
+
+  <rect x="300" y="125" width="70" height="50" rx="12" fill="#1a3d2b" stroke="#22c55e"/>
+  <rect x="490" y="125" width="70" height="50" rx="12" fill="#1a3d2b" stroke="#22c55e"/>
+  <text x="335" y="156" text-anchor="middle" font-size="22">s</text>
+  <text x="525" y="156" text-anchor="middle" font-size="22">a</text>
+
+  <text x="430" y="88" text-anchor="middle" font-size="18" fill="#c4b5fd">blanket states b = {s, a}</text>
+
+  <text x="140" y="153" text-anchor="middle" font-size="25" fill="#e2e8f0">η</text>
+  <text x="140" y="180" text-anchor="middle" font-size="16" fill="#cbd5e1">external states</text>
+
+  <line x1="195" y1="150" x2="300" y2="150" stroke="#94a3b8" stroke-width="2.8"/>
+  <line x1="370" y1="150" x2="375" y2="150" stroke="#94a3b8" stroke-width="2.8"/>
+  <line x1="485" y1="150" x2="560" y2="150" stroke="#94a3b8" stroke-width="2.8"/>
+  <line x1="560" y1="150" x2="690" y2="150" stroke="#94a3b8" stroke-width="2.8"/>
+
+  <text x="430" y="270" text-anchor="middle" font-size="18" fill="#94a3b8">Internal and external states are coupled through sensory and active blanket states.</text>
+</svg>
+      </div>
+      <div class="diagram-caption">A visualisation of internal states μ, external states η, and the sensory-active blanket.</div>
+    </figure>
+    
+<p>A Markov blanket is a mathematical way to describe a boundary, but not merely a physical boundary.</p>
+
+<p>First, conditional independence:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+A\perp B\mid C
+\]</div>
+  <pre class="math-fallback">A\perp B\mid C</pre>
+</div>
+
+<p>means:</p>
+
+<blockquote>\(A\) is independent of \(B\), given \(C\).</blockquote>
+
+<p>A Markov blanket of \(X\) satisfies:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+X\perp \text{Everything Else}\mid \mathrm{MB}(X)
+\]</div>
+  <pre class="math-fallback">X\perp \text{Everything Else}\mid \mathrm{MB}(X)</pre>
+</div>
+
+<p>This means that once we know the blanket, the rest of the world adds no further information about \(X\).</p>
+
+<p>In FEP discussions, a system is often described using:</p>
+
+<ul>
+<li>\(\mu\): internal states</li>
+<li>\(\eta\): external states</li>
+<li>\(s\): sensory states</li>
+<li>\(a\): active states</li>
+</ul>
+
+<p>The blanket is:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+b=\{s,a\}
+\]</div>
+  <pre class="math-fallback">b=\{s,a\}</pre>
+</div>
+
+<p>The key conditional independence is:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mu\perp \eta\mid b
+\]</div>
+  <pre class="math-fallback">\mu\perp \eta\mid b</pre>
+</div>
+
+<p>Read:</p>
+
+<blockquote>Internal states are conditionally independent of external states, given the sensory-active blanket.</blockquote>
+
+<p>This means the inside does not directly access the outside. It senses through sensory states and acts through active states.</p>
+
+<p>This is where the architectural relevance becomes powerful. A wall, door, window, screen, dashboard, threshold, corridor, or institution may participate in a Markov-blanket-like structure if it mediates what can be sensed and how action can occur.</p>
+
+<p>But we must be rigorous. We should not casually say “a wall is a Markov blanket.” More carefully:</p>
+
+<blockquote>A wall or threshold may be modelled as part of a Markov-blanket-like boundary if it mediates conditional dependencies between internal and external states.</blockquote>
+
+<p>For PTM, governance also has blankets. Government internal models do not directly access society. They sense through data, surveys, dashboards, complaints, media, and ground reports. They act through policy, communication, regulation, service redesign, and enforcement.</p>
+
+<p>The danger is a bad blanket: biased sensing and weak action channels.</p>
+
+<p>The conceptual takeaway:</p>
+
+<blockquote>Design operates on the sensory-active boundary conditions through which systems infer, adapt, and act.</blockquote>
+
+    </div>
+  </details>
+</section>
+
+<section id="lesson-13" class="lesson">
+  <details>
+    <summary><span class="lesson-number">13</span><span class="lesson-title">Lesson 13 — Graphs, Networks, and Graph Neural Networks</span></summary>
+    <div class="lesson-body">
+      
+
+    <figure class="diagram-card">
+      <div class="diagram-title">Diagram — Graph Neighbourhood Aggregation</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 860 280" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow13" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#cbd5e1"/>
+    </marker>
+  </defs>
+  <circle cx="250" cy="140" r="34" fill="#1e3a5f" stroke="#3b82f6"/>
+  <circle cx="160" cy="70" r="26" fill="#2a3345" stroke="#4a5568"/>
+  <circle cx="350" cy="85" r="26" fill="#2a3345" stroke="#4a5568"/>
+  <circle cx="365" cy="195" r="26" fill="#2a3345" stroke="#4a5568"/>
+  <circle cx="150" cy="205" r="26" fill="#2a3345" stroke="#4a5568"/>
+
+  <line x1="176" y1="83" x2="222" y2="119" stroke="#4a5568" stroke-width="2.3"/>
+  <line x1="327" y1="95" x2="281" y2="122" stroke="#4a5568" stroke-width="2.3"/>
+  <line x1="341" y1="181" x2="279" y2="158" stroke="#4a5568" stroke-width="2.3"/>
+  <line x1="173" y1="191" x2="221" y2="160" stroke="#4a5568" stroke-width="2.3"/>
+
+  <text x="250" y="147" text-anchor="middle" font-size="22">i</text>
+  <text x="430" y="80" font-size="18" fill="#cbd5e1">aggregate neighbour information</text>
+  <line x1="415" y1="140" x2="560" y2="140" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow13)"/>
+
+  <rect x="560" y="85" width="220" height="110" rx="18" fill="#1a3d2b" stroke="#22c55e"/>
+  <text x="670" y="121" text-anchor="middle" font-size="20">hᵢ⁽ᵏ⁺¹⁾</text>
+  <text x="670" y="151" text-anchor="middle" font-size="17" fill="#94a3b8">updated node representation</text>
+
+  <text x="430" y="252" text-anchor="middle" font-size="18" fill="#94a3b8">A node learns from the structure and features of its neighbours.</text>
+</svg>
+      </div>
+      <div class="diagram-caption">A node-centered view of how neighbourhood aggregation works in a GNN.</div>
+    </figure>
+    
+<p>A graph is a mathematical structure for relations:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+G=(V,E)
+\]</div>
+  <pre class="math-fallback">G=(V,E)</pre>
+</div>
+
+<p>where \(V\) is the set of nodes and \(E\) is the set of edges.</p>
+
+<p>In architecture, nodes might be rooms, corridors, stairs, atria, plazas, thresholds. Edges might be adjacency, accessibility, visibility, acoustic leakage, or thermal coupling.</p>
+
+<p>In policy, nodes might be housing, wages, transport, fertility, trust, eldercare, and public sentiment. Edges might be dependencies, causal assumptions, feedback loops, or learned relations.</p>
+
+<p>The adjacency matrix:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+A_{ij}
+\]</div>
+  <pre class="math-fallback">A_{ij}</pre>
+</div>
+
+<p>tells whether or how strongly node \(i\) connects to node \(j\).</p>
+
+<p>The neighbourhood of a node is:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathcal{N}(i)
+\]</div>
+  <pre class="math-fallback">\mathcal{N}(i)</pre>
+</div>
+
+<p>Graph neural networks update a node’s representation by aggregating information from neighbours:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{h}_i^{(k+1)}=
+\sigma\left(
+W^{(k)}
+\sum_{j\in\mathcal{N}(i)}
+\mathbf{h}_j^{(k)}
+\right)
+\]</div>
+  <pre class="math-fallback">\mathbf{h}_i^{(k+1)}=
+\sigma\left(
+W^{(k)}
+\sum_{j\in\mathcal{N}(i)}
+\mathbf{h}_j^{(k)}
+\right)</pre>
+</div>
+
+<p>Read:</p>
+
+<blockquote>The next representation of node \(i\) is a learned transformation of the representations of its neighbours.</blockquote>
+
+<p>This is a powerful idea because in many systems, an entity’s meaning depends on its neighbourhood.</p>
+
+<p>A room is not only its area, material, or programme. It is also what it connects to, what it sees, who passes through it, what thresholds it creates, and what flows it mediates.</p>
+
+<p>A policy variable is not only its current value. It is also its dependencies, feedback loops, lags, constraints, and coupling to other variables.</p>
+
+<p>Graph Attention Networks add learned weights:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{h}_i^{(k+1)}=
+\sigma\left(
+\sum_{j\in\mathcal{N}(i)}
+\alpha_{ij}W\mathbf{h}_j^{(k)}
+\right)
+\]</div>
+  <pre class="math-fallback">\mathbf{h}_i^{(k+1)}=
+\sigma\left(
+\sum_{j\in\mathcal{N}(i)}
+\alpha_{ij}W\mathbf{h}_j^{(k)}
+\right)</pre>
+</div>
+
+<p>where \(\alpha_{ij}\) is the learned importance of neighbour \(j\) for node \(i\).</p>
+
+<p>The conceptual takeaway:</p>
+
+<blockquote>A vector describes what a thing is. A graph describes how things relate. A GNN learns how each thing should be understood through its relational neighbourhood.</blockquote>
+
+    </div>
+  </details>
+</section>
+
+<section id="lesson-14" class="lesson">
+  <details>
+    <summary><span class="lesson-number">14</span><span class="lesson-title">Lesson 14 — State-Space Models and Kalman Filtering</span></summary>
+    <div class="lesson-body">
+      
+
+    <figure class="diagram-card">
+      <div class="diagram-title">Diagram — State-Space Model and Kalman Update</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 860 300" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow14" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#cbd5e1"/>
+    </marker>
+  </defs>
+  <rect x="75" y="65" width="170" height="70" rx="16" fill="#1e3a5f" stroke="#3b82f6"/>
+  <text x="160" y="108" text-anchor="middle" font-size="24">xₜ</text>
+  <text x="160" y="128" text-anchor="middle" font-size="15" fill="#94a3b8">hidden state</text>
+
+  <rect x="330" y="45" width="210" height="110" rx="18" fill="#2d1f4e" stroke="#7c3aed"/>
+  <text x="435" y="84" text-anchor="middle" font-size="20">state update</text>
+  <text x="435" y="112" text-anchor="middle" font-size="18">A xₜ + B uₜ + wₜ</text>
+
+  <rect x="620" y="65" width="170" height="70" rx="16" fill="#1a3d2b" stroke="#22c55e"/>
+  <text x="705" y="108" text-anchor="middle" font-size="24">xₜ₊₁</text>
+  <text x="705" y="128" text-anchor="middle" font-size="15" fill="#94a3b8">next hidden state</text>
+
+  <line x1="245" y1="100" x2="330" y2="100" stroke="#94a3b8" stroke-width="2.8" marker-end="url(#arrow14)"/>
+  <line x1="540" y1="100" x2="620" y2="100" stroke="#94a3b8" stroke-width="2.8" marker-end="url(#arrow14)"/>
+
+  <line x1="705" y1="135" x2="705" y2="205" stroke="#94a3b8" stroke-width="2.4" marker-end="url(#arrow14)"/>
+  <rect x="615" y="205" width="180" height="60" rx="15" fill="#3d2a12" stroke="#f97316"/>
+  <text x="705" y="242" text-anchor="middle" font-size="22">yₜ₊₁ = Cxₜ₊₁ + vₜ₊₁</text>
+
+  <text x="420" y="275" text-anchor="middle" font-size="18" fill="#94a3b8">Hidden states evolve; noisy observations provide evidence for updating belief.</text>
+</svg>
+      </div>
+      <div class="diagram-caption">The basic state-space pattern: hidden state evolution plus observation.</div>
+    </figure>
+    
+<p>State-space models give a formal language for hidden states evolving over time while observations remain noisy.</p>
+
+<p>The linear state-space model is:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{x}_{t+1}=A\mathbf{x}_t+B\mathbf{u}_t+\mathbf{w}_t
+\]</div>
+  <pre class="math-fallback">\mathbf{x}_{t+1}=A\mathbf{x}_t+B\mathbf{u}_t+\mathbf{w}_t</pre>
+</div>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{y}_t=C\mathbf{x}_t+\mathbf{v}_t
+\]</div>
+  <pre class="math-fallback">\mathbf{y}_t=C\mathbf{x}_t+\mathbf{v}_t</pre>
+</div>
+
+<p>Decode:</p>
+
+<ul>
+<li>\(\mathbf{x}_t\): hidden state at time \(t\)</li>
+<li>\(\mathbf{y}_t\): observation at time \(t\)</li>
+<li>\(\mathbf{u}_t\): control input or intervention</li>
+<li>\(\mathbf{w}_t\): process noise</li>
+<li>\(\mathbf{v}_t\): observation noise</li>
+<li>\(A\): state transition matrix</li>
+<li>\(B\): control matrix</li>
+<li>\(C\): observation matrix</li>
+</ul>
+
+<p>This distinction between hidden state and observation is central. A policy system’s true latent state is not the same as survey data. A user’s spatial comfort is not the same as movement speed. A student’s understanding is not the same as test performance.</p>
+
+<p>Kalman filtering solves inference for linear Gaussian state-space models. It alternates between prediction and update.</p>
+
+<p>The prediction step estimates:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\hat{\mathbf{x}}_{t|t-1}
+\]</div>
+  <pre class="math-fallback">\hat{\mathbf{x}}_{t|t-1}</pre>
+</div>
+
+<p>meaning the predicted state at time \(t\), given observations up to \(t-1\).</p>
+
+<p>The update uses the innovation or prediction error:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{r}_t=\mathbf{y}_t-C\hat{\mathbf{x}}_{t|t-1}
+\]</div>
+  <pre class="math-fallback">\mathbf{r}_t=\mathbf{y}_t-C\hat{\mathbf{x}}_{t|t-1}</pre>
+</div>
+
+<p>The Kalman update is:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\hat{\mathbf{x}}_{t|t}
+=
+\hat{\mathbf{x}}_{t|t-1}
++
+K_t\mathbf{r}_t
+\]</div>
+  <pre class="math-fallback">\hat{\mathbf{x}}_{t|t}
+=
+\hat{\mathbf{x}}_{t|t-1}
++
+K_t\mathbf{r}_t</pre>
+</div>
+
+<p>Read:</p>
+
+<blockquote>Updated belief equals predicted belief plus Kalman-gain-weighted prediction error.</blockquote>
+
+<p>This is a concrete mathematical version of predictive processing. The system predicts what it should observe, compares with what it actually observes, and updates belief according to uncertainty.</p>
+
+<p>For PTM, this gives a rigorous structure:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{x}_t=\text{latent policy terrain}
+\]</div>
+  <pre class="math-fallback">\mathbf{x}_t=\text{latent policy terrain}</pre>
+</div>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{y}_t=\text{observed public indicators}
+\]</div>
+  <pre class="math-fallback">\mathbf{y}_t=\text{observed public indicators}</pre>
+</div>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{u}_t=\text{policy intervention}
+\]</div>
+  <pre class="math-fallback">\mathbf{u}_t=\text{policy intervention}</pre>
+</div>
+
+<p>For computational architecture:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{x}_t=\text{latent comfort/social state}
+\]</div>
+  <pre class="math-fallback">\mathbf{x}_t=\text{latent comfort/social state}</pre>
+</div>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{y}_t=\text{observed behaviour/sensor data}
+\]</div>
+  <pre class="math-fallback">\mathbf{y}_t=\text{observed behaviour/sensor data}</pre>
+</div>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{u}_t=\text{design or environmental adjustment}
+\]</div>
+  <pre class="math-fallback">\mathbf{u}_t=\text{design or environmental adjustment}</pre>
+</div>
+
+<p>The conceptual takeaway:</p>
+
+<blockquote>State-space models describe hidden states evolving under uncertainty, observed through noisy signals, and updated through prediction error.</blockquote>
+
+    </div>
+  </details>
+</section>
+
+<section id="lesson-15" class="lesson">
+  <details>
+    <summary><span class="lesson-number">15</span><span class="lesson-title">Lesson 15 — Reinforcement Learning and Active Decision-Making</span></summary>
+    <div class="lesson-body">
+      
+
+    <figure class="diagram-card">
+      <div class="diagram-title">Diagram — Reinforcement Learning Loop</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 860 250" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow15" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#cbd5e1"/>
+    </marker>
+  </defs>
+  <rect x="120" y="65" width="190" height="110" rx="22" fill="#1e3a5f" stroke="#3b82f6"/>
+  <text x="215" y="108" text-anchor="middle" font-size="26">Agent</text>
+  <text x="215" y="138" text-anchor="middle" font-size="18" fill="#94a3b8">policy π(a|s)</text>
+
+  <rect x="550" y="65" width="190" height="110" rx="22" fill="#1a3d2b" stroke="#22c55e"/>
+  <text x="645" y="108" text-anchor="middle" font-size="26">Environment</text>
+  <text x="645" y="138" text-anchor="middle" font-size="18" fill="#94a3b8">state transitions</text>
+
+  <line x1="310" y1="100" x2="550" y2="100" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow15)"/>
+  <text x="430" y="88" text-anchor="middle" font-size="18" fill="#cbd5e1">action aₜ</text>
+
+  <line x1="550" y1="145" x2="310" y2="145" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow15)"/>
+  <text x="430" y="167" text-anchor="middle" font-size="18" fill="#cbd5e1">reward rₜ, next state sₜ₊₁</text>
+
+  <text x="430" y="220" text-anchor="middle" font-size="19" fill="#94a3b8">The agent acts, the environment responds, and learning updates future action choices.</text>
+</svg>
+      </div>
+      <div class="diagram-caption">Agent ↔ environment feedback loop in reinforcement learning.</div>
+    </figure>
+    
+<p>Reinforcement learning moves from inferring the world to acting in the world.</p>
+
+<p>The basic loop is:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+s_t\rightarrow a_t\rightarrow r_t,s_{t+1}
+\]</div>
+  <pre class="math-fallback">s_t\rightarrow a_t\rightarrow r_t,s_{t+1}</pre>
+</div>
+
+<p>At time \(t\), the agent is in state \(s_t\), takes action \(a_t\), receives reward \(r_t\), and the environment moves to \(s_{t+1}\).</p>
+
+<p>A policy is:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\pi(a\mid s)
+\]</div>
+  <pre class="math-fallback">\pi(a\mid s)</pre>
+</div>
+
+<p>Read:</p>
+
+<blockquote>The probability of choosing action \(a\), given state \(s\).</blockquote>
+
+<p>The transition dynamics are:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P(s'\mid s,a)
+\]</div>
+  <pre class="math-fallback">P(s'\mid s,a)</pre>
+</div>
+
+<p>meaning the probability of next state \(s'\) after action \(a\) in state \(s\).</p>
+
+<p>The return is cumulative discounted reward:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+G_t=r_t+\gamma r_{t+1}+\gamma^2r_{t+2}+\dots
+\]</div>
+  <pre class="math-fallback">G_t=r_t+\gamma r_{t+1}+\gamma^2r_{t+2}+\dots</pre>
+</div>
+
+<p>where \(\gamma\) is the discount factor. If \(\gamma\) is low, the agent is short-termist. If \(\gamma\) is close to 1, the agent values long-term outcomes.</p>
+
+<p>The action-value function is:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+Q^\pi(s,a)=
+\mathbb{E}_\pi[G_t\mid s_t=s,a_t=a]
+\]</div>
+  <pre class="math-fallback">Q^\pi(s,a)=
+\mathbb{E}_\pi[G_t\mid s_t=s,a_t=a]</pre>
+</div>
+
+<p>Read:</p>
+
+<blockquote>How good is it to take action \(a\) in state \(s\), then follow policy \(\pi\)?</blockquote>
+
+<p>Q-learning updates:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+Q(s,a)\leftarrow
+Q(s,a)+\alpha[
+r+\gamma\max_{a'}Q(s',a')-Q(s,a)]
+\]</div>
+  <pre class="math-fallback">Q(s,a)\leftarrow
+Q(s,a)+\alpha[
+r+\gamma\max_{a'}Q(s',a')-Q(s,a)]</pre>
+</div>
+
+<p>The bracketed term is temporal-difference error:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\delta=r+\gamma\max_{a'}Q(s',a')-Q(s,a)
+\]</div>
+  <pre class="math-fallback">\delta=r+\gamma\max_{a'}Q(s',a')-Q(s,a)</pre>
+</div>
+
+<p>In policy and architecture, RL is conceptually powerful but ethically dangerous if reward is poorly specified. If architecture optimises dwell time only, it may produce confusion or entrapment. If policy optimises complaint reduction only, it may suppress reporting rather than solve problems.</p>
+
+<p>This links to your governance instincts:</p>
+
+<blockquote>Action requires value specification, not merely prediction.</blockquote>
+
+    </div>
+  </details>
+</section>
+
+<section id="lesson-16" class="lesson">
+  <details>
+    <summary><span class="lesson-number">16</span><span class="lesson-title">Lesson 16 — Information Theory: Surprise, Entropy, KL, and Mutual Information</span></summary>
+    <div class="lesson-body">
+      
+
+    <figure class="diagram-card">
+      <div class="diagram-title">Diagram — Entropy, KL, and Mutual Information</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 860 285" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <rect x="55" y="55" width="215" height="165" rx="18" fill="#182540" stroke="#3b82f6"/>
+  <text x="162" y="88" text-anchor="middle" font-size="22">Entropy H(X)</text>
+  <text x="162" y="122" text-anchor="middle" font-size="16" fill="#94a3b8">How spread out are possible outcomes?</text>
+  <g fill="#60a5fa">
+    <circle cx="110" cy="175" r="8"/><circle cx="145" cy="160" r="8"/><circle cx="180" cy="187" r="8"/>
+    <circle cx="215" cy="150" r="8"/>
+  </g>
+
+  <rect x="325" y="55" width="215" height="165" rx="18" fill="#261b47" stroke="#7c3aed"/>
+  <text x="432" y="88" text-anchor="middle" font-size="22">KL(p||q)</text>
+  <text x="432" y="122" text-anchor="middle" font-size="16" fill="#94a3b8">How mismatched is q from p?</text>
+  <path d="M365 180 C400 130, 458 130, 500 185" fill="none" stroke="#7c3aed" stroke-width="4"/>
+  <path d="M365 190 C410 170, 455 155, 500 160" fill="none" stroke="#c4b5fd" stroke-width="4"/>
+
+  <rect x="595" y="55" width="215" height="165" rx="18" fill="#122b1e" stroke="#22c55e"/>
+  <text x="702" y="88" text-anchor="middle" font-size="22">I(X;Y)</text>
+  <text x="702" y="122" text-anchor="middle" font-size="16" fill="#94a3b8">How much does Y tell us about X?</text>
+  <circle cx="675" cy="175" r="34" fill="#166534" stroke="#16a34a"/>
+  <circle cx="725" cy="175" r="34" fill="#22c55e" stroke="#16a34a"/>
+  <text x="665" y="181" font-size="16">X</text>
+  <text x="734" y="181" font-size="16">Y</text>
+
+  <text x="430" y="255" text-anchor="middle" font-size="18" fill="#94a3b8">Information theory measures uncertainty, mismatch, and shared information.</text>
+</svg>
+      </div>
+      <div class="diagram-caption">Three key information-theoretic ideas shown side by side.</div>
+    </figure>
+    
+<p>Information theory measures uncertainty, surprise, compression, and dependence.</p>
+
+<p>The surprise of an event is:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+I(x)=-\log p(x)
+\]</div>
+  <pre class="math-fallback">I(x)=-\log p(x)</pre>
+</div>
+
+<p>If \(p(x)\) is high, surprise is low. If \(p(x)\) is low, surprise is high.</p>
+
+<p>Entropy is expected surprise:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+H(X)=-\sum_x p(x)\log p(x)
+\]</div>
+  <pre class="math-fallback">H(X)=-\sum_x p(x)\log p(x)</pre>
+</div>
+
+<p>Low entropy means the outcome is predictable. High entropy means possibilities are spread out.</p>
+
+<p>Cross-entropy is:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+H(p,q)=-\sum_x p(x)\log q(x)
+\]</div>
+  <pre class="math-fallback">H(p,q)=-\sum_x p(x)\log q(x)</pre>
+</div>
+
+<p>It measures expected surprise when using model distribution \(q\) for data generated by true distribution \(p\).</p>
+
+<p>KL divergence is:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathrm{KL}(p\|q)=
+\sum_x p(x)\log\frac{p(x)}{q(x)}
+\]</div>
+  <pre class="math-fallback">\mathrm{KL}(p\|q)=
+\sum_x p(x)\log\frac{p(x)}{q(x)}</pre>
+</div>
+
+<p>It measures extra surprise from using \(q\) instead of \(p\). It is not symmetric:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathrm{KL}(p\|q)\neq \mathrm{KL}(q\|p)
+\]</div>
+  <pre class="math-fallback">\mathrm{KL}(p\|q)\neq \mathrm{KL}(q\|p)</pre>
+</div>
+
+<p>Mutual information is:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+I(X;Y)=H(X)-H(X\mid Y)
+\]</div>
+  <pre class="math-fallback">I(X;Y)=H(X)-H(X\mid Y)</pre>
+</div>
+
+<p>Read:</p>
+
+<blockquote>How much does knowing \(Y\) reduce uncertainty about \(X\)?</blockquote>
+
+<p>This is useful for your work because you often care about whether one signal truly tells us something about another hidden state. For example:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+I(\text{visibility};\text{dwell time})
+\]</div>
+  <pre class="math-fallback">I(\text{visibility};\text{dwell time})</pre>
+</div>
+
+<p>asks how much visibility reduces uncertainty about dwell time.</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+I(\text{dashboard signal};\text{actual social condition})
+\]</div>
+  <pre class="math-fallback">I(\text{dashboard signal};\text{actual social condition})</pre>
+</div>
+
+<p>asks how much a governance dashboard actually knows about lived reality.</p>
+
+<p>The conceptual takeaway:</p>
+
+<blockquote>Information theory gives mathematical precision to uncertainty, signal, surprise, relevance, and dependence.</blockquote>
+
+    </div>
+  </details>
+</section>
+
+<section id="lesson-17" class="lesson">
+  <details>
+    <summary><span class="lesson-number">17</span><span class="lesson-title">Lesson 17 — Bayesian Modelling and Hierarchical Models</span></summary>
+    <div class="lesson-body">
+      
+<p>Bayesian modelling applies Bayes’ theorem to parameters:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+p(\theta\mid D)=
+\frac{p(D\mid \theta)p(\theta)}{p(D)}
+\]</div>
+  <pre class="math-fallback">p(\theta\mid D)=
+\frac{p(D\mid \theta)p(\theta)}{p(D)}</pre>
+</div>
+
+<p>Here \(\theta\) represents model parameters and \(D\) represents data.</p>
+
+<p>Unlike ordinary fitting, Bayesian modelling does not only produce one best estimate. It gives a distribution over plausible parameter values:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+p(\theta\mid D)
+\]</div>
+  <pre class="math-fallback">p(\theta\mid D)</pre>
+</div>
+
+<p>This is important because it keeps uncertainty visible.</p>
+
+<p>A Bayesian regression model may be written:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+y_i\sim \mathcal{N}(\mu_i,\sigma^2)
+\]</div>
+  <pre class="math-fallback">y_i\sim \mathcal{N}(\mu_i,\sigma^2)</pre>
+</div>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mu_i=\alpha+\beta x_i
+\]</div>
+  <pre class="math-fallback">\mu_i=\alpha+\beta x_i</pre>
+</div>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\alpha\sim \mathcal{N}(0,10^2)
+\]</div>
+  <pre class="math-fallback">\alpha\sim \mathcal{N}(0,10^2)</pre>
+</div>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\beta\sim \mathcal{N}(0,5^2)
+\]</div>
+  <pre class="math-fallback">\beta\sim \mathcal{N}(0,5^2)</pre>
+</div>
+
+<p>This is a generative story:</p>
+
+<ul>
+<li>Choose plausible intercept \(\alpha\).</li>
+<li>Choose plausible slope \(\beta\).</li>
+<li>For each data point, compute expected value \(\mu_i\).</li>
+<li>Generate observed \(y_i\) around \(\mu_i\) with noise.</li>
+</ul>
+
+<p>Hierarchical models allow parameters to vary across groups while sharing information. For example:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+y_{ij}\sim \mathcal{N}(\alpha_j+\beta_jx_{ij},\sigma^2)
+\]</div>
+  <pre class="math-fallback">y_{ij}\sim \mathcal{N}(\alpha_j+\beta_jx_{ij},\sigma^2)</pre>
+</div>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\alpha_j\sim \mathcal{N}(\mu_\alpha,\sigma_\alpha^2)
+\]</div>
+  <pre class="math-fallback">\alpha_j\sim \mathcal{N}(\mu_\alpha,\sigma_\alpha^2)</pre>
+</div>
+
+<p>Here group \(j\) has its own intercept, but group intercepts are drawn from a shared population distribution.</p>
+
+<p>This creates partial pooling. Small groups borrow strength from the whole dataset; large groups can stand more independently. This is extremely useful in design, education, policy, and urban research where data are uneven across sites or cohorts.</p>
+
+<p>The conceptual takeaway:</p>
+
+<blockquote>Bayesian modelling turns assumptions into visible probabilistic structure.</blockquote>
+
+    </div>
+  </details>
+</section>
+
+<section id="lesson-18" class="lesson">
+  <details>
+    <summary><span class="lesson-number">18</span><span class="lesson-title">Lesson 18 — Causal Inference: Correlation, Intervention, and \(do(\cdot)\)</span></summary>
+    <div class="lesson-body">
+      
+
+    <figure class="diagram-card">
+      <div class="diagram-title">Diagram — Causal Graph and Intervention</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 860 290" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow18" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#cbd5e1"/>
+    </marker>
+  </defs>
+
+  <rect x="95" y="92" width="110" height="60" rx="14" fill="#2a3345" stroke="#4a5568"/>
+  <text x="150" y="129" text-anchor="middle" font-size="21">Z</text>
+  <text x="150" y="150" text-anchor="middle" font-size="14" fill="#94a3b8">confounder</text>
+
+  <rect x="325" y="45" width="110" height="60" rx="14" fill="#1e3a5f" stroke="#3b82f6"/>
+  <text x="380" y="82" text-anchor="middle" font-size="21">X</text>
+  <text x="380" y="103" text-anchor="middle" font-size="14" fill="#94a3b8">treatment</text>
+
+  <rect x="575" y="92" width="110" height="60" rx="14" fill="#1a3d2b" stroke="#22c55e"/>
+  <text x="630" y="129" text-anchor="middle" font-size="21">Y</text>
+  <text x="630" y="150" text-anchor="middle" font-size="14" fill="#94a3b8">outcome</text>
+
+  <line x1="205" y1="110" x2="325" y2="78" stroke="#94a3b8" stroke-width="2.8" marker-end="url(#arrow18)"/>
+  <line x1="205" y1="133" x2="575" y2="133" stroke="#94a3b8" stroke-width="2.8" marker-end="url(#arrow18)"/>
+  <line x1="435" y1="75" x2="575" y2="110" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow18)"/>
+
+  <rect x="322" y="175" width="116" height="62" rx="14" fill="#3d2a12" stroke="#f97316"/>
+  <text x="380" y="201" text-anchor="middle" font-size="17">do(X=x)</text>
+  <text x="380" y="224" text-anchor="middle" font-size="14" fill="#94a3b8">intervention</text>
+  <line x1="380" y1="175" x2="380" y2="105" stroke="#f97316" stroke-width="2.8" stroke-dasharray="6,6"/>
+
+  <text x="430" y="267" text-anchor="middle" font-size="18" fill="#94a3b8">Observing X is not the same as intervening to set X.</text>
+</svg>
+      </div>
+      <div class="diagram-caption">A confounding structure with a do-intervention on X.</div>
+    </figure>
+    
+<p>Causal inference begins with one critical distinction:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P(Y\mid X=x)
+\]</div>
+  <pre class="math-fallback">P(Y\mid X=x)</pre>
+</div>
+
+<p>versus:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P(Y\mid do(X=x))
+\]</div>
+  <pre class="math-fallback">P(Y\mid do(X=x))</pre>
+</div>
+
+<p>The first means:</p>
+
+<blockquote>What is \(Y\) like among cases where we observe \(X=x\)?</blockquote>
+
+<p>The second means:</p>
+
+<blockquote>What would \(Y\) be if we intervened to set \(X=x\)?</blockquote>
+
+<p>These are not the same.</p>
+
+<p>For example, shaded spaces may have higher dwell time. But that does not prove shade causes dwell time. Shaded spaces may also be better located, better maintained, near cafés, safer, or more socially active.</p>
+
+<p>A confounder has this structure:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+X\leftarrow Z\rightarrow Y
+\]</div>
+  <pre class="math-fallback">X\leftarrow Z\rightarrow Y</pre>
+</div>
+
+<p>where \(Z\) affects both \(X\) and \(Y\).</p>
+
+<p>Potential outcomes define:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+Y_i(1)
+\]</div>
+  <pre class="math-fallback">Y_i(1)</pre>
+</div>
+
+<p>outcome for unit \(i\) under treatment, and:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+Y_i(0)
+\]</div>
+  <pre class="math-fallback">Y_i(0)</pre>
+</div>
+
+<p>outcome for unit \(i\) under control.</p>
+
+<p>The individual treatment effect is:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\tau_i=Y_i(1)-Y_i(0)
+\]</div>
+  <pre class="math-fallback">\tau_i=Y_i(1)-Y_i(0)</pre>
+</div>
+
+<p>But we cannot observe both potential outcomes for the same unit at the same time. This is the fundamental problem of causal inference.</p>
+
+<p>The average treatment effect is:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+ATE=\mathbb{E}[Y(1)-Y(0)]
+\]</div>
+  <pre class="math-fallback">ATE=\mathbb{E}[Y(1)-Y(0)]</pre>
+</div>
+
+<p>If a sufficient set of confounders \(Z\) is observed, the backdoor adjustment is:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P(Y\mid do(X=x))=
+\sum_zP(Y\mid X=x,Z=z)P(Z=z)
+\]</div>
+  <pre class="math-fallback">P(Y\mid do(X=x))=
+\sum_zP(Y\mid X=x,Z=z)P(Z=z)</pre>
+</div>
+
+<p>For PTM, this distinction is crucial. A policy terrain model should not only predict:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P(\text{stress}\mid \text{current indicators})
+\]</div>
+  <pre class="math-fallback">P(\text{stress}\mid \text{current indicators})</pre>
+</div>
+
+<p>It should also ask:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P(\text{future stress}\mid do(\text{intervention}))
+\]</div>
+  <pre class="math-fallback">P(\text{future stress}\mid do(\text{intervention}))</pre>
+</div>
+
+<p>The conceptual takeaway:</p>
+
+<blockquote>Prediction asks what patterns exist. Causality asks what would happen under intervention.</blockquote>
+
+    </div>
+  </details>
+</section>
+
+<section id="lesson-19" class="lesson">
+  <details>
+    <summary><span class="lesson-number">19</span><span class="lesson-title">Lesson 19 — Econometrics and Statistical Identification</span></summary>
+    <div class="lesson-body">
+      
+
+    <figure class="diagram-card">
+      <div class="diagram-title">Diagram — Regression and Identification</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 860 280" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <line x1="90" y1="225" x2="785" y2="225" stroke="#64748b" stroke-width="2.2"/>
+  <line x1="90" y1="50" x2="90" y2="225" stroke="#64748b" stroke-width="2.2"/>
+  <text x="790" y="230" font-size="18" fill="#94a3b8">X</text>
+  <text x="62" y="56" font-size="18" fill="#94a3b8">Y</text>
+  <g fill="#60a5fa">
+    <circle cx="170" cy="172" r="5"/><circle cx="215" cy="160" r="5"/><circle cx="260" cy="150" r="5"/>
+    <circle cx="310" cy="130" r="5"/><circle cx="380" cy="120" r="5"/><circle cx="460" cy="105" r="5"/>
+    <circle cx="520" cy="95" r="5"/><circle cx="600" cy="86" r="5"/><circle cx="685" cy="77" r="5"/>
+  </g>
+  <line x1="145" y1="182" x2="710" y2="74" stroke="#f87171" stroke-width="3.5"/>
+  <text x="585" y="120" font-size="18" fill="#fca5a5">estimated line</text>
+
+  <rect x="510" y="150" width="250" height="52" rx="14" fill="#3d2a12" stroke="#f97316"/>
+  <text x="635" y="172" text-anchor="middle" font-size="16">Identification asks:</text>
+  <text x="635" y="192" text-anchor="middle" font-size="14" fill="#94a3b8">Under what assumptions does β mean what we claim?</text>
+</svg>
+      </div>
+      <div class="diagram-caption">Regression gives an estimated relationship; identification justifies its interpretation.</div>
+    </figure>
+    
+<p>Econometrics is often misunderstood as regression. At its best, it is the discipline of identifying meaningful causal or structural relationships from imperfect real-world data.</p>
+
+<p>The basic regression equation is:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+Y_i=\alpha+\beta X_i+\epsilon_i
+\]</div>
+  <pre class="math-fallback">Y_i=\alpha+\beta X_i+\epsilon_i</pre>
+</div>
+
+<p>where \(Y_i\) is outcome, \(X_i\) is predictor or treatment, \(\alpha\) is intercept, \(\beta\) is coefficient, and \(\epsilon_i\) is error term.</p>
+
+<p>The crucial assumption is:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbb{E}[\epsilon_i\mid X_i]=0
+\]</div>
+  <pre class="math-fallback">\mathbb{E}[\epsilon_i\mid X_i]=0</pre>
+</div>
+
+<p>Read:</p>
+
+<blockquote>The expected error is zero given \(X_i\).</blockquote>
+
+<p>This means unobserved factors in \(\epsilon_i\) are not systematically related to \(X_i\). If they are related, then \(X_i\) is endogenous and \(\beta\) may be biased.</p>
+
+<p>Omitted variable bias occurs when a missing variable affects \(Y\) and is correlated with \(X\).</p>
+
+<p>Panel data models use units over time:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+Y_{it}=\alpha_i+\lambda_t+\beta D_{it}+\epsilon_{it}
+\]</div>
+  <pre class="math-fallback">Y_{it}=\alpha_i+\lambda_t+\beta D_{it}+\epsilon_{it}</pre>
+</div>
+
+<p>Here \(\alpha_i\) controls for unit fixed effects and \(\lambda_t\) controls for time fixed effects.</p>
+
+<p>Difference-in-differences estimates treatment effects by comparing changes in treated and control groups over time. Its key assumption is parallel trends.</p>
+
+<p>Instrumental variables use a variable \(Z_i\) that affects treatment \(X_i\) but affects outcome \(Y_i\) only through \(X_i\). This is powerful but assumption-heavy.</p>
+
+<p>For your work, econometrics provides discipline. If PTM or computational architecture models show a pattern, econometrics asks:</p>
+
+<ul>
+<li>Is this predictive or causal?</li>
+<li>What is the identification strategy?</li>
+<li>What confounders exist?</li>
+<li>What is the counterfactual?</li>
+<li>What assumptions justify the claim?</li>
+</ul>
+
+<p>The conceptual takeaway:</p>
+
+<blockquote>Regression is a tool. Identification is the argument.</blockquote>
+
+    </div>
+  </details>
+</section>
+
+<section id="lesson-20" class="lesson">
+  <details>
+    <summary><span class="lesson-number">20</span><span class="lesson-title">Lesson 20 — Dynamical Systems, Stability, and Bifurcation</span></summary>
+    <div class="lesson-body">
+      
+
+    <figure class="diagram-card">
+      <div class="diagram-title">Diagram — Stability and Attractors</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 860 270" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <line x1="80" y1="180" x2="780" y2="180" stroke="#64748b" stroke-width="2.3"/>
+  <circle cx="430" cy="180" r="7" fill="#4ade80"/>
+  <text x="430" y="205" text-anchor="middle" font-size="18" fill="#22c55e">stable fixed point</text>
+
+  <defs>
+    <marker id="arrow20" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#cbd5e1"/>
+    </marker>
+  </defs>
+  <line x1="160" y1="150" x2="400" y2="176" stroke="#94a3b8" stroke-width="2.7" marker-end="url(#arrow20)"/>
+  <line x1="700" y1="150" x2="460" y2="176" stroke="#94a3b8" stroke-width="2.7" marker-end="url(#arrow20)"/>
+
+  <circle cx="250" cy="85" r="6" fill="#60a5fa"/>
+  <circle cx="620" cy="85" r="6" fill="#60a5fa"/>
+  <text x="250" y="68" text-anchor="middle" font-size="16" fill="#cbd5e1">perturbation</text>
+  <text x="620" y="68" text-anchor="middle" font-size="16" fill="#cbd5e1">perturbation</text>
+
+  <text x="430" y="245" text-anchor="middle" font-size="18" fill="#94a3b8">Nearby states return toward the attractor when the system is stable.</text>
+</svg>
+      </div>
+      <div class="diagram-caption">A one-dimensional sketch of a stable attractor.</div>
+    </figure>
+    
+<p>Dynamical systems study behaviour over time.</p>
+
+<p>Discrete time:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+x_{t+1}=f(x_t)
+\]</div>
+  <pre class="math-fallback">x_{t+1}=f(x_t)</pre>
+</div>
+
+<p>Continuous time:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\frac{dx}{dt}=f(x)
+\]</div>
+  <pre class="math-fallback">\frac{dx}{dt}=f(x)</pre>
+</div>
+
+<p>or:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\dot{x}=f(x)
+\]</div>
+  <pre class="math-fallback">\dot{x}=f(x)</pre>
+</div>
+
+<p>An equilibrium in continuous time satisfies:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+f(x^*)=0
+\]</div>
+  <pre class="math-fallback">f(x^*)=0</pre>
+</div>
+
+<p>A fixed point in discrete time satisfies:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+x^*=f(x^*)
+\]</div>
+  <pre class="math-fallback">x^*=f(x^*)</pre>
+</div>
+
+<p>Stability asks whether nearby states move toward or away from equilibrium.</p>
+
+<p>For one-dimensional continuous systems:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+f'(x^*)<0
+\]</div>
+  <pre class="math-fallback">f'(x^*)<0</pre>
+</div>
+
+<p>means locally stable.</p>
+
+<p>For one-dimensional discrete systems:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+|f'(x^*)|<1
+\]</div>
+  <pre class="math-fallback">|f'(x^*)|<1</pre>
+</div>
+
+<p>means locally stable.</p>
+
+<p>For multivariable systems:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\dot{\mathbf{x}}=\mathbf{f}(\mathbf{x})
+\]</div>
+  <pre class="math-fallback">\dot{\mathbf{x}}=\mathbf{f}(\mathbf{x})</pre>
+</div>
+
+<p>we use the Jacobian:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+J=\frac{\partial \mathbf{f}}{\partial \mathbf{x}}
+\]</div>
+  <pre class="math-fallback">J=\frac{\partial \mathbf{f}}{\partial \mathbf{x}}</pre>
+</div>
+
+<p>Eigenvalues satisfy:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+J\mathbf{v}=\lambda\mathbf{v}
+\]</div>
+  <pre class="math-fallback">J\mathbf{v}=\lambda\mathbf{v}</pre>
+</div>
+
+<p>For continuous systems, local stability requires eigenvalues to have negative real parts:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathrm{Re}(\lambda_i)<0
+\]</div>
+  <pre class="math-fallback">\mathrm{Re}(\lambda_i)<0</pre>
+</div>
+
+<p>A bifurcation occurs when changing a parameter changes the qualitative behaviour of the system. A stable equilibrium may become oscillatory. A smooth trend may become unstable. A system may cross a tipping point.</p>
+
+<p>In PTM, these questions become:</p>
+
+<ul>
+<li>What are the attractors?</li>
+<li>Where are tipping points?</li>
+<li>Which interventions shift basins of attraction?</li>
+<li>Which states are stable but undesirable?</li>
+</ul>
+
+<p>In computational architecture:</p>
+
+<ul>
+<li>Does a space stabilise social life?</li>
+<li>Does it create oscillation between crowding and avoidance?</li>
+<li>Can design shift a basin toward conviviality?</li>
+</ul>
+
+<p>The conceptual takeaway:</p>
+
+<blockquote>Dynamical systems are the mathematics of behaviour over time.</blockquote>
+
+    </div>
+  </details>
+</section>
+
+<section id="lesson-21" class="lesson">
+  <details>
+    <summary><span class="lesson-number">21</span><span class="lesson-title">Lesson 21 — Complexity Science Proper: Emergence, Scaling, Networks, and Agents</span></summary>
+    <div class="lesson-body">
+      
+
+    <figure class="diagram-card">
+      <div class="diagram-title">Diagram — Emergence: Local Rules to Macro Pattern</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 860 280" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow21" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#cbd5e1"/>
+    </marker>
+  </defs>
+  <rect x="50" y="60" width="220" height="150" rx="18" fill="#182540" stroke="#3b82f6"/>
+  <text x="160" y="92" text-anchor="middle" font-size="22">Local agents</text>
+  <g fill="#60a5fa">
+    <circle cx="105" cy="135" r="10"/><circle cx="150" cy="118" r="10"/><circle cx="195" cy="142" r="10"/>
+    <circle cx="125" cy="176" r="10"/><circle cx="177" cy="176" r="10"/><circle cx="220" cy="118" r="10"/>
+  </g>
+
+  <line x1="270" y1="135" x2="405" y2="135" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow21)"/>
+
+  <rect x="405" y="60" width="210" height="150" rx="18" fill="#261b47" stroke="#7c3aed"/>
+  <text x="510" y="92" text-anchor="middle" font-size="22">Interactions & feedback</text>
+  <text x="510" y="130" text-anchor="middle" font-size="18" fill="#94a3b8">rules • neighbours • adaptation</text>
+  <path d="M450 165 C470 145, 505 145, 525 165 C545 185, 580 185, 595 160" fill="none" stroke="#7c3aed" stroke-width="3"/>
+
+  <line x1="615" y1="135" x2="760" y2="135" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow21)"/>
+
+  <rect x="610" y="35" width="190" height="200" rx="18" fill="#122b1e" stroke="#22c55e"/>
+  <text x="705" y="67" text-anchor="middle" font-size="22">Macro pattern</text>
+  <g fill="#4ade80">
+    <circle cx="650" cy="112" r="6"/><circle cx="675" cy="124" r="6"/><circle cx="699" cy="136" r="6"/>
+    <circle cx="722" cy="150" r="6"/><circle cx="744" cy="165" r="6"/><circle cx="766" cy="180" r="6"/>
+  </g>
+  <path d="M640 102 C665 116, 690 125, 712 140 S756 172, 770 188" fill="none" stroke="#16a34a" stroke-width="4"/>
+
+  <text x="430" y="256" text-anchor="middle" font-size="18" fill="#94a3b8">Emergence means macro order arising from interaction among many local parts.</text>
+</svg>
+      </div>
+      <div class="diagram-caption">A conceptual flow from local agents to macro patterns through interaction.</div>
+    </figure>
+    
+<p>Complexity science studies systems where many interacting parts generate collective behaviour that is not obvious from the parts alone.</p>
+
+<p>The core relation is:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\text{micro rules}+\text{interactions}\rightarrow\text{macro patterns}
+\]</div>
+  <pre class="math-fallback">\text{micro rules}+\text{interactions}\rightarrow\text{macro patterns}</pre>
+</div>
+
+<p>A complicated system can often be decomposed. A complex system evolves through interaction, feedback, adaptation, and emergence.</p>
+
+<p>An interaction model may include terms like:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+Y=\beta_0+\beta_1X_1+\beta_2X_2+\beta_3X_1X_2+\epsilon
+\]</div>
+  <pre class="math-fallback">Y=\beta_0+\beta_1X_1+\beta_2X_2+\beta_3X_1X_2+\epsilon</pre>
+</div>
+
+<p>The interaction term \(X_1X_2\) means the effect of \(X_1\) depends on \(X_2\). In architecture, shade and seating together may create dwell in a way neither does alone.</p>
+
+<p>Agent-based models simulate many agents following rules:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+s_i(t+1)=f_i(s_i(t),\mathcal{N}_i(t),E(t))
+\]</div>
+  <pre class="math-fallback">s_i(t+1)=f_i(s_i(t),\mathcal{N}_i(t),E(t))</pre>
+</div>
+
+<p>where \(s_i(t)\) is the state of agent \(i\), \(\mathcal{N}_i(t)\) is its neighbourhood, and \(E(t)\) is environment state.</p>
+
+<p>Networks are written:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+G=(V,E)
+\]</div>
+  <pre class="math-fallback">G=(V,E)</pre>
+</div>
+
+<p>Degree distributions may follow a power law:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P(k)\sim k^{-\alpha}
+\]</div>
+  <pre class="math-fallback">P(k)\sim k^{-\alpha}</pre>
+</div>
+
+<p>Scaling laws may look like:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+Y\sim N^\beta
+\]</div>
+  <pre class="math-fallback">Y\sim N^\beta</pre>
+</div>
+
+<p>Taking logs gives:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\log Y=\log Y_0+\beta\log N
+\]</div>
+  <pre class="math-fallback">\log Y=\log Y_0+\beta\log N</pre>
+</div>
+
+<p>Complex systems show feedback, thresholds, self-organisation, path dependence, lock-in, multiple equilibria, criticality, and adaptation.</p>
+
+<p>For PTM, complexity science reframes policy as evolving terrain rather than linear cause-effect chain. For computational architecture, it reframes buildings and cities as systems that generate behavioural and affective dynamics.</p>
+
+<p>The conceptual takeaway:</p>
+
+<blockquote>The system is not the sum of its parts; it is the evolving pattern of relations among parts.</blockquote>
+
+    </div>
+  </details>
+</section>
+
+<section id="lesson-22" class="lesson">
+  <details>
+    <summary><span class="lesson-number">22</span><span class="lesson-title">Lesson 22 — The Full Mathematical Map: Complexity, ML, FEP, Architecture, and PTM</span></summary>
+    <div class="lesson-body">
+      
+
+    <figure class="diagram-card">
+      <div class="diagram-title">Diagram — The Full Mathematical Map</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 860 420" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow22" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <g font-size="18" fill="#e2e8f0">
+    <rect x="50" y="40" width="150" height="48" rx="12" fill="#2a3345" stroke="#4a5568"/><text x="125" y="70" text-anchor="middle">State</text>
+    <rect x="250" y="40" width="150" height="48" rx="12" fill="#1e3a5f" stroke="#3b82f6"/><text x="325" y="70" text-anchor="middle">Probability</text>
+    <rect x="450" y="40" width="150" height="48" rx="12" fill="#2d1f4e" stroke="#7c3aed"/><text x="525" y="70" text-anchor="middle">Inference</text>
+    <rect x="650" y="40" width="150" height="48" rx="12" fill="#1a3d2b" stroke="#22c55e"/><text x="725" y="70" text-anchor="middle">Action</text>
+
+    <rect x="120" y="150" width="170" height="48" rx="12" fill="#3d2a12" stroke="#f97316"/><text x="205" y="180" text-anchor="middle">ML / Representation</text>
+    <rect x="360" y="150" width="140" height="48" rx="12" fill="#3d1428" stroke="#ec4899"/><text x="430" y="180" text-anchor="middle">FEP</text>
+    <rect x="560" y="150" width="190" height="48" rx="12" fill="#253313" stroke="#84cc16"/><text x="655" y="180" text-anchor="middle">Causality / Intervention</text>
+
+    <rect x="80" y="265" width="200" height="48" rx="12" fill="#182540" stroke="#3b82f6"/><text x="180" y="295" text-anchor="middle">Complexity Science</text>
+    <rect x="330" y="265" width="200" height="48" rx="12" fill="#261b47" stroke="#7c3aed"/><text x="430" y="295" text-anchor="middle">Computational Architecture</text>
+    <rect x="580" y="265" width="180" height="48" rx="12" fill="#122b1e" stroke="#22c55e"/><text x="670" y="295" text-anchor="middle">PTM / Governance</text>
+  </g>
+
+  <g stroke="#64748b" stroke-width="2.2" marker-end="url(#arrow22)">
+    <line x1="200" y1="64" x2="250" y2="64"/>
+    <line x1="400" y1="64" x2="450" y2="64"/>
+    <line x1="600" y1="64" x2="650" y2="64"/>
+
+    <line x1="165" y1="88" x2="205" y2="150"/>
+    <line x1="325" y1="88" x2="325" y2="150"/>
+    <line x1="525" y1="88" x2="455" y2="150"/>
+    <line x1="725" y1="88" x2="655" y2="150"/>
+
+    <line x1="205" y1="198" x2="180" y2="265"/>
+    <line x1="430" y1="198" x2="430" y2="265"/>
+    <line x1="655" y1="198" x2="670" y2="265"/>
+  </g>
+
+  <text x="430" y="380" text-anchor="middle" font-size="18" fill="#94a3b8">The full lesson arc: from state and uncertainty to learning, inference, intervention, and applied modelling.</text>
+</svg>
+      </div>
+      <div class="diagram-caption">A synthetic map of the mathematical landscape built across the lessons.</div>
+    </figure>
+    
+<p>The whole journey forms one coherent grammar:</p>
+
+<blockquote>state, change, uncertainty, hidden structure, relation, learning, inference, boundary, action, intervention, and emergence.</blockquote>
+
+<p>State:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+x_t,\quad \mathbf{x}_t,\quad s_t,\quad z,\quad \theta
+\]</div>
+  <pre class="math-fallback">x_t,\quad \mathbf{x}_t,\quad s_t,\quad z,\quad \theta</pre>
+</div>
+
+<p>Change:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+x_{t+1}=f(x_t)
+\]</div>
+  <pre class="math-fallback">x_{t+1}=f(x_t)</pre>
+</div>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\dot{x}=f(x)
+\]</div>
+  <pre class="math-fallback">\dot{x}=f(x)</pre>
+</div>
+
+<p>Uncertainty:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+X_{t+1}=f(X_t)+\epsilon_t
+\]</div>
+  <pre class="math-fallback">X_{t+1}=f(X_t)+\epsilon_t</pre>
+</div>
+
+<p>Hidden structure:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+p(z\mid x)
+\]</div>
+  <pre class="math-fallback">p(z\mid x)</pre>
+</div>
+
+<p>Relation:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+G=(V,E)
+\]</div>
+  <pre class="math-fallback">G=(V,E)</pre>
+</div>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+A_{ij}
+\]</div>
+  <pre class="math-fallback">A_{ij}</pre>
+</div>
+
+<p>Learning:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\theta\leftarrow\theta-\eta\nabla L
+\]</div>
+  <pre class="math-fallback">\theta\leftarrow\theta-\eta\nabla L</pre>
+</div>
+
+<p>Inference:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+q(z\mid x)\approx p(z\mid x)
+\]</div>
+  <pre class="math-fallback">q(z\mid x)\approx p(z\mid x)</pre>
+</div>
+
+<p>Boundary:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mu\perp \eta\mid\{s,a\}
+\]</div>
+  <pre class="math-fallback">\mu\perp \eta\mid\{s,a\}</pre>
+</div>
+
+<p>Action:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\pi(a\mid s)
+\]</div>
+  <pre class="math-fallback">\pi(a\mid s)</pre>
+</div>
+
+<p>Intervention:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P(Y\mid do(X))
+\]</div>
+  <pre class="math-fallback">P(Y\mid do(X))</pre>
+</div>
+
+<p>Emergence:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\text{local rules}\rightarrow\text{global pattern}
+\]</div>
+  <pre class="math-fallback">\text{local rules}\rightarrow\text{global pattern}</pre>
+</div>
+
+<p>For computational architecture, a rigorous framing might be:</p>
+
+<blockquote>Architecture can be modelled as a dynamic sensory-active boundary condition that shapes how agents perceive, infer, move, interact, and stabilise into social-spatial patterns.</blockquote>
+
+<p>Symbolically:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{x}_{t+1}=f(\mathbf{x}_t,\mathbf{d},\mathbf{u}_t)+\epsilon_t
+\]</div>
+  <pre class="math-fallback">\mathbf{x}_{t+1}=f(\mathbf{x}_t,\mathbf{d},\mathbf{u}_t)+\epsilon_t</pre>
+</div>
+
+<p>where \(\mathbf{x}_t\) is latent social-affective state, \(\mathbf{d}\) is design configuration, and \(\mathbf{u}_t\) is action or intervention.</p>
+
+<p>For PTM:</p>
+
+<blockquote>Policy systems can be modelled as evolving latent terrains in which observed indicators are noisy signals, interventions reshape transition dynamics, and governance decisions must be evaluated under uncertainty, feedback, and causal ambiguity.</blockquote>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{x}_{t+1}=
+\mathbf{f}(\mathbf{x}_t,\mathbf{u}_t,G_t)+\epsilon_t
+\]</div>
+  <pre class="math-fallback">\mathbf{x}_{t+1}=
+\mathbf{f}(\mathbf{x}_t,\mathbf{u}_t,G_t)+\epsilon_t</pre>
+</div>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{y}_t=g(\mathbf{x}_t)+\nu_t
+\]</div>
+  <pre class="math-fallback">\mathbf{y}_t=g(\mathbf{x}_t)+\nu_t</pre>
+</div>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P(Y_{t+k}\mid do(\mathbf{u}_t))
+\]</div>
+  <pre class="math-fallback">P(Y_{t+k}\mid do(\mathbf{u}_t))</pre>
+</div>
+
+<p>The AlphaFold analogy becomes more precise if we avoid saying “cities are proteins.” The stronger claim is:</p>
+
+<blockquote>AlphaFold demonstrates the power of learning latent relational structure from large-scale patterns, without explicitly simulating every mechanistic micro-process.</blockquote>
+
+<p>For architecture and PTM, the equivalent ambition is to learn relational terrain structures from spatial, behavioural, social, and policy signals.</p>
+
+<p>The conceptual takeaway:</p>
+
+<blockquote>Modern mathematical modelling gives us languages for representing system states, modelling their uncertain evolution, inferring hidden causes from noisy observations, learning relational structures from data, and evaluating actions under uncertainty.</blockquote>
+
+    </div>
+  </details>
+</section>
+
+<section id="lesson-23" class="lesson">
+  <details>
+    <summary><span class="lesson-number">23</span><span class="lesson-title">Lesson 23 — How to Read Mathematical Papers Without Panic</span></summary>
+    <div class="lesson-body">
+      
+
+    <figure class="diagram-card">
+      <div class="diagram-title">Diagram — How to Read a Mathematical Paper</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 860 285" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow23" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#cbd5e1"/>
+    </marker>
+  </defs>
+  <rect x="40" y="110" width="120" height="54" rx="14" fill="#2a3345" stroke="#4a5568"/>
+  <text x="100" y="143" text-anchor="middle" font-size="18">Orient</text>
+
+  <rect x="210" y="110" width="120" height="54" rx="14" fill="#1e3a5f" stroke="#3b82f6"/>
+  <text x="270" y="143" text-anchor="middle" font-size="18">Glossary</text>
+
+  <rect x="380" y="110" width="120" height="54" rx="14" fill="#2d1f4e" stroke="#7c3aed"/>
+  <text x="440" y="143" text-anchor="middle" font-size="18">Equation roles</text>
+
+  <rect x="550" y="110" width="120" height="54" rx="14" fill="#1a3d2b" stroke="#22c55e"/>
+  <text x="610" y="143" text-anchor="middle" font-size="18">Assumptions</text>
+
+  <rect x="720" y="110" width="100" height="54" rx="14" fill="#3d2a12" stroke="#f97316"/>
+  <text x="770" y="143" text-anchor="middle" font-size="18">Claims</text>
+
+  <g stroke="#94a3b8" stroke-width="2.7" marker-end="url(#arrow23)">
+    <line x1="160" y1="137" x2="210" y2="137"/>
+    <line x1="330" y1="137" x2="380" y2="137"/>
+    <line x1="500" y1="137" x2="550" y2="137"/>
+    <line x1="670" y1="137" x2="720" y2="137"/>
+  </g>
+
+  <text x="430" y="235" text-anchor="middle" font-size="18" fill="#94a3b8">Read for structure first, not for total symbolic mastery on the first pass.</text>
+</svg>
+      </div>
+      <div class="diagram-caption">A practical reading workflow for mathematical and ML papers.</div>
+    </figure>
+    
+<p>Mathematical papers are not written like gentle textbooks. They compress a research contribution for readers already inside the discourse. So when a paper feels intimidating, it does not mean you are bad at maths. It often means the paper assumes notation, prior literature, modelling conventions, and comfort with skipped algebra.</p>
+
+<p>Do not read mathematical papers like novels. Read them like architectural drawing sets.</p>
+
+<p>First classify the paper:</p>
+
+<ul>
+<li>Theory paper</li>
+<li>Modelling paper</li>
+<li>Machine learning paper</li>
+<li>Empirical/econometric paper</li>
+<li>Causal inference paper</li>
+<li>Complexity/simulation paper</li>
+<li>FEP/active inference paper</li>
+</ul>
+
+<p>Then build a symbol glossary. For each symbol, ask what it means in this paper, not what it usually means elsewhere.</p>
+
+<p>Identify the role of each equation:</p>
+
+<ul>
+<li>Definition</li>
+<li>Assumption</li>
+<li>Model</li>
+<li>Objective function</li>
+<li>Update rule</li>
+<li>Estimator</li>
+<li>Result</li>
+<li>Causal claim</li>
+</ul>
+
+<p>For example:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\theta^*=\arg\min_\theta L(\theta)
+\]</div>
+  <pre class="math-fallback">\theta^*=\arg\min_\theta L(\theta)</pre>
+</div>
+
+<p>is an objective.</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\theta\leftarrow\theta-\eta\nabla L
+\]</div>
+  <pre class="math-fallback">\theta\leftarrow\theta-\eta\nabla L</pre>
+</div>
+
+<p>is an update rule.</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\epsilon_i\sim\mathcal{N}(0,\sigma^2)
+\]</div>
+  <pre class="math-fallback">\epsilon_i\sim\mathcal{N}(0,\sigma^2)</pre>
+</div>
+
+<p>is an assumption.</p>
+
+<p>Always translate equations into sentences. For example:</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+p_\theta(x,z)=p_\theta(x\mid z)p(z)
+\]</div>
+  <pre class="math-fallback">p_\theta(x,z)=p_\theta(x\mid z)p(z)</pre>
+</div>
+
+<p>means:</p>
+
+<blockquote>The joint probability of observed data and latent variable is factorised into a prior over latent variables and a likelihood that generates observations from latents.</blockquote>
+
+<p>When reading, always ask:</p>
+
+<ul>
+<li>What is observed?</li>
+<li>What is hidden?</li>
+<li>What is being learned?</li>
+<li>What is being assumed?</li>
+<li>What is being optimised?</li>
+<li>What is being claimed?</li>
+<li>Is the claim descriptive, predictive, causal, or normative?</li>
+</ul>
+
+<p>The practical mantra:</p>
+
+<blockquote>Do not ask first, “How do I solve this?” Ask, “What is this equation trying to say about the world?”</blockquote>
+
+    </div>
+  </details>
+</section>
+
+<section id="lesson-24" class="lesson">
+  <details>
+    <summary><span class="lesson-number">24</span><span class="lesson-title">Lesson 24 — Symbol Glossary for Your Research World</span></summary>
+    <div class="lesson-body">
+      
+
+    <figure class="diagram-card">
+      <div class="diagram-title">Diagram — Symbol Ecosystem</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 860 350" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="430" cy="175" r="72" fill="#1e3a5f" stroke="#3b82f6" stroke-width="2"/>
+  <text x="430" y="165" text-anchor="middle" font-size="24">symbols</text>
+  <text x="430" y="193" text-anchor="middle" font-size="18" fill="#94a3b8">gain meaning through roles</text>
+
+  <g font-size="18" fill="#e2e8f0">
+    <rect x="110" y="55" width="130" height="44" rx="12" fill="#2a3345" stroke="#4a5568"/><text x="175" y="83" text-anchor="middle">state</text>
+    <rect x="310" y="35" width="130" height="44" rx="12" fill="#2d1f4e" stroke="#7c3aed"/><text x="375" y="63" text-anchor="middle">latent</text>
+    <rect x="520" y="35" width="130" height="44" rx="12" fill="#1a3d2b" stroke="#22c55e"/><text x="585" y="63" text-anchor="middle">observation</text>
+    <rect x="680" y="95" width="130" height="44" rx="12" fill="#3d2a12" stroke="#f97316"/><text x="745" y="123" text-anchor="middle">action</text>
+    <rect x="690" y="220" width="130" height="44" rx="12" fill="#3d1428" stroke="#ec4899"/><text x="755" y="248" text-anchor="middle">intervention</text>
+    <rect x="500" y="280" width="130" height="44" rx="12" fill="#253313" stroke="#84cc16"/><text x="565" y="308" text-anchor="middle">objective</text>
+    <rect x="280" y="280" width="130" height="44" rx="12" fill="#1e2533" stroke="#4a5568"/><text x="345" y="308" text-anchor="middle">update rule</text>
+    <rect x="70" y="220" width="140" height="44" rx="12" fill="#182540" stroke="#3b82f6"/><text x="140" y="248" text-anchor="middle">graph / relation</text>
+    <rect x="60" y="110" width="140" height="44" rx="12" fill="#122b1e" stroke="#22c55e"/><text x="130" y="138" text-anchor="middle">probability</text>
+  </g>
+
+  <g stroke="#4a5568" stroke-width="2">
+    <line x1="240" y1="77" x2="365" y2="132"/>
+    <line x1="375" y1="79" x2="410" y2="108"/>
+    <line x1="585" y1="79" x2="455" y2="112"/>
+    <line x1="680" y1="117" x2="500" y2="157"/>
+    <line x1="690" y1="242" x2="497" y2="192"/>
+    <line x1="500" y1="295" x2="470" y2="230"/>
+    <line x1="410" y1="295" x2="410" y2="247"/>
+    <line x1="210" y1="242" x2="360" y2="208"/>
+    <line x1="200" y1="132" x2="358" y2="150"/>
+  </g>
+
+  <text x="430" y="338" text-anchor="middle" font-size="17" fill="#94a3b8">The same symbol can vary across fields, but the modelling roles repeat.</text>
+</svg>
+      </div>
+      <div class="diagram-caption">A role-based map for thinking about notation.</div>
+    </figure>
+    
+<p>This glossary is not about memorising symbols. It is about recognising modelling roles.</p>
+
+<h3>Universal symbols</h3>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+x
+\]</div>
+  <pre class="math-fallback">x</pre>
+</div>
+<p>Variable, input, observed value, or state.</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+y
+\]</div>
+  <pre class="math-fallback">y</pre>
+</div>
+<p>Output, target, response, or observed outcome.</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\hat{y}
+\]</div>
+  <pre class="math-fallback">\hat{y}</pre>
+</div>
+<p>Predicted or estimated value.</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+z
+\]</div>
+  <pre class="math-fallback">z</pre>
+</div>
+<p>Latent variable or hidden representation.</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\theta
+\]</div>
+  <pre class="math-fallback">\theta</pre>
+</div>
+<p>Model parameters.</p>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+D
+\]</div>
+  <pre class="math-fallback">D</pre>
+</div>
+<p>Dataset or observed data.</p>
+
+<h3>Dynamical systems</h3>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+x_t,\quad x_{t+1},\quad f,\quad x^*,\quad \dot{x},\quad \epsilon_t
+\]</div>
+  <pre class="math-fallback">x_t,\quad x_{t+1},\quad f,\quad x^*,\quad \dot{x},\quad \epsilon_t</pre>
+</div>
+
+<p>These describe state, next state, update rule, equilibrium, rate of change, and noise.</p>
+
+<h3>Probability</h3>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P(A),\quad P(A\mid B),\quad p(x),\quad \mathbb{E}[X],\quad \mathrm{Var}(X)
+\]</div>
+  <pre class="math-fallback">P(A),\quad P(A\mid B),\quad p(x),\quad \mathbb{E}[X],\quad \mathrm{Var}(X)</pre>
+</div>
+
+<p>These describe events, conditional probability, distributions, expectations, and variance.</p>
+
+<h3>Machine learning</h3>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{x},\quad W,\quad b,\quad L,\quad \nabla L,\quad \eta,\quad \theta^*
+\]</div>
+  <pre class="math-fallback">\mathbf{x},\quad W,\quad b,\quad L,\quad \nabla L,\quad \eta,\quad \theta^*</pre>
+</div>
+
+<p>These describe input vectors, weight matrices, bias, loss, gradient, learning rate, and optimal parameters.</p>
+
+<h3>Attention</h3>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+Q,\quad K,\quad V,\quad W_Q,\quad W_K,\quad W_V
+\]</div>
+  <pre class="math-fallback">Q,\quad K,\quad V,\quad W_Q,\quad W_K,\quad W_V</pre>
+</div>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathrm{Attention}(Q,K,V)=
+\mathrm{softmax}\left(
+\frac{QK^T}{\sqrt{d_k}}
+\right)V
+\]</div>
+  <pre class="math-fallback">\mathrm{Attention}(Q,K,V)=
+\mathrm{softmax}\left(
+\frac{QK^T}{\sqrt{d_k}}
+\right)V</pre>
+</div>
+
+<p>These describe query, key, value, and learned relevance weighting.</p>
+
+<h3>Graphs</h3>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+G=(V,E),\quad A_{ij},\quad \mathcal{N}(i),\quad \mathbf{h}_i^{(k)}
+\]</div>
+  <pre class="math-fallback">G=(V,E),\quad A_{ij},\quad \mathcal{N}(i),\quad \mathbf{h}_i^{(k)}</pre>
+</div>
+
+<p>These describe nodes, edges, adjacency, neighbourhoods, and graph representations.</p>
+
+<h3>FEP and active inference</h3>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\eta,\quad \mu,\quad s,\quad a,\quad b=\{s,a\}
+\]</div>
+  <pre class="math-fallback">\eta,\quad \mu,\quad s,\quad a,\quad b=\{s,a\}</pre>
+</div>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mu\perp \eta\mid\{s,a\}
+\]</div>
+  <pre class="math-fallback">\mu\perp \eta\mid\{s,a\}</pre>
+</div>
+
+<p>These describe external states, internal states, sensory states, active states, blanket states, and conditional independence.</p>
+
+<h3>Causal inference</h3>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+P(Y\mid X),\quad P(Y\mid do(X)),\quad Y_i(1),\quad Y_i(0),\quad ATE
+\]</div>
+  <pre class="math-fallback">P(Y\mid X),\quad P(Y\mid do(X)),\quad Y_i(1),\quad Y_i(0),\quad ATE</pre>
+</div>
+
+<p>These distinguish observation from intervention and define treatment effects.</p>
+
+<h3>Econometrics</h3>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+Y_i=\alpha+\beta X_i+\epsilon_i
+\]</div>
+  <pre class="math-fallback">Y_i=\alpha+\beta X_i+\epsilon_i</pre>
+</div>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbb{E}[\epsilon_i\mid X_i]=0
+\]</div>
+  <pre class="math-fallback">\mathbb{E}[\epsilon_i\mid X_i]=0</pre>
+</div>
+
+<p>These express regression and the exogeneity assumption.</p>
+
+<h3>Computational architecture translation</h3>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{d}=\text{design configuration}
+\]</div>
+  <pre class="math-fallback">\mathbf{d}=\text{design configuration}</pre>
+</div>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+G_s=(V_s,E_s)=\text{spatial graph}
+\]</div>
+  <pre class="math-fallback">G_s=(V_s,E_s)=\text{spatial graph}</pre>
+</div>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+q(\mathbf{x}_t\mid \mathbf{y}_{1:t},G_s,\mathbf{d})
+\]</div>
+  <pre class="math-fallback">q(\mathbf{x}_t\mid \mathbf{y}_{1:t},G_s,\mathbf{d})</pre>
+</div>
+
+<p>This means inferred latent spatial-social-affective state from observations, graph, and design configuration.</p>
+
+<h3>PTM translation</h3>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{x}_t=\text{latent policy terrain}
+\]</div>
+  <pre class="math-fallback">\mathbf{x}_t=\text{latent policy terrain}</pre>
+</div>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{y}_t=\text{observed indicators}
+\]</div>
+  <pre class="math-fallback">\mathbf{y}_t=\text{observed indicators}</pre>
+</div>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{u}_t=\text{policy intervention}
+\]</div>
+  <pre class="math-fallback">\mathbf{u}_t=\text{policy intervention}</pre>
+</div>
+
+<div class="eq mathblock">
+  <div class="math-render">\[
+\mathbf{x}_{t+1}=
+\mathbf{f}(\mathbf{x}_t,\mathbf{u}_t,G_t)+\epsilon_t
+\]</div>
+  <pre class="math-fallback">\mathbf{x}_{t+1}=
+\mathbf{f}(\mathbf{x}_t,\mathbf{u}_t,G_t)+\epsilon_t</pre>
+</div>
+
+<p>The master habit is:</p>
+
+<blockquote>For every symbol, ask whether it is a state, parameter, observation, latent variable, probability, function, transformation, objective, update rule, boundary, graph, action, or intervention.</blockquote>
+
+<p>The same symbol may change across fields. But modelling roles repeat.</p>
+
+    </div>
+  </details>
+</section>
+
+  </div>
+</main>
+
+<div class="wrap">
+  <footer>
+    <p>Illustrated HTML course-note export — complexity science, ML, FEP, architecture &amp; PTM — with embedded SVG diagrams, MathJax equations, and research translations.</p>
+  </footer>
+</div>
+
+</body>
+</html>

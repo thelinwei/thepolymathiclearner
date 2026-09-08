@@ -1,0 +1,3426 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>From Everyday Geometry to Calabi–Yau Manifolds — Interactive Fixed Final</title>
+<script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]']],
+        processEscapes: true,
+        tags: 'ams'
+      },
+      svg: { fontCache: 'global' },
+      options: {
+        renderActions: {
+          addMenu: []
+        }
+      },
+      startup: {
+        typeset: true
+      },
+      chtml: {
+        scale: 1,
+        matchFontHeight: true
+      }
+    };
+  </script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&amp;family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=JetBrains+Mono:wght@300;400;500&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com" rel="preconnect"/><style>
+:root {
+  --void: #050507;
+  --deep: #0a0906;
+  --deep2: #101018;
+  --surface: rgba(26, 23, 15, .72);
+  --surface2: rgba(10, 12, 22, .68);
+  --card: rgba(22, 20, 16, .82);
+  --card2: rgba(13, 16, 27, .78);
+  --border: rgba(255, 220, 120, .13);
+  --border-bright: rgba(255, 220, 120, .32);
+  --cream: #f4ead8;
+  --ink: #e8e2d5;
+  --ink-muted: #9a9080;
+  --ink-dim: #5c5648;
+  --gold: #d4a847;
+  --gold-light: #e8c97a;
+  --teal: #00ffcc;
+  --teal-soft: #5aa8b4;
+  --violet: #7744ff;
+  --rose: #ff4488;
+  --rust: #a0432b;
+  --shadow: rgba(0, 0, 0, .38);
+  --code: rgba(2, 3, 10, .66);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  min-height: 100vh;
+  background: var(--void);
+  color: var(--ink);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 17.5px;
+  line-height: 1.68;
+  overflow-x: hidden;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 900px 640px at 18% 20%, rgba(212,168,71,.11), transparent 68%),
+    radial-gradient(ellipse 780px 520px at 86% 10%, rgba(0,255,204,.055), transparent 70%),
+    radial-gradient(ellipse 620px 620px at 72% 84%, rgba(119,68,255,.08), transparent 72%),
+    radial-gradient(ellipse 520px 420px at 18% 92%, rgba(255,68,136,.05), transparent 70%),
+    linear-gradient(180deg, #050507 0%, #0a0906 48%, #02020a 100%);
+  z-index: -3;
+}
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(212,168,71,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212,168,71,.028) 1px, transparent 1px),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.055'/%3E%3C/svg%3E");
+  background-size: 84px 84px, 84px 84px, 280px 280px;
+  mask-image: radial-gradient(ellipse 80% 75% at 50% 25%, black 20%, transparent 90%);
+  opacity: .75;
+  pointer-events: none;
+  z-index: -2;
+}
+
+a { color: inherit; text-decoration: none; }
+strong { color: var(--cream); font-weight: 700; }
+em { color: var(--gold-light); }
+
+.page {
+  width: min(1180px, calc(100vw - 44px));
+  margin: 0 auto;
+}
+
+.topbar {
+  position: absolute;
+  top: 28px;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+.topbar-inner {
+  width: min(1180px, calc(100vw - 44px));
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+  font-family: "JetBrains Mono", monospace;
+  font-size: .66rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.topbar a { border-bottom: 1px solid transparent; transition: .2s ease; }
+.topbar a:hover { color: var(--gold); border-color: var(--gold); }
+
+header.hero {
+  min-height: 96vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, .85fr);
+  gap: 52px;
+  align-items: center;
+  position: relative;
+  padding: 96px 0 58px;
+  border-bottom: 1px solid var(--border);
+}
+.hero-inner { max-width: 820px; position: relative; z-index: 2; }
+.eyebrow {
+  display: inline-flex;
+  gap: 12px;
+  align-items: center;
+  font-family: "JetBrains Mono", monospace;
+  font-size: .72rem;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 26px;
+}
+.eyebrow::before {
+  content: "";
+  width: 38px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+}
+h1 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 900;
+  font-size: clamp(2.65rem, 5.8vw, 5.35rem);
+  line-height: .9;
+  letter-spacing: -.055em;
+  color: var(--cream);
+  max-width: 850px;
+  text-shadow: 0 22px 70px rgba(0,0,0,.45);
+  margin-bottom: 30px;
+}
+.hero p {
+  max-width: 720px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-style: italic;
+  font-size: clamp(1.05rem, 1.65vw, 1.28rem);
+  color: var(--ink-muted);
+  margin-bottom: 24px;
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 34px;
+}
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+  padding: 10px 16px;
+  border: 1px solid var(--border-bright);
+  border-radius: 999px;
+  background: rgba(212,168,71,.065);
+  color: var(--cream);
+  font-family: "JetBrains Mono", monospace;
+  font-size: .7rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  box-shadow: 0 16px 46px rgba(0,0,0,.22);
+  transition: transform .2s ease, border-color .2s ease, background .2s ease, color .2s ease;
+}
+.button:hover { transform: translateY(-2px); border-color: var(--gold); background: rgba(212,168,71,.13); color: var(--gold-light); }
+.button.secondary { background: rgba(0,255,204,.04); border-color: rgba(0,255,204,.24); }
+.button.secondary:hover { color: var(--teal); border-color: var(--teal); background: rgba(0,255,204,.08); }
+
+.orb-wrap { position: relative; min-height: 520px; display: grid; place-items: center; }
+.orb {
+  width: min(440px, 78vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  position: relative;
+  border: 1px solid rgba(212,168,71,.25);
+  background:
+    radial-gradient(circle at 48% 42%, rgba(244,234,216,.12), transparent 24%),
+    radial-gradient(circle at 42% 62%, rgba(0,255,204,.1), transparent 34%),
+    radial-gradient(circle at 56% 52%, rgba(119,68,255,.12), transparent 42%),
+    radial-gradient(circle at 50% 50%, rgba(212,168,71,.08), transparent 60%);
+  box-shadow:
+    inset 0 0 80px rgba(212,168,71,.08),
+    inset 0 0 140px rgba(0,255,204,.035),
+    0 0 80px rgba(212,168,71,.09);
+  animation: breathe 8s ease-in-out infinite alternate;
+}
+.orb::before, .orb::after {
+  content: "";
+  position: absolute;
+  inset: 9%;
+  border-radius: 50%;
+  border: 1px solid rgba(0,255,204,.24);
+  transform: rotateX(64deg) rotateZ(12deg);
+  box-shadow: 0 0 30px rgba(0,255,204,.08);
+}
+.orb::after {
+  inset: 20%;
+  border-color: rgba(255,68,136,.22);
+  transform: rotateX(68deg) rotateY(48deg) rotateZ(-18deg);
+}
+.ring { position: absolute; border: 1px solid rgba(212,168,71,.18); border-radius: 50%; inset: -3%; animation: spin 26s linear infinite; }
+.ring:nth-child(2) { inset: 10%; border-color: rgba(119,68,255,.2); animation-duration: 34s; animation-direction: reverse; }
+.ring:nth-child(3) { inset: 22%; border-color: rgba(0,255,204,.18); animation-duration: 18s; }
+.node { position: absolute; width: 6px; height: 6px; background: var(--teal); border-radius: 50%; box-shadow: 0 0 18px var(--teal); }
+.node.n1 { top: 18%; left: 38%; }
+.node.n2 { right: 18%; top: 44%; background: var(--gold); box-shadow: 0 0 18px var(--gold); }
+.node.n3 { bottom: 21%; left: 28%; background: var(--rose); box-shadow: 0 0 18px var(--rose); }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes breathe { from { transform: scale(.985); filter: saturate(.9); } to { transform: scale(1.025); filter: saturate(1.18); } }
+
+.meta-strip {
+  margin: 0 calc(50% - 50vw);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,.015);
+  padding: 18px calc((100vw - min(1180px, calc(100vw - 44px))) / 2);
+}
+.meta-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.meta-item {
+  font-family: "JetBrains Mono", monospace;
+  font-size: .62rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.meta-item strong {
+  display: block;
+  color: var(--ink);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.05rem;
+  letter-spacing: 0;
+  text-transform: none;
+  font-weight: 600;
+  margin-top: 3px;
+}
+
+main { padding: 86px 0 96px; }
+nav.toc {
+  margin: 0 0 70px;
+  padding: 34px;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: rgba(255,255,255,.018);
+  box-shadow: 0 24px 80px rgba(0,0,0,.24);
+}
+nav.toc h2 {
+  font-family: "Playfair Display", Georgia, serif;
+  color: var(--cream);
+  font-size: clamp(1.75rem, 3vw, 2.85rem);
+  line-height: 1.04;
+  letter-spacing: -.035em;
+  max-width: 860px;
+  margin-bottom: 28px;
+}
+.toc-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+.toc-grid li { margin: 0; }
+.toc-grid a {
+  position: relative;
+  display: block;
+  min-height: 88px;
+  padding: 16px 17px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background:
+    radial-gradient(300px 120px at 10% 0%, rgba(212,168,71,.11), transparent 65%),
+    linear-gradient(140deg, rgba(255,255,255,.035), transparent 40%),
+    var(--card);
+  color: var(--ink-muted);
+  font-family: "JetBrains Mono", monospace;
+  font-size: .72rem;
+  line-height: 1.45;
+  letter-spacing: .055em;
+  transition: transform .22s ease, border-color .22s ease, color .22s ease, background .22s ease;
+}
+.toc-grid a:hover { transform: translateY(-3px); color: var(--gold-light); border-color: var(--border-bright); background-color: rgba(212,168,71,.06); }
+
+section {
+  position: relative;
+  overflow: hidden;
+  margin: 0 0 34px;
+  padding: clamp(28px, 4vw, 46px);
+  border: 1px solid var(--border);
+  border-radius: 26px;
+  background:
+    radial-gradient(560px 300px at 12% 2%, rgba(212,168,71,.09), transparent 70%),
+    radial-gradient(480px 260px at 92% 18%, rgba(0,255,204,.045), transparent 70%),
+    linear-gradient(140deg, rgba(255,255,255,.035), transparent 42%),
+    var(--card);
+  box-shadow: 0 24px 86px rgba(0,0,0,.30);
+}
+section:nth-of-type(3n+1) {
+  background:
+    radial-gradient(560px 300px at 12% 2%, rgba(0,255,204,.065), transparent 70%),
+    radial-gradient(480px 260px at 92% 18%, rgba(119,68,255,.06), transparent 70%),
+    linear-gradient(140deg, rgba(255,255,255,.035), transparent 42%),
+    var(--card2);
+}
+section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(212,168,71,.028) 1px, transparent 1px), linear-gradient(90deg, rgba(212,168,71,.02) 1px, transparent 1px);
+  background-size: 56px 56px;
+  opacity: .38;
+  pointer-events: none;
+}
+section > * { position: relative; z-index: 1; }
+.section-kicker {
+  font-family: "JetBrains Mono", monospace;
+  font-size: .68rem;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+h2 {
+  font-family: "Playfair Display", Georgia, serif;
+  color: var(--cream);
+  font-size: clamp(1.75rem, 2.9vw, 2.8rem);
+  line-height: 1.04;
+  letter-spacing: -.035em;
+  margin-bottom: 20px;
+}
+h3 {
+  font-family: "JetBrains Mono", monospace;
+  font-size: .82rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin: 34px 0 12px;
+}
+h4 {
+  color: var(--teal);
+  font-family: "JetBrains Mono", monospace;
+  font-size: .78rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin: 0 0 10px;
+}
+p { color: var(--ink); margin-bottom: 18px; }
+.muted, .caption { color: var(--ink-muted); }
+
+.thesis, .definition, .bridge, .warning {
+  border-radius: 18px;
+  padding: 20px 22px;
+  margin: 22px 0;
+  border: 1px solid var(--border);
+  box-shadow: 0 18px 54px rgba(0,0,0,.22);
+  color: var(--ink);
+}
+.thesis {
+  background: linear-gradient(135deg, rgba(212,168,71,.10), rgba(119,68,255,.07));
+  border-color: var(--border-bright);
+}
+.definition { border-left: 4px solid var(--gold); background: rgba(212,168,71,.065); }
+.bridge { border-left: 4px solid var(--teal); background: rgba(0,255,204,.045); }
+.warning { border-left: 4px solid var(--rose); background: rgba(255,68,136,.055); }
+
+.ladder, .math-block {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  margin: 20px 0;
+  padding: 20px;
+  border-radius: 18px;
+  background:
+    radial-gradient(380px 160px at 0% 0%, rgba(0,255,204,.05), transparent 70%),
+    var(--code);
+  border: 1px solid rgba(255,220,120,.16);
+  color: var(--cream);
+  overflow-x: auto;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.012);
+}
+.ladder { white-space: pre-wrap; color: var(--gold-light); }
+.math-block .mjx-container, .math-block mjx-container { color: var(--cream) !important; }
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 22px 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(2,3,10,.22);
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+th {
+  background: rgba(212,168,71,.075);
+  color: var(--cream);
+  font-family: "JetBrains Mono", monospace;
+  font-size: .72rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+td { color: var(--ink-muted); }
+tr:last-child td { border-bottom: 0; }
+
+.two-col, .three-col { display: grid; gap: 18px; margin: 24px 0; }
+.two-col { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.three-col { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.mini-card {
+  background:
+    linear-gradient(140deg, rgba(255,255,255,.038), transparent 42%),
+    rgba(255,255,255,.025);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 20px;
+}
+ol, ul { color: var(--ink-muted); padding-left: 1.2em; margin: 12px 0 18px; }
+li { margin-bottom: 8px; }
+
+.diagram {
+  margin: 26px 0 32px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background:
+    radial-gradient(520px 280px at 12% 10%, rgba(212,168,71,.09), transparent 70%),
+    radial-gradient(420px 280px at 90% 85%, rgba(0,255,204,.045), transparent 70%),
+    rgba(2,3,10,.42);
+  box-shadow: 0 22px 70px rgba(0,0,0,.30);
+  overflow: hidden;
+}
+.diagram svg { width: 100%; height: auto; display: block; }
+.caption {
+  margin: 12px 4px 2px;
+  font-size: .92rem;
+  font-style: italic;
+}
+
+
+/* Typography correction for the long-form teaching version.
+   The original index scale is intentionally cinematic; this page needs a quieter reading hierarchy. */
+.hero .thesis,
+.definition,
+.bridge,
+.warning,
+.mini-card,
+td,
+li {
+  font-size: 1rem;
+}
+
+p {
+  font-size: 1rem;
+}
+
+h2 + p,
+.section-intro {
+  font-size: 1.02rem;
+}
+
+.math-block,
+.ladder {
+  font-size: .9rem;
+  line-height: 1.62;
+}
+
+.math-block mjx-container[display="true"],
+.math-block .mjx-container[display="true"] {
+  font-size: 96% !important;
+}
+
+/* Prevent MathJax from inflating inline math inside captions and callout boxes */
+.caption mjx-container,
+.caption .mjx-container {
+  font-size: 1em !important;
+  vertical-align: -0.1em;
+}
+.definition mjx-container,
+.definition .mjx-container,
+.bridge mjx-container,
+.bridge .mjx-container,
+.warning mjx-container,
+.warning .mjx-container {
+  font-size: 1em !important;
+}
+
+.toc-grid a {
+  min-height: 76px;
+  font-size: .66rem;
+  line-height: 1.38;
+}
+
+th {
+  font-size: .66rem;
+}
+
+@media (max-width: 900px) {
+  h2, nav.toc h2 { font-size: clamp(1.55rem, 5.4vw, 2.35rem); }
+  .hero p { font-size: 1.06rem; }
+  .math-block, .ladder { font-size: .84rem; }
+}
+
+@media (max-width: 560px) {
+  body { font-size: 16px; }
+  h2, nav.toc h2 { font-size: clamp(1.45rem, 8vw, 2.05rem); }
+  .eyebrow, .section-kicker { font-size: .58rem; letter-spacing: .18em; }
+  .math-block, .ladder { font-size: .78rem; padding: 16px; }
+  .caption { font-size: .84rem; }
+}
+
+footer {
+  margin-top: 34px;
+  padding: 38px 0 54px;
+  border-top: 1px solid var(--border);
+  color: var(--ink-dim);
+  font-family: "JetBrains Mono", monospace;
+  font-size: .62rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+footer p { color: var(--ink-dim); margin-bottom: 8px; }
+
+@media (max-width: 900px) {
+  body { font-size: 17px; }
+  header.hero { min-height: auto; padding-top: 112px; grid-template-columns: 1fr; gap: 28px; }
+  .orb-wrap { min-height: 350px; order: -1; opacity: .92; }
+  .orb { width: min(330px, 78vw); }
+  .meta-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .page, .topbar-inner { width: min(100vw - 28px, 1180px); }
+  .topbar-inner { align-items: flex-start; flex-direction: column; gap: 8px; }
+  h1 { font-size: clamp(2.25rem, 12vw, 3.45rem); }
+  .meta-grid { grid-template-columns: 1fr; }
+  nav.toc, section { padding: 22px; }
+  .toc-grid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
+}
+@media print {
+  body { background: white; color: #111; font-size: 11pt; }
+  body::before, body::after, .topbar, .orb-wrap, .meta-strip { display: none !important; }
+  .page { width: auto; margin: 0; }
+  header.hero { min-height: auto; display: block; padding: 0 0 12mm; border-bottom: 1px solid #ddd; }
+  section, nav.toc, .diagram, .math-block, .ladder, .thesis, .definition, .bridge, .warning, .mini-card {
+    background: white !important;
+    color: #111 !important;
+    border-color: #ccc !important;
+    box-shadow: none !important;
+  }
+  section::before { display: none; }
+  p, td, ul, ol, .caption, .muted, footer p { color: #333 !important; }
+  h1, h2, h3, h4, strong { color: #111 !important; }
+  .toc-grid { display: block; }
+  .toc-grid a { min-height: auto; color: #111 !important; margin-bottom: 4px; }
+}
+</style>
+</head>
+<body><div class="topbar">
+<div class="topbar-inner">
+<span>Calabi–Yau Learning Pathway</span>
+<a href="#summary">One-Page Skeleton</a>
+</div>
+</div>
+<div class="page">
+<header class="hero">
+<div class="hero-inner">
+<div class="eyebrow">Illustrated Mathematical Learning Pathway</div>
+<h1>From Everyday Geometry to Calabi–Yau Manifolds</h1>
+<p>
+      A patient, example-led teaching plan that climbs from coordinates, vectors, curvature and topology
+      toward complex geometry, Kähler structures, Chern classes, Ricci-flatness, and finally Calabi–Yau manifolds.
+    </p>
+<div class="thesis">
+      A Calabi–Yau manifold should not first appear as a frightening formal object. It should emerge as the natural destination of a long question:
+      <strong>what kind of space is so internally balanced that its complex geometry, topology, and curvature all fit together?</strong>
+</div>
+<div class="hero-actions">
+<a class="button" href="#ladder">Begin the ladder →</a>
+<a class="button secondary" href="#weeks">Teaching schedule →</a>
+<button class="button btn-pdf" id="exportPdf" onclick="exportToPDF()">⬇ Export PDF</button>
+<a class="button secondary interactive-jump" href="#sets">Interactive demos →</a></div></div>
+<div aria-hidden="true" class="orb-wrap">
+<div class="orb">
+<span class="ring"></span>
+<span class="ring"></span>
+<span class="ring"></span>
+<span class="node n1"></span>
+<span class="node n2"></span>
+<span class="node n3"></span>
+</div>
+</div></header><div class="meta-strip">
+<div class="meta-grid">
+<div class="meta-item">Mode<strong>Illustrated lesson</strong></div>
+<div class="meta-item">Route<strong>Geometry → topology → Kähler</strong></div>
+<div class="meta-item">Medium<strong>MathJax + embedded SVG</strong></div>
+<div class="meta-item">Use<strong>Browser / GitHub Pages / PDF</strong></div>
+</div>
+</div>
+<nav class="toc">
+<h2>Reading Map</h2>
+<ul class="toc-grid">
+<li><a href="#ladder">0. The Whole Ladder</a></li>
+<li><a href="#sets">1. Spaces as Sets</a></li>
+<li><a href="#distance">2. Distance in Flat Space</a></li>
+<li><a href="#vectors">3. Vectors and Dot Products</a></li>
+<li><a href="#functions">4. Functions and Derivatives</a></li>
+<li><a href="#surfaces">5. Parametric Surfaces</a></li>
+<li><a href="#tangent">6. Tangent Spaces</a></li>
+<li><a href="#manifolds">7. Manifolds and Charts</a></li>
+<li><a href="#metric">8. Metric Tensor</a></li>
+<li><a href="#curvature">9. Geodesics and Curvature</a></li>
+<li><a href="#topology">10. Topology and Holes</a></li>
+<li><a href="#complex">11. Complex Numbers</a></li>
+<li><a href="#complex-structure">12. Complex Structure</a></li>
+<li><a href="#complex-manifolds">13. Complex Manifolds</a></li>
+<li><a href="#forms">14. Differential Forms</a></li>
+<li><a href="#kahler">15. Kähler Geometry</a></li>
+<li><a href="#ricci-form">16. Ricci Form</a></li>
+<li><a href="#chern">17. Chern Classes</a></li>
+<li><a href="#canonical">18. Canonical Bundle</a></li>
+<li><a href="#yau">19. Calabi’s Conjecture and Yau’s Theorem</a></li>
+<li><a href="#definition">20. Calabi–Yau Definitions</a></li>
+<li><a href="#threefold">21. Calabi–Yau Threefold</a></li>
+<li><a href="#examples">22. Examples</a></li>
+<li><a href="#monge">23. Monge–Ampère Equation</a></li>
+<li><a href="#weeks">24. Week-by-Week Plan</a></li>
+<li><a href="#summary">25. One-Page Skeleton</a></li>
+</ul>
+</nav>
+<main>
+<section id="ladder">
+<div class="section-kicker">Layer 00</div><h2>0. The Whole Ladder</h2>
+<p>The conceptual path is:</p>
+<div class="ladder">space
+→ dimension
+→ curvature
+→ topology
+→ manifold
+→ metric
+→ complex structure
+→ Kähler geometry
+→ Chern class
+→ Ricci-flatness
+→ Calabi–Yau manifold</div>
+<p>The mathematical path is:</p>
+<div class="ladder">sets
+→ coordinates
+→ vectors
+→ functions
+→ derivatives
+→ tangent spaces
+→ metric tensor
+→ curvature tensor
+→ topology
+→ manifolds
+→ complex coordinates
+→ differential forms
+→ Kähler form
+→ Chern classes
+→ Ricci form
+→ Calabi–Yau condition</div>
+<div class="diagram">
+<svg viewbox="0 0 1200 520" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="g1" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" stop-color="#d4a847"></stop>
+<stop offset="100%" stop-color="#7744ff"></stop>
+</lineargradient>
+<lineargradient id="g2" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" stop-color="#00ffcc"></stop>
+<stop offset="100%" stop-color="#d4a847"></stop>
+</lineargradient>
+<filter id="glow">
+<fegaussianblur result="b" stddeviation="6"></fegaussianblur>
+<femerge>
+<femergenode in="b"></femergenode>
+<femergenode in="SourceGraphic"></femergenode>
+</femerge>
+</filter>
+<marker id="arr" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="8" refy="5" viewbox="0 0 10 10">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="#d4a847"></path>
+</marker>
+</defs>
+<rect fill="transparent" height="520" width="1200" x="0" y="0"></rect>
+<text fill="#eaf2ff" font-size="19" font-weight="700" x="46" y="48">The ascent toward Calabi–Yau</text>
+<text fill="#9a9080" font-size="13.5" x="46" y="82">Each layer adds exactly one more kind of structure.</text>
+<!-- Row 1 -->
+<g>
+<rect fill="rgba(212,168,71,.10)" height="74" rx="18" ry="18" stroke="rgba(255,220,120,.13)" width="180" x="40" y="120"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" text-anchor="middle" x="130" y="155">Space</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="130" y="178">possible positions</text>
+<rect fill="rgba(212,168,71,.10)" height="74" rx="18" ry="18" stroke="rgba(255,220,120,.13)" width="180" x="270" y="120"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" text-anchor="middle" x="360" y="155">Dimension</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="360" y="178">degrees of freedom</text>
+<rect fill="rgba(212,168,71,.10)" height="74" rx="18" ry="18" stroke="rgba(255,220,120,.13)" width="180" x="500" y="120"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" text-anchor="middle" x="590" y="155">Curvature</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="590" y="178">failure of flatness</text>
+<rect fill="rgba(212,168,71,.10)" height="74" rx="18" ry="18" stroke="rgba(255,220,120,.13)" width="180" x="730" y="120"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" text-anchor="middle" x="820" y="155">Topology</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="820" y="178">holes and continuity</text>
+<rect fill="rgba(212,168,71,.10)" height="74" rx="18" ry="18" stroke="rgba(255,220,120,.13)" width="180" x="960" y="120"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" text-anchor="middle" x="1050" y="155">Manifold</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="1050" y="178">locally Euclidean</text>
+<line marker-end="url(#arr)" stroke="#d4a847" stroke-width="3" x1="220" x2="265" y1="157" y2="157"></line>
+<line marker-end="url(#arr)" stroke="#d4a847" stroke-width="3" x1="450" x2="495" y1="157" y2="157"></line>
+<line marker-end="url(#arr)" stroke="#d4a847" stroke-width="3" x1="680" x2="725" y1="157" y2="157"></line>
+<line marker-end="url(#arr)" stroke="#d4a847" stroke-width="3" x1="910" x2="955" y1="157" y2="157"></line>
+</g>
+<!-- Row 2 -->
+<g>
+<rect fill="rgba(0,255,204,.10)" height="78" rx="18" ry="18" stroke="rgba(255,220,120,.13)" width="180" x="120" y="300"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" text-anchor="middle" x="210" y="335">Metric</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="210" y="358">how distance is measured</text>
+<rect fill="rgba(0,255,204,.10)" height="78" rx="18" ry="18" stroke="rgba(255,220,120,.13)" width="200" x="360" y="300"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" text-anchor="middle" x="460" y="335">Complex Structure</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="460" y="358">a geometric i</text>
+<rect fill="rgba(0,255,204,.10)" height="78" rx="18" ry="18" stroke="rgba(255,220,120,.13)" width="190" x="620" y="300"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" text-anchor="middle" x="715" y="335">Kähler</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="715" y="358">metric + complex + symplectic</text>
+<rect fill="rgba(119,68,255,.10)" filter="url(#glow)" height="78" rx="18" ry="18" stroke="rgba(255,220,120,.13)" width="250" x="870" y="300"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" text-anchor="middle" x="995" y="335">Calabi–Yau</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="995" y="358">c₁ = 0, Ricci-flat Kähler metric</text>
+<line marker-end="url(#arr)" stroke="#00ffcc" stroke-width="3" x1="300" x2="355" y1="339" y2="339"></line>
+<line marker-end="url(#arr)" stroke="#00ffcc" stroke-width="3" x1="560" x2="615" y1="339" y2="339"></line>
+<line marker-end="url(#arr)" stroke="#7744ff" stroke-width="3" x1="810" x2="865" y1="339" y2="339"></line>
+</g>
+<path d="M1050 194 C1050 245, 210 245, 210 294" fill="none" stroke="url(#g1)" stroke-dasharray="7 8" stroke-width="4"></path>
+<text fill="#c9d7ea" font-size="14" text-anchor="middle" x="585" y="237">once a manifold exists, we add more structure</text>
+</svg>
+<div class="caption">Diagram 1. A high-level map of the ascent: manifold structure first, then metric, complex structure, Kähler compatibility, and finally the Calabi–Yau condition.</div>
+</div>
+<div class="bridge">The teaching strategy is cumulative: every new symbol appears because the previous layer has made it necessary.</div>
+</section>
+<section id="sets">
+<div class="section-kicker">Layer 01</div><h2>1. Spaces as Sets</h2>
+<p>At the most basic level, a mathematical space begins as a set: a collection of objects.</p>
+<div class="math-block">\[
+  X=\{\text{objects}\}
+  \]</div>
+<p>The real line, the plane, and three-dimensional space are:</p>
+<div class="math-block">\[
+  \mathbb{R}=\{\text{all real numbers}\}
+  \]
+  \[
+  \mathbb{R}^2=\{(x,y):x,y\in\mathbb{R}\}
+  \]
+  \[
+  \mathbb{R}^3=\{(x,y,z):x,y,z\in\mathbb{R}\}
+  \]</div>
+<p>In general:</p>
+<div class="math-block">\[
+  \mathbb{R}^n=\{(x_1,x_2,\ldots,x_n):x_i\in\mathbb{R}\}
+  \]</div>
+<div class="diagram">
+<svg viewbox="0 0 1200 380" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="arr2" markerheight="7" markerwidth="7" orient="auto" refx="8" refy="5" viewbox="0 0 10 10">
+<path d="M0 0L10 5L0 10Z" fill="#d4a847"></path>
+</marker>
+</defs>
+<text fill="#f4ead8" font-size="19" font-weight="700" x="40" y="42">Dimensions as coordinates</text>
+<text fill="#9a9080" font-size="14" x="40" y="72">A point is just a list of coordinates. Each new dimension adds one more independent degree of freedom.</text>
+<g transform="translate(55,120)">
+<rect fill="rgba(212,168,71,.07)" height="180" rx="20" stroke="rgba(255,220,120,.13)" width="240"></rect>
+<line stroke="#d4a847" stroke-width="3" x1="35" x2="200" y1="145" y2="145"></line>
+<circle cx="125" cy="145" fill="#00ffcc" r="9"></circle>
+<text fill="#f4ead8" font-size="17" text-anchor="middle" x="120" y="110">1D</text>
+<text fill="#9a9080" font-size="13.5" text-anchor="middle" x="120" y="172">(x)</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="120" y="198">one degree of freedom</text>
+</g>
+<g transform="translate(335,120)">
+<rect fill="rgba(212,168,71,.07)" height="180" rx="20" stroke="rgba(255,220,120,.13)" width="240"></rect>
+<line stroke="#d4a847" stroke-width="2.8" x1="35" x2="200" y1="145" y2="145"></line>
+<line stroke="#d4a847" stroke-width="2.8" x1="60" x2="60" y1="25" y2="150"></line>
+<circle cx="125" cy="85" fill="#7744ff" r="9"></circle>
+<text fill="#9a9080" font-size="13.5" text-anchor="middle" x="120" y="172">(x,y)</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="120" y="198">two degrees of freedom</text>
+<text fill="#f4ead8" font-size="17" text-anchor="middle" x="120" y="110">2D</text>
+</g>
+<g transform="translate(615,120)">
+<rect fill="rgba(212,168,71,.07)" height="180" rx="20" stroke="rgba(255,220,120,.13)" width="240"></rect>
+<polygon fill="none" points="70,140 150,140 195,105 115,105" stroke="#d4a847" stroke-width="2.2"></polygon>
+<polygon fill="none" points="70,140 70,60 150,60 150,140" stroke="#d4a847" stroke-width="2.2"></polygon>
+<polygon fill="none" points="150,140 195,105 195,25 150,60" stroke="#d4a847" stroke-width="2.2"></polygon>
+<polygon fill="none" points="70,60 115,25 195,25 150,60" stroke="#d4a847" stroke-width="2.2"></polygon>
+<circle cx="150" cy="92" fill="#00ffcc" r="9"></circle>
+<text fill="#9a9080" font-size="13.5" text-anchor="middle" x="120" y="172">(x,y,z)</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="120" y="198">three degrees of freedom</text>
+<text fill="#f4ead8" font-size="17" text-anchor="middle" x="120" y="110">3D</text>
+</g>
+<g transform="translate(895,120)">
+<rect fill="rgba(212,168,71,.07)" height="180" rx="20" stroke="rgba(255,220,120,.13)" width="240"></rect>
+<polygon fill="none" points="55,130 130,130 170,100 95,100" stroke="#7744ff" stroke-width="2.0"></polygon>
+<polygon fill="none" points="55,130 55,55 130,55 130,130" stroke="#7744ff" stroke-width="2.0"></polygon>
+<polygon fill="none" points="130,130 170,100 170,25 130,55" stroke="#7744ff" stroke-width="2.0"></polygon>
+<polygon fill="none" points="55,55 95,25 170,25 130,55" stroke="#7744ff" stroke-width="2.0"></polygon>
+<polygon fill="none" points="85,155 160,155 200,125 125,125" stroke="#d4a847" stroke-width="2.0"></polygon>
+<polygon fill="none" points="85,155 85,80 160,80 160,155" stroke="#d4a847" stroke-width="2.0"></polygon>
+<polygon fill="none" points="160,155 200,125 200,50 160,80" stroke="#d4a847" stroke-width="2.0"></polygon>
+<polygon fill="none" points="85,80 125,50 200,50 160,80" stroke="#d4a847" stroke-width="2.0"></polygon>
+<line stroke="#9a9080" stroke-width="1.8" x1="55" x2="85" y1="130" y2="155"></line>
+<line stroke="#9a9080" stroke-width="1.8" x1="130" x2="160" y1="130" y2="155"></line>
+<line stroke="#9a9080" stroke-width="1.8" x1="170" x2="200" y1="100" y2="125"></line>
+<line stroke="#9a9080" stroke-width="1.8" x1="95" x2="125" y1="100" y2="125"></line>
+<circle cx="143" cy="92" fill="#00ffcc" r="8"></circle>
+<text fill="#9a9080" font-size="13.5" text-anchor="middle" x="120" y="172">(x₁,x₂,x₃,x₄)</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="120" y="198">projection of 4D</text>
+<text fill="#f4ead8" font-size="17" text-anchor="middle" x="120" y="110">4D</text>
+</g>
+<line marker-end="url(#arr2)" stroke="#d4a847" stroke-width="3" x1="295" x2="330" y1="210" y2="210"></line>
+<line marker-end="url(#arr2)" stroke="#d4a847" stroke-width="3" x1="575" x2="610" y1="210" y2="210"></line>
+<line marker-end="url(#arr2)" stroke="#d4a847" stroke-width="3" x1="855" x2="890" y1="210" y2="210"></line>
+</svg>
+<div class="caption">Diagram 2. Dimension as coordinate count: a point in ℝ<sup>n</sup> is a tuple of <i>n</i> numbers.</div>
+</div>
+<div class="definition">A point in \( \mathbb{R}^n \) is simply a list of \( n \) numbers. Higher dimensions are not mystical; they are additional coordinates, or additional degrees of freedom.</div>
+<div class="interactive">
+<div class="interactive-header">
+<div>
+<h4>Interactive 1 — Dimension Explorer</h4>
+<div class="sub">
+                Increase the dimension and watch the coordinate tuple grow. The first three axes are visible; higher ones extend beyond ordinary vision but remain mathematically consistent.
+              </div>
+</div>
+</div>
+<div class="interactive-body">
+<div class="controls">
+<div class="control-group">
+<label>
+<span>Dimension \(n\)</span>
+<strong id="dim-val">3</strong>
+</label>
+<input id="dim-slider" max="10" min="1" step="1" type="range" value="3"/>
+</div>
+<div class="miniout" id="dim-output"></div>
+<div class="legend">
+<span><span class="dot" style="background:#6ecfb8"></span>visible axes</span>
+<span><span class="dot" style="background:#b8a4e8"></span>hidden / abstract axes</span>
+</div>
+</div>
+<div class="viz">
+<svg id="dim-svg" viewbox="0 0 760 360" xmlns="http://www.w3.org/2000/svg">
+<rect fill="transparent" height="340" width="760" x="0" y="0"></rect>
+<text fill="#eef0f8" font-family="'Playfair Display',serif" font-size="24" font-weight="700" x="28" y="34">Dimension as coordinate count</text>
+<text fill="#8a94b0" font-family="'Outfit',sans-serif" font-size="14" x="28" y="60">A point is a tuple. Each added dimension contributes one more degree of freedom.</text>
+<g id="dim-graphics"></g>
+</svg>
+</div>
+</div>
+</div></section>
+<section id="distance">
+<div class="section-kicker">Layer 02</div><h2>2. Distance in Flat Space</h2>
+<p>In ordinary flat geometry, distance comes from Pythagoras.</p>
+<div class="math-block">\[
+  p=(x_1,y_1),\qquad q=(x_2,y_2),
+  \]
+  \[
+  d(p,q)=\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}
+  \]</div>
+<p>In three dimensions:</p>
+<div class="math-block">\[
+  d(p,q)=\sqrt{(x_2-x_1)^2+(y_2-y_1)^2+(z_2-z_1)^2}
+  \]</div>
+<p>In \(n\) dimensions:</p>
+<div class="math-block">\[
+  d(p,q)=\sqrt{\sum_{i=1}^n (x_i-y_i)^2}
+  \]</div>
+<div class="diagram">
+<svg viewbox="0 0 1200 360" xmlns="http://www.w3.org/2000/svg">
+<text fill="#f4ead8" font-size="19" font-weight="700" x="40" y="42">Pythagorean distance in the plane</text>
+<text fill="#9a9080" font-size="14" x="40" y="72">Distance is built from differences in each coordinate, then combined quadratically.</text>
+<g transform="translate(100,100)">
+<rect fill="rgba(212,168,71,.06)" height="220" rx="20" stroke="rgba(255,220,120,.13)" width="430"></rect>
+<line stroke="#d4a847" stroke-width="2.5" x1="60" x2="370" y1="180" y2="180"></line>
+<line stroke="#d4a847" stroke-width="2.5" x1="60" x2="60" y1="180" y2="30"></line>
+<circle cx="120" cy="130" fill="#00ffcc" r="7"></circle>
+<circle cx="300" cy="60" fill="#7744ff" r="7"></circle>
+<line stroke="#f4ead8" stroke-width="3" x1="120" x2="300" y1="130" y2="60"></line>
+<line stroke="#00ffcc" stroke-dasharray="6 6" stroke-width="2.2" x1="120" x2="300" y1="130" y2="130"></line>
+<line stroke="#7744ff" stroke-dasharray="6 6" stroke-width="2.2" x1="300" x2="300" y1="130" y2="60"></line>
+<text fill="#e8c97a" font-size="14" x="112" y="150">p</text>
+<text fill="#c8b7ff" font-size="14" x="308" y="56">q</text>
+<text fill="#b7ffd9" font-size="13.5" x="195" y="123">Δx = x₂ − x₁</text>
+<text fill="#c8b7ff" font-size="13.5" x="313" y="97">Δy = y₂ − y₁</text>
+<text fill="#f4ead8" font-size="14" x="193" y="88">d = √((Δx)² + (Δy)²)</text>
+</g>
+<g transform="translate(640,110)">
+<rect fill="rgba(0,255,204,.06)" height="200" rx="20" stroke="rgba(255,220,120,.13)" width="460"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" x="30" y="40">The same idea in n dimensions</text>
+<text fill="#9a9080" font-size="14" x="30" y="80">Each axis contributes a squared difference.</text>
+<text fill="#f4ead8" font-size="18" x="30" y="128">d(p,q) = √Σᵢ₌₁ⁿ(xᵢ − yᵢ)²</text>
+<text fill="#9a9080" font-size="14" x="30" y="176">This is the flat Euclidean metric. Later, manifolds will generalise this rule.</text>
+</g>
+</svg>
+<div class="caption">Diagram 3. Euclidean distance as coordinate difference accumulated through the Pythagorean rule.</div>
+</div>
+<div class="bridge">This is the default flat geometry of \( \mathbb{R}^n \). Later, curved spaces will replace this simple distance rule with a metric tensor.</div>
+<div class="interactive">
+<div class="interactive-header">
+<div>
+<h4>Interactive 2 — Draggable Distance &amp; Dot Product Explorer</h4>
+<div class="sub">
+                Drag the two points. Watch the coordinate difference, the distance, and the dot product update live.
+              </div>
+</div>
+</div>
+<div class="interactive-body">
+<div class="controls">
+<p class="muted" style="font-family:var(--sans);font-size:.87rem;margin:0 0 10px;">Drag points \(P\) and \(Q\) in the diagram.</p>
+<div class="miniout" id="dist-output"></div>
+<div class="legend">
+<span><span class="dot" style="background:#6ecfb8"></span>\(P\)</span>
+<span><span class="dot" style="background:#b8a4e8"></span>\(Q\)</span>
+<span><span class="dot" style="background:#eef0f8"></span>distance segment</span>
+</div>
+</div>
+<div class="viz">
+<svg id="dist-svg" viewbox="0 0 760 360" xmlns="http://www.w3.org/2000/svg">
+<rect fill="transparent" height="360" width="760" x="0" y="0"></rect>
+<text fill="#eef0f8" font-family="'Playfair Display',serif" font-size="24" font-weight="700" x="28" y="34">Euclidean plane</text>
+<text fill="#8a94b0" font-family="'Outfit',sans-serif" font-size="14" x="28" y="58">Drag points to explore \(\Delta x\), \(\Delta y\), distance, and dot product.</text>
+<g id="dist-grid"></g>
+<g id="dist-objects"></g>
+</svg>
+</div>
+</div>
+</div></section>
+<section id="vectors">
+<div class="section-kicker">Layer 03</div><h2>3. Vectors and Dot Products</h2>
+<p>A vector is a direction with magnitude. In \( \mathbb{R}^n \):</p>
+<div class="math-block">\[
+  v=(v_1,v_2,\ldots,v_n)
+  \]</div>
+<p>The length of a vector is:</p>
+<div class="math-block">\[
+  |v|=\sqrt{\sum_{i=1}^n v_i^2}
+  \]</div>
+<p>The dot product of two vectors is:</p>
+<div class="math-block">\[
+  u\cdot v=\sum_{i=1}^n u_i v_i
+  \]</div>
+<p>The dot product also gives angles:</p>
+<div class="math-block">\[
+  u\cdot v=|u||v|\cos\theta
+  \]</div>
+<div class="diagram">
+<svg viewbox="0 0 1200 360" xmlns="http://www.w3.org/2000/svg">
+<text fill="#f4ead8" font-size="19" font-weight="700" x="40" y="42">Vectors and the dot product</text>
+<text fill="#9a9080" font-size="14" x="40" y="72">The dot product measures alignment between directions.</text>
+<g transform="translate(70,100)">
+<rect fill="rgba(212,168,71,.06)" height="220" rx="20" stroke="rgba(255,220,120,.13)" width="500"></rect>
+<line stroke="#d4a847" stroke-width="2.5" x1="70" x2="420" y1="170" y2="170"></line>
+<line stroke="#d4a847" stroke-width="2.5" x1="70" x2="70" y1="170" y2="40"></line>
+<line stroke="#00ffcc" stroke-width="4" x1="150" x2="360" y1="170" y2="80"></line>
+<line stroke="#7744ff" stroke-width="4" x1="150" x2="320" y1="170" y2="120"></line>
+<path d="M210 151 A65 65 0 0 1 240 131" fill="none" stroke="#e8c97a" stroke-width="3"></path>
+<text fill="#00ffcc" font-size="14" x="363" y="76">u</text>
+<text fill="#c8b7ff" font-size="14" x="325" y="118">v</text>
+<text fill="#e8c97a" font-size="14" x="232" y="142"></text>
+<text fill="#9a9080" font-size="13.5" x="90" y="205">u · v = |u||v| cosθ</text>
+</g>
+<g transform="translate(620,100)">
+<rect fill="rgba(119,68,255,.06)" height="220" rx="20" stroke="rgba(255,220,120,.13)" width="500"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" x="28" y="46">Sign of u · v</text>
+<text fill="#00ffcc" font-size="14" x="28" y="92">If u · v &gt; 0: vectors broadly align</text>
+<text fill="#c8b7ff" font-size="14" x="28" y="132">If u · v = 0: vectors are orthogonal</text>
+<text fill="#e8c97a" font-size="14" x="28" y="172">If u · v &lt; 0: vectors broadly oppose each other</text>
+<text fill="#9a9080" font-size="14" x="28" y="204">A metric tensor is the curved-space generalisation of this inner product.</text>
+</g>
+</svg>
+<div class="caption">Diagram 4. The dot product is the geometry of directional agreement.</div>
+</div>
+</section>
+<section id="functions">
+<div class="section-kicker">Layer 04</div><h2>4. Functions and Derivatives</h2>
+<p>A function maps one space to another:</p>
+<div class="math-block">\[
+  f:X\to Y
+  \]</div>
+<p>For example:</p>
+<div class="math-block">\[
+  f:\mathbb{R}\to\mathbb{R},\qquad f(x)=x^2
+  \]
+  \[
+  f:\mathbb{R}^2\to\mathbb{R},\qquad f(x,y)=x^2+y^2
+  \]</div>
+<p>If \(f(x,y)\) gives height, then \(z=f(x,y)\) describes a surface.</p>
+<div class="math-block">\[
+  z=x^2+y^2
+  \qquad
+  z=x^2-y^2
+  \]</div>
+<p>For a function \(f(x)\), the derivative \( \frac{df}{dx} \) measures rate of change.</p>
+<div class="math-block">\[
+  f(x)=x^2,\qquad \frac{df}{dx}=2x
+  \]</div>
+<p>For \(f(x,y)\), we use partial derivatives:</p>
+<div class="math-block">\[
+  \frac{\partial f}{\partial x},\qquad \frac{\partial f}{\partial y}
+  \]</div>
+<p>The gradient is:</p>
+<div class="math-block">\[
+  \nabla f =
+  \left(
+  \frac{\partial f}{\partial x_1},
+  \frac{\partial f}{\partial x_2},
+  \ldots,
+  \frac{\partial f}{\partial x_n}
+  \right)
+  \]</div>
+<div class="diagram">
+<svg viewbox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg">
+<text fill="#f4ead8" font-size="19" font-weight="700" x="40" y="42">From functions to surfaces</text>
+<text fill="#9a9080" font-size="14" x="40" y="72">A scalar function on the plane can be read as a height field.</text>
+<g transform="translate(55,110)">
+<rect fill="rgba(212,168,71,.06)" height="240" rx="20" stroke="rgba(255,220,120,.13)" width="500"></rect>
+<path d="M110 190 C160 50, 275 40, 370 190" fill="none" stroke="#d4a847" stroke-width="4"></path>
+<line stroke="#9a9080" stroke-width="2" x1="50" x2="440" y1="190" y2="190"></line>
+<line stroke="rgba(255,220,120,.18)" stroke-width="1.5" x1="110" x2="110" y1="190" y2="40"></line>
+<line stroke="rgba(255,220,120,.18)" stroke-width="1.5" x1="275" x2="275" y1="190" y2="70"></line>
+<circle cx="275" cy="78" fill="#00ffcc" r="6"></circle>
+<text fill="#f4ead8" font-size="16" x="250" y="35">f(x)=x²</text>
+<text fill="#00ffcc" font-size="14" x="285" y="81">slope here = f'(x)</text>
+</g>
+<g transform="translate(625,110)">
+<rect fill="rgba(0,255,204,.06)" height="240" rx="20" stroke="rgba(255,220,120,.13)" width="500"></rect>
+<polygon fill="none" points="80,190 240,120 415,190 255,260" stroke="#d4a847" stroke-width="2"></polygon>
+<path d="M115 175 C170 115, 265 85, 380 170" fill="none" stroke="#00ffcc" stroke-width="3"></path>
+<path d="M115 190 C175 132, 270 110, 380 190" fill="none" stroke="#00ffcc" stroke-width="3"></path>
+<path d="M115 206 C175 154, 270 136, 380 206" fill="none" stroke="#00ffcc" stroke-width="3"></path>
+<path d="M160 205 C185 155, 220 110, 245 85" fill="none" stroke="#7744ff" stroke-width="3"></path>
+<path d="M250 238 C272 184, 296 145, 320 110" fill="none" stroke="#7744ff" stroke-width="3"></path>
+<circle cx="248" cy="155" fill="#e8c97a" r="6"></circle>
+<line stroke="#e8c97a" stroke-width="2.5" x1="248" x2="320" y1="155" y2="130"></line>
+<text fill="#f4ead8" font-size="16" x="185" y="42">z=f(x,y)</text>
+<text fill="#e8c97a" font-size="14" x="254" y="150">∇f</text>
+</g>
+</svg>
+<div class="caption">Diagram 5. A derivative is local change. A gradient is the direction of steepest increase on a scalar field.</div>
+</div>
+<div class="bridge">Curved geometry depends on understanding local change. To understand manifolds, we need calculus locally.</div>
+</section>
+<section id="surfaces">
+<div class="section-kicker">Layer 05</div><h2>5. Parametric Surfaces</h2>
+<p>A surface can be described using internal parameters:</p>
+<div class="math-block">\[
+  X(u,v)=\big(x(u,v),y(u,v),z(u,v)\big)
+  \]</div>
+<p>A sphere of radius \(r\) can be parametrised by:</p>
+<div class="math-block">\[
+  X(\theta,\phi)=
+  \big(
+  r\sin\phi\cos\theta,\,
+  r\sin\phi\sin\theta,\,
+  r\cos\phi
+  \big)
+  \]
+  \[
+  0\leq\theta&lt;2\pi,\qquad 0\leq\phi\leq\pi
+  \]</div>
+<div class="diagram">
+<svg viewbox="0 0 1200 420" xmlns="http://www.w3.org/2000/svg">
+<text fill="#f4ead8" font-size="19" font-weight="700" x="40" y="42">The sphere as a parametrised surface</text>
+<text fill="#9a9080" font-size="14" x="40" y="72">Two internal parameters are enough to locate any point on the sphere.</text>
+<g transform="translate(70,110)">
+<rect fill="rgba(212,168,71,.06)" height="260" rx="20" stroke="rgba(255,220,120,.13)" width="480"></rect>
+<circle cx="240" cy="130" fill="none" r="95" stroke="#d4a847" stroke-width="3"></circle>
+<ellipse cx="240" cy="130" fill="none" rx="95" ry="35" stroke="rgba(255,220,120,.18)" stroke-width="1.5"></ellipse>
+<line stroke="rgba(255,220,120,.18)" stroke-width="1.5" x1="240" x2="240" y1="35" y2="225"></line>
+<line stroke="#00ffcc" stroke-width="3" x1="240" x2="317" y1="130" y2="85"></line>
+<line stroke="#7744ff" stroke-width="2.6" x1="240" x2="240" y1="130" y2="35"></line>
+<path d="M240 95 A35 35 0 0 1 273 111" fill="none" stroke="#e8c97a" stroke-width="2.8"></path>
+<path d="M274 111 A64 64 0 0 0 315 84" fill="none" stroke="#00ffcc" stroke-width="2.8"></path>
+<circle cx="317" cy="85" fill="#f4ead8" r="6"></circle>
+<text fill="#e8c97a" font-size="14" x="281" y="102"></text>
+<text fill="#00ffcc" font-size="14" x="292" y="121"></text>
+<text fill="#f4ead8" font-size="14" x="324" y="82">X(θ,φ)</text>
+</g>
+<g transform="translate(625,110)">
+<rect fill="rgba(0,255,204,.06)" height="260" rx="20" stroke="rgba(255,220,120,.13)" width="500"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" x="28" y="48">Coordinate meaning</text>
+<text fill="#9a9080" font-size="14" x="28" y="92">θ sweeps around the vertical axis.</text>
+<text fill="#9a9080" font-size="14" x="28" y="126">φ measures angle down from the north pole.</text>
+<text fill="#f4ead8" font-size="18" x="28" y="174">X(θ, φ) = (r sinφ cosθ, r sinφ sinθ, r cosφ)</text>
+<text fill="#9a9080" font-size="14" x="28" y="228">The sphere is intrinsically 2-dimensional, even though it lives in 3-dimensional space.</text>
+</g>
+</svg>
+<div class="caption">Diagram 6. A parametrisation gives the sphere its own internal coordinate system.</div>
+</div>
+<div class="definition">The sphere is two-dimensional even though it sits in three-dimensional space, because each point on the sphere only needs two internal coordinates: \( (\theta,\phi) \).</div>
+<div class="interactive">
+<div class="interactive-header">
+<div>
+<h4>Interactive 3 — Surface Type Switcher</h4>
+<div class="sub">
+                Compare how different functions generate different local geometries.
+              </div>
+</div>
+</div>
+<div class="interactive-body">
+<div class="controls">
+<div class="button-row" id="surface-buttons">
+<button class="active" data-surface="paraboloid">Paraboloid</button>
+<button data-surface="saddle">Saddle</button>
+<button data-surface="sinusoid">Sinusoid</button>
+</div>
+<div class="miniout" id="surface-output"></div>
+</div>
+<div class="viz">
+<svg id="surface-svg" viewbox="0 0 760 420" xmlns="http://www.w3.org/2000/svg">
+<rect fill="transparent" height="420" width="760" x="0" y="0"></rect>
+<text fill="#eef0f8" font-family="'Playfair Display',serif" font-size="24" font-weight="700" x="28" y="36">Function as surface</text>
+<text fill="#8a94b0" font-family="'Outfit',sans-serif" font-size="14" x="28" y="61">Contour families and an oblique wireframe suggest the shape of \(z=f(x,y)\).</text>
+<g id="surface-content"></g>
+</svg>
+</div>
+</div>
+</div></section>
+<section id="tangent">
+<div class="section-kicker">Layer 06</div><h2>6. Tangent Vectors and Tangent Spaces</h2>
+<p>For a parametrised surface \(X(u,v)\), we differentiate with respect to \(u\) and \(v\):</p>
+<div class="math-block">\[
+  X_u=\frac{\partial X}{\partial u},\qquad
+  X_v=\frac{\partial X}{\partial v}
+  \]</div>
+<p>These are tangent vectors. The tangent plane at a point is spanned by them:</p>
+<div class="math-block">\[
+  T_pM=\operatorname{span}\{X_u,X_v\}
+  \]</div>
+<p>For an \(n\)-dimensional manifold:</p>
+<div class="math-block">\[
+  T_pM\cong\mathbb{R}^n
+  \]</div>
+<div class="diagram">
+<svg viewbox="0 0 1200 420" xmlns="http://www.w3.org/2000/svg">
+<text fill="#f4ead8" font-size="19" font-weight="700" x="40" y="42">Tangent plane as local flat approximation</text>
+<text fill="#9a9080" font-size="14" x="40" y="72">Globally curved, locally flat: this is the key geometric move that makes calculus possible on manifolds.</text>
+<g transform="translate(90,110)">
+<rect fill="rgba(140,200,255,0.05)" height="260" rx="22" stroke="rgba(255,220,120,.13)" width="1020"></rect>
+<ellipse cx="360" cy="130" fill="none" rx="150" ry="105" stroke="#d4a847" stroke-width="3"></ellipse>
+<polygon fill="rgba(119,68,255,.10)" points="540,115 705,75 805,150 640,190" stroke="#7744ff" stroke-width="2.5"></polygon>
+<line stroke="rgba(255,255,255,0.25)" stroke-dasharray="7 6" stroke-width="2" x1="470" x2="640" y1="72" y2="132"></line>
+<circle cx="468" cy="72" fill="#f4ead8" r="7"></circle>
+<circle cx="640" cy="132" fill="#e8c97a" r="6"></circle>
+<line stroke="#00ffcc" stroke-width="3" x1="640" x2="730" y1="132" y2="108"></line>
+<line stroke="#d4a847" stroke-width="3" x1="640" x2="690" y1="132" y2="176"></line>
+<text fill="#f4ead8" font-size="13.5" x="440" y="62">point p on curved surface</text>
+<text fill="#00ffcc" font-size="14" x="735" y="104">Xᵤ</text>
+<text fill="#d4a847" font-size="14" x="693" y="195">Xᵥ</text>
+<text fill="#c8b7ff" font-size="14" x="655" y="62">tangent plane TₚM</text>
+</g>
+</svg>
+<div class="caption">Diagram 7. The tangent space is the manifold’s local linearisation at a point.</div>
+</div>
+<div class="ladder">curved space globally
+linear algebra locally</div>
+<div class="interactive">
+<div class="interactive-header">
+<div>
+<h4>Interactive 4 — Sphere Parameterisation &amp; Tangent Plane</h4>
+<div class="sub">
+                Move around a sphere using angular coordinates \(\theta\) and \(\phi\). The tangent plane updates with the point.
+              </div>
+</div>
+</div>
+<div class="interactive-body">
+<div class="controls">
+<div class="control-group">
+<label><span>\(\theta\) (longitude-like)</span><strong id="theta-val">0.90</strong></label>
+<input id="theta-slider" max="628" min="0" step="1" type="range" value="90"/>
+</div>
+<div class="control-group">
+<label><span>\(\phi\) (colatitude-like)</span><strong id="phi-val">1.10</strong></label>
+<input id="phi-slider" max="304" min="10" step="1" type="range" value="110"/>
+</div>
+<div class="miniout" id="sphere-output"></div>
+</div>
+<div class="viz">
+<svg id="sphere-svg" viewbox="0 0 760 430" xmlns="http://www.w3.org/2000/svg">
+<rect fill="transparent" height="430" width="760" x="0" y="0"></rect>
+<text fill="#eef0f8" font-family="'Playfair Display',serif" font-size="24" font-weight="700" x="28" y="36">Sphere with moving tangent plane</text>
+<text fill="#8a94b0" font-family="'Outfit',sans-serif" font-size="14" x="28" y="61">The sphere is globally curved but locally approximated by a plane.</text>
+<g id="sphere-content"></g>
+</svg>
+</div>
+</div>
+</div></section>
+<section id="manifolds">
+<div class="section-kicker">Layer 07</div><h2>7. Manifolds and Charts</h2>
+<p>A manifold \(M\) is a space that locally looks like Euclidean space. For every point \(p\in M\), there is a neighbourhood \(U\) and a coordinate map:</p>
+<div class="math-block">\[
+  \varphi:U\to\mathbb{R}^n
+  \]</div>
+<p>The map \( \varphi \) is called a chart. A collection of charts is an atlas:</p>
+<div class="math-block">\[
+  \{(U_i,\varphi_i)\}
+  \]</div>
+<p>If two charts overlap, the transition map is:</p>
+<div class="math-block">\[
+  \varphi_j\circ\varphi_i^{-1}:
+  \varphi_i(U_i\cap U_j)\to
+  \varphi_j(U_i\cap U_j)
+  \]</div>
+<div class="diagram">
+<svg viewbox="0 0 1200 420" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="arr3" markerheight="7" markerwidth="7" orient="auto" refx="8" refy="5" viewbox="0 0 10 10">
+<path d="M0 0L10 5L0 10Z" fill="#d4a847"></path>
+</marker>
+</defs>
+<text fill="#f4ead8" font-size="19" font-weight="700" x="40" y="42">Manifolds are understood through charts</text>
+<text fill="#9a9080" font-size="14" x="40" y="72">An atlas is a family of local coordinate patches that overlap consistently.</text>
+<g transform="translate(80,120)">
+<rect fill="rgba(140,200,255,0.05)" height="240" rx="22" stroke="rgba(255,220,120,.13)" width="1020"></rect>
+<circle cx="240" cy="120" fill="none" r="95" stroke="#d4a847" stroke-width="3"></circle>
+<path d="M165 95 C185 65, 230 55, 270 75 C305 95, 315 125, 300 150 C280 185, 210 190, 180 160 C160 140, 150 120, 165 95 Z" fill="rgba(125,255,208,0.18)" stroke="#00ffcc" stroke-width="2.5"></path>
+<path d="M220 72 C240 58, 275 57, 298 77 C320 97, 322 130, 306 150 C286 176, 250 183, 220 168 C185 149, 185 97, 220 72 Z" fill="rgba(212,177,255,0.18)" stroke="#7744ff" stroke-width="2.5"></path>
+<text fill="#00ffcc" font-size="13.5" x="130" y="220">patch Uᵢ</text>
+<text fill="#c8b7ff" font-size="13.5" x="285" y="220">patch Uⱼ</text>
+<text fill="#f4ead8" font-size="14" x="222" y="126">Uᵢ ∩ Uⱼ</text>
+<line marker-end="url(#arr3)" stroke="#d4a847" stroke-width="3" x1="350" x2="470" y1="120" y2="120"></line>
+<line marker-end="url(#arr3)" stroke="#7744ff" stroke-width="3" x1="710" x2="830" y1="120" y2="120"></line>
+<rect fill="rgba(0,255,204,.07)" height="140" rx="18" stroke="rgba(255,220,120,.13)" width="180" x="480" y="50"></rect>
+<line stroke="#d4a847" stroke-width="2.5" x1="515" x2="625" y1="160" y2="160"></line>
+<line stroke="#d4a847" stroke-width="2.5" x1="540" x2="540" y1="40" y2="165"></line>
+<ellipse cx="575" cy="110" fill="rgba(0,255,204,.10)" rx="58" ry="38" stroke="#00ffcc" stroke-width="2"></ellipse>
+<text fill="#00ffcc" font-size="13.5" text-anchor="middle" x="570" y="220">φᵢ(Uᵢ) ⊂ ℝ²</text>
+<rect fill="rgba(212,177,255,0.07)" height="140" rx="18" stroke="rgba(255,220,120,.13)" width="180" x="840" y="50"></rect>
+<line stroke="#d4a847" stroke-width="2.5" x1="875" x2="985" y1="160" y2="160"></line>
+<line stroke="#d4a847" stroke-width="2.5" x1="900" x2="900" y1="40" y2="165"></line>
+<ellipse cx="935" cy="110" fill="rgba(119,68,255,.10)" rx="58" ry="38" stroke="#7744ff" stroke-width="2"></ellipse>
+<text fill="#c8b7ff" font-size="13.5" text-anchor="middle" x="930" y="220">φⱼ(Uⱼ) ⊂ ℝ²</text>
+</g>
+</svg>
+<div class="caption">Diagram 8. A manifold is covered by local coordinate charts; the overlap must transform smoothly.</div>
+</div>
+<div class="bridge">A manifold is like Earth: each map is locally useful, but no single flat map captures the whole world perfectly.</div>
+</section>
+<section id="metric">
+<div class="section-kicker">Layer 08</div><h2>8. Metric Tensor</h2>
+<p>In flat Euclidean space, the dot product is:</p>
+<div class="math-block">\[
+  u\cdot v=\sum_i u_i v_i
+  \]</div>
+<p>On a curved manifold, we replace this with a metric tensor. At each point \(p\), the metric takes two tangent vectors and gives a number:</p>
+<div class="math-block">\[
+  g_p:T_pM\times T_pM\to\mathbb{R}
+  \]</div>
+<p>In coordinates:</p>
+<div class="math-block">\[
+  g=\sum_{i,j} g_{ij}\,dx^i dx^j
+  \]
+  \[
+  ds^2=\sum_{i,j} g_{ij}\,dx^i dx^j
+  \]</div>
+<p>Euclidean example:</p>
+<div class="math-block">\[
+  ds^2=dx^2+dy^2,\qquad
+  g=
+  \begin{pmatrix}
+  1 &amp; 0\\
+  0 &amp; 1
+  \end{pmatrix}
+  \]</div>
+<p>Sphere example:</p>
+<div class="math-block">\[
+  ds^2=r^2\,d\phi^2+r^2\sin^2\phi\,d\theta^2
+  \]</div>
+<div class="diagram">
+<svg viewbox="0 0 1200 390" xmlns="http://www.w3.org/2000/svg">
+<text fill="#f4ead8" font-size="19" font-weight="700" x="40" y="42">The metric as the manifold’s measuring rule</text>
+<text fill="#9a9080" font-size="14" x="40" y="72">Same manifold idea, different metric: different notions of distance, angle, area, and shortest path.</text>
+<g transform="translate(65,115)">
+<rect fill="rgba(212,168,71,.06)" height="220" rx="20" stroke="rgba(255,220,120,.13)" width="470"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" x="30" y="38">Flat metric</text>
+<line stroke="#d4a847" stroke-width="2.2" x1="60" x2="400" y1="175" y2="175"></line>
+<line stroke="#d4a847" stroke-width="2.2" x1="100" x2="100" y1="35" y2="175"></line>
+<path d="M115 155 C180 112, 275 88, 340 55" fill="none" stroke="#00ffcc" stroke-width="3"></path>
+<text fill="#9a9080" font-size="14" x="140" y="203">uniform local measuring rule</text>
+<text fill="#00ffcc" font-size="14" x="135" y="64">straight lines are geodesics</text>
+</g>
+<g transform="translate(665,115)">
+<rect fill="rgba(119,68,255,.06)" height="220" rx="20" stroke="rgba(255,220,120,.13)" width="470"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" x="30" y="38">Sphere metric</text>
+<circle cx="235" cy="110" fill="none" r="78" stroke="#7744ff" stroke-width="3"></circle>
+<ellipse cx="235" cy="110" fill="none" rx="78" ry="28" stroke="rgba(255,220,120,.18)" stroke-width="1.3"></ellipse>
+<path d="M178 63 C214 40, 259 40, 294 63" fill="none" stroke="#00ffcc" stroke-width="3"></path>
+<text fill="#00ffcc" font-size="14" x="303" y="66">great-circle arc</text>
+<text fill="#9a9080" font-size="14" x="95" y="203">position-dependent measuring rule</text>
+</g>
+</svg>
+<div class="caption">Diagram 9. A metric tells the space how to measure. Change the metric, and the geometry changes.</div>
+</div>
+<div class="definition">The metric is the space’s internal measuring rule. It tells the manifold how to measure length, angle, area, and shortest paths.</div>
+</section>
+<section id="curvature">
+<div class="section-kicker">Layer 09</div><h2>9. Geodesics and Curvature</h2>
+<p>In flat space, the shortest path is a straight line. On a curved manifold, the shortest path is called a geodesic.</p>
+<div class="math-block">\[
+  \frac{d^2x^k}{dt^2}+\Gamma^k_{ij}\frac{dx^i}{dt}\frac{dx^j}{dt}=0
+  \]</div>
+<p>The symbols \( \Gamma^k_{ij} \) are Christoffel symbols. They describe how coordinates bend and how tangent vectors change as we move.</p>
+<p>The full curvature of a manifold is encoded in the Riemann curvature tensor:</p>
+<div class="math-block">\[
+  R^p{}_{sij}
+  \]</div>
+<p>Ricci curvature is a contraction of the Riemann curvature tensor:</p>
+<div class="math-block">\[
+  \operatorname{Ric}_{ij}=R^k{}_{ikj}
+  \]</div>
+<p>Scalar curvature is another contraction:</p>
+<div class="math-block">\[
+  R=g^{ij}\operatorname{Ric}_{ij}
+  \]</div>
+<div class="diagram">
+<svg viewbox="0 0 1200 420" xmlns="http://www.w3.org/2000/svg">
+<text fill="#f4ead8" font-size="19" font-weight="700" x="40" y="42">Three curvature archetypes</text>
+<text fill="#9a9080" font-size="14" x="40" y="72">Curvature changes how geodesics behave and how nearby straightest-possible paths converge or diverge.</text>
+<!-- flat -->
+<g transform="translate(55,110)">
+<rect fill="rgba(212,168,71,.06)" height="250" rx="20" stroke="rgba(255,220,120,.13)" width="330"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" text-anchor="middle" x="165" y="34">Flat</text>
+<line stroke="rgba(255,220,120,.13)" stroke-width="1.3" x1="55" x2="280" y1="85" y2="85"></line>
+<line stroke="rgba(255,220,120,.13)" stroke-width="1.3" x1="55" x2="280" y1="125" y2="125"></line>
+<line stroke="rgba(255,220,120,.13)" stroke-width="1.3" x1="55" x2="280" y1="165" y2="165"></line>
+<line stroke="rgba(255,220,120,.13)" stroke-width="1.3" x1="55" x2="280" y1="205" y2="205"></line>
+<line stroke="rgba(255,220,120,.13)" stroke-width="1.3" x1="85" x2="85" y1="55" y2="220"></line>
+<line stroke="rgba(255,220,120,.13)" stroke-width="1.3" x1="135" x2="135" y1="55" y2="220"></line>
+<line stroke="rgba(255,220,120,.13)" stroke-width="1.3" x1="185" x2="185" y1="55" y2="220"></line>
+<line stroke="rgba(255,220,120,.13)" stroke-width="1.3" x1="235" x2="235" y1="55" y2="220"></line>
+<line stroke="#00ffcc" stroke-width="3.2" x1="90" x2="90" y1="205" y2="65"></line>
+<line stroke="#00ffcc" stroke-width="3.2" x1="150" x2="150" y1="205" y2="65"></line>
+<text fill="#9a9080" font-size="13.5" text-anchor="middle" x="165" y="232">parallel geodesics remain parallel</text>
+</g>
+<!-- positive -->
+<g transform="translate(435,110)">
+<rect fill="rgba(0,255,204,.06)" height="250" rx="20" stroke="rgba(255,220,120,.13)" width="330"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" text-anchor="middle" x="165" y="34">Positive curvature</text>
+<circle cx="165" cy="132" fill="none" r="80" stroke="#d4a847" stroke-width="3"></circle>
+<path d="M120 195 C120 145, 135 100, 160 62" fill="none" stroke="#e8c97a" stroke-width="3"></path>
+<path d="M210 195 C210 145, 195 100, 170 62" fill="none" stroke="#e8c97a" stroke-width="3"></path>
+<text fill="#9a9080" font-size="13.5" text-anchor="middle" x="165" y="232">geodesics tend to converge</text>
+</g>
+<!-- negative -->
+<g transform="translate(815,110)">
+<rect fill="rgba(119,68,255,.06)" height="250" rx="20" stroke="rgba(255,220,120,.13)" width="330"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" text-anchor="middle" x="165" y="34">Negative curvature</text>
+<path d="M55 175 C110 80, 220 80, 275 175" fill="none" stroke="#7744ff" stroke-width="3.2"></path>
+<path d="M55 110 C110 205, 220 205, 275 110" fill="none" stroke="#7744ff" stroke-width="3.2"></path>
+<line stroke="#00ffcc" stroke-width="3" x1="155" x2="120" y1="165" y2="95"></line>
+<line stroke="#00ffcc" stroke-width="3" x1="180" x2="230" y1="160" y2="88"></line>
+<text fill="#9a9080" font-size="13.5" text-anchor="middle" x="165" y="232">geodesics tend to diverge</text>
+</g>
+</svg>
+<div class="caption">Diagram 10. Flat, positively curved, and negatively curved spaces differ in how their geodesics behave.</div>
+</div>
+<div class="warning">Calabi–Yau manifolds are Ricci-flat: \(\operatorname{Ric}_{ij}=0\). But this does not necessarily mean the full Riemann tensor vanishes: \(R^p{}_{sij}\neq 0\). A Calabi–Yau manifold can be Ricci-flat while still having rich internal curvature.</div>
+<div class="interactive">
+<div class="interactive-header">
+<div>
+<h4>Interactive 5 — Curvature Archetypes</h4>
+<div class="sub">
+                Switch between flat, positively curved, and negatively curved geometry to see how geodesics behave.
+              </div>
+</div>
+</div>
+<div class="interactive-body">
+<div class="controls">
+<div class="button-row" id="curv-buttons">
+<button class="active" data-curv="flat">Flat</button>
+<button data-curv="positive">Positive</button>
+<button data-curv="negative">Negative</button>
+</div>
+<div class="miniout" id="curv-output"></div>
+</div>
+<div class="viz">
+<svg id="curv-svg" viewbox="0 0 760 400" xmlns="http://www.w3.org/2000/svg">
+<rect fill="transparent" height="400" width="760" x="0" y="0"></rect>
+<text fill="#eef0f8" font-family="'Playfair Display',serif" font-size="24" font-weight="700" x="28" y="36">Geodesic behaviour</text>
+<text fill="#8a94b0" font-family="'Outfit',sans-serif" font-size="14" x="28" y="61">What "straight" means depends on the geometry of the space.</text>
+<g id="curv-content"></g>
+</svg>
+</div>
+</div>
+</div></section>
+<section id="topology">
+<div class="section-kicker">Layer 10</div><h2>10. Topology and Holes</h2>
+<p>Topology studies properties unchanged by continuous deformation. One simple invariant is the Euler characteristic:</p>
+<div class="math-block">\[
+  \chi=V-E+F
+  \]</div>
+<p>For a genus \(g\) surface:</p>
+<div class="math-block">\[
+  \chi=2-2g
+  \]</div>
+<div class="diagram">
+<svg viewbox="0 0 1200 420" xmlns="http://www.w3.org/2000/svg">
+<text fill="#f4ead8" font-size="19" font-weight="700" x="40" y="42">Topology counts holes, not exact shape</text>
+<text fill="#9a9080" font-size="14" x="40" y="72">Stretching is allowed. Tearing and gluing are not.</text>
+<g transform="translate(55,115)">
+<rect fill="rgba(140,200,255,0.05)" height="250" rx="22" stroke="rgba(255,220,120,.13)" width="1090"></rect>
+<!-- sphere -->
+<g transform="translate(90,30)">
+<circle cx="115" cy="92" fill="rgba(140,200,255,0.12)" r="75" stroke="#d4a847" stroke-width="3"></circle>
+<text fill="#f4ead8" font-size="16" text-anchor="middle" x="115" y="190">Sphere</text>
+<text fill="#9a9080" font-size="14" text-anchor="middle" x="115" y="216">genus g = 0, χ = 2</text>
+</g>
+<!-- torus -->
+<g transform="translate(360,26)">
+<ellipse cx="115" cy="95" fill="rgba(0,255,204,.10)" rx="92" ry="66" stroke="#00ffcc" stroke-width="3"></ellipse>
+<ellipse cx="115" cy="95" fill="rgba(18,30,45,0.82)" rx="34" ry="24" stroke="#00ffcc" stroke-width="3"></ellipse>
+<text fill="#f4ead8" font-size="16" text-anchor="middle" x="115" y="194">Torus</text>
+<text fill="#9a9080" font-size="14" text-anchor="middle" x="115" y="220">genus g = 1, χ = 0</text>
+</g>
+<!-- double torus -->
+<g transform="translate(650,26)">
+<path d="M35 95 C35 55, 60 30, 105 30 C140 30, 160 47, 175 68 C190 47, 210 30, 245 30 C290 30, 315 55, 315 95 C315 135, 290 160, 245 160 C210 160, 190 143, 175 122 C160 143, 140 160, 105 160 C60 160, 35 135, 35 95Z" fill="rgba(119,68,255,.10)" stroke="#7744ff" stroke-width="3"></path>
+<ellipse cx="105" cy="95" fill="rgba(18,30,45,0.82)" rx="32" ry="20" stroke="#7744ff" stroke-width="3"></ellipse>
+<ellipse cx="245" cy="95" fill="rgba(18,30,45,0.82)" rx="32" ry="20" stroke="#7744ff" stroke-width="3"></ellipse>
+<text fill="#f4ead8" font-size="16" text-anchor="middle" x="175" y="194">Double torus</text>
+<text fill="#9a9080" font-size="14" text-anchor="middle" x="175" y="220">genus g = 2, χ = −2</text>
+</g>
+</g>
+</svg>
+<div class="caption">Diagram 11. Topology classifies spaces by structural invariants such as the number of holes.</div>
+</div>
+<table>
+<thead><tr><th>Surface</th><th>Genus \(g\)</th><th>Euler Characteristic \(\chi\)</th></tr></thead>
+<tbody>
+<tr><td>Sphere</td><td>0</td><td>2</td></tr>
+<tr><td>Torus</td><td>1</td><td>0</td></tr>
+<tr><td>Double torus</td><td>2</td><td>-2</td></tr>
+<tr><td>Triple torus</td><td>3</td><td>-4</td></tr>
+</tbody>
+</table>
+<div class="bridge">Calabi–Yau manifolds are deeply classified by topological invariants. Their holes, cycles, and global structure matter.</div>
+<div class="interactive">
+<div class="interactive-header">
+<div>
+<h4>Interactive 6 — Torus Construction by Gluing</h4>
+<div class="sub">
+                Step through the logic of identifying opposite edges: square → cylinder → torus.
+              </div>
+</div>
+</div>
+<div class="interactive-body">
+<div class="controls">
+<div class="button-row" id="torus-buttons">
+<button class="active" data-stage="0">Step 1: Square</button>
+<button data-stage="1">Step 2: Cylinder</button>
+<button data-stage="2">Step 3: Torus</button>
+</div>
+<div class="miniout" id="torus-output"></div>
+</div>
+<div class="viz">
+<svg id="torus-svg" viewbox="0 0 760 380" xmlns="http://www.w3.org/2000/svg">
+<rect fill="transparent" height="380" width="760" x="0" y="0"></rect>
+<text fill="#eef0f8" font-family="'Playfair Display',serif" font-size="24" font-weight="700" x="28" y="36">Topology by identification</text>
+<text fill="#8a94b0" font-family="'Outfit',sans-serif" font-size="14" x="28" y="61">Local flatness can coexist with globally nontrivial topology.</text>
+<g id="torus-content"></g>
+</svg>
+</div>
+</div>
+</div></section>
+<section id="complex">
+<div class="section-kicker">Layer 11</div><h2>11. Complex Numbers as Geometry</h2>
+<p>A complex number is:</p>
+<div class="math-block">\[
+  z=x+iy,\qquad i^2=-1
+  \]</div>
+<p>The complex plane is:</p>
+<div class="math-block">\[
+  \mathbb{C}=\{z=x+iy:x,y\in\mathbb{R}\},\qquad
+  \mathbb{C}\cong\mathbb{R}^2
+  \]</div>
+<p>Multiplication by \(i\) rotates by \(90^\circ\):</p>
+<div class="math-block">\[
+  i(x+iy)=ix+i^2y=-y+ix
+  \]
+  \[
+  (x,y)\mapsto (-y,x)
+  \]</div>
+<div class="diagram">
+<svg viewbox="0 0 1200 390" xmlns="http://www.w3.org/2000/svg">
+<text fill="#f4ead8" font-size="19" font-weight="700" x="40" y="42">Complex multiplication as rotation</text>
+<text fill="#9a9080" font-size="14" x="40" y="72">The imaginary unit i is not just algebraic; it acts geometrically as a quarter-turn.</text>
+<g transform="translate(120,100)">
+<rect fill="rgba(212,168,71,.06)" height="240" rx="20" stroke="rgba(255,220,120,.13)" width="420"></rect>
+<line stroke="#d4a847" stroke-width="2.5" x1="60" x2="360" y1="185" y2="185"></line>
+<line stroke="#d4a847" stroke-width="2.5" x1="110" x2="110" y1="40" y2="210"></line>
+<line stroke="#00ffcc" stroke-width="4" x1="110" x2="280" y1="185" y2="110"></line>
+<line stroke="#7744ff" stroke-width="4" x1="110" x2="185" y1="185" y2="15"></line>
+<path d="M175 160 A65 65 0 0 1 142 120" fill="none" stroke="#e8c97a" stroke-width="3"></path>
+<text fill="#00ffcc" font-size="13.5" x="284" y="109">z=x+iy</text>
+<text fill="#c8b7ff" font-size="13.5" x="188" y="18">iz</text>
+<text fill="#e8c97a" font-size="14" x="163" y="130">90°</text>
+</g>
+<g transform="translate(620,100)">
+<rect fill="rgba(119,68,255,.06)" height="240" rx="20" stroke="rgba(255,220,120,.13)" width="460"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" x="30" y="44">Coordinate action of i</text>
+<text fill="#f4ead8" font-size="18" x="30" y="95">i(x+iy)= −y+ix</text>
+<text fill="#f4ead8" font-size="18" x="30" y="150">(x,y) ↦ (−y,x)</text>
+<text fill="#9a9080" font-size="14" x="30" y="206">This is the prototype for complex structure on tangent spaces.</text>
+</g>
+</svg>
+<div class="caption">Diagram 12. The imaginary unit <i>i</i> acts as a geometric rotation operator on the plane.</div>
+</div>
+<div class="bridge">A complex structure on a real manifold is, roughly, a smoothly varying way to rotate tangent vectors by \(90^\circ\).</div>
+<div class="interactive">
+<div class="interactive-header">
+<div>
+<h4>Interactive 7 — Complex Multiplication as Rotation</h4>
+<div class="sub">
+                Rotate a point in the complex plane by an angle \(\alpha\), and compare the special case of multiplying by \(i\).
+              </div>
+</div>
+</div>
+<div class="interactive-body">
+<div class="controls">
+<div class="control-group">
+<label><span>Angle \(\alpha\)</span><strong id="alpha-val">1.57</strong></label>
+<input id="alpha-slider" max="628" min="0" step="1" type="range" value="157"/>
+</div>
+<div class="button-row">
+<button id="alpha-i-btn">Set \(\alpha=\pi/2\)</button>
+<button id="alpha-reset-btn">Reset</button>
+</div>
+<div class="miniout" id="complex-output"></div>
+</div>
+<div class="viz">
+<svg id="complex-svg" viewbox="0 0 760 400" xmlns="http://www.w3.org/2000/svg">
+<rect fill="transparent" height="400" width="760" x="0" y="0"></rect>
+<text fill="#eef0f8" font-family="'Playfair Display',serif" font-size="24" font-weight="700" x="28" y="36">Complex plane</text>
+<text fill="#8a94b0" font-family="'Outfit',sans-serif" font-size="14" x="28" y="61">Multiplication by \(e^{i\alpha}\) rotates vectors. Multiplying by \(i\) is the quarter-turn case.</text>
+<g id="complex-content"></g>
+</svg>
+</div>
+</div>
+</div></section>
+<section id="complex-structure">
+<div class="section-kicker">Layer 12</div><h2>12. Complex Structure</h2>
+<p>A complex structure is an operator:</p>
+<div class="math-block">\[
+  J:TM\to TM
+  \]</div>
+<p>acting on tangent vectors such that:</p>
+<div class="math-block">\[
+  J^2=-I
+  \]</div>
+<p>If \(v\) is a tangent vector, \(Jv\) is the vector rotated by \(90^\circ\) in the complex direction. Doing it twice gives a \(180^\circ\) rotation:</p>
+<div class="math-block">\[
+  J^2v=-v
+  \]</div>
+<div class="diagram"><svg aria-label="Complex structure as a geometric i on a tangent plane" role="img" viewbox="0 0 1200 390" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="arrJ13" markerheight="7" markerwidth="7" orient="auto" refx="8" refy="5" viewbox="0 0 10 10">
+<path d="M0 0L10 5L0 10Z" fill="#00ffcc"></path>
+</marker>
+<marker id="arrJ13b" markerheight="7" markerwidth="7" orient="auto" refx="8" refy="5" viewbox="0 0 10 10">
+<path d="M0 0L10 5L0 10Z" fill="#7744ff"></path>
+</marker>
+<marker id="arrJ13c" markerheight="7" markerwidth="7" orient="auto" refx="8" refy="5" viewbox="0 0 10 10">
+<path d="M0 0L10 5L0 10Z" fill="#e8c97a"></path>
+</marker>
+</defs>
+<text fill="#f4ead8" font-size="19" font-weight="700" x="40" y="42">Complex structure as a geometric i</text>
+<text fill="#9a9080" font-size="14" x="40" y="72">At each point, J makes the tangent space behave like a complex vector space.</text>
+<g transform="translate(110,105)">
+<rect fill="rgba(140,200,255,0.05)" height="230" rx="20" stroke="rgba(255,220,120,.13)" width="980"></rect>
+<text fill="#f4ead8" font-size="16" x="32" y="36">tangent space TₚM</text>
+<line stroke="rgba(255,220,120,.16)" stroke-width="1.5" x1="160" x2="820" y1="142" y2="142"></line>
+<line stroke="rgba(255,220,120,.16)" stroke-width="1.5" x1="490" x2="490" y1="52" y2="202"></line>
+<circle cx="490" cy="142" fill="#f4ead8" r="4"></circle>
+<line marker-end="url(#arrJ13)" stroke="#00ffcc" stroke-width="4" x1="490" x2="710" y1="142" y2="142"></line>
+<line marker-end="url(#arrJ13b)" stroke="#7744ff" stroke-width="4" x1="490" x2="490" y1="142" y2="58"></line>
+<line marker-end="url(#arrJ13c)" stroke="#e8c97a" stroke-width="4" x1="490" x2="270" y1="142" y2="142"></line>
+<path d="M565 138 A74 74 0 0 0 495 68" fill="none" stroke="#d4a847" stroke-width="3"></path>
+<path d="M415 146 A74 74 0 0 0 485 216" fill="none" stroke="#d4a847" stroke-dasharray="5 6" stroke-width="2.4"></path>
+<text fill="#00ffcc" font-size="15" x="722" y="146">v</text>
+<text fill="#c8b7ff" font-size="15" x="503" y="60">Jv</text>
+<text fill="#e8c97a" font-size="15" x="208" y="146">J²v = −v</text>
+<text fill="#d4a847" font-size="14" x="562" y="92">apply J</text>
+<text fill="#9a9080" font-size="14" x="585" y="205">J² = −I, so two quarter-turns reverse the vector.</text>
+</g>
+</svg>
+<div class="caption">Diagram 13. The operator <i>J</i> generalises multiplication by <i>i</i> from the complex plane to each tangent space.</div>
+</div>
+<div class="definition">A real 6-dimensional manifold with a complex structure may be understood as complex 3-dimensional: \(\mathbb{R}^6\cong\mathbb{C}^3\).</div>
+</section>
+<section id="complex-manifolds">
+<div class="section-kicker">Layer 13</div><h2>13. Complex Manifolds</h2>
+<p>A complex manifold of complex dimension \(n\) is locally modelled on:</p>
+<div class="math-block">\[
+  \mathbb{C}^n
+  \]</div>
+<p>Its coordinates are:</p>
+<div class="math-block">\[
+  (z^1,z^2,\ldots,z^n),\qquad z^k=x^k+iy^k
+  \]</div>
+<p>Therefore:</p>
+<div class="math-block">\[
+  \dim_{\mathbb{C}}M=n\quad\Longrightarrow\quad \dim_{\mathbb{R}}M=2n
+  \]</div>
+<div class="three-col">
+<div class="mini-card">
+<h4>Complex dimension 1</h4>
+<p>\(\mathbb{C}\cong\mathbb{R}^2\)</p>
+</div>
+<div class="mini-card">
+<h4>Complex dimension 2</h4>
+<p>\(\mathbb{C}^2\cong\mathbb{R}^4\)</p>
+</div>
+<div class="mini-card">
+<h4>Complex dimension 3</h4>
+<p>\(\mathbb{C}^3\cong\mathbb{R}^6\)</p>
+</div>
+</div>
+<p>A complex function \(f:\mathbb{C}\to\mathbb{C}\) can be written:</p>
+<div class="math-block">\[
+  f(z)=u(x,y)+iv(x,y),\qquad z=x+iy
+  \]</div>
+<p>The Cauchy–Riemann equations are:</p>
+<div class="math-block">\[
+  \frac{\partial u}{\partial x}=\frac{\partial v}{\partial y},\qquad
+  \frac{\partial u}{\partial y}=-\frac{\partial v}{\partial x}
+  \]</div>
+<div class="bridge">Complex manifolds are glued together using holomorphic transition functions. This makes complex geometry much more rigid than ordinary smooth geometry.</div>
+</section>
+<section id="forms">
+<div class="section-kicker">Layer 14</div><h2>14. Differential Forms</h2>
+<p>Differential forms are objects that can be integrated over curves, surfaces, and higher-dimensional regions.</p>
+<div class="math-block">\[
+  \alpha = f\,dx + g\,dy
+  \qquad
+  \beta=h\,dx\wedge dy
+  \]</div>
+<p>The wedge product \( \wedge \) is antisymmetric:</p>
+<div class="math-block">\[
+  dx\wedge dy=-dy\wedge dx,\qquad dx\wedge dx=0
+  \]</div>
+<p>The exterior derivative is written \(d\), and satisfies:</p>
+<div class="math-block">\[
+  d^2=0
+  \]</div>
+<p>A symplectic form is a closed, non-degenerate 2-form \( \omega \):</p>
+<div class="math-block">\[
+  d\omega=0
+  \]</div>
+<p>In phase space coordinates \((q,p)\), the canonical symplectic form is:</p>
+<div class="math-block">\[
+  \omega=dq\wedge dp
+  \]</div>
+<div class="diagram">
+<svg viewbox="0 0 1200 380" xmlns="http://www.w3.org/2000/svg">
+<text fill="#f4ead8" font-size="19" font-weight="700" x="40" y="42">Differential forms measure along, across, and through</text>
+<text fill="#9a9080" font-size="14" x="40" y="72">1-forms pair with directions; 2-forms measure oriented area.</text>
+<g transform="translate(70,110)">
+<rect fill="rgba(212,168,71,.06)" height="220" rx="20" stroke="rgba(255,220,120,.13)" width="320"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" text-anchor="middle" x="160" y="38">1-form</text>
+<line stroke="#00ffcc" stroke-width="4" x1="70" x2="250" y1="175" y2="90"></line>
+<path d="M120 205 C145 175, 168 150, 193 120" fill="none" stroke="#d4a847" stroke-dasharray="6 6" stroke-width="2.5"></path>
+<text fill="#9a9080" font-size="14" x="78" y="205">α = f dx + g dy</text>
+<text fill="#00ffcc" font-size="13.5" x="120" y="76">measures along a direction</text>
+</g>
+<g transform="translate(440,110)">
+<rect fill="rgba(0,255,204,.06)" height="220" rx="20" stroke="rgba(255,220,120,.13)" width="320"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" text-anchor="middle" x="160" y="38">2-form</text>
+<polygon fill="rgba(212,177,255,0.18)" points="85,160 210,115 240,170 115,215" stroke="#7744ff" stroke-width="3"></polygon>
+<text fill="#9a9080" font-size="14" x="80" y="205">β = h dx ∧ dy</text>
+<text fill="#c8b7ff" font-size="13.5" x="85" y="76">measures oriented area</text>
+</g>
+<g transform="translate(810,110)">
+<rect fill="rgba(119,68,255,.06)" height="220" rx="20" stroke="rgba(255,220,120,.13)" width="320"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" text-anchor="middle" x="160" y="38">Symplectic form</text>
+<line stroke="#d4a847" stroke-width="2.5" x1="70" x2="250" y1="170" y2="170"></line>
+<line stroke="#d4a847" stroke-width="2.5" x1="110" x2="110" y1="55" y2="190"></line>
+<line stroke="#e8c97a" stroke-width="3" x1="110" x2="235" y1="170" y2="90"></line>
+<text fill="#9a9080" font-size="14" x="78" y="205">ω = dq ∧ dp</text>
+<text fill="#e8c97a" font-size="13.5" x="80" y="76">structure of flow and phase space</text>
+</g>
+</svg>
+<div class="caption">Diagram 14. Differential forms are the native language for integration and geometric structure on manifolds.</div>
+</div>
+<div class="bridge">Kähler geometry combines metric geometry, complex geometry, and symplectic geometry into one compatible structure.</div>
+</section>
+<section id="kahler">
+<div class="section-kicker">Layer 15</div><h2>15. Kähler Geometry</h2>
+<p>A Kähler manifold has three mutually compatible structures:</p>
+<div class="math-block">\[
+  g=\text{metric},\qquad J=\text{complex structure},\qquad \omega=\text{Kähler form}
+  \]</div>
+<p>They satisfy:</p>
+<div class="math-block">\[
+  \omega(X,Y) = g(JX,Y),\qquad d\omega=0
+  \]</div>
+<p>In complex coordinates \( (z^1,\ldots,z^n) \), a Kähler metric can be written as:</p>
+<div class="math-block">\[
+  ds^2=2\sum_{i,j}g_{i\bar{j}}\,dz^i\,d\bar{z}^j
+  \]</div>
+<p>The Kähler form is:</p>
+<div class="math-block">\[
+  \omega=i\sum_{i,j}g_{i\bar{j}}\,dz^i\wedge d\bar{z}^j
+  \]</div>
+<p>Different references use a slightly different normalisation convention for the Kähler form. With the factor of 2 above in the metric, one also sees:</p>
+<div class="math-block">\[
+  \omega=\frac{i}{2}\sum_{i,j}g_{i\bar{j}}\,dz^i\wedge d\bar{z}^j
+  \]</div>
+<p>Both conventions are correct; the relation \( \omega(X,Y)=g(JX,Y) \) fixes the normalisation once the metric convention is chosen.</p>
+<p>Locally, the metric can often be derived from a scalar function \(K\), the Kähler potential:</p>
+<div class="math-block">\[
+  g_{i\bar{j}}=
+  \frac{\partial^2 K}{\partial z^i \partial \bar{z}^j}
+  \]</div>
+<div class="diagram">
+<svg viewbox="0 0 1200 430" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="arr4" markerheight="7" markerwidth="7" orient="auto" refx="8" refy="5" viewbox="0 0 10 10">
+<path d="M0 0L10 5L0 10Z" fill="#d4a847"></path>
+</marker>
+</defs>
+<text fill="#f4ead8" font-size="19" font-weight="700" x="40" y="42">Kähler compatibility triangle</text>
+<text fill="#9a9080" font-size="14" x="40" y="72">A Kähler manifold is not just three structures at once; it is a harmony among them.</text>
+<g transform="translate(110,110)">
+<rect fill="rgba(140,200,255,0.05)" height="270" rx="22" stroke="rgba(255,220,120,.13)" width="980"></rect>
+<circle cx="490" cy="135" fill="none" r="100" stroke="rgba(255,220,120,.13)"></circle>
+<rect fill="rgba(140,200,255,0.12)" height="70" rx="18" stroke="#d4a847" stroke-width="2.5" width="160" x="410" y="20"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" text-anchor="middle" x="490" y="52">Metric g</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="490" y="73">distance, angle, length</text>
+<rect fill="rgba(125,255,208,0.12)" height="72" rx="18" stroke="#00ffcc" stroke-width="2.5" width="200" x="185" y="190"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" text-anchor="middle" x="285" y="223">Complex J</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="285" y="246">geometric i, J² = −I</text>
+<rect fill="rgba(212,177,255,0.12)" height="72" rx="18" stroke="#7744ff" stroke-width="2.5" width="210" x="595" y="190"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" text-anchor="middle" x="700" y="223">Kähler form ω</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="700" y="246">oriented area / flow</text>
+<line marker-end="url(#arr4)" stroke="#d4a847" stroke-width="3" x1="450" x2="335" y1="90" y2="190"></line>
+<line marker-end="url(#arr4)" stroke="#d4a847" stroke-width="3" x1="530" x2="645" y1="90" y2="190"></line>
+<line marker-end="url(#arr4)" stroke="#00ffcc" stroke-width="3" x1="385" x2="595" y1="226" y2="226"></line>
+<text fill="#f4ead8" font-size="17" text-anchor="middle" x="490" y="282">ω(X,Y) = g(JX,Y)</text>
+<text fill="#9a9080" font-size="14" text-anchor="middle" x="490" y="315">The metric and complex structure together generate the Kähler form.</text>
+</g>
+</svg>
+<div class="caption">Diagram 15. Kähler geometry is the compatibility of metric, complex structure, and symplectic form.</div>
+</div>
+<div class="definition">This is beautiful because a whole metric can locally come from one potential function. It is like deriving a landscape from a height field, but in complex geometry.</div>
+<div class="interactive">
+<div class="interactive-header">
+<div>
+<h4>Interactive 8 — Kähler Compatibility Triangle</h4>
+<div class="sub">
+                Click each node to see what role it plays and how the three structures fit together.
+              </div>
+</div>
+</div>
+<div class="interactive-body">
+<div class="controls">
+<div class="button-row" id="kahler-buttons">
+<button class="active" data-k="all">All</button>
+<button data-k="g">Metric \(g\)</button>
+<button data-k="J">Complex \(J\)</button>
+<button data-k="w">Form \(\omega\)</button>
+</div>
+<div class="miniout" id="kahler-output"></div>
+</div>
+<div class="viz">
+<svg id="kahler-svg" viewbox="0 0 760 420" xmlns="http://www.w3.org/2000/svg">
+<rect fill="transparent" height="420" width="760" x="0" y="0"></rect>
+<text fill="#eef0f8" font-family="'Playfair Display',serif" font-size="24" font-weight="700" x="28" y="36">Kähler structure</text>
+<text fill="#8a94b0" font-family="'Outfit',sans-serif" font-size="14" x="28" y="61">A Kähler manifold is a compatibility statement, not just a list of structures.</text>
+<g id="kahler-content"></g>
+</svg>
+</div>
+</div>
+</div></section>
+<section id="ricci-form">
+<div class="section-kicker">Layer 16</div><h2>16. Ricci Form</h2>
+<p>On a Kähler manifold, Ricci curvature can be expressed using the Ricci form \( \rho \).</p>
+<div class="math-block">\[
+  \rho=-i\,\partial\bar{\partial}\log\det(g_{i\bar{j}})
+  \]</div>
+<p>Ricci-flatness means:</p>
+<div class="math-block">\[
+  \rho=0,\qquad \operatorname{Ric}_{i\bar{j}}=0
+  \]</div>
+<div class="bridge">Ricci-flatness means the complex metric has a special balance. The space may still curve in complicated ways, but its averaged complex curvature cancels.</div>
+</section>
+<section id="chern">
+<div class="section-kicker">Layer 17</div><h2>17. Chern Classes</h2>
+<p>Chern classes measure the twisting of complex vector bundles. The first Chern class is:</p>
+<div class="math-block">\[
+  c_1
+  \]</div>
+<p>For a complex manifold, the first Chern class of its tangent bundle is:</p>
+<div class="math-block">\[
+  c_1(TM)
+  \]</div>
+<p>often written simply as:</p>
+<div class="math-block">\[
+  c_1(M)
+  \]</div>
+<p>On a Kähler manifold, the Ricci form represents the first Chern class:</p>
+<div class="math-block">\[
+  \left[\frac{\rho}{2\pi}\right]=c_1(M)
+  \]</div>
+<p>When:</p>
+<div class="math-block">\[
+  c_1(M)=0
+  \]</div>
+<p>the relevant complex twisting vanishes topologically.</p>
+<div class="diagram">
+<svg viewbox="0 0 1200 390" xmlns="http://www.w3.org/2000/svg">
+<text fill="#f4ead8" font-size="19" font-weight="700" x="40" y="42">First Chern class as global twisting data</text>
+<text fill="#9a9080" font-size="14" x="40" y="72">Local curvature information condenses into a global topological invariant.</text>
+<g transform="translate(80,120)">
+<rect fill="rgba(140,200,255,0.05)" height="220" rx="22" stroke="rgba(255,220,120,.13)" width="1040"></rect>
+<rect fill="rgba(119,68,255,.10)" height="100" rx="18" stroke="#7744ff" stroke-width="2.5" width="260" x="50" y="60"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" text-anchor="middle" x="180" y="102">Ricci form</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="180" y="128">geometric curvature data</text>
+<text fill="#f4ead8" font-size="19" text-anchor="middle" x="408" y="118">[ρ / 2π] = c₁(M)</text>
+<rect fill="rgba(0,255,204,.10)" height="100" rx="18" stroke="#00ffcc" stroke-width="2.5" width="260" x="730" y="60"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" text-anchor="middle" x="860" y="102">c₁(M)</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="860" y="128">topological twisting class</text>
+<text fill="#9a9080" font-size="14" text-anchor="middle" x="520" y="190">Curvature and topology are linked. This bridge is one of the profound insights of Kähler geometry.</text>
+</g>
+</svg>
+<div class="caption">Diagram 16. The first Chern class is where local complex curvature becomes global topological content.</div>
+</div>
+<div class="definition">The Ricci form is geometric. The first Chern class is topological. This equation says that Ricci curvature encodes a topological twisting class.</div>
+</section>
+<section id="canonical">
+<div class="section-kicker">Layer 18</div><h2>18. Canonical Bundle</h2>
+<p>For a complex manifold of complex dimension \(n\), the canonical bundle is the bundle of holomorphic \(n\)-forms:</p>
+<div class="math-block">\[
+  K_M=\Lambda^n(T^{*1,0}M)
+  \]</div>
+<p>A section of this bundle is a holomorphic volume form \( \Omega \). Locally:</p>
+<div class="math-block">\[
+  \Omega=f(z)\,dz^1\wedge dz^2\wedge\cdots\wedge dz^n
+  \]</div>
+<p>For a Calabi–Yau manifold, there exists a nowhere-vanishing holomorphic volume form:</p>
+<div class="math-block">\[
+  \Omega\neq 0 \quad \text{everywhere}
+  \]</div>
+<p>The condition \( c_1(M)=0 \) is related to the canonical bundle being trivial:</p>
+<div class="math-block">\[
+  K_M\cong \mathcal{O}_M
+  \]</div>
+</section>
+<section id="yau">
+<div class="section-kicker">Layer 19</div><h2>19. Calabi’s Conjecture and Yau’s Theorem</h2>
+<p>Let \(M\) be a compact Kähler manifold. If:</p>
+<div class="math-block">\[
+  c_1(M)=0
+  \]</div>
+<p>then there exists a unique Ricci-flat Kähler metric in each Kähler class.</p>
+<div class="math-block">\[
+  c_1(M)=0 \quad\Longrightarrow\quad \exists \text{ Ricci-flat Kähler metric}
+  \]</div>
+<div class="diagram">
+<svg viewbox="0 0 1200 340" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="arr5" markerheight="7" markerwidth="7" orient="auto" refx="8" refy="5" viewbox="0 0 10 10">
+<path d="M0 0L10 5L0 10Z" fill="#d4a847"></path>
+</marker>
+</defs>
+<text fill="#f4ead8" font-size="19" font-weight="700" x="40" y="42">Calabi’s question, Yau’s theorem</text>
+<text fill="#9a9080" font-size="14" x="40" y="72">Does the right topological balance guarantee the existence of a perfectly balanced metric?</text>
+<g transform="translate(80,120)">
+<rect fill="rgba(140,200,255,0.05)" height="150" rx="22" stroke="rgba(255,220,120,.13)" width="1040"></rect>
+<rect fill="rgba(119,68,255,.10)" height="80" rx="18" stroke="#7744ff" stroke-width="2.5" width="250" x="40" y="35"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" text-anchor="middle" x="165" y="72">Topological input</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="165" y="95">c₁(M) = 0</text>
+<line marker-end="url(#arr5)" stroke="#d4a847" stroke-width="3.5" x1="290" x2="470" y1="75" y2="75"></line>
+<text fill="#d4a847" font-size="14" text-anchor="middle" x="380" y="60">Calabi’s conjecture</text>
+<rect fill="rgba(0,255,204,.10)" height="80" rx="18" stroke="#00ffcc" stroke-width="2.5" width="250" x="470" y="35"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" text-anchor="middle" x="595" y="72">Analytic bridge</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="595" y="95">solve the Monge–Ampère equation</text>
+<line marker-end="url(#arr5)" stroke="#00ffcc" stroke-width="3.5" x1="720" x2="900" y1="75" y2="75"></line>
+<text fill="#00ffcc" font-size="14" text-anchor="middle" x="810" y="60">Yau’s proof</text>
+<rect fill="rgba(212,168,71,.10)" height="80" rx="18" stroke="#d4a847" stroke-width="2.5" width="100" x="900" y="35"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" text-anchor="middle" x="950" y="70">Result</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="950" y="96">Ricci-flat Kähler metric</text>
+</g>
+</svg>
+<div class="caption">Diagram 17. Yau’s theorem turns a topological vanishing condition into the existence of a special metric.</div>
+</div>
+<div class="definition">Calabi asked whether the right topological balance permits a perfectly balanced geometric metric. Yau proved that it does.</div>
+</section>
+<section id="definition">
+<div class="section-kicker">Layer 20</div><h2>20. Calabi–Yau Manifold: Definitions</h2>
+<h3>Common Geometric Definition</h3>
+<p>A Calabi–Yau manifold is a compact Kähler manifold \(M\) with:</p>
+<div class="math-block">\[
+  c_1(M)=0
+  \]</div>
+<p>By Yau’s theorem, such a manifold admits a Ricci-flat Kähler metric:</p>
+<div class="math-block">\[
+  \operatorname{Ric}(g)=0
+  \]</div>
+<h3>Holonomy Definition</h3>
+<p>A stricter definition says that a Calabi–Yau \(n\)-fold is a compact Kähler manifold with holonomy group:</p>
+<div class="math-block">\[
+  \operatorname{Hol}(g)=SU(n)
+  \]</div>
+<p>or contained in:</p>
+<div class="math-block">\[
+  \operatorname{Hol}(g)\subseteq SU(n)
+  \]</div>
+<h3>Holomorphic Volume Form Definition</h3>
+<p>Another formulation says that a Calabi–Yau \(n\)-fold has a nowhere-vanishing holomorphic \(n\)-form:</p>
+<div class="math-block">\[
+  \Omega\in H^0(M,K_M),\qquad \Omega\neq 0\ \text{everywhere}
+  \]</div>
+<div class="definition">A Calabi–Yau manifold is a finite, boundaryless complex geometric space where the metric, complex structure, and volume structure fit together so perfectly that the space’s averaged curvature vanishes, even though its internal geometry may still be highly intricate.</div>
+<div class="interactive">
+<div class="interactive-header">
+<div>
+<h4>Interactive 9 — The Calabi–Yau Logic Chain</h4>
+<div class="sub">
+                Step through the argument: vanishing first Chern class → cancelled twisting → trivial canonical bundle → holomorphic volume form → Ricci-flat Kähler metric.
+              </div>
+</div>
+</div>
+<div class="interactive-body">
+<div class="controls">
+<div class="button-row" id="cy-buttons">
+<button class="active" data-step="0">1. \(c_1(M)=0\)</button>
+<button data-step="1">2. twisting cancels</button>
+<button data-step="2">3. \(K_M\cong\mathcal O_M\)</button>
+<button data-step="3">4. \(\Omega\neq 0\)</button>
+<button data-step="4">5. Ricci-flat metric</button>
+</div>
+<div class="miniout" id="cy-output"></div>
+</div>
+<div class="viz">
+<svg id="cy-svg" viewbox="0 0 760 430" xmlns="http://www.w3.org/2000/svg">
+<rect fill="transparent" height="430" width="760" x="0" y="0"></rect>
+<text fill="#eef0f8" font-family="'Playfair Display',serif" font-size="24" font-weight="700" x="28" y="36">The Calabi–Yau implication chain</text>
+<text fill="#8a94b0" font-family="'Outfit',sans-serif" font-size="14" x="28" y="61">Topology permits balance. Complex geometry gives structure. Analysis finds the metric.</text>
+<g id="cy-content"></g>
+</svg>
+</div>
+</div>
+</div></section>
+<section id="threefold">
+<div class="section-kicker">Layer 21</div><h2>21. Calabi–Yau Threefold</h2>
+<p>The most famous case in string theory is a Calabi–Yau threefold:</p>
+<div class="math-block">\[
+  \dim_{\mathbb{C}}M=3
+  \]</div>
+<p>Therefore:</p>
+<div class="math-block">\[
+  \dim_{\mathbb{R}}M=6
+  \]</div>
+<p>Local complex coordinates are:</p>
+<div class="math-block">\[
+  (z^1,z^2,z^3),\qquad
+  z^1=x^1+iy^1,\ 
+  z^2=x^2+iy^2,\ 
+  z^3=x^3+iy^3
+  \]</div>
+<p>So real coordinates are:</p>
+<div class="math-block">\[
+  (x^1,y^1,x^2,y^2,x^3,y^3)
+  \]</div>
+<p>The holomorphic volume form locally looks like:</p>
+<div class="math-block">\[
+  \Omega=dz^1\wedge dz^2\wedge dz^3
+  \]</div>
+<p>The Kähler form looks like:</p>
+<div class="math-block">\[
+  \omega=i\sum_{i,j}g_{i\bar{j}}\,dz^i\wedge d\bar{z}^j
+  \]</div>
+<p>The Ricci-flat condition is:</p>
+<div class="math-block">\[
+  \operatorname{Ric}_{i\bar{j}}=0,\qquad
+  \rho=-i\partial\bar{\partial}\log\det(g_{i\bar{j}})=0
+  \]</div>
+<div class="diagram">
+<svg viewbox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg">
+<text fill="#f4ead8" font-size="19" font-weight="700" x="40" y="42">A Calabi–Yau threefold is 3 complex-dimensional = 6 real-dimensional</text>
+<text fill="#9a9080" font-size="14" x="40" y="72">The “hidden 6 dimensions” language in physics corresponds to a 3-dimensional complex manifold.</text>
+<g transform="translate(80,120)">
+<rect fill="rgba(140,200,255,0.05)" height="220" rx="22" stroke="rgba(255,220,120,.13)" width="1040"></rect>
+<rect fill="rgba(212,168,71,.10)" height="110" rx="18" stroke="#d4a847" stroke-width="2.5" width="240" x="50" y="55"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" text-anchor="middle" x="170" y="98">C³</text>
+<text fill="#9a9080" font-size="14" text-anchor="middle" x="170" y="126">(z¹,z²,z³)</text>
+<text fill="#f4ead8" font-size="20" x="370" y="116"></text>
+<rect fill="rgba(0,255,204,.10)" height="110" rx="18" stroke="#00ffcc" stroke-width="2.5" width="390" x="460" y="55"></rect>
+<text fill="#f4ead8" font-size="17" font-weight="700" text-anchor="middle" x="655" y="95">R⁶</text>
+<text fill="#9a9080" font-size="14" text-anchor="middle" x="655" y="126">(x¹,y¹,x²,y²,x³,y³)</text>
+<rect fill="rgba(119,68,255,.10)" height="110" rx="18" stroke="#7744ff" stroke-width="2.5" width="95" x="895" y="55"></rect>
+<text fill="#f4ead8" font-size="16" text-anchor="middle" x="942" y="100">CY</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="942" y="126">3-fold</text>
+<text fill="#9a9080" font-size="14" x="520" y="198">Complex geometry gives a more economical language for the same real dimensions.</text>
+</g>
+</svg>
+<div class="caption">Diagram 18. A Calabi–Yau threefold lives most naturally as a complex three-dimensional space.</div>
+</div>
+</section>
+<section id="examples">
+<div class="section-kicker">Layer 22</div><h2>22. Examples</h2>
+<h3>Example 1: Complex Torus</h3>
+<p>A complex torus is:</p>
+<div class="math-block">\[
+  \mathbb{C}^n/\Lambda
+  \]</div>
+<p>where \( \Lambda \) is a lattice. In one complex dimension:</p>
+<div class="math-block">\[
+  \mathbb{C}/(\mathbb{Z}+\tau\mathbb{Z})
+  \]</div>
+<p>A real two-dimensional torus can be represented as:</p>
+<div class="math-block">\[
+  \mathbb{R}^2/\mathbb{Z}^2
+  \]</div>
+<div class="diagram">
+<svg viewbox="0 0 1200 420" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="arr6" markerheight="7" markerwidth="7" orient="auto" refx="8" refy="5" viewbox="0 0 10 10">
+<path d="M0 0L10 5L0 10Z" fill="#d4a847"></path>
+</marker>
+</defs>
+<text fill="#f4ead8" font-size="19" font-weight="700" x="40" y="42">Building the torus by gluing</text>
+<text fill="#9a9080" font-size="14" x="40" y="72">Opposite sides of a square are identified. First make a cylinder, then bend and glue again.</text>
+<g transform="translate(60,110)">
+<rect fill="rgba(140,200,255,0.05)" height="260" rx="22" stroke="rgba(255,220,120,.13)" width="1080"></rect>
+<g transform="translate(30,35)">
+<rect fill="rgba(212,168,71,.08)" height="180" rx="10" stroke="#d4a847" stroke-width="2.5" width="180" x="0" y="0"></rect>
+<path d="M25 90 H155" marker-end="url(#arr6)" marker-start="url(#arr6)" stroke="#00ffcc" stroke-width="3.5"></path>
+<path d="M90 25 V155" marker-end="url(#arr6)" marker-start="url(#arr6)" stroke="#7744ff" stroke-width="3.5"></path>
+<text fill="#f4ead8" font-size="16" text-anchor="middle" x="90" y="210">Square</text>
+<text fill="#9a9080" font-size="13.5" text-anchor="middle" x="90" y="232">identify opposite edges</text>
+</g>
+<line marker-end="url(#arr6)" stroke="#d4a847" stroke-width="3.2" x1="260" x2="335" y1="125" y2="125"></line>
+<g transform="translate(360,35)">
+<path d="M25 25 Q0 90 25 155" fill="none" stroke="#d4a847" stroke-width="3"></path>
+<path d="M155 25 Q180 90 155 155" fill="none" stroke="#d4a847" stroke-width="3"></path>
+<line stroke="#00ffcc" stroke-width="3.2" x1="25" x2="155" y1="25" y2="25"></line>
+<line stroke="#00ffcc" stroke-width="3.2" x1="25" x2="155" y1="155" y2="155"></line>
+<path d="M90 20 V160" marker-end="url(#arr6)" marker-start="url(#arr6)" stroke="#7744ff" stroke-width="3"></path>
+<text fill="#f4ead8" font-size="16" text-anchor="middle" x="90" y="210">Cylinder</text>
+<text fill="#9a9080" font-size="13.5" text-anchor="middle" x="90" y="232">one pair glued</text>
+</g>
+<line marker-end="url(#arr6)" stroke="#d4a847" stroke-width="3.2" x1="595" x2="670" y1="125" y2="125"></line>
+<g transform="translate(700,35)">
+<ellipse cx="90" cy="90" fill="rgba(125,255,208,0.08)" rx="86" ry="62" stroke="#00ffcc" stroke-width="3"></ellipse>
+<ellipse cx="90" cy="90" fill="rgba(10,21,34,0.9)" rx="32" ry="22" stroke="#00ffcc" stroke-width="3"></ellipse>
+<text fill="#f4ead8" font-size="16" text-anchor="middle" x="90" y="210">Torus</text>
+<text fill="#9a9080" font-size="13.5" text-anchor="middle" x="90" y="232">both pairs glued</text>
+</g>
+</g>
+</svg>
+<div class="caption">Diagram 19. The torus is a local-flat, global-nontrivial space built by identifying boundary directions.</div>
+</div>
+<div class="bridge">Complex tori have \(c_1=0\) and flat Ricci curvature, making them simple illustrative examples. Strictly speaking, their holonomy is contained in \(U(n)\) rather than exactly \(SU(n)\), so they are sometimes called Calabi–Yau in the broad sense but not the strict holonomy sense.</div>
+<h3>Example 2: The Quintic Threefold</h3>
+<p>A famous Calabi–Yau threefold is the quintic hypersurface in complex projective space:</p>
+<div class="math-block">\[
+  X=
+  \left\{
+  [z_0:z_1:z_2:z_3:z_4]\in\mathbb{CP}^4:
+  z_0^5+z_1^5+z_2^5+z_3^5+z_4^5=0
+  \right\}
+  \]</div>
+<p>Since \( \mathbb{CP}^4 \) has complex dimension 4, and one equation cuts the dimension down by 1:</p>
+<div class="math-block">\[
+  \dim_{\mathbb{C}}X=4-1=3,\qquad \dim_{\mathbb{R}}X=6
+  \]</div>
+<p>For a hypersurface of degree \(d\) in \( \mathbb{CP}^n \), the canonical bundle relation gives:</p>
+<div class="math-block">\[
+  K_X=\mathcal{O}(d-n-1)
+  \]</div>
+<p>Here \( d=5 \) and \( n=4 \), so:</p>
+<div class="math-block">\[
+  d-n-1=5-4-1=0,\qquad K_X=\mathcal{O}_X
+  \]</div>
+<p>Therefore the canonical bundle is trivial:</p>
+<div class="math-block">\[
+  c_1(X)=0
+  \]</div>
+<div class="diagram">
+<svg viewbox="0 0 1200 360" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="arr7" markerheight="7" markerwidth="7" orient="auto" refx="8" refy="5" viewbox="0 0 10 10">
+<path d="M0 0L10 5L0 10Z" fill="#d4a847"></path>
+</marker>
+</defs>
+<text fill="#f4ead8" font-size="19" font-weight="700" x="40" y="42">The quintic threefold as a hypersurface</text>
+<text fill="#9a9080" font-size="14" x="40" y="72">Start with ambient projective space, then impose one degree-5 homogeneous equation.</text>
+<g transform="translate(80,115)">
+<rect fill="rgba(140,200,255,0.05)" height="180" rx="22" stroke="rgba(255,220,120,.13)" width="1040"></rect>
+<rect fill="rgba(212,168,71,.10)" height="80" rx="18" stroke="#d4a847" stroke-width="2.5" width="220" x="50" y="48"></rect>
+<text fill="#f4ead8" font-size="18" font-weight="700" text-anchor="middle" x="160" y="80">ℂP⁴</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="160" y="104">ambient space, complex dimension 4</text>
+<line marker-end="url(#arr7)" stroke="#d4a847" stroke-width="3.5" x1="270" x2="420" y1="88" y2="88"></line>
+<text fill="#d4a847" font-size="14" text-anchor="middle" x="345" y="69">impose one equation</text>
+<rect fill="rgba(119,68,255,.10)" height="80" rx="18" stroke="#7744ff" stroke-width="2.5" width="230" x="420" y="48"></rect>
+<text fill="#f4ead8" font-size="17" text-anchor="middle" x="535" y="80">Σᵢ₌₀⁴ zᵢ⁵ = 0</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="535" y="104">degree-5 homogeneous constraint</text>
+<line marker-end="url(#arr7)" stroke="#00ffcc" stroke-width="3.5" x1="650" x2="800" y1="88" y2="88"></line>
+<text fill="#00ffcc" font-size="14" text-anchor="middle" x="725" y="69">resulting hypersurface</text>
+<rect fill="rgba(0,255,204,.10)" height="80" rx="18" stroke="#00ffcc" stroke-width="2.5" width="190" x="800" y="48"></rect>
+<text fill="#f4ead8" font-size="18" font-weight="700" text-anchor="middle" x="895" y="80">Quintic X</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="895" y="104">dimℂ X = 3, c₁(X) = 0</text>
+</g>
+</svg>
+<div class="caption">Diagram 20. The quintic threefold is one of the canonical examples of a Calabi–Yau manifold.</div>
+</div>
+<div class="definition">The quintic is a six-real-dimensional hidden shape defined by a balanced degree-5 equation in complex projective space.</div>
+</section>
+<section id="monge">
+<div class="section-kicker">Layer 23</div><h2>23. The Monge–Ampère Equation</h2>
+<p>Yau’s proof involves solving a complex Monge–Ampère equation. One seeks a new Kähler metric in the same Kähler class.</p>
+<p>If \( \omega \) is an initial Kähler form, we look for:</p>
+<div class="math-block">\[
+  \omega'=\omega+i\partial\bar{\partial}\varphi
+  \]</div>
+<p>where \( \varphi \) is a scalar potential. The equation takes the form:</p>
+<div class="math-block">\[
+  \left(\omega+i\partial\bar{\partial}\varphi\right)^n=e^F\omega^n
+  \]</div>
+<p>For the Calabi–Yau case, the desired condition is:</p>
+<div class="math-block">\[
+  \operatorname{Ric}(\omega')=0
+  \]</div>
+<div class="bridge">We are adjusting the geometry by changing the potential \( \varphi \), while staying in the same broad Kähler class, until the Ricci curvature satisfies the desired condition.</div>
+</section>
+<section id="weeks">
+<div class="section-kicker">Layer 24</div><h2>24. Week-by-Week Teaching Plan</h2>
+<table>
+<thead>
+<tr><th>Week</th><th>Topic</th><th>Core Mathematics</th><th>Learning Goal</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>Coordinates and \( \mathbb{R}^n \)</td><td>\( \mathbb{R}^n=\{(x_1,\ldots,x_n)\} \), \( d(p,q)=\sqrt{\sum_i (x_i-y_i)^2} \)</td><td>Dimension as number of coordinates.</td></tr>
+<tr><td>2</td><td>Vectors and dot products</td><td>\( |v|=\sqrt{\sum_i v_i^2} \), \( u\cdot v=\sum_i u_i v_i \)</td><td>Length, angle, and direction.</td></tr>
+<tr><td>3</td><td>Functions and derivatives</td><td>\( f:\mathbb{R}^n\to\mathbb{R} \), \( \nabla f \)</td><td>Local change.</td></tr>
+<tr><td>4</td><td>Parametric surfaces</td><td>\( X(u,v) \), \( X_u \), \( X_v \)</td><td>Intrinsic coordinates.</td></tr>
+<tr><td>5</td><td>Manifolds and charts</td><td>\( \varphi:U\to\mathbb{R}^n \), \( T_pM\cong\mathbb{R}^n \)</td><td>Local Euclidean structure.</td></tr>
+<tr><td>6</td><td>Metrics</td><td>\( g_p:T_pM\times T_pM\to\mathbb{R} \), \( ds^2=\sum_{i,j}g_{ij}dx^idx^j \)</td><td>Measurement on curved spaces.</td></tr>
+<tr><td>7</td><td>Geodesics and curvature</td><td>\( \frac{d^2x^k}{dt^2}+\Gamma^k_{ij}\frac{dx^i}{dt}\frac{dx^j}{dt}=0 \), \( \operatorname{Ric}_{ij}=R^k{}_{ikj} \)</td><td>Curvature as deviation from flatness.</td></tr>
+<tr><td>8</td><td>Complex numbers</td><td>\( z=x+iy \), \( \mathbb{C}^n\cong\mathbb{R}^{2n} \)</td><td>Complex dimension.</td></tr>
+<tr><td>9</td><td>Complex structure</td><td>\( J:TM\to TM \), \( J^2=-I \)</td><td>Multiplication by \(i\) as geometry.</td></tr>
+<tr><td>10</td><td>Differential forms</td><td>\( \alpha = f\,dx + g\,dy \), \( \beta=h\,dx\wedge dy \), \( d^2=0 \)</td><td>Forms as integrable geometric objects.</td></tr>
+<tr><td>11</td><td>Kähler geometry</td><td>\( \omega(X,Y) = g(JX,Y) \), \( d\omega=0 \), \( g_{i\bar j}=\frac{\partial^2K}{\partial z^i\partial\bar z^j} \)</td><td>Compatibility of metric, complex structure, and form.</td></tr>
+<tr><td>12</td><td>Calabi–Yau</td><td>\( c_1(M)=0 \), \( \rho=-i\partial\bar\partial\log\det(g_{i\bar j}) \), \( \operatorname{Ric}(g)=0 \)</td><td>Formal definition and intuitive meaning.</td></tr>
+</tbody>
+</table>
+</section>
+<section id="summary">
+<div class="section-kicker">Layer 25</div><h2>25. One-Page Mathematical Skeleton</h2>
+<ol>
+<li>\( \mathbb{R}^n=\{(x_1,\ldots,x_n)\} \) — space as coordinates.</li>
+<li>\( d(p,q)=\sqrt{\sum_i(x_i-y_i)^2} \) — distance in flat space.</li>
+<li>\( T_pM \) — tangent space at point \(p\).</li>
+<li>\( g_p(u,v) \) — metric tensor measuring vectors.</li>
+<li>\( ds^2=\sum_{i,j}g_{ij}\,dx^i dx^j \) — local rule of distance.</li>
+<li>\( R^p{}_{sij} \) — Riemann curvature tensor.</li>
+<li>\( \operatorname{Ric}_{ij}=R^k{}_{ikj} \) — Ricci curvature.</li>
+<li>\( z=x+iy \) — complex coordinates.</li>
+<li>\( J^2=-I \) — complex structure.</li>
+<li>\( \omega(X,Y) = g(JX,Y) \) — Kähler form.</li>
+<li>\( d\omega=0 \) — Kähler condition.</li>
+<li>\( c_1(M)=0 \) — vanishing first Chern class.</li>
+<li>\( \rho=-i\partial\bar{\partial}\log\det(g_{i\bar j}) \) — Ricci form.</li>
+<li>\( \operatorname{Ric}(g)=0 \) — Ricci-flat metric.</li>
+<li>\( \operatorname{Hol}(g)\subseteq SU(n) \) — Calabi–Yau holonomy condition.</li>
+<li>\( \dim_{\mathbb{C}}M=3\Rightarrow \dim_{\mathbb{R}}M=6 \) — Calabi–Yau threefold.</li>
+</ol>
+<div class="diagram">
+<svg viewbox="0 0 1200 380" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="arr8" markerheight="7" markerwidth="7" orient="auto" refx="8" refy="5" viewbox="0 0 10 10">
+<path d="M0 0L10 5L0 10Z" fill="#d4a847"></path>
+</marker>
+</defs>
+<text fill="#f4ead8" font-size="19" font-weight="700" x="40" y="42">The deepest teaching chain</text>
+<text fill="#9a9080" font-size="14" x="40" y="72">A Calabi–Yau manifold is the meeting point of topology, complex geometry, and analysis.</text>
+<g transform="translate(70,115)">
+<rect fill="rgba(140,200,255,0.05)" height="210" rx="22" stroke="rgba(255,220,120,.13)" width="1060"></rect>
+<rect fill="rgba(212,168,71,.10)" height="70" rx="18" stroke="#d4a847" stroke-width="2.2" width="140" x="35" y="58"></rect>
+<text fill="#f4ead8" font-size="17" text-anchor="middle" x="105" y="100">c₁(M) = 0</text>
+<line marker-end="url(#arr8)" stroke="#d4a847" stroke-width="3" x1="175" x2="315" y1="93" y2="93"></line>
+<rect fill="rgba(0,255,204,.10)" height="70" rx="18" stroke="#00ffcc" stroke-width="2.2" width="200" x="315" y="58"></rect>
+<text fill="#f4ead8" font-size="13.5" text-anchor="middle" x="415" y="86">global twisting</text>
+<text fill="#f4ead8" font-size="13.5" text-anchor="middle" x="415" y="108">cancels</text>
+<line marker-end="url(#arr8)" stroke="#00ffcc" stroke-width="3" x1="515" x2="655" y1="93" y2="93"></line>
+<rect fill="rgba(119,68,255,.10)" height="70" rx="18" stroke="#7744ff" stroke-width="2.2" width="180" x="655" y="58"></rect>
+<text fill="#f4ead8" font-size="14" text-anchor="middle" x="745" y="86">K_M ≅ O_M</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="745" y="108">trivial canonical bundle</text>
+<line marker-end="url(#arr8)" stroke="#7744ff" stroke-width="3" x1="835" x2="975" y1="93" y2="93"></line>
+<rect fill="rgba(255,216,144,0.10)" height="70" rx="18" stroke="#e8c97a" stroke-width="2.2" width="50" x="975" y="58"></rect>
+<text fill="#f4ead8" font-size="14" text-anchor="middle" x="1000" y="87">Ω</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="1000" y="108">holomorphic volume form</text>
+<path d="M1000 128 C1000 170, 570 170, 570 185" fill="none" marker-end="url(#arr8)" stroke="#e8c97a" stroke-width="3"></path>
+<rect fill="rgba(212,168,71,.10)" height="70" rx="18" stroke="#d4a847" stroke-width="2.2" width="230" x="455" y="185"></rect>
+<text fill="#f4ead8" font-size="14" text-anchor="middle" x="570" y="213">Ricci-flat Kähler metric</text>
+<text fill="#9a9080" font-size="13" text-anchor="middle" x="570" y="236">Ric(g) = 0</text>
+</g>
+</svg>
+<div class="caption">Diagram 21. The full conceptual chain from vanishing first Chern class to a Ricci-flat Kähler metric.</div>
+</div>
+<div class="definition">Topology permits balance. Complex geometry gives structure. Analysis finds the metric. Curvature becomes Ricci-flat. The result is Calabi–Yau.</div>
+</section>
+</main>
+<footer>
+<p>Generated as a self-contained HTML teaching document with embedded SVG diagrams and MathJax-rendered formulas.</p>
+<p>Use the <strong style="color:var(--gold)">Export PDF</strong> button to save — it waits for all formulas to render before printing.</p>
+</footer>
+</div>
+<!-- Floating PDF button -->
+<button class="fab-pdf" id="fabPdf" onclick="exportToPDF()" title="Export to PDF">
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewbox="0 0 24 24" width="20">
+<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+<polyline points="7 10 12 15 17 10"></polyline>
+<line x1="12" x2="12" y1="15" y2="3"></line>
+</svg>
+<span>PDF</span>
+</button>
+<!-- Toast notification -->
+<div class="pdf-toast" id="pdfToast"></div>
+<style>
+.btn-pdf {
+  background: rgba(212,168,71,.10);
+  border-color: var(--gold);
+  color: var(--gold-light);
+}
+.btn-pdf:hover {
+  background: rgba(212,168,71,.22);
+  color: var(--cream);
+  transform: translateY(-2px);
+}
+
+.fab-pdf {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 20px;
+  border-radius: 999px;
+  border: 1px solid var(--gold);
+  background: rgba(10, 9, 6, 0.88);
+  color: var(--gold-light);
+  font-family: "JetBrains Mono", monospace;
+  font-size: .72rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0,0,0,.45), 0 0 0 1px rgba(212,168,71,.08);
+  transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+}
+.fab-pdf:hover {
+  transform: translateY(-3px);
+  background: rgba(212,168,71,.16);
+  box-shadow: 0 12px 40px rgba(0,0,0,.5), 0 0 24px rgba(212,168,71,.12);
+  color: var(--cream);
+}
+.fab-pdf.loading {
+  opacity: .7;
+  pointer-events: none;
+}
+.fab-pdf svg { flex-shrink: 0; }
+
+.pdf-toast {
+  position: fixed;
+  bottom: 90px;
+  right: 32px;
+  z-index: 101;
+  padding: 11px 18px;
+  border-radius: 12px;
+  border: 1px solid var(--border-bright);
+  background: rgba(10,9,6,.92);
+  backdrop-filter: blur(12px);
+  color: var(--ink);
+  font-family: "JetBrains Mono", monospace;
+  font-size: .68rem;
+  letter-spacing: .1em;
+  box-shadow: 0 8px 28px rgba(0,0,0,.4);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .25s ease, transform .25s ease;
+  pointer-events: none;
+  max-width: 280px;
+  line-height: 1.5;
+}
+.pdf-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 560px) {
+  .fab-pdf { bottom: 20px; right: 16px; padding: 11px 16px; font-size: .65rem; }
+  .pdf-toast { right: 16px; bottom: 78px; }
+}
+
+@media print {
+  .fab-pdf, .pdf-toast, .btn-pdf { display: none !important; }
+}
+
+
+/* ─────────────────────────────────────────────
+   Imported interactive modules — styled to match
+   the fixed final/index visual system
+───────────────────────────────────────────── */
+:root {
+  --text: var(--cream);
+  --muted: var(--ink-muted);
+  --line: var(--border);
+  --gold-lt: var(--gold-light);
+  --lavender: #b8a4e8;
+  --lav-dim: rgba(119, 68, 255, .09);
+  --teal-dim: rgba(0, 255, 204, .045);
+  --amber: #e8a056;
+  --amber-dim: rgba(232,160,86,.10);
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+  --serif: "Cormorant Garamond", Georgia, serif;
+  --display: "Playfair Display", Georgia, serif;
+  --sans: "JetBrains Mono", ui-monospace, monospace;
+}
+
+.interactive {
+  position: relative;
+  z-index: 1;
+  margin: 30px 0 28px;
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  background:
+    radial-gradient(520px 260px at 12% 8%, rgba(212,168,71,.075), transparent 68%),
+    radial-gradient(420px 240px at 92% 88%, rgba(0,255,204,.04), transparent 70%),
+    linear-gradient(140deg, rgba(255,255,255,.035), transparent 42%),
+    rgba(2,3,10,.54);
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0,0,0,.30);
+}
+
+.interactive::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(212,168,71,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212,168,71,.018) 1px, transparent 1px);
+  background-size: 56px 56px;
+  opacity: .25;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.interactive > * { position: relative; z-index: 1; }
+
+.interactive-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-start;
+  padding: 22px 24px 16px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.006));
+}
+
+.interactive h4 {
+  color: var(--teal);
+  font-family: "JetBrains Mono", monospace;
+  font-size: .78rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin: 0 0 10px;
+}
+
+.interactive .sub {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--ink-muted);
+  max-width: 760px;
+}
+
+.interactive-body {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 0;
+}
+
+.controls {
+  padding: 22px;
+  border-right: 1px solid var(--border);
+  background: rgba(255,255,255,.018);
+}
+
+.viz {
+  padding: 18px;
+  min-height: 320px;
+  background:
+    radial-gradient(500px 260px at 50% 20%, rgba(119,68,255,.04), transparent 70%),
+    rgba(2,3,10,.48);
+  position: relative;
+}
+
+.viz svg, .viz canvas {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.miniout {
+  margin-top: 14px;
+  padding: 14px 15px;
+  border-radius: 14px;
+  background: rgba(2,3,10,.44);
+  border: 1px solid var(--border);
+  font-family: "JetBrains Mono", monospace;
+  font-size: .74rem;
+  color: var(--cream);
+  line-height: 1.72;
+  overflow: auto;
+}
+
+.control-group { margin-bottom: 18px; }
+
+.control-group label {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: .70rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 8px;
+}
+
+.control-group label strong {
+  color: var(--gold-light);
+  font-family: "JetBrains Mono", monospace;
+  font-size: .76rem;
+}
+
+.interactive input[type="range"] {
+  width: 100%;
+  accent-color: var(--gold);
+}
+
+.interactive button, .interactive .pill {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.035);
+  color: var(--ink-muted);
+  border-radius: 999px;
+  padding: 8px 13px;
+  cursor: pointer;
+  font-family: "JetBrains Mono", monospace;
+  font-size: .68rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  transition: transform .18s ease, background .18s ease, border-color .18s ease, color .18s ease;
+}
+
+.interactive button:hover {
+  transform: translateY(-1px);
+  background: rgba(212,168,71,.09);
+  border-color: var(--border-bright);
+  color: var(--gold-light);
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.button-row button.active {
+  border-color: rgba(212,168,71,.60);
+  background: rgba(212,168,71,.13);
+  color: var(--gold-light);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  font-family: "JetBrains Mono", monospace;
+  color: var(--ink-muted);
+  font-size: .66rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin-top: 14px;
+}
+
+.legend .dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+/* Keep MathJax calm inside the interactive readouts. */
+.interactive mjx-container,
+.interactive .mjx-container {
+  font-size: 1em !important;
+}
+
+@media (max-width: 900px) {
+  .interactive-body { grid-template-columns: 1fr; }
+  .controls {
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .interactive .sub { font-size: .96rem; }
+}
+
+@media (max-width: 560px) {
+  .interactive-header, .controls, .viz { padding: 16px; }
+  .miniout { font-size: .68rem; }
+  .interactive button { font-size: .62rem; padding: 7px 10px; }
+}
+
+@media print {
+  .interactive, .interactive-header, .controls, .viz, .miniout {
+    background: white !important;
+    color: #111 !important;
+    border-color: #ccc !important;
+    box-shadow: none !important;
+  }
+  .interactive::before { display: none !important; }
+  .interactive button { display: none !important; }
+  .interactive .sub, .miniout, .legend { color: #333 !important; }
+}
+
+</style>
+<script>
+function showToast(msg, duration) {
+  duration = duration || 3200;
+  var t = document.getElementById("pdfToast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(function() { t.classList.remove("show"); }, duration);
+}
+
+async function exportToPDF() {
+  var fab = document.getElementById("fabPdf");
+  var hero = document.getElementById("exportPdf");
+
+  fab.classList.add("loading");
+  fab.querySelector("span").textContent = "Preparing…";
+  if (hero) hero.textContent = "⏳ Preparing…";
+
+  showToast("Waiting for formulas to finish rendering…", 5000);
+
+  try {
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) {
+      await MathJax.startup.promise;
+    }
+    await new Promise(function(r) { setTimeout(r, 800); });
+    showToast("Opening print dialog — choose Save as PDF as the destination.", 5000);
+    await new Promise(function(r) { setTimeout(r, 400); });
+    window.print();
+  } finally {
+    fab.classList.remove("loading");
+    fab.querySelector("span").textContent = "PDF";
+    if (hero) hero.textContent = "⬇ Export PDF";
+  }
+}
+
+window.addEventListener("scroll", function() {
+  var fab = document.getElementById("fabPdf");
+  fab.style.opacity = window.scrollY > 300 ? "1" : "0";
+  fab.style.pointerEvents = window.scrollY > 300 ? "auto" : "none";
+}, { passive: true });
+
+var fab = document.getElementById("fabPdf");
+fab.style.opacity = "0";
+fab.style.transition = fab.style.transition + ", opacity .3s ease";
+</script>
+<script>
+/* Imported interactive module logic from working version. */
+
+(function(){
+  function fmt(n, d=2){ return Number(n).toFixed(d); }
+  function typesetSafe(el){
+    if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
+      window.MathJax.typesetPromise([el]).catch(()=>{});
+    }
+  }
+
+  // ── Sidebar active TOC ──
+  const sections = document.querySelectorAll('section[id]');
+  const tocLinks = document.querySelectorAll('.toc a');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#'+id));
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => io.observe(s));
+
+  // ══════════════════════════════════════
+  // §1 DIMENSION EXPLORER
+  // ══════════════════════════════════════
+  const dimSlider = document.getElementById('dim-slider');
+  const dimVal    = document.getElementById('dim-val');
+  const dimOut    = document.getElementById('dim-output');
+  const dimG      = document.getElementById('dim-graphics');
+
+  function drawDimension(){
+    const n = parseInt(dimSlider.value);
+    dimVal.textContent = n;
+    const coords = Array.from({length:n},(_,i)=>`x_${i+1}`).join(', ');
+    let interp = '';
+    if(n===1) interp='A line: one degree of freedom.';
+    else if(n===2) interp='A plane: two independent coordinates.';
+    else if(n===3) interp='Ordinary 3D space: three coordinates.';
+    else interp=`Beyond 3D: ${n} coordinates — mathematically valid, not directly visual.`;
+    dimOut.innerHTML = `Space: \(\mathbb{R}^{${n}}\)<br>Point: \((${coords})\)<br>${interp}`;
+    dimG.innerHTML = '';
+    const svgW=760, axisH=80, cy=185;
+    const margin=60, availW=svgW-margin*2;
+    // Dynamic gap: clamp so axes never overflow
+    const gap = n>1 ? Math.min(85, availW/(n-0.5)) : 0;
+    const totalW = n>1 ? (n-1)*gap : 0;
+    const startX = svgW/2 - totalW/2;
+    for(let i=0;i<n;i++){
+      const x=startX+i*gap;
+      const vis=i<3, col=vis?'#6ecfb8':'#b8a4e8';
+      const lbl=vis?`axis ${i+1}`:`+${i-2}`;
+      const line=document.createElementNS('http://www.w3.org/2000/svg','line');
+      line.setAttribute('x1',x); line.setAttribute('y1',cy+axisH);
+      line.setAttribute('x2',x); line.setAttribute('y2',cy-axisH);
+      line.setAttribute('stroke',col); line.setAttribute('stroke-width',vis?'4':'2');
+      if(!vis){ line.setAttribute('stroke-dasharray','6 4'); }
+      dimG.appendChild(line);
+      // arrowhead
+      ['up','down'].forEach(dir=>{
+        const ay=dir==='up'?cy-axisH:cy+axisH, ay2=dir==='up'?cy-axisH+8:cy+axisH-8;
+        const arr=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+        const tip=dir==='up'?cy-axisH-8:cy+axisH+8;
+        arr.setAttribute('points',`${x},${tip} ${x-5},${ay2} ${x+5},${ay2}`);
+        arr.setAttribute('fill',col); arr.setAttribute('opacity',vis?'0.9':'0.55');
+        dimG.appendChild(arr);
+      });
+      const circ=document.createElementNS('http://www.w3.org/2000/svg','circle');
+      circ.setAttribute('cx',x); circ.setAttribute('cy',cy);
+      circ.setAttribute('r',vis?'13':'9'); circ.setAttribute('fill',col);
+      circ.setAttribute('opacity',vis?'0.92':'0.65');
+      dimG.appendChild(circ);
+      // label — only show if space allows
+      if(n<=8){
+        const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+        t.setAttribute('x',x); t.setAttribute('y',cy+axisH+22);
+        t.setAttribute('text-anchor','middle'); t.setAttribute('fill',col);
+        t.setAttribute('font-size',n>6?'11':'13');
+        t.setAttribute('font-family',"'JetBrains Mono',monospace");
+        t.textContent=lbl; dimG.appendChild(t);
+      }
+      // coordinate label
+      const xl=document.createElementNS('http://www.w3.org/2000/svg','text');
+      xl.setAttribute('x',x+16); xl.setAttribute('y',cy+6);
+      xl.setAttribute('fill',col); xl.setAttribute('font-size',n>6?'11':'14');
+      xl.setAttribute('font-family',"'JetBrains Mono',monospace");
+      xl.setAttribute('opacity',vis?'0.9':'0.6');
+      xl.textContent=`x${i+1}`; dimG.appendChild(xl);
+    }
+    typesetSafe(dimOut);
+  }
+  dimSlider.addEventListener('input', drawDimension);
+  drawDimension();
+
+  // ══════════════════════════════════════
+  // §2 DISTANCE EXPLORER (draggable)
+  // ══════════════════════════════════════
+  const distSVG  = document.getElementById('dist-svg');
+  const distGrid = document.getElementById('dist-grid');
+  const distObjs = document.getElementById('dist-objects');
+  const distOut  = document.getElementById('dist-output');
+
+  let P={x:3.2,y:1.6}, Q={x:8.6,y:3.1}, dragging=null;
+  const svgW=760, svgH=360, originX=50, originY=320, scale=55;
+
+  function drawDistGrid(){
+    distGrid.innerHTML='';
+    for(let gx=-1;gx<=14;gx++){
+      const px=originX+gx*scale;
+      const ln=document.createElementNS('http://www.w3.org/2000/svg','line');
+      ln.setAttribute('x1',px); ln.setAttribute('y1',80);
+      ln.setAttribute('x2',px); ln.setAttribute('y2',svgH-10);
+      ln.setAttribute('stroke','rgba(255,255,255,0.05)'); ln.setAttribute('stroke-width','1');
+      distGrid.appendChild(ln);
+    }
+    for(let gy=-6;gy<=1;gy++){
+      const py=originY+gy*scale;
+      const ln=document.createElementNS('http://www.w3.org/2000/svg','line');
+      ln.setAttribute('x1',40); ln.setAttribute('y1',py);
+      ln.setAttribute('x2',svgW-10); ln.setAttribute('y2',py);
+      ln.setAttribute('stroke','rgba(255,255,255,0.05)'); ln.setAttribute('stroke-width','1');
+      distGrid.appendChild(ln);
+    }
+    // axes
+    ['x','y'].forEach((ax,i)=>{
+      const a=document.createElementNS('http://www.w3.org/2000/svg','line');
+      if(ax==='x'){ a.setAttribute('x1',40); a.setAttribute('y1',originY); a.setAttribute('x2',svgW-10); a.setAttribute('y2',originY); }
+      else         { a.setAttribute('x1',originX); a.setAttribute('y1',80); a.setAttribute('x2',originX); a.setAttribute('y2',svgH-10); }
+      a.setAttribute('stroke','rgba(255,255,255,0.18)'); a.setAttribute('stroke-width','1.5');
+      distGrid.appendChild(a);
+    });
+  }
+  drawDistGrid();
+
+  function toSVG(px,py){ return {x:originX+px*scale, y:originY-py*scale}; }
+  function fromSVG(sx,sy){ return {x:(sx-originX)/scale, y:(originY-sy)/scale}; }
+
+  function drawDist(){
+    distObjs.innerHTML='';
+    const ps=toSVG(P.x,P.y), qs=toSVG(Q.x,Q.y);
+    const dx=Q.x-P.x, dy=Q.y-P.y;
+    const dist=Math.sqrt(dx*dx+dy*dy);
+    const dot=P.x*Q.x+P.y*Q.y;
+    const mP=Math.sqrt(P.x*P.x+P.y*P.y), mQ=Math.sqrt(Q.x*Q.x+Q.y*Q.y);
+    const cosT=mP>0&&mQ>0 ? dot/(mP*mQ) : 0;
+    const theta=(Math.acos(Math.max(-1,Math.min(1,cosT)))*180/Math.PI).toFixed(1);
+
+    const seg=document.createElementNS('http://www.w3.org/2000/svg','line');
+    seg.setAttribute('x1',ps.x); seg.setAttribute('y1',ps.y);
+    seg.setAttribute('x2',qs.x); seg.setAttribute('y2',qs.y);
+    seg.setAttribute('stroke','rgba(238,240,248,0.55)'); seg.setAttribute('stroke-width','2');
+    seg.setAttribute('stroke-dasharray','8 4');
+    distObjs.appendChild(seg);
+
+    [[P,'#6ecfb8','P'],[Q,'#b8a4e8','Q']].forEach(([pt,col,lbl])=>{
+      const sp=toSVG(pt.x,pt.y);
+      const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+      c.setAttribute('cx',sp.x); c.setAttribute('cy',sp.y);
+      c.setAttribute('r','12'); c.setAttribute('fill',col);
+      c.setAttribute('cursor','grab'); c.dataset.pt=lbl;
+      distObjs.appendChild(c);
+      const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+      t.setAttribute('x',sp.x+18); t.setAttribute('y',sp.y-14);
+      t.setAttribute('fill',col); t.setAttribute('font-size','17');
+      t.setAttribute('font-weight','700'); t.textContent=lbl; distObjs.appendChild(t);
+    });
+
+    distOut.innerHTML = `Δx = ${fmt(dx)}   Δy = ${fmt(dy)}\ndist = ${fmt(dist)}\nP·Q  = ${fmt(dot)}\nθ    = ${theta}°`;
+  }
+  drawDist();
+
+  function getSVGCoords(e){
+    const r=distSVG.getBoundingClientRect();
+    const vbW=760, vbH=360;
+    const sx=(e.clientX-r.left)*vbW/r.width;
+    const sy=(e.clientY-r.top)*vbH/r.height;
+    return {sx,sy};
+  }
+  distSVG.addEventListener('mousedown',e=>{
+    const {sx,sy}=getSVGCoords(e);
+    const ps=toSVG(P.x,P.y), qs=toSVG(Q.x,Q.y);
+    if(Math.hypot(sx-ps.x,sy-ps.y)<18) dragging='P';
+    else if(Math.hypot(sx-qs.x,sy-qs.y)<18) dragging='Q';
+  });
+  distSVG.addEventListener('mousemove',e=>{
+    if(!dragging) return;
+    const {sx,sy}=getSVGCoords(e);
+    const fp=fromSVG(sx,sy);
+    if(dragging==='P') P={x:Math.round(fp.x*10)/10, y:Math.round(fp.y*10)/10};
+    else Q={x:Math.round(fp.x*10)/10, y:Math.round(fp.y*10)/10};
+    drawDist();
+  });
+  distSVG.addEventListener('mouseup',()=>dragging=null);
+  distSVG.addEventListener('mouseleave',()=>dragging=null);
+  // Touch support
+  function getTouchSVGCoords(e){
+    e.preventDefault();
+    const t=e.touches[0];
+    return getSVGCoords({clientX:t.clientX, clientY:t.clientY});
+  }
+  distSVG.addEventListener('touchstart',e=>{
+    const {sx,sy}=getTouchSVGCoords(e);
+    const ps=toSVG(P.x,P.y), qs=toSVG(Q.x,Q.y);
+    if(Math.hypot(sx-ps.x,sy-ps.y)<24) dragging='P';
+    else if(Math.hypot(sx-qs.x,sy-qs.y)<24) dragging='Q';
+  },{passive:false});
+  distSVG.addEventListener('touchmove',e=>{
+    if(!dragging) return;
+    const {sx,sy}=getTouchSVGCoords(e);
+    const fp=fromSVG(sx,sy);
+    if(dragging==='P') P={x:Math.round(fp.x*10)/10, y:Math.round(fp.y*10)/10};
+    else Q={x:Math.round(fp.x*10)/10, y:Math.round(fp.y*10)/10};
+    drawDist();
+  },{passive:false});
+  distSVG.addEventListener('touchend',()=>dragging=null);
+
+  // ══════════════════════════════════════
+  // §3 SURFACE SWITCHER
+  // ══════════════════════════════════════
+  const surfBtns   = document.getElementById('surface-buttons');
+  const surfOut    = document.getElementById('surface-output');
+  const surfG      = document.getElementById('surface-content');
+  let surfMode = 'paraboloid';
+
+  function drawSurface(){
+    surfG.innerHTML='';
+    const info = {
+      paraboloid: {eq:'z = x² + y²', desc:'Bowl-shape. All second derivatives positive. Positive definite Hessian.'},
+      saddle:     {eq:'z = x² − y²', desc:'Saddle. Mixed curvature. Hessian is indefinite.'},
+      sinusoid:   {eq:'z = sin(x)·cos(y)', desc:'Oscillating surface. Varies between positive and negative curvature.'}
+    };
+    const d=info[surfMode];
+    surfOut.innerHTML=`\\(${d.eq}\\)<br>${d.desc}`;
+    typesetSafe(surfOut);
+
+    const cx=380, cy=260, scX=42, scY=28, rows=14, cols=14;
+    function z(x,y){
+      if(surfMode==='paraboloid') return (x*x+y*y)*0.18;
+      if(surfMode==='saddle')     return (x*x-y*y)*0.18;
+      return Math.sin(x*0.9)*Math.cos(y*0.9)*1.4;
+    }
+    function proj(ix,iy){
+      const x=ix-cols/2, y=iy-rows/2, zv=z(x,y);
+      return { sx: cx + x*scX - y*scX*0.55, sy: cy - zv*18 - y*scY*0.45 };
+    }
+    for(let i=0;i<rows-1;i++){
+      for(let j=0;j<cols-1;j++){
+        const p00=proj(j,i), p10=proj(j+1,i), p01=proj(j,i+1), p11=proj(j+1,i+1);
+        const x=j-cols/2, y=i-rows/2, zv=z(x,y);
+        const t=(zv+2)/4, r=Math.round(110+t*100), g2=Math.round(130+t*80), b=Math.round(180+t*60);
+        const poly=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+        poly.setAttribute('points',`${p00.sx},${p00.sy} ${p10.sx},${p10.sy} ${p11.sx},${p11.sy} ${p01.sx},${p01.sy}`);
+        poly.setAttribute('fill',`rgb(${r},${g2},${b})`);
+        poly.setAttribute('opacity','0.22');
+        poly.setAttribute('stroke','rgba(201,168,76,0.22)'); poly.setAttribute('stroke-width','0.8');
+        surfG.appendChild(poly);
+      }
+    }
+    const eq=document.createElementNS('http://www.w3.org/2000/svg','text');
+    eq.setAttribute('x',380); eq.setAttribute('y',400);
+    eq.setAttribute('text-anchor','middle'); eq.setAttribute('fill','#c9a84c');
+    eq.setAttribute('font-size','18'); eq.setAttribute('font-family',"'JetBrains Mono',monospace");
+    eq.textContent=d.eq; surfG.appendChild(eq);
+  }
+  surfBtns.addEventListener('click',e=>{
+    if(e.target.tagName!=='BUTTON') return;
+    [...surfBtns.querySelectorAll('button')].forEach(b=>b.classList.remove('active'));
+    e.target.classList.add('active');
+    surfMode=e.target.dataset.surface;
+    drawSurface();
+  });
+  drawSurface();
+
+  // ══════════════════════════════════════
+  // §4 SPHERE + TANGENT PLANE
+  // ══════════════════════════════════════
+  const thetaSlider = document.getElementById('theta-slider');
+  const phiSlider   = document.getElementById('phi-slider');
+  const thetaVal    = document.getElementById('theta-val');
+  const phiVal      = document.getElementById('phi-val');
+  const sphereOut   = document.getElementById('sphere-output');
+  const sphereG     = document.getElementById('sphere-content');
+
+  function drawSphere(){
+    const theta = parseInt(thetaSlider.value)/100;
+    const phi   = parseInt(phiSlider.value)/100;
+    thetaVal.textContent = fmt(theta);
+    phiVal.textContent   = fmt(phi);
+
+    const cx=380, cy=250, R=130;
+    const px = R*Math.sin(phi)*Math.cos(theta);
+    const py = R*Math.sin(phi)*Math.sin(theta);
+    const pz = R*Math.cos(phi);
+    const sX = cx + px*0.85 - py*0.35;
+    const sY = cy - pz*0.95 - py*0.25;
+    const latR = R*Math.sin(phi)*0.85;
+
+    sphereG.innerHTML='';
+
+    // back hemisphere shading
+    const bg=document.createElementNS('http://www.w3.org/2000/svg','ellipse');
+    bg.setAttribute('cx',cx); bg.setAttribute('cy',cy);
+    bg.setAttribute('rx',R*0.92); bg.setAttribute('ry',R*0.85);
+    bg.setAttribute('fill','rgba(14,20,36,0.7)');
+    bg.setAttribute('stroke','rgba(201,168,76,0.25)'); bg.setAttribute('stroke-width','1.5');
+    sphereG.appendChild(bg);
+
+    // latitude ellipses
+    for(let lat=0.3;lat<Math.PI;lat+=Math.PI/5){
+      const r2=R*Math.sin(lat)*0.85;
+      const y2=cy - R*Math.cos(lat)*0.95;
+      const el=document.createElementNS('http://www.w3.org/2000/svg','ellipse');
+      el.setAttribute('cx',cx); el.setAttribute('cy',y2);
+      el.setAttribute('rx',r2); el.setAttribute('ry',r2*0.28);
+      el.setAttribute('fill','none'); el.setAttribute('stroke','rgba(110,207,184,0.18)');
+      el.setAttribute('stroke-width','1'); sphereG.appendChild(el);
+    }
+    for(let lon=0;lon<Math.PI;lon+=Math.PI/5){
+      const el=document.createElementNS('http://www.w3.org/2000/svg','ellipse');
+      el.setAttribute('cx',cx); el.setAttribute('cy',cy);
+      el.setAttribute('rx',R*Math.abs(Math.cos(lon))*0.85+1); el.setAttribute('ry',R*0.85);
+      el.setAttribute('fill','none'); el.setAttribute('stroke','rgba(110,207,184,0.13)');
+      el.setAttribute('stroke-width','1'); sphereG.appendChild(el);
+    }
+
+    // Tangent plane: compute two orthogonal tangent vectors in 3D, then project
+    // dX/dtheta = (-R sin(phi)sin(theta), R sin(phi)cos(theta), 0)
+    // dX/dphi   = (R cos(phi)cos(theta), R cos(phi)sin(theta), -R sin(phi))
+    const sp=phi, ct=Math.cos(theta), st=Math.sin(theta), cp=Math.cos(phi);
+    const t1_3d = [-R*Math.sin(sp)*st,  R*Math.sin(sp)*ct, 0];
+    const t2_3d = [ R*cp*ct,             R*cp*st,          -R*Math.sin(sp)];
+    // project each 3D tangent vector using same oblique projection
+    function proj3(dx,dy,dz){ return { sx: dx*0.85 - dy*0.35, sy: -dz*0.95 - dy*0.25 }; }
+    const e1 = proj3(...t1_3d), e2 = proj3(...t2_3d);
+    // normalise to fixed screen size
+    const len1=Math.sqrt(e1.sx*e1.sx+e1.sy*e1.sy)||1;
+    const len2=Math.sqrt(e2.sx*e2.sx+e2.sy*e2.sy)||1;
+    const sz=38;
+    const u={x:e1.sx/len1*sz, y:e1.sy/len1*sz};
+    const v={x:e2.sx/len2*sz, y:e2.sy/len2*sz};
+    // four corners of the tangent plane parallelogram
+    const corners=[
+      `${sX-u.x-v.x},${sY-u.y-v.y}`,
+      `${sX+u.x-v.x},${sY+u.y-v.y}`,
+      `${sX+u.x+v.x},${sY+u.y+v.y}`,
+      `${sX-u.x+v.x},${sY-u.y+v.y}`
+    ];
+    const plane=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+    plane.setAttribute('points',corners.join(' '));
+    plane.setAttribute('fill','rgba(184,164,232,0.18)');
+    plane.setAttribute('stroke','rgba(184,164,232,0.70)'); plane.setAttribute('stroke-width','1.8');
+    sphereG.appendChild(plane);
+    // draw the two tangent basis vectors
+    [[u,'#6ecfb8','∂/∂θ'],[v,'#e8a056','∂/∂φ']].forEach(([vec,col,lbl])=>{
+      const ax=document.createElementNS('http://www.w3.org/2000/svg','line');
+      ax.setAttribute('x1',sX); ax.setAttribute('y1',sY);
+      ax.setAttribute('x2',sX+vec.x*1.4); ax.setAttribute('y2',sY+vec.y*1.4);
+      ax.setAttribute('stroke',col); ax.setAttribute('stroke-width','2.5');
+      sphereG.appendChild(ax);
+      const tl=document.createElementNS('http://www.w3.org/2000/svg','text');
+      tl.setAttribute('x',sX+vec.x*1.6); tl.setAttribute('y',sY+vec.y*1.6+5);
+      tl.setAttribute('fill',col); tl.setAttribute('font-size','13');
+      tl.setAttribute('font-family',"'JetBrains Mono',monospace");
+      tl.textContent=lbl; sphereG.appendChild(tl);
+    });
+    // normal vector: project outward direction (px,py,pz) normalised
+    const plen=Math.sqrt(px*px+py*py+pz*pz)||1;
+    const np=proj3(px/plen*50,py/plen*50,pz/plen*50);
+    const nv=document.createElementNS('http://www.w3.org/2000/svg','line');
+    nv.setAttribute('x1',sX); nv.setAttribute('y1',sY);
+    nv.setAttribute('x2',sX+np.sx); nv.setAttribute('y2',sY+np.sy);
+    nv.setAttribute('stroke','#c9a84c'); nv.setAttribute('stroke-width','3');
+    sphereG.appendChild(nv);
+    const nt=document.createElementNS('http://www.w3.org/2000/svg','text');
+    nt.setAttribute('x',sX+np.sx+8); nt.setAttribute('y',sY+np.sy);
+    nt.setAttribute('fill','#c9a84c'); nt.setAttribute('font-size','15');
+    nt.setAttribute('font-family',"'JetBrains Mono',monospace");
+    nt.textContent='n'; sphereG.appendChild(nt);
+
+    // point
+    const circ=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    circ.setAttribute('cx',sX); circ.setAttribute('cy',sY);
+    circ.setAttribute('r','9'); circ.setAttribute('fill','#6ecfb8');
+    sphereG.appendChild(circ);
+    const pt=document.createElementNS('http://www.w3.org/2000/svg','text');
+    pt.setAttribute('x',sX+14); pt.setAttribute('y',sY+5);
+    pt.setAttribute('fill','#6ecfb8'); pt.setAttribute('font-size','17');
+    pt.setAttribute('font-weight','700'); pt.textContent='p'; sphereG.appendChild(pt);
+
+    sphereOut.textContent = `θ = ${fmt(theta)}  φ = ${fmt(phi)}\nx = ${fmt(Math.sin(phi)*Math.cos(theta))}\ny = ${fmt(Math.sin(phi)*Math.sin(theta))}\nz = ${fmt(Math.cos(phi))}`;
+  }
+  thetaSlider.addEventListener('input', drawSphere);
+  phiSlider.addEventListener('input',   drawSphere);
+  drawSphere();
+
+  // ══════════════════════════════════════
+  // §5a CURVATURE ARCHETYPES
+  // ══════════════════════════════════════
+  const curvBtns = document.getElementById('curv-buttons');
+  const curvOut  = document.getElementById('curv-output');
+  const curvG    = document.getElementById('curv-content');
+  let curvMode='flat';
+
+  function drawCurv(){
+    curvG.innerHTML='';
+    const info={
+      flat:     {text:'Flat (K=0): parallel geodesics stay parallel. Angle sum of triangle = 180°.', col:'#6ecfb8'},
+      positive: {text:'Positive curvature (K>0): parallel geodesics converge. Angle sum > 180°.', col:'#b8a4e8'},
+      negative: {text:'Negative curvature (K<0): parallel geodesics diverge. Angle sum < 180°.', col:'#e8a056'}
+    };
+    const d=info[curvMode];
+    curvOut.textContent=d.text;
+
+    const lineCount=6, cxBase=380, yTop=100, yBot=340, spread=90;
+    for(let i=0;i<lineCount;i++){
+      const t=i/(lineCount-1), x0=cxBase-spread+(i*(spread*2)/(lineCount-1));
+      let x1;
+      if(curvMode==='flat')     x1=x0;
+      else if(curvMode==='positive') x1=cxBase+(x0-cxBase)*0.3;
+      else                           x1=cxBase+(x0-cxBase)*1.8;
+      const ln=document.createElementNS('http://www.w3.org/2000/svg','line');
+      ln.setAttribute('x1',x0); ln.setAttribute('y1',yTop);
+      ln.setAttribute('x2',x1); ln.setAttribute('y2',yBot);
+      ln.setAttribute('stroke',d.col); ln.setAttribute('stroke-width','3');
+      ln.setAttribute('opacity','0.75');
+      curvG.appendChild(ln);
+    }
+
+    // triangle showing angle sum
+    const tri = document.createElementNS('http://www.w3.org/2000/svg','text');
+    tri.setAttribute('x',380); tri.setAttribute('y',385);
+    tri.setAttribute('text-anchor','middle'); tri.setAttribute('fill',d.col);
+    tri.setAttribute('font-family',"'JetBrains Mono',monospace"); tri.setAttribute('font-size','14');
+    const sums={flat:'Σ angles = 180°', positive:'Σ angles > 180°', negative:'Σ angles < 180°'};
+    tri.textContent=sums[curvMode]; curvG.appendChild(tri);
+  }
+  curvBtns.addEventListener('click',e=>{
+    if(e.target.tagName!=='BUTTON') return;
+    [...curvBtns.querySelectorAll('button')].forEach(b=>b.classList.remove('active'));
+    e.target.classList.add('active');
+    curvMode=e.target.dataset.curv;
+    drawCurv();
+  });
+  drawCurv();
+
+  // ══════════════════════════════════════
+  // §5b TORUS GLUING
+  // ══════════════════════════════════════
+  const torusBtns = document.getElementById('torus-buttons');
+  const torusOut  = document.getElementById('torus-output');
+  const torusG    = document.getElementById('torus-content');
+  let torusStage=0;
+
+  function drawTorus(){
+    torusG.innerHTML='';
+    const stageInfo=[
+      {text:'Stage 1: A square with four free edges. No identifications yet. χ = 2−2g not yet fixed.'},
+      {text:'Stage 2: Top and bottom edges identified — the square becomes a cylinder. Left and right edges still free.'},
+      {text:'Stage 3: Both pairs of opposite edges identified — the cylinder bends into a torus. Local geometry flat; global topology nontrivial. g=1, χ=0.'}
+    ];
+    torusOut.textContent=stageInfo[torusStage].text;
+
+    function svgEl(tag){ return document.createElementNS('http://www.w3.org/2000/svg',tag); }
+    function addText(x,y,txt,col,sz,anchor){
+      const t=svgEl('text');
+      t.setAttribute('x',x); t.setAttribute('y',y); t.textContent=txt;
+      t.setAttribute('fill',col||'#eef0f8'); t.setAttribute('font-size',sz||'15');
+      t.setAttribute('text-anchor',anchor||'middle');
+      t.setAttribute('font-family',"'Outfit',sans-serif");
+      torusG.appendChild(t); return t;
+    }
+    function addLine(x1,y1,x2,y2,col,w,dash){
+      const l=svgEl('line');
+      l.setAttribute('x1',x1);l.setAttribute('y1',y1);l.setAttribute('x2',x2);l.setAttribute('y2',y2);
+      l.setAttribute('stroke',col); l.setAttribute('stroke-width',w||2);
+      if(dash) l.setAttribute('stroke-dasharray',dash);
+      torusG.appendChild(l); return l;
+    }
+
+    if(torusStage===0){
+      // ── SQUARE ──
+      const cx=380, cy=200, W=200, H=160, x0=cx-W/2, y0=cy-H/2;
+      const bg=svgEl('rect');
+      bg.setAttribute('x',x0); bg.setAttribute('y',y0); bg.setAttribute('width',W); bg.setAttribute('height',H);
+      bg.setAttribute('fill','rgba(110,207,184,0.06)');
+      bg.setAttribute('stroke','rgba(238,240,248,0.18)'); bg.setAttribute('stroke-width','1.5');
+      torusG.appendChild(bg);
+      // coloured identified edges (arrows)
+      // top & bottom = teal (will be identified)
+      const arrowDefs=[
+        {x1:x0+20,y1:y0,      x2:x0+W-20,y2:y0,      col:'#6ecfb8',lbl:''},
+        {x1:x0+20,y1:y0+H,    x2:x0+W-20,y2:y0+H,    col:'#6ecfb8',lbl:''},
+        {x1:x0,   y1:y0+20,   x2:x0,     y2:y0+H-20, col:'#b8a4e8',lbl:''},
+        {x1:x0+W, y1:y0+20,   x2:x0+W,   y2:y0+H-20, col:'#b8a4e8',lbl:''},
+      ];
+      arrowDefs.forEach(({x1,y1,x2,y2,col})=>{
+        addLine(x1,y1,x2,y2,col,4);
+        // arrowhead mid
+        const mx=(x1+x2)/2, my=(y1+y2)/2;
+        const dx=x2-x1, dy=y2-y1, len=Math.sqrt(dx*dx+dy*dy)||1;
+        const nx=dx/len*8, ny=dy/len*8;
+        const arr=svgEl('polygon');
+        arr.setAttribute('points',`${mx+nx},${my+ny} ${mx-ny/2},${my+nx/2} ${mx+ny/2},${my-nx/2}`);
+        arr.setAttribute('fill',col); torusG.appendChild(arr);
+      });
+      addText(cx,y0-12,'→ top & bottom will be glued','#6ecfb8',13);
+      addText(x0-12,cy,'→ left & right will be glued','#b8a4e8',13,'end');
+      addText(cx,cy+H/2+28,'Square: no identification yet','#8a94b0',13);
+
+    } else if(torusStage===1){
+      // ── CYLINDER ──
+      // Draw as two ellipses (top & bottom circles) connected by side lines
+      const cx=380, cy=200, rX=88, rY=28, h=120;
+      const yTop=cy-h/2, yBot=cy+h/2;
+      // side shading
+      const side=svgEl('path');
+      side.setAttribute('d',`M ${cx-rX} ${yTop} L ${cx-rX} ${yBot} A ${rX} ${rY} 0 0 0 ${cx+rX} ${yBot} L ${cx+rX} ${yTop} A ${rX} ${rY} 0 0 0 ${cx-rX} ${yTop} Z`);
+      side.setAttribute('fill','rgba(110,207,184,0.07)');
+      side.setAttribute('stroke','none'); torusG.appendChild(side);
+      // dashed back half of bottom ellipse
+      const ellBot=svgEl('ellipse');
+      ellBot.setAttribute('cx',cx); ellBot.setAttribute('cy',yBot);
+      ellBot.setAttribute('rx',rX); ellBot.setAttribute('ry',rY);
+      ellBot.setAttribute('fill','none'); ellBot.setAttribute('stroke','rgba(110,207,184,0.35)');
+      ellBot.setAttribute('stroke-width','2.5'); ellBot.setAttribute('stroke-dasharray','6 4');
+      torusG.appendChild(ellBot);
+      // solid front half of bottom
+      const ellBotF=svgEl('path');
+      ellBotF.setAttribute('d',`M ${cx-rX} ${yBot} A ${rX} ${rY} 0 0 1 ${cx+rX} ${yBot}`);
+      ellBotF.setAttribute('fill','none'); ellBotF.setAttribute('stroke','#6ecfb8');
+      ellBotF.setAttribute('stroke-width','3.5'); torusG.appendChild(ellBotF);
+      // top circle - solid (identified, glowed)
+      const ellTop=svgEl('ellipse');
+      ellTop.setAttribute('cx',cx); ellTop.setAttribute('cy',yTop);
+      ellTop.setAttribute('rx',rX); ellTop.setAttribute('ry',rY);
+      ellTop.setAttribute('fill','rgba(110,207,184,0.10)'); ellTop.setAttribute('stroke','#6ecfb8');
+      ellTop.setAttribute('stroke-width','3.5'); torusG.appendChild(ellTop);
+      // side lines
+      addLine(cx-rX,yTop,cx-rX,yBot,'rgba(238,240,248,0.22)',1.5);
+      addLine(cx+rX,yTop,cx+rX,yBot,'rgba(238,240,248,0.22)',1.5);
+      // free edge labels
+      addText(cx-rX-18,cy,'free','#b8a4e8',13,'end');
+      addText(cx+rX+18,cy,'free','#b8a4e8',13,'start');
+      // identified label
+      addText(cx,yTop-14,'identified','#6ecfb8',13);
+      addText(cx,yBot+22,'identified','#6ecfb8',13);
+      addText(cx,yBot+52,'Cylinder: one pair of edges glued','#8a94b0',13);
+
+    } else {
+      // ── TORUS ──
+      const cx=380, cy=200, rBig=88, rSmall=38;
+      // draw torus as nested ellipses (standard SVG approximation)
+      // outer ellipse
+      const outer=svgEl('ellipse');
+      outer.setAttribute('cx',cx); outer.setAttribute('cy',cy);
+      outer.setAttribute('rx',rBig+rSmall); outer.setAttribute('ry',(rBig+rSmall)*0.38);
+      outer.setAttribute('fill','rgba(110,207,184,0.08)');
+      outer.setAttribute('stroke','#6ecfb8'); outer.setAttribute('stroke-width','2.5');
+      torusG.appendChild(outer);
+      // inner ellipse (hole)
+      const inner=svgEl('ellipse');
+      inner.setAttribute('cx',cx); inner.setAttribute('cy',cy);
+      inner.setAttribute('rx',rBig-rSmall); inner.setAttribute('ry',(rBig-rSmall)*0.38);
+      inner.setAttribute('fill','rgba(7,9,14,0.88)');
+      inner.setAttribute('stroke','rgba(110,207,184,0.40)'); inner.setAttribute('stroke-width','2');
+      torusG.appendChild(inner);
+      // longitude circle
+      const lon=svgEl('ellipse');
+      lon.setAttribute('cx',cx); lon.setAttribute('cy',cy);
+      lon.setAttribute('rx',rBig); lon.setAttribute('ry',rBig*0.36);
+      lon.setAttribute('fill','none'); lon.setAttribute('stroke','rgba(184,164,232,0.55)');
+      lon.setAttribute('stroke-width','2'); lon.setAttribute('stroke-dasharray','8 5');
+      torusG.appendChild(lon);
+      // meridian circle (right side)
+      const mer=svgEl('ellipse');
+      mer.setAttribute('cx',cx+rBig); mer.setAttribute('cy',cy);
+      mer.setAttribute('rx',rSmall*0.55); mer.setAttribute('ry',rSmall);
+      mer.setAttribute('fill','none'); mer.setAttribute('stroke','rgba(184,164,232,0.55)');
+      mer.setAttribute('stroke-width','2'); torusG.appendChild(mer);
+      // labels
+      addText(cx,cy+(rBig+rSmall)*0.38+28,'Torus: both pairs of edges glued','#8a94b0',13);
+      addText(cx,cy-(rBig+rSmall)*0.38-14,'g = 1,  χ = 0,  Ric = 0','#6ecfb8',14);
+    }
+  }
+  torusBtns.addEventListener('click',e=>{
+    if(e.target.tagName!=='BUTTON') return;
+    [...torusBtns.querySelectorAll('button')].forEach(b=>b.classList.remove('active'));
+    e.target.classList.add('active');
+    torusStage=parseInt(e.target.dataset.stage);
+    drawTorus();
+  });
+  drawTorus();
+
+  // ══════════════════════════════════════
+  // §6 COMPLEX ROTATION
+  // ══════════════════════════════════════
+  const alphaSlider = document.getElementById('alpha-slider');
+  const alphaVal    = document.getElementById('alpha-val');
+  const complexOut  = document.getElementById('complex-output');
+  const complexG    = document.getElementById('complex-content');
+  const alphaI      = document.getElementById('alpha-i-btn');
+  const alphaReset  = document.getElementById('alpha-reset-btn');
+
+  function drawComplex(){
+    const alpha=parseInt(alphaSlider.value)/100;
+    alphaVal.textContent=fmt(alpha);
+    complexG.innerHTML='';
+
+    const ox=380, oy=220, s=100;
+    const z={x:1.5, y:0.8};
+    const zr={x:z.x*Math.cos(alpha)-z.y*Math.sin(alpha), y:z.x*Math.sin(alpha)+z.y*Math.cos(alpha)};
+
+    // axes
+    [['x1','30','y1',oy,'x2','740','y2',oy],['x1',ox,'y1','70','x2',ox,'y2','390']].forEach(attrs=>{
+      const ln=document.createElementNS('http://www.w3.org/2000/svg','line');
+      for(let i=0;i<attrs.length;i+=2) ln.setAttribute(attrs[i],attrs[i+1]);
+      ln.setAttribute('stroke','rgba(255,255,255,0.15)'); ln.setAttribute('stroke-width','1.5');
+      complexG.appendChild(ln);
+    });
+
+    // unit circle
+    const uc=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    uc.setAttribute('cx',ox); uc.setAttribute('cy',oy);
+    uc.setAttribute('r',s); uc.setAttribute('fill','none');
+    uc.setAttribute('stroke','rgba(201,168,76,0.20)'); uc.setAttribute('stroke-width','1');
+    uc.setAttribute('stroke-dasharray','6 4'); complexG.appendChild(uc);
+
+    function drawVec(pt,color,label){
+      const ln=document.createElementNS('http://www.w3.org/2000/svg','line');
+      ln.setAttribute('x1',ox); ln.setAttribute('y1',oy);
+      ln.setAttribute('x2',ox+pt.x*s); ln.setAttribute('y2',oy-pt.y*s);
+      ln.setAttribute('stroke',color); ln.setAttribute('stroke-width','4');
+      complexG.appendChild(ln);
+      const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+      c.setAttribute('cx',ox+pt.x*s); c.setAttribute('cy',oy-pt.y*s);
+      c.setAttribute('r','9'); c.setAttribute('fill',color); complexG.appendChild(c);
+      const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+      t.setAttribute('x',ox+pt.x*s+14); t.setAttribute('y',oy-pt.y*s-12);
+      t.setAttribute('fill',color); t.setAttribute('font-size','17');
+      t.setAttribute('font-weight','700'); t.textContent=label; complexG.appendChild(t);
+    }
+    drawVec(z,'#6ecfb8','z');
+    drawVec(zr,'#b8a4e8','e^{iα}z');
+
+    complexOut.textContent=`α  = ${fmt(alpha)} rad\nz  = ${fmt(z.x)} + ${fmt(z.y)}i\nRe = ${fmt(zr.x)}\nIm = ${fmt(zr.y)}`;
+  }
+  alphaSlider.addEventListener('input',drawComplex);
+  alphaI.addEventListener('click',()=>{ alphaSlider.value=157; drawComplex(); });
+  alphaReset.addEventListener('click',()=>{ alphaSlider.value=0; drawComplex(); });
+  drawComplex();
+
+  // ══════════════════════════════════════
+  // §7 KÄHLER TRIANGLE
+  // ══════════════════════════════════════
+  const kahlerBtns = document.getElementById('kahler-buttons');
+  const kahlerOut  = document.getElementById('kahler-output');
+  const kahlerG    = document.getElementById('kahler-content');
+  let kMode='all';
+
+  function drawKahler(){
+    const info={
+      all: 'The Kähler condition is a compatibility structure: metric \\(g\\), complex structure \\(J\\), and 2-form \\(\\omega\\) fit together.',
+      g:   'Metric \\(g\\): defines length, angle, and local measurement.',
+      J:   'Complex structure \\(J\\): acts like multiplication by \\(i\\) on tangent spaces, satisfying \\(J^2=-I\\).',
+      w:   'Kähler form \\(\\omega\\): the symplectic 2-form determined by \\(g\\) and \\(J\\), with \\(d\\omega=0\\).'
+    };
+    kahlerOut.innerHTML=info[kMode];
+    typesetSafe(kahlerOut);
+
+    kahlerG.innerHTML='';
+    const nodes={
+      g:{x:380,y:115,label:'Metric g',  fill:'#6ecfb8'},
+      J:{x:220,y:285,label:'Complex J', fill:'#b8a4e8'},
+      w:{x:540,y:285,label:'Form ω',    fill:'#c9a84c'},
+    };
+    [['g','J'],['g','w'],['J','w']].forEach(([a,b])=>{
+      const on=(kMode==='all'||kMode===a||kMode===b);
+      const ln=document.createElementNS('http://www.w3.org/2000/svg','line');
+      ln.setAttribute('x1',nodes[a].x); ln.setAttribute('y1',nodes[a].y);
+      ln.setAttribute('x2',nodes[b].x); ln.setAttribute('y2',nodes[b].y);
+      ln.setAttribute('stroke',on?'rgba(238,240,248,0.50)':'rgba(238,240,248,0.08)');
+      ln.setAttribute('stroke-width','3'); kahlerG.appendChild(ln);
+    });
+    Object.entries(nodes).forEach(([key,n])=>{
+      const on=(kMode===key||kMode==='all');
+      const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+      c.setAttribute('cx',n.x); c.setAttribute('cy',n.y);
+      c.setAttribute('r',on?56:42);
+      c.setAttribute('fill',on?n.fill:'rgba(255,255,255,0.05)');
+      c.setAttribute('opacity',on?'0.92':'0.45');
+      kahlerG.appendChild(c);
+      const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+      t.setAttribute('x',n.x); t.setAttribute('y',n.y+7);
+      t.setAttribute('text-anchor','middle'); t.setAttribute('fill','#07090e');
+      t.setAttribute('font-size','17'); t.setAttribute('font-weight','700');
+      t.setAttribute('font-family',"'Outfit',sans-serif"); t.textContent=n.label;
+      kahlerG.appendChild(t);
+    });
+    const eq=document.createElementNS('http://www.w3.org/2000/svg','text');
+    eq.setAttribute('x',380); eq.setAttribute('y',370);
+    eq.setAttribute('text-anchor','middle'); eq.setAttribute('fill','#eef0f8');
+    eq.setAttribute('font-size','20'); eq.setAttribute('font-family',"'JetBrains Mono',monospace");
+    eq.textContent='ω(X,Y) = g(JX,Y)'; kahlerG.appendChild(eq);
+    const note=document.createElementNS('http://www.w3.org/2000/svg','text');
+    note.setAttribute('x',380); note.setAttribute('y',400);
+    note.setAttribute('text-anchor','middle'); note.setAttribute('fill','#8a94b0');
+    note.setAttribute('font-size','14'); note.setAttribute('font-family',"'Outfit',sans-serif");
+    note.textContent='This single relation is the visual heart of Kähler geometry.'; kahlerG.appendChild(note);
+  }
+  kahlerBtns.addEventListener('click',e=>{
+    if(e.target.tagName!=='BUTTON') return;
+    [...kahlerBtns.querySelectorAll('button')].forEach(b=>b.classList.remove('active'));
+    e.target.classList.add('active');
+    kMode=e.target.dataset.k;
+    drawKahler();
+  });
+  drawKahler();
+
+  // ══════════════════════════════════════
+  // §8 CALABI-YAU LOGIC CHAIN
+  // ══════════════════════════════════════
+  const cyBtns = document.getElementById('cy-buttons');
+  const cyOut  = document.getElementById('cy-output');
+  const cyG    = document.getElementById('cy-content');
+  let cyStep=0;
+
+  const cyData=[
+    {title:'Vanishing first Chern class',  text:'Start with the topological condition \\(c_1(M)=0\\).', active:['c1']},
+    {title:'Twisting cancels',             text:'The global complex twisting cancels out topologically.',active:['c1','twist']},
+    {title:'Trivial canonical bundle',     text:'\\(K_M\\cong\\mathcal{O}_M\\): the canonical bundle is trivial.',active:['c1','twist','K']},
+    {title:'Holomorphic volume form',      text:'Then \\(\\exists\\) a nowhere-vanishing holomorphic volume form \\(\\Omega\\).',active:['c1','twist','K','Omega']},
+    {title:'Ricci-flat Kähler metric',     text:"Yau's theorem gives a Ricci-flat Kähler metric — topology, complex geometry, and analysis converge.",active:['c1','twist','K','Omega','Ricci']}
+  ];
+
+  function drawCY(){
+    const cur=cyData[cyStep];
+    cyOut.innerHTML=`<strong>${cur.title}</strong><br>${cur.text}`;
+    typesetSafe(cyOut);
+    const active=new Set(cur.active);
+    cyG.innerHTML='';
+
+    const nodes={
+      c1:    {x:100,y:150,w:120,h:58,label:'c₁(M)=0',          color:'#6ecfb8'},
+      twist: {x:255,y:150,w:150,h:58,label:'twisting cancels',  color:'#b8a4e8'},
+      K:     {x:445,y:150,w:150,h:58,label:'Kₘ ≅ Oₘ',          color:'#b8a4e8'},
+      Omega: {x:630,y:150,w:90, h:58,label:'Ω ≠ 0',            color:'#c9a84c'},
+      Ricci: {x:355,y:300,w:220,h:68,label:'Ricci-flat Kähler', color:'#6ecfb8'}
+    };
+
+    function box(n,key){
+      const on=active.has(key);
+      const r=document.createElementNS('http://www.w3.org/2000/svg','rect');
+      r.setAttribute('x',n.x); r.setAttribute('y',n.y);
+      r.setAttribute('width',n.w); r.setAttribute('height',n.h);
+      r.setAttribute('rx','16');
+      r.setAttribute('fill',on?n.color:'rgba(255,255,255,0.05)');
+      r.setAttribute('opacity',on?'0.92':'0.4');
+      r.setAttribute('stroke',on?n.color:'rgba(255,255,255,0.10)');
+      r.setAttribute('stroke-width','2'); cyG.appendChild(r);
+      const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+      t.setAttribute('x',n.x+n.w/2); t.setAttribute('y',n.y+n.h/2+6);
+      t.setAttribute('text-anchor','middle');
+      t.setAttribute('fill',on?'#07090e':'#eef0f8');
+      t.setAttribute('font-size','16'); t.setAttribute('font-weight','700');
+      t.setAttribute('font-family',"'Outfit',sans-serif"); t.textContent=n.label;
+      cyG.appendChild(t);
+    }
+    function arrow(x1,y1,x2,y2,on){
+      const ln=document.createElementNS('http://www.w3.org/2000/svg','line');
+      ln.setAttribute('x1',x1); ln.setAttribute('y1',y1);
+      // shorten by 8px to make room for arrowhead
+      const dx=x2-x1, dy=y2-y1, len=Math.sqrt(dx*dx+dy*dy)||1;
+      const ex=x2-dx/len*8, ey=y2-dy/len*8;
+      ln.setAttribute('x2',ex); ln.setAttribute('y2',ey);
+      ln.setAttribute('stroke',on?'rgba(238,240,248,0.70)':'rgba(238,240,248,0.10)');
+      ln.setAttribute('stroke-width','2.5'); cyG.appendChild(ln);
+      if(on){
+        const nx=dx/len, ny=dy/len, px=-ny, py=nx;
+        const tip=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+        tip.setAttribute('points',`${x2},${y2} ${x2-nx*10+px*5},${y2-ny*10+py*5} ${x2-nx*10-px*5},${y2-ny*10-py*5}`);
+        tip.setAttribute('fill','rgba(238,240,248,0.70)'); cyG.appendChild(tip);
+      }
+    }
+
+    Object.entries(nodes).forEach(([k,n])=>box(n,k));
+    arrow(220,179,255,179,active.has('twist'));
+    arrow(405,179,445,179,active.has('K'));
+    arrow(595,179,630,179,active.has('Omega'));
+    arrow(675,208,515,300,active.has('Ricci'));
+
+    const note=document.createElementNS('http://www.w3.org/2000/svg','text');
+    note.setAttribute('x',380); note.setAttribute('y',260);
+    note.setAttribute('text-anchor','middle'); note.setAttribute('fill','#8a94b0');
+    note.setAttribute('font-size','13'); note.setAttribute('font-family',"'Outfit',sans-serif");
+    note.setAttribute('font-style','italic'); note.textContent="analytic bridge: Yau's theorem";
+    cyG.appendChild(note);
+  }
+  cyBtns.addEventListener('click',e=>{
+    if(e.target.tagName!=='BUTTON') return;
+    [...cyBtns.querySelectorAll('button')].forEach(b=>b.classList.remove('active'));
+    e.target.classList.add('active');
+    cyStep=parseInt(e.target.dataset.step);
+    drawCY();
+  });
+  drawCY();
+
+})();
+
+</script></body>
+</html>

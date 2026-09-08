@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>易 Yi · Part Three — What Moves It</title>
+<script>try{document.documentElement.classList.add("js");}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..800,0..100,0..1;1,9..144,300..800,0..100,0..1&family=Newsreader:opsz,wght@6..72,200..700&family=Space+Mono:wght@400;700&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<style>
+/* ═══ BLACK IRIS · light only · Part Three ═════════════════════════
+   Where the velocities come from. Rule inherited from Part Two, after
+   a 10× error hid inside an invisible effect: every figure here must
+   make its claimed effect VISIBLY LARGE, or admit the effect is small.
+   ══════════════════════════════════════════════════════════════════ */
+:root{
+  --paper:#FCFAF7; --paper2:#F8F0EA; --paper3:#F0E2D9;
+  --ink:#2C1D17; --iris:#5B2A1B; --iris-mid:#8A4530; --lilac:#A89087;
+  --brass:#9A7226; --teal:#2F6B72; --alarm:#9B3242;
+  --rule:#DFCEC5; --rule-soft:#EFE2DA;
+  --shui:#3F6472; --mu:#54724A; --huo:#9B3F3A; --tu:#8C6A31; --jin:#5A6265;
+  --shadow:0 18px 44px rgba(60,28,20,.08);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Newsreader",Georgia,"Noto Serif SC",serif;font-size:18px;line-height:1.66;overflow-x:hidden}
+:focus-visible{outline:2px solid var(--iris-mid);outline-offset:3px}
+.wrap{width:min(1120px,calc(100% - 34px));margin-inline:auto}
+.col{max-width:68ch}
+.mono,.kicker,.badge,.cap,.step,.tag,button,output{font-family:"Space Mono",ui-monospace,Menlo,monospace}
+.kicker{font-size:.66rem;letter-spacing:.19em;text-transform:uppercase;color:var(--iris-mid)}
+.cap{font-size:.78rem;line-height:1.55;color:var(--iris-mid)}
+
+.cover{position:relative;color:#F8EDE7;overflow:hidden;
+  padding:clamp(44px,7vw,96px) 0 clamp(36px,5vw,64px);
+  background:radial-gradient(115% 95% at 72% 6%,#A6553A 0,transparent 56%),
+             radial-gradient(90% 80% at 6% 94%,#38150D 0,transparent 60%),
+             linear-gradient(166deg,#39204B,#2D110A 62%,#180D20)}
+.cover::after{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:soft-light;opacity:.6;
+  background:radial-gradient(120% 100% at 50% 40%,transparent 42%,rgba(20,8,5,.5) 100%),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
+.cover .wrap{position:relative;z-index:2}
+.cover .kicker{color:#EFC0A6}
+.rules{border-top:1px solid rgba(248,237,231,.45);border-bottom:1px solid rgba(248,237,231,.45);height:5px;margin:16px 0 24px}
+h1{font-family:"Fraunces","Noto Serif SC",serif;font-weight:600;font-variation-settings:"SOFT" 40,"WONK" 1;
+  font-size:clamp(2.6rem,8.6vw,6.2rem);line-height:.9;letter-spacing:-.032em;margin:0}
+h1 .en{display:block;font-size:clamp(1rem,2.2vw,1.6rem);font-weight:400;font-style:italic;
+  margin-top:.6em;color:#F0D4C3;font-variation-settings:"WONK" 0;letter-spacing:0}
+.deck{font-size:clamp(1.04rem,1.8vw,1.36rem);line-height:1.5;max-width:48ch;margin:24px 0 0;color:#F9EBE3}
+.deck b{color:#fff;font-weight:600}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:28px}
+.badge{font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;padding:6px 10px;
+  border:1px solid var(--rule);color:var(--iris);background:#fff}
+.cover .badge{border-color:rgba(248,237,231,.5);color:#F5DFD2;background:transparent}
+.cover .badge.now{background:#F8EDE7;color:#2D110A;border-color:#F8EDE7}
+.cover .badge.done{border-color:rgba(248,237,231,.28);color:rgba(237,220,244,.6)}
+
+section{padding:clamp(50px,7vw,100px) 0;border-top:1px solid var(--rule-soft)}
+.head{display:grid;grid-template-columns:158px 1fr;gap:clamp(14px,3vw,32px);align-items:start;margin-bottom:32px}
+.head .step{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--lilac);line-height:1.9}
+.head .step b{display:block;color:var(--iris);font-weight:700}
+h2{font-family:"Fraunces","Noto Serif SC",serif;font-weight:500;font-variation-settings:"SOFT" 30,"WONK" 1;
+  font-size:clamp(1.8rem,4.3vw,3.2rem);line-height:1.03;letter-spacing:-.025em;margin:0;color:var(--iris);max-width:25ch}
+h3{font-family:"Fraunces",serif;font-weight:600;font-size:1.1rem;margin:0 0 .45em;color:var(--iris)}
+p{margin:0 0 1.05em;max-width:68ch}
+.lead::first-letter{float:left;font-family:"Fraunces",serif;font-weight:600;font-size:3.4em;line-height:.82;
+  margin:.06em .1em 0 0;color:var(--iris)}
+.big{font-size:clamp(1.15rem,2.2vw,1.5rem);line-height:1.44;max-width:40ch;letter-spacing:-.01em}
+.hl{background:linear-gradient(180deg,transparent 58%,#CFE9E4 58%,#CFE9E4 92%,transparent 92%)}
+.pull{border-left:2px solid var(--brass);padding-left:22px;margin:32px 0;max-width:34ch;
+  font-family:"Fraunces",serif;font-style:italic;font-size:clamp(1.2rem,2.4vw,1.8rem);line-height:1.3;color:var(--iris)}
+.div{display:flex;align-items:center;gap:12px;margin:42px 0;color:var(--lilac)}
+.div::before,.div::after{content:"";flex:1;border-top:1px dotted var(--rule)}
+.div span{font-family:"Space Mono",monospace;font-size:.78rem}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.g5{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:11px}
+.card{background:#fff;border:1px solid var(--rule-soft);border-radius:3px;padding:18px;box-shadow:var(--shadow)}
+.card p{margin:0;font-size:.92rem}
+.card .gl{font-family:"Noto Serif SC",serif;font-size:1.5rem;line-height:1;display:block;margin-bottom:9px}
+.chip{display:inline-grid;place-items:center;width:25px;height:25px;border-radius:50%;
+  border:1px solid var(--iris);color:var(--iris);font-family:"Space Mono",monospace;font-size:.7rem;margin-bottom:10px}
+
+
+/* ── maths · gallery plates ─────────────────────────────────────────
+   Standing treatment: plum-glow ground, brass corner registration
+   ticks, boxed mono tag, teal "how to read it" rule, colour-coded
+   symbols, symbol legend. Every TeX string in these files was
+   validated against KaTeX 0.18 offline before shipping.
+   FAILSAFE: each .tex / .itex holds readable plain-text maths as its
+   own content. KaTeX overwrites it on load; if the CDN is missing the
+   plain text simply stays, so the document never loses its equations.
+   ───────────────────────────────────────────────────────────────── */
+.plate{position:relative;margin:26px 0;padding:28px 24px 20px;
+  background:radial-gradient(120% 140% at 18% 0%,#F9EFE9 0%,#FDFAF7 72%);
+  border:1px solid var(--rule);border-radius:3px;overflow-x:auto}
+.plate::before,.plate::after{content:"";position:absolute;width:12px;height:12px;border:1px solid var(--brass)}
+.plate::before{top:7px;left:7px;border-right:0;border-bottom:0}
+.plate::after{bottom:7px;right:7px;border-left:0;border-top:0}
+.plate .ptag{display:inline-block;border:1px solid var(--iris);color:var(--iris);
+  font-family:"Space Mono",monospace;font-size:.58rem;letter-spacing:.15em;
+  text-transform:uppercase;padding:3px 8px;margin-bottom:18px}
+.tex{font-size:1.02rem;overflow-x:auto;overflow-y:hidden;padding:2px 0;line-height:1.5}
+.tex.fallback{font-family:"Space Mono",monospace;white-space:pre-wrap;font-size:.86rem;line-height:1.7}
+.itex{font-size:.98em;white-space:nowrap}
+.itex.fallback{font-family:"Space Mono",monospace;font-size:.9em}
+.plate .read{margin-top:18px;padding-top:12px;border-top:1px solid #A8CFCB;font-size:.86rem;line-height:1.55;color:var(--ink)}
+.plate .read b{display:block;font-family:"Space Mono",monospace;font-size:.6rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--teal);margin-bottom:5px;font-weight:400}
+.plate .legend{display:flex;flex-wrap:wrap;gap:7px 18px;margin-top:14px;font-size:.76rem;color:var(--iris-mid);
+  font-family:"Space Mono",monospace}
+.plate .legend b{font-family:"Noto Serif SC",serif;font-weight:400;color:var(--iris);font-size:.95rem}
+.katex{font-size:1.04em}
+.katex-display{margin:.3em 0}
+figure{margin:30px 0;border:1px solid var(--rule);border-radius:3px;background:#fff;box-shadow:var(--shadow);overflow:hidden}
+figure .fhead{background:var(--paper2);border-bottom:1px solid var(--rule);padding:9px 16px;
+  display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline}
+figure .fhead .tag{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--iris)}
+figure .fhead .hint{font-size:.62rem;color:var(--lilac)}
+figure .fbody{padding:18px}
+figcaption{padding:0 18px 18px;font-size:.8rem;line-height:1.55;color:var(--iris-mid);max-width:74ch}
+canvas{display:block;width:100%;touch-action:none}
+svg.fig{display:block;width:100%;height:auto}
+.fallnote{padding:15px 17px;background:var(--paper2);font-family:"Space Mono",monospace;font-size:.7rem;color:var(--iris)}
+html.ready .fallnote{display:none}
+button{appearance:none;border:1px solid var(--rule);background:#fff;color:var(--iris);
+  padding:7px 11px;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:2px}
+button:hover{border-color:var(--iris-mid)}
+button.on{background:var(--iris);color:#F8EDE7;border-color:var(--iris)}
+button.g{font-family:"Noto Serif SC",serif;font-size:1rem;padding:6px 13px;letter-spacing:0;text-transform:none}
+.btns{display:flex;gap:7px;flex-wrap:wrap}
+.ctl{display:grid;grid-template-columns:92px 1fr 54px;gap:10px;align-items:center;margin:8px 0}
+.ctl label{font-size:.83rem}
+.ctl label.gl{font-family:"Noto Serif SC",serif;font-size:1.02rem}
+.ctl output{font-size:.7rem;text-align:right;color:var(--iris-mid)}
+input[type=range]{width:100%;height:20px;accent-color:var(--iris-mid)}
+#aShui{accent-color:var(--shui)}#aMu{accent-color:var(--mu)}#aHuo{accent-color:var(--huo)}
+#aTu{accent-color:var(--tu)}#aJin{accent-color:var(--jin)}
+.readout{font-size:.74rem;line-height:1.62;color:var(--iris-mid);font-family:"Space Mono",monospace;
+  border-top:1px dotted var(--rule);margin-top:14px;padding-top:11px}
+.readout b{color:var(--iris)}
+.readout .warn{color:var(--brass)}
+.readout .ok{color:var(--teal)}
+.share{display:flex;height:11px;border-radius:2px;overflow:hidden;background:var(--paper3);margin-top:10px}
+.share i{display:block;transition:width .25s}
+.bars5{display:grid;gap:6px;margin-top:12px}
+.bars5 .b{display:grid;grid-template-columns:30px 1fr 46px;gap:9px;align-items:center;font-size:.75rem}
+.bars5 .gl{font-family:"Noto Serif SC",serif;font-size:1.05rem;color:var(--ink)}
+.bars5 .tr{height:10px;background:var(--paper3);border-radius:2px;position:relative;overflow:hidden}
+.bars5 .tr i{position:absolute;left:0;top:0;bottom:0;border-radius:2px;transition:width .2s}
+.bars5 .vv{font-family:"Space Mono",monospace;font-size:.68rem;text-align:right;color:var(--iris-mid)}
+.bars5 .b.lead .vv{color:var(--brass);font-weight:700}
+.hand{display:flex;gap:5px;flex-wrap:wrap;margin-top:12px;font-family:"Space Mono",monospace;font-size:.66rem;color:var(--iris-mid);align-items:center}
+.hand span{border:1px solid var(--rule-soft);padding:3px 7px;border-radius:2px}
+.hand span.n{font-family:"Noto Serif SC",serif;font-size:.9rem;color:var(--iris)}
+.nwrap{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px}
+.nbox{border:1px solid var(--rule-soft);border-radius:3px;padding:10px;text-align:center}
+.nbox.on{border-color:var(--brass);background:var(--paper2)}
+.nbox b{display:block;font-family:"Space Mono",monospace;font-size:.68rem;color:var(--iris)}
+.nbox span{font-family:"Space Mono",monospace;font-size:.56rem;color:var(--lilac);display:block;margin-top:3px}
+.nbox.on span{color:var(--brass)}
+.road{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.road .r{background:#fff;padding:15px 18px;display:grid;grid-template-columns:96px 1fr;gap:18px;align-items:baseline}
+.road .n{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--lilac);font-family:"Space Mono",monospace}
+.road .r.here{background:var(--paper2)}.road .r.here .n{color:var(--brass)}
+.road .r.done .n{color:var(--teal)}
+.road b{font-family:"Fraunces",serif;font-size:1.02rem;color:var(--iris);display:block;margin-bottom:2px}
+.road p{margin:0;font-size:.88rem}
+footer{border-top:1px solid var(--iris);background:var(--paper2);padding:44px 0 74px}
+footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
+.eq{background:radial-gradient(120% 140% at 20% 0,#F9EFE9,#FDFAF7 70%);border:1px solid var(--rule);
+  padding:20px;margin:20px 0;font-family:"Space Mono",monospace;font-size:.86rem;white-space:pre-wrap;line-height:1.75;overflow-x:auto}
+.eq b{display:block;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;font-weight:400}
+
+@media(max-width:900px){
+  body{font-size:17px}
+  .head,.g2,.g3,.road .r{grid-template-columns:1fr}
+  .g5,.nwrap{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .head{gap:8px}
+  .ctl{grid-template-columns:78px 1fr 48px}
+}
+</style>
+
+
+
+<style id="yinav-css">
+.yitop{border-bottom:1px solid var(--rule,#DFCEC5);background:var(--paper,#FCFAF7);
+ font-family:"Space Mono",ui-monospace,Menlo,monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase}
+.yitop .in{width:min(1120px,calc(100% - 34px));margin-inline:auto;display:flex;align-items:center;gap:16px;padding:12px 0;flex-wrap:wrap}
+.yitop a{color:var(--iris-mid,#8A4530);text-decoration:none;opacity:.72}
+.yitop a:hover{opacity:1;text-decoration:underline}
+.yitop .sp{flex:1 1 auto}
+.yitop .now{color:var(--lilac,#A89087)}
+.yinav{border-top:1px solid var(--rule,#DFCEC5);margin-top:clamp(40px,6vw,86px);
+ padding:clamp(30px,5vw,58px) 0 clamp(44px,6vw,84px);font-family:"Space Mono",ui-monospace,Menlo,monospace}
+.yinav .in{width:min(1120px,calc(100% - 34px));margin-inline:auto}
+.yinav-lab{font-size:.62rem;letter-spacing:.19em;text-transform:uppercase;color:var(--lilac,#A89087);margin-bottom:24px}
+.yinav-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:34px}
+.yinav-pair a,.yinav-pair .void{display:block;border:1px solid var(--rule,#DFCEC5);border-radius:3px;
+ padding:20px 22px;text-decoration:none;color:var(--iris,#5B2A1B);transition:border-color .2s,background .2s}
+.yinav-pair a:hover{border-color:var(--iris-mid,#8A4530);background:rgba(91,42,27,.035)}
+.yinav-pair .void{border-style:dotted;opacity:.4}
+.yinav-pair .dir{display:block;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--lilac,#A89087);margin-bottom:9px}
+.yinav-pair .ttl{font-family:"Fraunces","Newsreader",serif;font-size:1.05rem;line-height:1.28;letter-spacing:-.01em}
+.yinav-grp{font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--lilac,#A89087);
+ margin:0 4px 0 6px;white-space:nowrap}
+.yinav-rail{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.yinav-rail a,.yinav-rail .here{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
+ padding:8px 12px;border:1px solid var(--rule,#DFCEC5);border-radius:3px;color:var(--iris-mid,#8A4530);opacity:.72}
+.yinav-rail a:hover{opacity:1;border-color:var(--iris-mid,#8A4530)}
+.yinav-rail .here{background:var(--iris,#5B2A1B);border-color:var(--iris,#5B2A1B);color:#FAF1EC;opacity:1}
+.yinav-rail .g{font-family:"Noto Serif SC","Fraunces",serif;font-size:.86rem;letter-spacing:0;margin-right:7px}
+.yinav-rail .comp{border-style:dotted}
+.yinav-home{display:inline-block;margin-top:26px;font-size:.62rem;letter-spacing:.18em;
+ text-transform:uppercase;color:var(--brass,#9A7226);text-decoration:none;opacity:.85}
+.yinav-home:hover{opacity:1;text-decoration:underline}
+@media(max-width:680px){.yinav-pair{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="yitop"><div class="in"><a href="../../index.html">↑ The Polymathic Learner</a><span class="now">03 · the argument</span><span class="sp"></span><a href="yi-02-motion.html">← previous</a><a href="yi-04-instrument.html">next →</a></div></nav>
+
+
+
+
+<header class="cover">
+  <div class="wrap">
+    <div class="kicker">易 Yi · a working model of change · part three of three · the argument</div>
+    <div class="rules"></div>
+    <h1>What moves<br>it<span class="en">五行 <i>wuxing</i>, the five phases, as a field of forces, and the situation as a moving target</span></h1>
+    <p class="deck">Part Two set every velocity by hand. That showed what motion buys, but a model has to say where motion <b>comes from</b>.</p>
+    <p class="deck" style="margin-top:14px">The other half of the classical system was already doing that job. 八卦 counts <b>positions</b>. 五行 counts <b>motions</b>. Read as five characteristic directions of change rather than five substances, they become a vector field over the whole space — and the mismatch between five and eight stops being an embarrassment.</p>
+    <div class="chips">
+      <span class="badge done">1 · one line to two cubes</span>
+      <span class="badge done">2 · making it move</span>
+      <span class="badge now">3 · what moves it</span>
+      <span class="badge">4 · the instrument</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ═════════ CH 7 ═════════ -->
+<section id="ch7">
+  <div class="wrap col">
+    <div class="head">
+      <div class="step"><b>Chapter seven</b>The seam</div>
+      <h2>Five does not need to become eight.</h2>
+    </div>
+    <p class="lead">A great deal of scholarly effort has gone into reconciling the five phases with the eight trigrams — mapping one onto the other, assigning phases to directions, explaining away the leftover. The effort assumes the two systems are counting the same kind of thing.</p>
+    <p>They are not. <span class="hl">Eight is a count of configurations. Five is a count of transformations.</span> Nobody demands that a map's legend have as many entries as its compass rose, and nothing is wrong with a system that describes eight places using five kinds of movement between them.</p>
+    <p>So read the five phases as verbs, not nouns. Not water, wood, fire, earth, metal as materials, but as five things that can be happening to a state:</p>
+    <div class="g5" style="margin-top:22px">
+      <div class="card"><span class="gl" style="color:var(--shui)">水</span><h3>Store</h3><p>Receive, retain, damp, hold potential in reserve.</p></div>
+      <div class="card"><span class="gl" style="color:var(--mu)">木</span><h3>Branch</h3><p>Commit at the point of decision; let motion carry through.</p></div>
+      <div class="card"><span class="gl" style="color:var(--huo)">火</span><h3>Amplify</h3><p>Intensify, express, drive outward — easing off as the extreme is reached.</p></div>
+      <div class="card"><span class="gl" style="color:var(--tu)">土</span><h3>Integrate</h3><p>Mediate, couple, make disparate parts cohere.</p></div>
+      <div class="card"><span class="gl" style="color:var(--jin)">金</span><h3>Consolidate</h3><p>Select, prune, settle into definite form.</p></div>
+    </div>
+    <p style="margin-top:26px">Written as mathematics, each phase is an <b>operator</b> — a rule that takes the current state and returns a direction to move in. A mixture of the five, with weights, gives a velocity at every point in the cube. That is a vector field, and it is the object the rest of this part is about.</p>
+    <div class="plate"><span class="ptag">Plate 08 · the field</span><div class="tex fallback" data-tex="\dot{\mathbf{x}} \;=\; \underbrace{\alpha_1 F_{\text{store}} + \alpha_2 F_{\text{branch}} + \alpha_3 F_{\text{amplify}} + \alpha_4 F_{\text{integrate}} + \alpha_5 F_{\text{consolidate}}}_{\textstyle\text{five fixed operators, five weights summing to one}}">xdot = a1·F_store + a2·F_branch + a3·F_amplify + a4·F_integrate + a5·F_consolidate</div><div class="read"><b>How to read it</b>Five fixed operators and five weights that sum to one. Each operator takes the current state and hands back a direction; the weighted sum gives a velocity at every point in the cube. That is the whole of 五行, as mathematics.</div><div class="legend"><span><b>水</b> store</span><span><b>木</b> branch</span><span><b>火</b> amplify</span><span><b>土</b> integrate</span><span><b>金</b> consolidate</span></div></div>
+    <div class="div"><span>+</span></div>
+  </div>
+</section>
+
+<!-- ═════════ CH 8 ═════════ -->
+<section id="ch8">
+  <div class="wrap col">
+    <div class="head">
+      <div class="step"><b>Chapter eight</b>Four fields you can draw</div>
+      <h2>What each phase does to the space.</h2>
+    </div>
+    <p>Here is the useful surprise. Four of the five operators can be drawn as an ordinary field of arrows: give them a position, they hand back a direction. The fifth cannot, and that turns out to matter more than anything else in this project.</p>
+    <p>Start with the four that behave.</p>
+
+    <figure>
+      <div class="fhead"><span class="tag">Figure 8 · the four drawable operators</span><span class="hint">drag to rotate · switch phases · play</span></div>
+      <div class="fbody">
+        <canvas id="cvField" height="400"></canvas>
+        <div class="fallnote">This figure needs JavaScript. The written argument stands without it.</div>
+        <div class="btns" style="margin-top:14px">
+          <button id="pShui" class="g on">水 store</button>
+          <button id="pHuo" class="g">火 amplify</button>
+          <button id="pTu" class="g">土 integrate</button>
+          <button id="pJin" class="g">金 consolidate</button>
+          <button id="pMix" class="g">a mixture</button>
+        </div>
+        <div class="btns" style="margin-top:8px">
+          <button id="fPlay">release a point</button>
+          <button id="fSeed">scatter twenty</button>
+          <button id="fClear">clear</button>
+        </div>
+        <div id="mixCtl" style="display:none;margin-top:14px">
+          <div class="g2">
+            <div>
+              <div class="ctl"><label class="gl" for="aShui">水</label><input id="aShui" type="range" min="0" max="100" value="25"><output id="oShui"></output></div>
+              <div class="ctl"><label class="gl" for="aHuo">火</label><input id="aHuo" type="range" min="0" max="100" value="30"><output id="oHuo"></output></div>
+            </div>
+            <div>
+              <div class="ctl"><label class="gl" for="aTu">土</label><input id="aTu" type="range" min="0" max="100" value="20"><output id="oTu"></output></div>
+              <div class="ctl"><label class="gl" for="aJin">金</label><input id="aJin" type="range" min="0" max="100" value="25"><output id="oJin"></output></div>
+            </div>
+          </div>
+        </div>
+        <div class="readout" id="rField"></div>
+      </div>
+      <figcaption>Each phase has a signature you can recognise at a glance. 水 draws everything inward toward the undecided centre. 火 drives it outward toward extremes, easing off as it arrives. 土 pulls the three lines toward a common value — flow toward the main diagonal, where all three agree. 金 sends every point to the nearest corner, which makes each of the eight regions <b>self-reinforcing</b>: under 金 alone, whichever trigram you are in is the one you stay in.</figcaption>
+    </figure>
+
+    <p>That last observation is worth pausing on, because it is the first place the mathematics says something the tradition also says. Under 金 alone, the eight regions become attractors. Consolidation makes your current configuration <i>stable</i> — which is exactly the classical character of 金: definition, settling, the thing that gives form and then defends it.</p>
+
+    <div class="div"><span>+ +</span></div>
+    <h2 style="margin-bottom:20px">The one you cannot draw.</h2>
+    <p>木 is different in kind. Branching is not a direction that depends on where you are — it is something that happens to motion <i>already underway</i>, at the moment a decision is live. So 木 reads the velocity, not the position:</p>
+    <div class="plate"><span class="ptag">Plate 09 · the operator you cannot draw</span><div class="tex fallback" data-tex="F_{\text{branch}}(\mathbf{x},\dot{\mathbf{x}}) \;=\; 0.95\;
+\underbrace{\operatorname{sign}(\textcolor{#2F6B72}{\dot{x}_i})}_{\textstyle\text{the way you already move}}\;
+\underbrace{\exp\!\left(-\frac{\textcolor{#9A7226}{x_i^2}}{0.55^2}\right)}_{\textstyle\text{only near a threshold}}">F_branch = 0.95 · sign(xdot) · exp( - x^2 / 0.55^2 )</div><div class="read"><b>How to read it</b>Two factors. The first reads the velocity, so 木 chooses no direction of its own — it takes the one you are already travelling. The second is a window around zero, so it acts only when a decision is actually live. Together: it removes the friction at the moment of commitment, and at no other moment.</div><div class="legend"><span><b>ẋ</b> the direction already taken</span><span><b>x</b> distance from the threshold</span><span>0.55 the width of the window</span></div></div>
+    <p>This has a consequence you can see immediately, and it is the reason 木 ends up being the most consequential operator in the whole model: two situations that are almost identical, both hovering near a threshold, get driven to <b>opposite and irreversible</b> configurations. And it takes a startlingly small amount of 木 to do it.</p>
+
+    <figure>
+      <div class="fhead"><span class="tag">Figure 9 · why 木 cannot be a field of position</span><span class="hint">two near-identical starts · watch them split</span></div>
+      <div class="fbody">
+        <canvas id="cvWood" height="230"></canvas>
+        <div class="fallnote">This figure needs JavaScript. The written argument stands without it.</div>
+        <div class="ctl" style="margin-top:12px"><label for="wAmt">木 weight</label><input id="wAmt" type="range" min="0" max="100" value="35"><output id="oWAmt"></output></div>
+        <div class="btns"><button id="wRun">run both</button><button id="wReset">reset</button></div>
+        <div class="readout" id="rWood"></div>
+      </div>
+      <figcaption>Two lines starting at exactly the same place, one drifting up by a whisker and one drifting down by a whisker. With 木 off they crawl to ±0.15 and stop — both still undecided, both a whisker from flipping back. And then the surprise: <b>the tipping point is at 木 ≈ 0.005</b>. A weight of one two-hundredth is already enough to take that separation from 0.30 to the full 2.00 and make it irreversible. There is no gentle gradient here; there is a switch. Nothing chose the outcome — the operator only widened a difference that was already present.</figcaption>
+    </figure>
+
+    <p class="big">木 does not decide. It commits whatever was already leaning.</p>
+    <p>Which is why prediction and 木 are enemies, and why the instrument in Part Four ends up measuring exactly that trade. But we are getting ahead: first, why there are five of these things at all.</p>
+  </div>
+</section>
+
+<!-- ═════════ CH 9 ═════════ -->
+<section id="ch9">
+  <div class="wrap col">
+    <div class="head">
+      <div class="step"><b>Chapter nine</b>Why five</div>
+      <h2>An argument that does not appeal to authority.</h2>
+    </div>
+    <p>The number five usually gets defended by tradition, or by a gesture at the five visible planets. There is a better answer available, and it is combinatorial.</p>
+    <p>The system needs <b>two</b> relations on the same set of phases. 生, generating: each feeds the next, around a cycle. 克, overcoming: each checks another, and classically it checks the one <i>two steps</i> along that same cycle, <span class="itex fallback" data-tex="i \mapsto i+2 \pmod n">i -> i+2 mod n</span>. The second relation is what stops the first from running away.</p>
+    <p>So ask: for which <span class="itex fallback" data-tex="n=5">n</span> does that arrangement actually work? Two conditions. The overcoming relation must visit every phase in a single loop — otherwise some phases never get checked. And it must not simply be the generating cycle run backwards, or it carries no new information.</p>
+
+    <figure>
+      <div class="fhead"><span class="tag">Figure 10 · step through the candidates</span><span class="hint">choose n</span></div>
+      <div class="fbody">
+        <svg class="fig" id="svgN" viewBox="0 0 700 340" aria-label="generating and overcoming cycles for n phases"></svg>
+        <div class="nwrap" id="nBoxes"></div>
+        <div class="readout" id="rN"></div>
+      </div>
+      <figcaption>Solid: the generating cycle, one step at a time. Dashed: the overcoming relation, two steps at a time. At n = 3 the two-step cycle is just the generating cycle reversed. At n = 4 and n = 6 it shatters into disconnected pieces, so half the set never meets. <b>Five is the smallest number of phases that supports a full generating cycle and an independent full checking cycle over the same elements.</b> That is not numerology; it is why the diagram is a pentagram.</figcaption>
+    </figure>
+
+    <p>And now the second thing the pentagram is telling us, which most modern retellings drop. The classical claim was never that these five things exist. It was that they <b>constrain each other</b>, in that specific double cycle. So the five weights should not be five free knobs — they should push on one another.</p>
+    <div class="plate"><span class="ptag">Plate 10 · the mixture, turning itself</span><div class="tex fallback" data-tex="\dot{\alpha}_i \;=\; r\,\alpha_i\Big(\mathrm{fit}_i - \textstyle\sum_j \alpha_j\,\mathrm{fit}_j\Big),
+\qquad
+\mathrm{fit}_i \;=\; \underbrace{\textcolor{#9A7226}{\alpha_{i-1}}}_{\textstyle\text{parent}} \;-\; \underbrace{\textcolor{#2F6B72}{\alpha_{i-2}}}_{\textstyle\text{controller}}">adot_i = r · a_i · ( fit_i - sum_j a_j · fit_j ),    fit_i = a_(i-1) - a_(i-2)</div><div class="read"><b>How to read it</b>Each weight grows in proportion to its generating parent and shrinks in proportion to its controller two steps back. The weights always sum to one, so this is motion on a simplex. It has a balanced fixed point and never returns to it.</div><div class="legend"><span>parent = <b>生</b> one step back</span><span>controller = <b>克</b> two steps back</span><span>r the rate of turnover</span></div></div>
+    <p>The behaviour of that system is the point. It does <b>not</b> settle into a balanced mixture. It circulates — one phase dominant for a stretch, then handing off to the next, in the generating order, indefinitely.</p>
+
+    <figure>
+      <div class="fhead"><span class="tag">Figure 11 · the pentagram, running</span><span class="hint">watch the handoffs</span></div>
+      <div class="fbody">
+        <div class="g2">
+          <div><svg class="fig" id="svgPent" viewBox="0 0 380 360" aria-label="five phases with generating and overcoming cycles"></svg></div>
+          <div>
+            <div class="bars5" id="bars5"></div>
+            <div class="share" id="share5"></div>
+            <div class="cap" style="margin-top:12px">dominance, handed off in 生 order →</div>
+            <div class="hand" id="hand5"></div>
+            <div class="btns" style="margin-top:12px">
+              <button id="pentRun" class="on">pause</button>
+              <button id="pentNudge">nudge it off balance</button>
+              <button id="pentEven">start from perfect balance</button>
+            </div>
+          </div>
+        </div>
+        <div class="readout" id="rPent"></div>
+      </div>
+      <figcaption>Press <b>start from perfect balance</b>: all five weights at 0.20, and nothing happens — balance is a fixed point. Then <b>nudge it off balance</b> by a hair and the circulation begins and never stops. Perfect equilibrium is a point the system can sit at but never returns to, which is a striking thing to arrive at from this direction: the classical texts never described balance as a resting place either. They described it as an order of succession.</figcaption>
+    </figure>
+
+    <p>A model in which perfect balance is <i>unstable</i> is more faithful to 五行 than one in which balance is the goal. And it yields something falsifiable: track the phase mixture of any real system over time, and its trajectory should <b>circulate</b> in the generating direction rather than converge.</p>
+    <div class="pull">Balance was never a resting place. It was an order of succession.</div>
+    <div class="div"><span>+</span></div>
+    <h3>Two defects these figures found, and one of them is this project's own argument biting back</h3>
+    <p>The rule set after Part Two was that every figure must make its claimed effect <i>visibly large</i>, because a tenfold error had hidden inside an effect too small to see. Building these three figures duly turned up two more problems, and both are worth recording rather than quietly patching.</p>
+    <p><b>火 was divergent, and it was contained the wrong way.</b> Written as a straight outward push it drives the state to the wall, so the position was clamped and the velocity left alone — which is precisely the defect that ruined an earlier version of the simulation. A clamped position with a live velocity is a pinned state that reads as motion; you get numbers that move and mean nothing. 火 now eases off as it approaches an extreme, so every operator is inward-or-zero at the boundary and no clamp ever has to bind. If a model needs a fence, the model is wrong.</p>
+    <p><b>金 was discontinuous — and the first account of why that matters was wrong.</b> Written as a pull toward the nearest pole using the <i>sign</i> of the coordinate, it reverses direction the instant a line crosses zero. The claim was that this made a resting state chatter. It does not: <code>sign</code> makes the pole term <i>repulsive</i> from zero, so the state picks a side rather than oscillating, and when the test was finally built it showed no chatter at all. The claim was plausible, undemonstrated, and already written down.</p>
+    <p>The real cost is <b>non-reproducibility</b>. A discontinuous field is not Lipschitz at the threshold planes, so the trajectory depends on the integration step. Forty runs started near the walls, integrated at step 0.06 and again at 0.015: with <code>sign</code> the worst coordinate diverged by <b>0.94</b> — nearly the width of the cube — and the two step sizes disagreed about the <i>sign</i> of a line eleven times out of two hundred and forty. That means eleven different hexagrams depending on nothing but the step size. With <code>tanh</code> the divergence falls to 0.15 and the sign disagreements to <b>zero</b>. Smoothed in both the figures here and, as of this pass, in the Part Four instrument.</p>
+    <p><b>And the good one.</b> For Figure 12 the mixture was first built as a four-phase ring, on the grounds that four colours are easier to follow than five. It would not circulate. It sat there. Which is exactly what Chapter Nine predicts — at n = 4 the overcoming relation splits into two disconnected pairs, so there is no single checking cycle and nothing drives the succession. <b>The figure was refuted by the chapter it sits under.</b> Rarely has a bug report been more satisfying.</p>
+  </div>
+</section>
+
+<!-- ═════════ CH 10 ═════════ -->
+<section id="ch10">
+  <div class="wrap col">
+    <div class="head">
+      <div class="step"><b>Chapter ten</b>后天</div>
+      <h2>The situation is also moving.</h2>
+    </div>
+    <p>Everything so far is internal — the state and its own transformations. But the classical system has a second layer, and it is the one usually treated as decoration: the distinction between 先天 and 后天.</p>
+    <p>Read them as two epistemic layers rather than two historical arrangements. <b>先天 is the invariant geometry</b> — the cube, the sign-regions, the operator structure. It should not depend on where or when you are. <b>后天 is the calibration</b> — everything that does depend on locale, climate, institutions, century. And a calibration layer must therefore carry a stamp:</p>
+    <div class="plate"><span class="ptag">Plate 11 · 后天 must carry a stamp</span><div class="tex fallback" data-tex="H(\text{locale},\,t) \qquad\Longrightarrow\qquad
+H(\text{Singapore},\,2026) \;\neq\; H(\text{Chang'an},\,\text{antiquity})">H(locale, t)   =>   H(Singapore, 2026) != H(Chang'an, antiquity)</div><div class="read"><b>How to read it</b>A calibration layer without a place and a date is a contradiction in terms. The classical arrangement encodes a four-phase temperate year; at 1.35° north there is no such cycle, and an honest tropical calibration changes the frequency of the wheel rather than its values. A tropical 易 should care more about the hour than the season.</div><div class="legend"><span><b>先天</b> invariant geometry</span><span><b>后天</b> situated calibration</span><span>H the calibration itself</span></div></div>
+    <p>Mathematically the simplest honest version is a <b>target</b>: a point in the space that the state is pulled toward, with a strength, and — crucially — with a motion of its own. The situation is not a backdrop. It is going somewhere too.</p><div class="plate"><span class="ptag">Plate 12 · the whole system</span><div class="tex fallback" data-tex="\ddot{\mathbf{x}} \;=\; \sum_i \alpha_i F_i(\mathbf{x},\dot{\mathbf{x}})
+\;+\; \underbrace{h\,\big(\mathbf{f}(t)-\mathbf{x}\big)}_{\textstyle\text{a moving target}}
+\;-\; c\,\dot{\mathbf{x}}">xddot = sum_i a_i F_i(x, xdot)  +  h·( f(t) - x )  -  c·xdot</div><div class="read"><b>How to read it</b>Everything assembled: the mixture of operators, the pull toward a moving situated target, and a friction term so nothing runs away. Set the pull to zero and you have a person with no context. Hold the mixture fixed and freeze the target, and the whole thing comes to rest — which is Figure 12.</div><div class="legend"><span>h the strength of context</span><span><b>f</b>(t) the target, moving</span><span>c friction</span></div></div>
+
+    <figure>
+      <div class="fhead"><span class="tag">Figure 12 · the two sources of change</span><span class="hint">switch both off and watch it die</span></div>
+      <div class="fbody">
+        <canvas id="cvHou" height="380"></canvas>
+        <div class="fallnote">This figure needs JavaScript. The written argument stands without it.</div>
+        <div class="g2" style="margin-top:14px">
+          <div class="ctl"><label for="hPull">后天 pull</label><input id="hPull" type="range" min="0" max="100" value="34"><output id="oPull"></output></div>
+          <div class="btns" style="justify-content:flex-end">
+            <button id="hClock">field moves</button>
+            <button id="hMix">mix turns</button>
+          </div>
+        </div>
+        <div class="readout" id="rHou"></div>
+      </div>
+      <figcaption>Both switches off: fixed situation, fixed mixture. The state slides to a resting configuration and <b>stops</b> — and it will sit there forever. Nothing in the geometry generates motion by itself. Switch on either one and motion returns. There are exactly two sources of change in this model, and no third.</figcaption>
+    </figure>
+
+    <p>That result was not designed in. It appeared when the last of the arbitrary clocks was removed from an earlier version of the simulation, and it is the sort of thing worth keeping even though it makes the instrument less lively by default: <b>a still life needs no explanation, and a moving one does.</b></p>
+    <div class="g2" style="margin-top:24px">
+      <div class="card"><span class="chip">i</span><h3>The field moves</h3><p>Institutions shift, monsoons turn, markets re-price, a city densifies. The target you are pulled toward is on its own clock, and whether it is coming toward you or moving away is a computable quantity — which decides whether patience is a strategy or a mistake.</p></div>
+      <div class="card"><span class="chip">ii</span><h3>The mixture turns over</h3><p>The 生/克 circulation from Chapter Nine. Even in a frozen situation, what you are <i>doing</i> cycles: storing gives way to branching, branching to amplifying, and around. This is the only motion in the model that requires no external clock at all.</p></div>
+    </div>
+    <div class="div"><span>+ + +</span></div>
+  </div>
+</section>
+
+<!-- ═════════ HANDOFF ═════════ -->
+<section id="next">
+  <div class="wrap col">
+    <div class="head">
+      <div class="step"><b>End of part three</b>What is now assembled</div>
+      <h2>Everything the instrument needs.</h2>
+    </div>
+    <p>Six continuous lines in two cubes, sixty-four sign-regions. Velocities, so 变爻 has a countdown and arriving is distinguishable from leaving. Six clocks, so the stacking order does work. Five operators supplying the velocities, coupled so the mixture circulates rather than settles. And a moving, situated target with a strength.</p>
+    <p>That is a complete dynamical system, and it can be run. Part Four runs it — and reports what came out, including three findings that contradicted this project's own predictions and one arithmetic error that took four versions to catch.</p>
+    <p>Both defects found here have since been fixed in the Part Four instrument: 金 is smoothed, and the per-line clocks now scale the whole flow rather than the acceleration. Both were found by writing the explanation rather than by running the model, which is the strongest argument for why this sequence of documents exists.</p>
+    <p>The honest caveat to carry across: <b>every coefficient in this part is asserted.</b> The five operators were written to be qualitatively distinguishable — inward, outward, coupling, poles, threshold-commitment — and nothing above depends on their exact values. What the next part tests is whether the <i>structure</i> produces anything worth knowing, and the answer turns out to be yes in a way this project did not anticipate.</p>
+
+    <div class="road" style="margin-top:30px">
+      <div class="r done"><div class="n">Part one · done</div>
+        <div><b>From one line to two cubes</b><p>The space. A line as a dial, three lines as a cube, six as two cubes, the sixty-four as an 8×8 grid.</p></div></div>
+      <div class="r done"><div class="n">Part two · done</div>
+        <div><b>Making it move</b><p>Velocity. 变爻 as a countdown, arriving distinguished from leaving, and the conjecture that 爻位 is a set of clocks.</p></div></div>
+      <div class="r here"><div class="n">Part three · here</div>
+        <div><b>What moves it</b><p>五行 as five operators. Four drawable fields and one that reads velocity instead of position. Why five, combinatorially. The circulating mixture. 后天 as a moving target, and the two sources of change.</p></div></div>
+      <div class="r"><div class="n">Part four</div>
+        <div><b>The instrument, and what it found</b><p>The live simulation. How long a reading stays valid; which of the sixty-four a situation can actually reach; what it would take to be somewhere else; and the finding that surprised us most — that 木, the operator which rescues you under constraint, actively harms you without it.</p></div></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap col">
+    <div class="kicker">Part three of four · no build step · maths via KaTeX, with a plain-text fallback if it is unavailable</div>
+    <p class="big" style="margin-top:16px">Eight is a count of places. Five is a count of ways to leave them.</p>
+    <p class="cap" style="margin-top:16px">易 · a working model of change. Every coefficient in this part is asserted rather than measured; the operators were written to be qualitatively distinguishable and nothing here depends on their exact values. Part Three built 13 Aug 2026. Two defects found while building it — 火 contained by a position clamp with a live velocity, and 金 made discontinuous by using sign() — are documented in Chapter Nine. The 金 one is still present in the Part Four instrument.</p>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   Part Three · figure code.
+
+   INHERITED RULE (from the 10× τ error in Part Two): every figure
+   must make its claimed effect VISIBLY LARGE. Where it cannot, say so.
+     Fig 8   four operators as arrow fields          (recognisable signatures)
+     Fig 9   木 amplifies a hair into opposite signs (divergence, visibly)
+     Fig 10  n = 3,4,5,6 two-step cycles             (why five, provably)
+     Fig 11  replicator on the simplex               (balance is unstable)
+     Fig 12  both switches off → the system dies     (two sources of change)
+
+   Fig 12 is the one to protect. The default stillness is not a bug and
+   should never be "fixed" by adding a clock; earlier versions did
+   exactly that with sin(t) terms and the whole model was decoration.
+   ═══════════════════════════════════════════════════════════════════ */
+(function(){
+"use strict";
+try{
+var $=function(id){return document.getElementById(id);};
+var NAMES={"111":["乾","☰"],"110":["兌","☱"],"101":["離","☲"],"100":["震","☳"],
+           "011":["巽","☴"],"010":["坎","☵"],"001":["艮","☶"],"000":["坤","☷"]};
+var CSS=getComputedStyle(document.documentElement),C={};
+["ink","iris","iris-mid","lilac","brass","teal","rule","paper3","alarm","shui","mu","huo","tu","jin"]
+  .forEach(function(k){C[k]=CSS.getPropertyValue("--"+k).trim()||"#333";});
+function tanh(z){if(z>18)return 1;if(z<-18)return -1;var e=Math.exp(2*z);return (e-1)/(e+1);}
+function sgn(v){return v>=0?1:0;}
+function bits(a,b,c){return ""+sgn(a)+sgn(b)+sgn(c);}
+var POLE=0.9;
+var MU_GAIN=0.95, MU_SIG=0.55;
+
+/* ── the four position operators, on a trigram (x in [-1,1]^3) ── */
+/* Two defects were found while building these figures; both are recorded in
+   the text and both are fixed here.
+   (a) 火 as +0.70·x is genuinely divergent. Containing it by clamping the
+       POSITION while leaving the velocity free reproduces the v0.2 defect
+       exactly — a pinned state with residual velocity that looks like motion.
+       Fixed by making 火 ease off at the wall: it now vanishes at |x| = 1, so
+       every operator is inward-or-zero at the boundary and no clamp ever binds.
+   (b) 金 as pole·sign(x) is DISCONTINUOUS at the threshold. Not, as I first
+       claimed, because it chatters — sign() is repulsive from zero, so the
+       state picks a side. The real cost is that the field is not Lipschitz at
+       the threshold planes, so the trajectory depends on the step size: at
+       dt = 0.06 vs 0.015 the worst coordinate diverged by 0.94 and the two
+       runs disagreed about a line's SIGN 11 times in 240. Different hexagram,
+       same initial condition, different step size. tanh(x/0.18) takes those
+       to 0.15 and zero. Fixed here and in the instrument. */
+var OPS={
+  shui:function(x){ return [-0.85*x[0],-0.85*x[1],-0.85*x[2]]; },                /* inward */
+  huo :function(x){ return [ 0.95*x[0]*(1-x[0]*x[0]),
+                             0.95*x[1]*(1-x[1]*x[1]),
+                             0.95*x[2]*(1-x[2]*x[2]) ]; },                       /* outward, easing off */
+  tu  :function(x){ var m=(x[0]+x[1]+x[2])/3; return [m-x[0],m-x[1],m-x[2]]; },  /* toward the diagonal */
+  jin :function(x){ return [ POLE*tanh(x[0]/0.18)-x[0],
+                             POLE*tanh(x[1]/0.18)-x[1],
+                             POLE*tanh(x[2]/0.18)-x[2] ]; }                      /* smooth, toward corners */
+};
+var OPCOL={shui:"shui",huo:"huo",tu:"tu",jin:"jin"};
+
+/* ── shared projector ── */
+function Stage(canvas,h){
+  var st={ctx:canvas.getContext("2d"),rx:-0.40,ry:0.66,w:600,h:h,drag:false};
+  st.fit=function(){
+    var dpr=Math.max(1,Math.min(2,window.devicePixelRatio||1));
+    var r=canvas.getBoundingClientRect(); if(r.width<10)return;
+    st.w=r.width; canvas.style.height=h+"px";
+    canvas.width=Math.round(r.width*dpr); canvas.height=Math.round(h*dpr);
+    st.ctx.setTransform(dpr,0,0,dpr,0,0);
+  };
+  st.proj=function(p,sc,cx,cy){
+    var cyy=Math.cos(st.ry),sy=Math.sin(st.ry),cxx=Math.cos(st.rx),sx=Math.sin(st.rx);
+    var x1=p[0]*cyy-p[2]*sy, z1=p[0]*sy+p[2]*cyy;
+    var y1=p[1]*cxx-z1*sx, z2=p[1]*sx+z1*cxx;
+    var k=1/(1+Math.max(-0.7,z2*0.13));
+    return [cx+x1*sc*k, cy-y1*sc*k, z2];
+  };
+  canvas.addEventListener("pointerdown",function(e){st.drag=true;st.lx=e.clientX;st.ly=e.clientY;
+    if(canvas.setPointerCapture){try{canvas.setPointerCapture(e.pointerId);}catch(x){}}});
+  canvas.addEventListener("pointermove",function(e){
+    if(!st.drag)return;
+    st.ry+=(e.clientX-st.lx)*0.008; st.rx+=(e.clientY-st.ly)*0.008;
+    st.rx=Math.max(-1.4,Math.min(1.4,st.rx)); st.lx=e.clientX; st.ly=e.clientY;});
+  ["pointerup","pointercancel","pointerleave"].forEach(function(ev){
+    canvas.addEventListener(ev,function(){st.drag=false;});});
+  return st;
+}
+var CORN=[];(function(){for(var a=-1;a<=1;a+=2)for(var b=-1;b<=1;b+=2)for(var c=-1;c<=1;c+=2)CORN.push([a,b,c]);})();
+var EDG=[];(function(){for(var i=0;i<8;i++)for(var j=i+1;j<8;j++){var d=0;
+  for(var k=0;k<3;k++)if(CORN[i][k]!==CORN[j][k])d++;if(d===1)EDG.push([CORN[i],CORN[j]]);}})();
+function seg(st,a,b,col,lw,al,sc,cx,cy,dash){
+  var A=st.proj(a,sc,cx,cy),B=st.proj(b,sc,cx,cy),x=st.ctx;
+  x.save();x.strokeStyle=col;x.lineWidth=lw;x.globalAlpha=al;
+  if(dash)x.setLineDash(dash);
+  x.beginPath();x.moveTo(A[0],A[1]);x.lineTo(B[0],B[1]);x.stroke();x.restore();
+}
+function arrow(st,p,d,col,al,sc,cx,cy){
+  var A=st.proj(p,sc,cx,cy),B=st.proj([p[0]+d[0],p[1]+d[1],p[2]+d[2]],sc,cx,cy),x=st.ctx;
+  var dx=B[0]-A[0],dy=B[1]-A[1],L=Math.sqrt(dx*dx+dy*dy);
+  if(L<0.6)return;
+  x.save();x.strokeStyle=col;x.fillStyle=col;x.globalAlpha=al;x.lineWidth=1.3;
+  x.beginPath();x.moveTo(A[0],A[1]);x.lineTo(B[0],B[1]);x.stroke();
+  var a2=Math.atan2(dy,dx),hl=Math.min(5,L*0.45);
+  x.beginPath();x.moveTo(B[0],B[1]);
+  x.lineTo(B[0]-hl*Math.cos(a2-0.4),B[1]-hl*Math.sin(a2-0.4));
+  x.lineTo(B[0]-hl*Math.cos(a2+0.4),B[1]-hl*Math.sin(a2+0.4));
+  x.closePath();x.fill();x.restore();
+}
+function ball(st,p,r,fill,ring,sc,cx,cy,al){
+  var P=st.proj(p,sc,cx,cy),x=st.ctx;
+  x.save();x.globalAlpha=al==null?1:al;
+  x.beginPath();x.arc(P[0],P[1],r,0,6.2832);x.fillStyle=fill;x.fill();
+  if(ring){x.strokeStyle=ring;x.lineWidth=1.8;x.stroke();}x.restore();
+}
+function quad(st,pts,fill,al,sc,cx,cy,stroke){
+  var x=st.ctx;x.save();x.globalAlpha=al;x.beginPath();
+  pts.forEach(function(p,i){var P=st.proj(p,sc,cx,cy);
+    if(i===0)x.moveTo(P[0],P[1]);else x.lineTo(P[0],P[1]);});
+  x.closePath();x.fillStyle=fill;x.fill();
+  if(stroke){x.globalAlpha=al*1.7;x.strokeStyle=stroke;x.lineWidth=1;x.stroke();}x.restore();
+}
+function txt(st,p,t,col,dy,sc,cx,cy,size,al){
+  var P=st.proj(p,sc,cx,cy),x=st.ctx;
+  x.save();x.globalAlpha=al==null?1:al;x.fillStyle=col;
+  x.font=(size||11)+'px "Space Mono","Noto Serif SC",monospace';
+  x.textAlign="center";x.fillText(t,P[0],P[1]+(dy||0));x.restore();
+}
+function cage(st,sc,cx,cy,planes){
+  if(planes!==false){
+    [[[0,-1,-1],[0,1,-1],[0,1,1],[0,-1,1]],
+     [[-1,0,-1],[1,0,-1],[1,0,1],[-1,0,1]],
+     [[-1,-1,0],[1,-1,0],[1,1,0],[-1,1,0]]].forEach(function(pl){
+      quad(st,pl,C["iris-mid"],.045,sc,cx,cy,C.lilac);});
+  }
+  EDG.forEach(function(e){seg(st,e[0],e[1],C.iris,1.2,.28,sc,cx,cy);});
+  CORN.forEach(function(v){ball(st,v,2.1,C.iris,null,sc,cx,cy,.45);});
+}
+
+/* ═════ FIGURE 8 · four operator fields ═════ */
+(function(){
+  var st=Stage($("cvField"),400),mode="shui",pts=[],last=0,play=false;
+  var A={shui:.25,huo:.30,tu:.20,jin:.25};
+  var G=[-0.72,0,0.72];
+  function readMix(){
+    var raw={},s=0;
+    ["Shui","Huo","Tu","Jin"].forEach(function(n){var k=n.toLowerCase();
+      raw[k]=Number($("a"+n).value);s+=raw[k];});
+    if(s<=0){raw.tu=1;s=1;}
+    ["shui","huo","tu","jin"].forEach(function(k){A[k]=raw[k]/s;});
+    ["Shui","Huo","Tu","Jin"].forEach(function(n){$("o"+n).textContent=A[n.toLowerCase()].toFixed(2);});
+  }
+  function vel(x){
+    if(mode!=="mix") return OPS[mode](x);
+    var v=[0,0,0];
+    ["shui","huo","tu","jin"].forEach(function(k){
+      var d=OPS[k](x);
+      v[0]+=A[k]*d[0];v[1]+=A[k]*d[1];v[2]+=A[k]*d[2];});
+    return v;
+  }
+  function col(){ return mode==="mix"?C.iris:C[OPCOL[mode]]; }
+  function draw(){
+    var x=st.ctx; if(st.w<10)return;
+    x.clearRect(0,0,st.w,st.h);
+    var sc=Math.min(st.w*0.20,124),cx=st.w/2,cy=st.h/2;
+    cage(st,sc,cx,cy,true);
+    var cc=col(),i,j,k;
+    for(i=0;i<3;i++)for(j=0;j<3;j++)for(k=0;k<3;k++){
+      var p=[G[i],G[j],G[k]],d=vel(p);
+      var m=Math.sqrt(d[0]*d[0]+d[1]*d[1]+d[2]*d[2]);
+      if(m<0.02)continue;
+      var L=Math.min(0.30,0.10+m*0.16);
+      arrow(st,p,[d[0]/m*L,d[1]/m*L,d[2]/m*L],cc,.6,sc,cx,cy);
+    }
+    pts.forEach(function(q){
+      for(var t=1;t<q.tr.length;t++)
+        seg(st,q.tr[t-1],q.tr[t],C.brass,1.4,0.05+0.5*t/q.tr.length,sc,cx,cy);
+      ball(st,q.p,5.5,cc,"#fff",sc,cx,cy);
+    });
+    txt(st,[0,-1.34,0],mode==="mix"?"a mixture of four":({shui:"水 store",huo:"火 amplify",tu:"土 integrate",jin:"金 consolidate"})[mode],
+      cc,16,sc,cx,cy,12,.95);
+    var note={
+      shui:"every arrow points inward. Under 水 alone the state collapses to the undecided centre, where all six lines sit at zero and no glyph is definite.",
+      huo:"every arrow points outward, and shortens near the walls. Under 火 alone the state runs to an extreme and settles there — maximum definiteness, no flexibility left.",
+      tu:"arrows converge on the main diagonal, where all three lines agree. 土 makes the parts resemble one another.",
+      jin:"arrows point to the nearest corner. <span class='ok'>Under 金 alone every one of the eight regions is self-reinforcing — whichever trigram you are in, you stay in.</span>",
+      mix:"a weighted sum of the four. The field is the sum of what is loud."
+    }[mode];
+    $("rField").innerHTML=(pts.length?("released points: <b>"+pts.length+"</b> · ")
+      :"")+note;
+  }
+  function step(dt){
+    pts.forEach(function(q){
+      var d=vel(q.p);
+      for(var i=0;i<3;i++){
+        q.p[i]=q.p[i]+d[i]*dt*0.85;
+        q.p[i]=0.985*tanh(q.p[i]/0.985);
+      }
+      q.tr.push(q.p.slice()); if(q.tr.length>90)q.tr.shift();
+    });
+  }
+  function loop(now){
+    var dt=Math.min(0.045,(now-last)/1000); last=now;
+    if(play&&pts.length)step(dt*1.4);
+    draw(); requestAnimationFrame(loop);
+  }
+  function setMode(m,btn){
+    mode=m;
+    ["pShui","pHuo","pTu","pJin","pMix"].forEach(function(id){$(id).classList.toggle("on",id===btn);});
+    $("mixCtl").style.display=(m==="mix")?"block":"none";
+    draw();
+  }
+  $("pShui").onclick=function(){setMode("shui","pShui");};
+  $("pHuo").onclick=function(){setMode("huo","pHuo");};
+  $("pTu").onclick=function(){setMode("tu","pTu");};
+  $("pJin").onclick=function(){setMode("jin","pJin");};
+  $("pMix").onclick=function(){setMode("mix","pMix");};
+  ["Shui","Huo","Tu","Jin"].forEach(function(n){$("a"+n).addEventListener("input",function(){readMix();draw();});});
+  $("fPlay").onclick=function(){
+    if(!pts.length) pts.push({p:[0.55,-0.38,0.24],tr:[]});
+    play=!play; this.classList.toggle("on",play);
+    this.textContent=play?"pause":"release a point";
+  };
+  $("fSeed").onclick=function(){
+    pts=[];for(var i=0;i<20;i++)pts.push({p:[(Math.random()*2-1)*0.9,(Math.random()*2-1)*0.9,(Math.random()*2-1)*0.9],tr:[]});
+    play=true;$("fPlay").classList.add("on");$("fPlay").textContent="pause";
+  };
+  $("fClear").onclick=function(){pts=[];play=false;$("fPlay").classList.remove("on");$("fPlay").textContent="release a point";draw();};
+  readMix();st.fit();window.addEventListener("resize",function(){st.fit();});
+  requestAnimationFrame(loop);
+})();
+
+/* ═════ FIGURE 9 · 木 splits a hair into opposite signs ═════ */
+(function(){
+  var cv=$("cvWood"),ctx=cv.getContext("2d"),W=600,H=230;
+  var a=null,b=null,run=false,last=0,hist=[],t=0,wAmt=0.07,split=null;
+  function reset(){
+    a={x:0.0,v:+0.045}; b={x:0.0,v:-0.045};
+    hist=[];t=0;split=null;
+  }
+  function fit(){
+    var dpr=Math.max(1,Math.min(2,window.devicePixelRatio||1));
+    var r=cv.getBoundingClientRect(); if(r.width<10)return;
+    W=r.width;cv.style.height=H+"px";
+    cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  function wood(o){ return wAmt*0.95*(o.v>=0?1:-1)*Math.exp(-(o.x*o.x)/(0.55*0.55)); }
+  function step(dt){
+    [a,b].forEach(function(o){
+      var acc=wood(o)-0.30*o.v;
+      o.v+=acc*dt; o.x=Math.max(-1,Math.min(1,o.x+o.v*dt));
+    });
+    t+=dt; hist.push([a.x,b.x]); if(hist.length>300)hist.shift();
+    if(split===null && Math.abs(a.x-b.x)>0.9) split=t;
+  }
+  function draw(){
+    if(W<10)return;
+    ctx.clearRect(0,0,W,H);
+    var mid=H/2,amp=H/2-24,n=hist.length;
+    ctx.save();ctx.strokeStyle=C.brass;ctx.globalAlpha=.6;ctx.setLineDash([4,4]);
+    ctx.beginPath();ctx.moveTo(0,mid);ctx.lineTo(W,mid);ctx.stroke();ctx.restore();
+    ctx.save();ctx.fillStyle=C.brass;ctx.globalAlpha=.8;ctx.font='9px "Space Mono",monospace';
+    ctx.fillText("threshold · 阳 above, 阴 below",6,mid-6);ctx.restore();
+    /* the 木 window */
+    ctx.save();ctx.globalAlpha=.07;ctx.fillStyle=C.mu;
+    ctx.fillRect(0,mid-0.55*amp,W,1.1*amp);ctx.restore();
+    ctx.save();ctx.fillStyle=C.mu;ctx.globalAlpha=.75;ctx.font='9px "Space Mono",monospace';
+    ctx.fillText("木 acts only inside this band",6,mid+0.55*amp-6);ctx.restore();
+    [[0,C.iris,"drifting up by 0.045"],[1,C.teal,"drifting down by 0.045"]].forEach(function(sr){
+      ctx.save();ctx.strokeStyle=sr[1];ctx.lineWidth=2;ctx.globalAlpha=.95;ctx.beginPath();
+      for(var k=0;k<n;k++){
+        var xx=(k/Math.max(1,n-1))*(W-56)+8, yy=mid-hist[k][sr[0]]*amp;
+        if(k===0)ctx.moveTo(xx,yy);else ctx.lineTo(xx,yy);
+      }
+      ctx.stroke();
+      if(n){var ly=mid-hist[n-1][sr[0]]*amp;
+        ctx.beginPath();ctx.arc(W-48,ly,4,0,6.2832);ctx.fillStyle=sr[1];ctx.fill();
+        ctx.font='9px "Space Mono",monospace';
+        ctx.fillText(hist[n-1][sr[0]]>=0?"阳":"阴",W-40,ly+3);}
+      ctx.restore();
+    });
+    var gap=Math.abs(a.x-b.x);
+    $("oWAmt").textContent=wAmt.toFixed(3);
+    $("rWood").innerHTML="both start at x = 0; their velocities differ by <b>0.09</b>, nothing else"+
+      "<br>current separation <b>"+gap.toFixed(2)+"</b> of a possible 2.00"+
+      "<br>signs: "+(a.x>=0?"阳":"阴")+" and "+(b.x>=0?"阳":"阴")+
+      (gap>1.2
+        ? " — <span class='warn'>fully committed, and irreversibly: neither can come back</span>"
+        : (wAmt<0.004
+           ? " — <span class='ok'>木 off: they drift to ±0.15 and stop. Both still undecided, both a whisker from flipping back.</span>"
+           : ""))+
+      (split!==null?"<br>separated by more than 0.9 after <b>"+split.toFixed(1)+"</b> time units":"");
+  }
+  function loop(now){
+    var dt=Math.min(0.045,(now-last)/1000); last=now;
+    if(run)step(dt*1.6);
+    draw();requestAnimationFrame(loop);
+  }
+  $("wAmt").addEventListener("input",function(){wAmt=Number(this.value)/100*0.20;});
+  $("wRun").onclick=function(){run=!run;this.classList.toggle("on",run);this.textContent=run?"pause":"run both";};
+  $("wReset").onclick=function(){reset();run=false;$("wRun").classList.remove("on");$("wRun").textContent="run both";};
+  reset();fit();window.addEventListener("resize",fit);requestAnimationFrame(loop);
+})();
+
+/* ═════ FIGURE 10 · why five ═════ */
+(function(){
+  var n=5;
+  var boxes="";
+  [3,4,5,6].forEach(function(k){
+    boxes+='<div class="nbox" data-n="'+k+'"><b>n = '+k+'</b><span id="nv'+k+'">—</span></div>';
+  });
+  $("nBoxes").innerHTML=boxes;
+  function analyse(k){
+    /* the two-step relation: is it one full cycle, and is it distinct from
+       the generating cycle and its reverse? */
+    var seen=[0],cur=0;
+    for(var s=0;s<k;s++){cur=(cur+2)%k; if(cur===0)break; seen.push(cur);}
+    var full=(seen.length===k);
+    var reverse=(k===3);            /* for n=3, step +2 == step -1 exactly */
+    return {full:full,reverse:reverse,cycles:full?1:k/(seen.length||1),len:seen.length};
+  }
+  function render(){
+    var R=130,cx=200,cy=170,pts=[],i;
+    for(i=0;i<n;i++){var a=-Math.PI/2+i*2*Math.PI/n;pts.push([cx+R*Math.cos(a),cy+R*Math.sin(a)]);}
+    var h='<defs><marker id="mg" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">'+
+      '<path d="M0,0 L0,6 L8,3 z" fill="'+C.iris+'"/></marker>'+
+      '<marker id="mk" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">'+
+      '<path d="M0,0 L0,6 L8,3 z" fill="'+C.brass+'"/></marker></defs>';
+    function short(p,q,f){
+      var dx=q[0]-p[0],dy=q[1]-p[1],L=Math.sqrt(dx*dx+dy*dy);
+      return [[p[0]+dx/L*f,p[1]+dy/L*f],[q[0]-dx/L*f,q[1]-dy/L*f]];
+    }
+    for(i=0;i<n;i++){
+      var e=short(pts[i],pts[(i+1)%n],26);
+      h+='<path d="M'+e[0][0].toFixed(1)+' '+e[0][1].toFixed(1)+' L'+e[1][0].toFixed(1)+' '+e[1][1].toFixed(1)+
+         '" stroke="'+C.iris+'" stroke-width="2" fill="none" marker-end="url(#mg)" opacity=".85"/>';
+    }
+    for(i=0;i<n;i++){
+      var e2=short(pts[i],pts[(i+2)%n],26);
+      h+='<path d="M'+e2[0][0].toFixed(1)+' '+e2[0][1].toFixed(1)+' L'+e2[1][0].toFixed(1)+' '+e2[1][1].toFixed(1)+
+         '" stroke="'+C.brass+'" stroke-width="1.5" stroke-dasharray="7 5" fill="none" marker-end="url(#mk)" opacity=".9"/>';
+    }
+    var GL=["水","木","火","土","金","？"];
+    for(i=0;i<n;i++){
+      h+='<circle cx="'+pts[i][0].toFixed(1)+'" cy="'+pts[i][1].toFixed(1)+'" r="19" fill="#fff" stroke="'+C.iris+'"/>';
+      h+='<text x="'+pts[i][0].toFixed(1)+'" y="'+(pts[i][1]+6).toFixed(1)+'" text-anchor="middle" '+
+         'font-family="Noto Serif SC, serif" font-size="18" fill="'+C.iris+'">'+(n===5?GL[i]:String(i+1))+'</text>';
+    }
+    var a=analyse(n);
+    h+='<g font-family="Space Mono, monospace" font-size="12">'+
+       '<line x1="400" y1="60" x2="440" y2="60" stroke="'+C.iris+'" stroke-width="2"/>'+
+       '<text x="450" y="64" fill="'+C.iris+'">生 · one step · generating</text>'+
+       '<line x1="400" y1="88" x2="440" y2="88" stroke="'+C.brass+'" stroke-width="1.5" stroke-dasharray="7 5"/>'+
+       '<text x="450" y="92" fill="'+C.brass+'">克 · two steps · overcoming</text></g>';
+    var verdict = (n===5)?["WORKS","one full checking cycle, distinct from 生 and from its reverse"]
+      :(a.reverse?["FAILS","the two-step cycle is just 生 run backwards — no new information"]
+      :(!a.full?["FAILS","the two-step relation breaks into "+(n/ a.len)+" disconnected loops of "+a.len+" — some phases never meet"]
+      :["works","but 5 is smaller"]));
+    h+='<g font-family="Space Mono, monospace" font-size="13">'+
+       '<text x="400" y="150" fill="'+(n===5?C.teal:C.alarm)+'">'+verdict[0]+'</text></g>'+
+       '<foreignObject x="400" y="162" width="280" height="120"><div xmlns="http://www.w3.org/1999/xhtml" '+
+       'style="font:12px \'Space Mono\',monospace;color:'+C["iris-mid"]+';line-height:1.5">'+verdict[1]+'</div></foreignObject>';
+    $("svgN").innerHTML=h;
+    [3,4,5,6].forEach(function(k){
+      var aa=analyse(k);
+      var ok=(k===5)||(k>5&&aa.full&&!aa.reverse);
+      $("nv"+k).textContent=(k===3)?"= 生 reversed":(aa.full?(k===5?"single cycle ✓":"single cycle"):"splits into "+(k/aa.len));
+      var box=$("nBoxes").querySelector('[data-n="'+k+'"]');
+      box.classList.toggle("on",k===n);
+    });
+    $("rN").innerHTML="n = <b>"+n+"</b> · two-step relation visits <b>"+a.len+"</b> of "+n+" phases per loop"+
+      (n===5?" · <span class='ok'>five is the smallest n that works — and it is why the classical diagram is a pentagram</span>":"");
+  }
+  $("nBoxes").addEventListener("click",function(e){
+    var b=e.target.closest?e.target.closest(".nbox"):null;
+    if(!b)return; n=Number(b.getAttribute("data-n")); render();
+  });
+  render();
+})();
+
+/* ═════ FIGURE 11 · the replicator on the simplex ═════ */
+(function(){
+  var K=["shui","mu","huo","tu","jin"],GL={shui:"水",mu:"木",huo:"火",tu:"土",jin:"金"};
+  var A={shui:.18,mu:.15,huo:.22,tu:.30,jin:.15},run=true,last=0,t=0;
+  var dom=null,hand=[];
+  var html="";
+  K.forEach(function(k){
+    html+='<div class="b" id="b_'+k+'"><span class="gl">'+GL[k]+'</span>'+
+      '<span class="tr"><i id="i_'+k+'" style="background:var(--'+k+')"></i></span>'+
+      '<span class="vv" id="v_'+k+'">0.00</span></div>';
+  });
+  $("bars5").innerHTML=html;
+  $("share5").innerHTML=K.map(function(k){return '<i id="s_'+k+'" style="background:var(--'+k+')"></i>';}).join("");
+  function pent(){
+    var R=118,cx=190,cy=175,pts=[],i;
+    for(i=0;i<5;i++){var a=-Math.PI/2+i*2*Math.PI/5;pts.push([cx+R*Math.cos(a),cy+R*Math.sin(a)]);}
+    var h='<defs><marker id="pg" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">'+
+      '<path d="M0,0 L0,6 L8,3 z" fill="'+C.iris+'"/></marker>'+
+      '<marker id="pk" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto">'+
+      '<path d="M0,0 L0,6 L8,3 z" fill="'+C.brass+'"/></marker></defs>';
+    function sh(p,q,f){var dx=q[0]-p[0],dy=q[1]-p[1],L=Math.sqrt(dx*dx+dy*dy);
+      return [[p[0]+dx/L*f,p[1]+dy/L*f],[q[0]-dx/L*f,q[1]-dy/L*f]];}
+    for(i=0;i<5;i++){var e=sh(pts[i],pts[(i+1)%5],27);
+      h+='<path d="M'+e[0][0].toFixed(1)+' '+e[0][1].toFixed(1)+' L'+e[1][0].toFixed(1)+' '+e[1][1].toFixed(1)+
+        '" stroke="'+C.iris+'" stroke-width="2" fill="none" marker-end="url(#pg)" opacity=".8"/>';}
+    for(i=0;i<5;i++){var e2=sh(pts[i],pts[(i+2)%5],27);
+      h+='<path d="M'+e2[0][0].toFixed(1)+' '+e2[0][1].toFixed(1)+' L'+e2[1][0].toFixed(1)+' '+e2[1][1].toFixed(1)+
+        '" stroke="'+C.brass+'" stroke-width="1.4" stroke-dasharray="7 5" fill="none" marker-end="url(#pk)" opacity=".85"/>';}
+    for(i=0;i<5;i++){
+      var k=K[i],r=10+A[k]*58;
+      h+='<circle id="pc_'+k+'" cx="'+pts[i][0].toFixed(1)+'" cy="'+pts[i][1].toFixed(1)+'" r="'+r.toFixed(1)+
+        '" fill="var(--'+k+')" opacity=".22"/>';
+      h+='<circle cx="'+pts[i][0].toFixed(1)+'" cy="'+pts[i][1].toFixed(1)+'" r="19" fill="#fff" stroke="var(--'+k+')" stroke-width="1.5"/>';
+      h+='<text x="'+pts[i][0].toFixed(1)+'" y="'+(pts[i][1]+6).toFixed(1)+'" text-anchor="middle" '+
+        'font-family="Noto Serif SC, serif" font-size="17" fill="var(--'+k+')">'+GL[k]+'</text>';
+    }
+    $("svgPent").innerHTML=h;
+    pentPts=pts;
+  }
+  var pentPts=null;
+  function sizes(){
+    if(!pentPts)return;
+    K.forEach(function(k){
+      var c=document.getElementById("pc_"+k);
+      if(c)c.setAttribute("r",(10+A[k]*58).toFixed(1));
+    });
+  }
+  function step(dt){
+    var fit={},mean=0,sum=0;
+    K.forEach(function(k,i){ fit[k]=A[K[(i+4)%5]]-A[K[(i+3)%5]]; mean+=A[k]*fit[k]; });
+    K.forEach(function(k){ A[k]=Math.max(0.004,A[k]+0.55*dt*A[k]*(fit[k]-mean)); sum+=A[k]; });
+    K.forEach(function(k){ A[k]/=sum; });
+    t+=dt;
+    var d=K[0];K.forEach(function(k){if(A[k]>A[d])d=k;});
+    if(d!==dom){ if(dom!==null) hand.push({k:d,t:t}); dom=d; }
+    if(hand.length>7)hand.shift();
+  }
+  function draw(){
+    K.forEach(function(k){
+      $("i_"+k).style.width=(A[k]*100).toFixed(1)+"%";
+      $("v_"+k).textContent=A[k].toFixed(2);
+      $("s_"+k).style.width=(A[k]*100).toFixed(1)+"%";
+      $("b_"+k).classList.toggle("lead",k===dom);
+    });
+    sizes();
+    $("hand5").innerHTML=hand.length
+      ? hand.map(function(h){return '<span class="n">'+GL[h.k]+'</span>';}).join('<span>→</span>')
+      : '<span>waiting for the first handoff…</span>';
+    var spread=Math.max.apply(null,K.map(function(k){return A[k];}))-Math.min.apply(null,K.map(function(k){return A[k];}));
+    $("rPent").innerHTML="t = <b>"+t.toFixed(0)+"</b> · dominant <b>"+GL[dom||"tu"]+"</b> · spread <b>"+spread.toFixed(2)+"</b>"+
+      (spread<0.01
+        ? " — <span class='ok'>at perfect balance nothing moves. Balance is a fixed point; it is simply not one the system returns to.</span>"
+        : " — circulating in the 生 direction, and it will not stop");
+  }
+  function loop(now){
+    var dt=Math.min(0.05,(now-last)/1000); last=now;
+    if(run)step(dt*3.2);
+    draw();requestAnimationFrame(loop);
+  }
+  $("pentRun").onclick=function(){run=!run;this.classList.toggle("on",run);this.textContent=run?"pause":"resume";};
+  $("pentNudge").onclick=function(){
+    var k=K[(Math.random()*5)|0];A[k]+=0.06;
+    var s=0;K.forEach(function(q){s+=A[q];});K.forEach(function(q){A[q]/=s;});
+  };
+  $("pentEven").onclick=function(){K.forEach(function(k){A[k]=0.2;});t=0;hand=[];dom=null;};
+  pent();requestAnimationFrame(loop);
+})();
+
+/* ═════ FIGURE 12 · the two sources of change ═════ */
+(function(){
+  var st=Stage($("cvHou"),380);
+  var x=[0.62,-0.40,0.28],v=[0,0,0],trail=[],last=0,t=0;
+  var clockOn=false,mixOn=false,pull=0.34,still=0;
+  /* All five phases, in 生 order. An earlier draft of this figure used a
+     four-phase ring as a "readable stand-in" and the mixture would not
+     circulate — which is precisely what Chapter Nine predicts, since at
+     n = 4 the two-step relation splits into two disconnected pairs. The
+     figure was refuted by the chapter it sits under. Five it is. */
+  var A={shui:.20,mu:.20,huo:.20,tu:.20,jin:.20},K=["shui","mu","huo","tu","jin"];
+  var POS=["shui","huo","tu","jin"];
+  function target(){
+    if(!clockOn) return [0.55,0.42,-0.50];
+    return [0.55*Math.cos(t*0.42), 0.42*Math.sin(t*0.31+1), -0.50*Math.cos(t*0.25+2)];
+  }
+  function stepMix(dt){
+    var fit={},mean=0,sum=0;
+    K.forEach(function(k,i){ fit[k]=A[K[(i+4)%5]]-A[K[(i+3)%5]]; mean+=A[k]*fit[k]; });
+    K.forEach(function(k){ A[k]=Math.max(0.02,A[k]+1.5*dt*A[k]*(fit[k]-mean)); sum+=A[k]; });
+    K.forEach(function(k){ A[k]/=sum; });
+  }
+  function step(dt){
+    if(mixOn) stepMix(dt);
+    var f=target(),i;
+    var d=[0,0,0];
+    POS.forEach(function(k){ var q=OPS[k](x);
+      d[0]+=A[k]*q[0];d[1]+=A[k]*q[1];d[2]+=A[k]*q[2]; });
+    for(i=0;i<3;i++){
+      /* 木 reads velocity, not position — Chapter Eight */
+      var mu=A.mu*MU_GAIN*(v[i]>=0?1:-1)*Math.exp(-(x[i]*x[i])/(MU_SIG*MU_SIG));
+      var acc=d[i]+mu+pull*(f[i]-x[i])-0.55*v[i];
+      v[i]+=acc*dt;
+      x[i]=Math.max(-1,Math.min(1,x[i]+v[i]*dt*0.8));
+    }
+    t+=dt;
+    var sp=Math.sqrt(v[0]*v[0]+v[1]*v[1]+v[2]*v[2]);
+    still=(sp<0.01)?still+dt:0;
+    trail.push(x.slice()); if(trail.length>200)trail.shift();
+  }
+  function draw(){
+    var c=st.ctx; if(st.w<10)return;
+    c.clearRect(0,0,st.w,st.h);
+    var sc=Math.min(st.w*0.20,120),cx=st.w/2,cy=st.h/2;
+    cage(st,sc,cx,cy,true);
+    var f=target();
+    seg(st,x,f,C.teal,1,.35,sc,cx,cy,[4,4]);
+    ball(st,f,6,"#fff",C.teal,sc,cx,cy);
+    ball(st,f,2.4,C.teal,null,sc,cx,cy);
+    for(var i=1;i<trail.length;i++)
+      seg(st,trail[i-1],trail[i],C.brass,1.5,0.04+0.5*i/trail.length,sc,cx,cy);
+    var r=bits(x[0],x[1],x[2]);
+    ball(st,x,7,C.iris,"#fff",sc,cx,cy);
+    txt(st,[0,-1.34,0],NAMES[r][1]+" "+NAMES[r][0],C.iris,16,sc,cx,cy,12,.95);
+    txt(st,[f[0],f[1]+0.16,f[2]],"后天",C.teal,-4,sc,cx,cy,10,.9);
+    var sp=Math.sqrt(v[0]*v[0]+v[1]*v[1]+v[2]*v[2]);
+    $("oPull").textContent=pull.toFixed(2);
+    $("rHou").innerHTML="speed <b>"+sp.toFixed(3)+"</b> · region <b>"+r+"</b> ("+NAMES[r][0]+")"+
+      "<br>field "+(clockOn?"<b>moving</b>":"<b>fixed</b>")+" · mixture "+(mixOn?"<b>turning</b>":"<b>held</b>")+
+      (still>2.2
+        ? "<br><span class='warn'>at rest for "+still.toFixed(0)+" time units. With a fixed situation and a fixed mixture there is nothing left to move it — and there never will be.</span>"
+        : (sp>0.02?"<br><span class='ok'>moving — and the motion is coming from "+
+            (clockOn&&mixOn?"both sources":(clockOn?"the field":"the mixture"))+"</span>":""));
+  }
+  function loop(now){
+    var dt=Math.min(0.045,(now-last)/1000); last=now;
+    step(dt*1.5); draw(); requestAnimationFrame(loop);
+  }
+  $("hPull").addEventListener("input",function(){pull=Number(this.value)/100;});
+  $("hClock").onclick=function(){clockOn=!clockOn;this.classList.toggle("on",clockOn);
+    this.textContent=clockOn?"field moving":"field moves";};
+  $("hMix").onclick=function(){mixOn=!mixOn;this.classList.toggle("on",mixOn);
+    this.textContent=mixOn?"mix turning":"mix turns";};
+  st.fit();window.addEventListener("resize",function(){st.fit();});
+  requestAnimationFrame(loop);
+})();
+
+document.documentElement.classList.add("ready");
+}catch(e){
+  try{
+    var b=document.createElement("div");
+    b.style.cssText="position:fixed;left:12px;right:12px;bottom:12px;z-index:99;background:#fff;border:1px solid #9B3242;border-left-width:3px;padding:10px 12px;font:12px monospace;color:#2C1D17";
+    b.textContent="Figures failed to start: "+(e&&e.message?e.message:e)+" — the written argument above is unaffected.";
+    document.body.appendChild(b);
+  }catch(x){}
+}
+})();
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" defer></script>
+<script>
+/* Maths rendering, deliberately last and deliberately optional. Every
+   element carries its own plain-text fallback as content; KaTeX replaces
+   it only on success, so a missing CDN degrades to readable monospace
+   instead of an empty box. */
+(function(){
+  function typeset(){
+    if(!window.katex) return;
+    var els=document.querySelectorAll("[data-tex]");
+    for(var i=0;i<els.length;i++){
+      var el=els[i], plain=el.textContent, display=el.classList.contains("tex");
+      try{
+        katex.render(el.getAttribute("data-tex"), el, {displayMode:display, throwOnError:true, strict:false});
+        el.classList.remove("fallback");
+      }catch(e){ el.textContent=plain; el.classList.add("fallback"); }
+    }
+  }
+  if(document.readyState==="complete") typeset();
+  else window.addEventListener("load",typeset);
+})();
+</script>
+
+<nav class="yinav"><div class="in">
+  <div class="yinav-lab">03 · the argument · continue</div>
+  <div class="yinav-pair">
+        <a href="yi-02-motion.html"><span class="dir">Previous</span><span class="ttl">← Making it move</span></a>
+        <a href="yi-04-instrument.html"><span class="dir">Next</span><span class="ttl">The double cube  →</span></a>
+  </div>
+  <div class="yinav-rail">
+        <span class="yinav-grp">the argument ›</span>
+        <a class="" href="yi-00-inheritance.html"><span class="g">序</span>00 Inheritance</a>
+        <a class="" href="yi-01-state-space.html"><span class="g">一</span>01 State space</a>
+        <a class="" href="yi-02-motion.html"><span class="g">二</span>02 Motion</a>
+        <span class="here"><span class="g">三</span>03 Forces</span>
+        <span class="yinav-grp">the instruments ›</span>
+        <a class="" href="yi-04-instrument.html"><span class="g">儀</span>04 Double cube</a>
+        <a class="" href="yi-05-lantern.html"><span class="g">灯</span>05 Lantern</a>
+        <a class="" href="yi-06-loom.html"><span class="g">織</span>06 Loom</a>
+        <a class="comp" href="yi-lantern-thinking.html"><span class="g">灯</span>— Companion</a>
+  </div>
+  <div class="yinav-lab" style="margin:26px 0 0;opacity:.85">Lin Wei 林威 · with Claude and ChatGPT, and light touches of DeepSeek</div>
+  <a class="yinav-home" href="../../index.html">The whole 易 Yi sequence on the polymathic learner →</a>
+</div></nav>
+</body>
+</html>

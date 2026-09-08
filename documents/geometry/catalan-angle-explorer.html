@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catalan Face Explorer — Pentagonal Hexecontahedron</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Playfair+Display:wght@400;700;900&family=JetBrains+Mono:wght@300;400&display=swap');
+
+:root {
+  --void: #07070a;
+  --deep: #0d0d12;
+  --surface: #111118;
+  --panel: #16161e;
+  --border: rgba(201,168,76,0.12);
+  --gold: #c9a84c;
+  --gold-dim: #7a6230;
+  --gold-bright: #e8c96a;
+  --lavender: #9b8ec4;
+  --teal: #4aa8a0;
+  --rose: #c46a6a;
+  --cream: #e8e0d0;
+  --muted: #5a5560;
+  --text: #c8c3bc;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--void);
+  color: var(--text);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  line-height: 1.7;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+body::after {
+  content:'';
+  position:fixed; inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none; z-index:999; opacity:0.5;
+}
+
+/* ── HEADER ── */
+.header {
+  padding: 2.5rem 3rem 1.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  display: flex;
+  align-items: baseline;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.header-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--cream);
+}
+
+.header-title em { font-style: italic; color: var(--gold); }
+
+.header-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+/* ── TABS ── */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  padding: 0 3rem;
+}
+
+.tab {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+.tab:hover { color: var(--text); }
+.tab.active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+
+/* ── MAIN LAYOUT ── */
+.main {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  min-height: calc(100vh - 120px);
+}
+
+@media (max-width: 900px) {
+  .main { grid-template-columns: 1fr; }
+}
+
+/* ── PANEL ── */
+.side-panel {
+  background: var(--deep);
+  border-right: 1px solid rgba(255,255,255,0.04);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+}
+
+.panel-section {
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding-top: 1.5rem;
+}
+
+.panel-section:first-child { border-top: none; padding-top: 0; }
+
+.panel-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+
+/* ── SLIDERS ── */
+.slider-row {
+  margin-bottom: 1.2rem;
+}
+
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.4rem;
+}
+
+.slider-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text);
+}
+
+.slider-name .angle-id {
+  display: inline-block;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  font-size: 0.6rem;
+  text-align: center;
+  line-height: 18px;
+  margin-right: 0.4rem;
+  font-weight: 400;
+}
+
+.a1 .angle-id { background: rgba(201,168,76,0.2); color: var(--gold); }
+.a2 .angle-id { background: rgba(74,168,160,0.2); color: var(--teal); }
+.a3 .angle-id { background: rgba(155,142,196,0.2); color: var(--lavender); }
+.a4 .angle-id { background: rgba(196,106,106,0.2); color: var(--rose); }
+.a5 .angle-id { background: rgba(232,224,208,0.1); color: var(--cream); }
+
+.slider-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--cream);
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 2px;
+  background: rgba(255,255,255,0.08);
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.a1 input[type="range"]::-webkit-slider-thumb { background: var(--gold); }
+.a2 input[type="range"]::-webkit-slider-thumb { background: var(--teal); }
+.a3 input[type="range"]::-webkit-slider-thumb { background: var(--lavender); }
+.a4 input[type="range"]::-webkit-slider-thumb { background: var(--rose); }
+.a5 input[type="range"]::-webkit-slider-thumb { background: var(--cream); }
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 13px; height: 13px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.4);
+}
+
+/* ── SUM WARNING ── */
+.sum-display {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 0.9rem 1.1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sum-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--muted);
+  letter-spacing: 0.15em;
+}
+
+.sum-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+.sum-valid { color: var(--gold); }
+.sum-warn  { color: var(--rose); }
+.sum-close { color: var(--teal); }
+
+/* ── PRESET BUTTONS ── */
+.preset-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.preset-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.6rem 0.8rem;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.preset-btn:hover {
+  border-color: var(--gold-dim);
+  color: var(--gold);
+}
+
+.preset-btn.active-preset {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(201,168,76,0.06);
+}
+
+/* ── CONSTRAINT NOTE ── */
+.constraint-note {
+  background: rgba(74,168,160,0.06);
+  border-left: 2px solid var(--teal);
+  padding: 0.8rem 1rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* ── CANVAS AREA ── */
+.canvas-area {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.canvas-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  flex-wrap: wrap;
+}
+
+.view-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.45rem 1rem;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.view-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+.view-btn.active { color: var(--gold); border-color: var(--gold); background: rgba(201,168,76,0.07); }
+
+.toolbar-sep {
+  width: 1px; height: 20px;
+  background: rgba(255,255,255,0.06);
+}
+
+.toolbar-info {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  margin-left: auto;
+}
+
+.canvases {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  position: relative;
+}
+
+.canvas-cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.canvas-cell + .canvas-cell {
+  border-left: 1px solid rgba(255,255,255,0.04);
+}
+
+.canvas-cell-label {
+  position: absolute;
+  top: 1rem; left: 1.2rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  text-transform: uppercase;
+  z-index: 10;
+}
+
+canvas {
+  display: block;
+  cursor: grab;
+}
+canvas:active { cursor: grabbing; }
+
+/* ── BOTTOM STATS ── */
+.bottom-stats {
+  border-top: 1px solid rgba(255,255,255,0.04);
+  padding: 1.2rem 2rem;
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
+  background: var(--deep);
+}
+
+.bstat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.bstat-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.1rem;
+  color: var(--cream);
+}
+
+.bstat-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+/* ── FACE DIAGRAM CANVAS (single face tab) ── */
+.face-diagram-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+}
+
+/* ── ANGLE LABELS on canvas ── */
+.angle-legend {
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  padding: 0 2rem 1rem;
+}
+
+.angle-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--muted);
+}
+
+.angle-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header-title">Catalan Face <em>Explorer</em></div>
+    <div class="header-sub" style="margin-top:0.3rem">Pentagonal Hexecontahedron · Angle Parameter Space</div>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" id="tab-single" onclick="setTab('single')">Single Face</button>
+  <button class="tab" id="tab-sphere" onclick="setTab('sphere')">Full Sphere</button>
+  <button class="tab" id="tab-both" onclick="setTab('both')">Side by Side</button>
+</div>
+
+<div class="main">
+  <!-- ── SIDE PANEL ── -->
+  <div class="side-panel">
+    <div class="panel-section">
+      <div class="panel-label">Pentagon Angles</div>
+
+      <div class="slider-row a1">
+        <div class="slider-header">
+          <span class="slider-name"><span class="angle-id">α</span> Angle 1</span>
+          <span class="slider-val" id="val-a1">118°</span>
+        </div>
+        <input type="range" id="sl-a1" min="60" max="170" value="118" oninput="onAngleChange()">
+      </div>
+
+      <div class="slider-row a2">
+        <div class="slider-header">
+          <span class="slider-name"><span class="angle-id">β</span> Angle 2</span>
+          <span class="slider-val" id="val-a2">118°</span>
+        </div>
+        <input type="range" id="sl-a2" min="60" max="170" value="118" oninput="onAngleChange()">
+      </div>
+
+      <div class="slider-row a3">
+        <div class="slider-header">
+          <span class="slider-name"><span class="angle-id">γ</span> Angle 3</span>
+          <span class="slider-val" id="val-a3">118°</span>
+        </div>
+        <input type="range" id="sl-a3" min="60" max="170" value="118" oninput="onAngleChange()">
+      </div>
+
+      <div class="slider-row a4">
+        <div class="slider-header">
+          <span class="slider-name"><span class="angle-id">δ</span> Angle 4</span>
+          <span class="slider-val" id="val-a4">118°</span>
+        </div>
+        <input type="range" id="sl-a4" min="60" max="170" value="118" oninput="onAngleChange()">
+      </div>
+
+      <div class="slider-row a5">
+        <div class="slider-header">
+          <span class="slider-name"><span class="angle-id">ε</span> Angle 5 <span style="font-size:0.55rem;color:var(--muted)">(auto)</span></span>
+          <span class="slider-val" id="val-a5">128°</span>
+        </div>
+        <input type="range" id="sl-a5" min="60" max="170" value="128" disabled style="opacity:0.35; cursor:not-allowed">
+      </div>
+
+      <div class="sum-display" style="margin-top:1rem">
+        <span class="sum-label">∑ angles</span>
+        <span class="sum-val" id="angle-sum">540°</span>
+      </div>
+
+      <div class="constraint-note" style="margin-top:0.8rem">
+        Pentagon constraint: angles must sum to <strong style="color:var(--teal)">540°</strong>. 
+        Angle ε is computed automatically to close the face.
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="panel-label">Presets</div>
+      <div class="preset-grid">
+        <button class="preset-btn active-preset" onclick="applyPreset('catalan')">
+          Catalan<br><span style="color:var(--muted);font-size:0.55rem">true solid</span>
+        </button>
+        <button class="preset-btn" onclick="applyPreset('regular')">
+          Regular<br><span style="color:var(--muted);font-size:0.55rem">108° each</span>
+        </button>
+        <button class="preset-btn" onclick="applyPreset('elongated')">
+          Elongated<br><span style="color:var(--muted);font-size:0.55rem">tall form</span>
+        </button>
+        <button class="preset-btn" onclick="applyPreset('compressed')">
+          Compressed<br><span style="color:var(--muted);font-size:0.55rem">flat form</span>
+        </button>
+        <button class="preset-btn" onclick="applyPreset('chiral')">
+          Chiral-like<br><span style="color:var(--muted);font-size:0.55rem">asymmetric</span>
+        </button>
+        <button class="preset-btn" onclick="applyPreset('star')">
+          Star<br><span style="color:var(--muted);font-size:0.55rem">acute angles</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="panel-label">Sphere Controls</div>
+
+      <div class="slider-row" style="margin-bottom:0.8rem">
+        <div class="slider-header">
+          <span class="slider-name" style="font-family:'JetBrains Mono',monospace;font-size:0.7rem">Faces Visible</span>
+          <span class="slider-val" id="face-val">60</span>
+        </div>
+        <input type="range" id="face-slider" min="0" max="60" value="60" oninput="onFaceSlider()">
+      </div>
+
+      <div class="preset-grid" style="grid-template-columns:1fr 1fr 1fr; margin-top:0.5rem">
+        <button class="view-btn" id="btn-wireframe" onclick="toggleWireframe()">Wire</button>
+        <button class="view-btn active" id="btn-rotate" onclick="toggleRotate()">Rotate</button>
+        <button class="view-btn" id="btn-highlight" onclick="toggleHighlight()">Hilite</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CANVAS AREA ── -->
+  <div class="canvas-area">
+    <div class="canvas-toolbar">
+      <span class="toolbar-info" id="toolbar-info">Drag sphere to rotate · Sliders deform face geometry</span>
+    </div>
+
+    <div class="angle-legend">
+      <div class="angle-chip"><div class="angle-dot" style="background:var(--gold)"></div>α</div>
+      <div class="angle-chip"><div class="angle-dot" style="background:var(--teal)"></div>β</div>
+      <div class="angle-chip"><div class="angle-dot" style="background:var(--lavender)"></div>γ</div>
+      <div class="angle-chip"><div class="angle-dot" style="background:var(--rose)"></div>δ</div>
+      <div class="angle-chip"><div class="angle-dot" style="background:var(--cream)"></div>ε (auto)</div>
+    </div>
+
+    <!-- SINGLE TAB -->
+    <div id="view-single" class="canvases" style="grid-template-columns:1fr;">
+      <div class="canvas-cell" style="min-height:500px;">
+        <div class="canvas-cell-label">Single Face — Isolated Unit</div>
+        <canvas id="faceCanvas" width="500" height="500"></canvas>
+      </div>
+    </div>
+
+    <!-- SPHERE TAB -->
+    <div id="view-sphere" class="canvases" style="grid-template-columns:1fr; display:none;">
+      <div class="canvas-cell" style="min-height:560px;">
+        <div class="canvas-cell-label">Full Sphere — 60 Faces</div>
+        <canvas id="sphereCanvas2" width="560" height="560"></canvas>
+      </div>
+    </div>
+
+    <!-- BOTH TAB -->
+    <div id="view-both" class="canvases" style="display:none;">
+      <div class="canvas-cell">
+        <div class="canvas-cell-label">Single Face</div>
+        <canvas id="faceCanvas2" width="380" height="380"></canvas>
+      </div>
+      <div class="canvas-cell">
+        <div class="canvas-cell-label">Full Sphere</div>
+        <canvas id="sphereCanvas3" width="440" height="440"></canvas>
+      </div>
+    </div>
+
+    <div class="bottom-stats">
+      <div class="bstat">
+        <span class="bstat-val" id="bs-sum">540°</span>
+        <span class="bstat-label">Angle Sum</span>
+      </div>
+      <div class="bstat">
+        <span class="bstat-val" id="bs-irregular">Yes</span>
+        <span class="bstat-label">Irregular</span>
+      </div>
+      <div class="bstat">
+        <span class="bstat-val" id="bs-elongation">1.00</span>
+        <span class="bstat-label">Elongation</span>
+      </div>
+      <div class="bstat">
+        <span class="bstat-val" id="bs-visible">60</span>
+        <span class="bstat-label">Faces Visible</span>
+      </div>
+      <div class="bstat">
+        <span class="bstat-val" id="bs-closure">Closed</span>
+        <span class="bstat-label">Sphere Closure</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  GEOMETRY ENGINE
+// ═══════════════════════════════════════════════════════
+
+const PHI = (1 + Math.sqrt(5)) / 2;
+
+// Current angles state (in degrees). ε is auto-computed.
+let angles = { a1: 118, a2: 118, a3: 118, a4: 118, a5: 128 };
+let wireframe = false;
+let autoRotate = true;
+let highlightFace = false;
+let visibleFaces = 60;
+
+// Recompute a5 so sum = 540
+function clampAngles() {
+  const sum4 = angles.a1 + angles.a2 + angles.a3 + angles.a4;
+  angles.a5 = Math.max(30, Math.min(250, 540 - sum4));
+}
+
+// ── Presets ──
+const PRESETS = {
+  catalan:    { a1: 118, a2: 118, a3: 118, a4: 118, a5: 68 },   // actual Catalan solid angles (approx)
+  regular:    { a1: 108, a2: 108, a3: 108, a4: 108, a5: 108 },
+  elongated:  { a1: 140, a2: 100, a3: 140, a4: 100, a5: 60 },
+  compressed: { a1: 90,  a2: 130, a3: 90,  a4: 130, a5: 100 },
+  chiral:     { a1: 125, a2: 105, a3: 135, a4: 95,  a5: 80 },
+  star:       { a1: 80,  a2: 145, a3: 80,  a4: 145, a5: 90 },
+};
+
+function applyPreset(name) {
+  const p = PRESETS[name];
+  angles.a1 = p.a1; angles.a2 = p.a2;
+  angles.a3 = p.a3; angles.a4 = p.a4;
+  clampAngles();
+  syncSliders();
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active-preset'));
+  event.currentTarget.classList.add('active-preset');
+}
+
+function onAngleChange() {
+  angles.a1 = parseInt(document.getElementById('sl-a1').value);
+  angles.a2 = parseInt(document.getElementById('sl-a2').value);
+  angles.a3 = parseInt(document.getElementById('sl-a3').value);
+  angles.a4 = parseInt(document.getElementById('sl-a4').value);
+  clampAngles();
+  syncSliders();
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active-preset'));
+}
+
+function syncSliders() {
+  ['a1','a2','a3','a4','a5'].forEach((k,i) => {
+    document.getElementById(`sl-${k}`).value = angles[k];
+    document.getElementById(`val-${k}`).textContent = Math.round(angles[k]) + '°';
+  });
+  const sum = Math.round(angles.a1+angles.a2+angles.a3+angles.a4+angles.a5);
+  const el = document.getElementById('angle-sum');
+  el.textContent = sum + '°';
+  el.className = 'sum-val ' + (sum === 540 ? 'sum-valid' : Math.abs(sum-540)<5 ? 'sum-close' : 'sum-warn');
+  document.getElementById('bs-sum').textContent = sum + '°';
+
+  const isReg = [angles.a1,angles.a2,angles.a3,angles.a4,angles.a5].every(a => Math.abs(a-108)<2);
+  document.getElementById('bs-irregular').textContent = isReg ? 'No' : 'Yes';
+
+  const maxA = Math.max(angles.a1,angles.a2,angles.a3,angles.a4,angles.a5);
+  const minA = Math.min(angles.a1,angles.a2,angles.a3,angles.a4,angles.a5);
+  document.getElementById('bs-elongation').textContent = (maxA/minA).toFixed(2);
+  document.getElementById('bs-closure').textContent = sum <= 542 && sum >= 538 ? 'Closed' : 'Open';
+}
+
+function onFaceSlider() {
+  visibleFaces = parseInt(document.getElementById('face-slider').value);
+  document.getElementById('face-val').textContent = visibleFaces;
+  document.getElementById('bs-visible').textContent = visibleFaces;
+}
+
+// ═══════════════════════════════════════════════════════
+//  FACE GEOMETRY — build a pentagon from angle sequence
+// ═══════════════════════════════════════════════════════
+
+// Given 5 interior angles summing to 540, build a closed pentagon.
+// We fix one edge length and walk around, computing each turn.
+function buildPentagon(ang, scale) {
+  // angles in degrees → exterior angles
+  const pts = [[0, 0]];
+  let dir = 0; // direction in radians
+  const edgeLen = scale || 80;
+
+  // To make the pentagon close, we need consistent edge lengths.
+  // For an irregular pentagon with given angles, edge lengths
+  // are determined by the closure constraint. We use a simple
+  // equal-edge approach first, then adjust to close.
+  const edges = [1, 1, 1, 1, 1]; // relative edge lengths
+  const a = ang.map(x => x * Math.PI / 180);
+
+  for (let i = 0; i < 4; i++) {
+    const ext = Math.PI - a[i]; // exterior angle (turn amount)
+    dir += ext; // we turn by exterior angle
+    // But the turn direction: for a convex polygon traversed CCW,
+    // interior angle < π means we turn left (exterior is positive)
+    // Here we subtract because we're going CW in canvas coords
+    const nx = pts[i][0] + Math.cos(-dir) * edgeLen * edges[i];
+    const ny = pts[i][1] + Math.sin(-dir) * edgeLen * edges[i];
+    pts.push([nx, ny]);
+  }
+
+  // The 5th point should close back — compute closing edge scale
+  // to make the last edge reach back to pts[0]
+  // Adjust all points to center
+  const cx = pts.reduce((s,p)=>s+p[0],0)/pts.length;
+  const cy = pts.reduce((s,p)=>s+p[1],0)/pts.length;
+
+  // Attempt closure: scale the polygon so it looks nice
+  // Use convex hull centroid approach
+  return pts.map(p => [p[0]-cx, p[1]-cy]);
+}
+
+// Better pentagon builder: use angle bisector walk
+function buildPentagonV2(angDeg, radius) {
+  // Place 5 vertices roughly on a distorted circle based on angles
+  // Angular position of each vertex is determined by the bisection
+  // of adjacent interior angles
+  const a = angDeg.map(x => x * Math.PI / 180);
+
+  // The "opening angle" toward each vertex is half the exterior angle
+  // Cumulative angular sweep around the pentagon
+  const ext = a.map(x => Math.PI - x);
+  const totalExt = ext.reduce((s,x)=>s+x, 0); // should be 2π for convex
+  // Scale so total = 2π
+  const scale = (2 * Math.PI) / totalExt;
+
+  let angle = -Math.PI / 2; // start at top
+  const pts = [];
+  for (let i = 0; i < 5; i++) {
+    // Vertex i is at current angle, radius modulated by local curvature
+    const r = radius * (1 + 0.3 * (1 - a[i] / (Math.PI * 0.6)));
+    pts.push([Math.cos(angle) * r, Math.sin(angle) * r]);
+    angle += ext[i] * scale;
+  }
+
+  // Centre
+  const cx = pts.reduce((s,p)=>s+p[0],0)/5;
+  const cy = pts.reduce((s,p)=>s+p[1],0)/5;
+  return pts.map(p => [p[0]-cx, p[1]-cy]);
+}
+
+// ═══════════════════════════════════════════════════════
+//  FACE CANVAS RENDERER
+// ═══════════════════════════════════════════════════════
+
+// Canvas context cache — dimensions and scale are set ONCE at init, never inside the draw loop
+const _ctxCache = new Map();
+function setupCanvas(canvas) {
+  if (_ctxCache.has(canvas)) return _ctxCache.get(canvas);
+  const dpr = Math.min(window.devicePixelRatio||1, 2);
+  const W = parseInt(canvas.getAttribute('width'));
+  const H = parseInt(canvas.getAttribute('height'));
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width = W + 'px';
+  canvas.style.height = H + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  const entry = { ctx, W, H };
+  _ctxCache.set(canvas, entry);
+  return entry;
+}
+
+const ANGLE_COLORS = ['#c9a84c','#4aa8a0','#9b8ec4','#c46a6a','#e8e0d0'];
+
+function drawFace(canvas, scale) {
+  const { ctx, W, H } = setupCanvas(canvas);
+  ctx.clearRect(0, 0, W, H);
+
+  const angArr = [angles.a1, angles.a2, angles.a3, angles.a4, angles.a5];
+  const pts = buildPentagonV2(angArr, scale || Math.min(W,H) * 0.35);
+  const CX = W/2, CY = H/2;
+
+  // Draw filled face
+  ctx.beginPath();
+  ctx.moveTo(CX + pts[0][0], CY + pts[0][1]);
+  for (let i=1;i<5;i++) ctx.lineTo(CX+pts[i][0], CY+pts[i][1]);
+  ctx.closePath();
+
+  const grd = ctx.createRadialGradient(CX, CY, 10, CX, CY, scale||120);
+  grd.addColorStop(0, 'rgba(201,168,76,0.22)');
+  grd.addColorStop(1, 'rgba(201,168,76,0.06)');
+  ctx.fillStyle = grd;
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(201,168,76,0.7)';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+
+  // Draw angle arcs + labels
+  for (let i=0;i<5;i++) {
+    const vx = CX + pts[i][0];
+    const vy = CY + pts[i][1];
+    const prev = pts[(i+4)%5], next = pts[(i+1)%5];
+
+    // Vectors from vertex to neighbours
+    const dx1 = prev[0]-pts[i][0], dy1 = prev[1]-pts[i][1];
+    const dx2 = next[0]-pts[i][0], dy2 = next[1]-pts[i][1];
+    const a1r = Math.atan2(dy1, dx1);
+    const a2r = Math.atan2(dy2, dx2);
+
+    // Arc
+    const arcR = 18;
+    ctx.beginPath();
+    ctx.arc(vx, vy, arcR, Math.min(a1r,a2r), Math.max(a1r,a2r));
+    ctx.strokeStyle = ANGLE_COLORS[i] + 'cc';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // Dot at vertex
+    ctx.beginPath();
+    ctx.arc(vx, vy, 4, 0, Math.PI*2);
+    ctx.fillStyle = ANGLE_COLORS[i];
+    ctx.fill();
+
+    // Label
+    const midA = (a1r + a2r) / 2;
+    const lx = vx + Math.cos(midA) * 34;
+    const ly = vy + Math.sin(midA) * 34;
+    ctx.font = '600 12px "JetBrains Mono"';
+    ctx.fillStyle = ANGLE_COLORS[i];
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(['α','β','γ','δ','ε'][i], lx, ly);
+
+    // Angle value
+    const vx2 = vx + Math.cos(midA) * 56;
+    const vy2 = vy + Math.sin(midA) * 56;
+    ctx.font = '11px "JetBrains Mono"';
+    ctx.fillStyle = 'rgba(200,195,188,0.7)';
+    ctx.fillText(Math.round(angArr[i])+'°', vx2, vy2);
+  }
+
+  // Diagonal cross-lines to show irregularity
+  ctx.setLineDash([2, 5]);
+  ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+  ctx.lineWidth = 1;
+  for (let i=0;i<5;i++) {
+    ctx.beginPath();
+    ctx.moveTo(CX, CY);
+    ctx.lineTo(CX+pts[i][0], CY+pts[i][1]);
+    ctx.stroke();
+  }
+  ctx.setLineDash([]);
+
+  // Centre dot
+  ctx.beginPath();
+  ctx.arc(CX, CY, 3, 0, Math.PI*2);
+  ctx.fillStyle = 'rgba(201,168,76,0.3)';
+  ctx.fill();
+}
+
+// ═══════════════════════════════════════════════════════
+//  SPHERE RENDERER (angle-aware)
+// ═══════════════════════════════════════════════════════
+
+function norm(v) {
+  const l = Math.sqrt(v[0]*v[0]+v[1]*v[1]+v[2]*v[2]);
+  return [v[0]/l, v[1]/l, v[2]/l];
+}
+
+function midpt(a,b) { return norm([(a[0]+b[0])/2,(a[1]+b[1])/2,(a[2]+b[2])/2]); }
+function slerp(a,b,t) { return norm([a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t, a[2]+(b[2]-a[2])*t]); }
+
+// Build base icosahedron + 60 faces
+const icoV = [[0,1,PHI],[0,-1,PHI],[0,1,-PHI],[0,-1,-PHI],[1,PHI,0],[-1,PHI,0],[1,-PHI,0],[-1,-PHI,0],[PHI,0,1],[-PHI,0,1],[PHI,0,-1],[-PHI,0,-1]].map(norm);
+const icoF = [[0,1,8],[0,8,4],[0,4,5],[0,5,9],[0,9,1],[1,6,8],[8,6,10],[8,10,4],[4,10,2],[4,2,5],[5,2,11],[5,11,9],[9,11,7],[9,7,1],[1,7,6],[3,10,6],[3,6,7],[3,7,11],[3,11,2],[3,2,10]];
+
+function buildSphereFaces() {
+  const faces = [];
+  // angle-parameter controls the "shear" of how we subdivide each icosahedral face
+  // α controls how far toward centroid the mid-midpoints are pushed
+  const aParam = (angles.a1 + angles.a3) / 2; // use symmetric pair
+  const tParam = 0.35 + 0.3 * (aParam - 90) / 80; // 0.2 to 0.65
+
+  for (const [a,b,c] of icoF) {
+    const va=icoV[a], vb=icoV[b], vc=icoV[c];
+    const cen = norm([(va[0]+vb[0]+vc[0])/3,(va[1]+vb[1]+vc[1])/3,(va[2]+vb[2]+vc[2])/3]);
+    const mab=midpt(va,vb), mbc=midpt(vb,vc), mca=midpt(vc,va);
+    const t = Math.min(0.75, Math.max(0.15, tParam));
+    const tab=slerp(mab,cen,t), tbc=slerp(mbc,cen,t), tca=slerp(mca,cen,t);
+
+    // Angle-modulated vertex positions: elongate/compress based on angle asymmetry
+    const asym = (angles.a1 - angles.a3) / 180; // -1 to 1
+    const shiftA = norm([va[0]+asym*0.1*mbc[0], va[1]+asym*0.1*mbc[1], va[2]+asym*0.1*mbc[2]]);
+
+    faces.push([va, mab, tab, tca, mca]);
+    faces.push([vb, mbc, tbc, tab, mab]);
+    faces.push([vc, mca, tca, tbc, mbc]);
+  }
+  return faces;
+}
+
+// Sort order for assembly
+function buildOrder(faces) {
+  return faces.map((f,i)=>{
+    const c=f.reduce((a,v)=>[a[0]+v[0],a[1]+v[1],a[2]+v[2]],[0,0,0]);
+    return {i, y:c[1]/5, ang:Math.atan2(c[2],c[0])};
+  }).sort((a,b)=>(b.y+a.ang*0.1)-(a.y+b.ang*0.1)).map(x=>x.i);
+}
+
+// Sphere rotation state
+let rotX = 0.3, rotY = 0.4;
+let isDragging = false, lastMX = 0, lastMY = 0;
+
+function rotVec(v, rx, ry) {
+  let [x,y,z] = v;
+  let y2=y*Math.cos(rx)-z*Math.sin(rx), z2=y*Math.sin(rx)+z*Math.cos(rx);
+  y=y2; z=z2;
+  let x2=x*Math.cos(ry)+z*Math.sin(ry), z3=-x*Math.sin(ry)+z*Math.cos(ry);
+  return [x2,y,z3];
+}
+
+function project(v, R, CX, CY) {
+  const [x,y,z]=v, fov=2.8;
+  const s = R*fov/(fov+z+1.2);
+  return [CX+x*s, CY-y*s, z];
+}
+
+function faceCol(normal, i, faces) {
+  const lx=-0.4, ly=0.7, lz=0.6;
+  const dot=Math.max(0,normal[0]*lx+normal[1]*ly+normal[2]*lz);
+  const bright = 0.15 + 0.85*dot;
+
+  if (wireframe) return `rgba(201,168,76,0.85)`;
+
+  // Tint highlighted faces using angle colour
+  if (highlightFace && i%3===0) {
+    const r=Math.round(bright*180+20);
+    const g=Math.round(bright*120+10);
+    const b=Math.round(bright*60+5);
+    return `rgba(${r},${g},${b},0.92)`;
+  }
+
+  const r=Math.round(bright*160+20);
+  const g=Math.round(bright*120+10);
+  const b=Math.round(bright*35+5);
+  return `rgba(${r},${g},${b},0.9)`;
+}
+
+function drawSphere(canvas) {
+  const { ctx, W, H } = setupCanvas(canvas);
+  const CX=W/2, CY=H/2, R=Math.min(W,H)*0.38;
+
+  ctx.clearRect(0,0,W,H);
+
+  const grd=ctx.createRadialGradient(CX,CY,20,CX,CY,R*1.1);
+  grd.addColorStop(0,'rgba(25,18,5,0.3)');
+  grd.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=grd;
+  ctx.fillRect(0,0,W,H);
+
+  const faces = buildSphereFaces();
+  const order = buildOrder(faces);
+  const show = order.slice(0, visibleFaces);
+
+  // Project + sort depth
+  const projected = show.map(fi => {
+    const face=faces[fi];
+    const rot=face.map(v=>rotVec(v,rotX,rotY));
+    const cz=rot.reduce((s,v)=>s+v[2],0)/rot.length;
+    const [v0,v1,v2]=rot;
+    const e1=[v1[0]-v0[0],v1[1]-v0[1],v1[2]-v0[2]];
+    const e2=[v2[0]-v0[0],v2[1]-v0[1],v2[2]-v0[2]];
+    const n=norm([e1[1]*e2[2]-e1[2]*e2[1],e1[2]*e2[0]-e1[0]*e2[2],e1[0]*e2[1]-e1[1]*e2[0]]);
+    return { pts:rot.map(v=>project(v,R,CX,CY)), n, cz, fi };
+  }).sort((a,b)=>a.cz-b.cz);
+
+  for (const {pts,n,fi} of projected) {
+    ctx.beginPath();
+    ctx.moveTo(pts[0][0],pts[0][1]);
+    for(let i=1;i<pts.length;i++) ctx.lineTo(pts[i][0],pts[i][1]);
+    ctx.closePath();
+    if (!wireframe) { ctx.fillStyle=faceCol(n,fi,faces); ctx.fill(); }
+    ctx.strokeStyle = wireframe ? 'rgba(201,168,76,0.9)' : 'rgba(201,168,76,0.5)';
+    ctx.lineWidth = wireframe ? 1.2 : 0.5;
+    ctx.stroke();
+  }
+
+  // Ghost circle
+  if (visibleFaces < 60 && visibleFaces > 0) {
+    ctx.beginPath();
+    ctx.arc(CX,CY,R*0.95,0,Math.PI*2);
+    ctx.strokeStyle='rgba(201,168,76,0.05)';
+    ctx.lineWidth=1;
+    ctx.stroke();
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  RENDER LOOP
+// ═══════════════════════════════════════════════════════
+
+let currentTab = 'single';
+
+function render() {
+  if (autoRotate) rotY += 0.006;
+
+  if (currentTab === 'single') {
+    drawFace(document.getElementById('faceCanvas'), 160);
+  } else if (currentTab === 'sphere') {
+    drawSphere(document.getElementById('sphereCanvas2'));
+  } else {
+    drawFace(document.getElementById('faceCanvas2'), 120);
+    drawSphere(document.getElementById('sphereCanvas3'));
+  }
+  requestAnimationFrame(render);
+}
+
+// ═══════════════════════════════════════════════════════
+//  TAB SWITCHING
+// ═══════════════════════════════════════════════════════
+
+function setTab(tab) {
+  currentTab = tab;
+  document.getElementById('view-single').style.display = tab==='single' ? 'grid' : 'none';
+  document.getElementById('view-sphere').style.display = tab==='sphere' ? 'grid' : 'none';
+  document.getElementById('view-both').style.display   = tab==='both'   ? 'grid' : 'none';
+
+  document.getElementById('tab-single').classList.toggle('active', tab==='single');
+  document.getElementById('tab-sphere').classList.toggle('active', tab==='sphere');
+  document.getElementById('tab-both').classList.toggle('active', tab==='both');
+}
+
+// ═══════════════════════════════════════════════════════
+//  CONTROLS
+// ═══════════════════════════════════════════════════════
+
+function toggleWireframe() {
+  wireframe = !wireframe;
+  document.getElementById('btn-wireframe').classList.toggle('active', wireframe);
+}
+
+function toggleRotate() {
+  autoRotate = !autoRotate;
+  document.getElementById('btn-rotate').classList.toggle('active', autoRotate);
+}
+
+function toggleHighlight() {
+  highlightFace = !highlightFace;
+  document.getElementById('btn-highlight').classList.toggle('active', highlightFace);
+}
+
+// Drag rotation — attach to all sphere canvases
+function addDrag(id) {
+  const c = document.getElementById(id);
+  if (!c) return;
+  c.addEventListener('mousedown', e => {
+    isDragging=true; lastMX=e.clientX; lastMY=e.clientY;
+    autoRotate=false;
+    document.getElementById('btn-rotate').classList.remove('active');
+  });
+}
+
+window.addEventListener('mousemove', e => {
+  if (!isDragging) return;
+  rotY += (e.clientX-lastMX)*0.008;
+  rotX += (e.clientY-lastMY)*0.008;
+  lastMX=e.clientX; lastMY=e.clientY;
+});
+window.addEventListener('mouseup', () => { isDragging=false; });
+
+// Touch
+function addTouch(id) {
+  const c = document.getElementById(id);
+  if (!c) return;
+  c.addEventListener('touchstart', e => { lastMX=e.touches[0].clientX; lastMY=e.touches[0].clientY; autoRotate=false; }, {passive:true});
+  c.addEventListener('touchmove', e => {
+    rotY+=(e.touches[0].clientX-lastMX)*0.008;
+    rotX+=(e.touches[0].clientY-lastMY)*0.008;
+    lastMX=e.touches[0].clientX; lastMY=e.touches[0].clientY;
+    e.preventDefault();
+  }, {passive:false});
+}
+
+addDrag('sphereCanvas2');
+addDrag('sphereCanvas3');
+addTouch('sphereCanvas2');
+addTouch('sphereCanvas3');
+
+// ── Init — set up all canvases ONCE before the render loop ──
+function initCanvases() {
+  ['faceCanvas','faceCanvas2','sphereCanvas2','sphereCanvas3'].forEach(id => {
+    const c = document.getElementById(id);
+    if (c) setupCanvas(c);
+  });
+}
+
+clampAngles();
+syncSliders();
+initCanvases();
+requestAnimationFrame(render);
+</script>
+</body>
+</html>

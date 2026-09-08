@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Living Seminar · Fixed Live Demo</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+  --bg: #080c10;
+  --surface: #0d1117;
+  --surface-2: #101722;
+  --vn-col: #4a9eff;
+  --vn-dim: rgba(74,158,255,0.15);
+  --vn-border: rgba(74,158,255,0.3);
+  --st-col: #e8b94a;
+  --st-dim: rgba(232,185,74,0.12);
+  --st-border: rgba(232,185,74,0.3);
+  --synth-col: #9b72cf;
+  --ok: #4ade80;
+  --warn: #facc15;
+  --bad: #f87171;
+  --text: rgba(230,225,215,0.92);
+  --muted: rgba(180,170,155,0.62);
+  --line: rgba(255,255,255,0.07);
+  --line-strong: rgba(255,255,255,0.16);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background:
+    radial-gradient(circle at 15% 0%, rgba(74,158,255,0.11), transparent 28rem),
+    radial-gradient(circle at 85% 10%, rgba(232,185,74,0.08), transparent 26rem),
+    var(--bg);
+  color: var(--text);
+  font-family: 'Libre Baskerville', Georgia, serif;
+  min-height: 100vh;
+  line-height: 1.7;
+}
+
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none; z-index:0; opacity:0.55;
+}
+
+.app { position:relative; z-index:1; max-width:920px; margin:0 auto; padding:3rem 1.5rem 6rem; }
+
+.header { text-align:center; margin-bottom:3.2rem; }
+.header-eyebrow {
+  font-family:'Space Mono', monospace;
+  font-size:0.65rem; letter-spacing:0.25em; text-transform:uppercase;
+  color: var(--muted); margin-bottom:1.2rem;
+}
+.header-title {
+  font-size: clamp(1.7rem, 5vw, 2.8rem);
+  font-weight:700; line-height:1.2;
+  background: linear-gradient(135deg, var(--vn-col) 0%, #fff 50%, var(--st-col) 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  margin-bottom:0.8rem;
+}
+.header-sub { font-style:italic; color:var(--muted); font-size:0.92rem; max-width:760px; margin:0 auto; }
+
+.premise, .live-note {
+  background: rgba(255,255,255,0.025);
+  border:1px solid var(--line);
+  padding:1.45rem 1.8rem;
+  margin-bottom:1rem;
+  font-size:0.88rem;
+  line-height:1.85;
+  color: var(--muted);
+}
+.premise strong, .live-note strong { color: var(--text); font-weight:700; }
+.live-note {
+  display:grid;
+  grid-template-columns: 1fr auto;
+  gap:1rem;
+  align-items:center;
+  background: linear-gradient(135deg, rgba(155,114,207,0.06), rgba(74,158,255,0.035));
+  border-color: rgba(155,114,207,0.22);
+}
+@media(max-width:700px) { .live-note { grid-template-columns:1fr; } }
+
+.mode-pill {
+  font-family:'Space Mono', monospace;
+  font-size:0.62rem;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  padding:0.45rem 0.65rem;
+  border:1px solid rgba(155,114,207,0.35);
+  color:var(--synth-col);
+  background:rgba(155,114,207,0.08);
+  white-space:nowrap;
+}
+
+.scenarios { margin:2.5rem 0 1.25rem; }
+.scenarios-label, .settings-label {
+  font-family:'Space Mono', monospace;
+  font-size:0.65rem; letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:1rem;
+}
+.scenario-grid {
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(205px,1fr));
+  gap:0.7rem;
+}
+.scenario-btn {
+  background: var(--surface);
+  border:1px solid var(--line);
+  color: var(--muted);
+  padding:0.78rem 1rem;
+  cursor:pointer;
+  font-family:'Space Mono', monospace;
+  font-size:0.7rem;
+  letter-spacing:0.05em;
+  text-align:left;
+  transition: all 0.2s;
+  line-height:1.5;
+  min-height:5rem;
+}
+.scenario-btn:hover { border-color: rgba(255,255,255,0.18); color:var(--text); transform:translateY(-1px); }
+.scenario-btn.selected { border-color: var(--synth-col); color: var(--synth-col); background: rgba(155,114,207,0.065); }
+.scenario-btn .s-tag {
+  display:block; font-size:0.58rem; letter-spacing:0.15em;
+  text-transform:uppercase; margin-bottom:0.34rem; opacity:0.66;
+}
+
+.custom-row { display:flex; gap:0.6rem; margin-top:0.8rem; }
+.custom-input, .endpoint-input {
+  flex:1;
+  background: var(--surface);
+  border:1px solid var(--line);
+  color:var(--text);
+  padding:0.78rem 1rem;
+  font-family:'Space Mono', monospace;
+  font-size:0.75rem;
+  outline:none;
+  transition:border-color 0.2s;
+  min-width:0;
+}
+.custom-input:focus, .endpoint-input:focus { border-color:rgba(255,255,255,0.24); }
+.custom-input::placeholder, .endpoint-input::placeholder { color: var(--muted); opacity:0.56; }
+
+.controls { display:flex; gap:0.75rem; align-items:center; flex-wrap:wrap; margin:1.1rem 0 1.5rem; }
+.invoke-btn, .small-btn {
+  background: linear-gradient(135deg, rgba(74,158,255,0.15), rgba(232,185,74,0.15));
+  border:1px solid rgba(255,255,255,0.15);
+  color:var(--text);
+  padding:0.76rem 1.45rem;
+  cursor:pointer;
+  font-family:'Space Mono', monospace;
+  font-size:0.7rem;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  transition: all 0.2s;
+  white-space:nowrap;
+}
+.invoke-btn:hover:not(:disabled), .small-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(74,158,255,0.25), rgba(232,185,74,0.25));
+  border-color:rgba(255,255,255,0.3);
+  transform:translateY(-1px);
+}
+.invoke-btn:disabled, .small-btn:disabled { opacity:0.42; cursor:not-allowed; transform:none; }
+.small-btn { padding:0.65rem 0.9rem; background:rgba(255,255,255,0.035); }
+
+.mode-toggle {
+  display:flex;
+  align-items:center;
+  gap:0.55rem;
+  color:var(--muted);
+  font-family:'Space Mono', monospace;
+  font-size:0.68rem;
+  letter-spacing:0.04em;
+}
+.mode-toggle input { accent-color:#9b72cf; }
+
+.advanced {
+  display:none;
+  margin:0.5rem 0 1.5rem;
+  background:rgba(0,0,0,0.22);
+  border:1px solid var(--line);
+  padding:1rem;
+}
+.advanced.show { display:block; }
+.endpoint-row { display:flex; gap:0.6rem; align-items:center; }
+@media(max-width:700px) { .endpoint-row { flex-direction:column; align-items:stretch; } }
+.hint {
+  color:var(--muted);
+  font-family:'Space Mono', monospace;
+  font-size:0.64rem;
+  line-height:1.6;
+  margin-top:0.65rem;
+}
+
+.seminar {
+  min-height:230px;
+  border:1px solid var(--line);
+  background: rgba(0,0,0,0.31);
+  padding:0;
+  overflow:hidden;
+  margin-bottom:1.5rem;
+  box-shadow:0 22px 80px rgba(0,0,0,0.22);
+}
+.seminar-header {
+  background: rgba(255,255,255,0.035);
+  border-bottom:1px solid var(--line);
+  padding:0.75rem 1.5rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+}
+.seminar-header-title, .status-text {
+  font-family:'Space Mono', monospace;
+  font-size:0.62rem; letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--muted);
+}
+.status-wrap { display:flex; align-items:center; gap:0.6rem; min-width:0; }
+.status-text { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:260px; }
+.status-dot {
+  width:7px; height:7px; border-radius:50%;
+  background: var(--muted);
+  transition: background 0.3s;
+  flex-shrink:0;
+}
+.status-dot.active { background:var(--ok); box-shadow:0 0 6px var(--ok); animation: pulse 1.5s infinite; }
+.status-dot.warn { background:var(--warn); box-shadow:0 0 6px var(--warn); }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+.messages { padding:1.55rem; display:flex; flex-direction:column; gap:0; }
+.message {
+  display:flex; gap:1rem; margin-bottom:1.85rem;
+  opacity:0; transform:translateY(8px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.message.visible { opacity:1; transform:translateY(0); }
+.msg-avatar {
+  width:38px; height:38px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Space Mono', monospace; font-size:0.64rem;
+  font-weight:700; letter-spacing:0.05em;
+  border:1px solid;
+  margin-top:0.2rem;
+}
+.msg-avatar.vn { border-color:var(--vn-border); color:var(--vn-col); background:var(--vn-dim); }
+.msg-avatar.st { border-color:var(--st-border); color:var(--st-col); background:var(--st-dim); }
+.msg-avatar.sy { border-color:rgba(155,114,207,0.4); color:var(--synth-col); background:rgba(155,114,207,0.08); }
+
+.msg-body { flex:1; min-width:0; }
+.msg-speaker {
+  font-family:'Space Mono', monospace;
+  font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase;
+  margin-bottom:0.4rem;
+}
+.msg-speaker.vn { color:var(--vn-col); }
+.msg-speaker.st { color:var(--st-col); }
+.msg-speaker.sy { color:var(--synth-col); }
+.msg-text {
+  font-size:0.88rem; line-height:1.87;
+  color: var(--text);
+  white-space: pre-wrap;
+}
+.msg-text code, .math-inline {
+  font-family:'Space Mono', monospace;
+  font-size:0.82em;
+  color:rgba(200,220,255,0.9);
+}
+.cursor {
+  display:inline-block; width:2px; height:1em;
+  background:currentColor; margin-left:2px;
+  vertical-align:middle; animation:blink 0.7s step-end infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+.synthesis-out {
+  background: linear-gradient(135deg, rgba(155,114,207,0.065), rgba(74,158,255,0.04));
+  border:1px solid rgba(155,114,207,0.25);
+  padding:1.5rem 2rem;
+  margin-top:1.5rem;
+  display:none;
+}
+.synthesis-out.show { display:block; }
+.syn-label {
+  font-family:'Space Mono', monospace;
+  font-size:0.6rem; letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--synth-col); margin-bottom:0.8rem;
+  display:flex; align-items:center; gap:0.8rem;
+}
+.syn-label::after { content:''; flex:1; height:1px; background:rgba(155,114,207,0.2); }
+.syn-text { font-size:0.88rem; line-height:1.9; color:var(--text); white-space:pre-wrap; }
+
+.layer-grid {
+  display:grid; grid-template-columns:1fr 1fr 1fr;
+  gap:1px; background:var(--line);
+  border:1px solid var(--line);
+  margin-top:2.5rem;
+}
+@media(max-width:700px) { .layer-grid { grid-template-columns:1fr; } }
+.layer-cell { background:rgba(8,12,16,0.94); padding:1.3rem 1.2rem; }
+.layer-n {
+  font-family:'Space Mono', monospace; font-size:0.6rem;
+  letter-spacing:0.15em; text-transform:uppercase; margin-bottom:0.5rem;
+}
+.layer-title { font-size:0.9rem; font-weight:700; margin-bottom:0.4rem; color:var(--text); }
+.layer-body { font-size:0.78rem; line-height:1.7; color:var(--muted); }
+
+.error-msg, .fallback-msg {
+  color:#fca5a5; font-family:'Space Mono',monospace; font-size:0.76rem;
+  padding:1rem; background:rgba(248,113,113,0.055); border:1px solid rgba(248,113,113,0.22);
+  margin:0.5rem 0 1.2rem;
+}
+.fallback-msg { color:#fde68a; background:rgba(250,204,21,0.055); border-color:rgba(250,204,21,0.2); }
+.empty-state {
+  padding:3rem 2rem; text-align:center;
+  font-style:italic; color:var(--muted); font-size:0.88rem;
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="header-eyebrow">The Living Seminar · 2026</div>
+    <h1 class="header-title">Von Neumann × Sun Tzu</h1>
+    <p class="header-sub">A playable seminar on formal games, strategic terrain, deception, mechanism design, and multi-agent futures.</p>
+  </div>
+
+  <div class="premise">
+    <strong>What changed?</strong> In 1945, this encounter could only be imagined. Today it can be staged as an interactive intellectual machine: one voice formalises conflict as game structure; the other treats strategy as terrain, perception, timing, and asymmetry. This fixed version runs immediately as a self-contained demo, and can be connected to a secure LLM proxy when you want the voices to be truly model-generated.
+  </div>
+
+  <div class="live-note">
+    <div><strong>Default mode:</strong> fully working browser demo. No API key, no server, safe for GitHub Pages / Netlify static hosting. <strong>True LLM mode:</strong> add a private proxy endpoint below; never place an Anthropic API key directly inside public HTML.</div>
+    <div class="mode-pill" id="mode-pill">Demo Engine</div>
+  </div>
+
+  <div class="scenarios">
+    <div class="scenarios-label">Choose a strategic problem — or write your own</div>
+    <div class="scenario-grid">
+      <button class="scenario-btn" onclick="selectScenario(this, 'AI arms race between two superpowers: each developing autonomous weapons. When does deterrence hold? When does it collapse?')">
+        <span class="s-tag">Geopolitics</span>
+        AI arms race deterrence
+      </button>
+      <button class="scenario-btn" onclick="selectScenario(this, 'A startup is competing against a dominant incumbent with 10x the resources. The startup cannot win a direct contest. What is the optimal strategic structure?')">
+        <span class="s-tag">Markets</span>
+        Asymmetric market competition
+      </button>
+      <button class="scenario-btn" onclick="selectScenario(this, 'Climate negotiations: multiple nations, misaligned incentives, no enforcement mechanism. How do you get binding cooperation?')">
+        <span class="s-tag">Cooperation</span>
+        Climate coordination failure
+      </button>
+      <button class="scenario-btn" onclick="selectScenario(this, 'A democratic government must communicate a credible policy commitment to investors while facing short electoral time horizons. How?')">
+        <span class="s-tag">Institutions</span>
+        Credible commitment problem
+      </button>
+      <button class="scenario-btn" onclick="selectScenario(this, 'Two AI labs both racing to deploy a powerful model. Neither wants to be second. But deployment before safety review risks catastrophic harm. What is the game structure and how do you escape it?')">
+        <span class="s-tag">AI Safety</span>
+        AI race to the bottom
+      </button>
+      <button class="scenario-btn" onclick="selectScenario(this, 'Urban resilience: a city wants its civic spaces — hawker centres, void decks, plazas — to hold together during crises. How do you design for social contagion that strengthens rather than fractures?')">
+        <span class="s-tag">Urbanism</span>
+        Designed social resilience
+      </button>
+    </div>
+    <div class="custom-row">
+      <input class="custom-input" id="custom-input" placeholder="Or pose your own strategic problem…" autocomplete="off" />
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="invoke-btn" id="invoke-btn" onclick="runSeminar()" disabled>Convene the Seminar →</button>
+    <button class="small-btn" id="random-btn" onclick="randomScenario()">Random problem</button>
+    <button class="small-btn" onclick="toggleAdvanced()">API settings</button>
+    <label class="mode-toggle" title="Uses your secure proxy if configured; falls back to demo if unavailable.">
+      <input type="checkbox" id="use-api" onchange="updateModePill()" /> use LLM proxy
+    </label>
+  </div>
+
+  <div class="advanced" id="advanced">
+    <div class="settings-label">Optional live LLM proxy</div>
+    <div class="endpoint-row">
+      <input class="endpoint-input" id="endpoint-input" placeholder="Example: https://your-site.vercel.app/api/seminar" autocomplete="off" />
+      <button class="small-btn" onclick="saveEndpoint()">Save endpoint</button>
+    </div>
+    <div class="hint">Expected response shape: <code>{ "text": "..." }</code>. The proxy should keep your Anthropic API key on the server. This page sends only <code>persona</code>, <code>problem</code>, and <code>transcript</code>.</div>
+  </div>
+
+  <div class="seminar" style="margin-top:1.2rem">
+    <div class="seminar-header">
+      <span class="seminar-header-title">Seminar Room</span>
+      <div class="status-wrap">
+        <span class="status-text" id="status-text">Idle</span>
+        <div class="status-dot" id="status-dot"></div>
+      </div>
+    </div>
+    <div class="messages" id="messages">
+      <div class="empty-state">Select a problem above to convene the seminar.</div>
+    </div>
+  </div>
+
+  <div class="synthesis-out" id="synthesis-out">
+    <div class="syn-label">Joint Synthesis</div>
+    <div class="syn-text" id="synthesis-text"></div>
+  </div>
+
+  <div class="layer-grid" style="margin-top:3rem">
+    <div class="layer-cell">
+      <div class="layer-n" style="color:var(--vn-col)">What Von Neumann contributes</div>
+      <div class="layer-title">Payoffs, equilibria, commitment</div>
+      <div class="layer-body">The formal voice asks what the players are, what they know, what they can credibly commit to, and which equilibrium survives strategic reasoning.</div>
+    </div>
+    <div class="layer-cell">
+      <div class="layer-n" style="color:var(--st-col)">What Sun Tzu contributes</div>
+      <div class="layer-title">Terrain, timing, perception</div>
+      <div class="layer-body">The strategic voice asks whether the game itself can be reshaped before battle: shift terrain, alter incentives, confuse observation, or win by not entering the expected contest.</div>
+    </div>
+    <div class="layer-cell">
+      <div class="layer-n" style="color:var(--synth-col)">What the exercise reveals</div>
+      <div class="layer-title">Mechanism design as battlefield design</div>
+      <div class="layer-body">The synthesis usually emerges when equilibrium selection meets terrain design: do not merely choose a move; change the rules under which moves become rational.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+let selectedProblem = '';
+let activeRun = 0;
+
+const builtInProblems = [
+  'AI arms race between two superpowers: each developing autonomous weapons. When does deterrence hold? When does it collapse?',
+  'A startup is competing against a dominant incumbent with 10x the resources. The startup cannot win a direct contest. What is the optimal strategic structure?',
+  'Climate negotiations: multiple nations, misaligned incentives, no enforcement mechanism. How do you get binding cooperation?',
+  'A democratic government must communicate a credible policy commitment to investors while facing short electoral time horizons. How?',
+  'Two AI labs both racing to deploy a powerful model. Neither wants to be second. But deployment before safety review risks catastrophic harm. What is the game structure and how do you escape it?',
+  'Urban resilience: a city wants its civic spaces — hawker centres, void decks, plazas — to hold together during crises. How do you design for social contagion that strengthens rather than fractures?',
+  'A university wants students to use AI without outsourcing thinking. How should the assessment game be redesigned?',
+  'A small country must remain economically open while larger powers pressure it to choose sides. What strategic posture preserves autonomy?',
+  'A design studio wants to scale through licensing and partnerships without losing creative quality. What must be formalised and what must remain adaptive?'
+];
+
+function selectScenario(btn, problem) {
+  document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('selected'));
+  if (btn) btn.classList.add('selected');
+  selectedProblem = problem;
+  document.getElementById('custom-input').value = '';
+  document.getElementById('invoke-btn').disabled = false;
+}
+
+function randomScenario() {
+  const i = Math.floor(Math.random() * builtInProblems.length);
+  selectedProblem = builtInProblems[i];
+  document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('custom-input').value = selectedProblem;
+  document.getElementById('invoke-btn').disabled = false;
+}
+
+const customInput = document.getElementById('custom-input');
+customInput.addEventListener('input', function() {
+  const value = this.value.trim();
+  if (value) {
+    document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('selected'));
+    selectedProblem = value;
+    document.getElementById('invoke-btn').disabled = false;
+  } else {
+    selectedProblem = '';
+    document.getElementById('invoke-btn').disabled = true;
+  }
+});
+
+function getProblem() {
+  return document.getElementById('custom-input').value.trim() || selectedProblem;
+}
+
+function toggleAdvanced() {
+  document.getElementById('advanced').classList.toggle('show');
+}
+
+function saveEndpoint() {
+  const endpoint = document.getElementById('endpoint-input').value.trim();
+  if (endpoint) localStorage.setItem('seminarProxyEndpoint', endpoint);
+  updateModePill();
+  setStatus(endpoint ? 'Proxy endpoint saved' : 'No endpoint set', endpoint ? 'warn' : 'idle');
+}
+
+function loadEndpoint() {
+  const saved = localStorage.getItem('seminarProxyEndpoint') || '';
+  document.getElementById('endpoint-input').value = saved;
+}
+
+function updateModePill() {
+  const useApi = document.getElementById('use-api').checked;
+  const endpoint = document.getElementById('endpoint-input').value.trim() || localStorage.getItem('seminarProxyEndpoint');
+  const pill = document.getElementById('mode-pill');
+  if (useApi && endpoint) {
+    pill.textContent = 'LLM Proxy Mode';
+  } else if (useApi && !endpoint) {
+    pill.textContent = 'Proxy Missing';
+  } else {
+    pill.textContent = 'Demo Engine';
+  }
+}
+
+function setStatus(text, state='idle') {
+  const dot = document.getElementById('status-dot');
+  const status = document.getElementById('status-text');
+  status.textContent = text;
+  dot.classList.remove('active', 'warn');
+  if (state === 'active') dot.classList.add('active');
+  if (state === 'warn') dot.classList.add('warn');
+}
+
+function hashString(str) {
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+function mulberry32(seed) {
+  return function() {
+    let t = seed += 0x6D2B79F5;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function pick(rng, list) {
+  return list[Math.floor(rng() * list.length)];
+}
+
+function classify(problem) {
+  const p = problem.toLowerCase();
+  const has = (...words) => words.some(w => p.includes(w));
+  let domain = 'strategic system';
+  if (has('ai', 'model', 'autonomous', 'lab')) domain = 'AI governance';
+  else if (has('startup', 'incumbent', 'market', 'business', 'licensing', 'studio')) domain = 'market competition';
+  else if (has('climate', 'nation', 'cooperation')) domain = 'coordination failure';
+  else if (has('government', 'policy', 'investor', 'democratic')) domain = 'institutional credibility';
+  else if (has('urban', 'city', 'hawker', 'void deck', 'plaza', 'resilience')) domain = 'urban social systems';
+  else if (has('university', 'students', 'assessment', 'education')) domain = 'educational mechanism design';
+
+  const playerGuess = domain === 'AI governance' ? 'labs, regulators, states, and users' :
+    domain === 'market competition' ? 'incumbents, challengers, customers, partners, and capital' :
+    domain === 'coordination failure' ? 'states, publics, firms, and future generations' :
+    domain === 'institutional credibility' ? 'elected officials, investors, bureaucracies, and citizens' :
+    domain === 'urban social systems' ? 'residents, institutions, spatial operators, and informal networks' :
+    domain === 'educational mechanism design' ? 'students, educators, institutions, and AI systems' :
+    'players with asymmetric information and unequal capacity';
+
+  const conflict = has('race', 'arms', 'deploy', 'bottom') ? 'race condition' :
+    has('cooperation', 'climate', 'misaligned') ? 'collective-action trap' :
+    has('credible', 'commitment') ? 'commitment problem' :
+    has('dominant', 'incumbent', '10x') ? 'asymmetric contest' :
+    has('resilience', 'social contagion') ? 'contagion design problem' :
+    'strategic uncertainty problem';
+
+  const terrain = domain === 'urban social systems' ? 'spatial affordances, rituals of co-presence, and institutional trust' :
+    domain === 'AI governance' ? 'compute, release timing, verification regimes, and public trust' :
+    domain === 'market competition' ? 'distribution channels, switching costs, brand meaning, and partnership porosity' :
+    domain === 'coordination failure' ? 'monitoring, reciprocity, side-payments, and reputational memory' :
+    domain === 'institutional credibility' ? 'constitutional constraints, delegation, independent verification, and political time' :
+    domain === 'educational mechanism design' ? 'assessment format, process visibility, peer norms, and epistemic accountability' :
+    'information flows, incentive gradients, and control points';
+
+  return { domain, playerGuess, conflict, terrain };
+}
+
+function demoResponse(persona, problem, transcript = []) {
+  const info = classify(problem);
+  const rng = mulberry32(hashString(persona + '|' + problem + '|' + transcript.map(t => t.text).join('|')));
+
+  if (persona === 'vn') {
+    const opening = transcript.length === 0;
+    const first = opening
+      ? `I would begin by refusing the romance of the case. This is not first a story about ${info.domain}; it is a game with players, action sets, beliefs, and payoffs. The players are not merely named actors but ${info.playerGuess}. The first error is to ask what one side should do before specifying what each side knows, what it can commit to, and what it believes the other side believes.`
+      : `Sun Tzu is correct that the battlefield is not neutral. But I would translate his objection rather than surrender to it. Terrain is not outside the game; it is part of the state space. Deception is not mysticism; it is information design. Timing is not poetry; it is sequential structure.`;
+
+    const formal = pick(rng, [
+      `Formally, I would model this as an extensive-form game with incomplete information: players choose actions under belief states bᵢ, receive payoffs uᵢ(a, θ), and update through observed signals. The danger lies where the dominant equilibrium is locally rational but globally destructive.`,
+      `The critical object is not a single optimal move but the equilibrium correspondence: which outcome becomes stable under mutual best response? If the stable point is bad, then advice is insufficient; the mechanism must be changed.`,
+      `Let A be the action profile, Θ the hidden state, and S the signal environment. Most strategic disasters occur because S is too noisy, commitment is cheap talk, and each player’s safe move is collectively unsafe.`
+    ]);
+
+    const provocation = opening
+      ? pick(rng, [
+          `So the question is not “what is wise?” but: what institutional device changes the payoff matrix so that wisdom becomes individually rational?`,
+          `My challenge to Sun Tzu is this: if terrain matters, specify it as a variable. Otherwise terrain is only a metaphor wearing military clothing.`,
+          `The strategic question is therefore one of mechanism design: can we make the cooperative equilibrium not merely desirable, but incentive-compatible?`
+        ])
+      : pick(rng, [
+          `I concede that my original game theory under-described the pre-game. But I insist the pre-game can be formalised. The general who reshapes terrain is a mechanism designer before he is a tactician.`,
+          `Where Sun Tzu says “win before fighting,” I hear: transform the game until the opponent’s best response produces your desired outcome. That is not anti-mathematical. It is the mathematics we did not yet have.`,
+          `The collaboration must therefore proceed by joining equilibrium analysis to endogenous game formation: not solve the board, but model who gets to draw the board.`
+        ]);
+
+    return `${first}\n\n${formal}\n\n${provocation}`;
+  }
+
+  if (persona === 'st') {
+    return `${pick(rng, [
+      `Von Neumann sees the bones of the animal. This is useful. But a living animal also breathes, fears, remembers, and misleads. If you model only the bones, you may predict the shape and miss the strike.`,
+      `The mathematician asks for players and payoffs. Good. But before the players choose, someone has already shaped the road, the weather, the food supply, and the rumours. Many battles are decided before they become games.`,
+      `His formal structure illuminates the trap. Yet the wise commander does not merely choose inside a trap. He studies who built it, where its hinges are, and how to make the enemy believe the door is elsewhere.`
+    ])}\n\nIn this problem, the terrain is ${info.terrain}. The weak side should not meet the strong side at the point where strength is counted. The impatient side should be made to reveal impatience. The side that depends on credibility should be forced to make credibility costly. Where direct contest produces ruin, victory comes through changing observation, sequence, and expectation.\n\n${pick(rng, [
+      `Therefore I would ask Von Neumann: where in your game is the fog? Not ignorance as a defect, but fog as a weapon deliberately made.`,
+      `The better move is often to create a situation where the opponent’s calculation remains correct, yet the world being calculated has quietly changed.`,
+      `If the equilibrium is deadly, do not preach virtue to the players. Move the river. Change the road. Make the dangerous choice look less available and the cooperative path easier to walk.`
+    ])}`;
+  }
+
+  return `The encounter resolves into a precise distinction: Von Neumann contributes the grammar of strategic stability; Sun Tzu contributes the art of making the grammar endogenous. In modern terms, the problem is not only ${info.conflict}; it is a question of who controls the signal structure, commitment devices, verification regime, and terrain of interaction.\n\nThe 2026 synthesis would treat this as mechanism design plus multi-agent simulation. First, identify the destructive equilibrium. Second, identify which variables are endogenous: timing, information, credible cost, spatial or institutional affordance, reputation, and monitoring. Third, simulate agents with different belief-update rules to see whether the proposed terrain actually changes behaviour or merely decorates the old payoff matrix.\n\nThe structural insight is: do not ask only for strategy σᵢ within game G. Ask for a transformation T(G) such that the desired outcome becomes an attractor under ordinary self-interest. Sun Tzu’s “win before fighting” becomes formal: design the game so that the opponent’s best response reinforces the world you need. Von Neumann’s equilibrium becomes more powerful once it is allowed to analyse not only moves, but the making of the board itself.\n\nThe frontier remains difficult: human meaning, legitimacy, fear, shame, and symbolic trust still do not reduce cleanly to payoff terms. That is why the best version of this exercise is not merely a calculator. It is a seminar: a machine that keeps formalism and lived strategy in productive tension.`;
+}
+
+async function callProxy(persona, problem, transcript) {
+  const endpoint = document.getElementById('endpoint-input').value.trim() || localStorage.getItem('seminarProxyEndpoint');
+  if (!endpoint) throw new Error('No proxy endpoint configured.');
+
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ persona, problem, transcript })
+  });
+
+  if (!response.ok) {
+    const text = await response.text().catch(() => '');
+    throw new Error(`Proxy returned ${response.status}${text ? ': ' + text.slice(0, 180) : ''}`);
+  }
+
+  const data = await response.json();
+  if (typeof data === 'string') return data;
+  if (data && typeof data.text === 'string') return data.text;
+  throw new Error('Proxy response must be a string or { text: "..." }.');
+}
+
+async function getPersonaText(persona, problem, transcript) {
+  const useApi = document.getElementById('use-api').checked;
+  if (!useApi) return demoResponse(persona, problem, transcript);
+  return await callProxy(persona, problem, transcript);
+}
+
+function addMessage(role, animate=true) {
+  const msgs = document.getElementById('messages');
+  const empty = msgs.querySelector('.empty-state');
+  if (empty) empty.remove();
+
+  const config = {
+    vn: { label: 'Von Neumann', cls: 'vn', abbr: 'JvN' },
+    st: { label: 'Sun Tzu', cls: 'st', abbr: '孫子' },
+    sy: { label: 'Synthesis', cls: 'sy', abbr: '⊕' }
+  };
+  const c = config[role];
+  const div = document.createElement('div');
+  div.className = `message ${animate ? '' : 'visible'}`;
+
+  const avatar = document.createElement('div');
+  avatar.className = `msg-avatar ${c.cls}`;
+  avatar.textContent = c.abbr;
+
+  const body = document.createElement('div');
+  body.className = 'msg-body';
+
+  const speaker = document.createElement('div');
+  speaker.className = `msg-speaker ${c.cls}`;
+  speaker.textContent = c.label;
+
+  const textEl = document.createElement('div');
+  textEl.className = 'msg-text';
+
+  body.appendChild(speaker);
+  body.appendChild(textEl);
+  div.appendChild(avatar);
+  div.appendChild(body);
+  msgs.appendChild(div);
+
+  if (animate) requestAnimationFrame(() => div.classList.add('visible'));
+  return textEl;
+}
+
+function addNotice(text, type='fallback') {
+  const msgs = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = type === 'error' ? 'error-msg' : 'fallback-msg';
+  div.textContent = text;
+  msgs.appendChild(div);
+}
+
+async function typeText(el, text, speed=8, runId=activeRun) {
+  el.textContent = '';
+  const cursor = document.createElement('span');
+  cursor.className = 'cursor';
+  el.appendChild(cursor);
+
+  for (let i = 0; i < text.length; i++) {
+    if (runId !== activeRun) return;
+    el.insertBefore(document.createTextNode(text[i]), cursor);
+    await new Promise(r => setTimeout(r, speed + Math.random() * 7));
+    if (i % 26 === 0) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  cursor.remove();
+}
+
+async function runSeminar() {
+  const problem = getProblem();
+  if (!problem) return;
+
+  activeRun += 1;
+  const runId = activeRun;
+  const btn = document.getElementById('invoke-btn');
+  const randomBtn = document.getElementById('random-btn');
+  btn.disabled = true;
+  randomBtn.disabled = true;
+  setStatus('Convening', 'active');
+
+  const msgs = document.getElementById('messages');
+  msgs.innerHTML = '';
+  const synthesisOut = document.getElementById('synthesis-out');
+  synthesisOut.classList.remove('show');
+  document.getElementById('synthesis-text').textContent = '';
+
+  let transcript = [];
+  let usingFallback = false;
+
+  try {
+    setStatus('Von Neumann thinking', 'active');
+    const vnEl = addMessage('vn');
+    await new Promise(r => setTimeout(r, 250));
+    let vnOpen;
+    try {
+      vnOpen = await getPersonaText('vn', problem, transcript);
+    } catch (err) {
+      usingFallback = true;
+      addNotice(`LLM proxy unavailable: ${err.message}. Falling back to the built-in demo engine.`);
+      vnOpen = demoResponse('vn', problem, transcript);
+      document.getElementById('use-api').checked = false;
+      updateModePill();
+    }
+    transcript.push({ speaker: 'Von Neumann', text: vnOpen });
+    await typeText(vnEl, vnOpen, 7, runId);
+
+    if (runId !== activeRun) return;
+    setStatus('Sun Tzu responding', 'active');
+    await new Promise(r => setTimeout(r, 450));
+    const stEl = addMessage('st');
+    const stResp = usingFallback ? demoResponse('st', problem, transcript) : await getPersonaText('st', problem, transcript);
+    transcript.push({ speaker: 'Sun Tzu', text: stResp });
+    await typeText(stEl, stResp, 7, runId);
+
+    if (runId !== activeRun) return;
+    setStatus('Von Neumann countering', 'active');
+    await new Promise(r => setTimeout(r, 450));
+    const vnEl2 = addMessage('vn');
+    const vnResp2 = usingFallback ? demoResponse('vn', problem, transcript) : await getPersonaText('vn', problem, transcript);
+    transcript.push({ speaker: 'Von Neumann', text: vnResp2 });
+    await typeText(vnEl2, vnResp2, 7, runId);
+
+    if (runId !== activeRun) return;
+    setStatus('Synthesising', 'active');
+    await new Promise(r => setTimeout(r, 500));
+    synthesisOut.classList.add('show');
+    const synthEl = document.getElementById('synthesis-text');
+    const synthResp = usingFallback ? demoResponse('sy', problem, transcript) : await getPersonaText('sy', problem, transcript);
+    await typeText(synthEl, synthResp, 6, runId);
+
+    setStatus(usingFallback ? 'Complete · demo fallback' : 'Complete', usingFallback ? 'warn' : 'idle');
+  } catch (err) {
+    addNotice(`Seminar error: ${err.message}`, 'error');
+    setStatus('Error', 'warn');
+  } finally {
+    if (runId === activeRun) {
+      btn.disabled = false;
+      randomBtn.disabled = false;
+    }
+  }
+}
+
+loadEndpoint();
+updateModePill();
+</script>
+</body>
+</html>

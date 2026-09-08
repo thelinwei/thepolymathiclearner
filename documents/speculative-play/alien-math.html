@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XENOMATHEMATICS</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cinzel+Decorative:wght@400;900&display=swap');
+
+  :root {
+    --void: #02020a;
+    --deep: #070714;
+    --pulse: #00ffcc;
+    --glow2: #ff4488;
+    --glow3: #7744ff;
+    --glow4: #ffaa00;
+    --text: #c8d8f0;
+    --dim: #4a5a7a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--void);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    overflow-x: hidden;
+  }
+
+  canvas {
+    touch-action: none;
+  }
+
+  header {
+    text-align: center;
+    padding: 60px 20px 20px;
+    position: relative;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(0,255,204,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .title-glyph {
+    font-size: clamp(10px, 2vw, 14px);
+    letter-spacing: 0.5em;
+    color: var(--pulse);
+    opacity: 0.6;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(22px, 5vw, 52px);
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--pulse), var(--glow3), var(--glow2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+    filter: drop-shadow(0 0 30px rgba(0,255,204,0.3));
+  }
+
+  .subtitle {
+    color: var(--dim);
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 2;
+  }
+
+  /* ── TABS ── */
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    padding: 30px 20px 0;
+    flex-wrap: wrap;
+  }
+
+  .tab {
+    background: transparent;
+    border: 1px solid var(--dim);
+    color: var(--dim);
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 10px 18px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .tab:hover, .tab.active {
+    border-color: var(--pulse);
+    color: var(--pulse);
+    background: rgba(0,255,204,0.05);
+    box-shadow: 0 0 12px rgba(0,255,204,0.2), inset 0 0 12px rgba(0,255,204,0.05);
+  }
+
+  /* ── PANELS ── */
+  .panel {
+    display: none;
+    padding: 40px 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .panel.active { display: block; }
+
+  .panel-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(14px, 2.5vw, 20px);
+    color: var(--pulse);
+    margin-bottom: 8px;
+    letter-spacing: 0.1em;
+  }
+
+  .panel-desc {
+    color: var(--dim);
+    font-size: 11px;
+    line-height: 2;
+    letter-spacing: 0.05em;
+    margin-bottom: 30px;
+    max-width: 700px;
+  }
+
+  canvas {
+    display: block;
+    margin: 0 auto;
+    border: 1px solid rgba(0,255,204,0.1);
+    box-shadow: 0 0 40px rgba(0,255,204,0.05), 0 0 80px rgba(119,68,255,0.05);
+    max-width: 100%;
+    height: auto;
+  }
+
+  .controls {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  .ctrl {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 120px;
+    height: 2px;
+    background: var(--dim);
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    background: var(--pulse);
+    cursor: pointer;
+    box-shadow: 0 0 8px var(--pulse);
+  }
+
+  .equation-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+  }
+
+  .eq-card {
+    border: 1px solid rgba(119,68,255,0.2);
+    padding: 20px;
+    background: rgba(119,68,255,0.03);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .eq-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--glow3), transparent);
+  }
+
+  .eq-canvas { width: 100%; height: 160px; display: block; touch-action: none; }
+
+  .eq-label {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--glow3);
+    text-transform: uppercase;
+    margin-top: 12px;
+  }
+
+  .eq-desc {
+    font-size: 10px;
+    color: var(--dim);
+    line-height: 1.8;
+    margin-top: 6px;
+  }
+
+  /* ── TESSERACT ── */
+  #tesseract-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* ── MANIFOLD ── */
+  #manifold-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--dim);
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+
+  .separator {
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--dim), transparent);
+    margin: 40px auto 0;
+  }
+
+
+  /* ── EXPLANATORY MATHS LAYER ── */
+  .math-section {
+    margin: 34px auto 0;
+    max-width: 860px;
+    border: 1px solid rgba(0,255,204,0.16);
+    background:
+      linear-gradient(180deg, rgba(0,255,204,0.035), rgba(119,68,255,0.035)),
+      rgba(7,7,20,0.72);
+    box-shadow: 0 0 35px rgba(0,255,204,0.045), inset 0 0 35px rgba(119,68,255,0.035);
+    padding: 24px;
+    position: relative;
+  }
+
+  .math-section::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--pulse), var(--glow3), transparent);
+    opacity: 0.7;
+  }
+
+  .math-kicker {
+    color: var(--glow4);
+    font-size: 9px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .math-title {
+    font-family: 'Cinzel Decorative', serif;
+    color: var(--pulse);
+    font-size: clamp(13px, 2vw, 18px);
+    letter-spacing: 0.08em;
+    margin-bottom: 14px;
+  }
+
+  .math-body {
+    color: rgba(200,216,240,0.86);
+    font-size: 11px;
+    line-height: 1.95;
+    letter-spacing: 0.03em;
+  }
+
+  .math-body p { margin: 0 0 14px; }
+  .math-body p:last-child { margin-bottom: 0; }
+
+  .math-compare {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin: 16px 0;
+  }
+
+  .math-pill {
+    border: 1px solid rgba(119,68,255,0.22);
+    background: rgba(119,68,255,0.05);
+    padding: 14px;
+    min-height: 120px;
+  }
+
+  .math-pill strong {
+    display: block;
+    color: var(--glow3);
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+  }
+
+  .formula {
+    margin: 14px 0;
+    padding: 14px 16px;
+    border-left: 2px solid var(--pulse);
+    background: rgba(0,255,204,0.035);
+    color: rgba(232,244,255,0.96);
+    overflow-x: auto;
+    font-size: 12px;
+  }
+
+  .math-note {
+    margin-top: 14px;
+    border-top: 1px solid rgba(0,255,204,0.09);
+    padding-top: 13px;
+    font-size: 10px;
+    color: rgba(200,216,240,0.78);
+    line-height: 1.8;
+  }
+
+  .math-note .formula {
+    font-size: 10px;
+    padding: 10px 12px;
+    margin: 9px 0 0;
+  }
+
+  .math-tag {
+    color: var(--glow4);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 8px;
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .caveat {
+    border-color: rgba(255,170,0,0.25);
+    background: rgba(255,170,0,0.035);
+    color: rgba(255,226,180,0.86);
+  }
+
+</style>
+
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['\\(', '\\)']],
+      displayMath: [['\\[', '\\]']],
+      processEscapes: true
+    },
+    chtml: {
+      scale: 0.92,
+      displayAlign: 'left'
+    }
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</head>
+<body>
+
+<header>
+  <div class="title-glyph">Transmission Class Ω-7 · Non-Euclidean Archives</div>
+  <h1>Xenomathematics</h1>
+  <p class="subtitle">What mathematics might look like when intelligence evolves in 4+1 dimensions — where equations breathe, proofs rotate through time, and number-space is a texture you inhabit</p>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" data-panel="hypershapes">Hypershapes</button>
+  <button class="tab" data-panel="fieldmath">Field Mathematics</button>
+  <button class="tab" data-panel="temporal">Temporal Proofs</button>
+  <button class="tab" data-panel="topology">Living Topology</button>
+  <button class="tab" data-panel="notation">Alien Notation</button>
+</nav>
+
+<!-- ═══════════════════════════════════════════ PANEL 1: HYPERSHAPES -->
+<div class="panel active" id="panel-hypershapes">
+  <div class="panel-title">§1 · Hypershapes in Projection</div>
+  <p class="panel-desc">Where humans write "cube", an alien intelligence rotating through 4D space sees a dynamic object that casts 3D shadows in the same way a cube casts 2D shadows. The tesseract below is their equivalent of drawing a square — trivially simple to them; mind-bending to us.</p>
+
+  <div id="tesseract-wrapper">
+    <canvas id="tesseract" width="580" height="420"></canvas>
+  </div>
+
+  <div class="controls">
+    <div class="ctrl">
+      <input type="range" id="rot4d" min="0" max="100" value="30">
+      W-axis Rotation
+    </div>
+    <div class="ctrl">
+      <input type="range" id="rotSpeed" min="1" max="100" value="40">
+      Rotation Speed
+    </div>
+    <div class="ctrl">
+      <input type="range" id="perspective4d" min="10" max="90" value="50">
+      4D Perspective
+    </div>
+  </div>
+
+  <section class="math-section">
+    <div class="math-kicker">Explanatory Maths Layer</div>
+    <div class="math-title">From static geometry to navigable projection</div>
+    <div class="math-body">
+      <p>The visual treats the tesseract not as a mystical object, but as the ordinary cube idea extended into one extra coordinate. Human geometry usually stabilises an object in a diagram; the speculative move here is that the diagram is only a temporary shadow of a higher-dimensional object being rotated through invisible axes.</p>
+      <div class="math-compare">
+        <div class="math-pill"><strong>Previous structure</strong> Euclidean geometry begins with shapes drawn in 2D or 3D: point, line, square, cube. Understanding comes from naming the object and measuring its parts.</div>
+        <div class="math-pill"><strong>New speculative structure</strong> Xenomathematics treats the object as a family of projections. The “equation” is not the drawing; it is the invariant object that survives every viewpoint.</div>
+      </div>
+      <div class="formula">
+        \[
+        Q_4=\{(x_1,x_2,x_3,x_4):x_i\in\{-1,1\}\},\qquad
+        E=\{(u,v):d_H(u,v)=1\}
+        \]
+      </div>
+      <p>Here \(Q_4\) is the 4D hypercube. Its 16 vertices are all sign-combinations of four coordinates. Edges connect vertices whose Hamming distance \(d_H\) is exactly one: they differ in one coordinate only.</p>
+      <div class="formula">
+        \[
+        p' = R_{xw}(\alpha)R_{yw}(\beta)R_{xy}(\gamma)R_{zw}(\delta)p,
+        \qquad
+        \pi_{4\to3}(p')=\frac{d_4}{d_4-w'}(x',y',z')
+        \]
+      </div>
+      <p>The sliders therefore change not the object itself, but the rotation and projection regime. The speculative thought: a higher-dimensional intelligence may experience algebra as controlled viewpoint-shifting, where cognition is closer to rotating a truth than reading a formula.</p>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════════════════════════════════════ PANEL 2: FIELD MATH -->
+<div class="panel" id="panel-fieldmath">
+  <div class="panel-title">§2 · Mathematics as Field Equations</div>
+  <p class="panel-desc">Rather than linear symbolic notation, alien mathematics might express relationships as vector fields — self-evident visual structures where the "answer" is a landscape you see, not a number you compute.</p>
+
+  <canvas id="fieldCanvas" width="700" height="400"></canvas>
+
+  <div class="controls">
+    <div class="ctrl">
+      <input type="range" id="fieldType" min="0" max="4" value="0">
+      Field Equation
+    </div>
+    <div class="ctrl">
+      <input type="range" id="fieldTime" min="0" max="100" value="50">
+      Time Slice
+    </div>
+    <div class="ctrl">
+      <input type="range" id="fieldDensity" min="10" max="50" value="25">
+      Resolution
+    </div>
+  </div>
+
+  <section class="math-section">
+    <div class="math-kicker">Explanatory Maths Layer</div>
+    <div class="math-title">From solving for answers to reading relational fields</div>
+    <div class="math-body">
+      <p>This section reframes mathematics as a field of tendencies. In conventional school mathematics, we often ask for a final value. Here, the “answer” is the whole behaviour-space: attraction, circulation, saddle instability, interference, or complex flow.</p>
+      <div class="math-compare">
+        <div class="math-pill"><strong>Previous structure</strong> Algebra often privileges expressions such as \(y=f(x)\), where one input produces one output.</div>
+        <div class="math-pill"><strong>New speculative structure</strong> Field mathematics privileges a local rule everywhere at once: every point carries an instruction for how a particle, thought, proof, or system would move.</div>
+      </div>
+      <div class="formula">
+        \[
+        F:\mathbb{R}^2\times T\rightarrow\mathbb{R}^2,\qquad
+        \frac{d\mathbf{x}}{dt}=F(\mathbf{x},t)
+        \]
+      </div>
+      <p>A vector field \(F\) assigns a direction and magnitude to each point. The visible arrows are samples of that invisible relation. The trajectories that would follow the arrows are integral curves, generated by \(d\mathbf{x}/dt=F(\mathbf{x},t)\).</p>
+      <div class="formula">
+        \[
+        F_{gravity}(x,y)=\frac{-(x,y)}{x^2+y^2+\varepsilon},\quad
+        F_{vortex}(x,y,t)=\frac{(-y,x)}{\sqrt{x^2+y^2}}\sin(r-\omega t)
+        \]
+        \[
+        F_{saddle}(x,y,t)=(x,-y)\cos(\omega t),\quad
+        F_{complex}(z,t)=z^2+e^{i\omega t}
+        \]
+      </div>
+      <p>The speculative thought: alien learners may not memorise an equation as a line of symbols. They may perceive a whole possibility-landscape, then identify attractors, vortices, instabilities, and symmetries directly.</p>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════════════════════════════════════ PANEL 3: TEMPORAL PROOFS -->
+<div class="panel" id="panel-temporal">
+  <div class="panel-title">§3 · Proofs as Temporal Structures</div>
+  <p class="panel-desc">A human proof is a linear sequence of steps. A higher-dimensional proof might be a shape in time-space — the proof exists simultaneously in all its steps, which are facets of a single 4D object. "Understanding" a proof means rotating to see all its faces.</p>
+
+  <canvas id="temporalCanvas" width="700" height="420"></canvas>
+
+  <div class="controls">
+    <div class="ctrl">
+      <input type="range" id="proofStep" min="0" max="100" value="0">
+      Proof Slice
+    </div>
+    <div class="ctrl">
+      <input type="range" id="proofDepth" min="2" max="8" value="4">
+      Logical Depth
+    </div>
+  </div>
+
+  <section class="math-section">
+    <div class="math-kicker">Explanatory Maths Layer</div>
+    <div class="math-title">From linear proof to temporal proof-object</div>
+    <div class="math-body">
+      <p>A human proof is normally written as a sequence: assumption, lemma, inference, conclusion. The speculative model here treats a proof as a structured object in logical time. Moving the slider does not merely reveal “next steps”; it slices through a proof-object whose components coexist.</p>
+      <div class="math-compare">
+        <div class="math-pill"><strong>Previous structure</strong> Proof as text: \(S_0\Rightarrow S_1\Rightarrow\cdots\Rightarrow S_n\). Meaning is recovered by reading in order.</div>
+        <div class="math-pill"><strong>New speculative structure</strong> Proof as geometry: nodes are propositions, edges are inference-preserving transformations, and the theorem is an attractor or boundary condition.</div>
+      </div>
+      <div class="formula">
+        \[
+        P=(V,E,\tau),\qquad
+        e_{ij}\in E: S_i\vdash S_j,\qquad
+        P_t=\{v\in V:\tau(v)\leq t\}
+        \]
+      </div>
+      <p>Here \(P\) is a proof-complex. \(V\) is the set of propositions, \(E\) is the set of inference edges, and \(\tau\) is a logical-time function. The visible animation is a cross-section \(P_t\) of a larger proof structure.</p>
+      <div class="formula">
+        \[
+        \Phi_{e_k}\circ\cdots\circ\Phi_{e_2}\circ\Phi_{e_1}(A)=\Omega,
+        \qquad
+        \mathcal{I}(S_i)=\mathcal{I}(S_j)\;\text{when inference preserves truth}
+        \]
+      </div>
+      <p>The new thought is not that proof stops being rigorous. Rather, rigour shifts from linear persuasion to invariant-preservation across a transformation network. “QED” becomes the moment when all paths cohere around the same theorem-core.</p>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════════════════════════════════════ PANEL 4: TOPOLOGY -->
+<div class="panel" id="panel-topology">
+  <div class="panel-title">§4 · Living Topology</div>
+  <p class="panel-desc">Alien students might learn topology not by reading about it but by watching surfaces breathe — a Klein bottle, a Calabi-Yau manifold, a 7-sphere — live objects that morph continuously, teaching through direct perception rather than abstraction.</p>
+
+  <div id="manifold-wrapper">
+    <canvas id="manifoldCanvas" width="680" height="440"></canvas>
+  </div>
+
+  <div class="controls">
+    <div class="ctrl">
+      <input type="range" id="manifoldType" min="0" max="3" value="0">
+      Surface Class
+    </div>
+    <div class="ctrl">
+      <input type="range" id="manifoldResolution" min="20" max="80" value="45">
+      Resolution
+    </div>
+    <div class="ctrl">
+      <input type="range" id="manifoldPhase" min="0" max="100" value="0">
+      Phase
+    </div>
+  </div>
+
+  <section class="math-section">
+    <div class="math-kicker">Explanatory Maths Layer</div>
+    <div class="math-title">From named surfaces to invariant-preserving deformation</div>
+    <div class="math-body">
+      <p>Topology asks what remains true when a shape bends, stretches, or flows without tearing. The visual makes that idea visceral: the surface changes continuously, yet certain deep properties should remain stable.</p>
+      <div class="math-compare">
+        <div class="math-pill"><strong>Previous structure</strong> Classical geometry asks for exact lengths, angles, coordinates, and equations of a fixed object.</div>
+        <div class="math-pill"><strong>New speculative structure</strong> Living topology studies families of deformations. The mathematical object is not a frozen surface, but a continuity class.</div>
+      </div>
+      <div class="formula">
+        \[
+        X:U\subset\mathbb{R}^2\rightarrow\mathbb{R}^3,\qquad
+        X_t(u,v)=H(X(u,v),t)
+        \]
+      </div>
+      <p>The surfaces are parameterised by two coordinates \((u,v)\), then animated by a deformation \(H\). If the deformation is continuous and does not cut or glue the surface, topological invariants should stay fixed.</p>
+      <div class="formula">
+        \[
+        \chi=V-E+F,\qquad
+        \pi_1(M),\qquad
+        \text{orientability}(M),\qquad
+        I(M_t)=I(M_0)
+        \]
+      </div>
+      <p>For the Calabi–Yau-inspired slice, the page is deliberately speculative and pedagogical: it is not rendering a rigorous six-real-dimensional Calabi–Yau manifold. A genuine Calabi–Yau structure is usually framed as a compact Kähler manifold with vanishing first Chern class, or equivalently in physics-facing language as admitting a Ricci-flat Kähler metric.</p>
+      <div class="formula caveat">
+        \[
+        c_1(M)=0,\qquad R_{i\bar{j}}=0
+        \]
+      </div>
+      <p>The new thought is therefore epistemological: alien mathematics may teach topology through deformation literacy first, with symbolic classification arriving later as a compressed label for what the body has already perceived.</p>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════════════════════════════════════ PANEL 5: NOTATION -->
+<div class="panel" id="panel-notation">
+  <div class="panel-title">§5 · Alien Mathematical Notation</div>
+  <p class="panel-desc">Human notation is sequential glyphs on 2D paper. Alien notation might be: rotationally-symmetric, time-dependent, three-dimensional glyphs that encode operator, operand, and result simultaneously in a single shape's transformation.</p>
+
+  <div class="equation-grid">
+    <div class="eq-card">
+      <canvas class="eq-canvas" id="eqCanvas1" width="280" height="160"></canvas>
+      <div class="eq-label">Primordial Identity</div>
+      <div class="eq-desc">What we call "1 = 1" — a self-referencing symmetry loop. The concept of equality is expressed as perfect rotational invariance.</div>
+      <div class="math-note">
+        <span class="math-tag">Maths interpretation</span>
+        Previous equality says two symbolic sides match. The speculative version says identity is invariance under allowed transformations.
+        <div class="formula">\[a=a\quad\longrightarrow\quad g\cdot x=x\;\;\forall g\in G_x\]</div>
+      </div>
+    </div>
+    <div class="eq-card">
+      <canvas class="eq-canvas" id="eqCanvas2" width="280" height="160"></canvas>
+      <div class="eq-label">Recursive Expansion</div>
+      <div class="eq-desc">Analogous to exponentiation — but shown as a fractal bloom, where each petal is the "answer" at successively higher powers.</div>
+      <div class="math-note">
+        <span class="math-tag">Maths interpretation</span>
+        Previous exponentiation is repeated multiplication. The speculative notation treats power as recursive spatial growth generated by a transformation rule.
+        <div class="formula">\[a^n=\prod_{k=1}^{n}a\quad\longrightarrow\quad X_{n+1}=T(X_n),\; X_0=\circ\]</div>
+      </div>
+    </div>
+    <div class="eq-card">
+      <canvas class="eq-canvas" id="eqCanvas3" width="280" height="160"></canvas>
+      <div class="eq-label">Harmonic Convergence</div>
+      <div class="eq-desc">The alien equivalent of a limit or integral — represented as concentric interference patterns collapsing toward a fixed attractor point.</div>
+      <div class="math-note">
+        <span class="math-tag">Maths interpretation</span>
+        Previous calculus measures approach or accumulation. The speculative form shows convergence as phase-locking into an attractor.
+        <div class="formula">\[\lim_{n\to\infty}x_n=L,\qquad A(r,t)=\sum_k c_k e^{-\lambda_k t}\cos(kr-\omega_k t)\]</div>
+      </div>
+    </div>
+    <div class="eq-card">
+      <canvas class="eq-canvas" id="eqCanvas4" width="280" height="160"></canvas>
+      <div class="eq-label">Topological Invariant</div>
+      <div class="eq-desc">A property that doesn't change under deformation — shown as a knot that morphs but whose core crossing number remains encoded in its hue signature.</div>
+      <div class="math-note">
+        <span class="math-tag">Maths interpretation</span>
+        Previous notation describes a knot diagram. The speculative notation encodes the invariant across an isotopy, not just the visible curve.
+        <div class="formula">\[K_t\simeq K_0\;\text{by isotopy}\quad\Rightarrow\quad I(K_t)=I(K_0)\]</div>
+      </div>
+    </div>
+  </div>
+
+  <section class="math-section">
+    <div class="math-kicker">Explanatory Maths Layer</div>
+    <div class="math-title">From written symbols to transformational glyphs</div>
+    <div class="math-body">
+      <p>The notation panel explores a possible shift from inscription to behaviour. Human notation usually separates operator, operand, and result: we write the action, then compute the answer. The alien-glyph speculation fuses these into one animated object whose behaviour displays the operation.</p>
+      <div class="math-compare">
+        <div class="math-pill"><strong>Previous structure</strong> Linear notation: symbols are arranged in reading order, and syntax tells us how to transform them.</div>
+        <div class="math-pill"><strong>New speculative structure</strong> Embodied notation: the glyph itself changes under rotation, recursion, convergence, or deformation; its invariant behaviour is the statement.</div>
+      </div>
+      <div class="formula">
+        \[
+        \text{symbol}+\text{rule}+\text{result}
+        \quad\longrightarrow\quad
+        \mathcal{G}(t)=\big(\text{operand},\text{operator},\text{trajectory},\text{invariant}\big)
+        \]
+      </div>
+      <p>In this model, notation is closer to a mathematical instrument than a written sentence. A learner does not only decode it; they observe how it preserves identity, grows recursively, converges, or remains invariant under deformation.</p>
+    </div>
+  </section>
+</div>
+
+<div class="separator"></div>
+<footer>Xenomathematics Archive · Transmission recovered · Origin: Unknown</footer>
+
+<script>
+// ════════════════════════════════════════════════════════
+// UTILITIES
+// ════════════════════════════════════════════════════════
+
+function lerp(a, b, t) { return a + (b - a) * t; }
+function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+// ── RESPONSIVE CANVAS RESIZE ──
+function resizeCanvas(canvas) {
+  const parent = canvas.parentElement;
+  const maxW = parent.clientWidth || canvas.width;
+  const displayW = Math.min(canvas.width, maxW);
+  const ratio = canvas.height / canvas.width;
+  canvas.style.width  = displayW + 'px';
+  canvas.style.height = displayW * ratio + 'px';
+}
+// For eq-canvases (class eq-canvas), update internal resolution to match container
+function resizeEqCanvases() {
+  document.querySelectorAll('.eq-canvas').forEach(canvas => {
+    const parent = canvas.parentElement;
+    const w = parent.clientWidth || 280;
+    if (Math.abs(canvas.width - w) > 2) {
+      canvas.width = w;
+      canvas.height = 160;
+    }
+  });
+}
+function resizeAllCanvases() {
+  document.querySelectorAll('canvas:not(.eq-canvas)').forEach(resizeCanvas);
+  resizeEqCanvases();
+}
+window.addEventListener('resize', resizeAllCanvases);
+window.addEventListener('load', resizeAllCanvases);
+setTimeout(resizeAllCanvases, 200);
+
+// ════════════════════════════════════════════════════════
+// TABS
+// ════════════════════════════════════════════════════════
+
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('panel-' + tab.dataset.panel).classList.add('active');
+  });
+});
+
+// ════════════════════════════════════════════════════════
+// PANEL 1: TESSERACT (4D Hypercube projection)
+// ════════════════════════════════════════════════════════
+
+(function() {
+  const canvas = document.getElementById('tesseract');
+  const ctx = canvas.getContext('2d');
+  let angleXW = 0, angleYW = 0, angleXY = 0, angleZW = 0;
+  
+  // 16 vertices of a tesseract
+  function getVertices() {
+    const v = [];
+    for (let i = 0; i < 16; i++) {
+      v.push([
+        (i & 1) ? 1 : -1,
+        (i & 2) ? 1 : -1,
+        (i & 4) ? 1 : -1,
+        (i & 8) ? 1 : -1
+      ]);
+    }
+    return v;
+  }
+
+  // 32 edges of a tesseract: connect vertices differing in exactly 1 bit
+  function getEdges() {
+    const edges = [];
+    for (let i = 0; i < 16; i++) {
+      for (let j = i + 1; j < 16; j++) {
+        const diff = i ^ j;
+        if (diff && (diff & (diff - 1)) === 0) edges.push([i, j]);
+      }
+    }
+    return edges;
+  }
+
+  const edges = getEdges();
+
+  function rot4D(p, a, b, angle) {
+    const c = Math.cos(angle), s = Math.sin(angle);
+    const v = [...p];
+    v[a] = c * p[a] - s * p[b];
+    v[b] = s * p[a] + c * p[b];
+    return v;
+  }
+
+  function project4to3(p, dist4) {
+    const w = dist4 / (dist4 - p[3]);
+    return [p[0] * w, p[1] * w, p[2] * w];
+  }
+
+  function project3to2(p, dist3, cx, cy, scale) {
+    const z = dist3 / (dist3 - p[2]);
+    return [cx + p[0] * z * scale, cy + p[1] * z * scale];
+  }
+
+  const rotSlider = document.getElementById('rot4d');
+  const speedSlider = document.getElementById('rotSpeed');
+  const perspSlider = document.getElementById('perspective4d');
+
+  let t = 0;
+  function draw() {
+    requestAnimationFrame(draw);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const speed = speedSlider.value / 3000;
+    const perspFactor = perspSlider.value / 50;
+    const wRot = rotSlider.value / 100;
+    t += speed;
+
+    const angleXW_ = t * 0.7;
+    const angleYW_ = t * 0.5 * wRot;
+    const angleXY_ = t * 0.3;
+    const angleZW_ = t * 0.4 * wRot;
+
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
+    const scale = Math.min(canvas.width, canvas.height) * 0.2;
+
+    const verts = getVertices().map(p => {
+      let v = rot4D(p, 0, 3, angleXW_);
+      v = rot4D(v, 1, 3, angleYW_);
+      v = rot4D(v, 0, 1, angleXY_);
+      v = rot4D(v, 2, 3, angleZW_);
+      return v;
+    });
+
+    const projected3 = verts.map(v => project4to3(v, 2 + perspFactor));
+    const projected2 = projected3.map(v => project3to2(v, 3, cx, cy, scale));
+
+    // Draw edges
+    edges.forEach(([i, j]) => {
+      const depth = (projected3[i][2] + projected3[j][2]) / 2;
+      const norm = clamp((depth + 1.5) / 3, 0, 1);
+      
+      // Color by 4D w-coordinate
+      const w1 = verts[i][3];
+      const w2 = verts[j][3];
+      const wAvg = (w1 + w2) / 2;
+      
+      let r, g, b;
+      if (wAvg > 0) {
+        r = 0; g = Math.floor(norm * 255 * 0.9); b = Math.floor(norm * 220);
+      } else {
+        r = Math.floor(norm * 180); g = 0; b = Math.floor(norm * 255);
+      }
+      
+      ctx.beginPath();
+      ctx.moveTo(projected2[i][0], projected2[i][1]);
+      ctx.lineTo(projected2[j][0], projected2[j][1]);
+      ctx.strokeStyle = `rgba(${r},${g},${b},${0.3 + norm * 0.6})`;
+      ctx.lineWidth = norm * 1.5 + 0.3;
+      ctx.stroke();
+    });
+
+    // Draw vertices
+    projected2.forEach(([x, y], i) => {
+      const w = verts[i][3];
+      const size = 3;
+      ctx.beginPath();
+      ctx.arc(x, y, size, 0, Math.PI * 2);
+      ctx.fillStyle = w > 0 ? 'rgba(0,255,204,0.9)' : 'rgba(255,68,136,0.9)';
+      ctx.fill();
+      // glow
+      ctx.beginPath();
+      ctx.arc(x, y, size * 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = w > 0 ? 'rgba(0,255,204,0.1)' : 'rgba(255,68,136,0.1)';
+      ctx.fill();
+    });
+
+    // Label
+    ctx.font = '9px Space Mono';
+    ctx.fillStyle = 'rgba(72,90,122,0.6)';
+    ctx.fillText('CYAN = W > 0  ·  MAGENTA = W < 0  ·  4D→3D→2D PROJECTION', 12, canvas.height - 12);
+  }
+  draw();
+})();
+
+// ════════════════════════════════════════════════════════
+// PANEL 2: VECTOR FIELD MATHEMATICS
+// ════════════════════════════════════════════════════════
+
+(function() {
+  const canvas = document.getElementById('fieldCanvas');
+  const ctx = canvas.getContext('2d');
+
+  const fieldTypeSlider = document.getElementById('fieldType');
+  const fieldTimeSlider = document.getElementById('fieldTime');
+  const fieldDensitySlider = document.getElementById('fieldDensity');
+
+  const fieldNames = ['Attraction / Gravity Analog', 'Vortex Field', 'Saddle Point', 'Interference Pattern', 'Complex Flow'];
+  
+  function getField(x, y, t, type) {
+    const nx = (x / canvas.width) * 4 - 2;
+    const ny = (y / canvas.height) * 4 - 2;
+    let vx = 0, vy = 0;
+
+    switch (type) {
+      case 0: { // Gravitational
+        const r2 = nx * nx + ny * ny + 0.1;
+        vx = -nx / r2; vy = -ny / r2;
+        break;
+      }
+      case 1: { // Vortex
+        const r = Math.sqrt(nx * nx + ny * ny) + 0.01;
+        vx = -ny / r * Math.sin(r - t * 0.5); vy = nx / r * Math.sin(r - t * 0.5);
+        break;
+      }
+      case 2: { // Saddle
+        vx = nx * Math.cos(t * 0.3); vy = -ny * Math.cos(t * 0.3);
+        break;
+      }
+      case 3: { // Interference
+        vx = Math.sin(nx * 3 + t) * Math.cos(ny * 2);
+        vy = Math.cos(nx * 2) * Math.sin(ny * 3 - t);
+        break;
+      }
+      case 4: { // Complex flow
+        const re = nx * nx - ny * ny + Math.cos(t * 0.4);
+        const im = 2 * nx * ny + Math.sin(t * 0.3);
+        vx = re; vy = im;
+        break;
+      }
+    }
+    return [vx, vy];
+  }
+
+  let t = 0;
+  function draw() {
+    requestAnimationFrame(draw);
+    t += 0.02;
+
+    const type = Math.round(fieldTypeSlider.value);
+    const timeSlice = fieldTimeSlider.value / 100;
+    const density = Math.round(fieldDensitySlider.value);
+    
+    ctx.fillStyle = 'rgba(2,2,10,0.4)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const stepX = canvas.width / density;
+    const stepY = canvas.height / density;
+    const arrowLen = Math.min(stepX, stepY) * 0.38;
+
+    for (let gx = 0.5; gx < density; gx++) {
+      for (let gy = 0.5; gy < density; gy++) {
+        const px = gx * stepX;
+        const py = gy * stepY;
+        const [vx, vy] = getField(px, py, t * timeSlice * 2, type);
+        
+        const mag = Math.sqrt(vx * vx + vy * vy);
+        if (mag < 0.0001) continue;
+        
+        const nx2 = vx / mag;
+        const ny2 = vy / mag;
+        const len = Math.min(mag * arrowLen * 0.3, arrowLen);
+        
+        const ex = px + nx2 * len;
+        const ey = py + ny2 * len;
+
+        const hue = (Math.atan2(vy, vx) / Math.PI + 1) * 180;
+        const bright = clamp(mag * 0.5, 0, 1);
+        
+        ctx.beginPath();
+        ctx.moveTo(px, py);
+        ctx.lineTo(ex, ey);
+        ctx.strokeStyle = `hsla(${hue + 160},90%,${50 + bright * 30}%,${0.5 + bright * 0.4})`;
+        ctx.lineWidth = 0.8 + bright;
+        ctx.stroke();
+
+        // Arrow head
+        const headLen = 4;
+        const angle = Math.atan2(ey - py, ex - px);
+        ctx.beginPath();
+        ctx.moveTo(ex, ey);
+        ctx.lineTo(ex - headLen * Math.cos(angle - 0.5), ey - headLen * Math.sin(angle - 0.5));
+        ctx.lineTo(ex - headLen * Math.cos(angle + 0.5), ey - headLen * Math.sin(angle + 0.5));
+        ctx.closePath();
+        ctx.fillStyle = `hsla(${hue + 160},90%,80%,${0.5 + bright * 0.4})`;
+        ctx.fill();
+      }
+    }
+
+    ctx.font = '9px Space Mono';
+    ctx.fillStyle = 'rgba(72,90,122,0.7)';
+    ctx.fillText(fieldNames[Math.round(fieldTypeSlider.value)].toUpperCase(), 12, canvas.height - 12);
+  }
+  draw();
+})();
+
+// ════════════════════════════════════════════════════════
+// PANEL 3: TEMPORAL PROOF STRUCTURE
+// ════════════════════════════════════════════════════════
+
+(function() {
+  const canvas = document.getElementById('temporalCanvas');
+  const ctx = canvas.getContext('2d');
+
+  const stepSlider = document.getElementById('proofStep');
+  const depthSlider = document.getElementById('proofDepth');
+
+  let t = 0;
+  const proofLabels = ['AXIOM ∅', 'PREMISE Λ', 'INFERENCE Ψ', 'COROLLARY Ξ', 'THEOREM Ω', 'QED ◊'];
+
+  function drawProofNode(x, y, r, label, phase, intensity) {
+    const grd = ctx.createRadialGradient(x, y, 0, x, y, r);
+    grd.addColorStop(0, `rgba(119,68,255,${0.4 * intensity})`);
+    grd.addColorStop(1, 'rgba(119,68,255,0)');
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fillStyle = grd;
+    ctx.fill();
+
+    // Pulsing ring
+    const ringR = r * (0.7 + 0.3 * Math.sin(phase));
+    ctx.beginPath();
+    ctx.arc(x, y, ringR, 0, Math.PI * 2);
+    ctx.strokeStyle = `rgba(119,68,255,${0.6 * intensity})`;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // Core dot
+    ctx.beginPath();
+    ctx.arc(x, y, 4, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(200,160,255,${intensity})`;
+    ctx.fill();
+
+    if (label) {
+      ctx.font = '9px Space Mono';
+      ctx.fillStyle = `rgba(160,130,220,${intensity * 0.8})`;
+      ctx.textAlign = 'center';
+      ctx.fillText(label, x, y + r + 16);
+    }
+  }
+
+  function draw() {
+    requestAnimationFrame(draw);
+    t += 0.015;
+
+    ctx.fillStyle = 'rgba(2,2,10,0.25)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const depth = Math.round(depthSlider.value);
+    const sliceRaw = stepSlider.value / 100;
+    const autoSlice = (Math.sin(t * 0.4) * 0.5 + 0.5);
+    const slice = lerp(autoSlice, sliceRaw, 0.6);
+
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
+
+    const nodes = [];
+    for (let i = 0; i < depth; i++) {
+      const angle = (i / depth) * Math.PI * 2 - Math.PI / 2;
+      const r = 140 + 20 * Math.sin(t * 0.7 + i);
+      nodes.push({
+        x: cx + Math.cos(angle) * r,
+        y: cy + Math.sin(angle) * r,
+        angle,
+        depth: i
+      });
+    }
+
+    // Draw connections (the "proof edges")
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const logical_distance = Math.min(Math.abs(i - j), nodes.length - Math.abs(i - j));
+        if (logical_distance > 2) continue;
+
+        const progress = clamp((slice * depth - logical_distance * 0.5), 0, 1);
+        if (progress < 0.01) continue;
+
+        const n1 = nodes[i], n2 = nodes[j];
+        // Curved bezier path
+        const midX = cx + (Math.random() - 0.5) * 30;
+        const midY = cy + (Math.random() - 0.5) * 30;
+
+        ctx.beginPath();
+        ctx.moveTo(n1.x, n1.y);
+        ctx.quadraticCurveTo(cx, cy, n2.x, n2.y);
+        ctx.strokeStyle = `rgba(0,255,204,${progress * 0.25})`;
+        ctx.lineWidth = progress * 1.5;
+        ctx.stroke();
+      }
+    }
+
+    // Central attractor — the "theorem core"
+    const coreGrd = ctx.createRadialGradient(cx, cy, 0, cx, cy, 60);
+    coreGrd.addColorStop(0, `rgba(255,170,0,${0.15 + 0.1 * Math.sin(t)})`);
+    coreGrd.addColorStop(1, 'rgba(255,170,0,0)');
+    ctx.beginPath();
+    ctx.arc(cx, cy, 60, 0, Math.PI * 2);
+    ctx.fillStyle = coreGrd;
+    ctx.fill();
+
+    ctx.font = '10px Space Mono';
+    ctx.fillStyle = `rgba(255,170,0,${0.5 + 0.3 * Math.sin(t * 1.5)})`;
+    ctx.textAlign = 'center';
+    ctx.fillText('THEOREM', cx, cy + 4);
+
+    // Draw nodes
+    nodes.forEach((node, i) => {
+      const revealed = clamp((slice * depth * 1.2 - i), 0, 1);
+      const phase = t * 1.5 + i * 0.8;
+      drawProofNode(node.x, node.y, 30 + 5 * Math.sin(phase), proofLabels[i % proofLabels.length], phase, revealed);
+    });
+
+    // Slice indicator
+    ctx.font = '9px Space Mono';
+    ctx.fillStyle = 'rgba(72,90,122,0.7)';
+    ctx.textAlign = 'left';
+    ctx.fillText('PROOF CROSS-SECTION · TEMPORAL AXIS →', 12, canvas.height - 12);
+  }
+  draw();
+})();
+
+// ════════════════════════════════════════════════════════
+// PANEL 4: LIVING TOPOLOGY / MANIFOLDS
+// ════════════════════════════════════════════════════════
+
+(function() {
+  const canvas = document.getElementById('manifoldCanvas');
+  const ctx = canvas.getContext('2d');
+
+  const typeSlider = document.getElementById('manifoldType');
+  const resSlider = document.getElementById('manifoldResolution');
+  const phaseSlider = document.getElementById('manifoldPhase');
+
+  const surfaceNames = ['Klein Bottle (proj.)', 'Möbius Lattice', 'Calabi-Yau (slice)', 'Clifford Torus'];
+
+  function getSurface(u, v, t, type, phase) {
+    const ph = phase * Math.PI * 2 + t * 0.3;
+    switch (type) {
+      case 0: { // Klein bottle-like
+        const r = 4 - Math.cos(v);
+        const x = 6 * Math.cos(u) * (1 + Math.sin(u)) + r * Math.cos(u) * Math.cos(v + ph * 0.5);
+        const y = 16 * Math.sin(u) + r * Math.sin(v) * 0.7;
+        return { x, y, z: r * Math.sin(v + ph) };
+      }
+      case 1: { // Möbius-like lattice
+        const x = (1 + v * 0.4 * Math.cos(u / 2 + ph)) * Math.cos(u);
+        const y = (1 + v * 0.4 * Math.cos(u / 2 + ph)) * Math.sin(u);
+        const z = v * 0.4 * Math.sin(u / 2 + ph);
+        return { x: x * 6, y: y * 6 + Math.sin(ph * 0.3) * 2, z: z * 6 };
+      }
+      case 2: { // Calabi-Yau slice
+        const r = Math.cos(u * 3 + ph) * Math.sin(v * 2) + 1.5;
+        const x = r * Math.cos(u) * Math.cos(v * 0.5);
+        const y = r * Math.sin(u) * Math.cos(v * 0.5 + ph * 0.2);
+        const z = r * Math.sin(v * 0.5) + Math.sin(u * 2 + ph) * 0.5;
+        return { x: x * 4, y: y * 4, z: z * 4 };
+      }
+      case 3: { // Clifford torus
+        const R1 = 2.5 + Math.sin(ph * 0.4) * 0.3;
+        const R2 = 1.5;
+        const x = (R1 + R2 * Math.cos(v)) * Math.cos(u);
+        const y = (R1 + R2 * Math.cos(v)) * Math.sin(u);
+        const z = R2 * Math.sin(v) + Math.sin(u + ph) * 0.4;
+        return { x: x * 3.5, y: y * 3.5, z };
+      }
+    }
+  }
+
+  function project3d(p, rotX, rotY, scale, cx, cy) {
+    const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+    const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+
+    const y1 = p.y * cosX - p.z * sinX;
+    const z1 = p.y * sinX + p.z * cosX;
+    const x2 = p.x * cosY + z1 * sinY;
+    const z2 = -p.x * sinY + z1 * cosY;
+
+    const d = 8;
+    const w = d / (d - z2 * 0.1);
+    return {
+      sx: cx + x2 * w * scale,
+      sy: cy + y1 * w * scale,
+      depth: z2
+    };
+  }
+
+  let t = 0, rotX = 0.4, rotY = 0;
+  canvas.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect();
+    rotY = ((e.clientX - rect.left) / rect.width - 0.5) * Math.PI * 2;
+    rotX = ((e.clientY - rect.top) / rect.height - 0.5) * Math.PI;
+  });
+  canvas.addEventListener('touchmove', e => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const rect = canvas.getBoundingClientRect();
+    rotY = ((touch.clientX - rect.left) / rect.width - 0.5) * Math.PI * 2;
+    rotX = ((touch.clientY - rect.top) / rect.height - 0.5) * Math.PI;
+  }, { passive: false });
+
+  function draw() {
+    requestAnimationFrame(draw);
+    t += 0.012;
+
+    ctx.fillStyle = 'rgba(2,2,10,0.35)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const type = Math.round(typeSlider.value);
+    const res = Math.round(resSlider.value);
+    const phase = phaseSlider.value / 100;
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
+    const scale = Math.min(canvas.width, canvas.height) / 22;
+
+    const points = [];
+
+    for (let iu = 0; iu <= res; iu++) {
+      for (let iv = 0; iv <= res; iv++) {
+        const u = (iu / res) * Math.PI * 2;
+        const v = (iv / res) * Math.PI * 2 - Math.PI;
+        const p3 = getSurface(u, v, t, type, phase);
+        if (!p3) continue;
+        const proj = project3d(p3, rotX, rotY - t * 0.1, scale, cx, cy);
+        points.push({ ...proj, u, v });
+      }
+    }
+
+    // Sort by depth
+    points.sort((a, b) => a.depth - b.depth);
+
+    points.forEach(pt => {
+      const hue = ((pt.u / (Math.PI * 2)) * 240 + 180) % 360;
+      const sat = 70 + pt.v * 10;
+      const lum = 45 + (pt.depth / 10) * 15;
+      const alpha = 0.6;
+
+      ctx.beginPath();
+      ctx.arc(pt.sx, pt.sy, 1.2, 0, Math.PI * 2);
+      ctx.fillStyle = `hsla(${hue},${sat}%,${lum}%,${alpha})`;
+      ctx.fill();
+    });
+
+    ctx.font = '9px Space Mono';
+    ctx.fillStyle = 'rgba(72,90,122,0.7)';
+    ctx.textAlign = 'left';
+    ctx.fillText(surfaceNames[type].toUpperCase() + ' · DRAG MOUSE TO ROTATE', 12, canvas.height - 12);
+  }
+  draw();
+})();
+
+// ════════════════════════════════════════════════════════
+// PANEL 5: ALIEN NOTATION CANVASES
+// ════════════════════════════════════════════════════════
+
+(function() {
+  const configs = [
+    { id: 'eqCanvas1', draw: drawIdentity },
+    { id: 'eqCanvas2', draw: drawExpansion },
+    { id: 'eqCanvas3', draw: drawConvergence },
+    { id: 'eqCanvas4', draw: drawKnot },
+  ];
+
+  let t = 0;
+
+  function drawIdentity(ctx, w, h, t) {
+    ctx.fillStyle = '#02020a';
+    ctx.fillRect(0, 0, w, h);
+    const cx = w / 2, cy = h / 2;
+    const n = 8;
+    for (let k = 0; k < n; k++) {
+      const angle = (k / n) * Math.PI * 2 + t * 0.3;
+      const r = 45 + 5 * Math.sin(t * 2 + k);
+      ctx.beginPath();
+      ctx.arc(cx + Math.cos(angle) * 20, cy + Math.sin(angle) * 20, r * 0.15, 0, Math.PI * 2);
+      ctx.strokeStyle = `hsla(${160 + k * 20},80%,60%,0.6)`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // Connectors — perfect symmetry = equality
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      const a2 = angle + Math.PI;
+      ctx.lineTo(cx + Math.cos(a2) * r * 0.7, cy + Math.sin(a2) * r * 0.7);
+      ctx.strokeStyle = `hsla(${160 + k * 20},60%,50%,0.25)`;
+      ctx.lineWidth = 0.7;
+      ctx.stroke();
+    }
+    // Central symmetry glyph
+    ctx.beginPath();
+    ctx.arc(cx, cy, 8 + 3 * Math.sin(t * 3), 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(0,255,204,0.8)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+  }
+
+  function drawExpansion(ctx, w, h, t) {
+    ctx.fillStyle = 'rgba(2,2,10,0.3)';
+    ctx.fillRect(0, 0, w, h);
+    const cx = w / 2, cy = h / 2;
+    const petals = 6;
+    for (let gen = 0; gen < 5; gen++) {
+      const scale = Math.pow(0.6, gen);
+      const bloom = (t * 0.5 + gen * 0.4) % (Math.PI * 2);
+      for (let p = 0; p < petals; p++) {
+        const angle = (p / petals) * Math.PI * 2 + bloom * (gen % 2 === 0 ? 1 : -1);
+        const r = 55 * scale;
+        const px = cx + Math.cos(angle) * r * 0.7;
+        const py = cy + Math.sin(angle) * r * 0.7;
+        ctx.beginPath();
+        ctx.arc(px, py, r * 0.35, 0, Math.PI * 2);
+        ctx.strokeStyle = `hsla(${280 + gen * 30},80%,${60 - gen * 5}%,${0.5 - gen * 0.07})`;
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      }
+    }
+  }
+
+  function drawConvergence(ctx, w, h, t) {
+    ctx.fillStyle = 'rgba(2,2,10,0.2)';
+    ctx.fillRect(0, 0, w, h);
+    const cx = w / 2, cy = h / 2;
+    for (let ring = 1; ring <= 12; ring++) {
+      const phase = t * 0.8 - ring * 0.3;
+      const r = (ring / 12) * (Math.min(w, h) * 0.44);
+      const collapse = Math.sin(phase) * 0.15;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r * (1 - collapse), 0, Math.PI * 2);
+      const alpha = 0.6 - ring * 0.04;
+      ctx.strokeStyle = `hsla(${200 - ring * 6},90%,${65 - ring * 2}%,${alpha})`;
+      ctx.lineWidth = 0.8 + (12 - ring) * 0.06;
+      ctx.stroke();
+    }
+    // Attractor
+    ctx.beginPath();
+    ctx.arc(cx, cy, 3 + Math.sin(t * 4), 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255,170,0,0.9)';
+    ctx.fill();
+  }
+
+  function drawKnot(ctx, w, h, t) {
+    ctx.fillStyle = 'rgba(2,2,10,0.18)';
+    ctx.fillRect(0, 0, w, h);
+    const cx = w / 2, cy = h / 2;
+    const steps = 300;
+    const pts = [];
+    for (let i = 0; i <= steps; i++) {
+      const s = (i / steps) * Math.PI * 4;
+      const x = cx + Math.cos(s + t * 0.2) * 48 + Math.cos(2 * s - t * 0.15) * 18;
+      const y = cy + Math.sin(s + t * 0.2) * 30 + Math.sin(3 * s + t * 0.1) * 16;
+      pts.push({ x, y, hue: (s / (Math.PI * 4)) * 180 + 250 });
+    }
+    for (let i = 0; i < pts.length - 1; i++) {
+      ctx.beginPath();
+      ctx.moveTo(pts[i].x, pts[i].y);
+      ctx.lineTo(pts[i + 1].x, pts[i + 1].y);
+      ctx.strokeStyle = `hsla(${pts[i].hue},85%,65%,0.7)`;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
+  }
+
+  function animateAll() {
+    requestAnimationFrame(animateAll);
+    t += 0.02;
+    configs.forEach(({ id, draw }) => {
+      const canvas = document.getElementById(id);
+      const ctx = canvas.getContext('2d');
+      draw(ctx, canvas.width, canvas.height, t);
+    });
+  }
+  animateAll();
+})();
+</script>
+</body>
+</html>

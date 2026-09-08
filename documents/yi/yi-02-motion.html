@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>易 Yi · Part Two — Making It Move</title>
+<script>try{document.documentElement.classList.add("js");}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..800,0..100,0..1;1,9..144,300..800,0..100,0..1&family=Newsreader:opsz,wght@6..72,200..700&family=Space+Mono:wght@400;700&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<style>
+/* ═══ BLACK IRIS · light only · Part Two ═══════════════════════════
+   Kinematics before dynamics. Nothing in this part says WHY the state
+   moves — that is Part Three. Here it only moves, and we learn what
+   becomes sayable the moment it does.
+   ══════════════════════════════════════════════════════════════════ */
+:root{
+  --paper:#FCFAF7; --paper2:#F8F0EA; --paper3:#F0E2D9;
+  --ink:#2C1D17; --iris:#5B2A1B; --iris-mid:#8A4530; --lilac:#A89087;
+  --brass:#9A7226; --teal:#2F6B72; --alarm:#9B3242;
+  --rule:#DFCEC5; --rule-soft:#EFE2DA;
+  --shadow:0 18px 44px rgba(60,28,20,.08);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Newsreader",Georgia,"Noto Serif SC",serif;font-size:18px;line-height:1.66;overflow-x:hidden}
+:focus-visible{outline:2px solid var(--iris-mid);outline-offset:3px}
+.wrap{width:min(1120px,calc(100% - 34px));margin-inline:auto}
+.col{max-width:68ch}
+.mono,.kicker,.badge,.cap,.step,.val,.tag,button,output{font-family:"Space Mono",ui-monospace,Menlo,monospace}
+.kicker{font-size:.66rem;letter-spacing:.19em;text-transform:uppercase;color:var(--iris-mid)}
+.cap{font-size:.78rem;line-height:1.55;color:var(--iris-mid)}
+
+.cover{position:relative;color:#F8EDE7;overflow:hidden;
+  padding:clamp(44px,7vw,96px) 0 clamp(36px,5vw,64px);
+  background:radial-gradient(115% 95% at 74% 6%,#A6553A 0,transparent 56%),
+             radial-gradient(90% 80% at 6% 94%,#38150D 0,transparent 60%),
+             linear-gradient(166deg,#3D2350,#32130B 62%,#1B0F23)}
+.cover::after{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:soft-light;opacity:.6;
+  background:radial-gradient(120% 100% at 50% 40%,transparent 42%,rgba(20,8,5,.5) 100%),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
+.cover .wrap{position:relative;z-index:2}
+.cover .kicker{color:#EFC0A6}
+.rules{border-top:1px solid rgba(248,237,231,.45);border-bottom:1px solid rgba(248,237,231,.45);height:5px;margin:16px 0 24px}
+h1{font-family:"Fraunces","Noto Serif SC",serif;font-weight:600;font-variation-settings:"SOFT" 40,"WONK" 1;
+  font-size:clamp(2.6rem,8.6vw,6.2rem);line-height:.9;letter-spacing:-.032em;margin:0}
+h1 .en{display:block;font-size:clamp(1rem,2.2vw,1.6rem);font-weight:400;font-style:italic;
+  margin-top:.6em;color:#F0D4C3;font-variation-settings:"WONK" 0;letter-spacing:0}
+.deck{font-size:clamp(1.04rem,1.8vw,1.36rem);line-height:1.5;max-width:48ch;margin:24px 0 0;color:#F9EBE3}
+.deck b{color:#fff;font-weight:600}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:28px}
+.badge{font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;padding:6px 10px;
+  border:1px solid var(--rule);color:var(--iris);background:#fff}
+.cover .badge{border-color:rgba(248,237,231,.5);color:#F5DFD2;background:transparent}
+.cover .badge.now{background:#F8EDE7;color:#32130B;border-color:#F8EDE7}
+.cover .badge.done{border-color:rgba(248,237,231,.28);color:rgba(237,220,244,.6)}
+
+section{padding:clamp(50px,7vw,100px) 0;border-top:1px solid var(--rule-soft)}
+.head{display:grid;grid-template-columns:158px 1fr;gap:clamp(14px,3vw,32px);align-items:start;margin-bottom:32px}
+.head .step{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--lilac);line-height:1.9}
+.head .step b{display:block;color:var(--iris);font-weight:700}
+h2{font-family:"Fraunces","Noto Serif SC",serif;font-weight:500;font-variation-settings:"SOFT" 30,"WONK" 1;
+  font-size:clamp(1.8rem,4.3vw,3.2rem);line-height:1.03;letter-spacing:-.025em;margin:0;color:var(--iris);max-width:25ch}
+h3{font-family:"Fraunces",serif;font-weight:600;font-size:1.1rem;margin:0 0 .45em;color:var(--iris)}
+p{margin:0 0 1.05em;max-width:68ch}
+.lead::first-letter{float:left;font-family:"Fraunces",serif;font-weight:600;font-size:3.4em;line-height:.82;
+  margin:.06em .1em 0 0;color:var(--iris)}
+.big{font-size:clamp(1.15rem,2.2vw,1.5rem);line-height:1.44;max-width:40ch;letter-spacing:-.01em}
+.hl{background:linear-gradient(180deg,transparent 58%,#CFE9E4 58%,#CFE9E4 92%,transparent 92%)}
+.pull{border-left:2px solid var(--brass);padding-left:22px;margin:32px 0;max-width:34ch;
+  font-family:"Fraunces",serif;font-style:italic;font-size:clamp(1.2rem,2.4vw,1.8rem);line-height:1.3;color:var(--iris)}
+.div{display:flex;align-items:center;gap:12px;margin:42px 0;color:var(--lilac)}
+.div::before,.div::after{content:"";flex:1;border-top:1px dotted var(--rule)}
+.div span{font-family:"Space Mono",monospace;font-size:.78rem}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.card{background:#fff;border:1px solid var(--rule-soft);border-radius:3px;padding:19px;box-shadow:var(--shadow)}
+.card p{margin:0;font-size:.94rem}
+.chip{display:inline-grid;place-items:center;width:25px;height:25px;border-radius:50%;
+  border:1px solid var(--iris);color:var(--iris);font-family:"Space Mono",monospace;font-size:.7rem;margin-bottom:10px}
+
+
+/* ── maths · gallery plates ─────────────────────────────────────────
+   Standing treatment: plum-glow ground, brass corner registration
+   ticks, boxed mono tag, teal "how to read it" rule, colour-coded
+   symbols, symbol legend. Every TeX string in these files was
+   validated against KaTeX 0.18 offline before shipping.
+   FAILSAFE: each .tex / .itex holds readable plain-text maths as its
+   own content. KaTeX overwrites it on load; if the CDN is missing the
+   plain text simply stays, so the document never loses its equations.
+   ───────────────────────────────────────────────────────────────── */
+.plate{position:relative;margin:26px 0;padding:28px 24px 20px;
+  background:radial-gradient(120% 140% at 18% 0%,#F9EFE9 0%,#FDFAF7 72%);
+  border:1px solid var(--rule);border-radius:3px;overflow-x:auto}
+.plate::before,.plate::after{content:"";position:absolute;width:12px;height:12px;border:1px solid var(--brass)}
+.plate::before{top:7px;left:7px;border-right:0;border-bottom:0}
+.plate::after{bottom:7px;right:7px;border-left:0;border-top:0}
+.plate .ptag{display:inline-block;border:1px solid var(--iris);color:var(--iris);
+  font-family:"Space Mono",monospace;font-size:.58rem;letter-spacing:.15em;
+  text-transform:uppercase;padding:3px 8px;margin-bottom:18px}
+.tex{font-size:1.02rem;overflow-x:auto;overflow-y:hidden;padding:2px 0;line-height:1.5}
+.tex.fallback{font-family:"Space Mono",monospace;white-space:pre-wrap;font-size:.86rem;line-height:1.7}
+.itex{font-size:.98em;white-space:nowrap}
+.itex.fallback{font-family:"Space Mono",monospace;font-size:.9em}
+.plate .read{margin-top:18px;padding-top:12px;border-top:1px solid #A8CFCB;font-size:.86rem;line-height:1.55;color:var(--ink)}
+.plate .read b{display:block;font-family:"Space Mono",monospace;font-size:.6rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--teal);margin-bottom:5px;font-weight:400}
+.plate .legend{display:flex;flex-wrap:wrap;gap:7px 18px;margin-top:14px;font-size:.76rem;color:var(--iris-mid);
+  font-family:"Space Mono",monospace}
+.plate .legend b{font-family:"Noto Serif SC",serif;font-weight:400;color:var(--iris);font-size:.95rem}
+.katex{font-size:1.04em}
+.katex-display{margin:.3em 0}
+figure{margin:30px 0;border:1px solid var(--rule);border-radius:3px;background:#fff;box-shadow:var(--shadow);overflow:hidden}
+figure .fhead{background:var(--paper2);border-bottom:1px solid var(--rule);padding:9px 16px;
+  display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline}
+figure .fhead .tag{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--iris)}
+figure .fhead .hint{font-size:.62rem;color:var(--lilac)}
+figure .fbody{padding:18px}
+figcaption{padding:0 18px 18px;font-size:.8rem;line-height:1.55;color:var(--iris-mid);max-width:74ch}
+canvas{display:block;width:100%;touch-action:none}
+.fallnote{padding:15px 17px;background:var(--paper2);font-family:"Space Mono",monospace;font-size:.7rem;color:var(--iris)}
+html.ready .fallnote{display:none}
+button{appearance:none;border:1px solid var(--rule);background:#fff;color:var(--iris);
+  padding:7px 11px;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:2px}
+button:hover{border-color:var(--iris-mid)}
+button.on{background:var(--iris);color:#F8EDE7;border-color:var(--iris)}
+.btns{display:flex;gap:7px;flex-wrap:wrap}
+.ctl{display:grid;grid-template-columns:104px 1fr 60px;gap:11px;align-items:center;margin:9px 0}
+.ctl label{font-size:.85rem}
+.ctl output{font-size:.72rem;text-align:right;color:var(--iris-mid)}
+input[type=range]{width:100%;height:20px;accent-color:var(--iris-mid)}
+.readout{font-size:.74rem;line-height:1.62;color:var(--iris-mid);font-family:"Space Mono",monospace;
+  border-top:1px dotted var(--rule);margin-top:14px;padding-top:11px}
+.readout b{color:var(--iris)}
+.readout .warn{color:var(--brass)}
+.big-num{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(1.7rem,4vw,2.6rem);
+  color:var(--iris);line-height:1;display:block;margin:2px 0 4px}
+.big-num small{font-family:"Space Mono",monospace;font-size:.3em;color:var(--lilac);letter-spacing:.12em}
+
+.linefig{display:grid;grid-template-columns:1fr 200px;gap:24px;align-items:center}
+.yao{width:150px;margin:14px auto;display:flex;gap:15px;height:13px}
+.yao i{display:block;height:100%;background:var(--iris);border-radius:2px}
+.yao.yang i:first-child{width:150px}.yao.yang i:last-child{display:none}
+.yao.yin i{width:67.5px}
+.yao.near i{background:var(--brass)}
+.dial{position:relative;height:46px;margin:6px 0 2px}
+.dial .track{position:absolute;top:21px;left:0;right:0;height:3px;background:var(--paper3)}
+.dial .zero{position:absolute;top:8px;bottom:10px;left:50%;width:1px;background:var(--brass)}
+.dial .knob{position:absolute;top:13px;width:19px;height:19px;border-radius:50%;background:var(--iris);
+  border:2px solid #fff;box-shadow:0 2px 6px rgba(60,28,20,.3);transform:translateX(-50%)}
+.dial .arrow{position:absolute;top:20px;height:5px;background:var(--brass);transform:translateY(0)}
+.dial .lab{position:absolute;top:32px;font-size:.58rem;color:var(--lilac);font-family:"Space Mono",monospace}
+
+.strip{display:flex;height:26px;border:1px solid var(--rule-soft);border-radius:2px;overflow:hidden;margin-top:12px}
+.strip i{display:block;height:100%;border-right:1px solid rgba(255,255,255,.5)}
+.sixrow{display:grid;grid-template-columns:64px 1fr 70px;gap:10px;align-items:center;margin:7px 0;font-size:.78rem}
+.sixrow .nm{font-family:"Space Mono",monospace;font-size:.66rem;color:var(--iris-mid)}
+.sixrow .bar{height:9px;background:var(--paper3);position:relative;border-radius:2px}
+.sixrow .bar i{position:absolute;top:0;bottom:0;background:var(--iris);border-radius:2px}
+.sixrow .bar u{position:absolute;top:-3px;bottom:-3px;width:1px;background:var(--brass)}
+.sixrow .tv{font-family:"Space Mono",monospace;font-size:.68rem;text-align:right;color:var(--iris-mid)}
+.sixrow.flip .tv{color:var(--brass);font-weight:700}
+
+.road{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.road .r{background:#fff;padding:15px 18px;display:grid;grid-template-columns:96px 1fr;gap:18px;align-items:baseline}
+.road .n{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--lilac);font-family:"Space Mono",monospace}
+.road .r.here{background:var(--paper2)}.road .r.here .n{color:var(--brass)}
+.road .r.done .n{color:var(--teal)}
+.road b{font-family:"Fraunces",serif;font-size:1.02rem;color:var(--iris);display:block;margin-bottom:2px}
+.road p{margin:0;font-size:.88rem}
+footer{border-top:1px solid var(--iris);background:var(--paper2);padding:44px 0 74px}
+footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
+
+@media(max-width:900px){
+  body{font-size:17px}
+  .head,.g2,.g3,.linefig,.road .r{grid-template-columns:1fr}
+  .head{gap:8px}
+  .ctl{grid-template-columns:88px 1fr 52px}
+  .sixrow{grid-template-columns:48px 1fr 58px}
+}
+</style>
+
+
+
+<style id="yinav-css">
+.yitop{border-bottom:1px solid var(--rule,#DFCEC5);background:var(--paper,#FCFAF7);
+ font-family:"Space Mono",ui-monospace,Menlo,monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase}
+.yitop .in{width:min(1120px,calc(100% - 34px));margin-inline:auto;display:flex;align-items:center;gap:16px;padding:12px 0;flex-wrap:wrap}
+.yitop a{color:var(--iris-mid,#8A4530);text-decoration:none;opacity:.72}
+.yitop a:hover{opacity:1;text-decoration:underline}
+.yitop .sp{flex:1 1 auto}
+.yitop .now{color:var(--lilac,#A89087)}
+.yinav{border-top:1px solid var(--rule,#DFCEC5);margin-top:clamp(40px,6vw,86px);
+ padding:clamp(30px,5vw,58px) 0 clamp(44px,6vw,84px);font-family:"Space Mono",ui-monospace,Menlo,monospace}
+.yinav .in{width:min(1120px,calc(100% - 34px));margin-inline:auto}
+.yinav-lab{font-size:.62rem;letter-spacing:.19em;text-transform:uppercase;color:var(--lilac,#A89087);margin-bottom:24px}
+.yinav-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:34px}
+.yinav-pair a,.yinav-pair .void{display:block;border:1px solid var(--rule,#DFCEC5);border-radius:3px;
+ padding:20px 22px;text-decoration:none;color:var(--iris,#5B2A1B);transition:border-color .2s,background .2s}
+.yinav-pair a:hover{border-color:var(--iris-mid,#8A4530);background:rgba(91,42,27,.035)}
+.yinav-pair .void{border-style:dotted;opacity:.4}
+.yinav-pair .dir{display:block;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--lilac,#A89087);margin-bottom:9px}
+.yinav-pair .ttl{font-family:"Fraunces","Newsreader",serif;font-size:1.05rem;line-height:1.28;letter-spacing:-.01em}
+.yinav-grp{font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--lilac,#A89087);
+ margin:0 4px 0 6px;white-space:nowrap}
+.yinav-rail{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.yinav-rail a,.yinav-rail .here{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
+ padding:8px 12px;border:1px solid var(--rule,#DFCEC5);border-radius:3px;color:var(--iris-mid,#8A4530);opacity:.72}
+.yinav-rail a:hover{opacity:1;border-color:var(--iris-mid,#8A4530)}
+.yinav-rail .here{background:var(--iris,#5B2A1B);border-color:var(--iris,#5B2A1B);color:#FAF1EC;opacity:1}
+.yinav-rail .g{font-family:"Noto Serif SC","Fraunces",serif;font-size:.86rem;letter-spacing:0;margin-right:7px}
+.yinav-rail .comp{border-style:dotted}
+.yinav-home{display:inline-block;margin-top:26px;font-size:.62rem;letter-spacing:.18em;
+ text-transform:uppercase;color:var(--brass,#9A7226);text-decoration:none;opacity:.85}
+.yinav-home:hover{opacity:1;text-decoration:underline}
+@media(max-width:680px){.yinav-pair{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="yitop"><div class="in"><a href="../../index.html">↑ The Polymathic Learner</a><span class="now">02 · the argument</span><span class="sp"></span><a href="yi-01-state-space.html">← previous</a><a href="yi-03-forces.html">next →</a></div></nav>
+
+
+
+
+<header class="cover">
+  <div class="wrap">
+    <div class="kicker">易 Yi · a working model of change · part two of three · the argument</div>
+    <div class="rules"></div>
+    <h1>Making it<br>move<span class="en">Where 变爻 <i>bianyao</i>, the changing line, stops being a mark and becomes a countdown</span></h1>
+    <p class="deck">Part One built a space: six continuous lines, sixty-four sign-regions, two cubes. It was still a snapshot — a much richer one, but a snapshot.</p>
+    <p class="deck" style="margin-top:14px">Now give each of the six numbers a <b>velocity</b>. Three things become sayable that the classical glyph cannot say: <b>which line turns next, in how long, and whether you are arriving or leaving.</b></p>
+    <div class="chips">
+      <span class="badge done">1 · one line to two cubes</span>
+      <span class="badge now">2 · making it move</span>
+      <span class="badge">3 · what moves it</span>
+      <span class="badge">4 · the instrument</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ═════════ RECAP ═════════ -->
+<section id="recap">
+  <div class="wrap col">
+    <div class="head">
+      <div class="step"><b>Where we are</b>One paragraph of recap</div>
+      <h2>A snapshot, however rich, is still a snapshot.</h2>
+    </div>
+    <p class="lead">Six lines became six numbers between −1 and +1. The sign of each is the classical 阴 or 阳, so nothing was lost, and the sixty-four sign-regions are still exactly sixty-four. What was gained is room: <span class="hl">a trigram is an eighth of a cube, not a corner of one</span>, and two situations sharing a glyph can sit far apart inside it.</p>
+    <p>But a point sitting in a region tells you no more about what happens next than a photograph does. The classical system knew this and patched it with a special mark — 变爻, the changing line — plus a great deal of commentary about what a changing line means. That patch is the thing we can now replace with arithmetic.</p>
+    <p>One warning about this part, because it matters for reading it honestly: <b>nothing here explains why the state moves.</b> This is kinematics only. We hand a point a velocity and watch. What supplies the velocity — 五行, read as a field of forces over the whole space — is Part Three. Keeping those separate is deliberate: it is the only way to see which insights come from motion itself and which come from a particular theory of what causes it.</p>
+    <div class="div"><span>+</span></div>
+  </div>
+</section>
+
+<!-- ═════════ CH 4 ═════════ -->
+<section id="ch4">
+  <div class="wrap col">
+    <div class="head">
+      <div class="step"><b>Chapter four</b>A line with a velocity</div>
+      <h2>变爻 <i>bianyao</i> becomes a number of time units.</h2>
+    </div>
+    <p>Take the single dial from Part One and give it a rate of change. Two numbers now: where the line sits, and how fast it is travelling. Everything follows from dividing one by the other.</p>
+    <p>If a line is at <b>x</b> and moving at <b>ẋ</b>, then the time until it reaches zero — until the glyph flips — is simply <span class="itex fallback" data-tex="\tau = -x/\dot{x}">tau = -x/xdot</span>:</p>
+<div class="plate"><span class="ptag">Plate 04 · the countdown</span><div class="tex fallback" data-tex="\tau \;=\; -\,\frac{\textcolor{#9A7226}{x}}{\textcolor{#2F6B72}{\dot{x}}}
+\qquad\text{valid when}\quad \tau > 0">tau = - x / xdot        valid when tau > 0</div><div class="read"><b>How to read it</b>Position divided by velocity, with a minus sign. When the result is positive the line is heading for its threshold and this is how long that takes. When it is negative there is no crossing ahead at all — the line is moving away.</div><div class="legend"><span><b>x</b> where the line sits</span><span><b>ẋ</b> how fast it moves</span><span>τ time to the threshold</span></div></div>
+    <p>That is the whole of it. One division, and the tradition's most freighted concept becomes an ordinary reading on an instrument.</p>
+
+    <figure>
+      <div class="fhead"><span class="tag">Figure 5 · the countdown</span><span class="hint">two sliders · watch τ</span></div>
+      <div class="fbody">
+        <div class="linefig">
+          <div>
+            <div class="dial">
+              <div class="track"></div><div class="zero"></div>
+              <div class="arrow" id="arw"></div>
+              <div class="knob" id="k5"></div>
+              <div class="lab" style="left:0">−1 · 阴</div>
+              <div class="lab" style="right:0;text-align:right">阳 · +1</div>
+            </div>
+            <div class="ctl"><label for="s5x">position x</label><input id="s5x" type="range" min="-95" max="95" value="46"><output id="o5x"></output></div>
+            <div class="ctl"><label for="s5v">velocity ẋ</label><input id="s5v" type="range" min="-60" max="60" value="-22"><output id="o5v"></output></div>
+            <div class="btns"><button id="b5run">run it</button><button id="b5reset">reset</button></div>
+            <div class="readout" id="r5"></div>
+          </div>
+          <div>
+            <div class="cap" style="text-align:center">drawn as</div>
+            <div class="yao yang" id="y5"><i></i><i></i></div>
+            <div class="cap" style="text-align:center" id="y5lab"></div>
+            <div style="text-align:center;margin-top:14px">
+              <span class="big-num" id="tau5">—</span>
+              <small class="cap">time units to 变</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <figcaption>Set the line just barely 阳 and moving downward and the countdown is short. Set it strongly 阳 but moving downward faster and the countdown may be shorter still — which is the point. <b>Nearness to the threshold and imminence of crossing are different things</b>, and the classical mark for a changing line conflates them. Press <b>run it</b> to let the countdown play out.</figcaption>
+    </figure>
+
+    <p>There is a second thing hiding in the sign of ẋ, and it is arguably the larger gain.</p>
+    <p class="big">The glyph cannot tell you whether you are arriving or leaving.</p>
+    <p>A hexagram drawn at the moment a situation is consolidating and the same hexagram drawn as it comes apart are the same six marks. With velocities they are opposites: one has its lines moving away from their thresholds, the other has them heading in. Same name, opposite prognosis — and the difference is a sign, not an interpretation.</p><div class="plate"><span class="ptag">Plate 05 · arriving or leaving</span><div class="tex fallback" data-tex="\operatorname{sign}(x\,\dot{x}) \;=\;
+\begin{cases} -1 &amp; \text{heading for the threshold — arriving}\\[2pt]
+              +1 &amp; \text{moving away from it — leaving}\end{cases}">sign(x · xdot) = -1  arriving at the threshold ;  +1  leaving it</div><div class="read"><b>How to read it</b>One product, one sign, and the whole difference between a situation tightening and a situation coming apart. The classical notation has no place to record it, which is why the commentaries had to carry it in prose.</div><div class="legend"><span>negative — converging on a change</span><span>positive — moving away from one</span></div></div>
+    <div class="div"><span>+ +</span></div>
+  </div>
+</section>
+
+<!-- ═════════ CH 5 ═════════ -->
+<section id="ch5">
+  <div class="wrap col">
+    <div class="head">
+      <div class="step"><b>Chapter five</b>Three lines, moving</div>
+      <h2>A reading is a path, not a card.</h2>
+    </div>
+    <p>Put the moving point back in the cube. It drifts; it crosses walls; the trigram name changes when it does. Nothing else about it changes at that moment — the crossing is an event in the <i>notation</i>, not in the situation.</p>
+    <p>Which reframes what a divination result actually is. Not a card drawn from sixty-four, but <b>a label attached to the segment of a path you happen to be on when you look.</b></p>
+
+    <figure>
+      <div class="fhead"><span class="tag">Figure 6 · drift across the walls</span><span class="hint">drag to rotate · aim the velocity · play</span></div>
+      <div class="fbody">
+        <canvas id="cvDrift" height="380"></canvas>
+        <div class="fallnote">This figure needs JavaScript. The written argument stands without it.</div>
+        <div class="g3" style="margin-top:14px">
+          <div class="ctl"><label for="v1">ẋ₁</label><input id="v1" type="range" min="-60" max="60" value="-34"><output id="vo1"></output></div>
+          <div class="ctl"><label for="v2">ẋ₂</label><input id="v2" type="range" min="-60" max="60" value="26"><output id="vo2"></output></div>
+          <div class="ctl"><label for="v3">ẋ₃</label><input id="v3" type="range" min="-60" max="60" value="18"><output id="vo3"></output></div>
+        </div>
+        <div class="btns">
+          <button id="bPlay">play</button>
+          <button id="bRe">reset</button>
+          <button id="bTrail" class="on">trail</button>
+          <button id="bPlanes" class="on">threshold walls</button>
+        </div>
+        <div class="cap" style="margin-top:14px">which trigram, over time →</div>
+        <div class="strip" id="strip"></div>
+        <div class="readout" id="rDrift"></div>
+      </div>
+      <figcaption>The strip records which of the eight trigrams the path has been in, moment by moment. Two things to notice. The bands are <b>uneven</b> — some regions get crossed in an instant, others are occupied for a long stretch. And a region entered near its far corner lasts much longer than the same region entered near a wall. The name is identical in both cases.</figcaption>
+    </figure>
+
+    <p>The drift here is deliberately stupid — constant velocity with a little friction, and a soft wall so the point cannot escape the cube. No forces, no theory, no 五行. Even so, two results are already visible, and both survive into the real instrument:</p>
+    <div class="g2" style="margin-top:22px">
+      <div class="card"><span class="chip">1</span><h3>Readings have a shelf life</h3><p>If your path crosses a wall in two time units, a name assigned now is worthless in three. The reading should carry that number. Part Four computes it properly, by running many slightly-different futures and asking when they stop agreeing.</p></div>
+      <div class="card"><span class="chip">2</span><h3>Sixty-four are not equally likely</h3><p>Some regions are transited in a blink, others dwell. Once there are real forces, this becomes measurable: a given situation visits some of the sixty-four constantly, some rarely, and some never at all. That is the 8×8 grid from Part One, shaded in.</p></div>
+    </div>
+    <div class="pull">The hexagram was never the situation. It was the name of the room the situation was passing through.</div>
+  </div>
+</section>
+
+<!-- ═════════ CH 6 ═════════ -->
+<section id="ch6">
+  <div class="wrap col">
+    <div class="head">
+      <div class="step"><b>Chapter six</b>Six lines, six speeds</div>
+      <h2>The stacking order is a set of clocks.</h2>
+    </div>
+    <p>Here is the conjecture of this part — the one thing in it that is a genuine proposal rather than a consequence.</p>
+    <p>Classically the six positions of a hexagram are not interchangeable. Lower lines read as foundation, inner condition, what is beneath; upper lines as manifestation, outcome, excess, what is visible. Every commentary tradition treats a change in the bottom line differently from a change in the top. But the notation gives no mechanism for that difference — it is carried entirely by convention and by centuries of accumulated reading practice.</p>
+    <p class="big">Suppose the positions are ordered by <i>speed</i>.</p>
+    <p>Assign each line its own time constant: the bottom line sluggish and structural, the top line quick and twitchy, the rest graded between. Formally, give line <i>i</i> a constant τᵢ, with <span class="itex fallback" data-tex="\tau_1 > \tau_2 > \cdots > \tau_6">tau_1 > tau_2 > ... > tau_6</span>. Nothing else changes.</p><div class="plate"><span class="ptag">Plate 06 · six clocks</span><div class="tex fallback" data-tex="\textcolor{#9A7226}{\tau_i}\,\ddot{x}_i \;=\; F_i \qquad
+\tau_1 > \tau_2 > \cdots > \tau_6">tau_i · xddot_i = F_i        tau_1 > tau_2 > ... > tau_6</div><div class="read"><b>How to read it</b>The same force applied to every line, divided by a constant that differs per position. The <i>ordering</i> is the conjecture; the six numbers are a guess and are not fitted to anything.</div><div class="legend"><span>τ₁ = 1.00 the base, sluggish</span><span>τ₆ = 0.32 the top, twitchy</span><span><b>爻位</b> position as timescale</span></div></div>
+    <div class="plate"><span class="ptag">Plate 07 · the error worth naming</span><div class="tex fallback" data-tex="\underbrace{\ddot{x} = F/\tau}_{\textstyle\text{a change of mass — spread }1.1\times}
+\qquad\text{vs}\qquad
+\underbrace{\dot{x}=v/\tau,\;\; \dot{v}=F/\tau}_{\textstyle\text{a change of clock — spread }3.2\times}">xddot = F/tau   (a change of mass — spread 1.1x)     vs     xdot = v/tau, vdot = F/tau   (a change of clock — spread 3.2x)</div><div class="read"><b>How to read it</b>Dividing only the acceleration raises the natural frequency and the damping ratio together, and the two effects almost exactly cancel. The left-hand form looks like a time constant and behaves like a mass. Measured spread between line 1 and line 6: 1.1× against the 3.2× it should be.</div><div class="legend"><span>left — what was built first, and what the instrument still does</span><span>right — an actual clock</span></div></div>
+    <p>One technical detail that turns out to matter a great deal. τ has to scale the <b>whole flow</b> — both how the velocity responds and how fast the position follows from it. Dividing only the acceleration by τ is a change of <i>mass</i>, not of clock: it raises the line's natural frequency and its damping together, and the two effects almost exactly cancel. This figure was built that way first and the six curves came out nearly identical — a spread of 1.1× where there should have been 3.2×. Worth recording, because <span class="hl">the instrument in Part Four has that same bug</span>, which means its per-line clocks have been much weaker than advertised.</p>
+
+    <figure>
+      <div class="fhead"><span class="tag">Figure 7 · one push, six responses</span><span class="hint">kick them and compare</span></div>
+      <div class="fbody">
+        <canvas id="cvTau" height="270"></canvas>
+        <div class="fallnote">This figure needs JavaScript. The written argument stands without it.</div>
+        <div class="btns" style="margin-top:14px">
+          <button id="bKick">apply the same push to all six</button>
+          <button id="bGraded" class="on">graded clocks</button>
+          <button id="bEqual">equal clocks</button>
+        </div>
+        <div style="margin-top:16px" id="sixrows"></div>
+        <div class="readout" id="rTau"></div>
+      </div>
+      <figcaption>Identical forcing applied to all six lines. With graded clocks, line 6 arrives roughly <b>three times sooner</b> than line 1 — measured 0.54 against 1.71 time units. Switch to equal clocks and the six curves collapse onto one another, which is what earlier versions of this model were doing. τ = (1.00, 0.80, 0.66, 0.50, 0.40, 0.32) — the <i>ordering</i> is the claim; the six numbers are a guess.</figcaption>
+    </figure>
+
+    <p>Two diagnostics fall straight out, and they are the reason the conjecture is worth making:</p>
+    <div class="g2" style="margin-top:22px">
+      <div class="card"><span class="chip">↓</span><h3>A crossing low down is a regime change</h3><p>A slow structural variable that crosses zero will not cross back soon — its own sluggishness prevents it. Everything above must re-equilibrate around the new sign. This is exactly how the tradition reads a moving bottom line, now with a mechanism instead of a metaphor.</p></div>
+      <div class="card"><span class="chip">↑</span><h3>A crossing at the top may be nothing</h3><p>A fast variable sitting near zero flickers. Its sign is the least informative bit in the whole figure, and a "change" there may reverse before you finish reading it. The classical reading of the top line as excess or ending is, in this frame, simply the line with the worst signal-to-noise.</p></div>
+    </div>
+    <p style="margin-top:24px">And it explains something the classical system asserts without accounting for: <b>why the same hexagram means different things depending on which line is moving.</b> If the six lines were equal-weight bits, that would be arbitrary. If they are measurements at six different frequencies, it is inevitable.</p>
+    <p>Where this stays honest: the ordering is testable and the numbers are not yet fitted to anything. Fitting them to one real domain — six observables with measurable relaxation times — is the most valuable unfinished job in the whole project, and it is the only one that requires leaving the model to do.</p>
+    <div class="div"><span>+ + +</span></div>
+  </div>
+</section>
+
+<!-- ═════════ WHAT'S MISSING ═════════ -->
+<section id="gap">
+  <div class="wrap col">
+    <div class="head">
+      <div class="step"><b>End of part two</b>What is still missing</div>
+      <h2>Nothing here says why anything moves.</h2>
+    </div>
+    <p>Every velocity in this part was set by hand. That is fine for showing what motion buys — countdowns, arrival versus departure, unequal dwell times, clocks for the six positions — but it is not a model of anything. A model has to say where the motion comes from.</p>
+    <p>Which is precisely the job the other half of the classical system was doing all along. 八卦 and 六十四卦 describe <i>configuration</i>: where a thing stands. 五行 describes <i>transformation</i>: how it moves. For centuries the mismatch between five and eight looked like an embarrassment to be reconciled. It stops looking like one the moment you notice they were never counting the same kind of object.</p>
+    <p class="big">Eight is a count of positions. Five is a count of motions.</p>
+    <p>Part Three takes the five phases as five characteristic directions of change — storing, branching, amplifying, integrating, consolidating — and lets a mixture of them supply the velocities that were hand-set here. That turns the cube from a diagram into a field. It also brings in the second thing that moves a state, which no amount of internal dynamics can supply: <b>the situation you happen to be in</b>, and the fact that it is moving too.</p>
+
+    <div class="road" style="margin-top:30px">
+      <div class="r done"><div class="n">Part one · done</div>
+        <div><b>From one line to two cubes</b><p>The space. A line as a dial, three lines as a cube, six as two cubes, the sixty-four as an 8×8 grid.</p></div></div>
+      <div class="r here"><div class="n">Part two · here</div>
+        <div><b>Making it move</b><p>Velocity. 变爻 as a countdown, arriving distinguished from leaving, dwell times that differ region by region, and the conjecture that 爻位 is a set of clocks.</p></div></div>
+      <div class="r"><div class="n">Part three</div>
+        <div><b>What moves it</b><p>五行 as five operators rather than five substances — a vector field over the space. The 生 and 克 cycles as a coupling that makes the mixture circulate rather than settle. And 后天 as a moving target, which is where the situation enters the mathematics.</p></div></div>
+      <div class="r"><div class="n">Part four</div>
+        <div><b>The instrument, and what it found</b><p>The live simulation, and the results: how long a reading stays valid, which of the sixty-four a situation can actually reach, and the finding that surprised us most — that the operator which rescues you under constraint actively harms you without it.</p></div></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap col">
+    <div class="kicker">Part two of four · no build step · maths via KaTeX, with a plain-text fallback if it is unavailable</div>
+    <p class="big" style="margin-top:16px">Ask not which of the sixty-four, but which wall is nearest and how fast you are travelling towards it.</p>
+    <p class="cap" style="margin-top:16px">易 · a working model of change. Kinematics only: every velocity in this part was set by hand, deliberately. Part Two built 13 Aug 2026. Building Figure 7 surfaced a real defect in the Part Four instrument: τ was scaling acceleration rather than the whole flow, so the per-爻 clocks were roughly a tenth as strong as intended. Logged, not yet fixed there.</p>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   Part Two · figure code.  Three figures, one idea each.
+
+   DESIGN RULE FOR THIS PART: no forces anywhere. Figure 6 uses
+   constant velocity + light friction + a tanh soft wall, and says so
+   in the caption. If a reader can see an insight here, that insight
+   is a consequence of MOTION and not of any theory of causation. The
+   五行 field arrives in Part Three and everything gets re-examined.
+
+     Fig 5  tau = -x / xdot                        (变爻 as a countdown)
+     Fig 6  drift through octants + dwell strip    (reading = a path)
+     Fig 7  one push, six time constants           (爻位 as clocks)
+
+   TAU is the conjecture of this part. The ORDERING is the claim; the
+   six values are asserted and unfitted. Do not quote them as results.
+   ═══════════════════════════════════════════════════════════════════ */
+(function(){
+"use strict";
+try{
+var $=function(id){return document.getElementById(id);};
+var NAMES={"111":["乾","☰"],"110":["兌","☱"],"101":["離","☲"],"100":["震","☳"],
+           "011":["巽","☴"],"010":["坎","☵"],"001":["艮","☶"],"000":["坤","☷"]};
+var TAU=[1.00,0.80,0.66,0.50,0.40,0.32];
+var CSS=getComputedStyle(document.documentElement),C={};
+["ink","iris","iris-mid","lilac","brass","teal","rule","paper3","alarm"].forEach(function(k){
+  C[k]=CSS.getPropertyValue("--"+k).trim()||"#333";});
+function sgn(v){return v>=0?1:0;}
+function bits(a,b,c){return ""+sgn(a)+sgn(b)+sgn(c);}
+function tanh(z){if(z>18)return 1;if(z<-18)return -1;var e=Math.exp(2*z);return (e-1)/(e+1);}
+
+/* ── shared projector (same as Part One) ── */
+function Stage(canvas,h){
+  var st={cv:canvas,ctx:canvas.getContext("2d"),rx:-0.40,ry:0.66,w:600,h:h,drag:false};
+  st.fit=function(){
+    var dpr=Math.max(1,Math.min(2,window.devicePixelRatio||1));
+    var r=canvas.getBoundingClientRect(); if(r.width<10)return;
+    st.w=r.width; canvas.style.height=h+"px";
+    canvas.width=Math.round(r.width*dpr); canvas.height=Math.round(h*dpr);
+    st.ctx.setTransform(dpr,0,0,dpr,0,0);
+  };
+  st.proj=function(p,sc,cx,cy){
+    var cy2=Math.cos(st.ry),sy=Math.sin(st.ry),cx2=Math.cos(st.rx),sx=Math.sin(st.rx);
+    var x1=p[0]*cy2-p[2]*sy, z1=p[0]*sy+p[2]*cy2;
+    var y1=p[1]*cx2-z1*sx, z2=p[1]*sx+z1*cx2;
+    var k=1/(1+Math.max(-0.7,z2*0.13));
+    return [cx+x1*sc*k, cy-y1*sc*k, z2];
+  };
+  canvas.addEventListener("pointerdown",function(e){st.drag=true;st.lx=e.clientX;st.ly=e.clientY;
+    if(canvas.setPointerCapture){try{canvas.setPointerCapture(e.pointerId);}catch(x){}}});
+  canvas.addEventListener("pointermove",function(e){
+    if(!st.drag)return;
+    st.ry+=(e.clientX-st.lx)*0.008; st.rx+=(e.clientY-st.ly)*0.008;
+    st.rx=Math.max(-1.4,Math.min(1.4,st.rx)); st.lx=e.clientX; st.ly=e.clientY;});
+  ["pointerup","pointercancel","pointerleave"].forEach(function(ev){
+    canvas.addEventListener(ev,function(){st.drag=false;});});
+  return st;
+}
+var CORN=[];(function(){for(var a=-1;a<=1;a+=2)for(var b=-1;b<=1;b+=2)for(var c=-1;c<=1;c+=2)CORN.push([a,b,c]);})();
+var EDG=[];(function(){for(var i=0;i<8;i++)for(var j=i+1;j<8;j++){var d=0;
+  for(var k=0;k<3;k++)if(CORN[i][k]!==CORN[j][k])d++;if(d===1)EDG.push([CORN[i],CORN[j]]);}})();
+function line(st,a,b,col,lw,al,sc,cx,cy,dash){
+  var A=st.proj(a,sc,cx,cy),B=st.proj(b,sc,cx,cy),x=st.ctx;
+  x.save();x.strokeStyle=col;x.lineWidth=lw;x.globalAlpha=al;
+  if(dash)x.setLineDash(dash);
+  x.beginPath();x.moveTo(A[0],A[1]);x.lineTo(B[0],B[1]);x.stroke();x.restore();
+}
+function ball(st,p,r,fill,ring,sc,cx,cy,al){
+  var P=st.proj(p,sc,cx,cy),x=st.ctx;
+  x.save();x.globalAlpha=al==null?1:al;
+  x.beginPath();x.arc(P[0],P[1],r,0,6.2832);x.fillStyle=fill;x.fill();
+  if(ring){x.strokeStyle=ring;x.lineWidth=2;x.stroke();}x.restore();
+}
+function quad(st,pts,fill,al,sc,cx,cy,stroke){
+  var x=st.ctx;x.save();x.globalAlpha=al;x.beginPath();
+  pts.forEach(function(p,i){var P=st.proj(p,sc,cx,cy);
+    if(i===0)x.moveTo(P[0],P[1]);else x.lineTo(P[0],P[1]);});
+  x.closePath();x.fillStyle=fill;x.fill();
+  if(stroke){x.globalAlpha=al*1.7;x.strokeStyle=stroke;x.lineWidth=1;x.stroke();}
+  x.restore();
+}
+function txt(st,p,t,col,dy,sc,cx,cy,size,al){
+  var P=st.proj(p,sc,cx,cy),x=st.ctx;
+  x.save();x.globalAlpha=al==null?1:al;x.fillStyle=col;
+  x.font=(size||11)+'px "Space Mono","Noto Serif SC",monospace';
+  x.textAlign="center";x.fillText(t,P[0],P[1]+(dy||0));x.restore();
+}
+var OCTCOL=["#5B2A1B","#8A4530","#2F6B72","#9A7226","#A89087","#7A5490","#4C7A72","#B08A45"];
+
+/* ═════ FIGURE 5 · the countdown ═════ */
+(function(){
+  var x=0.46,v=-0.22,run=false,last=0;
+  function paint(){
+    $("o5x").textContent=(x<0?"":"+")+x.toFixed(2);
+    $("o5v").textContent=(v<0?"":"+")+v.toFixed(2);
+    $("k5").style.left=((x+1)/2*100)+"%";
+    /* velocity arrow: from the knob, length proportional to |v| */
+    var px=(x+1)/2*100, len=Math.min(28,Math.abs(v)*46);
+    var a=$("arw");
+    a.style.left=(v>=0?px:px-len/ (1) )+"%";
+    a.style.left=(v>=0?px:px)+"%";
+    a.style.width=len+"px";
+    a.style.transform="translateX("+(v>=0?0:-len)+"px)";
+    a.style.opacity=Math.abs(v)<0.02?0:0.85;
+    var near=Math.abs(x)<0.12;
+    $("y5").className="yao "+(x>=0?"yang":"yin")+(near?" near":"");
+    $("y5lab").textContent=x>=0?"阳 · solid":"阴 · broken";
+    var tau=(v===0)?null:(-x/v);
+    if(tau!==null && tau>0){
+      $("tau5").textContent=tau.toFixed(1);
+      $("r5").innerHTML="τ = −x / ẋ = −("+x.toFixed(2)+") / ("+v.toFixed(2)+") = <b>"+tau.toFixed(2)+"</b>"+
+        "<br>heading <b>towards</b> the threshold, "+(x>=0?"阳 → 阴":"阴 → 阳")+
+        (tau<2?"<br><span class='warn'>imminent — this is a 变爻 in the classical sense</span>":
+               "<br>not imminent; the mark would be premature");
+    }else{
+      $("tau5").textContent="∞";
+      $("r5").innerHTML="τ = −x / ẋ is "+(v===0?"undefined — the line is not moving at all":
+        "<b>negative</b>, so there is no crossing ahead")+
+        "<br>this line is moving <b>away</b> from its threshold"+
+        "<br><span class='warn'>same glyph, opposite prognosis — the notation cannot see this</span>";
+    }
+  }
+  function tick(now){
+    if(run){
+      var dt=Math.min(0.05,(now-last)/1000); last=now;
+      x=Math.max(-0.99,Math.min(0.99,x+v*dt*1.6));
+      $("s5x").value=Math.round(x*100);
+      if(Math.abs(x)>0.985) run=false, $("b5run").classList.remove("on"), $("b5run").textContent="run it";
+      paint();
+    } else last=now;
+    requestAnimationFrame(tick);
+  }
+  $("s5x").addEventListener("input",function(){x=Number(this.value)/100;paint();});
+  $("s5v").addEventListener("input",function(){v=Number(this.value)/100;paint();});
+  $("b5run").onclick=function(){run=!run;this.classList.toggle("on",run);
+    this.textContent=run?"pause":"run it";};
+  $("b5reset").onclick=function(){x=0.46;v=-0.22;run=false;
+    $("s5x").value=46;$("s5v").value=-22;
+    $("b5run").classList.remove("on");$("b5run").textContent="run it";paint();};
+  paint();requestAnimationFrame(tick);
+})();
+
+/* ═════ FIGURE 6 · drift across the walls ═════ */
+(function(){
+  var st=Stage($("cvDrift"),380);
+  var p=[0.62,-0.44,0.30], vv=[-0.34,0.26,0.18], trail=[], hist=[], play=false;
+  var showTrail=true, showPlanes=true, t=0, last=0, entered=0, lastRegion=null;
+  function readV(){for(var i=1;i<=3;i++){vv[i-1]=Number($("v"+i).value)/100;
+    $("vo"+i).textContent=(vv[i-1]<0?"":"+")+vv[i-1].toFixed(2);}}
+  function reset(){p=[0.62,-0.44,0.30];trail=[];hist=[];t=0;entered=0;lastRegion=null;}
+  function stepSim(dt){
+    for(var i=0;i<3;i++){
+      vv[i]*=(1-0.05*dt);                    /* light friction */
+      p[i]=p[i]+vv[i]*dt*0.9;
+      p[i]=0.99*tanh(p[i]/0.99);             /* soft wall — cannot escape the cube */
+    }
+    t+=dt;
+    var r=bits(p[0],p[1],p[2]);
+    if(r!==lastRegion){ lastRegion=r; entered=t; }
+    hist.push(r); if(hist.length>150) hist.shift();
+    trail.push(p.slice()); if(trail.length>170) trail.shift();
+  }
+  function paintStrip(){
+    var html="",run=null,count=0,segs=[];
+    hist.forEach(function(r){ if(r===run)count++; else{ if(run!==null)segs.push([run,count]); run=r;count=1; } });
+    if(run!==null)segs.push([run,count]);
+    var total=hist.length||1;
+    segs.forEach(function(sg){
+      var idx=parseInt(sg[0],2);
+      html+='<i style="width:'+(sg[1]/total*100).toFixed(2)+'%;background:'+OCTCOL[idx]+
+            '" title="'+NAMES[sg[0]][0]+'"></i>';
+    });
+    $("strip").innerHTML=html;
+  }
+  function draw(){
+    var x=st.ctx; if(st.w<10)return;
+    x.clearRect(0,0,st.w,st.h);
+    var sc=Math.min(st.w*0.20,120),cx=st.w/2,cy=st.h/2;
+    if(showPlanes){
+      [[[0,-1,-1],[0,1,-1],[0,1,1],[0,-1,1]],
+       [[-1,0,-1],[1,0,-1],[1,0,1],[-1,0,1]],
+       [[-1,-1,0],[1,-1,0],[1,1,0],[-1,1,0]]].forEach(function(pl){
+        quad(st,pl,C.brass,.07,sc,cx,cy,C.brass);});
+    }
+    EDG.forEach(function(e){line(st,e[0],e[1],C.iris,1.3,.30,sc,cx,cy);});
+    CORN.forEach(function(v){ball(st,v,2.2,C.iris,null,sc,cx,cy,.5);});
+    if(showTrail){
+      for(var i=1;i<trail.length;i++)
+        line(st,trail[i-1],trail[i],C.brass,1.6,0.05+0.55*i/trail.length,sc,cx,cy);
+    }
+    var m=Math.sqrt(vv[0]*vv[0]+vv[1]*vv[1]+vv[2]*vv[2])||1;
+    line(st,p,[p[0]+vv[0]/m*0.30,p[1]+vv[1]/m*0.30,p[2]+vv[2]/m*0.30],C.iris,2.4,.95,sc,cx,cy);
+    var r=bits(p[0],p[1],p[2]);
+    ball(st,p,7,OCTCOL[parseInt(r,2)],"#fff",sc,cx,cy);
+    txt(st,[0,-1.34,0],NAMES[r][1]+" "+NAMES[r][0]+" · "+r,C.iris,16,sc,cx,cy,12,.95);
+    /* which wall is nearest, and when */
+    var best=null;
+    for(var j=0;j<3;j++){ if(vv[j]===0)continue; var tt=-p[j]/vv[j];
+      if(tt>0&&(best===null||tt<best.t))best={i:j,t:tt/0.9}; }
+    $("rDrift").innerHTML="region <b>"+r+"</b> ("+NAMES[r][0]+") · in it for <b>"+(t-entered).toFixed(1)+
+      "</b> time units so far"+
+      (best?"<br>next wall: line <b>x"+(best.i+1)+"</b> in <b>"+best.t.toFixed(1)+"</b> — the name changes then, the situation does not"
+           :"<br>no wall ahead on the current heading")+
+      "<br><span style='color:var(--teal)'>drift only — constant velocity, light friction, soft walls. No forces until Part Three.</span>";
+    paintStrip();
+  }
+  st.draw=draw;
+  function loop(now){
+    var dt=Math.min(0.05,(now-last)/1000); last=now;
+    if(play){ stepSim(dt*1.7); }
+    draw();
+    requestAnimationFrame(loop);
+  }
+  for(var i=1;i<=3;i++)$("v"+i).addEventListener("input",readV);
+  $("bPlay").onclick=function(){play=!play;this.classList.toggle("on",play);this.textContent=play?"pause":"play";};
+  $("bRe").onclick=function(){reset();readV();};
+  $("bTrail").onclick=function(){showTrail=!showTrail;this.classList.toggle("on",showTrail);};
+  $("bPlanes").onclick=function(){showPlanes=!showPlanes;this.classList.toggle("on",showPlanes);};
+  readV();st.fit();
+  window.addEventListener("resize",function(){st.fit();});
+  requestAnimationFrame(loop);
+})();
+
+/* ═════ FIGURE 7 · one push, six clocks ═════ */
+(function(){
+  var cv=$("cvTau"),ctx=cv.getContext("2d");
+  var graded=true, u=[0,0,0,0,0,0], w=[0,0,0,0,0,0], hist=[], t=0, last=0, target=0;
+  var W=600,H=270;
+  var html="";
+  for(var i=0;i<6;i++){
+    html+='<div class="sixrow" id="sr'+i+'"><span class="nm">line '+(i+1)+' · τ '+TAU[i].toFixed(2)+
+      '</span><span class="bar"><u style="left:50%"></u><i id="bar'+i+'"></i></span><span class="tv" id="tv'+i+'">0.00</span></div>';
+  }
+  $("sixrows").innerHTML=html;
+  function fit(){
+    var dpr=Math.max(1,Math.min(2,window.devicePixelRatio||1));
+    var r=cv.getBoundingClientRect(); if(r.width<10)return;
+    W=r.width;H=270;cv.style.height=H+"px";
+    cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  function step(dt){
+    for(var i=0;i<6;i++){
+      var tau=graded?TAU[i]:0.6;
+      /* τ scales the WHOLE flow, not just the acceleration. Dividing only
+         the acceleration is a mass change, not a time change: it raises the
+         natural frequency and the damping ratio together and the two effects
+         very nearly cancel (measured spread 1.1× instead of 3.2×). This bug
+         is present in the v0.7 instrument and is logged for Part Four. */
+      var a=(1.6*(target-u[i])-1.5*w[i])/tau;
+      w[i]+=a*dt;
+      u[i]=Math.max(-1,Math.min(1,u[i]+(w[i]/tau)*dt));
+    }
+    t+=dt;
+    hist.push(u.slice()); if(hist.length>260)hist.shift();
+  }
+  function draw(){
+    if(W<10)return;
+    ctx.clearRect(0,0,W,H);
+    var pad=30, h2=H-pad*1.4, mid=pad*0.7+h2/2;
+    ctx.save();ctx.strokeStyle=C.brass;ctx.globalAlpha=.6;ctx.setLineDash([4,4]);ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(0,mid);ctx.lineTo(W,mid);ctx.stroke();ctx.restore();
+    ctx.save();ctx.fillStyle=C.brass;ctx.globalAlpha=.75;
+    ctx.font='9px "Space Mono",monospace';ctx.fillText("threshold · sign flips here",6,mid-6);ctx.restore();
+    var n=hist.length;
+    for(var i=0;i<6;i++){
+      ctx.save();
+      ctx.strokeStyle=i<2?C.iris:(i<4?C["iris-mid"]:C.brass);
+      ctx.lineWidth=i===0?2.4:(i===5?2.4:1.5);
+      ctx.globalAlpha=.92;ctx.beginPath();
+      for(var k=0;k<n;k++){
+        var xx=(k/Math.max(1,n-1))*(W-46)+6, yy=mid-hist[k][i]*(h2/2-6);
+        if(k===0)ctx.moveTo(xx,yy);else ctx.lineTo(xx,yy);
+      }
+      ctx.stroke();
+      if(n){ var ly=mid-hist[n-1][i]*(h2/2-6);
+        ctx.fillStyle=ctx.strokeStyle;ctx.font='9px "Space Mono",monospace';
+        ctx.fillText("x"+(i+1),W-38,ly+3); }
+      ctx.restore();
+    }
+    for(i=0;i<6;i++){
+      var pct=((u[i]+1)/2*100).toFixed(1);
+      var b=$("bar"+i);
+      if(u[i]>=0){ b.style.left="50%"; b.style.width=(u[i]*50).toFixed(1)+"%"; }
+      else { b.style.left=(50+u[i]*50).toFixed(1)+"%"; b.style.width=(-u[i]*50).toFixed(1)+"%"; }
+      b.style.background=Math.abs(u[i])<0.1?C.brass:C.iris;
+      $("tv"+i).textContent=(u[i]<0?"":"+")+u[i].toFixed(2);
+      $("sr"+i).classList.toggle("flip",Math.abs(u[i])<0.1);
+    }
+    var arrived=[],waiting=[];
+    for(i=0;i<6;i++){ if(Math.abs(u[i]-target)<0.12)arrived.push(i+1); else waiting.push(i+1); }
+    $("rTau").innerHTML=(graded
+      ? "graded clocks · τ = ("+TAU.join(", ")+")"
+      : "equal clocks · every line at τ = 0.60 — the six curves collapse onto one")+
+      "<br>push target <b>"+target.toFixed(2)+"</b> · arrived: <b>"+(arrived.length?arrived.join(", "):"none")+
+      "</b> · still travelling: <b>"+(waiting.length?waiting.join(", "):"none")+"</b>"+
+      (graded?"<br><span style='color:var(--teal)'>line 6 gets there first every time; line 1 is still deciding. Same push.</span>":"");
+  }
+  function loop(now){
+    var dt=Math.min(0.045,(now-last)/1000); last=now;
+    step(dt*1.5); draw(); requestAnimationFrame(loop);
+  }
+  $("bKick").onclick=function(){ target=(target>=0? -0.8: 0.8); };
+  $("bGraded").onclick=function(){graded=true;this.classList.add("on");$("bEqual").classList.remove("on");};
+  $("bEqual").onclick=function(){graded=false;this.classList.add("on");$("bGraded").classList.remove("on");};
+  target=0.8;
+  fit();window.addEventListener("resize",fit);requestAnimationFrame(loop);
+})();
+
+document.documentElement.classList.add("ready");
+}catch(e){
+  try{
+    var b=document.createElement("div");
+    b.style.cssText="position:fixed;left:12px;right:12px;bottom:12px;z-index:99;background:#fff;border:1px solid #9B3242;border-left-width:3px;padding:10px 12px;font:12px monospace;color:#2C1D17";
+    b.textContent="Figures failed to start: "+(e&&e.message?e.message:e)+" — the written argument above is unaffected.";
+    document.body.appendChild(b);
+  }catch(x){}
+}
+})();
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" defer></script>
+<script>
+/* Maths rendering, deliberately last and deliberately optional. Every
+   element carries its own plain-text fallback as content; KaTeX replaces
+   it only on success, so a missing CDN degrades to readable monospace
+   instead of an empty box. */
+(function(){
+  function typeset(){
+    if(!window.katex) return;
+    var els=document.querySelectorAll("[data-tex]");
+    for(var i=0;i<els.length;i++){
+      var el=els[i], plain=el.textContent, display=el.classList.contains("tex");
+      try{
+        katex.render(el.getAttribute("data-tex"), el, {displayMode:display, throwOnError:true, strict:false});
+        el.classList.remove("fallback");
+      }catch(e){ el.textContent=plain; el.classList.add("fallback"); }
+    }
+  }
+  if(document.readyState==="complete") typeset();
+  else window.addEventListener("load",typeset);
+})();
+</script>
+
+<nav class="yinav"><div class="in">
+  <div class="yinav-lab">02 · the argument · continue</div>
+  <div class="yinav-pair">
+        <a href="yi-01-state-space.html"><span class="dir">Previous</span><span class="ttl">← From one line to two cubes</span></a>
+        <a href="yi-03-forces.html"><span class="dir">Next</span><span class="ttl">What moves it  →</span></a>
+  </div>
+  <div class="yinav-rail">
+        <span class="yinav-grp">the argument ›</span>
+        <a class="" href="yi-00-inheritance.html"><span class="g">序</span>00 Inheritance</a>
+        <a class="" href="yi-01-state-space.html"><span class="g">一</span>01 State space</a>
+        <span class="here"><span class="g">二</span>02 Motion</span>
+        <a class="" href="yi-03-forces.html"><span class="g">三</span>03 Forces</a>
+        <span class="yinav-grp">the instruments ›</span>
+        <a class="" href="yi-04-instrument.html"><span class="g">儀</span>04 Double cube</a>
+        <a class="" href="yi-05-lantern.html"><span class="g">灯</span>05 Lantern</a>
+        <a class="" href="yi-06-loom.html"><span class="g">織</span>06 Loom</a>
+        <a class="comp" href="yi-lantern-thinking.html"><span class="g">灯</span>— Companion</a>
+  </div>
+  <div class="yinav-lab" style="margin:26px 0 0;opacity:.85">Lin Wei 林威 · with Claude and ChatGPT, and light touches of DeepSeek</div>
+  <a class="yinav-home" href="../../index.html">The whole 易 Yi sequence on the polymathic learner →</a>
+</div></nav>
+</body>
+</html>

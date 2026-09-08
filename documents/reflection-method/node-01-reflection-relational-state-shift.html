@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reflection as Relational State Shift — The Polymathic Learner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<style>
+  :root {
+    --ground: #15100D;
+    --ground-2: #1B1511;
+    --ground-3: #211A15;
+    --amber: #E0A24A;
+    --amber-dim: rgba(224,162,74,0.35);
+    --amber-faint: rgba(224,162,74,0.08);
+    --teal: #74D8C2;
+    --teal-dim: rgba(116,216,194,0.4);
+    --teal-faint: rgba(116,216,194,0.07);
+    --rose: #CC8585;
+    --rose-dim: rgba(204,133,133,0.4);
+    --rose-faint: rgba(204,133,133,0.08);
+    --bone: #EDE6DA;
+    --bone-dim: #9A938A;
+    --bone-faint: #5E5952;
+    --hair: rgba(237,230,218,0.09);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ground);
+    color: var(--bone);
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 19px;
+    font-weight: 300;
+    line-height: 1.72;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    background-size: 256px 256px;
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
+
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ── masthead ── */
+  .masthead {
+    padding: 84px 0 60px;
+  }
+  .mast-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 34px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .mast-eyebrow::after {
+    content: '';
+    height: 1px;
+    flex: 1;
+    background: var(--rose-dim);
+    opacity: 0.4;
+  }
+  .masthead h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 300;
+    font-size: clamp(2.1rem, 5.4vw, 3.4rem);
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+    color: var(--bone);
+    margin-bottom: 26px;
+  }
+  .masthead h1 em {
+    font-style: italic;
+    color: var(--rose);
+  }
+  .mast-deck {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.12rem;
+    color: var(--bone-dim);
+    line-height: 1.65;
+    max-width: 560px;
+    margin-bottom: 34px;
+  }
+  .mast-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone-faint);
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+  }
+
+  /* ── section furniture ── */
+  section { padding: 44px 0; }
+
+  .sec-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 26px;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+  .sec-label .n { color: var(--bone-faint); }
+
+  h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 1.28;
+    color: var(--bone);
+    margin-bottom: 22px;
+    letter-spacing: -0.01em;
+  }
+
+  p { margin-bottom: 20px; color: var(--bone-dim); }
+  p strong { font-weight: 400; color: var(--bone); }
+  p em { color: var(--bone); }
+  .lede { font-size: 1.06em; color: var(--bone); }
+
+  .pullline {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.3rem;
+    line-height: 1.5;
+    color: var(--teal);
+    border-left: 1px solid var(--teal-dim);
+    padding: 6px 0 6px 24px;
+    margin: 34px 0;
+  }
+
+  .rule {
+    height: 1px;
+    background: var(--hair);
+    margin: 10px 0;
+  }
+
+  /* ── concept cards ── */
+  .cards { display: grid; gap: 14px; margin: 30px 0; }
+  .ccard {
+    background: var(--ground-2);
+    border: 1px solid var(--hair);
+    padding: 26px 26px 24px;
+    position: relative;
+  }
+  .ccard::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 34px; height: 2px;
+    background: var(--rose);
+    opacity: 0.7;
+  }
+  .ccard-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 12px;
+  }
+  .ccard h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 1.15rem;
+    color: var(--bone);
+    margin-bottom: 10px;
+  }
+  .ccard p { font-size: 0.94em; margin-bottom: 0; }
+
+  /* ── math plates ── */
+  .plate {
+    position: relative;
+    background:
+      radial-gradient(120% 140% at 20% 0%, var(--rose-faint), transparent 55%),
+      radial-gradient(120% 140% at 85% 100%, var(--amber-faint), transparent 55%),
+      var(--ground-2);
+    border: 1px solid var(--hair);
+    padding: 40px 32px 30px;
+    margin: 34px 0;
+  }
+  .plate::before, .plate::after,
+  .plate .tick-tl, .plate .tick-br {
+    content: '';
+    position: absolute;
+    width: 14px; height: 14px;
+    border-color: var(--amber);
+    border-style: solid;
+    opacity: 0.8;
+  }
+  .plate::before { top: 8px; left: 8px; border-width: 1px 0 0 1px; }
+  .plate::after  { top: 8px; right: 8px; border-width: 1px 1px 0 0; }
+  .plate .tick-tl { bottom: 8px; left: 8px; border-width: 0 0 1px 1px; }
+  .plate .tick-br { bottom: 8px; right: 8px; border-width: 0 1px 1px 0; }
+
+  .plate-tag {
+    position: absolute;
+    top: -11px; left: 28px;
+    font-family: 'Space Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+    background: var(--ground);
+    border: 1px solid var(--amber-dim);
+    padding: 3px 10px;
+  }
+  .plate-eq {
+    text-align: center;
+    padding: 8px 0 16px;
+    color: var(--bone);
+    overflow-x: auto;
+  }
+  .plate-eq .katex { font-size: 1.5em; }
+  .plate-read {
+    border-top: 1px solid var(--teal-dim);
+    padding-top: 16px;
+    margin-top: 8px;
+  }
+  .plate-read-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 10px;
+  }
+  .plate-read p { font-size: 0.9em; margin-bottom: 10px; }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    margin-top: 14px;
+  }
+  .legend span {
+    font-family: 'Space Mono', monospace;
+    font-size: 10.5px;
+    color: var(--bone-dim);
+  }
+  .lg-t { color: var(--teal); }
+  .lg-a { color: var(--amber); }
+  .lg-r { color: var(--rose); }
+
+  .honesty {
+    font-size: 0.86em;
+    font-style: italic;
+    color: var(--bone-faint);
+    border-left: 1px solid var(--hair);
+    padding-left: 16px;
+    margin: 22px 0 0;
+  }
+
+  /* ── diagram ── */
+  .diagram {
+    background: var(--ground-2);
+    border: 1px solid var(--hair);
+    padding: 22px;
+    margin: 32px 0;
+  }
+  .diagram svg { width: 100%; height: auto; display: block; }
+  .diagram-cap {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--bone-faint);
+    margin-top: 14px;
+    line-height: 1.7;
+  }
+
+  /* ── interactive field ── */
+  .demo {
+    background: var(--ground-2);
+    border: 1px solid var(--hair);
+    padding: 24px;
+    margin: 34px 0;
+  }
+  .demo-head {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 16px;
+  }
+  #field {
+    width: 100%;
+    height: 300px;
+    display: block;
+    background: var(--ground);
+    border: 1px solid var(--hair);
+    cursor: crosshair;
+  }
+  .demo-controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+  .demo-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--bone-dim);
+    border: 1px solid var(--hair);
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: color .2s, border-color .2s, background .2s;
+  }
+  .demo-btn:hover, .demo-btn:focus-visible {
+    outline: none;
+  }
+  .demo-btn.b-art:hover, .demo-btn.b-art:focus-visible { color: var(--amber); border-color: var(--amber-dim); background: var(--amber-faint); }
+  .demo-btn.b-plc:hover, .demo-btn.b-plc:focus-visible { color: var(--teal); border-color: var(--teal-dim); background: var(--teal-faint); }
+  .demo-btn.b-rel:hover, .demo-btn.b-rel:focus-visible { color: var(--rose); border-color: var(--rose-dim); background: var(--rose-faint); }
+  .demo-btn.b-rst:hover, .demo-btn.b-rst:focus-visible { color: var(--bone); border-color: var(--bone-dim); }
+  .demo-read {
+    font-family: 'Space Mono', monospace;
+    font-size: 10.5px;
+    color: var(--bone-faint);
+    margin-top: 16px;
+    line-height: 1.8;
+    min-height: 3.6em;
+  }
+  .demo-read .v { color: var(--teal); }
+  .demo-note {
+    font-style: italic;
+    font-size: 0.88em;
+    color: var(--bone-dim);
+    margin-top: 14px;
+    margin-bottom: 0;
+  }
+
+  /* ── coda ── */
+  .coda {
+    border: 1px solid var(--rose-dim);
+    background: var(--rose-faint);
+    padding: 36px 32px;
+    margin: 44px 0 20px;
+    position: relative;
+  }
+  .coda-tag {
+    position: absolute;
+    top: -11px; left: 28px;
+    font-family: 'Space Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rose);
+    background: var(--ground);
+    border: 1px solid var(--rose-dim);
+    padding: 3px 10px;
+  }
+  .coda p { color: var(--bone-dim); font-size: 0.98em; }
+  .coda .verse {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--bone);
+    line-height: 2;
+    margin: 24px 0;
+    padding-left: 20px;
+    border-left: 1px solid var(--rose-dim);
+  }
+
+  footer {
+    padding: 40px 0 72px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-top: 1px solid var(--hair);
+    margin-top: 40px;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .foot-mark {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--amber);
+    font-size: 0.95rem;
+  }
+  .foot-back {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone-faint);
+    text-decoration: none;
+    border-bottom: 1px solid var(--hair);
+    padding-bottom: 3px;
+    transition: color .2s;
+  }
+  .foot-back:hover { color: var(--rose); }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation: none !important; transition: none !important; }
+  }
+
+  @media (max-width: 560px) {
+    body { font-size: 17.5px; }
+    .masthead { padding-top: 60px; }
+    .plate { padding: 34px 20px 26px; }
+    .plate-eq .katex { font-size: 1.2em; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="mast-eyebrow">The Polymathic Learner · Reflection &amp; Method · 01</div>
+    <h1>Reflection as <em>Relational State Shift</em></h1>
+    <p class="mast-deck">We picture reflection as a person alone, thinking. Watch an actual reflective moment closely and the picture fails. This document proposes another account — reflection as a shift of state that emerges <em>between</em> person, artefact, place, and situation — and asks what such an account would let design do.</p>
+    <div class="mast-meta">
+      <span>node · 00 register</span>
+      <span>design theory</span>
+      <span>a working note, not a finished claim</span>
+    </div>
+  </header>
+
+  <div class="rule"></div>
+
+  <section>
+    <div class="sec-label"><span class="n">§0</span> A room, remembered</div>
+    <p class="lede">A student comes to a consultation with a failing project. She has the model on the table between us — a rough massing study, foam and card, one corner crushed from the bag. For twenty minutes we talk about the project and get nowhere. Then she picks the model up, turns it so the crushed corner faces her, and says, quietly, that she thinks she chose this site because it reminded her of her grandmother's block, and that she is afraid the project will be finished before she understands why that matters.</p>
+    <p>Nothing in my questioning produced that sentence. What produced it, as far as I can reconstruct, was a configuration: a low room at the end of the day, an object that could be held and turned instead of defended, a pause I did not fill, and a relationship in which the sentence would not be graded. The reflection did not happen <em>inside</em> her and then get reported out. It happened in the field between her, the artefact, the room, and me — and the sentence was its trace.</p>
+    <p>I have sat in hundreds of these consultations. The pattern holds often enough that I no longer believe the received picture of reflection. This note is my attempt to say what I believe instead, carefully enough that it could one day be tested.</p>
+  </section>
+
+  <section>
+    <div class="sec-label"><span class="n">§1</span> The received picture, and where it fails</div>
+    <p>The received picture is Rodin's: reflection as solitary introspection, a mind bent back on itself. Education inherits it as the reflective journal written alone after the event; technology inherits it as the app that asks <em>how are you feeling today?</em> and waits. Both assume that reflection is an interior act which external structures merely prompt or record.</p>
+    <p>But practitioners have long noticed the gap between this theory and lived reflective practice — insight arrives mid-action, in conversation, through material; rarely on schedule and rarely alone. The journal stays empty not because people will not reflect, but because a blank page at 10pm is a poor <em>condition</em> for it. The failure is treated as the person's; I want to treat it as the design's.</p>
+    <div class="pullline">A young person may need a prompt before they can speak, a metaphor before they can name an emotion, an object before they can approach what they already know. Reflection needs conditions — and conditions can be designed.</div>
+  </section>
+
+  <section>
+    <div class="sec-label"><span class="n">§2</span> Three commitments</div>
+    <div class="cards">
+      <div class="ccard">
+        <div class="ccard-tag">i · state</div>
+        <h3>A person, at a moment, occupies a state</h3>
+        <p>Not a mood and not a score — a position in a very high-dimensional space of what is currently articulable to them: what they can name, connect, admit, and imagine about their situation. Most of this space is dark to the person themselves. State is a location, not a measurement.</p>
+      </div>
+      <div class="ccard">
+        <div class="ccard-tag">ii · condition</div>
+        <h3>Artefacts, places, and relations act on states</h3>
+        <p>A card that can be sorted, a room that lowers the stakes, a listener who does not fill the pause — each is an operator on the state, opening some directions of movement and closing others. Conditions do not contain the reflection; they make certain shifts possible.</p>
+      </div>
+      <div class="ccard">
+        <div class="ccard-tag">iii · shift</div>
+        <h3>Reflection is a shift, and the shift leaves a trace</h3>
+        <p>When the state moves far enough along the dimensions of self-description — a new sentence becomes sayable, a pattern becomes visible — we call it reflection. We never observe the state directly. We observe the trace: what is said, arranged, drawn, refused.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-label"><span class="n">§3</span> A small formalism, held lightly</div>
+    <p>The commitments can be written down. Writing them down is useful not because the symbols will ever be measured, but because notation is a discipline: it forces each vague word to declare what it depends on.</p>
+
+    <div class="plate">
+      <span class="tick-tl"></span><span class="tick-br"></span>
+      <div class="plate-tag">Plate I · The shift</div>
+      <div class="plate-eq" id="eq1"></div>
+      <div class="plate-read">
+        <div class="plate-read-label">How to read it</div>
+        <p>A person's state <span class="lg-t">s</span> at the next moment is the current state transformed by the condition they are inside of. The condition <span class="lg-a">c</span> is not one thing but a triple — <span class="lg-a">a</span>rtefact, <span class="lg-a">p</span>lace, <span class="lg-a">r</span>elation — and the same person under a different triple moves differently. We say reflection has occurred when the displacement along the dimensions of self-description exceeds some threshold: when something newly sayable exists that did not before.</p>
+        <div class="legend">
+          <span><span class="lg-t">s</span> — state: location in the space of the articulable</span>
+          <span><span class="lg-a">T·c</span> — condition as operator: artefact, place, relation</span>
+          <span><span class="lg-r">θ</span> — the threshold at which a shift becomes a reflection</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="plate">
+      <span class="tick-tl"></span><span class="tick-br"></span>
+      <div class="plate-tag">Plate II · The trace</div>
+      <div class="plate-eq" id="eq2"></div>
+      <div class="plate-read">
+        <div class="plate-read-label">How to read it</div>
+        <p>Every designed reflective structure — a journal format, a card deck, a workshop, a rule at home — carries an intended shift <span class="lg-a">Ô</span>: what it was supposed to make possible. The lived shift <span class="lg-t">O</span> always diverges. The residual <span class="lg-r">ε</span> is not noise to be minimised; it is the primary object of study. It is where the person's actual situation talks back to the designer's assumption.</p>
+        <div class="legend">
+          <span><span class="lg-a">Ô</span> — the shift as intended</span>
+          <span><span class="lg-t">O</span> — the shift as lived</span>
+          <span><span class="lg-r">ε</span> — the residual: where design knowledge lives</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="honesty">A caution, stated plainly: these are sensitizing constructs, not instruments. S has no coordinates anyone can chart; θ will never be estimated; ε is read in interviews and diaries, not dashboards. The notation earns its keep by structuring attention — what was intended, what was lived, what stood between — not by promising measurement. The moment it is mistaken for a metric, it should be put down.</p>
+  </section>
+
+  <section>
+    <div class="sec-label"><span class="n">§4</span> The shape of the claim</div>
+    <div class="diagram">
+      <svg viewBox="0 0 720 400" role="img" aria-label="Two accounts of reflection: introspective and relational">
+        <!-- left panel: introspection -->
+        <text x="30" y="38" font-family="'Space Mono', monospace" font-size="11" letter-spacing="2" fill="#9A938A">THE RECEIVED PICTURE</text>
+        <circle cx="150" cy="200" r="58" fill="none" stroke="#9A938A" stroke-width="1.2" opacity="0.7"/>
+        <text x="150" y="196" text-anchor="middle" font-family="'Newsreader', serif" font-size="15" fill="#EDE6DA">person</text>
+        <text x="150" y="216" text-anchor="middle" font-family="'Newsreader', serif" font-style="italic" font-size="12" fill="#9A938A">alone</text>
+        <path d="M 176 158 C 236 108, 236 292, 176 242" fill="none" stroke="#9A938A" stroke-width="1.2" opacity="0.8"/>
+        <path d="M 181 238 L 172 244 L 183 248 Z" fill="#9A938A" opacity="0.8"/>
+        <text x="252" y="205" font-family="'Newsreader', serif" font-style="italic" font-size="12.5" fill="#5E5952">thought bends
+          <tspan x="252" dy="17">back on itself</tspan></text>
+
+        <line x1="360" y1="30" x2="360" y2="370" stroke="#EDE6DA" stroke-opacity="0.09" stroke-width="1"/>
+
+        <!-- right panel: relational -->
+        <text x="392" y="38" font-family="'Space Mono', monospace" font-size="11" letter-spacing="2" fill="#CC8585">THE RELATIONAL ACCOUNT</text>
+
+        <!-- triad -->
+        <circle cx="540" cy="130" r="40" fill="none" stroke="#EDE6DA" stroke-width="1.2" opacity="0.85"/>
+        <text x="540" y="135" text-anchor="middle" font-family="'Newsreader', serif" font-size="14" fill="#EDE6DA">person</text>
+
+        <circle cx="448" cy="288" r="40" fill="none" stroke="#E0A24A" stroke-width="1.2" opacity="0.85"/>
+        <text x="448" y="285" text-anchor="middle" font-family="'Newsreader', serif" font-size="14" fill="#E0A24A">artefact</text>
+        <text x="448" y="302" text-anchor="middle" font-family="'Newsreader', serif" font-style="italic" font-size="10.5" fill="#9A938A">card · model · map</text>
+
+        <circle cx="632" cy="288" r="40" fill="none" stroke="#74D8C2" stroke-width="1.2" opacity="0.85"/>
+        <text x="632" y="285" text-anchor="middle" font-family="'Newsreader', serif" font-size="14" fill="#74D8C2">place</text>
+        <text x="632" y="302" text-anchor="middle" font-family="'Newsreader', serif" font-style="italic" font-size="10.5" fill="#9A938A">room · bench · void deck</text>
+
+        <!-- relation edges -->
+        <line x1="514" y1="163" x2="472" y2="252" stroke="#CC8585" stroke-width="1" stroke-dasharray="4 5" opacity="0.85"/>
+        <line x1="566" y1="163" x2="608" y2="252" stroke="#CC8585" stroke-width="1" stroke-dasharray="4 5" opacity="0.85"/>
+        <line x1="488" y1="288" x2="592" y2="288" stroke="#CC8585" stroke-width="1" stroke-dasharray="4 5" opacity="0.85"/>
+        <text x="540" y="238" text-anchor="middle" font-family="'Newsreader', serif" font-style="italic" font-size="12" fill="#CC8585">relation holds the field</text>
+
+        <!-- the shift mark -->
+        <circle cx="540" cy="222" r="3.5" fill="#CC8585"/>
+        <circle cx="540" cy="222" r="10" fill="none" stroke="#CC8585" stroke-width="0.8" opacity="0.5"/>
+        <text x="540" y="356" text-anchor="middle" font-family="'Newsreader', serif" font-style="italic" font-size="12.5" fill="#9A938A">the shift occurs in the field between — its trace is a new sentence</text>
+      </svg>
+      <div class="diagram-cap">FIG. 1 — Left: reflection as introspection, an arrow bent back on a solitary mind. Right: reflection as a state shift arising in the field held between person, artefact, and place, by relation. The design question moves accordingly: not "how do we make them reflect" but "what field are we composing?"</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-label"><span class="n">§5</span> A small demonstration</div>
+    <p>Below is a point drifting in a dim field — a toy state, going nowhere in particular. You cannot move it directly; there is no handle on another person's state. What you can do is change its conditions. Introduce an <strong>artefact</strong>, a <strong>place</strong>, or a <strong>relation</strong>, and watch what each makes possible.</p>
+
+    <div class="demo">
+      <div class="demo-head">field · one state · three conditions</div>
+      <canvas id="field" aria-label="Interactive demonstration: a drifting point whose movement changes as conditions are introduced"></canvas>
+      <div class="demo-controls">
+        <button class="demo-btn b-art" data-c="artefact">+ artefact</button>
+        <button class="demo-btn b-plc" data-c="place">+ place</button>
+        <button class="demo-btn b-rel" data-c="relation">+ relation</button>
+        <button class="demo-btn b-rst" data-c="reset">clear field</button>
+      </div>
+      <div class="demo-read" id="readout">no conditions present. the state drifts — small, anxious, repetitive movement. displacement from origin: <span class="v">0.00</span></div>
+      <p class="demo-note">Notice that the point never moves because it is told to. It moves because its field changed. An artefact gives it something to orbit; a place slows and settles it; a relation opens a direction it would not take alone. Remove everything, and it returns to drift. This is the entire argument, enacted.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-label"><span class="n">§6</span> What this asks of design</div>
+    <p>If reflection is a relational state shift, three things follow for anyone designing reflective structures — for students, for young people, for anyone.</p>
+    <p><strong>First: design conditions, not destinations.</strong> The designer composes the field — the deck of cards, the shape of the room, the rules of the encounter — and must give up authorship of where the state goes. A reflective artefact that knows what insight it wants to produce is not a reflective artefact; it is persuasion wearing softer clothes.</p>
+    <p><strong>Second: read the residual, not the compliance.</strong> Whether the journal was filled in tells you almost nothing. ε — the gap between the shift a structure intended and the shift a person lived — is where the structure's real behaviour shows. It is read slowly, relationally, in what people say and refuse to say. There is no dashboard for it, and there should not be.</p>
+    <p><strong>Third: honour the refusal.</strong> A condition can be declined — the card put down, the question left unanswered, the room left early. In this account, refusal is not failure data; it is the state protecting a direction it is not ready to move in. The best reflective artefact is the one that can be safely refused. This is where the account stops being merely descriptive and becomes an ethics — one with old roots: the traditions that understood transformation as something you compose the conditions for and then decline to force.</p>
+  </section>
+
+  <div class="coda">
+    <div class="coda-tag">Coda · where the rigor ends</div>
+    <p>Everything above §6 tries to stay accountable — to be the kind of claim fieldwork could sharpen or break. What follows is only wondering.</p>
+    <div class="verse">
+      The room does not ask the question.<br>
+      The room is the question, asked slowly —<br>
+      and the model turned in the hands,<br>
+      crushed corner toward the chest,<br>
+      is an answer arriving<br>
+      before it has words to arrive in.
+    </div>
+    <p>I keep returning to the student and her grandmother's block. No instrument registered what happened in that room, and none needed to. But rooms like it are rarer than they should be, and they are left to chance — to which teacher, which afternoon, which luck. The wager of this note is that they need not be left to chance: that the conditions of reflection can be studied, composed, and offered — offered, never imposed — to the people who need them most and are given them least. Brief is not the same word as small. A single shifted sentence can reorganise a life.</p>
+  </div>
+
+  <footer>
+    <div class="foot-mark">The Polymathic Learner</div>
+    <a class="foot-back" href="../../index.html">← back to the archive</a>
+  </footer>
+
+</div>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script>
+window.addEventListener('load', function () {
+  /* ── equations ── */
+  try {
+    katex.render(
+      "s_{t+1} \\;=\\; \\underbrace{\\textcolor{#E0A24A}{T_{c}}}_{\\text{condition as operator}}\\big(\\,\\textcolor{#74D8C2}{s_{t}}\\,\\big), \\qquad \\textcolor{#E0A24A}{c} = (a,\\,p,\\,r), \\qquad \\big\\lVert s_{t+1}-s_{t}\\big\\rVert \\;\\ge\\; \\textcolor{#CC8585}{\\theta}",
+      document.getElementById('eq1'),
+      { throwOnError: false, displayMode: true }
+    );
+    katex.render(
+      "\\textcolor{#CC8585}{\\varepsilon} \\;=\\; \\underbrace{\\textcolor{#74D8C2}{O}}_{\\text{shift as lived}} \\;-\\; \\underbrace{\\textcolor{#E0A24A}{\\hat{O}}}_{\\text{shift as intended}}",
+      document.getElementById('eq2'),
+      { throwOnError: false, displayMode: true }
+    );
+  } catch (e) { console.warn('KaTeX render:', e); }
+
+  /* ── the field ── */
+  const cv = document.getElementById('field');
+  const ctx = cv.getContext('2d');
+  const readout = document.getElementById('readout');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let W, H, dpr;
+  function size() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = cv.clientWidth; H = cv.clientHeight;
+    cv.width = W * dpr; cv.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  size();
+  window.addEventListener('resize', size);
+
+  const origin = () => ({ x: W * 0.5, y: H * 0.55 });
+  let state = { x: 0, y: 0, vx: 0, vy: 0 };
+  let trail = [];
+  let conditions = []; // {type, x, y}
+  let t = 0;
+
+  function reset() {
+    const o = origin();
+    state = { x: o.x, y: o.y, vx: 0, vy: 0 };
+    trail = [];
+    conditions = [];
+    updateRead();
+  }
+
+  const COLORS = { artefact: '#E0A24A', place: '#74D8C2', relation: '#CC8585' };
+  const LABELS = { artefact: 'artefact', place: 'place', relation: 'relation' };
+
+  document.querySelectorAll('.demo-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const c = btn.dataset.c;
+      if (c === 'reset') { reset(); return; }
+      // place condition at a spot away from the state
+      const ang = Math.random() * Math.PI * 2;
+      const r = Math.min(W, H) * (0.24 + Math.random() * 0.14);
+      let x = state.x + Math.cos(ang) * r;
+      let y = state.y + Math.sin(ang) * r;
+      x = Math.max(40, Math.min(W - 40, x));
+      y = Math.max(40, Math.min(H - 40, y));
+      conditions.push({ type: c, x: x, y: y, born: t });
+      updateRead();
+    });
+  });
+
+  function updateRead() {
+    const o = origin();
+    const d = Math.hypot(state.x - o.x, state.y - o.y) / Math.min(W, H);
+    const names = conditions.map(function (c) { return LABELS[c.type]; });
+    const cond = names.length ? 'conditions present: ' + names.join(' · ') : 'no conditions present. the state drifts — small, anxious, repetitive movement';
+    readout.innerHTML = cond + '. displacement from origin: <span class="v">' + d.toFixed(2) + '</span>' +
+      (d > 0.28 ? ' — <span class="v">a shift has occurred: something is sayable here that was not sayable there.</span>' : '');
+  }
+
+  function step() {
+    t += 1;
+
+    // baseline drift: anxious jitter + weak pull to origin (habit)
+    const o = origin();
+    let ax = (Math.random() - 0.5) * 0.5;
+    let ay = (Math.random() - 0.5) * 0.5;
+    ax += (o.x - state.x) * 0.0006;
+    ay += (o.y - state.y) * 0.0006;
+
+    conditions.forEach(function (c) {
+      const dx = c.x - state.x, dy = c.y - state.y;
+      const dist = Math.hypot(dx, dy) + 0.001;
+      if (c.type === 'artefact') {
+        // gives it something to orbit: tangential pull
+        ax += (-dy / dist) * 0.16 + (dx / dist) * 0.05;
+        ay += (dx / dist) * 0.16 + (dy / dist) * 0.05;
+      } else if (c.type === 'place') {
+        // settles it: damping increases near the place, gentle attraction
+        ax += (dx / dist) * 0.06;
+        ay += (dy / dist) * 0.06;
+        state.vx *= 0.985; state.vy *= 0.985;
+      } else if (c.type === 'relation') {
+        // opens a direction it would not take alone: steady bearing away from habit
+        ax += (dx / dist) * 0.11;
+        ay += (dy / dist) * 0.11;
+        ax -= (o.x - state.x) * 0.0006; // relation loosens the pull of habit
+        ay -= (o.y - state.y) * 0.0006;
+      }
+    });
+
+    state.vx = (state.vx + ax) * 0.94;
+    state.vy = (state.vy + ay) * 0.94;
+    state.x += state.vx;
+    state.y += state.vy;
+
+    // soft walls
+    if (state.x < 20) { state.x = 20; state.vx *= -0.5; }
+    if (state.x > W - 20) { state.x = W - 20; state.vx *= -0.5; }
+    if (state.y < 20) { state.y = 20; state.vy *= -0.5; }
+    if (state.y > H - 20) { state.y = H - 20; state.vy *= -0.5; }
+
+    trail.push({ x: state.x, y: state.y });
+    if (trail.length > 340) trail.shift();
+
+    if (t % 20 === 0) updateRead();
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    // origin mark (habit)
+    const o = origin();
+    ctx.strokeStyle = 'rgba(237,230,218,0.12)';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.arc(o.x, o.y, 6, 0, Math.PI * 2); ctx.stroke();
+    ctx.font = '10px "Space Mono", monospace';
+    ctx.fillStyle = 'rgba(237,230,218,0.25)';
+    ctx.fillText('habit', o.x + 12, o.y + 4);
+
+    // conditions
+    conditions.forEach(function (c) {
+      ctx.strokeStyle = COLORS[c.type];
+      ctx.globalAlpha = 0.75;
+      ctx.beginPath();
+      if (c.type === 'artefact') { // small square: a thing
+        ctx.strokeRect(c.x - 6, c.y - 6, 12, 12);
+      } else if (c.type === 'place') { // large soft circle: a setting
+        ctx.setLineDash([3, 5]);
+        ctx.beginPath(); ctx.arc(c.x, c.y, 34, 0, Math.PI * 2); ctx.stroke();
+        ctx.setLineDash([]);
+      } else { // relation: two small arcs facing each other
+        ctx.beginPath(); ctx.arc(c.x - 7, c.y, 7, Math.PI * 0.5, Math.PI * 1.5); ctx.stroke();
+        ctx.beginPath(); ctx.arc(c.x + 7, c.y, 7, Math.PI * 1.5, Math.PI * 0.5); ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = COLORS[c.type];
+      ctx.globalAlpha = 0.6;
+      ctx.fillText(LABELS[c.type], c.x + 14, c.y - 10);
+      ctx.globalAlpha = 1;
+    });
+
+    // trail: the trace
+    if (trail.length > 1) {
+      ctx.beginPath();
+      ctx.moveTo(trail[0].x, trail[0].y);
+      for (let i = 1; i < trail.length; i++) ctx.lineTo(trail[i].x, trail[i].y);
+      ctx.strokeStyle = 'rgba(204,133,133,0.35)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    // the state
+    ctx.beginPath();
+    ctx.arc(state.x, state.y, 4, 0, Math.PI * 2);
+    ctx.fillStyle = '#EDE6DA';
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(state.x, state.y, 9, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(237,230,218,0.3)';
+    ctx.stroke();
+  }
+
+  reset();
+
+  if (reduced) {
+    // static render with a note, honouring reduced motion
+    for (let i = 0; i < 200; i++) step();
+    draw();
+    updateRead();
+    document.querySelectorAll('.demo-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        for (let i = 0; i < 200; i++) step();
+        draw(); updateRead();
+      });
+    });
+  } else {
+    (function loop() { step(); draw(); requestAnimationFrame(loop); })();
+  }
+});
+</script>
+</body>
+</html>

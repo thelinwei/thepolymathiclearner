@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phyllotaxis</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=JetBrains+Mono:wght@300;400&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --void: #080808;
+    --gold: #c9a84c;
+    --gold-dim: #7a6330;
+    --sage: #6b8f71;
+    --cream: #e8dfc8;
+    --text-dim: #5a5a5a;
+    --text-body: #b8b0a0;
+    --panel: rgba(255,255,255,0.025);
+    --border: rgba(201,168,76,0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--void);
+    color: var(--cream);
+    font-family: 'Cormorant Garamond', serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    padding: 2.5rem 1rem 1rem;
+  }
+  header h1 {
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  header p {
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--text-dim);
+    margin-top: 0.4rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── CANVAS ── */
+  .canvas-wrap {
+    position: relative;
+    margin: 1.5rem auto;
+  }
+  canvas {
+    display: block;
+    border-radius: 50%;
+    box-shadow: 0 0 80px rgba(201,168,76,0.08), 0 0 2px rgba(201,168,76,0.15);
+  }
+
+  /* ── CONTROLS ── */
+  .controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.2rem;
+    width: min(92vw, 620px);
+    margin: 0 auto 1.5rem;
+    padding: 1.4rem 1.6rem;
+    border: 1px solid var(--border);
+    background: var(--panel);
+  }
+  .ctrl { display: flex; flex-direction: column; gap: 0.4rem; }
+  .ctrl label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+  .ctrl .val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--gold);
+  }
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 2px;
+    background: rgba(201,168,76,0.2);
+    outline: none;
+    cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--gold);
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.4); }
+
+  /* ── PRESETS ── */
+  .presets {
+    display: flex;
+    gap: 0.7rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+  button {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.45rem 1rem;
+    background: transparent;
+    border: 1px solid var(--gold-dim);
+    color: var(--cream);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  button:hover, button.active {
+    background: rgba(201,168,76,0.12);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* ── SCROLL NUDGE ── */
+  .scroll-nudge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 3.5rem;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .scroll-nudge:hover { color: var(--gold); }
+  .scroll-nudge::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 28px;
+    background: linear-gradient(to bottom, var(--gold-dim), transparent);
+    margin: 0.6rem auto 0;
+  }
+
+  /* ── EXPLAINER ── */
+  .explainer {
+    width: min(92vw, 680px);
+    margin: 0 auto 6rem;
+  }
+
+  .section {
+    margin-bottom: 4rem;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .section.visible { opacity: 1; transform: translateY(0); }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 0.6rem;
+  }
+
+  .section h2 {
+    font-size: clamp(1.4rem, 3.5vw, 2rem);
+    font-weight: 300;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+    margin-bottom: 1.1rem;
+    line-height: 1.2;
+  }
+
+  .section p {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: var(--text-body);
+    margin-bottom: 1rem;
+  }
+
+  .section p em { color: var(--cream); font-style: italic; }
+
+  /* formula blocks */
+  .formula {
+    background: var(--panel);
+    border-left: 2px solid var(--gold-dim);
+    padding: 1rem 1.4rem;
+    margin: 1.4rem 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--cream);
+    line-height: 2;
+    letter-spacing: 0.02em;
+  }
+  .formula .comment {
+    color: var(--text-dim);
+    font-size: 0.72rem;
+  }
+
+  /* inline code */
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8em;
+    color: var(--gold);
+    background: rgba(201,168,76,0.07);
+    padding: 0.1em 0.35em;
+  }
+
+  /* section divider */
+  .rule {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
+    opacity: 0.3;
+    margin: 3.5rem 0;
+  }
+
+  /* side-by-side comparison canvases */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .compare-item { text-align: center; }
+  .compare-item canvas {
+    width: 100%;
+    max-width: 220px;
+    height: auto;
+    border-radius: 50%;
+    box-shadow: 0 0 30px rgba(201,168,76,0.06);
+  }
+  .compare-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    margin-top: 0.5rem;
+    text-transform: uppercase;
+  }
+  .compare-label span { color: var(--gold); display: block; font-size: 0.75rem; margin-bottom: 0.1rem; }
+
+  /* fibonacci table */
+  .fib-row {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin: 1.2rem 0;
+  }
+  .fib-cell {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    padding: 0.35rem 0.6rem;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    transition: all 0.2s;
+  }
+  .fib-cell.highlight { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.07); }
+
+  /* callout */
+  .callout {
+    border: 1px solid var(--border);
+    background: var(--panel);
+    padding: 1.2rem 1.4rem;
+    margin: 1.4rem 0;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--cream);
+    line-height: 1.7;
+    position: relative;
+  }
+  .callout::before {
+    content: '"';
+    font-size: 3rem;
+    color: var(--gold-dim);
+    position: absolute;
+    top: -0.2rem;
+    left: 0.6rem;
+    line-height: 1;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .callout p { padding-left: 1.2rem; color: var(--cream); }
+  .callout cite {
+    display: block;
+    font-style: normal;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    margin-top: 0.6rem;
+    padding-left: 1.2rem;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════ INTERACTIVE TOP ═══════════════════════════ -->
+
+<header>
+  <h1>Phyllotaxis</h1>
+  <p>the mathematics of botanical arrangement</p>
+</header>
+
+<div class="canvas-wrap">
+  <canvas id="c"></canvas>
+</div>
+
+<div class="controls">
+  <div class="ctrl">
+    <label>Divergence angle</label>
+    <span class="val" id="valAngle">137.508°</span>
+    <input type="range" id="slAngle" min="90" max="180" step="0.001" value="137.508">
+  </div>
+  <div class="ctrl">
+    <label>Seed count</label>
+    <span class="val" id="valN">800</span>
+    <input type="range" id="slN" min="50" max="1500" step="10" value="800">
+  </div>
+  <div class="ctrl">
+    <label>Size scale</label>
+    <span class="val" id="valSize">1.0×</span>
+    <input type="range" id="slSize" min="0.3" max="2.5" step="0.05" value="1.0">
+  </div>
+  <div class="ctrl">
+    <label>Spread</label>
+    <span class="val" id="valSpread">5.0</span>
+    <input type="range" id="slSpread" min="2" max="10" step="0.1" value="5.0">
+  </div>
+</div>
+
+<div class="presets">
+  <button class="active" data-angle="137.508">Golden angle</button>
+  <button data-angle="137.3">Near-golden</button>
+  <button data-angle="180">180°</button>
+  <button data-angle="120">120°</button>
+  <button data-angle="90">90°</button>
+</div>
+
+<div class="scroll-nudge" onclick="document.getElementById('explainer-start').scrollIntoView({behavior:'smooth'})">
+  The mathematics below
+</div>
+
+<!-- ═══════════════════════════ EXPLAINER ═══════════════════════════ -->
+
+<div class="explainer" id="explainer-start">
+
+  <!-- § 1  The Placement Rule -->
+  <div class="section">
+    <div class="section-label">§ 1</div>
+    <h2>The placement rule</h2>
+    <p>
+      Every phyllotactic pattern follows a single, elegantly minimal rule. Each new primordium
+      (a leaf, seed, or floret bud) is placed at a fixed <em>divergence angle</em> from the previous one,
+      and at a radius that grows as the square root of its index:
+    </p>
+    <div class="formula">
+      θ<sub>n</sub> = n · α &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// angular position of the n-th element</span><br>
+      r<sub>n</sub> = c · √n &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// radial distance, c is a scaling constant</span>
+    </div>
+    <p>
+      In Cartesian coordinates this becomes <code>x = r·cos(θ)</code>, <code>y = r·sin(θ)</code>.
+      The <em>√n</em> rule for radius is not arbitrary — it ensures that elements pack with
+      roughly equal area per seed, so density stays uniform across the whole disc.
+      If radius grew linearly with <em>n</em>, the centre would be overcrowded and the edge sparse.
+    </p>
+    <p>
+      The single free parameter is <em>α</em>, the divergence angle. Everything else —
+      the number of visible spiral arms, the packing density, the aesthetic character —
+      flows from that one choice.
+    </p>
+  </div>
+
+  <div class="rule"></div>
+
+  <!-- § 2  Why the golden angle -->
+  <div class="section">
+    <div class="section-label">§ 2</div>
+    <h2>Why the golden angle?</h2>
+    <p>
+      Most angles produce visible spokes. Set <em>α = 90°</em> and you get four radial arms;
+      set <em>α = 120°</em> and you get three. Even irrational angles like <em>π radians</em>
+      eventually produce near-repetitions because rational approximations accumulate. The slider
+      lets you feel this — small deviations from 137.508° immediately bleed spokes into the disc.
+    </p>
+
+    <div class="compare" id="compareCanvases"></div>
+
+    <p>
+      The golden angle is immune to this because it is derived from the <em>most irrational</em>
+      number — the golden ratio φ. A number is "most irrational" in the precise sense that its
+      continued fraction expansion consists entirely of 1s, making it maximally hard to approximate
+      by any rational p/q:
+    </p>
+    <div class="formula">
+      φ = 1 + 1/(1 + 1/(1 + 1/(1 + …))) = (1 + √5) / 2 ≈ 1.61803…<br><br>
+      golden angle α = 360° × (1 − 1/φ) = 360° / φ² ≈ <strong>137.5077…°</strong>
+    </div>
+    <p>
+      Because no rational fraction ever closely approximates <em>α/360°</em>,
+      successive elements never nearly overlap — each new seed lands in the
+      largest available gap, indefinitely.
+    </p>
+  </div>
+
+  <div class="rule"></div>
+
+  <!-- § 3  Fibonacci spirals -->
+  <div class="section">
+    <div class="section-label">§ 3</div>
+    <h2>Fibonacci spirals as a consequence</h2>
+    <p>
+      The visible spiral arms — parastichies — are an <em>optical</em> phenomenon, not written
+      directly into the rule. Your visual system connects dots that are nearest neighbours.
+      At the golden angle, the nearest neighbours always number a Fibonacci pair.
+    </p>
+    <p>
+      The Fibonacci sequence arises because the best rational approximations to φ are
+      ratios of consecutive Fibonacci numbers:
+    </p>
+    <div class="fib-row" id="fibRow"></div>
+    <p>
+      Each ratio p/q means: after <em>p</em> seeds, you've turned almost exactly <em>q</em>
+      full rotations. Those seeds sit nearly radially aligned — forming one visible arm.
+      As seed count grows, your eye resolves finer approximations, so the apparent spiral count
+      steps up the Fibonacci sequence: 5, 8, 13, 21, 34, 55, 89 arms — exactly as observed
+      in sunflower heads.
+    </p>
+    <div class="callout">
+      <p>A sunflower with 55 clockwise and 89 counter-clockwise spirals is not exhibiting
+      a biological preference for Fibonacci numbers. It is exhibiting a preference
+      for maximal packing — and Fibonacci numbers are the arithmetic shadow of that geometry.</p>
+      <cite>— a consequence of continued fraction convergents</cite>
+    </div>
+  </div>
+
+  <div class="rule"></div>
+
+  <!-- § 4  Continued fractions -->
+  <div class="section">
+    <div class="section-label">§ 4</div>
+    <h2>Continued fractions &amp; the irrationality measure</h2>
+    <p>
+      Any real number <em>x</em> can be written as a continued fraction:
+    </p>
+    <div class="formula">
+      x = a₀ + 1/(a₁ + 1/(a₂ + 1/(a₃ + …)))<br><br>
+      <span class="comment">// notation: x = [a₀; a₁, a₂, a₃, …]</span>
+    </div>
+    <p>
+      The <em>convergents</em> p<sub>k</sub>/q<sub>k</sub> — formed by truncating the expansion
+      at depth <em>k</em> — are the best rational approximations to <em>x</em>.
+      A large coefficient a<sub>k</sub> means the next convergent is much better than expected:
+      the number has a "near-rational" value at that scale, which in phyllotaxis means a near-repetition
+      of angular positions — i.e. a visible spoke.
+    </p>
+    <p>
+      φ = [1; 1, 1, 1, …] has all coefficients equal to 1 — the smallest possible.
+      This means its convergents improve as <em>slowly as possible</em>, so the angular positions
+      never cluster, and no spokes form at any scale. This is the precise mathematical reason
+      the golden angle produces the densest, most uniform packing.
+    </p>
+    <div class="formula">
+      <span class="comment">// Irrationality measure μ(φ) = 2 — the minimum possible for irrational numbers</span><br>
+      <span class="comment">// Compare: μ(π) ≈ 7.6, meaning π is much "more rational" at some scales</span><br><br>
+      |φ − p/q| &gt; C / q² &nbsp;&nbsp;for all p, q ∈ ℤ, q &gt; 0
+    </div>
+  </div>
+
+  <div class="rule"></div>
+
+  <!-- § 5  Biology -->
+  <div class="section">
+    <div class="section-label">§ 5</div>
+    <h2>How plants compute this</h2>
+    <p>
+      Plants do not know about φ. The golden angle emerges from a local biochemical rule:
+      each new primordium grows as far as possible from existing ones in the apical meristem —
+      the tiny dome of dividing cells at the shoot tip.
+    </p>
+    <p>
+      The signalling molecule <em>auxin</em> (indole-3-acetic acid) creates inhibition fields
+      around existing primordia. Each new bud forms at the point of lowest local auxin concentration.
+      Computer simulations of this reaction-diffusion process reliably produce the golden angle
+      without any explicit reference to φ — the mathematics is not imposed by the plant,
+      but <em>selected</em> by evolution because maximal packing maximises light capture,
+      seed dispersal area, and structural integrity.
+    </p>
+    <p>
+      The spiral you see in the canvas above is, at root, an optimisation surface —
+      the attractor of a packing problem solved freshly by every growing meristem,
+      every spring, in every sunflower field.
+    </p>
+  </div>
+
+</div><!-- /explainer -->
+
+<!-- ═══════════════════════════ SCRIPTS ═══════════════════════════ -->
+<script>
+// ── Main interactive canvas ──────────────────────────────────────
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const SIZE = Math.min(window.innerWidth * 0.88, 520);
+canvas.width = SIZE; canvas.height = SIZE;
+const CX = SIZE/2, CY = SIZE/2;
+
+let angle = 137.508, N = 800, sizeScale = 1.0, spread = 5.0;
+
+function hslFromIndex(i, total) {
+  const t = i / total;
+  return `hsl(${38 + t*90},${55 + t*20}%,${38 + t*28}%)`;
+}
+
+function drawOnto(cvs, angleVal, nVal, sizeVal, spreadVal) {
+  const c = cvs.getContext('2d');
+  const S = cvs.width;
+  c.clearRect(0,0,S,S);
+  const grd = c.createRadialGradient(S/2,S/2,0,S/2,S/2,S*0.5);
+  grd.addColorStop(0,'rgba(201,168,76,0.03)');
+  grd.addColorStop(1,'rgba(0,0,0,0)');
+  c.fillStyle = grd; c.fillRect(0,0,S,S);
+  const maxR = S * 0.46, d2r = Math.PI/180;
+  for (let i=0; i<nVal; i++) {
+    const r = spreadVal * Math.sqrt(i+1);
+    const theta = i * angleVal * d2r;
+    const x = S/2 + r * Math.cos(theta) * (maxR/(spreadVal*Math.sqrt(nVal)));
+    const y = S/2 + r * Math.sin(theta) * (maxR/(spreadVal*Math.sqrt(nVal)));
+    const dotR = sizeVal * (1.5 + 2.5*(1 - i/nVal));
+    c.beginPath(); c.arc(x, y, dotR, 0, Math.PI*2);
+    c.fillStyle = hslFromIndex(i, nVal);
+    c.globalAlpha = 0.55 + 0.45*(i/nVal);
+    c.fill();
+  }
+  c.globalAlpha = 1;
+}
+
+function draw() { drawOnto(canvas, angle, N, sizeScale, spread); }
+draw();
+
+// Controls
+const slAngle = document.getElementById('slAngle');
+const slN     = document.getElementById('slN');
+const slSize  = document.getElementById('slSize');
+const slSpread= document.getElementById('slSpread');
+
+function update() {
+  angle     = parseFloat(slAngle.value);
+  N         = parseInt(slN.value);
+  sizeScale = parseFloat(slSize.value);
+  spread    = parseFloat(slSpread.value);
+  document.getElementById('valAngle').textContent  = angle.toFixed(3)+'°';
+  document.getElementById('valN').textContent      = N;
+  document.getElementById('valSize').textContent   = sizeScale.toFixed(2)+'×';
+  document.getElementById('valSpread').textContent = spread.toFixed(1);
+  draw();
+  document.querySelectorAll('.presets button').forEach(b =>
+    b.classList.toggle('active', Math.abs(parseFloat(b.dataset.angle)-angle)<0.01));
+}
+[slAngle,slN,slSize,slSpread].forEach(s=>s.addEventListener('input',update));
+document.querySelectorAll('.presets button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const a = parseFloat(btn.dataset.angle);
+    angle = a;
+    slAngle.value = Math.min(180,Math.max(90,a));
+    document.getElementById('valAngle').textContent = angle.toFixed(3)+'°';
+    draw();
+    document.querySelectorAll('.presets button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+// ── Comparison canvases (§2) ──────────────────────────────────────
+const compareCfg = [
+  { angle:137.508, label:'137.508°', sub:'Golden angle' },
+  { angle:137.3,   label:'137.3°',   sub:'Near-golden — spokes begin' },
+  { angle:120.0,   label:'120°',     sub:'Three-fold symmetry' },
+  { angle:90.0,    label:'90°',      sub:'Four-fold symmetry' },
+];
+const compareWrap = document.getElementById('compareCanvases');
+compareCfg.forEach(cfg=>{
+  const div = document.createElement('div');
+  div.className = 'compare-item';
+  const cvs = document.createElement('canvas');
+  const CS = 220;
+  cvs.width = CS; cvs.height = CS;
+  cvs.style.borderRadius = '50%';
+  div.appendChild(cvs);
+  const lbl = document.createElement('div');
+  lbl.className = 'compare-label';
+  lbl.innerHTML = `<span>${cfg.label}</span>${cfg.sub}`;
+  div.appendChild(lbl);
+  compareWrap.appendChild(div);
+  drawOnto(cvs, cfg.angle, 400, 1.0, 5.0);
+});
+
+// ── Fibonacci ratio row (§3) ──────────────────────────────────────
+const fibs = [1,1,2,3,5,8,13,21,34,55,89,144];
+const fibRow = document.getElementById('fibRow');
+for (let i=1; i<fibs.length; i++){
+  const cell = document.createElement('div');
+  cell.className = 'fib-cell' + (fibs[i]>=5 ? ' highlight':'');
+  cell.textContent = `${fibs[i-1]}/${fibs[i]}`;
+  fibRow.appendChild(cell);
+}
+
+// ── Intersection observer for scroll-in ──────────────────────────
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:0.1});
+document.querySelectorAll('.section').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>
