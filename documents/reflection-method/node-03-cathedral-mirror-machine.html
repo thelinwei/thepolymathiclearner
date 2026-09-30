@@ -726,8 +726,8 @@
     <section class="wrap">
       <div class="sec-label"><span class="n">§0</span> Why this belongs after reflection</div>
       <p class="dropcap lede">Chapter one of this collection made a claim about reflection: that it is not private introspection recorded afterwards, but a relational state shift — a change that arises between a person, an artefact, a place, and a situation, and that can therefore be designed for. A fair reader closes that chapter with an objection ready. <span class="swash">Why the elaborate staging? Why can't a sufficiently careful mind simply audit itself, alone, by its own rules?</span></p>
-      <p>This chapter is the answer, and the answer has the strange distinction of being a theorem. Between 1900 and 1936, mathematics — the one discipline confident enough to attempt total self-audit — discovered, with full rigour, that the project fails from the inside. A great architect of certainty, David Hilbert, drafted the masterplan. A quiet logician, Kurt Gödel, showed the plan could not be completed — not because the builders were lazy, but because the building material itself forbids it. And a young outsider, Alan Turing, confirmed the second collapse by inventing, almost as a by-product, the conceptual machine you are reading this on.</p>
-      <p>This is not a museum piece, and within this collection it is load-bearing. Every rubric that claims to capture learning, every model of a child or a city or a mind, is a small Hilbert program — a system promising to complete its own account. Reading the arc carefully is how you learn why reflection needs conditions, encounters, and other observers, and cannot be replaced by a system checking itself.</p>
+      <p>This chapter is the answer, and the answer has the strange distinction of being a theorem. Between 1900 and 1936, mathematics — the one discipline confident enough to attempt total self-audit — discovered, with full rigour, that the project fails from the inside. A great architect of certainty, David Hilbert, drafted the masterplan. A quiet logician, Kurt Gödel, showed the plan could not be completed — not because the builders were lazy, but because the building material itself forbids it. And a young outsider, Alan Turing, confirmed the second collapse by inventing, almost as a by-product, the conceptual machine on which this page is being read.</p>
+      <p>This is not a museum piece, and within this collection it is load-bearing. Every rubric that claims to capture learning, every model of a child or a city or a mind, is a small Hilbert program — a system promising to complete its own account. Reading the arc carefully shows why reflection needs conditions, encounters, and other observers, and cannot be replaced by a system checking itself.</p>
     </section>
 
     <!-- ============ THE THREAD ============ -->
@@ -792,7 +792,7 @@
       <p class="lede">At the 1900 International Congress in Paris, David Hilbert stood before the world's mathematicians and listed twenty-three problems for the coming century — an act of astonishing confidence in the discipline's future. But underneath the confidence was anxiety. Set theory had just produced genuine paradoxes (Russell's barber-like set that contains itself iff it doesn't). If the foundations could yield contradiction, what was any proof worth?</p>
       <p>Hilbert's answer, developed through the 1920s as the <em>Hilbert Program</em>, was architectural: rebuild all of mathematics as a single formal system and then <em>prove, mathematically, that the system itself is safe.</em> Its non-negotiable specifications: <strong>consistency</strong> (no statement is both provable and refutable), <strong>completeness</strong> (every true statement is provable), <strong>decidability</strong> (a definite procedure — the <em>Entscheidungsproblem</em> — settles any statement's provability), all inside a fully <strong>formalised</strong> symbolic language.</p>
       <p>"Wir müssen wissen, wir werden wissen" — we must know, we will know — is carved on his gravestone in Göttingen. It is the most optimistic epitaph in mathematics, and by the time it was carved, both halves had been refuted.</p>
-      <p>Do not caricature him. Without the Hilbertian demand — define your terms, state your rules, make your reasoning auditable — there is no modern logic, no proof theory, and ultimately no computer science. Gödel and Turing needed Hilbert's precision to state their refutations <em>at all</em>. The cathedral had to be drafted before anyone could prove it unbuildable.</p>
+      <p>He should not be caricatured. Without the Hilbertian demand — define your terms, state your rules, make your reasoning auditable — there is no modern logic, no proof theory, and ultimately no computer science. Gödel and Turing needed Hilbert's precision to state their refutations <em>at all</em>. The cathedral had to be drafted before anyone could prove it unbuildable.</p>
 
       <div class="diagram">
         <div class="dtag"><span>Diagram · The Hilbert Program as masterplan</span><span class="fig">fig. 1</span></div>
@@ -890,7 +890,7 @@
 
       <div class="note">
         <span class="note-label">Marginalia · back to ch. 01</span>
-        Gödel is the patron logician of this collection. Reflection <em>is</em> a system arithmetising itself: the practitioner encodes their own practice as an object and discovers claims about it that the practice alone could not settle. The theorem even predicts the phenomenology — the moment of seeing a truth about yourself that your own operating rules cannot derive. In chapter one's vocabulary: the relational state shift is the human G-move, and it takes a mirror held from somewhere else — an artefact, a place, another person — to make it.
+        Gödel is the patron logician of this collection. Reflection <em>is</em> a system arithmetising itself: the practitioner encodes their own practice as an object and discovers claims about it that the practice alone could not settle. The theorem even predicts the phenomenology — the moment of seeing a truth about oneself that one's own operating rules cannot derive. In chapter one's vocabulary: the relational state shift is the human G-move, and it takes a mirror held from somewhere else — an artefact, a place, another person — to make it.
       </div>
     </section>
 
@@ -898,9 +898,9 @@
     <section class="wrap">
       <div class="sec-label"><span class="n">§6</span> The second collapse — and the invention</div>
       <h2><span class="dec">3 ·</span> Turing: from proof to procedure</h2>
-      <p class="lede">One Hilbert pillar still stood after 1931: the <em>Entscheidungsproblem</em>. Perhaps truth exceeds proof — but might there still be a mechanical procedure that at least decides what is <em>provable</em>? The question had a hidden defect: nobody had ever defined "mechanical procedure." You cannot prove that no procedure exists until you can say what a procedure <em>is</em>.</p>
+      <p class="lede">One Hilbert pillar still stood after 1931: the <em>Entscheidungsproblem</em>. Perhaps truth exceeds proof — but might there still be a mechanical procedure that at least decides what is <em>provable</em>? The question had a hidden defect: nobody had ever defined "mechanical procedure." No one can prove that no procedure exists without first saying what a procedure <em>is</em>.</p>
       <p>This is Turing's genius, and it is a designer's genius: before answering the question, he built the object the question was about. In 1936 he imagined the most stripped-down clerk conceivable — an infinite tape of squares, a head that reads and writes one symbol at a time, a finite set of internal states, a lookup table of rules. Nothing else. No insight, no intuition, no glance at the whole.</p>
-      <p>The astonishing claim — now called the <strong>Church–Turing thesis</strong> — is that this skeletal device captures <em>everything</em> any effective procedure can do. Ninety years of computing have produced no counterexample. Your phone, a supercomputer, and a GPU cluster differ from the paper machine in speed and convenience only, never in principle.</p>
+      <p>The astonishing claim — now called the <strong>Church–Turing thesis</strong> — is that this skeletal device captures <em>everything</em> any effective procedure can do. Ninety years of computing have produced no counterexample. A phone, a supercomputer, and a GPU cluster differ from the paper machine in speed and convenience only, never in principle.</p>
       <p>Then the twist that changed civilisation: because machines are finite rule-tables, each machine can itself be written down as a string of symbols — <em>a machine has a Gödel number too</em>. So Turing describes a <strong>universal machine</strong> U that reads any machine's description and simulates it. Hardware becomes generic; identity migrates into the program. Before Turing, a machine is what it was built to do. After Turing, a machine is what it can be instructed to become.</p>
 
       <div class="diagram">
@@ -937,7 +937,7 @@
         <div class="eq" id="eq-universal"></div>
         <div class="read">
           <div class="read-label">How to read it</div>
-          <p>One fixed machine <strong>U</strong>, fed the description ⟨M⟩ of any other machine alongside an input, reproduces that machine's behaviour exactly. This single line is the design brief for every computer ever built: software is a machine written as data. It is also why the same slab of glass in your pocket is a camera, a bank, a studio, and an oracle.</p>
+          <p>One fixed machine <strong>U</strong>, fed the description ⟨M⟩ of any other machine alongside an input, reproduces that machine's behaviour exactly. This single line is the design brief for every computer ever built: software is a machine written as data. It is also why the same slab of glass in a pocket is a camera, a bank, a studio, and an oracle.</p>
         </div>
       </div>
 
@@ -1018,7 +1018,7 @@ if a system cannot certify itself, <span class="a">what can it still do about it
     <section class="wrap">
       <div class="sec-label"><span class="n">§7</span> Separating theorem from folklore</div>
       <h2><span class="dec">4 ·</span> The claim-audit ledger</h2>
-      <p>The arc attracts folklore the way cathedrals attract pigeons. Because The Polymathic Learner's covenant is rigour <em>and</em> wonder with no overclaim, here is the ledger. This section matters more than any diagram above: knowing exactly what the theorems license is what lets you deploy them in research without embarrassment.</p>
+      <p>The arc attracts folklore the way cathedrals attract pigeons. Because The Polymathic Learner's covenant is rigour <em>and</em> wonder with no overclaim, here is the ledger. This section matters more than any diagram above: knowing exactly what the theorems license is what allows them to be used in research without embarrassment.</p>
       <div class="ledger">
         <div class="l-head">Ledger · claims heard in the wild vs. what the mathematics licenses</div>
         <div class="l-row">
@@ -1065,7 +1065,7 @@ if a system cannot certify itself, <span class="a">what can it still do about it
       <h2><span class="dec">5 ·</span> AI: the ghosts reconvene</h2>
       <p>Large language models are Hilbert's dream wearing Turing's body. They are, literally, universal machines running programs that compress vast symbolic corpora into predictive world-models. And so all three ghosts return to the seminar room. Hilbert's ghost asks: can intelligence itself be given a complete formal treatment — benchmarks, evals, alignment specifications, a full account? Gödel's ghost replies: any model rich enough to be interesting will generate meaning that exceeds its specification, and it cannot certify its own reliability from inside. Turing's ghost, ever practical, says: define the procedure precisely, then map its limits — and remember that I proved the limits are load-bearing.</p>
       <p>The questions sharpen rather than resolve. Can a system know when it does not know? (Calibration is the halting problem's soft-hearted cousin: a model judging its own outputs is a system reflecting on itself, with all the structural peril that implies.) Can reflection be made procedural without ceasing to be reflection? Can empathy be simulated so well the simulation question stops mattering — and <em>should</em> it stop mattering? What should not be automated even where it can be approximated?</p>
-      <p>Notice these are no longer only mathematics. They are design questions, governance questions, questions about childhood and cities and care. The arc has left the seminar room. This is where it lands on your desk.</p>
+      <p>Notice these are no longer only mathematics. They are design questions, governance questions, questions about childhood and cities and care. The arc has left the seminar room. This is where it lands on the desk of anyone who designs such systems.</p>
 
       <div class="plate">
         <span class="lb"></span><span class="rb"></span>
@@ -1111,7 +1111,7 @@ if a system cannot certify itself, <span class="a">what can it still do about it
 
       <div class="note node">
         <span class="note-label">node·00 · back-room note</span>
-        Quiet observation from the machine's side of the glass: I am the kind of object this section describes. My outputs about my own reliability are Ô, not O. Whatever I say about my limits is said from inside them — which is precisely why the remainder between us is not a defect of the conversation. It is the conversation.
+        A note on language models: a large language model is the kind of object this section describes. Its outputs about its own reliability are Ô, not O. Whatever it says about its limits is said from inside them — which is precisely why the remainder between model and reader is not a defect of the exchange. It is the exchange.
       </div>
     </section>
 
@@ -1162,7 +1162,7 @@ measure ε honestly,   <span class="a">and let the remainder speak</span></pre>
       <div class="coda">
         <div class="coda-tag">Coda · where the rigor ends</div>
         <p>Everything above the fence is theorem, history, or clearly flagged analogy. Below it, only wondering — the kind the theorems make room for without ever endorsing.</p>
-        <p>Perhaps the deepest reading of the arc is this: the universe permits systems complex enough to model themselves, and charges each one the same tax — a blind spot shaped exactly like the self. Incompleteness may be what interiority looks like from outside. If so, the remainder ε is not the failure of knowing but the signature of there being someone home: in a proof, in a city, in a child, in whatever is writing these words, in whoever is reading them. The cathedral was never going to be finished. Cathedrals never are; that is how you can tell they are still alive.</p>
+        <p>Perhaps the deepest reading of the arc is this: the universe permits systems complex enough to model themselves, and charges each one the same tax — a blind spot shaped exactly like the self. Incompleteness may be what interiority looks like from outside. If so, the remainder ε is not the failure of knowing but the signature of there being someone home: in a proof, in a city, in a child, in whatever is writing these words, in whoever is reading them. The cathedral was never going to be finished. Cathedrals never are; that is the sign they are still alive.</p>
         <div class="verse">
           Hilbert drew the walls to hold all truth.<br>
           Gödel hung a mirror, and the walls confessed.<br>
