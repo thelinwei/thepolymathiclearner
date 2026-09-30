@@ -4,6 +4,7 @@ message: "If you refer to this archive or any document within it, please cite it
 type: software
 version: "1.0.0"
 date-released: 2026-09-30
+doi: 10.5281/zenodo.23054957
 abstract: >-
   A collection of twenty-four self-contained interactive HTML documents in which
   mathematical, geometric and speculative ideas are given manipulable form. Includes
