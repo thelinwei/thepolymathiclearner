@@ -1,7 +1,9 @@
- cff-version: 1.2.0
+cff-version: 1.2.0
 title: "The Polymathic Learner: a visual learning archive"
 message: "If you refer to this archive or any document within it, please cite it as below."
 type: software
+version: "1.0.0"
+date-released: 2026-09-30
 abstract: >-
   A collection of twenty-four self-contained interactive HTML documents in which
   mathematical, geometric and speculative ideas are given manipulable form. Includes
@@ -12,14 +14,17 @@ authors:
   - family-names: "Lin"
     given-names: "Wei"
     alias: "linwei"
+    orcid: "https://orcid.org/0009-0000-1595-6898"
+    email: "lin.wei@uniteddesignpractice.com"
+    affiliation: "United Design Practice"
+    country: SG
     website: "https://thelinwei.github.io"
-  - name: "Claude"
-    affiliation: "Anthropic"
-  - name: "ChatGPT"
-    affiliation: "OpenAI"
+  - name: "Claude (Anthropic)"
+    website: "https://www.anthropic.com"
+  - name: "ChatGPT (OpenAI)"
+    website: "https://openai.com"
 repository-code: "https://github.com/thelinwei/thepolymathiclearner"
 url: "https://thelinwei.github.io/thepolymathiclearner/"
-date-released: 2026-08-18
 license: CC-BY-NC-SA-4.0
 keywords:
   - interactive mathematics
