@@ -175,7 +175,7 @@ Write to lin.wei [at] uniteddesignpractice.com, connect on
 See [`CITATION.cff`](CITATION.cff). Short form:
 
 > Lin Wei, with Claude and ChatGPT (2026). *The Polymathic Learner: a visual learning
-> archive* (Version 1.0.0). Zenodo. https://doi.org/10.5281/zenodo.23054957
+> archive* (Version 1.1.0). Zenodo. https://doi.org/10.5281/zenodo.23054957
 
 To cite one document, name it: *易 Yi · The Loom — the sixty-four on a torus* (2026),
 in *The Polymathic Learner*.
