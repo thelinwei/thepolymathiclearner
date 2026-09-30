@@ -723,7 +723,7 @@ p(pn  + a) ≡ 0  <span class="hl">(mod p)</span>  <span class="op">← general 
 
       <p>But this resolution is <em>extrinsic</em>. It classifies mock theta functions by what they map to (harmonic Maass forms), not by what they are <em>in themselves</em>. The 算學 reading is more illuminating:</p>
 
-      <p>An ordinary theta function is an array whose coefficients, when you apply a modular transformation, map exactly onto another array in the same class. The transformation <strong>closes.</strong> A mock theta function is an array where the transformation <strong>almost closes — but leaves a systematic residue.</strong> That residue is itself a well-formed object. The 余项 (yú xiàng, remainder array) is not noise — it is structure.</p>
+      <p>An ordinary theta function is an array whose coefficients, under a modular transformation, map exactly onto another array in the same class. The transformation <strong>closes.</strong> A mock theta function is an array where the transformation <strong>almost closes — but leaves a systematic residue.</strong> That residue is itself a well-formed object. The 余项 (yú xiàng, remainder array) is not noise — it is structure.</p>
 
       <p>This is not a metaphor for Zwegers' result. It is a <strong>constructive restatement</strong> of it — one that immediately suggests the right question: what is the <em>algebra of remainder arrays</em>? What operations on mock theta functions preserve the remainder structure? This is the missing Hecke theory.</p>
     </div>
@@ -775,7 +775,7 @@ f(q) = 1 + Σ <span class="hl">q^(n²)</span>
 
       <p>An ordinary theta function is a <strong>fixed point</strong> of these operations: every permitted operation maps it onto another array in the same closed class. The operation closes completely.</p>
 
-      <p>A mock theta function is an array where the operations do <em>not</em> close — they produce a systematic deviation. But the deviation itself obeys a finite-depth recursion. The <strong>order</strong> is the minimum depth of this recursion: the minimum number of auxiliary arrays you must introduce to make the transformation system close.</p>
+      <p>A mock theta function is an array where the operations do <em>not</em> close — they produce a systematic deviation. But the deviation itself obeys a finite-depth recursion. The <strong>order</strong> is the minimum depth of this recursion: the minimum number of auxiliary arrays that must be introduced to make the transformation system close.</p>
 
       <p>A 3rd-order mock theta function requires 3 auxiliary arrays. A 5th-order requires 5. This number is not a label — it is <strong>a structural invariant of the array algebra.</strong></p>
     </div>
@@ -818,7 +818,7 @@ f(q) = 1 + Σ <span class="hl">q^(n²)</span>
   <div class="prob-card partial">
     <div class="prob-status">Framework Missing · Partially Constructed</div>
     <div class="prob-title">2. Hecke Theory for Mock Theta Functions</div>
-    <p class="prob-body">Hecke operators act on ordinary modular forms with beautiful algebraic regularity — they commute, they produce eigenforms, they generate the multiplicative structure of L-functions. <strong>No analogous operator theory exists for mock theta functions.</strong> We have the objects; we do not have their symmetry algebra. Dyson called for this in 1987. It is still missing.</p>
+    <p class="prob-body">Hecke operators act on ordinary modular forms with beautiful algebraic regularity — they commute, they produce eigenforms, they generate the multiplicative structure of L-functions. <strong>No analogous operator theory exists for mock theta functions.</strong> The objects exist; their symmetry algebra does not yet. Dyson called for this in 1987. It is still missing.</p>
     <div class="prob-insight">
       <strong>算學 proposal:</strong> Define Hecke-type operators on the full array system — original array plus its auxiliary arrays plus the shadow map. The operator should commute with the closure recursion. Finding the correct operator definition on the augmented array system is the constructive path to the missing Hecke theory.
     </div>

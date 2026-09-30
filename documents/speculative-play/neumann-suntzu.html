@@ -327,7 +327,7 @@ body::before {
   </div>
 
   <div class="premise">
-    <strong>What changed?</strong> In 1945, this encounter could only be imagined. Today it can be staged as an interactive intellectual machine: one voice formalises conflict as game structure; the other treats strategy as terrain, perception, timing, and asymmetry. This fixed version runs immediately as a self-contained demo, and can be connected to a secure LLM proxy when you want the voices to be truly model-generated.
+    <strong>What changed?</strong> In 1945, this encounter could only be imagined. Today it can be staged as an interactive intellectual machine: one voice formalises conflict as game structure; the other treats strategy as terrain, perception, timing, and asymmetry. This fixed version runs immediately as a self-contained demo, and can be connected to a secure LLM proxy when the voices should be truly model-generated.
   </div>
 
   <div class="live-note">
@@ -346,7 +346,7 @@ body::before {
         <span class="s-tag">Markets</span>
         Asymmetric market competition
       </button>
-      <button class="scenario-btn" onclick="selectScenario(this, 'Climate negotiations: multiple nations, misaligned incentives, no enforcement mechanism. How do you get binding cooperation?')">
+      <button class="scenario-btn" onclick="selectScenario(this, 'Climate negotiations: multiple nations, misaligned incentives, no enforcement mechanism. How can binding cooperation be secured?')">
         <span class="s-tag">Cooperation</span>
         Climate coordination failure
       </button>
@@ -354,11 +354,11 @@ body::before {
         <span class="s-tag">Institutions</span>
         Credible commitment problem
       </button>
-      <button class="scenario-btn" onclick="selectScenario(this, 'Two AI labs both racing to deploy a powerful model. Neither wants to be second. But deployment before safety review risks catastrophic harm. What is the game structure and how do you escape it?')">
+      <button class="scenario-btn" onclick="selectScenario(this, 'Two AI labs both racing to deploy a powerful model. Neither wants to be second. But deployment before safety review risks catastrophic harm. What is the game structure, and how can it be escaped?')">
         <span class="s-tag">AI Safety</span>
         AI race to the bottom
       </button>
-      <button class="scenario-btn" onclick="selectScenario(this, 'Urban resilience: a city wants its civic spaces — hawker centres, void decks, plazas — to hold together during crises. How do you design for social contagion that strengthens rather than fractures?')">
+      <button class="scenario-btn" onclick="selectScenario(this, 'Urban resilience: a city wants its civic spaces — hawker centres, void decks, plazas — to hold together during crises. How can design support social contagion that strengthens rather than fractures?')">
         <span class="s-tag">Urbanism</span>
         Designed social resilience
       </button>
@@ -383,7 +383,7 @@ body::before {
       <input class="endpoint-input" id="endpoint-input" placeholder="Example: https://your-site.vercel.app/api/seminar" autocomplete="off" />
       <button class="small-btn" onclick="saveEndpoint()">Save endpoint</button>
     </div>
-    <div class="hint">Expected response shape: <code>{ "text": "..." }</code>. The proxy should keep your Anthropic API key on the server. This page sends only <code>persona</code>, <code>problem</code>, and <code>transcript</code>.</div>
+    <div class="hint">Expected response shape: <code>{ "text": "..." }</code>. The proxy should keep the API key on the server. This page sends only <code>persona</code>, <code>problem</code>, and <code>transcript</code>.</div>
   </div>
 
   <div class="seminar" style="margin-top:1.2rem">
@@ -432,10 +432,10 @@ let activeRun = 0;
 const builtInProblems = [
   'AI arms race between two superpowers: each developing autonomous weapons. When does deterrence hold? When does it collapse?',
   'A startup is competing against a dominant incumbent with 10x the resources. The startup cannot win a direct contest. What is the optimal strategic structure?',
-  'Climate negotiations: multiple nations, misaligned incentives, no enforcement mechanism. How do you get binding cooperation?',
+  'Climate negotiations: multiple nations, misaligned incentives, no enforcement mechanism. How can binding cooperation be secured?',
   'A democratic government must communicate a credible policy commitment to investors while facing short electoral time horizons. How?',
-  'Two AI labs both racing to deploy a powerful model. Neither wants to be second. But deployment before safety review risks catastrophic harm. What is the game structure and how do you escape it?',
-  'Urban resilience: a city wants its civic spaces — hawker centres, void decks, plazas — to hold together during crises. How do you design for social contagion that strengthens rather than fractures?',
+  'Two AI labs both racing to deploy a powerful model. Neither wants to be second. But deployment before safety review risks catastrophic harm. What is the game structure, and how can it be escaped?',
+  'Urban resilience: a city wants its civic spaces — hawker centres, void decks, plazas — to hold together during crises. How can design support social contagion that strengthens rather than fractures?',
   'A university wants students to use AI without outsourcing thinking. How should the assessment game be redesigned?',
   'A small country must remain economically open while larger powers pressure it to choose sides. What strategic posture preserves autonomy?',
   'A design studio wants to scale through licensing and partnerships without losing creative quality. What must be formalised and what must remain adaptive?'
@@ -614,7 +614,7 @@ function demoResponse(persona, problem, transcript = []) {
     ])}`;
   }
 
-  return `The encounter resolves into a precise distinction: Von Neumann contributes the grammar of strategic stability; Sun Tzu contributes the art of making the grammar endogenous. In modern terms, the problem is not only ${info.conflict}; it is a question of who controls the signal structure, commitment devices, verification regime, and terrain of interaction.\n\nThe 2026 synthesis would treat this as mechanism design plus multi-agent simulation. First, identify the destructive equilibrium. Second, identify which variables are endogenous: timing, information, credible cost, spatial or institutional affordance, reputation, and monitoring. Third, simulate agents with different belief-update rules to see whether the proposed terrain actually changes behaviour or merely decorates the old payoff matrix.\n\nThe structural insight is: do not ask only for strategy σᵢ within game G. Ask for a transformation T(G) such that the desired outcome becomes an attractor under ordinary self-interest. Sun Tzu’s “win before fighting” becomes formal: design the game so that the opponent’s best response reinforces the world you need. Von Neumann’s equilibrium becomes more powerful once it is allowed to analyse not only moves, but the making of the board itself.\n\nThe frontier remains difficult: human meaning, legitimacy, fear, shame, and symbolic trust still do not reduce cleanly to payoff terms. That is why the best version of this exercise is not merely a calculator. It is a seminar: a machine that keeps formalism and lived strategy in productive tension.`;
+  return `The encounter resolves into a precise distinction: Von Neumann contributes the grammar of strategic stability; Sun Tzu contributes the art of making the grammar endogenous. In modern terms, the problem is not only ${info.conflict}; it is a question of who controls the signal structure, commitment devices, verification regime, and terrain of interaction.\n\nThe 2026 synthesis would treat this as mechanism design plus multi-agent simulation. First, identify the destructive equilibrium. Second, identify which variables are endogenous: timing, information, credible cost, spatial or institutional affordance, reputation, and monitoring. Third, simulate agents with different belief-update rules to see whether the proposed terrain actually changes behaviour or merely decorates the old payoff matrix.\n\nThe structural insight is: do not ask only for strategy σᵢ within game G. Ask for a transformation T(G) such that the desired outcome becomes an attractor under ordinary self-interest. Sun Tzu’s “win before fighting” becomes formal: design the game so that the opponent’s best response reinforces the world that is needed. Von Neumann’s equilibrium becomes more powerful once it is allowed to analyse not only moves, but the making of the board itself.\n\nThe frontier remains difficult: human meaning, legitimacy, fear, shame, and symbolic trust still do not reduce cleanly to payoff terms. That is why the best version of this exercise is not merely a calculator. It is a seminar: a machine that keeps formalism and lived strategy in productive tension.`;
 }
 
 async function callProxy(persona, problem, transcript) {
