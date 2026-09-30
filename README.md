@@ -151,6 +151,10 @@ touches of **DeepSeek**. The AI contribution is not decorative and it is not con
 these documents were argued into existence in dialogue, and where a model's claim was
 wrong the retraction is recorded in the document rather than quietly patched.
 
+Founder, United Design Practice · Singapore<br>
+[LinkedIn](https://www.linkedin.com/in/linwei/) · lin.wei [at] uniteddesignpractice.com ·
+ORCID [0009-0000-1595-6898](https://orcid.org/0009-0000-1595-6898) · [thelinwei.github.io](https://thelinwei.github.io)
+
 ## Collaboration
 
 These documents were built as instruments for thinking, but several have turned out to
@@ -163,14 +167,15 @@ design research, learning sciences), **artists and curators**, and **galleries, 
 festivals** considering interactive or computational work. Collaboration, exhibition,
 commissioning, residency and teaching conversations are all in scope.
 
-Open an issue on this repository, or reach out through https://thelinwei.github.io.
+Write to lin.wei [at] uniteddesignpractice.com, connect on
+[LinkedIn](https://www.linkedin.com/in/linwei/), or open an issue on this repository.
 
 ## Citation
 
 See [`CITATION.cff`](CITATION.cff). Short form:
 
 > Lin Wei, with Claude and ChatGPT (2026). *The Polymathic Learner: a visual learning
-> archive*. https://thelinwei.github.io/thepolymathiclearner/
+> archive* (Version 1.0.0). Zenodo. https://doi.org/10.5281/zenodo.23054957
 
 To cite one document, name it: *易 Yi · The Loom — the sixty-four on a torus* (2026),
 in *The Polymathic Learner*.
