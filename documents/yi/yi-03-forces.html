@@ -217,6 +217,17 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
  text-transform:uppercase;color:var(--brass,#9A7226);text-decoration:none;opacity:.85}
 .yinav-home:hover{opacity:1;text-decoration:underline}
 @media(max-width:680px){.yinav-pair{grid-template-columns:1fr}}
+
+/* ── title block standard · 易 Yi sequence ── */
+h1 .en{display:block;font-family:"Fraunces","Noto Serif SC",serif;font-size:clamp(1.05rem,2.2vw,1.55rem);
+  font-weight:400;font-style:italic;line-height:1.3;letter-spacing:0;margin-top:clamp(1rem,3.6vw,2.8rem);
+  color:#F0D4C3;font-variation-settings:"WONK" 0;max-width:44ch}
+.cover .deck,.hero .lede{font-family:"Times New Roman",Times,"Noto Serif SC",serif;
+  font-size:clamp(1.1rem,1.55vw,1.28rem);line-height:1.55;letter-spacing:.004em;max-width:32em;color:#F9EBE3}
+.cover .deck b,.hero .lede b{font-weight:700;color:#fff}
+.cover{background:radial-gradient(115% 95% at 72% 6%,#A6553A 0,transparent 56%),radial-gradient(90% 80% at 6% 94%,#38150D 0,transparent 60%),linear-gradient(166deg,#39204B,#2D110A 62%,#180D20)}
+.cover::after{background:radial-gradient(120% 100% at 50% 40%,transparent 42%,rgba(20,8,5,.5) 100%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
+.cover .kicker{color:#EFC0A6}
 </style>
 </head>
 <body>
@@ -270,7 +281,7 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
 <section id="ch8">
   <div class="wrap col">
     <div class="head">
-      <div class="step"><b>Chapter eight</b>Four fields you can draw</div>
+      <div class="step"><b>Chapter eight</b>Four fields that can be drawn</div>
       <h2>What each phase does to the space.</h2>
     </div>
     <p>Here is the useful surprise. Four of the five operators can be drawn as an ordinary field of arrows: give them a position, they hand back a direction. The fifth cannot, and that turns out to matter more than anything else in this project.</p>
@@ -307,18 +318,18 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
         </div>
         <div class="readout" id="rField"></div>
       </div>
-      <figcaption>Each phase has a signature you can recognise at a glance. 水 draws everything inward toward the undecided centre. 火 drives it outward toward extremes, easing off as it arrives. 土 pulls the three lines toward a common value — flow toward the main diagonal, where all three agree. 金 sends every point to the nearest corner, which makes each of the eight regions <b>self-reinforcing</b>: under 金 alone, whichever trigram you are in is the one you stay in.</figcaption>
+      <figcaption>Each phase has a signature recognisable at a glance. 水 draws everything inward toward the undecided centre. 火 drives it outward toward extremes, easing off as it arrives. 土 pulls the three lines toward a common value — flow toward the main diagonal, where all three agree. 金 sends every point to the nearest corner, which makes each of the eight regions <b>self-reinforcing</b>: under 金 alone, whichever trigram holds the state is the one it stays in.</figcaption>
     </figure>
 
-    <p>That last observation is worth pausing on, because it is the first place the mathematics says something the tradition also says. Under 金 alone, the eight regions become attractors. Consolidation makes your current configuration <i>stable</i> — which is exactly the classical character of 金: definition, settling, the thing that gives form and then defends it.</p>
+    <p>That last observation is worth pausing on, because it is the first place the mathematics says something the tradition also says. Under 金 alone, the eight regions become attractors. Consolidation makes the current configuration <i>stable</i> — which is exactly the classical character of 金: definition, settling, the thing that gives form and then defends it.</p>
 
     <div class="div"><span>+ +</span></div>
-    <h2 style="margin-bottom:20px">The one you cannot draw.</h2>
-    <p>木 is different in kind. Branching is not a direction that depends on where you are — it is something that happens to motion <i>already underway</i>, at the moment a decision is live. So 木 reads the velocity, not the position:</p>
-    <div class="plate"><span class="ptag">Plate 09 · the operator you cannot draw</span><div class="tex fallback" data-tex="F_{\text{branch}}(\mathbf{x},\dot{\mathbf{x}}) \;=\; 0.95\;
-\underbrace{\operatorname{sign}(\textcolor{#2F6B72}{\dot{x}_i})}_{\textstyle\text{the way you already move}}\;
-\underbrace{\exp\!\left(-\frac{\textcolor{#9A7226}{x_i^2}}{0.55^2}\right)}_{\textstyle\text{only near a threshold}}">F_branch = 0.95 · sign(xdot) · exp( - x^2 / 0.55^2 )</div><div class="read"><b>How to read it</b>Two factors. The first reads the velocity, so 木 chooses no direction of its own — it takes the one you are already travelling. The second is a window around zero, so it acts only when a decision is actually live. Together: it removes the friction at the moment of commitment, and at no other moment.</div><div class="legend"><span><b>ẋ</b> the direction already taken</span><span><b>x</b> distance from the threshold</span><span>0.55 the width of the window</span></div></div>
-    <p>This has a consequence you can see immediately, and it is the reason 木 ends up being the most consequential operator in the whole model: two situations that are almost identical, both hovering near a threshold, get driven to <b>opposite and irreversible</b> configurations. And it takes a startlingly small amount of 木 to do it.</p>
+    <h2 style="margin-bottom:20px">The one that cannot be drawn.</h2>
+    <p>木 is different in kind. Branching is not a direction that depends on position — it is something that happens to motion <i>already underway</i>, at the moment a decision is live. So 木 reads the velocity, not the position:</p>
+    <div class="plate"><span class="ptag">Plate 09 · the operator that cannot be drawn</span><div class="tex fallback" data-tex="F_{\text{branch}}(\mathbf{x},\dot{\mathbf{x}}) \;=\; 0.95\;
+\underbrace{\operatorname{sign}(\textcolor{#2F6B72}{\dot{x}_i})}_{\textstyle\text{the current direction of motion}}\;
+\underbrace{\exp\!\left(-\frac{\textcolor{#9A7226}{x_i^2}}{0.55^2}\right)}_{\textstyle\text{only near a threshold}}">F_branch = 0.95 · sign(xdot) · exp( - x^2 / 0.55^2 )</div><div class="read"><b>How to read it</b>Two factors. The first reads the velocity, so 木 chooses no direction of its own — it takes the direction already being travelled. The second is a window around zero, so it acts only when a decision is actually live. Together: it removes the friction at the moment of commitment, and at no other moment.</div><div class="legend"><span><b>ẋ</b> the direction already taken</span><span><b>x</b> distance from the threshold</span><span>0.55 the width of the window</span></div></div>
+    <p>This has an immediate and visible consequence, and it is the reason 木 ends up being the most consequential operator in the whole model: two situations that are almost identical, both hovering near a threshold, get driven to <b>opposite and irreversible</b> configurations. And it takes a startlingly small amount of 木 to do it.</p>
 
     <figure>
       <div class="fhead"><span class="tag">Figure 9 · why 木 cannot be a field of position</span><span class="hint">two near-identical starts · watch them split</span></div>
@@ -333,7 +344,7 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
     </figure>
 
     <p class="big">木 does not decide. It commits whatever was already leaning.</p>
-    <p>Which is why prediction and 木 are enemies, and why the instrument in Part Four ends up measuring exactly that trade. But we are getting ahead: first, why there are five of these things at all.</p>
+    <p>Which is why prediction and 木 are enemies, and why the instrument in Part Four ends up measuring exactly that trade. That comes later; first, why there are five of these things at all.</p>
   </div>
 </section>
 
@@ -358,7 +369,7 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
       <figcaption>Solid: the generating cycle, one step at a time. Dashed: the overcoming relation, two steps at a time. At n = 3 the two-step cycle is just the generating cycle reversed. At n = 4 and n = 6 it shatters into disconnected pieces, so half the set never meets. <b>Five is the smallest number of phases that supports a full generating cycle and an independent full checking cycle over the same elements.</b> That is not numerology; it is why the diagram is a pentagram.</figcaption>
     </figure>
 
-    <p>And now the second thing the pentagram is telling us, which most modern retellings drop. The classical claim was never that these five things exist. It was that they <b>constrain each other</b>, in that specific double cycle. So the five weights should not be five free knobs — they should push on one another.</p>
+    <p>And now the second thing the pentagram says, which most modern retellings drop. The classical claim was never that these five things exist. It was that they <b>constrain each other</b>, in that specific double cycle. So the five weights should not be five free knobs — they should push on one another.</p>
     <div class="plate"><span class="ptag">Plate 10 · the mixture, turning itself</span><div class="tex fallback" data-tex="\dot{\alpha}_i \;=\; r\,\alpha_i\Big(\mathrm{fit}_i - \textstyle\sum_j \alpha_j\,\mathrm{fit}_j\Big),
 \qquad
 \mathrm{fit}_i \;=\; \underbrace{\textcolor{#9A7226}{\alpha_{i-1}}}_{\textstyle\text{parent}} \;-\; \underbrace{\textcolor{#2F6B72}{\alpha_{i-2}}}_{\textstyle\text{controller}}">adot_i = r · a_i · ( fit_i - sum_j a_j · fit_j ),    fit_i = a_(i-1) - a_(i-2)</div><div class="read"><b>How to read it</b>Each weight grows in proportion to its generating parent and shrinks in proportion to its controller two steps back. The weights always sum to one, so this is motion on a simplex. It has a balanced fixed point and never returns to it.</div><div class="legend"><span>parent = <b>生</b> one step back</span><span>controller = <b>克</b> two steps back</span><span>r the rate of turnover</span></div></div>
@@ -391,7 +402,7 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
     <div class="div"><span>+</span></div>
     <h3>Two defects these figures found, and one of them is this project's own argument biting back</h3>
     <p>The rule set after Part Two was that every figure must make its claimed effect <i>visibly large</i>, because a tenfold error had hidden inside an effect too small to see. Building these three figures duly turned up two more problems, and both are worth recording rather than quietly patching.</p>
-    <p><b>火 was divergent, and it was contained the wrong way.</b> Written as a straight outward push it drives the state to the wall, so the position was clamped and the velocity left alone — which is precisely the defect that ruined an earlier version of the simulation. A clamped position with a live velocity is a pinned state that reads as motion; you get numbers that move and mean nothing. 火 now eases off as it approaches an extreme, so every operator is inward-or-zero at the boundary and no clamp ever has to bind. If a model needs a fence, the model is wrong.</p>
+    <p><b>火 was divergent, and it was contained the wrong way.</b> Written as a straight outward push it drives the state to the wall, so the position was clamped and the velocity left alone — which is precisely the defect that ruined an earlier version of the simulation. A clamped position with a live velocity is a pinned state that reads as motion; the result is numbers that move and mean nothing. 火 now eases off as it approaches an extreme, so every operator is inward-or-zero at the boundary and no clamp ever has to bind. If a model needs a fence, the model is wrong.</p>
     <p><b>金 was discontinuous — and the first account of why that matters was wrong.</b> Written as a pull toward the nearest pole using the <i>sign</i> of the coordinate, it reverses direction the instant a line crosses zero. The claim was that this made a resting state chatter. It does not: <code>sign</code> makes the pole term <i>repulsive</i> from zero, so the state picks a side rather than oscillating, and when the test was finally built it showed no chatter at all. The claim was plausible, undemonstrated, and already written down.</p>
     <p>The real cost is <b>non-reproducibility</b>. A discontinuous field is not Lipschitz at the threshold planes, so the trajectory depends on the integration step. Forty runs started near the walls, integrated at step 0.06 and again at 0.015: with <code>sign</code> the worst coordinate diverged by <b>0.94</b> — nearly the width of the cube — and the two step sizes disagreed about the <i>sign</i> of a line eleven times out of two hundred and forty. That means eleven different hexagrams depending on nothing but the step size. With <code>tanh</code> the divergence falls to 0.15 and the sign disagreements to <b>zero</b>. Smoothed in both the figures here and, as of this pass, in the Part Four instrument.</p>
     <p><b>And the good one.</b> For Figure 12 the mixture was first built as a four-phase ring, on the grounds that four colours are easier to follow than five. It would not circulate. It sat there. Which is exactly what Chapter Nine predicts — at n = 4 the overcoming relation splits into two disconnected pairs, so there is no single checking cycle and nothing drives the succession. <b>The figure was refuted by the chapter it sits under.</b> Rarely has a bug report been more satisfying.</p>
@@ -406,12 +417,12 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
       <h2>The situation is also moving.</h2>
     </div>
     <p>Everything so far is internal — the state and its own transformations. But the classical system has a second layer, and it is the one usually treated as decoration: the distinction between 先天 and 后天.</p>
-    <p>Read them as two epistemic layers rather than two historical arrangements. <b>先天 is the invariant geometry</b> — the cube, the sign-regions, the operator structure. It should not depend on where or when you are. <b>后天 is the calibration</b> — everything that does depend on locale, climate, institutions, century. And a calibration layer must therefore carry a stamp:</p>
+    <p>Read them as two epistemic layers rather than two historical arrangements. <b>先天 is the invariant geometry</b> — the cube, the sign-regions, the operator structure. It should not depend on place or time. <b>后天 is the calibration</b> — everything that does depend on locale, climate, institutions, century. And a calibration layer must therefore carry a stamp:</p>
     <div class="plate"><span class="ptag">Plate 11 · 后天 must carry a stamp</span><div class="tex fallback" data-tex="H(\text{locale},\,t) \qquad\Longrightarrow\qquad
 H(\text{Singapore},\,2026) \;\neq\; H(\text{Chang'an},\,\text{antiquity})">H(locale, t)   =>   H(Singapore, 2026) != H(Chang'an, antiquity)</div><div class="read"><b>How to read it</b>A calibration layer without a place and a date is a contradiction in terms. The classical arrangement encodes a four-phase temperate year; at 1.35° north there is no such cycle, and an honest tropical calibration changes the frequency of the wheel rather than its values. A tropical 易 should care more about the hour than the season.</div><div class="legend"><span><b>先天</b> invariant geometry</span><span><b>后天</b> situated calibration</span><span>H the calibration itself</span></div></div>
     <p>Mathematically the simplest honest version is a <b>target</b>: a point in the space that the state is pulled toward, with a strength, and — crucially — with a motion of its own. The situation is not a backdrop. It is going somewhere too.</p><div class="plate"><span class="ptag">Plate 12 · the whole system</span><div class="tex fallback" data-tex="\ddot{\mathbf{x}} \;=\; \sum_i \alpha_i F_i(\mathbf{x},\dot{\mathbf{x}})
 \;+\; \underbrace{h\,\big(\mathbf{f}(t)-\mathbf{x}\big)}_{\textstyle\text{a moving target}}
-\;-\; c\,\dot{\mathbf{x}}">xddot = sum_i a_i F_i(x, xdot)  +  h·( f(t) - x )  -  c·xdot</div><div class="read"><b>How to read it</b>Everything assembled: the mixture of operators, the pull toward a moving situated target, and a friction term so nothing runs away. Set the pull to zero and you have a person with no context. Hold the mixture fixed and freeze the target, and the whole thing comes to rest — which is Figure 12.</div><div class="legend"><span>h the strength of context</span><span><b>f</b>(t) the target, moving</span><span>c friction</span></div></div>
+\;-\; c\,\dot{\mathbf{x}}">xddot = sum_i a_i F_i(x, xdot)  +  h·( f(t) - x )  -  c·xdot</div><div class="read"><b>How to read it</b>Everything assembled: the mixture of operators, the pull toward a moving situated target, and a friction term so nothing runs away. With the pull at zero, the model describes a person with no context. Hold the mixture fixed and freeze the target, and the whole thing comes to rest — which is Figure 12.</div><div class="legend"><span>h the strength of context</span><span><b>f</b>(t) the target, moving</span><span>c friction</span></div></div>
 
     <figure>
       <div class="fhead"><span class="tag">Figure 12 · the two sources of change</span><span class="hint">switch both off and watch it die</span></div>
@@ -432,8 +443,8 @@ H(\text{Singapore},\,2026) \;\neq\; H(\text{Chang'an},\,\text{antiquity})">H(loc
 
     <p>That result was not designed in. It appeared when the last of the arbitrary clocks was removed from an earlier version of the simulation, and it is the sort of thing worth keeping even though it makes the instrument less lively by default: <b>a still life needs no explanation, and a moving one does.</b></p>
     <div class="g2" style="margin-top:24px">
-      <div class="card"><span class="chip">i</span><h3>The field moves</h3><p>Institutions shift, monsoons turn, markets re-price, a city densifies. The target you are pulled toward is on its own clock, and whether it is coming toward you or moving away is a computable quantity — which decides whether patience is a strategy or a mistake.</p></div>
-      <div class="card"><span class="chip">ii</span><h3>The mixture turns over</h3><p>The 生/克 circulation from Chapter Nine. Even in a frozen situation, what you are <i>doing</i> cycles: storing gives way to branching, branching to amplifying, and around. This is the only motion in the model that requires no external clock at all.</p></div>
+      <div class="card"><span class="chip">i</span><h3>The field moves</h3><p>Institutions shift, monsoons turn, markets re-price, a city densifies. The target the state is pulled toward runs on its own clock, and whether it is approaching or receding is a computable quantity — which decides whether patience is a strategy or a mistake.</p></div>
+      <div class="card"><span class="chip">ii</span><h3>The mixture turns over</h3><p>The 生/克 circulation from Chapter Nine. Even in a frozen situation, the <i>activity</i> itself cycles: storing gives way to branching, branching to amplifying, and around. This is the only motion in the model that requires no external clock at all.</p></div>
     </div>
     <div class="div"><span>+ + +</span></div>
   </div>
@@ -459,7 +470,7 @@ H(\text{Singapore},\,2026) \;\neq\; H(\text{Chang'an},\,\text{antiquity})">H(loc
       <div class="r here"><div class="n">Part three · here</div>
         <div><b>What moves it</b><p>五行 as five operators. Four drawable fields and one that reads velocity instead of position. Why five, combinatorially. The circulating mixture. 后天 as a moving target, and the two sources of change.</p></div></div>
       <div class="r"><div class="n">Part four</div>
-        <div><b>The instrument, and what it found</b><p>The live simulation. How long a reading stays valid; which of the sixty-four a situation can actually reach; what it would take to be somewhere else; and the finding that surprised us most — that 木, the operator which rescues you under constraint, actively harms you without it.</p></div></div>
+        <div><b>The instrument, and what it found</b><p>The live simulation. How long a reading stays valid; which of the sixty-four a situation can actually reach; what it would take to be somewhere else; and the most surprising finding — that 木, the operator which rescues a system under constraint, actively harms it without constraint.</p></div></div>
     </div>
   </div>
 </section>
@@ -657,7 +668,7 @@ function cage(st,sc,cx,cy,planes){
       shui:"every arrow points inward. Under 水 alone the state collapses to the undecided centre, where all six lines sit at zero and no glyph is definite.",
       huo:"every arrow points outward, and shortens near the walls. Under 火 alone the state runs to an extreme and settles there — maximum definiteness, no flexibility left.",
       tu:"arrows converge on the main diagonal, where all three lines agree. 土 makes the parts resemble one another.",
-      jin:"arrows point to the nearest corner. <span class='ok'>Under 金 alone every one of the eight regions is self-reinforcing — whichever trigram you are in, you stay in.</span>",
+      jin:"arrows point to the nearest corner. <span class='ok'>Under 金 alone every one of the eight regions is self-reinforcing — whichever trigram holds the state, it stays in.</span>",
       mix:"a weighted sum of the four. The field is the sum of what is loud."
     }[mode];
     $("rField").innerHTML=(pts.length?("released points: <b>"+pts.length+"</b> · ")

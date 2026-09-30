@@ -215,6 +215,17 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
  text-transform:uppercase;color:var(--brass,#9A7226);text-decoration:none;opacity:.85}
 .yinav-home:hover{opacity:1;text-decoration:underline}
 @media(max-width:680px){.yinav-pair{grid-template-columns:1fr}}
+
+/* ── title block standard · 易 Yi sequence ── */
+h1 .en{display:block;font-family:"Fraunces","Noto Serif SC",serif;font-size:clamp(1.05rem,2.2vw,1.55rem);
+  font-weight:400;font-style:italic;line-height:1.3;letter-spacing:0;margin-top:clamp(1rem,3.6vw,2.8rem);
+  color:#F0D4C3;font-variation-settings:"WONK" 0;max-width:44ch}
+.cover .deck,.hero .lede{font-family:"Times New Roman",Times,"Noto Serif SC",serif;
+  font-size:clamp(1.1rem,1.55vw,1.28rem);line-height:1.55;letter-spacing:.004em;max-width:32em;color:#F9EBE3}
+.cover .deck b,.hero .lede b{font-weight:700;color:#fff}
+.cover{background:radial-gradient(115% 95% at 72% 6%,#A6553A 0,transparent 56%),radial-gradient(90% 80% at 6% 94%,#38150D 0,transparent 60%),linear-gradient(166deg,#39204B,#2D110A 62%,#180D20)}
+.cover::after{background:radial-gradient(120% 100% at 50% 40%,transparent 42%,rgba(20,8,5,.5) 100%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
+.cover .kicker{color:#EFC0A6}
 </style>
 </head>
 <body>
@@ -229,7 +240,7 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
     <div class="rules"></div>
     <h1>Making it<br>move<span class="en">Where 变爻 <i>bianyao</i>, the changing line, stops being a mark and becomes a countdown</span></h1>
     <p class="deck">Part One built a space: six continuous lines, sixty-four sign-regions, two cubes. It was still a snapshot — a much richer one, but a snapshot.</p>
-    <p class="deck" style="margin-top:14px">Now give each of the six numbers a <b>velocity</b>. Three things become sayable that the classical glyph cannot say: <b>which line turns next, in how long, and whether you are arriving or leaving.</b></p>
+    <p class="deck" style="margin-top:14px">Now give each of the six numbers a <b>velocity</b>. Three things become sayable that the classical glyph cannot say: <b>which line turns next, in how long, and whether the state is arriving or leaving.</b></p>
     <div class="chips">
       <span class="badge done">1 · one line to two cubes</span>
       <span class="badge now">2 · making it move</span>
@@ -245,12 +256,12 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
 <section id="recap">
   <div class="wrap col">
     <div class="head">
-      <div class="step"><b>Where we are</b>One paragraph of recap</div>
+      <div class="step"><b>Where things stand</b>One paragraph of recap</div>
       <h2>A snapshot, however rich, is still a snapshot.</h2>
     </div>
     <p class="lead">Six lines became six numbers between −1 and +1. The sign of each is the classical 阴 or 阳, so nothing was lost, and the sixty-four sign-regions are still exactly sixty-four. What was gained is room: <span class="hl">a trigram is an eighth of a cube, not a corner of one</span>, and two situations sharing a glyph can sit far apart inside it.</p>
-    <p>But a point sitting in a region tells you no more about what happens next than a photograph does. The classical system knew this and patched it with a special mark — 变爻, the changing line — plus a great deal of commentary about what a changing line means. That patch is the thing we can now replace with arithmetic.</p>
-    <p>One warning about this part, because it matters for reading it honestly: <b>nothing here explains why the state moves.</b> This is kinematics only. We hand a point a velocity and watch. What supplies the velocity — 五行, read as a field of forces over the whole space — is Part Three. Keeping those separate is deliberate: it is the only way to see which insights come from motion itself and which come from a particular theory of what causes it.</p>
+    <p>But a point sitting in a region says no more about what happens next than a photograph does. The classical system knew this and patched it with a special mark — 变爻, the changing line — plus a great deal of commentary about what a changing line means. That patch can now be replaced with arithmetic.</p>
+    <p>One warning about this part, because it matters for reading it honestly: <b>nothing here explains why the state moves.</b> This is kinematics only. A point is given a velocity and observed. What supplies the velocity — 五行, read as a field of forces over the whole space — is Part Three. Keeping those separate is deliberate: it is the only way to see which insights come from motion itself and which come from a particular theory of what causes it.</p>
     <div class="div"><span>+</span></div>
   </div>
 </section>
@@ -300,7 +311,7 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
     </figure>
 
     <p>There is a second thing hiding in the sign of ẋ, and it is arguably the larger gain.</p>
-    <p class="big">The glyph cannot tell you whether you are arriving or leaving.</p>
+    <p class="big">The glyph cannot say whether the state is arriving or leaving.</p>
     <p>A hexagram drawn at the moment a situation is consolidating and the same hexagram drawn as it comes apart are the same six marks. With velocities they are opposites: one has its lines moving away from their thresholds, the other has them heading in. Same name, opposite prognosis — and the difference is a sign, not an interpretation.</p><div class="plate"><span class="ptag">Plate 05 · arriving or leaving</span><div class="tex fallback" data-tex="\operatorname{sign}(x\,\dot{x}) \;=\;
 \begin{cases} -1 &amp; \text{heading for the threshold — arriving}\\[2pt]
               +1 &amp; \text{moving away from it — leaving}\end{cases}">sign(x · xdot) = -1  arriving at the threshold ;  +1  leaving it</div><div class="read"><b>How to read it</b>One product, one sign, and the whole difference between a situation tightening and a situation coming apart. The classical notation has no place to record it, which is why the commentaries had to carry it in prose.</div><div class="legend"><span>negative — converging on a change</span><span>positive — moving away from one</span></div></div>
@@ -316,7 +327,7 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
       <h2>A reading is a path, not a card.</h2>
     </div>
     <p>Put the moving point back in the cube. It drifts; it crosses walls; the trigram name changes when it does. Nothing else about it changes at that moment — the crossing is an event in the <i>notation</i>, not in the situation.</p>
-    <p>Which reframes what a divination result actually is. Not a card drawn from sixty-four, but <b>a label attached to the segment of a path you happen to be on when you look.</b></p>
+    <p>Which reframes what a divination result actually is. Not a card drawn from sixty-four, but <b>a label attached to the segment of a path the state happens to occupy at the moment of looking.</b></p>
 
     <figure>
       <div class="fhead"><span class="tag">Figure 6 · drift across the walls</span><span class="hint">drag to rotate · aim the velocity · play</span></div>
@@ -343,7 +354,7 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
 
     <p>The drift here is deliberately stupid — constant velocity with a little friction, and a soft wall so the point cannot escape the cube. No forces, no theory, no 五行. Even so, two results are already visible, and both survive into the real instrument:</p>
     <div class="g2" style="margin-top:22px">
-      <div class="card"><span class="chip">1</span><h3>Readings have a shelf life</h3><p>If your path crosses a wall in two time units, a name assigned now is worthless in three. The reading should carry that number. Part Four computes it properly, by running many slightly-different futures and asking when they stop agreeing.</p></div>
+      <div class="card"><span class="chip">1</span><h3>Readings have a shelf life</h3><p>If a path crosses a wall in two time units, a name assigned now is worthless in three. The reading should carry that number. Part Four computes it properly, by running many slightly-different futures and asking when they stop agreeing.</p></div>
       <div class="card"><span class="chip">2</span><h3>Sixty-four are not equally likely</h3><p>Some regions are transited in a blink, others dwell. Once there are real forces, this becomes measurable: a given situation visits some of the sixty-four constantly, some rarely, and some never at all. That is the 8×8 grid from Part One, shaded in.</p></div>
     </div>
     <div class="pull">The hexagram was never the situation. It was the name of the room the situation was passing through.</div>
@@ -386,7 +397,7 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
     <p>Two diagnostics fall straight out, and they are the reason the conjecture is worth making:</p>
     <div class="g2" style="margin-top:22px">
       <div class="card"><span class="chip">↓</span><h3>A crossing low down is a regime change</h3><p>A slow structural variable that crosses zero will not cross back soon — its own sluggishness prevents it. Everything above must re-equilibrate around the new sign. This is exactly how the tradition reads a moving bottom line, now with a mechanism instead of a metaphor.</p></div>
-      <div class="card"><span class="chip">↑</span><h3>A crossing at the top may be nothing</h3><p>A fast variable sitting near zero flickers. Its sign is the least informative bit in the whole figure, and a "change" there may reverse before you finish reading it. The classical reading of the top line as excess or ending is, in this frame, simply the line with the worst signal-to-noise.</p></div>
+      <div class="card"><span class="chip">↑</span><h3>A crossing at the top may be nothing</h3><p>A fast variable sitting near zero flickers. Its sign is the least informative bit in the whole figure, and a "change" there may reverse before the reading is finished. The classical reading of the top line as excess or ending is, in this frame, simply the line with the worst signal-to-noise.</p></div>
     </div>
     <p style="margin-top:24px">And it explains something the classical system asserts without accounting for: <b>why the same hexagram means different things depending on which line is moving.</b> If the six lines were equal-weight bits, that would be arbitrary. If they are measurements at six different frequencies, it is inevitable.</p>
     <p>Where this stays honest: the ordering is testable and the numbers are not yet fitted to anything. Fitting them to one real domain — six observables with measurable relaxation times — is the most valuable unfinished job in the whole project, and it is the only one that requires leaving the model to do.</p>
@@ -402,9 +413,9 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
       <h2>Nothing here says why anything moves.</h2>
     </div>
     <p>Every velocity in this part was set by hand. That is fine for showing what motion buys — countdowns, arrival versus departure, unequal dwell times, clocks for the six positions — but it is not a model of anything. A model has to say where the motion comes from.</p>
-    <p>Which is precisely the job the other half of the classical system was doing all along. 八卦 and 六十四卦 describe <i>configuration</i>: where a thing stands. 五行 describes <i>transformation</i>: how it moves. For centuries the mismatch between five and eight looked like an embarrassment to be reconciled. It stops looking like one the moment you notice they were never counting the same kind of object.</p>
+    <p>Which is precisely the job the other half of the classical system was doing all along. 八卦 and 六十四卦 describe <i>configuration</i>: where a thing stands. 五行 describes <i>transformation</i>: how it moves. For centuries the mismatch between five and eight looked like an embarrassment to be reconciled. It stops looking like one once it is noticed that they were never counting the same kind of object.</p>
     <p class="big">Eight is a count of positions. Five is a count of motions.</p>
-    <p>Part Three takes the five phases as five characteristic directions of change — storing, branching, amplifying, integrating, consolidating — and lets a mixture of them supply the velocities that were hand-set here. That turns the cube from a diagram into a field. It also brings in the second thing that moves a state, which no amount of internal dynamics can supply: <b>the situation you happen to be in</b>, and the fact that it is moving too.</p>
+    <p>Part Three takes the five phases as five characteristic directions of change — storing, branching, amplifying, integrating, consolidating — and lets a mixture of them supply the velocities that were hand-set here. That turns the cube from a diagram into a field. It also brings in the second thing that moves a state, which no amount of internal dynamics can supply: <b>the surrounding situation</b>, and the fact that it is moving too.</p>
 
     <div class="road" style="margin-top:30px">
       <div class="r done"><div class="n">Part one · done</div>
@@ -414,7 +425,7 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
       <div class="r"><div class="n">Part three</div>
         <div><b>What moves it</b><p>五行 as five operators rather than five substances — a vector field over the space. The 生 and 克 cycles as a coupling that makes the mixture circulate rather than settle. And 后天 as a moving target, which is where the situation enters the mathematics.</p></div></div>
       <div class="r"><div class="n">Part four</div>
-        <div><b>The instrument, and what it found</b><p>The live simulation, and the results: how long a reading stays valid, which of the sixty-four a situation can actually reach, and the finding that surprised us most — that the operator which rescues you under constraint actively harms you without it.</p></div></div>
+        <div><b>The instrument, and what it found</b><p>The live simulation, and the results: how long a reading stays valid, which of the sixty-four a situation can actually reach, and the most surprising finding — that the operator which rescues a system under constraint actively harms it without constraint.</p></div></div>
     </div>
   </div>
 </section>
@@ -424,7 +435,7 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
 <footer>
   <div class="wrap col">
     <div class="kicker">Part two of four · no build step · maths via KaTeX, with a plain-text fallback if it is unavailable</div>
-    <p class="big" style="margin-top:16px">Ask not which of the sixty-four, but which wall is nearest and how fast you are travelling towards it.</p>
+    <p class="big" style="margin-top:16px">Ask not which of the sixty-four, but which wall is nearest and how fast the state is travelling towards it.</p>
     <p class="cap" style="margin-top:16px">易 · a working model of change. Kinematics only: every velocity in this part was set by hand, deliberately. Part Two built 13 Aug 2026. Building Figure 7 surfaced a real defect in the Part Four instrument: τ was scaling acceleration rather than the whole flow, so the per-爻 clocks were roughly a tenth as strong as intended. Logged, not yet fixed there.</p>
   </div>
 </footer>

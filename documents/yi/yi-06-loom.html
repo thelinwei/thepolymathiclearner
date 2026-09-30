@@ -181,6 +181,20 @@ img,svg,canvas{max-width:100%}
  text-transform:uppercase;color:var(--brass,#9A7226);text-decoration:none;opacity:.85}
 .yinav-home:hover{opacity:1;text-decoration:underline}
 @media(max-width:680px){.yinav-pair{grid-template-columns:1fr}}
+
+/* ── title block standard · 易 Yi sequence ── */
+h1 .en{display:block;font-family:"Fraunces","Noto Serif SC",serif;font-size:clamp(1.05rem,2.2vw,1.55rem);
+  font-weight:400;font-style:italic;line-height:1.3;letter-spacing:0;margin-top:clamp(1rem,3.6vw,2.8rem);
+  color:#F0D4C3;font-variation-settings:"WONK" 0;max-width:44ch}
+.cover .deck,.hero .lede{font-family:"Times New Roman",Times,"Noto Serif SC",serif;
+  font-size:clamp(1.1rem,1.55vw,1.28rem);line-height:1.55;letter-spacing:.004em;max-width:32em;color:#F9EBE3}
+.cover .deck b,.hero .lede b{font-weight:700;color:#fff}
+.cover{background:radial-gradient(115% 95% at 72% 6%,#A6553A 0,transparent 56%),radial-gradient(90% 80% at 6% 94%,#38150D 0,transparent 60%),linear-gradient(166deg,#39204B,#2D110A 62%,#180D20)}
+.cover::after{background:radial-gradient(120% 100% at 50% 40%,transparent 42%,rgba(20,8,5,.5) 100%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
+.cover .kicker{color:#EFC0A6}
+
+.cover .wrap{width:min(1120px,calc(100% - 34px))}
+.cover h1{font-size:clamp(3.6rem,15vw,9rem);line-height:.86}
 </style>
 </head>
 <body>
@@ -225,7 +239,7 @@ img,svg,canvas{max-width:100%}
 \varphi &amp;\leftarrow \text{upper trigram}\\[3pt]
 8\times 8 &amp;= 64 \ \text{on } T^2
 \end{aligned}">θ ← lower trigram · φ ← upper trigram · 8 × 8 = 64 on T²</div>
-        <div class="read"><b>How to read it</b>Major angle from the lower trigram, minor angle from the upper. Verified bijective: sixty-four cells, sixty-four hexagrams, nothing doubled and nothing hidden — every state sits on the surface where you can see it.</div>
+        <div class="read"><b>How to read it</b>Major angle from the lower trigram, minor angle from the upper. Verified bijective: sixty-four cells, sixty-four hexagrams, nothing doubled and nothing hidden — every state sits on the visible surface.</div>
       </div>
 
       <p>And the adjacency behaves. Each trigram has three neighbours in the cube, and on the ring they land at offsets ±1 and one chord at ±3 — so a hexagram's six neighbours are <b>four adjacent cells and two chords</b>, three in each direction. Nothing is lost; two of the six are simply drawn as short arcs across the surface rather than as steps to the next cell.</p>
@@ -315,7 +329,7 @@ img,svg,canvas{max-width:100%}
           <div class="readout" id="rLoom"></div>
         </div>
       </div>
-      <figcaption><b>Labels</b> cycles through five modes. <i>Axes only</i> prints the eight trigram glyphs once around each circulation — sixteen marks, from which any cell can be decoded by reading its two coordinates. The further modes add glyphs at the cells themselves, culled to the near half of the surface and faded with depth so the far side does not print through; the selected cell keeps its full name on either side. Depth ordering was also inverted until this pass — far beads were painting over near ones — so occlusion now reads correctly.<br><br>The major circulation is the lower trigram, the minor is the upper. <b>Warp</b> and <b>weft</b> draw the two families of rings that make the surface a weave rather than a grid — the curvature is doing the work a flat 8×8 square cannot. <b>The thread</b> draws the single Gray circuit; <b>walk the thread</b> follows it bead by bead, and you can watch the shuttle run across the warp and come back.</figcaption>
+      <figcaption><b>Labels</b> cycles through five modes. <i>Axes only</i> prints the eight trigram glyphs once around each circulation — sixteen marks, from which any cell can be decoded by reading its two coordinates. The further modes add glyphs at the cells themselves, culled to the near half of the surface and faded with depth so the far side does not print through; the selected cell keeps its full name on either side. Depth ordering was also inverted until this pass — far beads were painting over near ones — so occlusion now reads correctly.<br><br>The major circulation is the lower trigram, the minor is the upper. <b>Warp</b> and <b>weft</b> draw the two families of rings that make the surface a weave rather than a grid — the curvature is doing the work a flat 8×8 square cannot. <b>The thread</b> draws the single Gray circuit; <b>walk the thread</b> follows it bead by bead, so the shuttle can be seen running across the warp and back.</figcaption>
     </figure>
   </div>
 </section>
@@ -325,7 +339,7 @@ img,svg,canvas{max-width:100%}
   <div class="wrap col">
     <div class="ch"><div class="num">IV</div><div>
       <h2>The surface is settled. The ordering is the choice.</h2>
-      <p class="lead">With the torus fixed, one thing is still free: the order you thread the sixty-four beads in. That looked like a detail. It is the whole remaining design space, and four things came out of testing it — two of which correct claims made earlier on this page.</p>
+      <p class="lead">With the torus fixed, one thing is still free: the order in which the sixty-four beads are threaded. That looked like a detail. It is the whole remaining design space, and four things came out of testing it — two of which correct claims made earlier on this page.</p>
 
       <h3>One · the chords are forced</h3>
       <p>Enumerated exhaustively: the cube graph has exactly <b>six</b> Hamiltonian cycles up to rotation and reflection, and every one of them puts the two chords at ±3. There is no kinder ring to be found. The weave must have those two diagonal stitches per cell.</p>
@@ -342,7 +356,7 @@ img,svg,canvas{max-width:100%}
 
       <h3>Four · and the reflected code earns its place differently than expected</h3>
       <p>The genuine virtue of the reflected Gray code is not its skew. It is that it has <b>zero self-crossings</b> — it lies flat on the surface and never passes over itself, which puts it in that rare 4%. This had never been checked and never claimed; it is the best property the loom has, and it turned up by accident while trying to disprove something else.</p>
-      <p>There was also a brief belief in a trade-off — that a clean weave cost you an uneven one, since the first balanced ordering found crossed itself nine times. That was one sample mistaken for a frontier. Mapping it properly turns up an <b>embedded ordering with the optimal spread of 2</b>: turns 10, 10, 12, 10, 12, 10, no crossings, warp and weft exactly 32 each. Balance and cleanliness are compatible, so the reflected code's extremity buys nothing that evenness could not also have.</p>
+      <p>There was also a brief belief in a trade-off — that a clean weave had to be an uneven one, since the first balanced ordering found crossed itself nine times. That was one sample mistaken for a frontier. Mapping it properly turns up an <b>embedded ordering with the optimal spread of 2</b>: turns 10, 10, 12, 10, 12, 10, no crossings, warp and weft exactly 32 each. Balance and cleanliness are compatible, so the reflected code's extremity buys nothing that evenness could not also have.</p>
 
       <table>
         <thead><tr><th>ordering</th><th>turns per line</th><th>spread</th><th>crossings</th><th>class</th><th>warp : weft</th></tr></thead>
@@ -362,7 +376,7 @@ img,svg,canvas{max-width:100%}
   <div class="wrap col">
     <div class="ch"><div class="num">V</div><div>
       <h2>Where it stands against the others.</h2>
-      <p>Five iterations, and this is the first form that loses nothing we have been able to name.</p>
+      <p>Five iterations, and this is the first form that loses nothing identified so far.</p>
       <table>
         <thead><tr><th>body</th><th>one object</th><th>nothing hidden</th><th>trigrams visible</th><th>change visible</th></tr></thead>
         <tbody>
@@ -375,7 +389,7 @@ img,svg,canvas{max-width:100%}
         </tbody>
       </table>
 
-      <p>What it gives up relative to the lantern is the <b>silhouette</b>. In the lantern the yang count was elevation, so 坤 and 乾 were the poles of the form and balance was its equator — you could read the whole distribution from the outline. On the torus the yang count is not a direction at all; it becomes a colouring, and the profile says nothing. That is a real loss and it is why <i>colour by yang</i> is in the controls rather than being the default.</p>
+      <p>What it gives up relative to the lantern is the <b>silhouette</b>. In the lantern the yang count was elevation, so 坤 and 乾 were the poles of the form and balance was its equator — the whole distribution could be read from the outline. On the torus the yang count is not a direction at all; it becomes a colouring, and the profile says nothing. That is a real loss and it is why <i>colour by yang</i> is in the controls rather than being the default.</p>
       <p>So the pair actually worth keeping is not lantern-or-loom. It is <b>灯 for the distribution, 織 for the structure</b> — and unlike every earlier pair, these two are not rival solids competing to be the object. They are one surface and one section through it.</p>
 
       <div class="pull">A knot would need the thread to wander both ways. A weave needs precisely that it does not.</div>

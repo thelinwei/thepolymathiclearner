@@ -193,6 +193,20 @@ img,svg,canvas{max-width:100%}
  text-transform:uppercase;color:var(--brass,#9A7226);text-decoration:none;opacity:.85}
 .yinav-home:hover{opacity:1;text-decoration:underline}
 @media(max-width:680px){.yinav-pair{grid-template-columns:1fr}}
+
+/* ── title block standard · 易 Yi sequence ── */
+h1 .en{display:block;font-family:"Fraunces","Noto Serif SC",serif;font-size:clamp(1.05rem,2.2vw,1.55rem);
+  font-weight:400;font-style:italic;line-height:1.3;letter-spacing:0;margin-top:clamp(1rem,3.6vw,2.8rem);
+  color:#F0D4C3;font-variation-settings:"WONK" 0;max-width:44ch}
+.cover .deck,.hero .lede{font-family:"Times New Roman",Times,"Noto Serif SC",serif;
+  font-size:clamp(1.1rem,1.55vw,1.28rem);line-height:1.55;letter-spacing:.004em;max-width:32em;color:#F9EBE3}
+.cover .deck b,.hero .lede b{font-weight:700;color:#fff}
+.cover{background:radial-gradient(115% 95% at 72% 6%,#A6553A 0,transparent 56%),radial-gradient(90% 80% at 6% 94%,#38150D 0,transparent 60%),linear-gradient(166deg,#39204B,#2D110A 62%,#180D20)}
+.cover::after{background:radial-gradient(120% 100% at 50% 40%,transparent 42%,rgba(20,8,5,.5) 100%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
+.cover .kicker{color:#EFC0A6}
+
+.cover .wrap{width:min(1120px,calc(100% - 34px))}
+.cover h1{font-size:clamp(3.6rem,15vw,9rem);line-height:.86}
 </style>
 </head>
 <body>
@@ -206,7 +220,7 @@ img,svg,canvas{max-width:100%}
     <div class="kicker">易 Yi · geometry hunt · iteration four · one body, nothing hidden</div>
     <div class="rules"></div>
     <h1>灯 dēng<span class="en">The lantern — sixty-four beads on a single closed curve</span></h1>
-    <p class="deck">Two cubes were two bodies. The conjugate pair was two bodies with a better excuse. You were right to reject both — so this iteration accepted the constraint properly: <b>one object, everything on its surface, and not a grid.</b></p>
+    <p class="deck">Two cubes were two bodies. The conjugate pair was two bodies with a better excuse. Both were rejected, and this iteration accepts the constraint in full: <b>one object, everything on its surface, and not a grid.</b></p>
     <p class="deck" style="margin-top:12px">Four candidates were tested. Two died on collisions. The two that survived turned out to be the same object seen twice, and together they make a form whose <b>height is the number of yang lines</b> — 坤 kun a point at the base, 乾 qian a point at the apex, and the twenty balanced hexagrams as the widest ring at the equator.</p>
     <a class="yijump" href="#figLantern">See the model first ↓</a>
   </div>
@@ -248,7 +262,7 @@ img,svg,canvas{max-width:100%}
       <h2>Height is the yang count. The curve is the change.</h2>
     </div>
     <p>Two ideas survived the tests, and they fit together so exactly that they are better read as one.</p>
-    <p><b>The first is a height.</b> Count the yang lines in a hexagram and you get a number from zero to six. There is exactly one hexagram with none — 坤 — and exactly one with all six — 乾. In between the counts are six, fifteen, twenty, fifteen, six. Use that count as elevation and the widths give a silhouette on their own: a point at the bottom, a point at the top, widest in the middle.</p>
+    <p><b>The first is a height.</b> Counting the yang lines in a hexagram gives a number from zero to six. There is exactly one hexagram with none — 坤 — and exactly one with all six — 乾. In between the counts are six, fifteen, twenty, fifteen, six. Use that count as elevation and the widths give a silhouette on their own: a point at the bottom, a point at the top, widest in the middle.</p>
 
     <div class="prof" id="profile"></div>
 
@@ -258,7 +272,7 @@ h(s)&amp;=\textstyle\sum_i s_i \;=\; \#\,\text{yang}\\
 r(h)&amp;=\sqrt{\tbinom{6}{h}}\\
 \tbinom{6}{h}&amp;:\;1,\,6,\,15,\,20,\,15,\,6,\,1
 \end{aligned}">h(s) = sum_i s_i = #yang,    r(h) = sqrt( C(6,h) ),    C(6,h) : 1, 6, 15, 20, 15, 6, 1</div>
-      <div class="read"><b>How to read it</b>The radius at each level is set by how many hexagrams live there, so the shape is drawn by the binomial coefficients rather than by taste. The spindle profile is what the sixty-four look like when you stop arranging them and let them stack.</div>
+      <div class="read"><b>How to read it</b>The radius at each level is set by how many hexagrams live there, so the shape is drawn by the binomial coefficients rather than by taste. The spindle profile is what the sixty-four look like when they are no longer arranged and are simply left to stack.</div>
       <div class="legend"><span>h elevation, 0 to 6</span><span>坤 the base point</span><span>乾 the apex point</span><span>20 balanced at the equator</span></div>
     </div>
 
@@ -340,7 +354,7 @@ g(k)&amp;=k\oplus\lfloor k/2\rfloor,\quad k=0,\dots,63\\
 
     <p class="big">There may be no single body that shows everything.</p>
     <p>Six dimensions do not fit in three, and each honest projection chooses a different three things to keep. The two-cube view keeps the trigram structure and loses the unity. The zonotope keeps the symmetry and loses half the states. The lantern keeps the unity, the change and the yang-count and loses the trigrams. That is not a failure of any of them; it is what projection <i>is</i>.</p>
-    <p>Which suggests the actual answer is not one body but <b>one body and one plan</b> — the architect's own convention. Elevation and plan are not two objects; they are two drawings of one. The lantern is the elevation: it shows change and level. The 四象 cube, flattened, is the plan: it shows the trigram pairing. Neither pretends to be the whole, and together they do not read as a pair of rival solids — which was the thing you objected to.</p>
+    <p>Which suggests the actual answer is not one body but <b>one body and one plan</b> — the architect's own convention. Elevation and plan are not two objects; they are two drawings of one. The lantern is the elevation: it shows change and level. The 四象 cube, flattened, is the plan: it shows the trigram pairing. Neither pretends to be the whole, and together they do not read as a pair of rival solids — which was the original objection.</p>
 
     <div class="g3" style="margin-top:24px">
       <div class="card"><span class="n">灯</span><h3>Next, for this form</h3><p>Wrap the thread on a torus rather than a cylinder of revolution, so the curve closes with curvature instead of a seam. Then the lantern becomes a knot, and the knot type is an invariant of the ordering rather than of the geometry.</p></div>

@@ -220,6 +220,17 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
  text-transform:uppercase;color:var(--brass,#9A7226);text-decoration:none;opacity:.85}
 .yinav-home:hover{opacity:1;text-decoration:underline}
 @media(max-width:680px){.yinav-pair{grid-template-columns:1fr}}
+
+/* ── title block standard · 易 Yi sequence ── */
+h1 .en{display:block;font-family:"Fraunces","Noto Serif SC",serif;font-size:clamp(1.05rem,2.2vw,1.55rem);
+  font-weight:400;font-style:italic;line-height:1.3;letter-spacing:0;margin-top:clamp(1rem,3.6vw,2.8rem);
+  color:#F0D4C3;font-variation-settings:"WONK" 0;max-width:44ch}
+.cover .deck,.hero .lede{font-family:"Times New Roman",Times,"Noto Serif SC",serif;
+  font-size:clamp(1.1rem,1.55vw,1.28rem);line-height:1.55;letter-spacing:.004em;max-width:32em;color:#F9EBE3}
+.cover .deck b,.hero .lede b{font-weight:700;color:#fff}
+.cover{background:radial-gradient(115% 95% at 72% 6%,#A6553A 0,transparent 56%),radial-gradient(90% 80% at 6% 94%,#38150D 0,transparent 60%),linear-gradient(166deg,#39204B,#2D110A 62%,#180D20)}
+.cover::after{background:radial-gradient(120% 100% at 50% 40%,transparent 42%,rgba(20,8,5,.5) 100%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
+.cover .kicker{color:#EFC0A6}
 </style>
 </head>
 <body>
@@ -233,7 +244,7 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
     <div class="kicker">易 Yi · a working model of change · part one of three · the argument</div>
     <div class="rules"></div>
     <h1>From one line<br>to two cubes<span class="en">Everything the instrument needs, built from nothing</span></h1>
-    <p class="deck">The <i>I Ching</i> is three thousand years old and describes itself as a book about change. Almost everything built on it since has been <b>static</b> — a fixed set of sixty-four names you draw from like cards.</p>
+    <p class="deck">The <i>I Ching</i> is three thousand years old and describes itself as a book about change. Almost everything built on it since has been <b>static</b> — a fixed set of sixty-four names drawn like cards.</p>
     <p class="deck" style="margin-top:14px">This is an attempt to give it back its motion. Not by proving the old cosmology with modern maths, and not by flattening it into generic systems theory. By taking its central move seriously: <b>read the configuration, attend to the transformation, situate the reading.</b></p>
     <div class="chips">
       <span class="badge now">1 · one line to two cubes</span>
@@ -250,14 +261,14 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
 <section id="why">
   <div class="wrap col">
     <div class="head">
-      <div class="step"><b>Before we start</b>What is broken</div>
+      <div class="step"><b>Before starting</b>What is broken</div>
       <h2>A book about change, held perfectly still.</h2>
     </div>
     <p class="lead">Strip away the mysticism and the <i>I Ching</i> contains a piece of engineering. Six positions, each one of two values, giving sixty-four configurations — and a body of commentary about how those configurations turn into one another. As a <span class="hl">notation for the state of a situation</span>, it is remarkably economical.</p>
     <p>What it lacks is everything between the states. A line is yin or yang and nothing else — no sense of <i>barely</i> yang, no sense of a line that has been yang for years and one that flipped this morning. The tradition knows this gap exists; that is what 变爻, the changing line, is for. But the notation cannot hold it, so the knowledge went into the commentary instead, as story.</p>
-    <p>So the question this sequence asks is narrow and technical: <b>what happens if we let the notation hold it?</b> Give each line a magnitude and a velocity. Then see what the old structure looks like from inside a model that can actually move.</p>
+    <p>So the question this sequence asks is narrow and technical: <b>what happens if the notation is allowed to hold it?</b> Give each line a magnitude and a velocity. Then see what the old structure looks like from inside a model that can actually move.</p>
     <div class="pull">Three things went missing when the lines became bits: how strongly, how fast, and which way.</div>
-    <p>Four short chapters. This one builds the space — and by the end of it, the two cubes you may have already seen in the instrument will look like the only sensible way to draw the thing.</p>
+    <p>Four short chapters. This one builds the space — and by the end of it, the two cubes of the instrument will look like the only sensible way to draw the thing.</p>
   </div>
 </section>
 
@@ -270,7 +281,7 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
     </div>
     <p>Start with the smallest object in the system. A single line: unbroken is 阳, broken is 阴. One bit of information.</p>
     <p>Now replace the bit with a number between −1 and +1. The drawn line is just the <b>sign</b> of that number — so nothing classical is lost, and two new things are gained: how far the value sits from zero, and how close it is to flipping.</p><div class="plate"><span class="ptag">Plate 01 · the sign map</span><div class="tex fallback" data-tex="
-\underbrace{x_i \in (-1,\,+1)}_{\textstyle\text{what we store}}
+\underbrace{x_i \in (-1,\,+1)}_{\textstyle\text{what is stored}}
 \qquad\longrightarrow\qquad
 \underbrace{\operatorname{sign}(x_i)}_{\textstyle\text{what the glyph draws}}
 \;=\;\begin{cases}\textcolor{#9A7226}{\text{solid}} &amp; x_i \geq 0\\[2pt] \textcolor{#9A7226}{\text{broken}} &amp; x_i &lt; 0\end{cases}">x_i in (-1, +1)   →   sign(x_i) = solid if x_i >= 0, broken if x_i < 0</div><div class="read"><b>How to read it</b>Everything to the left of the arrow is what the model keeps. Everything to the right is what the classical glyph draws. The arrow is where the information goes missing — and it is one-way.</div><div class="legend"><span><b>阳</b> solid line</span><span><b>阴</b> broken line</span><span>x<sub>i</sub> the stored value</span></div></div>
@@ -311,7 +322,7 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
       <div class="step"><b>Chapter two</b>Three lines</div>
       <h2>Three dials make a cube.</h2>
     </div>
-    <p>Trigrams stack three lines, so we now have three numbers. And three numbers that each run from −1 to +1 are a point in a cube. This is not a metaphor or a visualisation choice — it is what three numbers <i>are</i>.</p>
+    <p>Trigrams stack three lines, which gives three numbers. And three numbers that each run from −1 to +1 are a point in a cube. This is not a metaphor or a visualisation choice — it is what three numbers <i>are</i>.</p>
     <p>Watch the space get built one axis at a time.</p>
 
     <figure>
@@ -350,11 +361,11 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
         <div class="tri8" id="tri8"></div>
         <div class="readout" id="rCube"></div>
       </div>
-      <figcaption>The lit cell below the cube is the trigram you are currently in. Press <b>show a distant twin</b> to place a second point — the teal one — as near to the centre as the region allows, and a third as far out as it allows. Both points are the same classical trigram. The glyph cannot tell them apart; the cube can.</figcaption>
+      <figcaption>The lit cell below the cube is the current trigram. Press <b>show a distant twin</b> to place a second point — the teal one — as near to the centre as the region allows, and a third as far out as it allows. Both points are the same classical trigram. The glyph cannot tell them apart; the cube can.</figcaption>
     </figure>
 
     <div class="plate"><span class="ptag">Plate 02 · the counting survives</span><div class="tex fallback" data-tex="2^{1}=2 \qquad 2^{2}=4 \qquad 2^{3}=8 \qquad 2^{6}=64">2^1 = 2    2^2 = 4    2^3 = 8    2^6 = 64</div><div class="read"><b>How to read it</b>One line has two states, three lines have eight, six lines have sixty-four. These are the classical counts exactly. Making the lines continuous adds room inside each region without changing how many regions there are.</div><div class="legend"><span>2ⁿ regions for n lines</span><span>8 = <b>八卦</b></span><span>64 = <b>六十四卦</b></span></div></div>
-    <p>This is the first real gain. In the classical notation, "we are in 巽" is the whole of what can be said. In the cube it is the beginning: <i>where</i> in 巽, how close to which wall, and — once we add motion in the next chapter — heading towards which one.</p>
+    <p>This is the first real gain. In the classical notation, "the state is in 巽" is the whole of what can be said. In the cube it is the beginning: <i>where</i> in 巽, how close to which wall, and — once motion is added in the next chapter — heading towards which one.</p>
     <div class="div"><span>+ +</span></div>
   </div>
 </section>
@@ -394,7 +405,7 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
         <div class="m64" id="m64"></div>
         <div class="readout" id="rDual"></div>
       </div>
-      <figcaption>Rows are the lower trigram, columns the upper; the lit cell is your hexagram. Move any of the six sliders and watch the cell travel. This grid is the sixty-four laid out flat — and later, when the instrument starts measuring which of them a situation can actually reach, it is this grid that gets shaded in.</figcaption>
+      <figcaption>Rows are the lower trigram, columns the upper; the lit cell is the current hexagram. Moving any of the six sliders sends the cell travelling. This grid is the sixty-four laid out flat — and later, when the instrument starts measuring which of them a situation can actually reach, it is this grid that gets shaded in.</figcaption>
     </figure>
 
     <h3>Why not nest the cubes instead?</h3>
@@ -402,7 +413,7 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
     <p>Two plain cubes side by side make a weaker-looking picture and a true one. That trade is worth making every time.</p>
 
     <div class="g2" style="margin-top:26px">
-      <div class="card"><span class="chip">✓</span><h3>What we now have</h3><p>Six continuous numbers. Sixty-four sign-regions, intact. A drawing with no distortion in it. And room, inside every region, for situations the classical glyph cannot distinguish.</p></div>
+      <div class="card"><span class="chip">✓</span><h3>What is now in place</h3><p>Six continuous numbers. Sixty-four sign-regions, intact. A drawing with no distortion in it. And room, inside every region, for situations the classical glyph cannot distinguish.</p></div>
       <div class="card"><span class="chip">→</span><h3>What is still missing</h3><p>All of the motion. Nothing here moves yet — this is still a snapshot, just a much richer one. Chapter Two of the sequence gives the six numbers velocities, and that is where 变爻 gets a clock attached to it.</p></div>
     </div>
     <div class="pull">Two honest projections beat one clever wrong one.</div>
@@ -431,10 +442,10 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
       </div>
       <div class="r">
         <div class="n">Part four</div>
-        <div><b>The instrument, and what it found</b><p>The live simulation, plus the results that came out of it: how long a reading stays valid, which of the sixty-four a situation can actually reach, and the finding that surprised us most — that the operator which rescues you under constraint actively harms you without it.</p></div>
+        <div><b>The instrument, and what it found</b><p>The live simulation, plus the results that came out of it: how long a reading stays valid, which of the sixty-four a situation can actually reach, and the most surprising finding — that the operator which rescues a system under constraint actively harms it without constraint.</p></div>
       </div>
     </div>
-    <p style="margin-top:26px">Each part stands alone and each one ends with something you can push on. If you want the destination first, the instrument is Part Four; it will make considerably more sense with these two cubes already in hand.</p>
+    <p style="margin-top:26px">Each part stands alone and each one ends with something to push on. For the destination first, the instrument is Part Four; it will make considerably more sense with these two cubes already in hand.</p>
   </div>
 </section>
 
@@ -444,7 +455,7 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris)}
   <div class="wrap col">
     <div class="kicker">Part one of four · no build step · maths via KaTeX, with a plain-text fallback if it is unavailable</div>
     <p class="big" style="margin-top:16px">The most faithful thing one can do to a book about change is to allow it to change.</p>
-    <p class="cap" style="margin-top:16px">易 · a working model of change. Developed in conversation — Wei with ChatGPT and Claude — through seven versions of a simulation before it became clear the simulation needed a way in. Part One built 13 Aug 2026.</p>
+    <p class="cap" style="margin-top:16px">易 · a working model of change. Developed through seven versions of a simulation before it became clear the simulation needed a way in. Part One built 13 Aug 2026.</p>
   </div>
 </footer>
 

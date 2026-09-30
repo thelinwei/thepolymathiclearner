@@ -173,6 +173,20 @@ img,svg,canvas{max-width:100%}
  text-transform:uppercase;color:var(--brass,#9A7226);text-decoration:none;opacity:.85}
 .yinav-home:hover{opacity:1;text-decoration:underline}
 @media(max-width:680px){.yinav-pair{grid-template-columns:1fr}}
+
+/* ── title block standard · 易 Yi sequence ── */
+h1 .en{display:block;font-family:"Fraunces","Noto Serif SC",serif;font-size:clamp(1.05rem,2.2vw,1.55rem);
+  font-weight:400;font-style:italic;line-height:1.3;letter-spacing:0;margin-top:clamp(1rem,3.6vw,2.8rem);
+  color:#F0D4C3;font-variation-settings:"WONK" 0;max-width:44ch}
+.cover .deck,.hero .lede{font-family:"Times New Roman",Times,"Noto Serif SC",serif;
+  font-size:clamp(1.1rem,1.55vw,1.28rem);line-height:1.55;letter-spacing:.004em;max-width:32em;color:#F9EBE3}
+.cover .deck b,.hero .lede b{font-weight:700;color:#fff}
+.cover{background:radial-gradient(115% 95% at 72% 6%,#A6553A 0,transparent 56%),radial-gradient(90% 80% at 6% 94%,#38150D 0,transparent 60%),linear-gradient(166deg,#39204B,#2D110A 62%,#180D20)}
+.cover::after{background:radial-gradient(120% 100% at 50% 40%,transparent 42%,rgba(20,8,5,.5) 100%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
+.cover .kicker{color:#EFC0A6}
+
+.cover .wrap{width:min(1120px,calc(100% - 34px))}
+.cover h1{font-size:clamp(3.6rem,15vw,9rem);line-height:.86}
 </style>
 </head>
 <body>
@@ -199,7 +213,7 @@ img,svg,canvas{max-width:100%}
   <div class="wrap col">
     <div class="ch"><div class="num">I</div><div>
       <h2>The complaint was the data.</h2>
-      <p class="lead">It began with an objection that sounded like taste. Two cubes side by side, one for the lower trigram and one for the upper — mathematically exact, entirely honest, and <em class="q">ugly</em>. The reasonable answer would have been that beauty is subjective and the geometry is correct, so we should get on with it.</p>
+      <p class="lead">It began with an objection that sounded like taste. Two cubes side by side, one for the lower trigram and one for the upper — mathematically exact, entirely honest, and <em class="q">ugly</em>. The reasonable answer would have been that beauty is subjective and the geometry is correct, and the work should simply proceed.</p>
       <p>That answer would have been wrong, and it took three more iterations to see why. The ugliness was carrying information. A hexagram is <i>one</i> situation. Drawing it as two separate objects makes a claim about the world — that the lower and upper halves are two things — and that claim is false. The visual awkwardness was the eye noticing a structural lie before the argument could.</p>
       <p>So the objection got promoted from preference to specification: <span class="hl">one body, everything visible, and not a grid.</span></p>
     </div></div>
@@ -226,8 +240,8 @@ img,svg,canvas{max-width:100%}
         </tbody>
       </table>
 
-      <p>The zonotope was the painful one. It is the most beautiful object in the whole hunt, it has icosahedral symmetry, its radii sit in the golden ratio — and it buries the balanced hexagrams, the ones a reader is usually actually in. It shows you 乾 and 坤 in perpetuity and hides the middle of life inside itself.</p>
-      <div class="pull">A body that conceals the states you most often occupy is a portrait, not an instrument.</div>
+      <p>The zonotope was the painful one. It is the most beautiful object in the whole hunt, it has icosahedral symmetry, its radii sit in the golden ratio — and it buries the balanced hexagrams, the ones a reader is usually actually in. It displays 乾 and 坤 in perpetuity and hides the middle of life inside itself.</p>
+      <div class="pull">A body that conceals the states most often occupied is a portrait, not an instrument.</div>
     </div></div>
   </div>
 </section>
@@ -249,16 +263,16 @@ img,svg,canvas{max-width:100%}
 <section>
   <div class="wrap col">
     <div class="ch"><div class="num">IV</div><div>
-      <h2>The first fact: counting gives you a silhouette.</h2>
+      <h2>The first fact: counting gives a silhouette.</h2>
       <p>Count the yang lines in a hexagram. The answer is between zero and six, and it is not evenly distributed. Exactly one hexagram has no yang lines at all — 坤. Exactly one has six — 乾. In between, the counts run six, fifteen, twenty, fifteen, six: the binomial coefficients, because choosing which lines are yang is exactly a choice of a subset.</p>
-      <p>Now use that count as <b>elevation</b> — how high up the form a hexagram sits — and let the width at each level be set by how many hexagrams live there. You have not designed anything. You have stacked, and a shape has appeared.</p>
+      <p>Now use that count as <b>elevation</b> — how high up the form a hexagram sits — and let the width at each level be set by how many hexagrams live there. Nothing has been designed. The hexagrams have been stacked, and a shape has appeared.</p>
 
       <div class="plate"><span class="ptag">Plate 1 · the shape is drawn by arithmetic</span>
         <div class="tex fallback" data-tex="\begin{aligned}
 \tbinom{6}{h}&amp;:\;1,\,6,\,15,\,20,\,15,\,6,\,1\\
 r(h)&amp;=\sqrt{\tbinom{6}{h}}
 \end{aligned}">C(6,h) : 1, 6, 15, 20, 15, 6, 1          r(h) = sqrt( C(6,h) )</div>
-        <div class="read"><b>How to read it</b>The radius at each height comes from the number of hexagrams at that height, so nothing about the silhouette is a matter of taste. A point at the base, a point at the apex, widest in the middle — that is simply what the sixty-four look like when you let them settle.</div>
+        <div class="read"><b>How to read it</b>The radius at each height comes from the number of hexagrams at that height, so nothing about the silhouette is a matter of taste. A point at the base, a point at the apex, widest in the middle — that is simply what the sixty-four look like when they are left to settle.</div>
       </div>
 
       <div class="dia">
@@ -333,7 +347,7 @@ d_{\mathrm H}\big(g(k),g(k{+}1)\big)&amp;=1 \quad\text{for all }k \bmod 64
     <div class="ch"><div class="num">VII</div><div>
       <h2>The same thirty-two, finally in one object.</h2>
       <p>Now the part that closes the loop on four iterations of complaint.</p>
-      <p>Every form that failed was failing at the same split. The two cubes: thirty-two lower-trigram states beside thirty-two upper. The conjugate pair: thirty-two on one body's surface, thirty-two on the other's. Each time, a genuine 32 / 32 structure in the mathematics, and each time it forced <b>two objects</b>, and each time you objected — correctly.</p>
+      <p>Every form that failed was failing at the same split. The two cubes: thirty-two lower-trigram states beside thirty-two upper. The conjugate pair: thirty-two on one body's surface, thirty-two on the other's. Each time, a genuine 32 / 32 structure in the mathematics, and each time it forced <b>two objects</b>, and each time the objection returned — correctly.</p>
       <p>The lantern has a 32 / 32 split too. It is the parity split from chapter VI. But because the thread alternates between the two families at every bead, those thirty-twos are not two objects sitting next to each other. They are <b>alternate stitches of a single seam.</b></p>
 
       <div class="plate"><span class="ptag">Plate 4 · three ways to show one split</span>
@@ -355,10 +369,10 @@ d_{\mathrm H}\big(g(k),g(k{+}1)\big)&amp;=1 \quad\text{for all }k \bmod 64
   <div class="wrap col">
     <div class="ch"><div class="num">VIII</div><div>
       <h2>What the form then says on its own.</h2>
-      <p>A good representation starts making claims you did not put into it. Three came out of this one, and they are marked here as readings rather than results — the mathematics is settled, the meanings are offered.</p>
-      <p><b>You cannot stay level.</b> The thread has no flat segments, so in this geometry there is no such thing as change that leaves your overall balance untouched. Turn any line and you become more yang or more yin. The system has no lateral move.</p>
+      <p>A good representation starts making claims that were never put into it. Three came out of this one, and they are marked here as readings rather than results — the mathematics is settled, the meanings are offered.</p>
+      <p><b>There is no staying level.</b> The thread has no flat segments, so in this geometry there is no such thing as change that leaves the overall balance untouched. Turning any line makes the figure more yang or more yin. The system has no lateral move.</p>
       <p><b>The poles are thin and the middle is wide.</b> 乾 and 坤 are single points, visited once per circuit, structurally isolated — each has six neighbours and every one of them is a step back toward the middle. Purity in this form is not an achievement so much as a place with only exits. Meanwhile the widest, most densely populated ring is the balanced one, which is where the thread spends most of its length.</p>
-      <p><b>Change is a stitch, not a jump.</b> In the two-cube view a changing line moved you between boxes, which made every 变爻 look like a discontinuity. Here consecutive hexagrams are adjacent beads on one continuous curve. The old figure and the new one are not two cards; they are neighbours on a thread you were already travelling.</p>
+      <p><b>Change is a stitch, not a jump.</b> In the two-cube view a changing line moved the state between boxes, which made every 变爻 look like a discontinuity. Here consecutive hexagrams are adjacent beads on one continuous curve. The old figure and the new one are not two cards; they are neighbours on a thread already being travelled.</p>
       <div class="dot"><span>灯</span></div>
     </div></div>
   </div>
@@ -369,7 +383,7 @@ d_{\mathrm H}\big(g(k),g(k{+}1)\big)&amp;=1 \quad\text{for all }k \bmod 64
   <div class="wrap col">
     <div class="ch"><div class="num">IX</div><div>
       <h2>What it costs, plainly.</h2>
-      <p>The lantern hides the trigrams. Completely. Nowhere in it can you see that lines one to three form a lower figure and four to six an upper one, which means the classical vocabulary of <i>this over that</i> — the whole apparatus of trigram pairs — is invisible. And with it goes the coupling between a line and its partner three places up, which was the sharpest criticism ever made of the two-cube view and which the two-cube view at least had the decency to make visible.</p>
+      <p>The lantern hides the trigrams. Completely. Nowhere in it is it visible that lines one to three form a lower figure and four to six an upper one, which means the classical vocabulary of <i>this over that</i> — the whole apparatus of trigram pairs — is invisible. And with it goes the coupling between a line and its partner three places up, which was the sharpest criticism ever made of the two-cube view and which the two-cube view at least had the decency to make visible.</p>
       <p>Four iterations in, that is no longer a surprise. It is the pattern.</p>
       <table>
         <thead><tr><th>body</th><th>keeps</th><th>loses</th></tr></thead>
@@ -381,7 +395,7 @@ d_{\mathrm H}\big(g(k),g(k{+}1)\big)&amp;=1 \quad\text{for all }k \bmod 64
         </tbody>
       </table>
       <p class="big">Six dimensions do not fit in three. Every honest form chooses which three things to keep.</p>
-      <p>Which is not a defeat, and it is your own discipline's ordinary condition. An architect does not demand a single drawing that shows structure, circulation, services and light at once. There is a plan and there is a section, and nobody thinks of them as rival buildings. The lantern is the section: it shows level and change. The 四象 square is the plan: it shows the pairing. They do not compete, because they were never claiming to be the object.</p>
+      <p>Which is not a defeat, and it is architecture's ordinary condition. An architect does not demand a single drawing that shows structure, circulation, services and light at once. There is a plan and there is a section, and nobody thinks of them as rival buildings. The lantern is the section: it shows level and change. The 四象 square is the plan: it shows the pairing. They do not compete, because they were never claiming to be the object.</p>
     </div></div>
   </div>
 </section>
@@ -394,7 +408,7 @@ d_{\mathrm H}\big(g(k),g(k{+}1)\big)&amp;=1 \quad\text{for all }k \bmod 64
       <p>The name came after the form, from the silhouette — a woven vessel, wide at the waist, drawn to a point at both ends, with a single thread wound once around it. A paper lantern has exactly that construction: ribs, a spiral seam, and light that only exists because the frame holds it apart from itself.</p>
       <p>There is a reading available in that; it is stated once here and then left alone. The sixty-four are not the content of the book. They are the ribs. What the frame is holding is change, which has no shape of its own and shows up only as the tension in what is holding it.</p>
       <p>Whether the lantern is <i>the</i> form is not a claim this project makes. It is the first one that answered the specification without an excuse attached, and the first whose shape was not chosen. Next it wants to be wound on a torus rather than a cylinder, so the circuit closes with curvature instead of a seam — and then the knot it makes becomes a property of the ordering rather than of the drawing. But that is the next iteration, and this one is worth sitting with first.</p>
-      <div class="pull">The best forms are the ones you could not have decided.</div>
+      <div class="pull">The best forms are the ones that could not have been decided.</div>
     </div></div>
   </div>
 </section>

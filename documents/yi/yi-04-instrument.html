@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>易 Yi · The Double Cube — 兩儀 liǎngyí — 3D Dynamical Yi v0.8 · Part Four</title>
+<title>易 Yi · 兩儀 Liǎngyí — The Double Cube</title>
 <script>try{document.documentElement.classList.add("js");}catch(e){}</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -299,6 +299,22 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris);fon
  text-transform:uppercase;color:var(--brass,#9A7226);text-decoration:none;opacity:.85}
 .yinav-home:hover{opacity:1;text-decoration:underline}
 @media(max-width:680px){.yinav-pair{grid-template-columns:1fr}}
+
+/* ── title block standard · 易 Yi sequence ── */
+h1 .en{display:block;font-family:"Fraunces","Noto Serif SC",serif;font-size:clamp(1.05rem,2.2vw,1.55rem);
+  font-weight:400;font-style:italic;line-height:1.3;letter-spacing:0;margin-top:clamp(1rem,3.6vw,2.8rem);
+  color:#F0D4C3;font-variation-settings:"WONK" 0;max-width:44ch}
+.cover .deck,.hero .lede{font-family:"Times New Roman",Times,"Noto Serif SC",serif;
+  font-size:clamp(1.1rem,1.55vw,1.28rem);line-height:1.55;letter-spacing:.004em;max-width:32em;color:#F9EBE3}
+.cover .deck b,.hero .lede b{font-weight:700;color:#fff}
+.hero{position:relative;overflow:hidden;padding:clamp(44px,7vw,96px) 0 clamp(36px,5vw,64px);background:radial-gradient(115% 95% at 72% 6%,#A6553A 0,transparent 56%),radial-gradient(90% 80% at 6% 94%,#38150D 0,transparent 60%),linear-gradient(166deg,#39204B,#2D110A 62%,#180D20)}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:soft-light;opacity:.6;
+  background:radial-gradient(120% 100% at 50% 40%,transparent 42%,rgba(20,8,5,.5) 100%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
+.hero .wrap{position:relative;z-index:2}
+.hero .rules{border-top:1px solid rgba(248,237,231,.45);border-bottom:1px solid rgba(248,237,231,.45);height:5px;margin:16px 0 24px}
+.hero .wrap{width:min(1120px,calc(100% - 34px))}
+.hero h1{font-size:clamp(3.6rem,15vw,9rem);line-height:.86;letter-spacing:-.035em;margin:0}
+.hero .lede{margin:24px 0 0}
 </style>
 </head>
 <body>
@@ -309,8 +325,9 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris);fon
 
 <header class="hero">
   <div class="wrap">
-    <div class="kicker">Lin Wei 林威 × Claude × ChatGPT · the first instrument · 兩儀 liǎngyí · v0.8</div>
-    <h1>The Double Cube<span class="en">兩儀 <i>liǎngyí</i>, the two forms — 易，真正动起来</span></h1>
+    <div class="kicker">易 Yi · the instruments · one · two cubes and a matrix · v0.8</div>
+    <div class="rules"></div>
+    <h1>兩儀 liǎngyí<span class="en">The double cube — 易，真正动起来</span></h1>
     <p class="lede">Six continuous 爻 as a genuine Q₆ state, drawn honestly as <b>two cubes and a matrix</b> rather than nested boxes. The dynamics no longer bounce off walls, motion comes from two named sources rather than a hidden metronome, and the instrument reports <b>how long its own reading stays valid</b> — then inverts itself and answers what it would take to be somewhere else.</p>
   </div>
 </header>
@@ -373,7 +390,7 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris);fon
 
     <div class="panel">
       <h3>Six continuous 爻 <i>yao</i> lines</h3>
-      <p class="note">The sign gives 阴/阳. Depth and velocity carry what the glyph throws away. Drag to intervene; the field takes over again when you let go.</p>
+      <p class="note">The sign gives 阴/阳. Depth and velocity carry what the glyph throws away. Drag to intervene; the field takes over again on release.</p>
       <div class="sub">lower trigram · x₁–x₃ · slow</div>
       <div class="ctl" id="c1"><label for="x1">x₁ bottom</label><input id="x1" type="range" min="-99" max="99" value="58"><output id="x1o">0.58</output></div>
       <div class="ctl" id="c2"><label for="x2">x₂ middle</label><input id="x2" type="range" min="-99" max="99" value="-28"><output id="x2o">-0.28</output></div>
@@ -400,7 +417,7 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris);fon
 
     <div class="panel">
       <h3>后天 houtian · the outer field</h3>
-      <p class="note">A target the state is pulled toward, with its own motion. This is the quantity the earlier instruments could not compute: whether the field is coming to you or leaving.</p>
+      <p class="note">A target the state is pulled toward, with its own motion. This is the quantity the earlier instruments could not compute: whether the field is approaching the state or leaving it.</p>
       <div class="ctl"><label for="hstr">pull</label><input id="hstr" type="range" min="0" max="100" value="10"><output id="hstro">0.10</output></div>
       <div class="btns">
         <button id="bStatic" class="on">static</button>
@@ -455,9 +472,9 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris);fon
     </div>
 
     <div class="presc" id="presc">
-      <header id="prescHead">Inversion · which mix gets you there?</header>
+      <header id="prescHead">Inversion · which mix gets there?</header>
       <div id="prescBody">
-        <p class="note" style="margin:0">Press <b>reachable from here</b>. The instrument runs two hundred and five fixed 五行 mixes forward from your current state and records, for every one of the sixty-four regions, the fastest mix that arrives there. Then click a cell to read the prescription.</p>
+        <p class="note" style="margin:0">Press <b>reachable from here</b>. The instrument runs two hundred and five fixed 五行 mixes forward from the current state and records, for every one of the sixty-four regions, the fastest mix that arrives there. Then click a cell to read the prescription.</p>
         <p class="note" style="margin:.7em 0 0">This inverts the whole instrument: it stops answering <i>where is this going</i> and starts answering <i>what would it take</i>.</p>
       </div>
     </div>
@@ -492,19 +509,19 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris);fon
       <tr><td style="padding:9px 8px">0.60</td><td style="padding:9px 8px">7</td><td style="padding:9px 8px">1.4</td><td style="padding:9px 8px">thrash: no reach, no foresight</td></tr>
     </tbody>
   </table>
-  <p>The shape is the finding. This is not a smooth trade of foresight for freedom — it is a <b>peak</b>. Above it you lose both at once, because 木 only removes friction; it never drives, so a mix dominated by 木 crowds out the operators that actually displace you.</p>
+  <p>The shape is the finding. This is not a smooth trade of foresight for freedom — it is a <b>peak</b>. Above it both are lost at once, because 木 only removes friction; it never drives, so a mix dominated by 木 crowds out the operators that actually displace the state.</p>
   <p><b>But the table above is a lucky case, and something wrong was said about it.</b> The claim was that the peak sits exactly where foresight begins to fail. Across 26 randomised configurations it does not: the horizon typically breaks at 木 ≈ 0.06 while reach peaks at ≈ 0.14. The break comes <i>first</i>. Which means that in the general case there is no free lunch and no tidy coincidence — there are two different destinations, and you have to choose:</p>
-  <p><b>The furthest you can see</b> (木 at the break) or <b>the furthest you can go</b> (木 at the peak). Between the two you are covering more ground while losing the ability to say where you will end up. That is a harder and more honest reading than the one given earlier, and it is the version the robustness study supports.</p>
+  <p><b>Furthest visible</b> (木 at the break) or <b>furthest reachable</b> (木 at the peak). Between the two, the state covers more ground while losing the ability to say where it will end up. That is a harder and more honest reading than the one given earlier, and it is the version the robustness study supports.</p>
   <div class="btns" style="margin:16px 0 0"><button id="bFrontier">measure the frontier here</button></div>
   <svg class="freedom" id="frontPlot" viewBox="0 0 480 130" preserveAspectRatio="none" style="height:150px" aria-label="reach and horizon against wood weight"></svg>
-  <p class="note" id="frontNote" style="font-size:.8rem;margin-top:8px">Not yet run. The table above is the reference run from the default state; this button repeats it from wherever you have moved to.</p>
-  <div class="pull">木 does not drive. It removes the friction at the moment of decision — and charges you in foresight for the privilege.</div>
+  <p class="note" id="frontNote" style="font-size:.8rem;margin-top:8px">Not yet run. The table above is the reference run from the default state; this button repeats it from the current state.</p>
+  <div class="pull">木 does not drive. It removes the friction at the moment of decision — and charges for the privilege in foresight.</div>
   </div>
 
   <aside class="mnotes">
     <div class="mnote teal"><b>13 Aug · robustness · holds</b>The <i>location</i> of the peak survives everything thrown at it. Randomised start state, randomised field, pull anywhere in 0.05–0.30, <i>and</i> every operator coefficient jittered ±35%: 木* stayed inside 0.05–0.20 in 38 of 46 configurations, mean 0.14 (shipped coefficients) and 0.16 (jittered). The reach gain at the peak averaged <i>+19 regions</i> — roughly a tripling. This is a property of the model, not of the five numbers picked.</div>
     <div class="mnote dead"><b>13 Aug · correction · the claim was wrong</b>Earlier text said the peak “sits exactly where foresight starts to fail.” Generically it does not. Across 26 randomised configurations the horizon broke at 木 ≈ 0.06 but reach peaked at ≈ 0.14 — the break comes <i>first</i> in 15 cases, coincides in 8, and comes after in only 3. The default starting state is an unusually lucky one where the two line up. Corrected in the body text below the table.</div>
-    <div class="mnote"><b>13 Aug · what this means</b>So there are two different best mixes, not one: <i>the furthest you can see</i> (木 ≈ 0.06) and <i>the furthest you can go</i> (木 ≈ 0.14). They are not the same place, and between them you are travelling further while no longer able to say where you will arrive. Any prescription drawn from beyond the break now carries a blindness flag in the inversion panel.</div>
+    <div class="mnote"><b>13 Aug · what this means</b>So there are two different best mixes, not one: <i>furthest visible</i> (木 ≈ 0.06) and <i>furthest reachable</i> (木 ≈ 0.14). They are not the same place, and between them the state travels further while no longer able to say where it will arrive. Any prescription drawn from beyond the break now carries a blindness flag in the inversion panel.</div>
     <div class="mnote"><b>method · reproduce</b>Study code is not shipped in this file — it was <code>robust.js</code>, 46 configurations, ~18s in node. Reach = distinct regions visited over 110 mixes per 木 level, T=40, dt=0.06. Break = first level where the median horizon fell below max(8, 0.35·horizon at 木=0). Both thresholds are judgement calls; a different break criterion would move 木_break but not the ordering.</div>
   </aside>
   </div>
@@ -515,7 +532,7 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris);fon
 <div class="wrap">
   <div class="head">
     <div class="num"><b>Plate 03</b>The 木 dividend</div>
-    <h2>木 <i>mu</i> — wood, the branching phase — is worth exactly what your context costs you.</h2>
+    <h2>木 <i>mu</i> — wood, the branching phase — is worth exactly what the context costs.</h2>
   </div>
   <div class="mrg"><div>
   <p>Two versions ago this document reported that reachability collapses with the smallest increment of context. One version ago the new 木 seemed to erase that collapse, and it was unclear which measurement to trust. Running both arms against each other settles it, and neither claim was wrong — they were measurements of two different systems.</p>
@@ -525,19 +542,19 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris);fon
     <tbody><tr><td style="padding:9px 8px;border-bottom:1px solid var(--rule-soft);">0.00</td><td style="padding:9px 8px;border-bottom:1px solid var(--rule-soft);">41–45</td><td style="padding:9px 8px;border-bottom:1px solid var(--rule-soft);">44–45</td><td style="padding:9px 8px;border-bottom:1px solid var(--rule-soft);">40–44</td><td style="padding:9px 8px;border-bottom:1px solid var(--rule-soft);"><b>64</b></td><td style="padding:9px 8px;border-bottom:1px solid var(--rule-soft);">0.7× — 木 is a liability</td></tr><tr><td style="padding:9px 8px;border-bottom:1px solid var(--rule-soft);">0.05</td><td style="padding:9px 8px;border-bottom:1px solid var(--rule-soft);">32–36</td><td style="padding:9px 8px;border-bottom:1px solid var(--rule-soft);">36–38</td><td style="padding:9px 8px;border-bottom:1px solid var(--rule-soft);">12–17</td><td style="padding:9px 8px;border-bottom:1px solid var(--rule-soft);">14–15</td><td style="padding:9px 8px;border-bottom:1px solid var(--rule-soft);">2.4×</td></tr><tr style="background:var(--paper2)"><td style="padding:9px 8px;border-bottom:1px solid var(--rule-soft);">0.15</td><td style="padding:9px 8px;border-bottom:1px solid var(--rule-soft);">24–26</td><td style="padding:9px 8px;border-bottom:1px solid var(--rule-soft);">22–28</td><td style="padding:9px 8px;border-bottom:1px solid var(--rule-soft);">8</td><td style="padding:9px 8px;border-bottom:1px solid var(--rule-soft);">8</td><td style="padding:9px 8px;border-bottom:1px solid var(--rule-soft);"><b>3.1×</b></td></tr><tr><td style="padding:9px 8px;border-bottom:1px solid var(--rule-soft);">0.30</td><td style="padding:9px 8px;border-bottom:1px solid var(--rule-soft);">23–24</td><td style="padding:9px 8px;border-bottom:1px solid var(--rule-soft);">23–25</td><td style="padding:9px 8px;border-bottom:1px solid var(--rule-soft);">4–5</td><td style="padding:9px 8px;border-bottom:1px solid var(--rule-soft);">6–7</td><td style="padding:9px 8px;border-bottom:1px solid var(--rule-soft);"><b>4.6×</b></td></tr></tbody>
   </table>
   <p>Three findings sit in that table, and they interlock.</p>
-  <p><b>One · the collapse is real, and it is a property of lacking 木.</b> Suppress 木 and reachable regions run 64 → 15 → 8 → 6 as context tightens. That is the cliff reported in v0.5, and it stands. With 木 active the same sequence is 45 → 36 → 25 → 24 — a decline of about half, then a plateau. Context does not close your options; <i>context plus rigidity</i> closes your options.</p>
-  <p><b>Two · 木 is a liability when you are free.</b> At zero pull, the four-operator system reaches all sixty-four regions given time. With 木 running it manages forty-five and never improves. 木 adds churn that spoils the patient, precise trajectories that remote regions require. So the dividend is not a constant — it runs from <b>0.7× when unconstrained to 4.6× under heavy context</b>. This is an instrument for tight situations, and carrying it into a loose one costs you both reach and foresight.</p>
-  <p><b>Three · context is what makes patience stop working.</b> Look down the two suppressed-木 columns. At zero pull, ten times the search horizon takes you from forty regions to all sixty-four. At any pull above zero, the extra time buys nothing at all — 15 stays 15, 8 stays 8. Time is only a resource for the unconstrained. And 木 is what you use instead: at pull 0.05 it delivers thirty-two regions in forty units where patience alone delivers fifteen in four hundred. <b>木 substitutes for time you do not have.</b></p>
+  <p><b>One · the collapse is real, and it is a property of lacking 木.</b> Suppress 木 and reachable regions run 64 → 15 → 8 → 6 as context tightens. That is the cliff reported in v0.5, and it stands. With 木 active the same sequence is 45 → 36 → 25 → 24 — a decline of about half, then a plateau. Context does not close options; <i>context plus rigidity</i> does.</p>
+  <p><b>Two · 木 is a liability when the system is free.</b> At zero pull, the four-operator system reaches all sixty-four regions given time. With 木 running it manages forty-five and never improves. 木 adds churn that spoils the patient, precise trajectories that remote regions require. So the dividend is not a constant — it runs from <b>0.7× when unconstrained to 4.6× under heavy context</b>. This is an instrument for tight situations, and carrying it into a loose one costs both reach and foresight.</p>
+  <p><b>Three · context is what makes patience stop working.</b> Look down the two suppressed-木 columns. At zero pull, ten times the search horizon goes from forty regions to all sixty-four. At any pull above zero, the extra time buys nothing at all — 15 stays 15, 8 stays 8. Time is only a resource for the unconstrained. And 木 is the substitute: at pull 0.05 it delivers thirty-two regions in forty units where patience alone delivers fifteen in four hundred. <b>木 substitutes for time that is not available.</b></p>
   <div class="btns" style="margin:18px 0 0"><button id="bFreedom">run both arms · 4 pull levels</button></div>
   <svg class="freedom" id="freePlot" viewBox="0 0 480 120" preserveAspectRatio="none" aria-label="reachable regions with and without wood, against field pull"></svg>
-  <p class="note" id="freeNote" style="font-size:.8rem;margin-top:8px">Not yet run. The table above is the reference run from the default state; this repeats it from wherever you now are. There is also a <b>suppress 木</b> button in the View panel if you want to fly the control arm by hand.</p>
+  <p class="note" id="freeNote" style="font-size:.8rem;margin-top:8px">Not yet run. The table above is the reference run from the default state; this repeats it from the current state. A <b>suppress 木</b> button in the View panel flies the control arm by hand.</p>
   <p class="headline" id="freeHead" style="margin-top:22px">— <span>of 64 reachable now</span></p>
-  <div class="pull">Context does not take your options away. It takes away the usefulness of patience — and then charges you foresight for the substitute.</div>
+  <div class="pull">Context does not take options away. It takes away the usefulness of patience — and then charges foresight for the substitute.</div>
   </div>
 
   <aside class="mnotes">
     <div class="mnote teal"><b>13 Aug · this resolves the v0.5/v0.6 tension</b>Not a third contradiction — an explanation of the first two. v0.5 measured a 木-inert system and found a cliff. v0.6 measured a 木-active one and found none. Both were right about their own system. The lesson is procedural: <i>an operator definition was changed while comparisons kept running against numbers measured before the change.</i> Any claim in this file dated before the 木 rewrite should be assumed to be about the four-operator system until re-run.</div>
-    <div class="mnote dead"><b>13 Aug · a hypothesis got backwards</b>The assumption was that 木 would be uniformly good for reach — more unsticking, more places to go. It is <i>negative</i> at zero pull (45 against 64). Worth sitting with: the operator that rescues you under constraint actively harms you without it, because remote regions need long precise trajectories and 木 shakes them apart. There is no context-free virtue here.</div>
+    <div class="mnote dead"><b>13 Aug · a hypothesis got backwards</b>The assumption was that 木 would be uniformly good for reach — more unsticking, more places to go. It is <i>negative</i> at zero pull (45 against 64). Worth sitting with: the operator that rescues the system under constraint actively harms it without constraint, because remote regions need long precise trajectories and 木 shakes them apart. There is no context-free virtue here.</div>
     <div class="mnote"><b>13 Aug · soft spot</b>The T=400 column is one run per cell at N=500 and the variance across repeats is ±4 regions. The <i>orderings</i> are safe; do not quote the individual figures to two significant digits. A proper version would run five seeds per cell and report a median.</div>
     <div class="mnote"><b>open · where is the crossover?</b>The dividend passes 1.0× somewhere between pull 0.00 and 0.05 — the point at which carrying 木 starts paying for itself. That number is more interesting than anything else in this table and it has not been located. Bisect between 0.00 and 0.05, both arms, N ≥ 1000.</div>
   </aside>
@@ -554,7 +571,7 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris);fon
   <div class="diff">
     <div class="r">
       <div class="t t-bug">Fixed · the walls</div>
-      <div><p>v0.2 clamped each coordinate at ±1 and bounced with restitution −0.52. Combined with 火 feeding velocity back positively, the system had no guaranteed dissipation: it became a pinball, and most of the structure you were watching was <b>the box, not the field</b>. v0.3 keeps an unbounded internal coordinate and displays x = tanh(u). The cube walls are now asymptotes — never reached, never hit. Which is also the better idea: no variable is ever fully 阴 or fully 阳.</p></div>
+      <div><p>v0.2 clamped each coordinate at ±1 and bounced with restitution −0.52. Combined with 火 feeding velocity back positively, the system had no guaranteed dissipation: it became a pinball, and most of the visible structure was <b>the box, not the field</b>. v0.3 keeps an unbounded internal coordinate and displays x = tanh(u). The cube walls are now asymptotes — never reached, never hit. Which is also the better idea: no variable is ever fully 阴 or fully 阳.</p></div>
     </div>
     <div class="r">
       <div class="t t-cut">Cut · the clocks</div>
@@ -574,7 +591,7 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris);fon
     </div>
     <div class="r">
       <div class="t t-new">New · 后天 finally has a velocity</div>
-      <div><p>The field is a moving target f(t) rather than a fixed context, so the instrument can compute d‖x−f‖/dt: is the situation coming toward you or leaving? Static, diurnal and monsoon clocks are provided — the tropical calibration argument, made operational.</p></div>
+      <div><p>The field is a moving target f(t) rather than a fixed context, so the instrument can compute d‖x−f‖/dt: is the situation approaching or leaving? Static, diurnal and monsoon clocks are provided — the tropical calibration argument, made operational.</p></div>
     </div>
     <div class="r">
       <div class="t t-new">Resolved · 木, on the third attempt</div>
@@ -590,11 +607,11 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris);fon
     <div class="r">
       <div class="t t-new">New · change has exactly two sources</div>
       <div><p>This is the finding nobody expected. Once the fake clocks were gone, the default behaviour was <b>stasis</b>: with a fixed context and a fixed mix, the state slides to a resting configuration and stops. Which is correct, and worth staring at — nothing in the geometry generates motion by itself.</p>
-      <p>So motion has to come from somewhere nameable, and in this model there are only two candidates: <b>the field moves</b> (the 后天 clocks) or <b>the mix turns over</b> (生/克 running). The pentagram switch in the 五行 panel is now on by default, and the circulation it produces is what you are watching. Turn both off and the instrument freezes on purpose. That is not a bug to fix; it is the model saying that a still life needs no explanation and a moving one does.</p></div>
+      <p>So motion has to come from somewhere nameable, and in this model there are only two candidates: <b>the field moves</b> (the 后天 clocks) or <b>the mix turns over</b> (生/克 running). The pentagram switch in the 五行 panel is now on by default, and the circulation it produces is what is on screen. Turn both off and the instrument freezes on purpose. That is not a bug to fix; it is the model saying that a still life needs no explanation and a moving one does.</p></div>
     </div>
     <div class="r">
-      <div class="t t-new">Experiment · a strong context overwrites you</div>
-      <div><p>Raise 后天 <i>pull</i> past about 0.20 and watch: the configuration locks onto the field's own sign-pattern and stays there no matter what the mix does. Below about 0.12 your mix decides your figure and the state flips between regions as the pentagram turns. The default sits at 0.10, on the responsive side of that edge. That transition is sharp enough to be worth a name — it is the difference between having a character and having a job.</p></div>
+      <div class="t t-new">Experiment · a strong context overwrites the mix</div>
+      <div><p>Raise 后天 <i>pull</i> past about 0.20 and watch: the configuration locks onto the field's own sign-pattern and stays there no matter what the mix does. Below about 0.12 the mix decides the figure and the state flips between regions as the pentagram turns. The default sits at 0.10, on the responsive side of that edge. That transition is sharp enough to be worth a name — it is the difference between having a character and having a job.</p></div>
     </div>
     <div class="r">
       <div class="t t-bug">Fixed · the projection lied</div>
@@ -602,7 +619,7 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris);fon
     </div>
     <div class="r">
       <div class="t t-bug">Fixed · the frame budget</div>
-      <div><p><code>getBoundingClientRect()</code> and <code>getComputedStyle()</code> were being called once per projected point per frame — hundreds of forced layout reads a second — and three fifty-step futures were re-integrated every frame. All now cached or throttled. Kept exactly as they were: your static fallback and your visible error box. Those were the best-engineered parts of the file.</p></div>
+      <div><p><code>getBoundingClientRect()</code> and <code>getComputedStyle()</code> were being called once per projected point per frame — hundreds of forced layout reads a second — and three fifty-step futures were re-integrated every frame. All now cached or throttled. Kept exactly as they were: the static fallback and the visible error box, the best-engineered parts of the file.</p></div>
     </div>
   </div>
 </div>
@@ -650,16 +667,16 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris);fon
         <p><b>木 keyed on velocity makes contexts escapable.</b> At pull 0.10, reachable regions go 8 → 37. The peak's <i>location</i> (木 ≈ 0.14, band 0.05–0.20) survived randomised states, fields, pulls and ±35% jitter on every coefficient across 46 configurations. Mean gain +19 regions.</p>
         <p><b>Reachability collapses at the first increment of context — but only without 木.</b> Suppressed-木: 64 → 15 → 8 → 6 across pull 0.00 / 0.05 / 0.15 / 0.30. Active-木: 45 → 36 → 25 → 24. The cliff is a property of the four-operator system.</p>
         <p><b>The 木 dividend rises with context</b> — 0.7× at zero pull, 4.6× at 0.30. 木 is a liability when unconstrained and decisive when bound.</p>
-        <p><b>Patience only helps the unconstrained.</b> Tenfold search horizon takes a 木-less system from 40 regions to 64 at zero pull, and buys literally nothing at any pull above zero. 木 substitutes for time you do not have.</p>
+        <p><b>Patience only helps the unconstrained.</b> A tenfold search horizon takes a 木-less system from 40 regions to 64 at zero pull, and buys literally nothing at any pull above zero. 木 substitutes for time that is not available.</p>
         <p><b>生/克 turnover ≈ 109 time units</b> against prescription arrival times of 2–4. Holding a mix is cheap; reach is the constraint, not discipline.</p>
       </div>
     </div>
     <div class="r">
       <div class="k k-prov">Provisional</div>
       <div>
-        <p><b>The two-destination reading.</b> Generically the horizon breaks (木 ≈ 0.06) before reach peaks (木 ≈ 0.14), so “furthest you can see” and “furthest you can go” are different mixes. Solid across 26 configurations, but the break threshold is a judgement call — a stricter criterion moves 木_break, though it did not change the ordering in any run.</p>
+        <p><b>The two-destination reading.</b> Generically the horizon breaks (木 ≈ 0.06) before reach peaks (木 ≈ 0.14), so “furthest visible” and “furthest reachable” are different mixes. Solid across 26 configurations, but the break threshold is a judgement call — a stricter criterion moves 木_break, though it did not change the ordering in any run.</p>
         <p><b>爻位 as time constants.</b> The <i>ordering</i> is the claim and it behaves sensibly: low crossings re-found everything above them. The six numbers themselves are asserted and unfitted.</p>
-        <p><b>The five operator definitions.</b> Chosen to be qualitatively distinguishable. 木 has now been rewritten twice, which should tell you how provisional the other four are.</p>
+        <p><b>The five operator definitions.</b> Chosen to be qualitatively distinguishable. 木 has now been rewritten twice, which indicates how provisional the other four are.</p>
       </div>
     </div>
     <div class="r">
@@ -679,7 +696,7 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris);fon
         <p><b>2 · Superpose two fields.</b> One target is a simplification; institution, market and household pull at once and on different clocks. Interference between two 后天 fields may be exactly what a difficult period is. Cheap to build: <code>fieldAt()</code> returns a sum.</p>
         <p><b>3 · Directed search on schedules.</b> Optimise segment durations against a <i>specific</i> unreachable target rather than sampling families at random. The 生-order prediction deserves one better-aimed attempt before it is buried.</p>
         <p><b>4 · Locate the 木 crossover.</b> The dividend crosses 1.0× somewhere in 0.00–0.05: the exact amount of context at which carrying 木 begins to pay. Bisection, both arms, N ≥ 1000, five seeds. This is now the single most interesting unmeasured number in the model, because it is the threshold between two different strategies for living.</p>
-        <p><b>5 · Let the field respond.</b> Everything here treats 后天 as exogenous. A field that moves in response to where you are is a different and much more realistic object, and would put the whole instrument on a footing where “the situation” and “the person” are the same kind of thing.</p>
+        <p><b>5 · Let the field respond.</b> Everything here treats 后天 as exogenous. A field that moves in response to the state is a different and much more realistic object, and would put the whole instrument on a footing where “the situation” and “the person” are the same kind of thing.</p>
       </div>
     </div>
   </div>
@@ -702,8 +719,8 @@ footer .big{font-family:"Fraunces",serif;font-style:italic;color:var(--iris);fon
 <footer>
   <div class="wrap">
     <div class="kicker">v0.8 · no build step · maths via KaTeX with a plain-text fallback · no network calls · fonts degrade gracefully</div>
-    <p class="big" style="margin-top:16px">Strip the classical names off. If the geometry and the dynamics still tell you something, we have found what was underneath the metaphors.</p>
-    <p class="tiny">Built on the v0.2 instrument by linwei × ChatGPT. Picking this up again: read Plate 06 (Lab notebook) and the source header first — both record what is measured, what is guessed, and which four ideas have already been killed. This pass: bounded dynamics, a self-turning 五行 mix, an inverse solver over the sixty-four, a redefined 木, the reach/foresight frontier, a ±35% coefficient-jitter robustness study, two retractions, a marginalia layer, and a controlled 木-suppressed arm, ensemble predictability horizon, per-爻 time constants, moving 后天 field, dual-cube Q₆ projection, measured occupancy over the sixty-four, and a rewrite of the render loop. Black Iris skin, light only. 13 Aug 2026.</p>
+    <p class="big" style="margin-top:16px">Strip the classical names off. If the geometry and the dynamics still say something, what was underneath the metaphors has been found.</p>
+    <p class="tiny">Built on the v0.2 instrument. Plate 06 (Lab notebook) and the source header record what is measured, what is guessed, and which four ideas have already been retired. Version 0.8 adds: bounded dynamics, a self-turning 五行 mix, an inverse solver over the sixty-four, a redefined 木, the reach/foresight frontier, a ±35% coefficient-jitter robustness study, two retractions, a marginalia layer, and a controlled 木-suppressed arm, ensemble predictability horizon, per-爻 time constants, moving 后天 field, dual-cube Q₆ projection, measured occupancy over the sixty-four, and a rewrite of the render loop. 13 Aug 2026.</p>
   </div>
 </footer>
 
@@ -1221,7 +1238,7 @@ try{
     $("roGapDot").textContent=fmt(rate);
     $("roVerdict").textContent = Math.abs(rate)<0.04
       ? "Holding station. The gap is neither closing nor opening — waiting is neutral."
-      : (rate<0 ? "The field is coming toward you. Misfit is temporary; patience is a strategy."
+      : (rate<0 ? "The field is approaching. Misfit is temporary; patience is a strategy."
                 : "The field is leaving. Either move, or build something smaller with its own weather.");
 
     $("hexInfo").innerHTML = "<b>"+(S.names? NAMES[uw]+" over "+NAMES[lw] : "upper "+uw+" / lower "+lw)+"</b>"+
@@ -1274,7 +1291,7 @@ try{
         }else{ c.style.background=""; c.style.color=""; c.textContent=""; }
       }
       var n=Object.keys(reachMap||{}).length;
-      $("occNote").textContent="Reachable from your present state under a constant mix, at pull "+
+      $("occNote").textContent="Reachable from the present state under a constant mix, at pull "+
         (reachPull===null?"—":reachPull.toFixed(2))+" — "+n+" of 64. Numbers are arrival times; hatched cells were never entered."+
         (reachConv===null ? "" : (reachConv===0
           ? " The count stopped rising over the second half of the search, so this has converged."
@@ -1380,8 +1397,8 @@ try{
     var hit=reachMap[key];
     if(!hit){
       body.innerHTML='<h4>'+title+'</h4>'+
-        '<p><b>Not reachable.</b> No constant 五行 mix out of two hundred and five brought you here within 40 time units, at pull '+reachPull.toFixed(2)+'.</p>'+
-        '<p class="note">Three honest readings of that: the region may be geometrically out of reach from where you stand; it may need a staged schedule rather than one held mix; or it may need the field itself to change. Lower the pull and sweep again — that is the cheapest of the three to test.</p>';
+        '<p><b>Not reachable.</b> No constant 五行 mix out of two hundred and five arrives here within 40 time units, at pull '+reachPull.toFixed(2)+'.</p>'+
+        '<p class="note">Three honest readings of that: the region may be geometrically out of reach from the present state; it may need a staged schedule rather than one held mix; or it may need the field itself to change. Lower the pull and sweep again — that is the cheapest of the three to test.</p>';
       return;
     }
     var rows="", cur=(reachSnap? reachSnap.mix : PHASES.map(function(p){ return A[p]; }));
@@ -1398,16 +1415,16 @@ try{
       '<p>Reachable in <b>≈'+hold.toFixed(1)+'</b> time units, holding this mix:</p>'+
       '<div class="rx">'+rows+'</div>'+
       '<p class="note"><b>Hold cost.</b> '+hold.toFixed(1)+' against a 生/克 turnover of ≈'+TURNOVER+
-      ' — you would need to hold this mix for about '+(ratio*100).toFixed(0)+
+      ' — this mix must be held for about '+(ratio*100).toFixed(0)+
       '% of one full circulation of the pentagram. '+
-      (ratio<0.15 ? 'Cheap. Discipline is not what stands in your way here; reach is.'
-                  : 'Expensive: the mix would drift out from under you before you arrived, and you would need external structure to hold it.')+'</p>'+
+      (ratio<0.15 ? 'Cheap. Discipline is not the obstacle here; reach is.'
+                  : 'Expensive: the mix would drift before arrival, and external structure would be needed to hold it.')+'</p>'+
       (muBreak!==null && hit.mix[1]>muBreak+0.005
         ? '<p class="note" style="border-left:2px solid var(--alarm);padding-left:10px"><b>Blind route.</b> This mix carries 木 = '+
           hit.mix[1].toFixed(2)+', past the measured break at '+muBreak.toFixed(2)+
-          '. It will get you there, and you will not be able to say in advance that it did. Cross-check the horizon readout before committing.</p>'
+          '. It will arrive, but there is no way to say in advance that it did. Cross-check the horizon readout before committing.</p>'
         : '')+
-      '<p class="note">If this prescription leans on 木, read the cost: 木 buys reach by amplifying motion through thresholds, and the same amplification is what shortens your horizon. Check the horizon readout after you set it.</p>';
+      '<p class="note">If this prescription leans on 木, read the cost: 木 buys reach by amplifying motion through thresholds, and the same amplification is what shortens the horizon. Check the horizon readout after setting it.</p>';
   }
 
   /* ── the 木 frontier, measured live: reach and horizon vs 木 ── */
@@ -1461,9 +1478,9 @@ try{
         var h0=horiz[0], brk=levels.length-1;
         for(k=0;k<levels.length;k++){ if(horiz[k]<Math.max(8,h0*0.35)){ brk=k; break; } }
         muBreak=levels[brk];
-        $("frontNote").innerHTML="From your present state at pull "+h.toFixed(2)+
-          ": <b>furthest you can go</b> is 木 = "+muStar.toFixed(2)+" ("+reach[peak]+
-          " of 64 regions, horizon "+horiz[peak].toFixed(1)+"). <b>Furthest you can still see</b> is 木 = "+
+        $("frontNote").innerHTML="From the present state at pull "+h.toFixed(2)+
+          ": <b>furthest reachable</b> is 木 = "+muStar.toFixed(2)+" ("+reach[peak]+
+          " of 64 regions, horizon "+horiz[peak].toFixed(1)+"). <b>Furthest still visible</b> is 木 = "+
           muBreak.toFixed(2)+" — beyond that the ensemble stops agreeing. "+
           (muBreak<muStar ? "The break comes first here, so the extra reach is bought blind."
            : (muBreak>muStar ? "Unusually, the peak arrives before the break: this is a lucky position, reach for free."
@@ -1512,10 +1529,10 @@ try{
         NOWOOD=savedNW;
         drawFreedom(levels,withW,noW);
         var ratios=levels.map(function(l,j){ return l.toFixed(2)+": "+(withW[j]/Math.max(1,noW[j])).toFixed(1)+"×"; });
-        $("freeNote").innerHTML="266 mixes per arm per level, 40 time units, from your present state. "+
+        $("freeNote").innerHTML="266 mixes per arm per level, 40 time units, from the present state. "+
           "<b>木 active</b> "+withW.join(" / ")+" &nbsp;·&nbsp; <b>木 suppressed</b> "+noW.join(" / ")+
           ". The 木 dividend by pull — "+ratios.join(", ")+
-          ". If the ratio climbs with pull, 木 is worth what your context costs you.";
+          ". If the ratio climbs with pull, 木 is worth what the context costs.";
       }
     })();
   }
