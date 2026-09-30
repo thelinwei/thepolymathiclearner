@@ -27,13 +27,13 @@ Claude (Anthropic) and ChatGPT (OpenAI) took part as sustained collaborators, wi
 |---|---|---|
 | 5 June 2026 | First publication in this repository (commit `07276d0`) | GitHub commit history |
 | 5 June – 10 September 2026 | Continuous public development | GitHub commit history |
-| 30 September 2026 | Release v1.0.0: twenty-four documents | GitHub release, Zenodo DOI |
+| 30 September 2026 | Release v1.0.0: twenty-four documents (commit `9df3dde`) | GitHub release, Zenodo DOI 10.5281/zenodo.23054958 |
 
 The first commit is `07276d017ae0556967df372d8a6f0e49c35661da`, dated 5 June 2026, 19:36 SGT.
 
 ## Independent archives
 
-- **Zenodo:** each GitHub release is deposited automatically with a permanent DOI and a fixed snapshot of the code and release text. DOI: *added after release*
+- **Zenodo:** each GitHub release is deposited automatically with a permanent DOI and a fixed snapshot of the code and release text. v1.0.0: [10.5281/zenodo.23054958](https://doi.org/10.5281/zenodo.23054958) · all versions: [10.5281/zenodo.23054957](https://doi.org/10.5281/zenodo.23054957)
 - **Software Heritage:** the repository is archived with its full history at [archive.softwareheritage.org](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/thelinwei/thepolymathiclearner)
 
 These records are held by third parties and cannot be altered by the author, so they confirm the dates above independently of GitHub.
