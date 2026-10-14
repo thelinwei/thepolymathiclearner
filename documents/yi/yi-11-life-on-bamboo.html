@@ -1,0 +1,648 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A field note on the Baoshan divination records: six milfoil casts made for the Chu officer Shao Tuo in 318–316 BCE, read from their numbers and struck on the 曾侯乙 bells as a bounded song.">
+  <meta name="color-scheme" content="light">
+  <title>易 Yi · 11 — A Life on Bamboo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..800,0..100,0..1;1,9..144,300..800,0..100,0..1&family=Newsreader:opsz,wght@6..72,200..700&family=Space+Mono:wght@400;700&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --paper:#fcfaf7;
+      --paper-2:#f3eee8;
+      --ink:#2c1d17;
+      --wine:#5b2a1b;
+      --rust:#a6553a;
+      --rust-dark:#4b1c12;
+      --rust-deep:#200d08;
+      --cream:#f8ede7;
+      --gold:#b58d46;
+      --jade:#3f756b;
+      --muted:#7d6d65;
+      --hair:rgba(91,42,27,.18);
+      --display:Fraunces,"Noto Serif SC",serif;
+      --serif:Newsreader,Georgia,"Noto Serif SC",serif;
+      --mono:"Space Mono",ui-monospace,Menlo,monospace;
+      --zh:"Noto Serif SC",serif;
+      --max:1110px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;background:var(--paper)}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.58}
+    a{color:inherit;text-decoration-color:rgba(166,85,58,.45);text-underline-offset:.2em}
+    a:hover{text-decoration-color:var(--rust)}
+    p{margin:.65rem 0 1rem}
+    strong{font-weight:650}
+    .zh{font-family:var(--zh)}
+    sup a{font:700 .62em/1 var(--mono);color:var(--rust);text-decoration:none}
+
+    /* hero */
+    .hero{color:var(--cream);background:
+      radial-gradient(115% 95% at 78% 8%,#a6553a 0,transparent 58%),
+      radial-gradient(90% 80% at 8% 92%,#38150d 0,transparent 62%),
+      linear-gradient(166deg,#5a2416,#34140c 62%,#200d08);padding:clamp(5.5rem,10vw,8.2rem) 1.25rem clamp(4.2rem,8vw,6rem);position:relative;overflow:hidden}
+    .hero::after{content:"律";position:absolute;right:-.05em;bottom:-.42em;font-family:var(--zh);font-size:clamp(25rem,52vw,48rem);line-height:1;color:rgba(248,237,231,.035);pointer-events:none}
+    .hero-inner{max-width:var(--max);margin:auto;position:relative;z-index:1}
+    .eyebrow{font:400 .66rem/1.5 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:#e1b9a9;border-bottom:1px solid rgba(248,237,231,.35);padding-bottom:1.1rem}
+    .hero-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:clamp(2rem,7vw,7rem);align-items:end;margin-top:2rem}
+    h1,h2,h3{font-family:var(--display)}
+    h1{font-size:clamp(3.8rem,8.4vw,7.4rem);line-height:.9;letter-spacing:-.055em;font-weight:520;margin:0}
+    h1 span{display:block}
+    h1 .second{margin-left:.75em}
+    .hero .sub{font-family:var(--display);font-size:clamp(1.35rem,2.5vw,2rem);font-style:italic;color:#efd7cd;margin:1.3rem 0 1.8rem}
+    .hero .intro{max-width:720px;font-family:"Times New Roman",Times,"Noto Serif SC",serif;font-size:clamp(1.08rem,1.7vw,1.28rem);line-height:1.5;color:#f1e4de}
+    .hero-aside{border-left:1px solid rgba(248,237,231,.32);padding-left:1.3rem;color:#d6c3bb;font-size:.95rem}
+    .hero-aside .mark{min-width:3.1rem;height:3.1rem;display:inline-grid;place-items:center;padding:0 .6rem;border:1px solid #e18b70;color:#ed9f87;font-size:1.45rem;margin-bottom:1.3rem}
+    .hero-aside .mark i{font-size:.8rem;margin-left:.4rem}
+    .hero-aside strong{display:block;font:700 .61rem/1.5 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#f7e6de;margin-top:1rem}
+    .hero-nav{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:2rem}
+    .hero-nav a{padding:.58rem .72rem;border:1px solid rgba(248,237,231,.32);font:400 .58rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:#eadbd4}
+    .hero-nav a:hover{background:var(--cream);color:var(--wine)}
+
+    /* sections */
+    main{max-width:var(--max);margin:auto;padding:0 1.25rem 4rem}
+    .section{padding:clamp(4.6rem,8vw,7.2rem) 0;border-top:1px solid var(--hair)}
+    .section:first-child{border-top:0}
+    .section-head{display:grid;grid-template-columns:180px minmax(0,1fr);gap:2rem;margin-bottom:2.4rem}
+    .kicker{font:700 .62rem/1.55 var(--mono);letter-spacing:.17em;text-transform:uppercase;color:var(--rust)}
+    h2{font-size:clamp(2.4rem,5vw,4.4rem);font-weight:480;letter-spacing:-.045em;line-height:.98;color:var(--wine);margin:0 0 .9rem}
+    h3{font-size:1.55rem;line-height:1.12;font-weight:540;margin:.1rem 0 .65rem;color:var(--wine)}
+    .lede{font-size:clamp(1.15rem,1.9vw,1.35rem);line-height:1.52;max-width:820px;color:#49362e}
+    .measure{max-width:790px}
+
+    .quote{display:grid;grid-template-columns:minmax(200px,auto) minmax(0,1fr);gap:2rem;align-items:center;margin:2.4rem 0;padding:2rem 0;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+    .quote .zh{font-size:clamp(1.7rem,3.4vw,3rem);color:var(--rust);line-height:1.25}
+    .quote blockquote{margin:0;font-family:var(--display);font-size:clamp(1.25rem,2.2vw,1.8rem);line-height:1.3;font-style:italic;color:var(--wine)}
+    .quote cite{display:block;font:400 .6rem/1.5 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:.8rem;font-style:normal}
+
+    .boundary{margin-top:1.1rem;padding:1rem 1.1rem;border-left:3px solid var(--gold);background:#f5efe4;color:#5b4b42;font-size:.94rem}
+    .note-jade{margin-top:1.2rem;padding:1.1rem 1.2rem;border-left:3px solid var(--jade);background:#eaf0ec;color:#435d56;font-size:.94rem}
+
+    /* readers */
+    .readers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair);margin-top:2rem}
+    .reader{background:var(--paper);padding:1.35rem 1.25rem 1.4rem}
+    .reader .who{font:700 .58rem/1.5 var(--mono);letter-spacing:.11em;text-transform:uppercase;color:var(--rust)}
+    .reader .where{font:400 .58rem/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+    .reader h3{font-size:1.2rem;margin:.8rem 0 .55rem}
+    .reader ul{margin:0;padding-left:1.05rem;font-size:.9rem;line-height:1.48;color:#56463e}
+    .reader li{margin:.3rem 0}
+    .brief{display:grid;grid-template-columns:auto minmax(0,1fr);gap:1.4rem;align-items:center;margin-top:1rem;padding:1.4rem 1.5rem;background:var(--wine);color:var(--cream)}
+    .brief .zh{font-size:2.6rem;color:#f1b598;line-height:1}
+    .brief .label{font:700 .58rem/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#e4ad92}
+    .brief p{margin:.35rem 0 0;font-size:1.05rem;color:#f4e3db}
+
+    /* four readings */
+    .readings{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin-top:2rem}
+    .reading{border:1px solid var(--hair);background:var(--paper-2);padding:1rem 1rem 1.2rem}
+    .reading svg{display:block;width:100%;height:auto;background:var(--paper);border:1px solid var(--hair)}
+    .reading .n{font:700 .56rem/1 var(--mono);letter-spacing:.1em;color:var(--rust);margin-top:.9rem}
+    .reading h3{font-size:1.12rem;margin:.45rem 0 .4rem}
+    .reading p{font-size:.86rem;line-height:1.46;color:var(--muted);margin:0}
+
+    /* dark band */
+    .band{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);background:#21120d;color:var(--cream)}
+    .band-inner{max-width:var(--max);margin:auto;padding:clamp(4.6rem,8vw,7rem) 1.25rem}
+    .band .kicker{color:#d59c78}
+    .band h2{color:var(--cream);max-width:900px}
+    .band .lede{color:#d9c6bd}
+    .band p{color:#d7c7bf}
+    .band .measure p{font-size:1rem}
+    .band strong{color:#f1caa9}
+
+    /* instrument */
+    .inst{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:1.6rem;margin-top:2.2rem;align-items:start}
+    .board{display:grid;grid-template-columns:22px repeat(8,minmax(0,1fr));gap:3px}
+    .board .lab{font:400 .55rem/1 var(--mono);color:#a99087;display:grid;place-items:center;text-transform:uppercase;letter-spacing:.06em}
+    .board .lab.zh{font-family:var(--zh);font-size:.8rem;color:#c9a898}
+    .cell{appearance:none;border:1px solid rgba(248,237,231,.14);background:#2d1912;color:#e9d7cf;padding:5px 2px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0;transition:background .18s,color .18s,border-color .18s}
+    .cell svg{width:58%;max-width:26px;height:auto;display:block}
+    .cell .nm{font-family:var(--zh);font-size:.62rem;line-height:1;white-space:nowrap;overflow:hidden;max-width:100%}
+    .cell.pos{background:#f3e3d8;color:#4b1c12;border-color:#f3e3d8}
+    .cell.neg{background:#5b2a1b;color:#f2d9cc;border-color:#7a3a26}
+    .cell.lis{background:#3f756b;color:#eaf4f0;border-color:#5d9a8e}
+    .cell.sel{outline:2px solid #e4b45f;outline-offset:1px;position:relative;z-index:2}
+    .cell:focus-visible{outline:2px solid #e4b45f;outline-offset:1px}
+    .side{border:1px solid rgba(248,237,231,.2);padding:1.2rem 1.25rem}
+    .side .glyph{display:flex;gap:1rem;align-items:center}
+    .side .glyph svg{width:46px;height:auto}
+    .side .big{font-family:var(--zh);font-size:2.4rem;color:#f5dccf;line-height:1}
+    .side .meta{font:400 .6rem/1.6 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#bba79e}
+    .side .read{margin-top:1rem;font-size:.96rem;line-height:1.5;color:#e6d4cb}
+    .side .read b{color:#f1caa9;font-weight:600}
+    .ctrls{display:flex;flex-wrap:wrap;gap:.4rem;margin:1rem 0 .2rem}
+    .btn{appearance:none;background:transparent;border:1px solid rgba(248,237,231,.32);color:#eadbd4;padding:.5rem .65rem;font:400 .58rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+    .btn:hover{background:rgba(248,237,231,.08)}
+    .btn.on{background:var(--cream);color:var(--wine);border-color:var(--cream)}
+    .btn:focus-visible{outline:2px solid #e4b45f;outline-offset:1px}
+    .legend{display:flex;flex-wrap:wrap;gap:1rem;margin-top:.9rem;font:400 .58rem/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#bba79e}
+    .legend i{display:inline-block;width:.8rem;height:.8rem;vertical-align:-2px;margin-right:.35rem;border:1px solid rgba(248,237,231,.3)}
+
+    .clocks{margin-top:2.2rem;border:1px solid rgba(248,237,231,.2);padding:1.2rem 1.25rem 1rem}
+    .clocks svg{display:block;width:100%;height:auto}
+    .clocks .row{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;justify-content:space-between}
+    .clocks .meta{font:400 .6rem/1.6 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#bba79e}
+
+    .facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:rgba(248,237,231,.18);border:1px solid rgba(248,237,231,.18);margin-top:2.2rem}
+    .fact{background:#21120d;padding:1.1rem 1.15rem}
+    .fact .n{font:700 .56rem/1 var(--mono);letter-spacing:.1em;color:#d9a16f}
+    .fact h3{font-family:var(--mono);font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;color:#f7e8df;margin:.75rem 0 .5rem}
+    .fact p{font-size:.88rem;line-height:1.48;color:#c9b7ae;margin:0}
+
+    /* song */
+    .bars{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair);margin-top:1.8rem}
+    .bar{background:var(--paper);padding:1rem .9rem 1.1rem;display:flex;flex-direction:column;gap:.5rem}
+    .bar .pos{font:700 .56rem/1 var(--mono);letter-spacing:.1em;color:var(--rust);text-transform:uppercase}
+    .bar .zh{font-size:1.15rem;color:var(--wine);line-height:1.3}
+    .bar .en{font-size:.82rem;line-height:1.4;color:var(--muted)}
+    .bar .h{height:6px;background:var(--rust);opacity:.25;margin-top:auto}
+    .tide{margin-top:2rem;border:1px solid var(--hair);background:var(--paper-2);padding:1rem}
+    .tide > svg{display:block;width:100%;height:auto}
+    .cap{font:400 .6rem/1.6 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:.7rem}
+
+    .dual{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2rem}
+    .register{padding:clamp(1.3rem,3vw,2rem);background:var(--paper-2);border:1px solid var(--hair)}
+    .register.a{border-top:4px solid var(--rust)}
+    .register.b{border-top:4px solid var(--jade)}
+    .register .label{font:700 .59rem/1.4 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+    .register h3{font-size:clamp(1.45rem,2.4vw,1.95rem);margin:.7rem 0 .8rem}
+    .register p{font-size:.96rem;color:#56463e}
+
+    /* score table */
+    .score{width:100%;border-collapse:collapse;margin-top:1.6rem}
+    .score th,.score td{text-align:left;vertical-align:top;padding:1rem .9rem;border-bottom:1px solid var(--hair)}
+    .score th{font:700 .59rem/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--rust)}
+    .score td{font-size:.93rem;color:#56463e}
+    .score td:first-child{color:var(--wine);font-weight:600;width:22%}
+    .score .kind{display:inline-block;font:700 .55rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:.35rem .45rem;border:1px solid currentColor;margin-bottom:.45rem}
+    .score .perf{color:var(--jade)}
+    .score .comp{color:var(--gold)}
+    .casts{width:100%;border-collapse:collapse;margin-top:1.4rem;font-size:.92rem}
+    .casts th,.casts td{text-align:left;padding:.65rem .8rem;border-bottom:1px solid var(--hair);vertical-align:top}
+    .casts th{font:700 .56rem/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+    .casts td.zh{color:var(--wine)}
+
+    /* ledger */
+    .ledger{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin-top:2rem}
+    .col{border:1px solid var(--hair);background:var(--paper-2);padding:1.1rem 1.1rem 1.2rem}
+    .col .tag{font:700 .58rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+    .col.est .tag{color:var(--jade)} .col.pro .tag{color:var(--gold)} .col.open .tag{color:var(--rust)} .col.next .tag{color:var(--wine)}
+    .col.est{border-top:4px solid var(--jade)} .col.pro{border-top:4px solid var(--gold)} .col.open{border-top:4px solid var(--rust)} .col.next{border-top:4px solid var(--wine)}
+    .col ul{margin:.8rem 0 0;padding-left:1rem;font-size:.86rem;line-height:1.46;color:#56463e}
+    .col li{margin:.4rem 0}
+
+    details{border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);padding:1rem 0;margin-top:3rem}
+    summary{cursor:pointer;font:700 .63rem/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--rust)}
+    .sources{display:grid;grid-template-columns:1fr 1fr;gap:.65rem 1.5rem;margin-top:1.2rem}
+    .source{font-size:.84rem;line-height:1.45;color:var(--muted)}
+    .source b{display:block;color:var(--ink);font-weight:600}
+
+    .next{margin-top:3rem;background:var(--wine);color:var(--cream);display:grid;grid-template-columns:1fr auto;align-items:center;gap:2rem;padding:clamp(1.4rem,4vw,2.5rem);text-decoration:none}
+    .next:hover{background:#6c301f}
+    .next .label{font:700 .58rem/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#e4ad92}
+    .next h3{font-size:clamp(1.6rem,3vw,2.3rem);color:var(--cream);margin:.4rem 0 0}
+    .next .arrow{font-size:2rem}
+
+    footer{background:var(--rust-deep);color:#bca9a0;padding:2.5rem 1.25rem}
+    .footer-inner{max-width:var(--max);margin:auto;display:flex;justify-content:space-between;gap:2rem;font:400 .59rem/1.7 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+    footer strong{color:var(--cream)}
+
+    @media(max-width:960px){
+      .inst{grid-template-columns:1fr}
+      .readings,.ledger{grid-template-columns:repeat(2,1fr)}
+      .bars{grid-template-columns:repeat(3,1fr)}
+    }
+    @media(max-width:720px){
+      .hero-grid,.section-head,.dual,.readers,.facts{grid-template-columns:1fr}
+      .hero-aside{border-left:0;border-top:1px solid rgba(248,237,231,.3);padding:1.2rem 0 0}
+      .quote{grid-template-columns:1fr;gap:.7rem}
+      .sources{grid-template-columns:1fr}
+      .score td:nth-child(3),.score th:nth-child(3){display:none}
+      .cell .nm{display:none}
+    }
+    @media(max-width:500px){
+      body{font-size:17px}
+      .hero{padding-top:4.5rem}
+      h1{font-size:clamp(3.2rem,16vw,4.6rem)}
+      h1 .second{margin-left:0}
+      .readings,.ledger,.bars{grid-template-columns:1fr}
+      .board{grid-template-columns:16px repeat(8,minmax(0,1fr));gap:2px}
+      .footer-inner{display:block}
+    }
+    @media print{
+      .yitop,.hero-nav,.ctrls,#play{display:none}
+      body{background:#fff}
+      .hero,.band{background:#fff;color:#000}
+      .hero::after{display:none}
+    }
+  </style>
+<style id="yinav-css">
+.yitop{border-bottom:1px solid var(--rule,#DFCEC5);background:var(--paper,#FCFAF7);
+ font-family:"Space Mono",ui-monospace,Menlo,monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase}
+.yitop .in{width:min(1120px,calc(100% - 34px));margin-inline:auto;display:flex;align-items:center;gap:16px;padding:12px 0;flex-wrap:wrap}
+.yitop a{color:var(--iris-mid,#8A4530);text-decoration:none;opacity:.72}
+.yitop a:hover{opacity:1;text-decoration:underline}
+.yitop .sp{flex:1 1 auto}
+.yitop .now{color:var(--lilac,#A89087)}
+.yinav{border-top:1px solid var(--rule,#DFCEC5);margin-top:clamp(40px,6vw,86px);
+ padding:clamp(30px,5vw,58px) 0 clamp(44px,6vw,84px);font-family:"Space Mono",ui-monospace,Menlo,monospace}
+.yinav .in{width:min(1120px,calc(100% - 34px));margin-inline:auto}
+.yinav-lab{font-size:.62rem;letter-spacing:.19em;text-transform:uppercase;color:var(--lilac,#A89087);margin-bottom:24px}
+.yinav-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:34px}
+.yinav-pair a,.yinav-pair .void{display:block;border:1px solid var(--rule,#DFCEC5);border-radius:3px;
+ padding:20px 22px;text-decoration:none;color:var(--iris,#5B2A1B);transition:border-color .2s,background .2s}
+.yinav-pair a:hover{border-color:var(--iris-mid,#8A4530);background:rgba(91,42,27,.035)}
+.yinav-pair .void{border-style:dotted;opacity:.4}
+.yinav-pair .dir{display:block;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--lilac,#A89087);margin-bottom:9px}
+.yinav-pair .ttl{font-family:"Fraunces","Newsreader",serif;font-size:1.05rem;line-height:1.28;letter-spacing:-.01em}
+.yinav-grp{font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--lilac,#A89087);
+ margin:0 4px 0 6px;white-space:nowrap}
+.yinav-rail{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.yinav-rail a,.yinav-rail .here{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
+ padding:8px 12px;border:1px solid var(--rule,#DFCEC5);border-radius:3px;color:var(--iris-mid,#8A4530);opacity:.72}
+.yinav-rail a:hover{opacity:1;border-color:var(--iris-mid,#8A4530)}
+.yinav-rail .here{background:var(--iris,#5B2A1B);border-color:var(--iris,#5B2A1B);color:#FAF1EC;opacity:1}
+.yinav-rail .g{font-family:"Noto Serif SC","Fraunces",serif;font-size:.86rem;letter-spacing:0;margin-right:7px}
+.yinav-rail .comp{border-style:dotted}
+.yinav-home{display:inline-block;margin-top:26px;font-size:.62rem;letter-spacing:.18em;
+ text-transform:uppercase;color:var(--brass,#9A7226);text-decoration:none;opacity:.85}
+.yinav-home:hover{opacity:1;text-decoration:underline}
+@media(max-width:680px){.yinav-pair{grid-template-columns:1fr}}
+</style>
+<style>
+    .hero::after{content:"竹"}
+    .lbtn{appearance:none;background:transparent;border:1px solid var(--hair);color:var(--wine);padding:.5rem .65rem;font:400 .58rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+    .lbtn:hover{background:var(--paper-2)}
+    .lbtn:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+    .listen-note{font:400 .58rem/1.6 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:.5rem}
+    .steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border:1px solid var(--hair);margin-top:1.8rem}
+    .step{padding:1rem;border-right:1px solid var(--hair);position:relative;background:var(--paper)}
+    .step:last-child{border-right:0}
+    .step .n{font:700 .56rem/1 var(--mono);color:var(--rust);letter-spacing:.1em}
+    .step h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;color:var(--wine);margin:.7rem 0 .45rem}
+    .step p{font-size:.84rem;line-height:1.45;color:#56463e;margin:0}
+    .step .zh{color:var(--rust)}
+    .casts11{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin-top:1.8rem}
+    .sq-lab{font:700 .58rem/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#e4b45f}
+    .cast11{border:1px solid rgba(248,237,231,.2);background:#2a1610;padding:1.15rem;display:flex;flex-direction:column;gap:.7rem}
+    .cast11 .when{font:700 .58rem/1.5 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#e4b45f}
+    .cast11 .kind{font:400 .56rem/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#bba79e}
+    .cast11 h3{color:#f7e8df;font-size:1.15rem;margin:0}
+    .cast11 .strip{display:flex;flex-direction:row-reverse;gap:1.4rem;justify-content:center;align-items:flex-end;padding:.6rem 0}
+    .cast11 .col{display:flex;flex-direction:column;align-items:center;gap:.35rem}
+    .cast11 .nums{display:flex;flex-direction:column-reverse;align-items:center;font-family:var(--zh);font-size:1.15rem;color:#f5dccf;line-height:1.25;background:#3a2016;padding:.45rem .55rem;border:1px solid rgba(248,237,231,.15)}
+    .cast11 .nums .eight{color:#e4b45f}
+    .cast11 .col svg{width:40px;height:auto}
+    .cast11 .zhou{font-family:var(--zh);font-size:.95rem;color:#d9a16f}
+    .cast11 .prog{font-family:var(--zh);font-size:.98rem;color:#f2d9cc;line-height:1.5}
+    .cast11 .en{font-size:.86rem;line-height:1.45;color:#c9b7ae}
+    .life{margin-top:1.6rem;border:1px solid var(--hair);background:var(--paper);padding:1rem}
+    .life svg{width:100%;height:auto;display:block}
+    .obs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem;margin-top:1.8rem}
+    .obs article{border:1px solid var(--hair);background:var(--paper-2);padding:1.1rem;border-top:4px solid var(--jade)}
+    .obs .tag{font:700 .58rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--jade)}
+    .obs h3{font-size:1.1rem;margin:.6rem 0 .45rem}
+    .obs p{font-size:.88rem;line-height:1.48;color:#56463e;margin:0}
+    .wonder{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem;margin-top:2rem}
+    .wonder article{border:1px solid var(--hair);background:var(--paper-2);padding:1.1rem;border-top:4px solid var(--gold)}
+    .wonder .tag{font:700 .58rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+    .wonder h3{font-size:1.12rem;margin:.6rem 0 .45rem}
+    .wonder p{font-size:.88rem;line-height:1.48;color:#56463e;margin:0}
+    @media(max-width:960px){.casts11,.obs,.wonder{grid-template-columns:1fr}.steps{grid-template-columns:1fr}.step{border-right:0;border-bottom:1px solid var(--hair)}}
+</style>
+</head>
+<body>
+<nav class="yitop"><div class="in"><a href="../../index.html">↑ The Polymathic Learner</a><span class="now">11 · the listening continues</span><span class="sp"></span><a href="yi-10-consonance-couplets.html">← previous</a></div></nav>
+
+<header class="hero" id="top">
+  <div class="hero-inner">
+    <div class="eyebrow">易 Yi · 11 · Field note · October 2026 · A bounded life</div>
+    <div class="hero-grid">
+      <div>
+        <h1><span>A life</span><span class="second">on bamboo</span></h1>
+        <div class="sub">Six casts for 邵𬊤, 318–316 BCE, struck on the bells.</div>
+        <p class="intro">In 316 BCE a high officer of the state of Chu was buried at Baoshan with the records of the divinations made for him in his last years. They are working records, not stories told afterwards: dated to the day, naming the diviner and the instrument, giving the question, the numbers the milfoil produced, the reading, and the remedy. Six of them give their results as numbers. In sequence they make a short song with a known ending: two phrases a year apart, then four on a single day, and in each the person asking set the length of the phrase.</p>
+      </div>
+      <aside class="hero-aside">
+        <div class="mark" aria-hidden="true">竹<i>zhú</i></div>
+        <div>Bamboo strips: the paper of the Warring States, and the score this note listens to.</div>
+        <strong>First question</strong>
+        What does a bounded life sound like, cast by cast?
+        <strong>Then</strong>
+        What changes from one cast to the next, and what holds?
+      </aside>
+    </div>
+    <div class="hero-nav" aria-label="Sections">
+      <a href="#who">The man</a><a href="#form">Form of a record</a><a href="#casts">Six casts</a><a href="#song">The song</a><a href="#hear">What holds</a><a href="#wonder">Still wondering</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="section" id="who">
+    <div class="section-head">
+      <div class="kicker">00 · The man</div>
+      <div>
+        <h2>邵𬊤, Commander of the Left.</h2>
+        <p class="lede">Shao Tuo was 左尹, Commander or Superintendent of the Left, a senior judicial officer at the Chu court. His tomb near Jingmen in Hubei was opened in 1987 and held 278 inscribed bamboo strips: court cases, an inventory of the grave goods, and records of divination and prayer.</p>
+      </div>
+    </div>
+    <div class="measure">
+      <p>The divinations run through the last three years of his life, from the early summer of 318 BCE to the early summer of 316, when he died. Some were made with turtle shell, some with milfoil. They asked the same two questions again and again: will he serve the king this coming year without trouble, and will his illness heal? Six of the milfoil records give their results as numbers, and all six are the score here. One comes from 318, one from 317, and four were cast on a single day in 316.</p>
+      <div class="boundary">The transcriptions and dates follow Constance Cook's edition of the Baoshan divination text, which places each record in a dated sequence of events. Her six transcriptions contain exactly thirty-four 一, thirty-one 六, six 八 and one 五: the same tally Edward Shaughnessy gives independently for all numbers in the Baoshan records, which is a useful check that nothing has been dropped or misread.</div>
+    </div>
+  </section>
+
+  <section class="section" id="form">
+    <div class="section-head">
+      <div class="kicker">01 · Form of a record</div>
+      <div>
+        <h2>A question, numbers, a reading, a remedy.</h2>
+        <p class="lede">Every Chu milfoil record follows the same course, in two steps. The first asks broadly and finds a trouble. The second proposes how to remove it, and is answered simply: auspicious.</p>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="n">01</div><h3>The date</h3><p>A year named for an event, a month, a day. <span class="zh">荆夷之月，己卯之日</span>.</p></div>
+      <div class="step"><div class="n">02</div><h3>Diviner and charge</h3><p>Who cast, with which method, and what was asked: "throughout the year, would that his person have no trouble."</p></div>
+      <div class="step"><div class="n">03</div><h3>The numbers</h3><p>Two columns of six numbers, written side by side down the strip and read from right to left.</p></div>
+      <div class="step"><div class="n">04</div><h3>The reading</h3><p><span class="zh">恒贞吉，少有忧于…</span> The long-term outlook is auspicious, but there is a little concern in…</p></div>
+      <div class="step"><div class="n">05</div><h3>The remedy</h3><p>Prayers and offerings to dispel the trouble, divined again, and found <span class="zh">吉</span>.</p></div>
+    </div>
+    <div class="measure" style="margin-top:1.6rem">
+      <p>The charge itself carries a duration. "From the 荆夷 month all the way until the next 荆夷 month, throughout the entire year." The person asking sets the length of the phrase before the stalks are counted. This is the observation from note 09, written into the question in the asker's own words: the bar is a year long because a year is what was asked about.</p>
+      <div class="note-jade">The numbers are written top to bottom, with the bottom numeral as the first line. They were read with a Chu method like the one in the Tsinghua manuscript 筮法, which reads the two columns as four trigrams in four positions rather than as one hexagram changing into another. Here, odd numbers are struck at a bell's face as yang and even numbers at its side as yin, so the casts can be heard on the same bells as the rest of the sequence; the single 五 is heard as yin, as both editors read it. The names of 周易 hexagrams under each column are the ones Cook gives, offered for orientation, not as the Chu diviners' reading.</div>
+    </div>
+  </section>
+
+  <div class="band" id="casts">
+    <div class="band-inner">
+      <div class="section-head">
+        <div class="kicker">02 · Six casts</div>
+        <div>
+          <h2>Two years of service, then one long day.</h2>
+          <p class="lede">The numbers are shown as they stand on the strip, the first column on the right. Strike each cast to hear its two columns as two chords on the bells.</p>
+        </div>
+      </div>
+      <div class="casts11" id="castsEarly"></div>
+      <div class="measure" style="margin:2.4rem 0 0"><p style="color:#d7c7bf"><strong style="color:#f1caa9">316 BCE, early summer, 荆夷之月, the day 己卯.</strong> Two diviners, each with his own method, put the same two questions on the same day: the year ahead, and the illness. Four casts, set out here as a square, the questions in rows and the diviners in columns.</p></div>
+      <div class="casts11 sq" id="castsDay"></div>
+      <div class="listen-note" style="color:#bba79e">You are hearing chime-bells modelled on the 曾侯乙编钟: odd numbers at the face, even numbers at the side, a minor third higher.</div>
+    </div>
+  </div>
+
+  <section class="section" id="song">
+    <div class="section-head">
+      <div class="kicker">03 · The song</div>
+      <div>
+        <h2>Two phrases, a long rest, a quartet, and a bell.</h2>
+        <p class="lede">Played in order: the yearly cast of 318, the yearly cast of 317, then the four casts of the single day in 316, close together as they were made. A single low bell follows for the death that came that summer.</p>
+      </div>
+    </div>
+    <div class="life"><svg id="lifeSvg" viewBox="0 0 980 250" role="img" aria-label="The six casts on a timeline from 318 to 316 BCE"></svg></div>
+    <div class="tuning" style="display:flex;gap:.6rem;align-items:center;margin-top:.8rem"><button class="lbtn" id="lifePlay" type="button">▶ Play the last three years</button><span class="listen-note" id="lifeNow" style="margin:0"></span></div>
+    <div class="measure" style="margin-top:1.4rem">
+      <p>The readings darken across the three years. In 318 there is some concern for his person, and his promotion is slow. In 317 there is concern for his person and his home and something discordant outside, yet after the remedy the diviner adds three years without trouble and great joy, of which the country will know. On the day in 316 both diviners find concern in the home, one of them naming the bedroom, and both find the illness changed for the worse: slow to heal, says one; more serious, says the other. Each reading still opens with 恒贞吉, "the long-term outlook is auspicious", and each remedy is still answered 吉. The form keeps its composure while the content turns.</p>
+    </div>
+  </section>
+
+  <section class="section" id="hear">
+    <div class="section-head">
+      <div class="kicker">04 · What holds</div>
+      <div>
+        <h2>Different numbers, the same reading.</h2>
+        <p class="lede">The single day in 316 is the clearest thing the record lets us hear. Two methods, two diviners, two pairs of numbers for each question, with nothing in common between them. And the readings agree.</p>
+      </div>
+    </div>
+    <div class="obs">
+      <article><div class="tag">Heard</div><h3>The numbers diverge</h3><p>For the year, 陈乙's columns read 蛊 and 剥, 五生's read 随 and 离. For the illness, 颐 and 无妄 against 恒 and 需. No column repeats, and on the bells the four phrases share no chord.</p></article>
+      <article><div class="tag">Heard</div><h3>The readings converge</h3><p>Both yearly casts find concern in the home. Both illness casts find the sickness changed for the worse. Whatever each method saw in its numbers, the two arrived at the same place, which suggests the reading drew on more than the numbers alone: the person, the season, the illness already known.</p></article>
+      <article><div class="tag">Heard</div><h3>How much moves</h3><p>Between a cast's two columns, between one and three lines turn: three in 318, one in 317, and two, three, two and three on the day in 316. No pattern in so few phrases, but the one quiet movement belongs to the year the diviner promised great joy.</p></article>
+    </div>
+    <div class="measure" style="margin-top:1.8rem">
+      <div class="boundary"><strong>A coincidence, kept as one.</strong> A reader of the 周易 will notice that 陈乙's illness cast opens on 颐, "nourishment", the hexagram of the mouth and of feeding, cast for a man who had lost his appetite: 不甘食. The Chu diviners did not read with the 周易, and nothing on the strip makes the connection. The resemblance belongs to us, not to the record, and it is set down here so that it can be seen and set aside.</div>
+      <div class="note-jade"><strong>Retracted.</strong> An earlier draft of this note, built on three records whose transcriptions came from more than one edition with different column orders, heard the bottom three numbers holding steady inside every cast, like a drone. With all six records from one consistent edition, that pattern does not hold: two casts share a lower trigram, one an upper, and three share nothing. The drone was an artefact of mixed transcriptions.</div>
+    </div>
+  </section>
+
+  <section class="section" id="wonder">
+    <div class="section-head">
+      <div class="kicker">05 · Still wondering</div>
+      <div><h2>Threads left open, on purpose.</h2></div>
+    </div>
+    <div class="wonder">
+      <article><div class="tag">Wondering</div><h3>Why four on one day?</h3><p>Two methods asked twice on the same day: a second opinion, a ritual completeness, or two specialists answering to the same household? The record keeps the practice and not the reason.</p></article>
+      <article><div class="tag">Wondering</div><h3>Composure of the form</h3><p>Every reading opens "auspicious" and every remedy closes "auspicious", even as the illness worsens. Is the form a way of holding a life steady while it changes?</p></article>
+      <article><div class="tag">Wondering</div><h3>The 筮法 reading</h3><p>Read by the Tsinghua method, as four trigrams in four positions, the same numbers might yield the home and the illness directly. That reading is the next thing to learn.</p></article>
+      <article><div class="tag">Wondering</div><h3>The asker's bar</h3><p>"From this month to the same month next year": the charge sets the duration before the cast. Notes 09 and 11 meet here. The length of a song is chosen by the one who asks.</p></article>
+      <article><div class="tag">Next score</div><h3>The dynasties, slowed</h3><p>From one man's three years to Shao Yong's ages of the world: the 皇极经世 as the longest composed score.</p></article>
+      <article><div class="tag">Held lightly</div><h3>Odd and even</h3><p>Striking odd at the face and even at the side follows the convention modern scholars use. The Chu diviners may have heard their numbers differently.</p></article>
+    </div>
+
+    <details id="sources">
+      <summary>Sources, lineage and method</summary>
+      <div class="sources">
+        <div class="source"><b><a href="https://www.degruyterbrill.com/document/isbn/9789047410638/html">Constance A. Cook, <em>Death in Ancient China: The Tale of One Man's Journey</em></a></b>Brill, 2006, open access. Appendix One, the Baoshan divination text: transcriptions, translations and dating of strips 201–204, 209–211, 228–229, 232–233, 239–241 and 245–246, followed here.</div>
+        <div class="source"><b><a href="https://brill.com/display/book/9789004513945/BP000001.xml?language=en">Edward L. Shaughnessy, <em>The Origin and Early Development of the Zhou Changes</em></a></b>Brill, 2022, open access. Chapter Four: translations of three of the records, the two-step procedure, and the tally of numbers in Chu records (Table 4.3). Its transcriptions differ from Cook's in column order and in one numeral; this note follows Cook throughout.</div>
+        <div class="source"><b>湖北省荆沙铁路考古队《包山楚简》</b>文物出版社, 1991. The publication of record.</div>
+        <div class="source"><b><a href="https://www.cambridge.org/core/journals/early-china/article/abs/formulaic-structure-of-chu-divinatory-bamboo-slips/54EC955437859B8F13A6EC85F3E80106">Li Ling, “Formulaic Structure of Chu Divinatory Bamboo Slips”</a></b><em>Early China</em> 15, 1990. Initial and follow-up divinations.</div>
+        <div class="source"><b><a href="https://xb.szu.edu.cn/article/2016/1000-260X-33-3-58.html">楚卜筮简中的数字卦及清华简《筮法》的解卦原理</a></b>《深圳大学学报》, 2016. The six Baoshan records with numbers and their reading by the 筮法 method.</div>
+        <div class="source"><b>Guolong Lai, <em>Excavating the Afterlife</em></b>University of Washington Press, 2015. The Baoshan tomb and early Chinese religion.</div>
+      </div>
+    </details>
+
+    <a class="next" href="yi-10-consonance-couplets.html">
+      <div><div class="label">Previous · Field note</div><h3>和 Consonance and couplets</h3></div><div class="arrow">←</div>
+    </a>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div><strong>易 Yi · 11 · A Life on Bamboo</strong><br>竹 · field note on a bounded life</div>
+    <div>Lin Wei 林威 — conceptual direction<br>with Claude<br>October 2026</div>
+  </div>
+</footer>
+
+<nav class="yinav"><div class="in">
+  <div class="yinav-lab">11 · the listening continues</div>
+  <div class="yinav-pair">
+    <a href="yi-10-consonance-couplets.html"><span class="dir">Previous</span><span class="ttl">←  Consonance and couplets</span></a>
+    <div class="void"><span class="dir">Next</span><span class="ttl">— another score</span></div>
+  </div>
+  <div class="yinav-rail">
+    <span class="yinav-grp">the argument ›</span>
+    <a href="yi-00-inheritance.html"><span class="g">序</span>00 Inheritance</a>
+    <a href="yi-01-state-space.html"><span class="g">一</span>01 State space</a>
+    <a href="yi-02-motion.html"><span class="g">二</span>02 Motion</a>
+    <a href="yi-03-forces.html"><span class="g">三</span>03 Forces</a>
+    <span class="yinav-grp">the instruments ›</span>
+    <a href="yi-04-instrument.html"><span class="g">儀</span>04 Double cube</a>
+    <a href="yi-05-lantern.html"><span class="g">灯</span>05 Lantern</a>
+    <a href="yi-06-loom.html"><span class="g">織</span>06 Loom</a>
+    <a class="comp" href="yi-lantern-thinking.html"><span class="g">灯</span>— Companion</a>
+    <span class="yinav-grp">the listening ›</span>
+    <a href="yi-07-field-and-song.html"><span class="g">律</span>07 Field &amp; song</a>
+    <a href="yi-08-four-voices.html"><span class="g">九六</span>08 Four voices</a>
+    <a href="yi-09-held-notes.html"><span class="g">时</span>09 Held notes</a>
+    <a href="yi-10-consonance-couplets.html"><span class="g">和</span>10 Couplets</a>
+    <span class="here"><span class="g">竹</span>11 A life on bamboo</span>
+    <a class="comp" href="yi-bells-companion.html"><span class="g">钟</span>— Bells</a>
+  </div>
+  <div class="yinav-lab" style="margin:26px 0 0;opacity:.85">Lin Wei 林威 · with Claude and ChatGPT, and light touches of DeepSeek</div>
+  <a class="yinav-home" href="../../index.html">The whole 易 Yi sequence on the polymathic learner →</a>
+</div></nav>
+
+<script>
+/* YiAudio — one shared sound engine for the listening chapters: bronze chime-bells after the 曾侯乙编钟.
+   Each strike is an additive bell: a face-tone fundamental with the inharmonic partial clusters measured on
+   the Zeng bells (near 2.6–2.8× and 4.1–4.7×), a faint side-tone a third above, and a short mallet transient.
+   One playback at a time: starting anything stops whatever is sounding, and Stop silences at once.
+   Single strikes from the bell rack share one free-play channel, so they ring together like a struck set. */
+window.YiAudio=(function(){
+  var ctx=null,out=null,bus=null,tag=null,nodes=[],onStop=null,noiseBuf=null,pending=[],pump=null;
+  function init(){
+    if(!ctx){
+      ctx=new(window.AudioContext||window.webkitAudioContext)();
+      out=ctx.createGain();out.gain.value=0.85;
+      var comp=ctx.createDynamicsCompressor();comp.threshold.value=-16;comp.ratio.value=3;
+      var conv=ctx.createConvolver(),sr=ctx.sampleRate,len=Math.floor(sr*3.2),ir=ctx.createBuffer(2,len,sr);
+      for(var c=0;c<2;c++){var d=ir.getChannelData(c);for(var i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3.6);}
+      conv.buffer=ir;var wet=ctx.createGain();wet.gain.value=0.28;
+      out.connect(comp);out.connect(conv);conv.connect(wet);wet.connect(comp);comp.connect(ctx.destination);
+      noiseBuf=ctx.createBuffer(1,Math.floor(sr*0.06),sr);var nd=noiseBuf.getChannelData(0);for(var j=0;j<nd.length;j++)nd[j]=(Math.random()*2-1)*Math.pow(1-j/nd.length,2);
+    }
+    if(ctx.state==="suspended")ctx.resume();
+    return ctx;
+  }
+  function stop(){
+    if(bus&&ctx){var b=bus,t=ctx.currentTime;
+      try{b.gain.cancelScheduledValues(t);b.gain.setValueAtTime(b.gain.value,t);b.gain.linearRampToValueAtTime(0,t+0.06);}catch(e){}
+      nodes.forEach(function(n){try{n.stop(t+0.08);}catch(e){}});
+      setTimeout(function(){try{b.disconnect();}catch(e){}},300);}
+    bus=null;tag=null;nodes=[];pending=[];if(pump){clearInterval(pump);pump=null;}
+    var cb=onStop;onStop=null;if(cb)cb();
+  }
+  function begin(cb,t){
+    try{init();}catch(e){return null;}
+    if(t==="free"&&tag==="free"&&bus)return ctx;     // single strikes ring on together
+    stop();
+    bus=ctx.createGain();bus.gain.value=1;bus.connect(out);onStop=cb||null;tag=t||"song";
+    return ctx;
+  }
+  var PARTS=[[1,1,1],[1.25,0.10,0.55],[2.62,0.30,0.45],[2.81,0.18,0.38],[4.14,0.10,0.25],[4.62,0.06,0.2]];
+  function flush(){ if(!ctx)return; var lim=ctx.currentTime+0.6,keep=[];
+    pending.forEach(function(p){ if(p[1]<lim) strikeNow(p[0],p[1],p[2],p[3]); else keep.push(p); });
+    pending=keep; if(!pending.length&&pump){clearInterval(pump);pump=null;} }
+  function bell(f,when,dur,gain){
+    if(!bus)return;
+    if(when>ctx.currentTime+0.6){ pending.push([f,when,dur,gain]); if(!pump)pump=setInterval(flush,120); return; }
+    strikeNow(f,when,dur,gain);
+  }
+  function strikeNow(f,when,dur,gain){
+    if(!bus)return;
+    var T=Math.max(1.6,Math.min(7,5.2*Math.sqrt(220/f)));          // larger bells ring longer
+    if(dur!=null)T=Math.min(T,Math.max(1.2,dur+1.4));
+    PARTS.forEach(function(p,k){
+      if(f*p[0]>9000)return;
+      [-0.35,0.35].forEach(function(det,m){                         // a slight beating, as in cast bronze
+        var o=ctx.createOscillator(),g=ctx.createGain(),Tp=T*p[2];
+        o.type="sine";o.frequency.value=f*p[0]+det*(k+1)*0.5;
+        var a=gain*p[1]*0.5;
+        g.gain.setValueAtTime(0.0001,when);g.gain.exponentialRampToValueAtTime(Math.max(a,0.0002),when+0.004);
+        g.gain.exponentialRampToValueAtTime(0.0001,when+Tp);
+        o.connect(g);g.connect(bus);o.start(when);o.stop(when+Tp+0.05);nodes.push(o);
+      });
+    });
+    var n=ctx.createBufferSource(),bp=ctx.createBiquadFilter(),ng=ctx.createGain();   // the mallet
+    n.buffer=noiseBuf;bp.type="bandpass";bp.frequency.value=Math.min(6000,f*3);bp.Q.value=1.2;ng.gain.value=gain*0.35;
+    n.connect(bp);bp.connect(ng);ng.connect(bus);n.start(when);nodes.push(n);
+  }
+  // a note: strike f0; if the voice turns (f1), strike the bell again on its new tone at glideAt
+  function note(f0,f1,when,dur,gain,glideAt){
+    if(!bus)return;
+    bell(f0,when,dur,gain);
+    if(f1&&f1!==f0){bell(f1,when+dur*(glideAt==null?0.6:glideAt),dur*(1-(glideAt==null?0.6:glideAt))+0.8,gain*0.8);}
+  }
+  function strike(f,gain){ if(!begin(null,"free"))return; bell(f,ctx.currentTime+0.01,null,gain||0.3); }
+  return{begin:begin,stop:stop,note:note,bell:bell,strike:strike,now:function(){return ctx?ctx.currentTime:0;},playing:function(){return !!bus&&tag!=="free";}};
+})();
+</script>
+<script>
+(function(){
+  "use strict";
+  var NS="http://www.w3.org/2000/svg";
+  function el(t,a,p){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;}
+  function txt(p,x,y,s,a){var t=el("text",Object.assign({x:x,y:y},a||{}),p);t.textContent=s;return t;}
+  var TRI={乾:7,兑:3,离:5,震:1,巽:6,坎:2,艮:4,坤:0},ORDER=["乾","兑","离","震","巽","坎","艮","坤"];
+  var NAMES={乾:["乾","履","同人","无妄","姤","讼","遁","否"],兑:["夬","兑","革","随","大过","困","咸","萃"],离:["大有","睽","离","噬嗑","鼎","未济","旅","晋"],震:["大壮","归妹","丰","震","恒","解","小过","豫"],巽:["小畜","中孚","家人","益","巽","涣","渐","观"],坎:["需","节","既济","屯","井","坎","蹇","比"],艮:["大畜","损","贲","颐","蛊","蒙","艮","剥"],坤:["泰","临","明夷","复","升","师","谦","坤"]};
+  var NAME=[];ORDER.forEach(function(u){ORDER.forEach(function(l,j){NAME[TRI[l]+8*TRI[u]]=NAMES[u][j];});});
+  var PIPES_R=[1,1.125,1.265625,1.423828125,1.601806640625,1.802032470703125]; // the six yang pipes, as face tones
+  var BASE=196;
+  function freq(i,yang){var f=BASE*PIPES_R[i]*(i>=3?2:1);return yang?f:f*6/5;}
+  function glyph(k,color){var s=el("svg",{viewBox:"0 0 30 30","aria-hidden":"true"});for(var i=0;i<6;i++){var y=26-i*4.6;if(k>>i&1)el("rect",{x:2,y:y-1.4,width:26,height:2.8,fill:color},s);else{el("rect",{x:2,y:y-1.4,width:11,height:2.8,fill:color},s);el("rect",{x:17,y:y-1.4,width:11,height:2.8,fill:color},s);}}return s;}
+  // numerals are transcribed top to bottom; the bottom numeral is line 1; odd = yang (the single 五 read as yin, as both editors read it)
+  var ZH={"1":"一","5":"五","6":"六","8":"八"};
+  function bits(s){var b=0;for(var i=0;i<6;i++){if(s[5-i]==="1")b|=1<<i;}return b;}
+  var CASTS=[
+    {id:"y318",t:318,when:"318 BCE · early summer · 荆夷之月 · 乙未",kind:"Yearly cast · strips 201–204",who:"应会 Ying Hui, with the yangshi method",q:"The year ahead in the king's service",
+     a:"661666",b:"611611",prog:"恒贞吉 · …",en:"Long-term auspicious, yet some concern regarding his person; moreover his promotion in rank is slow."},
+    {id:"y317",t:317,when:"317 BCE · midsummer · 夏夷之月 · 乙丑",kind:"Yearly cast · strips 209–211",who:"五生 Wu Sheng, with 承德 “Received Virtue”",q:"出入侍王，自夏夷之月以就集岁之夏夷之月，尽集岁，躬身尚毋有咎。",
+     a:"166811",b:"666811",prog:"恒贞吉，少有忧于躬身与宫室，且外有不顺。…三岁无咎，将有大喜，邦知之。",en:"Long-term auspicious, with concern for his person and home, and things outside not going smoothly. After the remedy: three years without trouble, great joy, and the country will know it."},
+    {id:"d1",t:316,row:0,col:0,when:"316 · 荆夷之月 · 己卯",kind:"Yearly cast · strips 228–229",who:"陈乙 Chen Yi, with 共命 “Proffered Command”",q:"出入侍王，自荆夷之月以就集岁之荆夷之月，尽集岁躬身尚毋有咎。",
+     a:"166116",b:"165866",prog:"恒贞吉，少有忧于宫室。",en:"Long-term auspicious, but some concern regarding the home. A white dog, wine and food to the House Walkway."},
+    {id:"d2",t:316,row:0,col:1,when:"316 · the same day",kind:"Yearly cast · strips 232–233",who:"五生 Wu Sheng, with 承德 “Received Virtue”",q:"The year ahead in the king's service",
+     a:"611661",b:"161161",prog:"恒贞吉 · …",en:"Long-term auspicious, but some concern regarding his bedroom at home. A ram to the Lord Earth of the Palace; a white dog to the Walkway and to the Grand Gate."},
+    {id:"d3",t:316,row:1,col:0,when:"316 · the same day",kind:"Illness · strips 239–241",who:"陈乙 Chen Yi, with 共命 “Proffered Command”",q:"既腹心疾，以上气，不甘食，尚速瘥，毋有祟。",
+     a:"166861",b:"111661",prog:"恒贞吉，疾变，有续，迟瘥。",en:"Long-term auspicious, but the illness has changed for the worse; there is decline, and it will be slow to heal. Offerings to the Five Mountains, to King Zhao and to the ancestors."},
+    {id:"d4",t:316,row:1,col:1,when:"316 · the same day",kind:"Illness · strips 245–246",who:"五生 Wu Sheng, with 承德 “Received Virtue”",q:"Abdomen and chest afflicted, short of breath, no appetite: may he recover quickly?",
+     a:"661118",b:"816111",prog:"恒贞吉 · …",en:"Long-term auspicious, but the illness has changed for the worse and has become more serious. Five water buffalo and five piglets to the kings of Jing."}
+  ];
+  function playCast(c,t){
+    [c.a,c.b].forEach(function(s,j){var k=bits(s);for(var i=0;i<6;i++)YiAudio.bell(freq(i,(k>>i)&1),t+j*1.5+i*0.03,1.6,0.15);});
+  }
+  function card(c){var a=document.createElement("article");a.className="cast11";
+    var zhq=/[一-鿿]/.test(c.q)&&c.q.indexOf("The ")!==0&&c.q.indexOf("Abdomen")!==0;
+    a.innerHTML="<div class='when'>"+c.when+"</div><div class='kind'>"+c.kind+"</div><h3 style='"+(zhq?"font-family:var(--zh);font-size:1rem;color:#f2d9cc":"font-size:1.05rem")+"'>"+c.q+"</h3><div class='kind'>Diviner: "+c.who+"</div>";
+    var strip=document.createElement("div");strip.className="strip";
+    [c.a,c.b].forEach(function(s,j){var col=document.createElement("div");col.className="col";var nums=document.createElement("div");nums.className="nums";nums.style.flexDirection="column";
+      for(var i=0;i<6;i++){var sp=document.createElement("span");sp.textContent=ZH[s[i]];if(s[i]==="8"||s[i]==="5")sp.className="eight";nums.appendChild(sp);}
+      col.appendChild(nums);col.appendChild(glyph(bits(s),"#f5dccf"));col.insertAdjacentHTML("beforeend","<span class='zhou'>"+NAME[bits(s)]+"</span><span class='kind'>"+(j?"second · left":"first · right")+"</span>");strip.appendChild(col);});
+    a.appendChild(strip);
+    a.insertAdjacentHTML("beforeend",(c.prog.indexOf("…")===c.prog.length-1&&c.prog.length<8?"":"<div class='prog'>"+c.prog+"</div>")+"<div class='en'>"+c.en+"</div>");
+    var b=document.createElement("button");b.className="btn";b.type="button";b.textContent="▶ Strike this cast";b.style.alignSelf="flex-start";
+    b.addEventListener("click",function(){if(!YiAudio.begin(null,"free"))return;playCast(c,YiAudio.now()+0.03);});a.appendChild(b);return a;}
+  CASTS.slice(0,2).forEach(function(c){document.getElementById("castsEarly").appendChild(card(c));});
+  CASTS.slice(2).forEach(function(c){document.getElementById("castsDay").appendChild(card(c));});
+
+  // life timeline
+  (function(){var s=document.getElementById("lifeSvg"),x0=60,x1=930;function X(y){return x0+(318.3-y)/(318.3-315.6)*(x1-x0);}
+    el("line",{x1:x0,y1:170,x2:x1,y2:170,stroke:"rgba(91,42,27,.4)"},s);
+    [318,317,316].forEach(function(y){var x=X(y);el("line",{x1:x,y1:164,x2:x,y2:176,stroke:"#5b2a1b"},s);txt(s,x,196,y+" BCE",{"text-anchor":"middle","font-family":"Space Mono, monospace","font-size":11,fill:"#7d6d65"});});
+    var pos={y318:[X(317.7),120],y317:[X(316.6),120],d1:[X(315.95),40],d2:[X(315.95),68],d3:[X(315.95),96],d4:[X(315.95),124]};
+    CASTS.forEach(function(c,i){var p=pos[c.id],x=p[0],y=p[1],ill=c.kind.indexOf("Illness")===0;
+      if(i<2){el("line",{x1:x,y1:y+8,x2:x,y2:170,stroke:"#b58d46","stroke-dasharray":"3 3"},s);el("circle",{cx:x,cy:170,r:6,fill:"#5b2a1b"},s);}
+      txt(s,x+(i<2?0:-10),y,(i<2?c.kind.split(" · ")[0]+" · ":(c.who.split(" ")[0]+" · "+(ill?"illness":"year")+" · "))+NAME[bits(c.a)]+" · "+NAME[bits(c.b)],{"text-anchor":i<2?"middle":"end","font-family":"Noto Serif SC, serif","font-size":12,fill:ill?"#a6553a":"#5b2a1b"});});
+    var xd=X(315.95);el("line",{x1:xd,y1:30,x2:xd,y2:170,stroke:"#b58d46","stroke-dasharray":"3 3"},s);el("circle",{cx:xd,cy:170,r:7,fill:"#a6553a"},s);
+    var xe=X(315.72);el("line",{x1:xe,y1:150,x2:xe,y2:190,stroke:"#2c1d17","stroke-width":2},s);txt(s,xe,212,"death · burial",{"text-anchor":"middle","font-family":"Space Mono, monospace","font-size":10,fill:"#2c1d17"});
+    txt(s,x0,238,"POSITIONS WITHIN EACH YEAR ARE APPROXIMATE · THE FOUR CASTS OF 316 WERE MADE ON ONE DAY",{"font-family":"Space Mono, monospace","font-size":9,fill:"#a99087"});
+  })();
+  var lT=null;
+  function lStop(){if(lT){clearTimeout(lT);lT=null;}document.getElementById("lifePlay").textContent="▶ Play the last three years";document.getElementById("lifeNow").textContent="";}
+  document.getElementById("lifePlay").addEventListener("click",function(){
+    if(lT){YiAudio.stop();return;}
+    if(!YiAudio.begin(lStop))return;
+    var t0=YiAudio.now()+0.1,cues=[0,5.6,11.2,14.4,17.6,20.8,25.4],labels=["318 · the yearly cast","317 · the yearly cast","316 · one day · 陈乙 · the year","316 · one day · 五生 · the year","316 · one day · 陈乙 · the illness","316 · one day · 五生 · the illness","316 · a single low bell"];
+    CASTS.forEach(function(c,i){playCast(c,t0+cues[i]);});
+    YiAudio.bell(BASE/2,t0+cues[6],4,0.3);
+    document.getElementById("lifePlay").textContent="■ Stop";lT=1;
+    var start=performance.now();
+    (function tick(){if(!lT)return;var e=(performance.now()-start)/1000,k=-1;cues.forEach(function(c,i){if(e>=c)k=i;});
+      document.getElementById("lifeNow").textContent=k>=0?labels[k]:"";if(e>30){YiAudio.stop();return;}lT=setTimeout(tick,150);})();
+  });
+})();
+</script>
+<script data-goatcounter="https://linwei.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

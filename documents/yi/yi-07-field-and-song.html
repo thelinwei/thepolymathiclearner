@@ -1,0 +1,900 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A field note at the turn of a chapter: the hexagram read as a field, the sixty-four Walsh functions, the Yi heard as song, and the search for a score.">
+  <meta name="color-scheme" content="light">
+  <title>易 Yi · 07 — The Hexagram as Field, the Yi as Song</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..800,0..100,0..1;1,9..144,300..800,0..100,0..1&family=Newsreader:opsz,wght@6..72,200..700&family=Space+Mono:wght@400;700&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --paper:#fcfaf7;
+      --paper-2:#f3eee8;
+      --ink:#2c1d17;
+      --wine:#5b2a1b;
+      --rust:#a6553a;
+      --rust-dark:#4b1c12;
+      --rust-deep:#200d08;
+      --cream:#f8ede7;
+      --gold:#b58d46;
+      --jade:#3f756b;
+      --muted:#7d6d65;
+      --hair:rgba(91,42,27,.18);
+      --display:Fraunces,"Noto Serif SC",serif;
+      --serif:Newsreader,Georgia,"Noto Serif SC",serif;
+      --mono:"Space Mono",ui-monospace,Menlo,monospace;
+      --zh:"Noto Serif SC",serif;
+      --max:1110px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;background:var(--paper)}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.58}
+    a{color:inherit;text-decoration-color:rgba(166,85,58,.45);text-underline-offset:.2em}
+    a:hover{text-decoration-color:var(--rust)}
+    p{margin:.65rem 0 1rem}
+    strong{font-weight:650}
+    .zh{font-family:var(--zh)}
+    sup a{font:700 .62em/1 var(--mono);color:var(--rust);text-decoration:none}
+
+    /* hero */
+    .hero{color:var(--cream);background:
+      radial-gradient(115% 95% at 78% 8%,#a6553a 0,transparent 58%),
+      radial-gradient(90% 80% at 8% 92%,#38150d 0,transparent 62%),
+      linear-gradient(166deg,#5a2416,#34140c 62%,#200d08);padding:clamp(5.5rem,10vw,8.2rem) 1.25rem clamp(4.2rem,8vw,6rem);position:relative;overflow:hidden}
+    .hero::after{content:"律";position:absolute;right:-.05em;bottom:-.42em;font-family:var(--zh);font-size:clamp(25rem,52vw,48rem);line-height:1;color:rgba(248,237,231,.035);pointer-events:none}
+    .hero-inner{max-width:var(--max);margin:auto;position:relative;z-index:1}
+    .eyebrow{font:400 .66rem/1.5 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:#e1b9a9;border-bottom:1px solid rgba(248,237,231,.35);padding-bottom:1.1rem}
+    .hero-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:clamp(2rem,7vw,7rem);align-items:end;margin-top:2rem}
+    h1,h2,h3{font-family:var(--display)}
+    h1{font-size:clamp(3.8rem,8.4vw,7.4rem);line-height:.9;letter-spacing:-.055em;font-weight:520;margin:0}
+    h1 span{display:block}
+    h1 .second{margin-left:.75em}
+    .hero .sub{font-family:var(--display);font-size:clamp(1.35rem,2.5vw,2rem);font-style:italic;color:#efd7cd;margin:1.3rem 0 1.8rem}
+    .hero .intro{max-width:720px;font-family:"Times New Roman",Times,"Noto Serif SC",serif;font-size:clamp(1.08rem,1.7vw,1.28rem);line-height:1.5;color:#f1e4de}
+    .hero-aside{border-left:1px solid rgba(248,237,231,.32);padding-left:1.3rem;color:#d6c3bb;font-size:.95rem}
+    .hero-aside .mark{min-width:3.1rem;height:3.1rem;display:inline-grid;place-items:center;padding:0 .6rem;border:1px solid #e18b70;color:#ed9f87;font-size:1.45rem;margin-bottom:1.3rem}
+    .hero-aside .mark i{font-size:.8rem;margin-left:.4rem}
+    .hero-aside strong{display:block;font:700 .61rem/1.5 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#f7e6de;margin-top:1rem}
+    .hero-nav{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:2rem}
+    .hero-nav a{padding:.58rem .72rem;border:1px solid rgba(248,237,231,.32);font:400 .58rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:#eadbd4}
+    .hero-nav a:hover{background:var(--cream);color:var(--wine)}
+
+    /* sections */
+    main{max-width:var(--max);margin:auto;padding:0 1.25rem 4rem}
+    .section{padding:clamp(4.6rem,8vw,7.2rem) 0;border-top:1px solid var(--hair)}
+    .section:first-child{border-top:0}
+    .section-head{display:grid;grid-template-columns:180px minmax(0,1fr);gap:2rem;margin-bottom:2.4rem}
+    .kicker{font:700 .62rem/1.55 var(--mono);letter-spacing:.17em;text-transform:uppercase;color:var(--rust)}
+    h2{font-size:clamp(2.4rem,5vw,4.4rem);font-weight:480;letter-spacing:-.045em;line-height:.98;color:var(--wine);margin:0 0 .9rem}
+    h3{font-size:1.55rem;line-height:1.12;font-weight:540;margin:.1rem 0 .65rem;color:var(--wine)}
+    .lede{font-size:clamp(1.15rem,1.9vw,1.35rem);line-height:1.52;max-width:820px;color:#49362e}
+    .measure{max-width:790px}
+
+    .quote{display:grid;grid-template-columns:minmax(200px,auto) minmax(0,1fr);gap:2rem;align-items:center;margin:2.4rem 0;padding:2rem 0;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+    .quote .zh{font-size:clamp(1.7rem,3.4vw,3rem);color:var(--rust);line-height:1.25}
+    .quote blockquote{margin:0;font-family:var(--display);font-size:clamp(1.25rem,2.2vw,1.8rem);line-height:1.3;font-style:italic;color:var(--wine)}
+    .quote cite{display:block;font:400 .6rem/1.5 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:.8rem;font-style:normal}
+
+    .boundary{margin-top:1.1rem;padding:1rem 1.1rem;border-left:3px solid var(--gold);background:#f5efe4;color:#5b4b42;font-size:.94rem}
+    .note-jade{margin-top:1.2rem;padding:1.1rem 1.2rem;border-left:3px solid var(--jade);background:#eaf0ec;color:#435d56;font-size:.94rem}
+
+    /* readers */
+    .readers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair);margin-top:2rem}
+    .reader{background:var(--paper);padding:1.35rem 1.25rem 1.4rem}
+    .reader .who{font:700 .58rem/1.5 var(--mono);letter-spacing:.11em;text-transform:uppercase;color:var(--rust)}
+    .reader .where{font:400 .58rem/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+    .reader h3{font-size:1.2rem;margin:.8rem 0 .55rem}
+    .reader ul{margin:0;padding-left:1.05rem;font-size:.9rem;line-height:1.48;color:#56463e}
+    .reader li{margin:.3rem 0}
+    .brief{display:grid;grid-template-columns:auto minmax(0,1fr);gap:1.4rem;align-items:center;margin-top:1rem;padding:1.4rem 1.5rem;background:var(--wine);color:var(--cream)}
+    .brief .zh{font-size:2.6rem;color:#f1b598;line-height:1}
+    .brief .label{font:700 .58rem/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#e4ad92}
+    .brief p{margin:.35rem 0 0;font-size:1.05rem;color:#f4e3db}
+
+    /* four readings */
+    .readings{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin-top:2rem}
+    .reading{border:1px solid var(--hair);background:var(--paper-2);padding:1rem 1rem 1.2rem}
+    .reading svg{display:block;width:100%;height:auto;background:var(--paper);border:1px solid var(--hair)}
+    .reading .n{font:700 .56rem/1 var(--mono);letter-spacing:.1em;color:var(--rust);margin-top:.9rem}
+    .reading h3{font-size:1.12rem;margin:.45rem 0 .4rem}
+    .reading p{font-size:.86rem;line-height:1.46;color:var(--muted);margin:0}
+
+    /* dark band */
+    .band{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);background:#21120d;color:var(--cream)}
+    .band-inner{max-width:var(--max);margin:auto;padding:clamp(4.6rem,8vw,7rem) 1.25rem}
+    .band .kicker{color:#d59c78}
+    .band h2{color:var(--cream);max-width:900px}
+    .band .lede{color:#d9c6bd}
+    .band p{color:#d7c7bf}
+    .band .measure p{font-size:1rem}
+    .band strong{color:#f1caa9}
+
+    /* instrument */
+    .inst{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:1.6rem;margin-top:2.2rem;align-items:start}
+    .board{display:grid;grid-template-columns:22px repeat(8,minmax(0,1fr));gap:3px}
+    .board .lab{font:400 .55rem/1 var(--mono);color:#a99087;display:grid;place-items:center;text-transform:uppercase;letter-spacing:.06em}
+    .board .lab.zh{font-family:var(--zh);font-size:.8rem;color:#c9a898}
+    .cell{appearance:none;border:1px solid rgba(248,237,231,.14);background:#2d1912;color:#e9d7cf;padding:5px 2px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0;transition:background .18s,color .18s,border-color .18s}
+    .cell svg{width:58%;max-width:26px;height:auto;display:block}
+    .cell .nm{font-family:var(--zh);font-size:.62rem;line-height:1;white-space:nowrap;overflow:hidden;max-width:100%}
+    .cell.pos{background:#f3e3d8;color:#4b1c12;border-color:#f3e3d8}
+    .cell.neg{background:#5b2a1b;color:#f2d9cc;border-color:#7a3a26}
+    .cell.lis{background:#3f756b;color:#eaf4f0;border-color:#5d9a8e}
+    .cell.sel{outline:2px solid #e4b45f;outline-offset:1px;position:relative;z-index:2}
+    .cell:focus-visible{outline:2px solid #e4b45f;outline-offset:1px}
+    .side{border:1px solid rgba(248,237,231,.2);padding:1.2rem 1.25rem}
+    .side .glyph{display:flex;gap:1rem;align-items:center}
+    .side .glyph svg{width:46px;height:auto}
+    .side .big{font-family:var(--zh);font-size:2.4rem;color:#f5dccf;line-height:1}
+    .side .meta{font:400 .6rem/1.6 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#bba79e}
+    .side .read{margin-top:1rem;font-size:.96rem;line-height:1.5;color:#e6d4cb}
+    .side .read b{color:#f1caa9;font-weight:600}
+    .ctrls{display:flex;flex-wrap:wrap;gap:.4rem;margin:1rem 0 .2rem}
+    .btn{appearance:none;background:transparent;border:1px solid rgba(248,237,231,.32);color:#eadbd4;padding:.5rem .65rem;font:400 .58rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+    .btn:hover{background:rgba(248,237,231,.08)}
+    .btn.on{background:var(--cream);color:var(--wine);border-color:var(--cream)}
+    .btn:focus-visible{outline:2px solid #e4b45f;outline-offset:1px}
+    .legend{display:flex;flex-wrap:wrap;gap:1rem;margin-top:.9rem;font:400 .58rem/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#bba79e}
+    .legend i{display:inline-block;width:.8rem;height:.8rem;vertical-align:-2px;margin-right:.35rem;border:1px solid rgba(248,237,231,.3)}
+
+    .clocks{margin-top:2.2rem;border:1px solid rgba(248,237,231,.2);padding:1.2rem 1.25rem 1rem}
+    .clocks svg{display:block;width:100%;height:auto}
+    .clocks .row{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;justify-content:space-between}
+    .clocks .meta{font:400 .6rem/1.6 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#bba79e}
+
+    .facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:rgba(248,237,231,.18);border:1px solid rgba(248,237,231,.18);margin-top:2.2rem}
+    .fact{background:#21120d;padding:1.1rem 1.15rem}
+    .fact .n{font:700 .56rem/1 var(--mono);letter-spacing:.1em;color:#d9a16f}
+    .fact h3{font-family:var(--mono);font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;color:#f7e8df;margin:.75rem 0 .5rem}
+    .fact p{font-size:.88rem;line-height:1.48;color:#c9b7ae;margin:0}
+
+    /* song */
+    .bars{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair);margin-top:1.8rem}
+    .bar{background:var(--paper);padding:1rem .9rem 1.1rem;display:flex;flex-direction:column;gap:.5rem}
+    .bar .pos{font:700 .56rem/1 var(--mono);letter-spacing:.1em;color:var(--rust);text-transform:uppercase}
+    .bar .zh{font-size:1.15rem;color:var(--wine);line-height:1.3}
+    .bar .en{font-size:.82rem;line-height:1.4;color:var(--muted)}
+    .bar .h{height:6px;background:var(--rust);opacity:.25;margin-top:auto}
+    .tide{margin-top:2rem;border:1px solid var(--hair);background:var(--paper-2);padding:1rem}
+    .tide > svg{display:block;width:100%;height:auto}
+    .cap{font:400 .6rem/1.6 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:.7rem}
+
+    .dual{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2rem}
+    .register{padding:clamp(1.3rem,3vw,2rem);background:var(--paper-2);border:1px solid var(--hair)}
+    .register.a{border-top:4px solid var(--rust)}
+    .register.b{border-top:4px solid var(--jade)}
+    .register .label{font:700 .59rem/1.4 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+    .register h3{font-size:clamp(1.45rem,2.4vw,1.95rem);margin:.7rem 0 .8rem}
+    .register p{font-size:.96rem;color:#56463e}
+
+    /* score table */
+    .score{width:100%;border-collapse:collapse;margin-top:1.6rem}
+    .score th,.score td{text-align:left;vertical-align:top;padding:1rem .9rem;border-bottom:1px solid var(--hair)}
+    .score th{font:700 .59rem/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--rust)}
+    .score td{font-size:.93rem;color:#56463e}
+    .score td:first-child{color:var(--wine);font-weight:600;width:22%}
+    .score .kind{display:inline-block;font:700 .55rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:.35rem .45rem;border:1px solid currentColor;margin-bottom:.45rem}
+    .score .perf{color:var(--jade)}
+    .score .comp{color:var(--gold)}
+    .casts{width:100%;border-collapse:collapse;margin-top:1.4rem;font-size:.92rem}
+    .casts th,.casts td{text-align:left;padding:.65rem .8rem;border-bottom:1px solid var(--hair);vertical-align:top}
+    .casts th{font:700 .56rem/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+    .casts td.zh{color:var(--wine)}
+
+    /* ledger */
+    .ledger{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin-top:2rem}
+    .col{border:1px solid var(--hair);background:var(--paper-2);padding:1.1rem 1.1rem 1.2rem}
+    .col .tag{font:700 .58rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+    .col.est .tag{color:var(--jade)} .col.pro .tag{color:var(--gold)} .col.open .tag{color:var(--rust)} .col.next .tag{color:var(--wine)}
+    .col.est{border-top:4px solid var(--jade)} .col.pro{border-top:4px solid var(--gold)} .col.open{border-top:4px solid var(--rust)} .col.next{border-top:4px solid var(--wine)}
+    .col ul{margin:.8rem 0 0;padding-left:1rem;font-size:.86rem;line-height:1.46;color:#56463e}
+    .col li{margin:.4rem 0}
+
+    details{border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);padding:1rem 0;margin-top:3rem}
+    summary{cursor:pointer;font:700 .63rem/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--rust)}
+    .sources{display:grid;grid-template-columns:1fr 1fr;gap:.65rem 1.5rem;margin-top:1.2rem}
+    .source{font-size:.84rem;line-height:1.45;color:var(--muted)}
+    .source b{display:block;color:var(--ink);font-weight:600}
+
+    .next{margin-top:3rem;background:var(--wine);color:var(--cream);display:grid;grid-template-columns:1fr auto;align-items:center;gap:2rem;padding:clamp(1.4rem,4vw,2.5rem);text-decoration:none}
+    .next:hover{background:#6c301f}
+    .next .label{font:700 .58rem/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#e4ad92}
+    .next h3{font-size:clamp(1.6rem,3vw,2.3rem);color:var(--cream);margin:.4rem 0 0}
+    .next .arrow{font-size:2rem}
+
+    footer{background:var(--rust-deep);color:#bca9a0;padding:2.5rem 1.25rem}
+    .footer-inner{max-width:var(--max);margin:auto;display:flex;justify-content:space-between;gap:2rem;font:400 .59rem/1.7 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+    footer strong{color:var(--cream)}
+
+    @media(max-width:960px){
+      .inst{grid-template-columns:1fr}
+      .readings,.ledger{grid-template-columns:repeat(2,1fr)}
+      .bars{grid-template-columns:repeat(3,1fr)}
+    }
+    @media(max-width:720px){
+      .hero-grid,.section-head,.dual,.readers,.facts{grid-template-columns:1fr}
+      .hero-aside{border-left:0;border-top:1px solid rgba(248,237,231,.3);padding:1.2rem 0 0}
+      .quote{grid-template-columns:1fr;gap:.7rem}
+      .sources{grid-template-columns:1fr}
+      .score td:nth-child(3),.score th:nth-child(3){display:none}
+      .cell .nm{display:none}
+    }
+    @media(max-width:500px){
+      body{font-size:17px}
+      .hero{padding-top:4.5rem}
+      h1{font-size:clamp(3.2rem,16vw,4.6rem)}
+      h1 .second{margin-left:0}
+      .readings,.ledger,.bars{grid-template-columns:1fr}
+      .board{grid-template-columns:16px repeat(8,minmax(0,1fr));gap:2px}
+      .footer-inner{display:block}
+    }
+    @media print{
+      .yitop,.hero-nav,.ctrls,#play{display:none}
+      body{background:#fff}
+      .hero,.band{background:#fff;color:#000}
+      .hero::after{display:none}
+    }
+  </style>
+<style id="yinav-css">
+.yitop{border-bottom:1px solid var(--rule,#DFCEC5);background:var(--paper,#FCFAF7);
+ font-family:"Space Mono",ui-monospace,Menlo,monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase}
+.yitop .in{width:min(1120px,calc(100% - 34px));margin-inline:auto;display:flex;align-items:center;gap:16px;padding:12px 0;flex-wrap:wrap}
+.yitop a{color:var(--iris-mid,#8A4530);text-decoration:none;opacity:.72}
+.yitop a:hover{opacity:1;text-decoration:underline}
+.yitop .sp{flex:1 1 auto}
+.yitop .now{color:var(--lilac,#A89087)}
+.yinav{border-top:1px solid var(--rule,#DFCEC5);margin-top:clamp(40px,6vw,86px);
+ padding:clamp(30px,5vw,58px) 0 clamp(44px,6vw,84px);font-family:"Space Mono",ui-monospace,Menlo,monospace}
+.yinav .in{width:min(1120px,calc(100% - 34px));margin-inline:auto}
+.yinav-lab{font-size:.62rem;letter-spacing:.19em;text-transform:uppercase;color:var(--lilac,#A89087);margin-bottom:24px}
+.yinav-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:34px}
+.yinav-pair a,.yinav-pair .void{display:block;border:1px solid var(--rule,#DFCEC5);border-radius:3px;
+ padding:20px 22px;text-decoration:none;color:var(--iris,#5B2A1B);transition:border-color .2s,background .2s}
+.yinav-pair a:hover{border-color:var(--iris-mid,#8A4530);background:rgba(91,42,27,.035)}
+.yinav-pair .void{border-style:dotted;opacity:.4}
+.yinav-pair .dir{display:block;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--lilac,#A89087);margin-bottom:9px}
+.yinav-pair .ttl{font-family:"Fraunces","Newsreader",serif;font-size:1.05rem;line-height:1.28;letter-spacing:-.01em}
+.yinav-grp{font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--lilac,#A89087);
+ margin:0 4px 0 6px;white-space:nowrap}
+.yinav-rail{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.yinav-rail a,.yinav-rail .here{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
+ padding:8px 12px;border:1px solid var(--rule,#DFCEC5);border-radius:3px;color:var(--iris-mid,#8A4530);opacity:.72}
+.yinav-rail a:hover{opacity:1;border-color:var(--iris-mid,#8A4530)}
+.yinav-rail .here{background:var(--iris,#5B2A1B);border-color:var(--iris,#5B2A1B);color:#FAF1EC;opacity:1}
+.yinav-rail .g{font-family:"Noto Serif SC","Fraunces",serif;font-size:.86rem;letter-spacing:0;margin-right:7px}
+.yinav-rail .comp{border-style:dotted}
+.yinav-home{display:inline-block;margin-top:26px;font-size:.62rem;letter-spacing:.18em;
+ text-transform:uppercase;color:var(--brass,#9A7226);text-decoration:none;opacity:.85}
+.yinav-home:hover{opacity:1;text-decoration:underline}
+@media(max-width:680px){.yinav-pair{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="yitop"><div class="in"><a href="../../index.html">↑ The Polymathic Learner</a><span class="now">07 · a new movement opens</span><span class="sp"></span><a href="yi-06-loom.html">← previous</a><a href="yi-08-four-voices.html">next →</a></div></nav>
+
+<header class="hero" id="top">
+  <div class="hero-inner">
+    <div class="eyebrow">易 Yi · 07 · Field note · October 2026 · After the letters</div>
+    <div class="hero-grid">
+      <div>
+        <h1><span>The hexagram</span><span class="second">as field</span></h1>
+        <div class="sub">and the Yi as song.</div>
+        <p class="intro">The archive went out to readers, and some wrote back. Their questions pointed in one direction: transitions, propensity and meaning, held as part of the dynamics rather than added afterwards. This note records where that led — to sixty-four fields in place of sixty-four points, to the hexagrams heard as keys in a bounded song, and to a search for a score that history has already written.</p>
+      </div>
+      <aside class="hero-aside">
+        <div class="mark" aria-hidden="true">律<i>lǜ</i></div>
+        <div>律 is the pitch-pipe, and also the law of a thing's regularity. Both senses are wanted here.</div>
+        <strong>First question</strong>
+        What changes when a hexagram is read as a field over every situation, rather than a place among them?
+        <strong>Then</strong>
+        If the sixty-four can sound together, is there a score — a recorded sequence of casts — that the model could learn to hear?
+      </aside>
+    </div>
+    <div class="hero-nav" aria-label="Sections">
+      <a href="#return">Return</a><a href="#field">Vertex to field</a><a href="#walsh">Sixty-four fields</a><a href="#song">The song</a><a href="#score">The score</a><a href="#ledger">Ledger</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- 00 RETURN -->
+  <section class="section" id="return">
+    <div class="section-head">
+      <div class="kicker">00 · Return</div>
+      <div>
+        <h2>The work went out, and came back changed.</h2>
+        <p class="lede">For two weeks in October 2026 the archive was sent to scholars, designers and mathematician-artists, one letter at a time. Some letters were answered, and a few of the answers were full readings of the work.</p>
+      </div>
+    </div>
+    <div class="measure">
+      <p>The replies that went deepest asked the same things from different directions: make the transitions as explicit as the states; let tendency belong to the situation rather than arrive as an outside force; treat the text's meaning as part of the dynamics; give time its own axis. Those readers will be thanked here by name, with their permission, in a later edition of this note.</p>
+      <p>What follows does not answer the feedback head on. It moves sideways, through Walsh functions and pitch-pipes and Spring and Autumn divination records, and then, by a route that was not planned, arrives back at exactly those questions. The archive has grown this way from the start: a divergence that seems to open a new realm, and a return that finds the realm was adjacent all along. The return is where the learning is kept.</p>
+    </div>
+    <div class="quote">
+      <div class="zh" lang="zh-Hans">言不尽意</div>
+      <blockquote>“Words do not exhaust meaning.” The model is a 象 <i>xiang</i>, an image, in its own right. It can disclose; it is never the whole.<cite>《系辞上》 · a framing for the whole project</cite></blockquote>
+    </div>
+  </section>
+
+  <!-- 02 FIELD -->
+  <section class="section" id="field">
+    <div class="section-head">
+      <div class="kicker">01 · From vertex to field</div>
+      <div>
+        <h2>The sixty-four were becoming points.</h2>
+        <p class="lede">Part One began with a continuum: each hexagram a region of a six-dimensional space, with an interior, margins and a velocity. The search for one beautiful body — lantern, loom — drew the sixty-four back into beads on a thread. A reader looking at them sees beads.</p>
+      </div>
+    </div>
+    <div class="measure">
+      <p>Read together, those questions suggest the hexagram is closer to a field than a vertex. The word carries more than one meaning, and each meaning builds a different model. Four are set side by side below, without yet choosing among them; the exploration is still open, and the delineations can wait.</p>
+    </div>
+
+    <div class="readings" id="readings"></div>
+
+    <div class="quote">
+      <div class="zh" lang="zh-Hans">夫卦者，时也；<br>爻者，适时之变者也。</div>
+      <blockquote>“A hexagram is a time. The lines are the changes that suit that time.”<cite>王弼 Wang Bi · 《周易略例·明卦适变通爻》 · translation by the author</cite></blockquote>
+    </div>
+    <div class="measure">
+      <p>Wang Bi's sentence from the third century holds that whole brief in thirteen characters. The hexagram is a situation that lasts and has its own character of movement — a season more than a coordinate. On this reading the shift that matters runs from noun to verb, from position to situation. Continuity alone does not achieve it: a smooth field can still be a map of places, and Newtonian physics is full of smooth fields. What the replies ask for is a field of tendency.</p>
+      <div class="boundary">The threshold still matters. Much of the tradition's force lies in the qualitative turn — one line changes and the whole situation becomes another. A model that melts every boundary into a gradient loses the moment of 变. The working position: a continuum underneath, thresholds that are real, and hexagrams as named times, each with its own tendency.</div>
+    </div>
+  </section>
+
+  <!-- 03 WALSH -->
+  <div class="band" id="walsh">
+    <div class="band-inner">
+      <div class="section-head">
+        <div class="kicker">02 · Sixty-four fields</div>
+        <div>
+          <h2>Each hexagram is also a way of reading all the others.</h2>
+          <p class="lede">There are exactly sixty-four Walsh functions on six binary places, and each is named by a six-line pattern. Read through them, every hexagram becomes a field: a +1 or −1 laid over the whole space of situations.</p>
+        </div>
+      </div>
+      <div class="measure">
+        <p>The rule is short. Hexagram <i>k</i> asks every situation one question: <strong>among the lines where k is yang, is the count of yang lines in this situation even or odd?</strong> Even gives +1, odd gives −1. The sixty-four fields are mutually orthogonal and together form a complete basis, so any quality that can be attached to situations — auspiciousness in the text, a semantic theme, a reading of a neighbourhood — can be written exactly, and in one way only, as a weighted mixture of the sixty-four.</p>
+        <p>A situation then has a spectrum, and change is weight moving across it. Select a hexagram on the board to see the field it casts. The rows are upper trigrams, the columns lower trigrams, both in the 先天 <i>xiantian</i> order.</p>
+      </div>
+
+      <div class="inst">
+        <div>
+          <div class="board" id="board" role="group" aria-label="The sixty-four hexagrams, arranged upper trigram by lower trigram"></div>
+          <div class="legend" id="legend"></div>
+        </div>
+        <div class="side">
+          <div class="ctrls" role="group" aria-label="Mode">
+            <button class="btn on" data-mode="field">Field of a hexagram</button>
+            <button class="btn" data-mode="listen">Who listens to a line</button>
+          </div>
+          <div class="ctrls" id="presets" role="group" aria-label="Presets"></div>
+          <div class="glyph" style="margin-top:1rem"><span id="selGlyph"></span><div><div class="big" id="selName"></div><div class="meta" id="selMeta"></div></div></div>
+          <div class="read" id="selRead"></div>
+        </div>
+      </div>
+
+      <div class="measure" style="margin-top:2.4rem">
+        <p>Read through time instead of space, the same object becomes rhythm. Each line is a clock, a square wave, and the six clocks halve in period from the bottom line to the top — the timescale ladder of Part Two and the 2, 2, 4, 8, 16, 32 cascade the loom revealed. A hexagram selects the clocks of its yang lines and multiplies them: it is the interference pattern of the clocks it listens to.</p>
+      </div>
+
+      <div class="clocks">
+        <div class="row"><div class="meta" id="clockMeta">Line clocks over one bar of 64 beats</div><button class="btn" id="play" type="button">▶ Listen</button></div>
+        <div class="listen-note" style="font:400 .58rem/1.6 'Space Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:#bba79e;margin-top:.5rem">You are hearing chime-bells modelled on the 曾侯乙编钟 (Marquis Yi of Zeng, 433 BCE), struck singly or as a group.</div>
+        <svg id="clockSvg" viewBox="0 0 960 330" role="img" aria-label="Six line clocks and the product wave of the selected hexagram"></svg>
+        <div class="meta" style="margin-top:.4rem">The listening is an illustration: each yang line of the selected hexagram is a chime-bell on 宫 商 角 徵 羽, after the 曾侯乙编钟, struck as its clock rises; a deeper bell marks each turn of the product wave. Nothing measured is being played.</div>
+      </div>
+
+      <div class="facts">
+        <div class="fact"><div class="n">01 · computed</div><h3>应 is three fields</h3><p>The classical correspondence between lines 1–4, 2–5 and 3–6 is exactly the field of 震为雷, 坎为水 and 艮为山 — the three doubled trigrams with a single yang line. Each is +1 where the pair agrees and −1 where they answer one another, 有应. The model's 土 pairing, the commentary's 应 and these three hexagrams are one object.</p></div>
+        <div class="fact"><div class="n">02 · computed</div><h3>A moving line reorganises half</h3><p>When one line of a situation turns, every field that listens to that line flips sign — exactly thirty-two of sixty-four — and the other thirty-two are untouched. A 变爻 is a precise reorganisation of the whole spectrum.</p></div>
+        <div class="fact"><div class="n">03 · computed</div><h3>错卦 sorts by parity</h3><p>Inverting every line of a situation flips exactly the fields with an odd number of yang lines and leaves the even ones. 综卦, turning the hexagram over, permutes the fields among themselves.</p></div>
+        <div class="fact"><div class="n">04 · computed</div><h3>The loom's thread returns</h3><p>Ordering the Walsh functions from slowest to fastest is the reflected Gray code, bit-reversed — the same thread that wove the loom. The two may be one structure seen from two sides. Shao Yong's 先天 order, binary counting, is the basis's natural index.</p></div>
+      </div>
+
+      <div class="measure" style="margin-top:2.4rem">
+        <p><strong>Where it stops.</strong> The correspondence is guaranteed by arithmetic, since sixty-four is two to the sixth; it is an option for the model, not evidence about the Yi. In this encoding 坤 is the constant field, the empty product, a ground shared by every situation — apt to some readers (坤厚载物, the earth that carries all things) and an objection to others, for whom yin is never absence. Binary readings of the Yi run from Leibniz to Boolean algebra; Walsh functions have been noticed once before, as matrix algebra in an argument about the genetic code. A reading of each hexagram as a field over situations, tested against the text, was not found in the literature checked.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 SONG -->
+  <section class="section" id="song">
+    <div class="section-head">
+      <div class="kicker">03 · The song</div>
+      <div>
+        <h2>Keys and tones, with durations, in a bounded time.</h2>
+        <p class="lede">A hexagram is less a fixed rhythm than a key or a tone, held for a while. Moved through in a fitting arrangement and sequence, the tones make a song that is meaningful and beautiful as a whole. Beneath it runs 潮起潮落, the rise and fall of tides: no single note can be heard alone, and nothing stops changing.</p>
+      </div>
+    </div>
+    <div class="measure">
+      <p>The practice this asks for has three parts: to anticipate the movement, to accept the entirety of the song, and from there to appreciate its structure, beauty and meaning. A song here means a bounded stretch of time and experience — a life, an office, a dynasty, a season.</p>
+      <p>The image fits the model better than the language of force did. A key does not dictate which note sounds next; it colours every note, and makes some tensions want to resolve. That pull is a musical 势, a propensity carried by the harmony itself. A situation is a chord, several of the sixty-four sounding with different weights, named for its dominant voice. A moving line is a modulation, the turn through a pivot into another key. And 应 is consonance between the lower and upper voices, already named in the 文言: 同声相应，同气相求 — like sounds answer each other, like breaths seek each other.</p>
+    </div>
+
+    <div class="dual">
+      <article class="register a">
+        <div class="label">Vertical · the chord</div>
+        <h3>Six lines sounding at once.</h3>
+        <p>The dynamical model has so far listened this way: six simultaneous variables, related as voices through 应 and 比. The fields of section 02 are this hearing made exact.</p>
+      </article>
+      <article class="register b">
+        <div class="label">Horizontal · the melody</div>
+        <h3>Six bars, from 初 to 上.</h3>
+        <p>The line statements read the same six positions as a passage through time — a beginning, a rise, a peak, an excess. Each hexagram is a short song in its own key, and the 序卦 strings the sixty-four into a longer one.</p>
+      </article>
+    </div>
+
+    <div class="bars" aria-label="The six lines of 乾 read as a melody">
+      <div class="bar"><span class="pos">初 · bar 1</span><span class="zh">潜龙勿用</span><span class="en">The dragon lies hidden. Do not act.</span><span class="h" style="opacity:.18"></span></div>
+      <div class="bar"><span class="pos">二 · bar 2</span><span class="zh">见龙在田</span><span class="en">The dragon appears in the field.</span><span class="h" style="opacity:.3"></span></div>
+      <div class="bar"><span class="pos">三 · bar 3</span><span class="zh">君子终日乾乾</span><span class="en">All day the noble one strives, and at dusk stays watchful.</span><span class="h" style="opacity:.45"></span></div>
+      <div class="bar"><span class="pos">四 · bar 4</span><span class="zh">或跃在渊</span><span class="en">Leaping, or still in the deep.</span><span class="h" style="opacity:.6"></span></div>
+      <div class="bar"><span class="pos">五 · bar 5</span><span class="zh">飞龙在天</span><span class="en">The dragon flies in the heavens.</span><span class="h" style="opacity:.85"></span></div>
+      <div class="bar"><span class="pos">上 · bar 6</span><span class="zh">亢龙有悔</span><span class="en">The dragon overreaches; there is regret.</span><span class="h" style="opacity:.5"></span></div>
+    </div>
+    <p class="cap">乾 read horizontally · six bars of one bounded passage, rising to the fifth and overreaching at the sixth · translations by the author</p>
+
+    <div class="tide">
+      <svg id="tideSvg" viewBox="0 0 960 230" role="img" aria-label="The twelve sovereign hexagrams as a tide of yang rising and falling"></svg>
+      <div class="cap">潮起潮落 · the twelve 消息卦 <i>xiaoxi gua</i>, one line at a time: yang returns at the base in 复, fills to 乾, yin enters at the base in 姤, empties to 坤, and the tide turns again. The Han scholars heard this cycle as the year and as the twelve pitch-pipes together.</div>
+    </div>
+
+    <div class="measure" style="margin-top:2.4rem">
+      <p>The tradition already names the practice. Anticipation is 知几 <i>zhiji</i>: 几者，动之微，吉之先见者也 — the incipient stir of movement, in which what is coming first shows itself. A trained listener feels where a phrase is going before it arrives, not as a predicted note but as the pull of the key. Acceptance of the whole is 乐天知命，故不忧. And the 周易 itself is a bounded song that ends unresolved: its last two hexagrams are 既济, already across, and then 未济, not yet across — a closing chord that leans into the next song.</p>
+      <div class="boundary"><strong>Fittingness, held lightly.</strong> If a song is beautiful in one arrangement only, the Yi becomes a score to obey. 中 and 时 point instead to what suits this moment in this song — closer to a musician improvising inside a form than to a correct sequence. The agency stays with the person in the song, where 感应 would want it.</div>
+      <div class="note-jade"><strong>The open edge: octaves and fifths.</strong> Harmony built from Walsh functions knows only doubling; everything in a binary basis is an octave of something. The Chinese pitch system is built on 三分损益, the ratio 3 : 2 that makes the fifth. A purely binary Yi gives rhythm and octave structure, but no fifth. If the song is to have harmony, a three must enter from somewhere — the four values 6, 7, 8, 9 of the milfoil count, the three lines of the trigram and 三才 <i>sancai</i>, or a ratio inside the dynamics. Which, if any, is not yet known.</div>
+    </div>
+  </section>
+
+  <!-- 05 SCORE -->
+  <section class="section" id="score">
+    <div class="section-head">
+      <div class="kicker">04 · Looking for a score</div>
+      <div>
+        <h2>History kept performances, and composed scores.</h2>
+        <p class="lede">If the sixty-four can sound together, a model could learn to hear real sequences of them. Records of hexagrams cast in time do survive. They come in two kinds, and the difference decides what each can teach.</p>
+      </div>
+    </div>
+
+    <table class="score">
+      <thead><tr><th>Source</th><th>What it holds</th><th>Its limit</th></tr></thead>
+      <tbody>
+        <tr><td><span class="kind perf">Performed</span><br>《左传》《国语》<br><small>Spring and Autumn</small></td><td>About twenty-two recorded divinations: who cast, what was asked, the hexagram, the lines that moved, and what followed. Each is written <i>X 之 Y</i> — a hexagram moving to another, the moving lines as hinge. The tradition kept a corpus of transitions.</td><td>Narrated history rather than notebooks. Some prophecies are fulfilled centuries later, and are widely read as shaped after the event. They show how moves were heard.</td></tr>
+        <tr><td><span class="kind perf">Performed</span><br>Chu bamboo slips<br><small>包山 · 天星观 · 望山 · 葛陵 · c. 350–300 BCE</small></td><td>Working records for named officials in a fixed form — charge, prognosis, follow-up — written as numeric hexagrams. At 包山, repeated casts across an official's final years: career, then illness, then illness again, until his death. Tsinghua's 筮法 manuscript sets out the method.</td><td>The Chu method rather than the 周易; a small corpus. Its numeric lines may carry more than two values.</td></tr>
+        <tr><td><span class="kind comp">Composed</span><br>卦气 <i>guaqi</i><br><small>孟喜 Meng Xi · 京房 Jing Fang · Han</small></td><td>Sixty hexagrams take turns governing the days of the year — 分六十四卦，更直日用事. Zheng Xuan's 爻辰 assigns the twelve pitch-pipes to the lines of 乾 and 坤. A score for the seasons.</td><td>Algorithmic. Its value is as a score to set against performance — China's long records of weather and phenology.</td></tr>
+        <tr><td><span class="kind comp">Composed</span><br>《皇极经世》<br><small>邵雍 Shao Yong · Northern Song</small></td><td>Hexagrams laid over all of history in cycles of 元会运世, with chronological tables running from Yao to the Five Dynasties. Literally the song of the dynasties.</td><td>Derived from the 先天 order and written knowing the history it scores.</td></tr>
+      </tbody>
+    </table>
+
+    <table class="casts" aria-label="Five recorded casts from the Zuozhuan">
+      <thead><tr><th>Record</th><th>Who</th><th>Cast</th><th>What followed</th></tr></thead>
+      <tbody>
+        <tr><td class="zh">闵公元年</td><td>毕万 Bi Wan</td><td class="zh">屯 之 比</td><td>His descendants are said to flourish</td></tr>
+        <tr><td class="zh">庄公二十二年</td><td>陈侯 Marquis of Chen</td><td class="zh">观 之 否</td><td>His line will rise in another state</td></tr>
+        <tr><td class="zh">僖公二十五年</td><td>晋文公 Duke Wen of Jin</td><td class="zh">大有 之 睽</td><td>Read as auspicious; he acts</td></tr>
+        <tr><td class="zh">襄公九年</td><td>穆姜 Mu Jiang</td><td class="zh">艮 之 随 · five lines</td><td>She refuses the hopeful reading and dies in confinement</td></tr>
+        <tr><td class="zh">成公十六年</td><td>晋侯 Marquis of Jin</td><td class="zh">复 · no line moves</td><td>Battle of Yanling, won</td></tr>
+      </tbody>
+    </table>
+    <p class="cap">Selected from 刘大钧's analysis of the 左传 and 国语 records</p>
+
+    <div class="measure" style="margin-top:2rem">
+      <p>The richest use sets a composed score against a performance: Shao Yong's dynastic score against documented history, or the 卦气 calendar against centuries of weather. Where the two disagree, the music would be saying something.</p>
+      <div class="boundary"><strong>The trap, named in advance.</strong> Transcribing a dynasty into hexagrams ourselves would be composing, not finding — the same error as assigning measured timescales to lines and then claiming the ordering as a result. The first listening exercises therefore use sequences the tradition itself recorded.</div>
+    </div>
+  </section>
+
+  <!-- 06 LEDGER -->
+  <section class="section" id="ledger">
+    <div class="section-head">
+      <div class="kicker">05 · Ledger</div>
+      <div>
+        <h2>What this note establishes, and what it opens.</h2>
+        <p class="lede">The habit of the sequence holds: claims are sorted by what supports them, and the open edges are left open.</p>
+      </div>
+    </div>
+    <div class="ledger">
+      <div class="col est"><div class="tag">Established</div><ul>
+        <li>Each hexagram defines a Walsh field over all sixty-four situations; the sixty-four fields form a complete orthogonal basis.</li>
+        <li>应 at 1–4, 2–5, 3–6 equals the fields of 震, 坎 and 艮 doubled.</li>
+        <li>A moving line flips exactly 32 of 64 fields; 错卦 flips exactly the odd ones.</li>
+        <li>Sequency order is the reflected Gray code, bit-reversed. All four checked by computation, 14 October 2026.</li>
+      </ul></div>
+      <div class="col pro"><div class="tag">Provisional</div><ul>
+        <li>The hexagram as field — territory, propensity, resonance, spectrum — as the reading those questions point toward.</li>
+        <li>The Yi heard as song: keys and tones with durations, chord and melody, modulation at the moving line.</li>
+        <li>The 左传 records as a corpus of transitions.</li>
+      </ul></div>
+      <div class="col open"><div class="tag">Open</div><ul>
+        <li>Where a three enters, so the song can have fifths.</li>
+        <li>Whether the 序卦 has a grammar the fields can hear.</li>
+        <li>Whether 坤 as the constant field reads as ground or as absence, and to whom.</li>
+        <li>How to keep thresholds real inside a field of tendency.</li>
+      </ul></div>
+      <div class="col next"><div class="tag">Next</div><ul>
+        <li>The 左传 casts as phrases: which fields flip, how many lines move, consonant or dissonant 应.</li>
+        <li>包山 as one person's song, heard from first cast to last.</li>
+        <li>A Walsh spectrum of the 卦辞 and 爻辞 using a segmented edition of the text: where does 吉 and 凶 collect?</li>
+        <li>The 皇极经世 as the grand composed score, kept for later.</li>
+      </ul></div>
+    </div>
+
+    <details id="sources">
+      <summary>Sources, lineage and method</summary>
+      <div class="sources">
+        <div class="source"><b>Correspondence, October 2026</b>Readers' replies to the archive, paraphrased. They will be acknowledged by name, with their permission.</div>
+        <div class="source"><b>王弼《周易略例·明卦适变通爻》</b>Wang Bi, third century. “夫卦者，时也；爻者，适时之变者也。”</div>
+        <div class="source"><b><a href="https://ctext.org/book-of-changes/xi-ci-shang">《周易·系辞》 Xici</a></b>言不尽意; 乐天知命; 知几. Primary text via the Chinese Text Project.</div>
+        <div class="source"><b><a href="https://en.wikipedia.org/wiki/Walsh_function">Walsh functions</a></b>J. L. Walsh, 1923; sequency ordering and the Walsh–Hadamard transform.</div>
+        <div class="source"><b><a href="https://petoukhov.com/PUBLISHED_ARTICLE_I-CHING_DECEMBER_2017.pdf">Hu, Petoukhov & Petukhova, “I-Ching, dyadic groups of binary numbers and the geno-logic coding”</a></b><em>Progress in Biophysics and Molecular Biology</em> 131, 2018. The earlier Walsh representation of the Fuxi table, in a genetic-code argument.</div>
+        <div class="source"><b><a href="https://www.researchgate.net/publication/237686998_Boolean_Algebra_and_the_Yijing">Schöter, “Boolean Algebra and the Yijing”</a></b>Binary and Boolean readings of the hexagrams.</div>
+        <div class="source"><b><a href="https://www.academia.edu/109969987/The_Structure_of_Change_in_the_Yijing">Hershock, “The Structure of Change in the Yijing”</a></b><em>Journal of Chinese Philosophy</em> 36, 2009 (1991). Four operations of change; a critique of imposed Gray-code orderings.</div>
+        <div class="source"><b><a href="https://dc2.philarchive.org/rec/FLEAST">Fleming, “A Set Theory Analysis of the Logic of the Yijing”</a></b><em>Journal of Chinese Philosophy</em> 36, 2009.</div>
+        <div class="source"><b><a href="https://www.aisixiang.com/data/128757.html">刘大钧《〈左传〉〈国语〉筮例解析》</a></b>From 《周易概论》, 1986. The recorded casts.</div>
+        <div class="source"><b><a href="https://www.cambridge.org/core/journals/early-china/article/abs/formulaic-structure-of-chu-divinatory-bamboo-slips/54EC955437859B8F13A6EC85F3E80106">Li Ling, “Formulaic Structure of Chu Divinatory Bamboo Slips”</a></b><em>Early China</em> 15, 1990.</div>
+        <div class="source"><b><a href="https://www.tsinghua.edu.cn/info/1182/37282.htm">清华简《筮法》</a></b>Tsinghua University. Method and numeric-hexagram cases.</div>
+        <div class="source"><b><a href="https://zhouyi.sdu.edu.cn/__local/0/9F/6B/18C20AE455520C5CD1E35FAEB9A_C1727592_13FDB2.pdf">王新春《孟喜的易学重建与经学王道期许》</a></b>《中国哲学史》, 2024. The 卦气 system.</div>
+        <div class="source"><b><a href="https://www.aisixiang.com/data/157343.html">刘晓峰《论阴阳思想的起源》</a></b>The 消息卦 and the solar year; 京房's 卦气.</div>
+        <div class="source"><b><a href="https://thjcs.site.nthu.edu.tw/var/file/452/1452/img/4635/517132208.pdf">李忠达《声数同原》</a></b>《清华学报》 52.1, 2022. Pitch-pipes, the 消息卦 and 爻辰 in Fang Yizhi.</div>
+        <div class="source"><b>邵雍《皇极经世书》</b>Shao Yong, Northern Song. The cosmic chronology of 元会运世.</div>
+      </div>
+    </details>
+
+    <a class="next" href="yi-06-loom.html">
+      <div><div class="label">Previous · Instrument</div><h3>織 The loom — the sixty-four on a torus</h3></div><div class="arrow">←</div>
+    </a>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div><strong>易 Yi · 07 · The Hexagram as Field, the Yi as Song</strong><br>律 lǜ · field note at the turn of a chapter</div>
+    <div>Lin Wei 林威 — conceptual direction<br>with Claude<br>October 2026</div>
+  </div>
+</footer>
+
+<nav class="yinav"><div class="in">
+  <div class="yinav-lab">07 · a new movement opens · continue</div>
+  <div class="yinav-pair">
+    <a href="yi-06-loom.html"><span class="dir">Previous</span><span class="ttl">←  Trigrams on a torus</span></a>
+    <a href="yi-08-four-voices.html"><span class="dir">Next</span><span class="ttl">Four voices of a line  →</span></a>
+  </div>
+  <div class="yinav-rail">
+    <span class="yinav-grp">the argument ›</span>
+    <a href="yi-00-inheritance.html"><span class="g">序</span>00 Inheritance</a>
+    <a href="yi-01-state-space.html"><span class="g">一</span>01 State space</a>
+    <a href="yi-02-motion.html"><span class="g">二</span>02 Motion</a>
+    <a href="yi-03-forces.html"><span class="g">三</span>03 Forces</a>
+    <span class="yinav-grp">the instruments ›</span>
+    <a href="yi-04-instrument.html"><span class="g">儀</span>04 Double cube</a>
+    <a href="yi-05-lantern.html"><span class="g">灯</span>05 Lantern</a>
+    <a href="yi-06-loom.html"><span class="g">織</span>06 Loom</a>
+    <a class="comp" href="yi-lantern-thinking.html"><span class="g">灯</span>— Companion</a>
+    <span class="yinav-grp">the listening ›</span>
+    <span class="here"><span class="g">律</span>07 Field &amp; song</span>
+    <a href="yi-08-four-voices.html"><span class="g">九六</span>08 Four voices</a>
+    <a href="yi-09-held-notes.html"><span class="g">时</span>09 Held notes</a>
+    <a href="yi-10-consonance-couplets.html"><span class="g">和</span>10 Couplets</a>
+    <a href="yi-11-life-on-bamboo.html"><span class="g">竹</span>11 A life on bamboo</a>
+    <a class="comp" href="yi-bells-companion.html"><span class="g">钟</span>— Bells</a>
+  </div>
+  <div class="yinav-lab" style="margin:26px 0 0;opacity:.85">Lin Wei 林威 · with Claude and ChatGPT, and light touches of DeepSeek</div>
+  <a class="yinav-home" href="../../index.html">The whole 易 Yi sequence on the polymathic learner →</a>
+</div></nav>
+
+<script>
+/* YiAudio — one shared sound engine for the listening chapters: bronze chime-bells after the 曾侯乙编钟.
+   Each strike is an additive bell: a face-tone fundamental with the inharmonic partial clusters measured on
+   the Zeng bells (near 2.6–2.8× and 4.1–4.7×), a faint side-tone a third above, and a short mallet transient.
+   One playback at a time: starting anything stops whatever is sounding, and Stop silences at once.
+   Single strikes from the bell rack share one free-play channel, so they ring together like a struck set. */
+window.YiAudio=(function(){
+  var ctx=null,out=null,bus=null,tag=null,nodes=[],onStop=null,noiseBuf=null,pending=[],pump=null;
+  function init(){
+    if(!ctx){
+      ctx=new(window.AudioContext||window.webkitAudioContext)();
+      out=ctx.createGain();out.gain.value=0.85;
+      var comp=ctx.createDynamicsCompressor();comp.threshold.value=-16;comp.ratio.value=3;
+      var conv=ctx.createConvolver(),sr=ctx.sampleRate,len=Math.floor(sr*3.2),ir=ctx.createBuffer(2,len,sr);
+      for(var c=0;c<2;c++){var d=ir.getChannelData(c);for(var i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3.6);}
+      conv.buffer=ir;var wet=ctx.createGain();wet.gain.value=0.28;
+      out.connect(comp);out.connect(conv);conv.connect(wet);wet.connect(comp);comp.connect(ctx.destination);
+      noiseBuf=ctx.createBuffer(1,Math.floor(sr*0.06),sr);var nd=noiseBuf.getChannelData(0);for(var j=0;j<nd.length;j++)nd[j]=(Math.random()*2-1)*Math.pow(1-j/nd.length,2);
+    }
+    if(ctx.state==="suspended")ctx.resume();
+    return ctx;
+  }
+  function stop(){
+    if(bus&&ctx){var b=bus,t=ctx.currentTime;
+      try{b.gain.cancelScheduledValues(t);b.gain.setValueAtTime(b.gain.value,t);b.gain.linearRampToValueAtTime(0,t+0.06);}catch(e){}
+      nodes.forEach(function(n){try{n.stop(t+0.08);}catch(e){}});
+      setTimeout(function(){try{b.disconnect();}catch(e){}},300);}
+    bus=null;tag=null;nodes=[];pending=[];if(pump){clearInterval(pump);pump=null;}
+    var cb=onStop;onStop=null;if(cb)cb();
+  }
+  function begin(cb,t){
+    try{init();}catch(e){return null;}
+    if(t==="free"&&tag==="free"&&bus)return ctx;     // single strikes ring on together
+    stop();
+    bus=ctx.createGain();bus.gain.value=1;bus.connect(out);onStop=cb||null;tag=t||"song";
+    return ctx;
+  }
+  var PARTS=[[1,1,1],[1.25,0.10,0.55],[2.62,0.30,0.45],[2.81,0.18,0.38],[4.14,0.10,0.25],[4.62,0.06,0.2]];
+  function flush(){ if(!ctx)return; var lim=ctx.currentTime+0.6,keep=[];
+    pending.forEach(function(p){ if(p[1]<lim) strikeNow(p[0],p[1],p[2],p[3]); else keep.push(p); });
+    pending=keep; if(!pending.length&&pump){clearInterval(pump);pump=null;} }
+  function bell(f,when,dur,gain){
+    if(!bus)return;
+    if(when>ctx.currentTime+0.6){ pending.push([f,when,dur,gain]); if(!pump)pump=setInterval(flush,120); return; }
+    strikeNow(f,when,dur,gain);
+  }
+  function strikeNow(f,when,dur,gain){
+    if(!bus)return;
+    var T=Math.max(1.6,Math.min(7,5.2*Math.sqrt(220/f)));          // larger bells ring longer
+    if(dur!=null)T=Math.min(T,Math.max(1.2,dur+1.4));
+    PARTS.forEach(function(p,k){
+      if(f*p[0]>9000)return;
+      [-0.35,0.35].forEach(function(det,m){                         // a slight beating, as in cast bronze
+        var o=ctx.createOscillator(),g=ctx.createGain(),Tp=T*p[2];
+        o.type="sine";o.frequency.value=f*p[0]+det*(k+1)*0.5;
+        var a=gain*p[1]*0.5;
+        g.gain.setValueAtTime(0.0001,when);g.gain.exponentialRampToValueAtTime(Math.max(a,0.0002),when+0.004);
+        g.gain.exponentialRampToValueAtTime(0.0001,when+Tp);
+        o.connect(g);g.connect(bus);o.start(when);o.stop(when+Tp+0.05);nodes.push(o);
+      });
+    });
+    var n=ctx.createBufferSource(),bp=ctx.createBiquadFilter(),ng=ctx.createGain();   // the mallet
+    n.buffer=noiseBuf;bp.type="bandpass";bp.frequency.value=Math.min(6000,f*3);bp.Q.value=1.2;ng.gain.value=gain*0.35;
+    n.connect(bp);bp.connect(ng);ng.connect(bus);n.start(when);nodes.push(n);
+  }
+  // a note: strike f0; if the voice turns (f1), strike the bell again on its new tone at glideAt
+  function note(f0,f1,when,dur,gain,glideAt){
+    if(!bus)return;
+    bell(f0,when,dur,gain);
+    if(f1&&f1!==f0){bell(f1,when+dur*(glideAt==null?0.6:glideAt),dur*(1-(glideAt==null?0.6:glideAt))+0.8,gain*0.8);}
+  }
+  function strike(f,gain){ if(!begin(null,"free"))return; bell(f,ctx.currentTime+0.01,null,gain||0.3); }
+  return{begin:begin,stop:stop,note:note,bell:bell,strike:strike,now:function(){return ctx?ctx.currentTime:0;},playing:function(){return !!bus&&tag!=="free";}};
+})();
+</script>
+<script>
+(function(){
+  "use strict";
+  // ── encoding: bit i (0..5) = line i+1, counted from the bottom; 1 = yang
+  // trigram values (lines 1,2,3 as bits 0,1,2)
+  var TRI = {乾:7, 兑:3, 离:5, 震:1, 巽:6, 坎:2, 艮:4, 坤:0};
+  var ORDER = ["乾","兑","离","震","巽","坎","艮","坤"]; // 先天 order
+  // names by [upper][lower], both in ORDER
+  var NAMES = {
+    乾:["乾","履","同人","无妄","姤","讼","遁","否"],
+    兑:["夬","兑","革","随","大过","困","咸","萃"],
+    离:["大有","睽","离","噬嗑","鼎","未济","旅","晋"],
+    震:["大壮","归妹","丰","震","恒","解","小过","豫"],
+    巽:["小畜","中孚","家人","益","巽","涣","渐","观"],
+    坎:["需","节","既济","屯","井","坎","蹇","比"],
+    艮:["大畜","损","贲","颐","蛊","蒙","艮","剥"],
+    坤:["泰","临","明夷","复","升","师","谦","坤"]
+  };
+  var NAME = new Array(64);
+  ORDER.forEach(function(up){ ORDER.forEach(function(lo,j){ NAME[TRI[lo] + 8*TRI[up]] = NAMES[up][j]; }); });
+  var TRINAME = {}; ORDER.forEach(function(t){ TRINAME[TRI[t]] = t; });
+
+  function pc(v){ var c=0; while(v){ c+=v&1; v>>=1; } return c; }
+  function W(k,x){ return (pc(k&x)&1) ? -1 : 1; }
+  function yangLines(k){ var a=[]; for(var i=0;i<6;i++) if(k>>i&1) a.push(i+1); return a; }
+  function clock(i,t){ return ((t>>(6-i))&1) ? -1 : 1; } // line i (1..6): line 1 slowest
+  function wave(k){ var w=[]; for(var t=0;t<64;t++){ var v=1; for(var i=1;i<=6;i++) if(k>>(i-1)&1) v*=clock(i,t); w.push(v);} return w; }
+  function turns(w){ var c=0; for(var t=1;t<w.length;t++) if(w[t]!==w[t-1]) c++; return c; }
+
+  var NS="http://www.w3.org/2000/svg";
+  function el(tag,attrs,parent){ var e=document.createElementNS(NS,tag); for(var a in attrs) e.setAttribute(a,attrs[a]); if(parent) parent.appendChild(e); return e; }
+  // hexagram glyph: line 6 at top
+  function glyph(k,w,color){
+    var s=el("svg",{viewBox:"0 0 30 30","aria-hidden":"true"});
+    for(var i=0;i<6;i++){
+      var y=26-i*4.6, yang=(k>>i)&1;
+      if(yang) el("rect",{x:2,y:y-1.4,width:26,height:2.8,fill:color||"currentColor"},s);
+      else { el("rect",{x:2,y:y-1.4,width:11,height:2.8,fill:color||"currentColor"},s); el("rect",{x:17,y:y-1.4,width:11,height:2.8,fill:color||"currentColor"},s); }
+    }
+    if(w) s.style.width=w;
+    return s;
+  }
+
+  // ── 02 · four readings, small diagrams
+  (function(){
+    var host=document.getElementById("readings"); if(!host) return;
+    var items=[
+      {n:"01 · Vertex",t:"A place among places",p:"The hexagram as a point — a bead on the lantern, a node on the loom. Exact, countable, and silent about what lies between."},
+      {n:"02 · Territory",t:"A region with an interior",p:"Part One's continuum: a sign-region of the six-cube, with margins and a velocity. Where you are, held smoothly."},
+      {n:"03 · Propensity · 势",t:"A slope in the ground",p:"The hexagram carries a tendency. To be in the situation is already to be leaning somewhere; the five phases would belong to it."},
+      {n:"04 · Resonance · 感应",t:"Voices answering",p:"A field of tension among its own six lines — 应, 比, 承, 乘 — with meaning in how the positions answer one another."}
+    ];
+    var ink="#5b2a1b", rust="#a6553a", jade="#3f756b", hair="rgba(91,42,27,.25)";
+    items.forEach(function(it,idx){
+      var a=document.createElement("article"); a.className="reading";
+      var s=el("svg",{viewBox:"0 0 200 140",role:"img","aria-label":it.t});
+      if(idx===0){
+        for(var r=0;r<4;r++) for(var c=0;c<6;c++){ el("circle",{cx:28+c*29,cy:28+r*28,r:4.2,fill:(r===1&&c===3)?rust:ink,opacity:(r===1&&c===3)?1:.55},s); }
+        el("line",{x1:28,y1:56,x2:173,y2:56,stroke:hair,"stroke-width":1},s);
+      } else if(idx===1){
+        el("rect",{x:20,y:16,width:160,height:108,fill:"none",stroke:hair},s);
+        el("line",{x1:100,y1:16,x2:100,y2:124,stroke:ink,"stroke-width":1.2,opacity:.6},s);
+        el("line",{x1:20,y1:70,x2:180,y2:70,stroke:ink,"stroke-width":1.2,opacity:.6},s);
+        el("rect",{x:100,y:16,width:80,height:54,fill:rust,opacity:.14},s);
+        el("circle",{cx:132,cy:44,r:4.5,fill:rust},s);
+        el("line",{x1:132,y1:44,x2:156,y2:32,stroke:rust,"stroke-width":1.6},s);
+        el("path",{d:"M152 30 L157 32 L153 36",fill:"none",stroke:rust,"stroke-width":1.4},s);
+      } else if(idx===2){
+        for(var q=0;q<5;q++){ el("ellipse",{cx:120,cy:76,rx:14+q*16,ry:9+q*11,fill:"none",stroke:ink,opacity:.18+q*.06},s); }
+        var pts=[[22,24],[60,14],[24,72],[44,118],[178,22],[186,78],[176,126],[110,132],[150,8]];
+        pts.forEach(function(p){ var dx=120-p[0], dy=76-p[1], L=Math.hypot(dx,dy), ux=dx/L*16, uy=dy/L*16;
+          el("line",{x1:p[0],y1:p[1],x2:p[0]+ux,y2:p[1]+uy,stroke:jade,"stroke-width":1.5},s);
+          el("circle",{cx:p[0]+ux,cy:p[1]+uy,r:1.8,fill:jade},s); });
+        el("circle",{cx:120,cy:76,r:3,fill:rust},s);
+      } else {
+        for(var i=0;i<6;i++){ var y=120-i*19;
+          if(i%2===0) el("rect",{x:60,y:y-3,width:80,height:6,fill:ink,opacity:.7},s);
+          else { el("rect",{x:60,y:y-3,width:34,height:6,fill:ink,opacity:.7},s); el("rect",{x:106,y:y-3,width:34,height:6,fill:ink,opacity:.7},s); } }
+        [[0,3],[1,4],[2,5]].forEach(function(pr,j){ var y1=120-pr[0]*19, y2=120-pr[1]*19, x=150+j*12;
+          el("path",{d:"M140 "+y1+" C "+(x+14)+" "+y1+", "+(x+14)+" "+y2+", 140 "+y2,fill:"none",stroke:rust,"stroke-width":1.4},s); });
+        for(var m=0;m<5;m++){ var ya=120-m*19, yb=ya-19; el("path",{d:"M60 "+ya+" C 46 "+ya+", 46 "+yb+", 60 "+yb,fill:"none",stroke:jade,"stroke-width":1.1,opacity:.8},s); }
+      }
+      a.appendChild(s);
+      a.insertAdjacentHTML("beforeend",'<div class="n">'+it.n+'</div><h3>'+it.t+'</h3><p>'+it.p+'</p>');
+      host.appendChild(a);
+    });
+  })();
+
+  // ── 03 · the board
+  var board=document.getElementById("board");
+  var state={mode:"field",k:9,line:1};
+  var cells=[];
+  function buildBoard(){
+    board.appendChild(Object.assign(document.createElement("div"),{className:"lab"}));
+    ORDER.forEach(function(lo){ var d=document.createElement("div"); d.className="lab zh"; d.textContent=lo; d.title="lower trigram "+lo; board.appendChild(d); });
+    ORDER.forEach(function(up){
+      var lab=document.createElement("div"); lab.className="lab zh"; lab.textContent=up; lab.title="upper trigram "+up; board.appendChild(lab);
+      ORDER.forEach(function(lo){
+        var x=TRI[lo]+8*TRI[up];
+        var b=document.createElement("button"); b.className="cell"; b.type="button"; b.dataset.x=x;
+        b.setAttribute("aria-label",NAME[x]+", upper "+up+", lower "+lo);
+        b.appendChild(glyph(x));
+        var nm=document.createElement("span"); nm.className="nm"; nm.textContent=NAME[x]; b.appendChild(nm);
+        b.addEventListener("click",function(){ if(state.mode==="field"){ state.k=x; } else { state.k=x; state.mode="field"; setModeButtons(); } render(); });
+        board.appendChild(b); cells.push(b);
+      });
+    });
+  }
+  function setModeButtons(){
+    document.querySelectorAll("[data-mode]").forEach(function(b){ b.classList.toggle("on",b.dataset.mode===state.mode); });
+    renderPresets();
+  }
+  function renderPresets(){
+    var p=document.getElementById("presets"); p.innerHTML="";
+    var list = state.mode==="field"
+      ? [["应 1–4",9],["应 2–5",18],["应 3–6",36],["乾 · parity",63],["坤 · ground",0],["泰",7],["既济",21]]
+      : [1,2,3,4,5,6].map(function(i){ return ["Line "+i,i]; });
+    list.forEach(function(it){
+      var b=document.createElement("button"); b.className="btn"; b.type="button"; b.textContent=it[0];
+      var on = state.mode==="field" ? state.k===it[1] : state.line===it[1];
+      if(on) b.classList.add("on");
+      b.addEventListener("click",function(){ if(state.mode==="field") state.k=it[1]; else state.line=it[1]; render(); });
+      p.appendChild(b);
+    });
+  }
+  function render(){
+    if(typeof YiAudio!=="undefined" && YiAudio.playing()) YiAudio.stop();
+    var k=state.k;
+    cells.forEach(function(c){
+      var x=+c.dataset.x; c.classList.remove("pos","neg","lis","sel");
+      if(state.mode==="field"){ c.classList.add(W(k,x)>0?"pos":"neg"); if(x===k) c.classList.add("sel"); }
+      else { if((x>>(state.line-1))&1) c.classList.add("lis"); }
+    });
+    var lg=document.getElementById("legend");
+    var gs=document.getElementById("selGlyph"); gs.innerHTML="";
+    if(state.mode==="field"){
+      lg.innerHTML='<span><i style="background:#f3e3d8"></i>+1 · even</span><span><i style="background:#5b2a1b"></i>−1 · odd</span><span><i style="outline:2px solid #e4b45f;background:transparent"></i>the field’s own hexagram</span>';
+      gs.appendChild(glyph(k,"46px","#f5dccf"));
+      document.getElementById("selName").textContent=NAME[k];
+      var lo=k&7, up=k>>3, ys=yangLines(k), plus=0; for(var x=0;x<64;x++) if(W(k,x)>0) plus++;
+      document.getElementById("selMeta").innerHTML=TRINAME[up]+" over "+TRINAME[lo]+" · listens to "+(ys.length?("line"+(ys.length>1?"s ":" ")+ys.join(", ")):"no line")+"<br>+1 on "+plus+" · −1 on "+(64-plus)+" · "+turns(wave(k))+" turns in a bar";
+      var r;
+      if(k===0) r="<b>The constant field.</b> 坤 listens to no line, so it is +1 everywhere — the ground every situation shares, the empty product. Some will read this as 坤厚载物, the earth that carries all things; others will object that yin is never absence.";
+      else if(k===9||k===18||k===36){ var a=ys[0], b=ys[1]; r="<b>A 应 field.</b> Lines "+a+" and "+b+" — +1 where the two positions agree, −1 where they answer one another as yin and yang, the classical 有应. Three doubled trigrams, 震, 坎 and 艮, carry the whole of the correspondence."; }
+      else if(k===63) r="<b>The parity of the whole.</b> 乾 listens to every line: +1 when a situation holds an even number of yang lines, −1 when odd. 错卦 flips this field and every other field that listens to an odd number of lines.";
+      else if(ys.length===1) r="<b>A single line clock.</b> This field hears only line "+ys[0]+". It divides the sixty-four cleanly in half by that one position.";
+      else r="<b>An interference of "+ys.length+" clocks.</b> This field is +1 where an even number of lines "+ys.join(", ")+" are yang. It is one voice in the basis: any quality of situations is a weighted chord of all sixty-four.";
+      document.getElementById("selRead").innerHTML=r;
+    } else {
+      lg.innerHTML='<span><i style="background:#3f756b"></i>fields that listen to line '+state.line+'</span><span><i style="background:#2d1912"></i>fields that do not</span>';
+      document.getElementById("selName").textContent="Line "+state.line;
+      document.getElementById("selMeta").innerHTML="32 of 64 fields listen · 32 do not";
+      document.getElementById("selRead").innerHTML="<b>When line "+state.line+" of a situation turns, every highlighted field flips sign, and every other field holds.</b> A moving line is a precise reorganisation of exactly half the spectrum. Select any hexagram to return to its field.";
+    }
+    renderPresets();
+    drawClocks();
+  }
+  document.querySelectorAll("[data-mode]").forEach(function(b){ b.addEventListener("click",function(){ state.mode=b.dataset.mode; setModeButtons(); render(); }); });
+
+  // ── clocks
+  var svg=document.getElementById("clockSvg");
+  var playhead=null;
+  function drawClocks(){
+    while(svg.firstChild) svg.removeChild(svg.firstChild);
+    var k=state.mode==="field"?state.k:(1<<(state.line-1));
+    var x0=92, x1=944, bw=(x1-x0)/64, rowH=38, top=14;
+    var ZH=["初","二","三","四","五","上"];
+    for(var i=6;i>=1;i--){
+      var row=6-i, yc=top+row*rowH+rowH/2, on=(k>>(i-1))&1;
+      var col=on?"#f1b598":"rgba(248,237,231,.22)";
+      var t=el("text",{x:8,y:yc+4,fill:on?"#f5dccf":"#8f7a71","font-family":"Space Mono, monospace","font-size":11},svg); t.textContent="LINE "+i;
+      var t2=el("text",{x:66,y:yc+5,fill:on?"#f1b598":"#7d6a62","font-family":"Noto Serif SC, serif","font-size":13},svg); t2.textContent=ZH[i-1];
+      var d="";
+      for(var s=0;s<64;s++){ var v=clock(i,s), y=yc-v*11, xa=x0+s*bw, xb=xa+bw; d+=(s===0?"M":"L")+xa.toFixed(1)+" "+y+" L"+xb.toFixed(1)+" "+y+" "; }
+      el("path",{d:d,fill:"none",stroke:col,"stroke-width":on?2:1.2},svg);
+    }
+    var yP=top+6*rowH+34, w=wave(k), dd="";
+    el("line",{x1:x0,y1:yP-34,x2:x1,y2:yP-34,stroke:"rgba(248,237,231,.18)"},svg);
+    var tl=el("text",{x:8,y:yP+4,fill:"#e4b45f","font-family":"Space Mono, monospace","font-size":11},svg); tl.textContent="PRODUCT";
+    var tn=el("text",{x:66,y:yP+5,fill:"#e4b45f","font-family":"Noto Serif SC, serif","font-size":13},svg); tn.textContent=state.mode==="field"?NAME[k]:"";
+    for(var s2=0;s2<64;s2++){ var yy=yP-w[s2]*14, xa2=x0+s2*bw; dd+=(s2===0?"M":"L")+xa2.toFixed(1)+" "+yy+" L"+(xa2+bw).toFixed(1)+" "+yy+" "; }
+    el("path",{d:dd,fill:"none",stroke:"#e4b45f","stroke-width":2.4},svg);
+    playhead=el("rect",{x:x0,y:top-4,width:bw,height:yP+18-top,fill:"rgba(228,180,95,.16)",visibility:"hidden"},svg);
+    document.getElementById("clockMeta").textContent= state.mode==="field"
+      ? ("Line clocks over one bar of 64 beats · "+NAME[k]+" listens to "+(yangLines(k).length?("lines "+yangLines(k).join(", ")):"none")+" · "+turns(w)+" turns")
+      : ("Line "+state.line+" alone · a single clock");
+  }
+
+  // ── listen (shared engine: guzheng plucks over bronze bells)
+  var ctx=null, timer=null;
+  var PITCH=[261.63,293.66,329.63,392.00,440.00,523.25]; // 宫 商 角 徵 羽 宫'
+  function stop(){ if(timer){ clearInterval(timer); timer=null; } if(playhead) playhead.setAttribute("visibility","hidden"); document.getElementById("play").textContent="▶ Listen"; }
+  document.getElementById("play").addEventListener("click",function(){
+    if(timer){ YiAudio.stop(); return; }
+    ctx=YiAudio.begin(stop); if(!ctx) return;
+    var k=state.mode==="field"?state.k:(1<<(state.line-1));
+    var beat=0.16, t0=ctx.currentTime+0.08, w=wave(k);
+    var ys=yangLines(k);
+    for(var s=0;s<64;s++){
+      var when=t0+s*beat;
+      ys.forEach(function(i){ if(clock(i,s)>0 && (s===0 || clock(i,s-1)<0)) YiAudio.note(PITCH[i-1],null,when,beat*2.2,0.16,1,"zheng"); });
+      if(s===0 || w[s]!==w[s-1]) YiAudio.bell(w[s]>0?130.81:98.00,when,beat*3,0.16);
+      if(!ys.length && s%8===0) YiAudio.bell(130.81,when,beat*4,0.14);
+    }
+    var x0=92, bw=(944-92)/64, step=0, start=performance.now();
+    document.getElementById("play").textContent="■ Stop";
+    if(playhead) playhead.setAttribute("visibility","visible");
+    timer=setInterval(function(){
+      step=Math.floor((performance.now()-start)/1000/beat);
+      if(step>=64){ YiAudio.stop(); return; }
+      if(playhead) playhead.setAttribute("x",(x0+step*bw).toFixed(1));
+    },30);
+  });
+
+  // ── tide of the 消息卦
+  (function(){
+    var s=document.getElementById("tideSvg"); if(!s) return;
+    var seq=[1,3,7,15,31,63,62,60,56,48,32,0];
+    var x0=60, x1=900, n=seq.length, dx=(x1-x0)/(n-1);
+    var path="";
+    seq.forEach(function(k,i){ var y=180-pc(k)*22; path+=(i===0?"M":"L")+(x0+i*dx)+" "+y+" "; });
+    el("path",{d:path,fill:"none",stroke:"#a6553a","stroke-width":1.4,opacity:.55,"stroke-dasharray":"3 4"},s);
+    seq.forEach(function(k,i){
+      var cx=x0+i*dx, y=180-pc(k)*22;
+      var g=glyph(k,null,"#5b2a1b"); g.setAttribute("x",cx-14); g.setAttribute("y",y-46); g.setAttribute("width",28); g.setAttribute("height",28); s.appendChild(g);
+      var tx=el("text",{x:cx,y:212,"text-anchor":"middle",fill:"#5b2a1b","font-family":"Noto Serif SC, serif","font-size":15},s); tx.textContent=NAME[k];
+      el("circle",{cx:cx,cy:y,r:3,fill:"#a6553a"},s);
+    });
+    var l=el("text",{x:8,y:184,fill:"#7d6d65","font-family":"Space Mono, monospace","font-size":10},s); l.textContent="0 YANG";
+    var l2=el("text",{x:8,y:52,fill:"#7d6d65","font-family":"Space Mono, monospace","font-size":10},s); l2.textContent="6 YANG";
+  })();
+
+  buildBoard(); setModeButtons(); render();
+})();
+</script>
+<script data-goatcounter="https://linwei.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

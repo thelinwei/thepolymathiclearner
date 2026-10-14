@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A companion to the listening chapters: the 曾侯乙 chime-bells of 433 BCE — two tones per bell, pitch names built from thirds, translations between the tunings of neighbouring states, and five notations compared as diagrams.">
+  <meta name="color-scheme" content="light">
+  <title>易 Yi · Companion — The Bells of Zeng</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..800,0..100,0..1;1,9..144,300..800,0..100,0..1&family=Newsreader:opsz,wght@6..72,200..700&family=Space+Mono:wght@400;700&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --paper:#fcfaf7;
+      --paper-2:#f3eee8;
+      --ink:#2c1d17;
+      --wine:#5b2a1b;
+      --rust:#a6553a;
+      --rust-dark:#4b1c12;
+      --rust-deep:#200d08;
+      --cream:#f8ede7;
+      --gold:#b58d46;
+      --jade:#3f756b;
+      --muted:#7d6d65;
+      --hair:rgba(91,42,27,.18);
+      --display:Fraunces,"Noto Serif SC",serif;
+      --serif:Newsreader,Georgia,"Noto Serif SC",serif;
+      --mono:"Space Mono",ui-monospace,Menlo,monospace;
+      --zh:"Noto Serif SC",serif;
+      --max:1110px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;background:var(--paper)}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.58}
+    a{color:inherit;text-decoration-color:rgba(166,85,58,.45);text-underline-offset:.2em}
+    a:hover{text-decoration-color:var(--rust)}
+    p{margin:.65rem 0 1rem}
+    strong{font-weight:650}
+    .zh{font-family:var(--zh)}
+    sup a{font:700 .62em/1 var(--mono);color:var(--rust);text-decoration:none}
+
+    /* hero */
+    .hero{color:var(--cream);background:
+      radial-gradient(115% 95% at 78% 8%,#a6553a 0,transparent 58%),
+      radial-gradient(90% 80% at 8% 92%,#38150d 0,transparent 62%),
+      linear-gradient(166deg,#5a2416,#34140c 62%,#200d08);padding:clamp(5.5rem,10vw,8.2rem) 1.25rem clamp(4.2rem,8vw,6rem);position:relative;overflow:hidden}
+    .hero::after{content:"律";position:absolute;right:-.05em;bottom:-.42em;font-family:var(--zh);font-size:clamp(25rem,52vw,48rem);line-height:1;color:rgba(248,237,231,.035);pointer-events:none}
+    .hero-inner{max-width:var(--max);margin:auto;position:relative;z-index:1}
+    .eyebrow{font:400 .66rem/1.5 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:#e1b9a9;border-bottom:1px solid rgba(248,237,231,.35);padding-bottom:1.1rem}
+    .hero-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:clamp(2rem,7vw,7rem);align-items:end;margin-top:2rem}
+    h1,h2,h3{font-family:var(--display)}
+    h1{font-size:clamp(3.8rem,8.4vw,7.4rem);line-height:.9;letter-spacing:-.055em;font-weight:520;margin:0}
+    h1 span{display:block}
+    h1 .second{margin-left:.75em}
+    .hero .sub{font-family:var(--display);font-size:clamp(1.35rem,2.5vw,2rem);font-style:italic;color:#efd7cd;margin:1.3rem 0 1.8rem}
+    .hero .intro{max-width:720px;font-family:"Times New Roman",Times,"Noto Serif SC",serif;font-size:clamp(1.08rem,1.7vw,1.28rem);line-height:1.5;color:#f1e4de}
+    .hero-aside{border-left:1px solid rgba(248,237,231,.32);padding-left:1.3rem;color:#d6c3bb;font-size:.95rem}
+    .hero-aside .mark{min-width:3.1rem;height:3.1rem;display:inline-grid;place-items:center;padding:0 .6rem;border:1px solid #e18b70;color:#ed9f87;font-size:1.45rem;margin-bottom:1.3rem}
+    .hero-aside .mark i{font-size:.8rem;margin-left:.4rem}
+    .hero-aside strong{display:block;font:700 .61rem/1.5 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#f7e6de;margin-top:1rem}
+    .hero-nav{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:2rem}
+    .hero-nav a{padding:.58rem .72rem;border:1px solid rgba(248,237,231,.32);font:400 .58rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:#eadbd4}
+    .hero-nav a:hover{background:var(--cream);color:var(--wine)}
+
+    /* sections */
+    main{max-width:var(--max);margin:auto;padding:0 1.25rem 4rem}
+    .section{padding:clamp(4.6rem,8vw,7.2rem) 0;border-top:1px solid var(--hair)}
+    .section:first-child{border-top:0}
+    .section-head{display:grid;grid-template-columns:180px minmax(0,1fr);gap:2rem;margin-bottom:2.4rem}
+    .kicker{font:700 .62rem/1.55 var(--mono);letter-spacing:.17em;text-transform:uppercase;color:var(--rust)}
+    h2{font-size:clamp(2.4rem,5vw,4.4rem);font-weight:480;letter-spacing:-.045em;line-height:.98;color:var(--wine);margin:0 0 .9rem}
+    h3{font-size:1.55rem;line-height:1.12;font-weight:540;margin:.1rem 0 .65rem;color:var(--wine)}
+    .lede{font-size:clamp(1.15rem,1.9vw,1.35rem);line-height:1.52;max-width:820px;color:#49362e}
+    .measure{max-width:790px}
+
+    .quote{display:grid;grid-template-columns:minmax(200px,auto) minmax(0,1fr);gap:2rem;align-items:center;margin:2.4rem 0;padding:2rem 0;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+    .quote .zh{font-size:clamp(1.7rem,3.4vw,3rem);color:var(--rust);line-height:1.25}
+    .quote blockquote{margin:0;font-family:var(--display);font-size:clamp(1.25rem,2.2vw,1.8rem);line-height:1.3;font-style:italic;color:var(--wine)}
+    .quote cite{display:block;font:400 .6rem/1.5 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:.8rem;font-style:normal}
+
+    .boundary{margin-top:1.1rem;padding:1rem 1.1rem;border-left:3px solid var(--gold);background:#f5efe4;color:#5b4b42;font-size:.94rem}
+    .note-jade{margin-top:1.2rem;padding:1.1rem 1.2rem;border-left:3px solid var(--jade);background:#eaf0ec;color:#435d56;font-size:.94rem}
+
+    /* readers */
+    .readers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair);margin-top:2rem}
+    .reader{background:var(--paper);padding:1.35rem 1.25rem 1.4rem}
+    .reader .who{font:700 .58rem/1.5 var(--mono);letter-spacing:.11em;text-transform:uppercase;color:var(--rust)}
+    .reader .where{font:400 .58rem/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+    .reader h3{font-size:1.2rem;margin:.8rem 0 .55rem}
+    .reader ul{margin:0;padding-left:1.05rem;font-size:.9rem;line-height:1.48;color:#56463e}
+    .reader li{margin:.3rem 0}
+    .brief{display:grid;grid-template-columns:auto minmax(0,1fr);gap:1.4rem;align-items:center;margin-top:1rem;padding:1.4rem 1.5rem;background:var(--wine);color:var(--cream)}
+    .brief .zh{font-size:2.6rem;color:#f1b598;line-height:1}
+    .brief .label{font:700 .58rem/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#e4ad92}
+    .brief p{margin:.35rem 0 0;font-size:1.05rem;color:#f4e3db}
+
+    /* four readings */
+    .readings{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin-top:2rem}
+    .reading{border:1px solid var(--hair);background:var(--paper-2);padding:1rem 1rem 1.2rem}
+    .reading svg{display:block;width:100%;height:auto;background:var(--paper);border:1px solid var(--hair)}
+    .reading .n{font:700 .56rem/1 var(--mono);letter-spacing:.1em;color:var(--rust);margin-top:.9rem}
+    .reading h3{font-size:1.12rem;margin:.45rem 0 .4rem}
+    .reading p{font-size:.86rem;line-height:1.46;color:var(--muted);margin:0}
+
+    /* dark band */
+    .band{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);background:#21120d;color:var(--cream)}
+    .band-inner{max-width:var(--max);margin:auto;padding:clamp(4.6rem,8vw,7rem) 1.25rem}
+    .band .kicker{color:#d59c78}
+    .band h2{color:var(--cream);max-width:900px}
+    .band .lede{color:#d9c6bd}
+    .band p{color:#d7c7bf}
+    .band .measure p{font-size:1rem}
+    .band strong{color:#f1caa9}
+
+    /* instrument */
+    .inst{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:1.6rem;margin-top:2.2rem;align-items:start}
+    .board{display:grid;grid-template-columns:22px repeat(8,minmax(0,1fr));gap:3px}
+    .board .lab{font:400 .55rem/1 var(--mono);color:#a99087;display:grid;place-items:center;text-transform:uppercase;letter-spacing:.06em}
+    .board .lab.zh{font-family:var(--zh);font-size:.8rem;color:#c9a898}
+    .cell{appearance:none;border:1px solid rgba(248,237,231,.14);background:#2d1912;color:#e9d7cf;padding:5px 2px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0;transition:background .18s,color .18s,border-color .18s}
+    .cell svg{width:58%;max-width:26px;height:auto;display:block}
+    .cell .nm{font-family:var(--zh);font-size:.62rem;line-height:1;white-space:nowrap;overflow:hidden;max-width:100%}
+    .cell.pos{background:#f3e3d8;color:#4b1c12;border-color:#f3e3d8}
+    .cell.neg{background:#5b2a1b;color:#f2d9cc;border-color:#7a3a26}
+    .cell.lis{background:#3f756b;color:#eaf4f0;border-color:#5d9a8e}
+    .cell.sel{outline:2px solid #e4b45f;outline-offset:1px;position:relative;z-index:2}
+    .cell:focus-visible{outline:2px solid #e4b45f;outline-offset:1px}
+    .side{border:1px solid rgba(248,237,231,.2);padding:1.2rem 1.25rem}
+    .side .glyph{display:flex;gap:1rem;align-items:center}
+    .side .glyph svg{width:46px;height:auto}
+    .side .big{font-family:var(--zh);font-size:2.4rem;color:#f5dccf;line-height:1}
+    .side .meta{font:400 .6rem/1.6 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#bba79e}
+    .side .read{margin-top:1rem;font-size:.96rem;line-height:1.5;color:#e6d4cb}
+    .side .read b{color:#f1caa9;font-weight:600}
+    .ctrls{display:flex;flex-wrap:wrap;gap:.4rem;margin:1rem 0 .2rem}
+    .btn{appearance:none;background:transparent;border:1px solid rgba(248,237,231,.32);color:#eadbd4;padding:.5rem .65rem;font:400 .58rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+    .btn:hover{background:rgba(248,237,231,.08)}
+    .btn.on{background:var(--cream);color:var(--wine);border-color:var(--cream)}
+    .btn:focus-visible{outline:2px solid #e4b45f;outline-offset:1px}
+    .legend{display:flex;flex-wrap:wrap;gap:1rem;margin-top:.9rem;font:400 .58rem/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#bba79e}
+    .legend i{display:inline-block;width:.8rem;height:.8rem;vertical-align:-2px;margin-right:.35rem;border:1px solid rgba(248,237,231,.3)}
+
+    .clocks{margin-top:2.2rem;border:1px solid rgba(248,237,231,.2);padding:1.2rem 1.25rem 1rem}
+    .clocks svg{display:block;width:100%;height:auto}
+    .clocks .row{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;justify-content:space-between}
+    .clocks .meta{font:400 .6rem/1.6 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#bba79e}
+
+    .facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:rgba(248,237,231,.18);border:1px solid rgba(248,237,231,.18);margin-top:2.2rem}
+    .fact{background:#21120d;padding:1.1rem 1.15rem}
+    .fact .n{font:700 .56rem/1 var(--mono);letter-spacing:.1em;color:#d9a16f}
+    .fact h3{font-family:var(--mono);font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;color:#f7e8df;margin:.75rem 0 .5rem}
+    .fact p{font-size:.88rem;line-height:1.48;color:#c9b7ae;margin:0}
+
+    /* song */
+    .bars{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair);margin-top:1.8rem}
+    .bar{background:var(--paper);padding:1rem .9rem 1.1rem;display:flex;flex-direction:column;gap:.5rem}
+    .bar .pos{font:700 .56rem/1 var(--mono);letter-spacing:.1em;color:var(--rust);text-transform:uppercase}
+    .bar .zh{font-size:1.15rem;color:var(--wine);line-height:1.3}
+    .bar .en{font-size:.82rem;line-height:1.4;color:var(--muted)}
+    .bar .h{height:6px;background:var(--rust);opacity:.25;margin-top:auto}
+    .tide{margin-top:2rem;border:1px solid var(--hair);background:var(--paper-2);padding:1rem}
+    .tide > svg{display:block;width:100%;height:auto}
+    .cap{font:400 .6rem/1.6 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:.7rem}
+
+    .dual{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2rem}
+    .register{padding:clamp(1.3rem,3vw,2rem);background:var(--paper-2);border:1px solid var(--hair)}
+    .register.a{border-top:4px solid var(--rust)}
+    .register.b{border-top:4px solid var(--jade)}
+    .register .label{font:700 .59rem/1.4 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+    .register h3{font-size:clamp(1.45rem,2.4vw,1.95rem);margin:.7rem 0 .8rem}
+    .register p{font-size:.96rem;color:#56463e}
+
+    /* score table */
+    .score{width:100%;border-collapse:collapse;margin-top:1.6rem}
+    .score th,.score td{text-align:left;vertical-align:top;padding:1rem .9rem;border-bottom:1px solid var(--hair)}
+    .score th{font:700 .59rem/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--rust)}
+    .score td{font-size:.93rem;color:#56463e}
+    .score td:first-child{color:var(--wine);font-weight:600;width:22%}
+    .score .kind{display:inline-block;font:700 .55rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:.35rem .45rem;border:1px solid currentColor;margin-bottom:.45rem}
+    .score .perf{color:var(--jade)}
+    .score .comp{color:var(--gold)}
+    .casts{width:100%;border-collapse:collapse;margin-top:1.4rem;font-size:.92rem}
+    .casts th,.casts td{text-align:left;padding:.65rem .8rem;border-bottom:1px solid var(--hair);vertical-align:top}
+    .casts th{font:700 .56rem/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+    .casts td.zh{color:var(--wine)}
+
+    /* ledger */
+    .ledger{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin-top:2rem}
+    .col{border:1px solid var(--hair);background:var(--paper-2);padding:1.1rem 1.1rem 1.2rem}
+    .col .tag{font:700 .58rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+    .col.est .tag{color:var(--jade)} .col.pro .tag{color:var(--gold)} .col.open .tag{color:var(--rust)} .col.next .tag{color:var(--wine)}
+    .col.est{border-top:4px solid var(--jade)} .col.pro{border-top:4px solid var(--gold)} .col.open{border-top:4px solid var(--rust)} .col.next{border-top:4px solid var(--wine)}
+    .col ul{margin:.8rem 0 0;padding-left:1rem;font-size:.86rem;line-height:1.46;color:#56463e}
+    .col li{margin:.4rem 0}
+
+    details{border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);padding:1rem 0;margin-top:3rem}
+    summary{cursor:pointer;font:700 .63rem/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--rust)}
+    .sources{display:grid;grid-template-columns:1fr 1fr;gap:.65rem 1.5rem;margin-top:1.2rem}
+    .source{font-size:.84rem;line-height:1.45;color:var(--muted)}
+    .source b{display:block;color:var(--ink);font-weight:600}
+
+    .next{margin-top:3rem;background:var(--wine);color:var(--cream);display:grid;grid-template-columns:1fr auto;align-items:center;gap:2rem;padding:clamp(1.4rem,4vw,2.5rem);text-decoration:none}
+    .next:hover{background:#6c301f}
+    .next .label{font:700 .58rem/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#e4ad92}
+    .next h3{font-size:clamp(1.6rem,3vw,2.3rem);color:var(--cream);margin:.4rem 0 0}
+    .next .arrow{font-size:2rem}
+
+    footer{background:var(--rust-deep);color:#bca9a0;padding:2.5rem 1.25rem}
+    .footer-inner{max-width:var(--max);margin:auto;display:flex;justify-content:space-between;gap:2rem;font:400 .59rem/1.7 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+    footer strong{color:var(--cream)}
+
+    @media(max-width:960px){
+      .inst{grid-template-columns:1fr}
+      .readings,.ledger{grid-template-columns:repeat(2,1fr)}
+      .bars{grid-template-columns:repeat(3,1fr)}
+    }
+    @media(max-width:720px){
+      .hero-grid,.section-head,.dual,.readers,.facts{grid-template-columns:1fr}
+      .hero-aside{border-left:0;border-top:1px solid rgba(248,237,231,.3);padding:1.2rem 0 0}
+      .quote{grid-template-columns:1fr;gap:.7rem}
+      .sources{grid-template-columns:1fr}
+      .score td:nth-child(3),.score th:nth-child(3){display:none}
+      .cell .nm{display:none}
+    }
+    @media(max-width:500px){
+      body{font-size:17px}
+      .hero{padding-top:4.5rem}
+      h1{font-size:clamp(3.2rem,16vw,4.6rem)}
+      h1 .second{margin-left:0}
+      .readings,.ledger,.bars{grid-template-columns:1fr}
+      .board{grid-template-columns:16px repeat(8,minmax(0,1fr));gap:2px}
+      .footer-inner{display:block}
+    }
+    @media print{
+      .yitop,.hero-nav,.ctrls,#play{display:none}
+      body{background:#fff}
+      .hero,.band{background:#fff;color:#000}
+      .hero::after{display:none}
+    }
+  </style>
+<style id="yinav-css">
+.yitop{border-bottom:1px solid var(--rule,#DFCEC5);background:var(--paper,#FCFAF7);
+ font-family:"Space Mono",ui-monospace,Menlo,monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase}
+.yitop .in{width:min(1120px,calc(100% - 34px));margin-inline:auto;display:flex;align-items:center;gap:16px;padding:12px 0;flex-wrap:wrap}
+.yitop a{color:var(--iris-mid,#8A4530);text-decoration:none;opacity:.72}
+.yitop a:hover{opacity:1;text-decoration:underline}
+.yitop .sp{flex:1 1 auto}
+.yitop .now{color:var(--lilac,#A89087)}
+.yinav{border-top:1px solid var(--rule,#DFCEC5);margin-top:clamp(40px,6vw,86px);
+ padding:clamp(30px,5vw,58px) 0 clamp(44px,6vw,84px);font-family:"Space Mono",ui-monospace,Menlo,monospace}
+.yinav .in{width:min(1120px,calc(100% - 34px));margin-inline:auto}
+.yinav-lab{font-size:.62rem;letter-spacing:.19em;text-transform:uppercase;color:var(--lilac,#A89087);margin-bottom:24px}
+.yinav-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:34px}
+.yinav-pair a,.yinav-pair .void{display:block;border:1px solid var(--rule,#DFCEC5);border-radius:3px;
+ padding:20px 22px;text-decoration:none;color:var(--iris,#5B2A1B);transition:border-color .2s,background .2s}
+.yinav-pair a:hover{border-color:var(--iris-mid,#8A4530);background:rgba(91,42,27,.035)}
+.yinav-pair .void{border-style:dotted;opacity:.4}
+.yinav-pair .dir{display:block;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--lilac,#A89087);margin-bottom:9px}
+.yinav-pair .ttl{font-family:"Fraunces","Newsreader",serif;font-size:1.05rem;line-height:1.28;letter-spacing:-.01em}
+.yinav-grp{font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--lilac,#A89087);
+ margin:0 4px 0 6px;white-space:nowrap}
+.yinav-rail{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.yinav-rail a,.yinav-rail .here{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
+ padding:8px 12px;border:1px solid var(--rule,#DFCEC5);border-radius:3px;color:var(--iris-mid,#8A4530);opacity:.72}
+.yinav-rail a:hover{opacity:1;border-color:var(--iris-mid,#8A4530)}
+.yinav-rail .here{background:var(--iris,#5B2A1B);border-color:var(--iris,#5B2A1B);color:#FAF1EC;opacity:1}
+.yinav-rail .g{font-family:"Noto Serif SC","Fraunces",serif;font-size:.86rem;letter-spacing:0;margin-right:7px}
+.yinav-rail .comp{border-style:dotted}
+.yinav-home{display:inline-block;margin-top:26px;font-size:.62rem;letter-spacing:.18em;
+ text-transform:uppercase;color:var(--brass,#9A7226);text-decoration:none;opacity:.85}
+.yinav-home:hover{opacity:1;text-decoration:underline}
+@media(max-width:680px){.yinav-pair{grid-template-columns:1fr}}
+</style>
+<style>
+    .hero::after{content:"钟"}
+    .lbtn{appearance:none;background:transparent;border:1px solid var(--hair);color:var(--wine);padding:.5rem .65rem;font:400 .58rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+    .lbtn:hover{background:var(--paper-2)}
+    .lbtn.on{background:var(--wine);color:var(--cream);border-color:var(--wine)}
+    .lbtn:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+    .row{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin:.7rem 0}
+    .row .t{font:400 .58rem/1.5 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-right:.4rem}
+    .listen-note{font:400 .58rem/1.6 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:.5rem}
+    .panel{margin-top:1.2rem;border:1px solid var(--hair);background:var(--paper);padding:1rem}
+    .panel svg{width:100%;height:auto;display:block}
+    .facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair);margin-top:1.6rem}
+    .facts > div{background:var(--paper);padding:1rem}
+    .facts b{display:block;font-family:var(--display);font-size:2rem;font-weight:480;color:var(--wine);line-height:1}
+    .facts span{font:400 .58rem/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+    .lattice-wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:1.6rem;align-items:start;margin-top:1.6rem}
+    .lattice-wrap svg{width:100%;height:auto;display:block}
+    .lat-node{cursor:pointer}
+    .lat-node:hover circle{stroke-width:2.5}
+    .readout .big{font-family:var(--zh);font-size:2.4rem;color:#f5dccf;line-height:1}
+    .readout .meta{font:400 .6rem/1.7 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#bba79e;margin-top:.5rem}
+    .readout p{color:#d7c7bf;font-size:.95rem}
+    .names{width:100%;border-collapse:collapse;margin-top:1.4rem;font-size:.92rem}
+    .names th,.names td{padding:.6rem .7rem;border-bottom:1px solid var(--hair);text-align:left;vertical-align:top}
+    .names th{font:700 .55rem/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+    .names td.zh{color:var(--wine);font-family:var(--zh)}
+    .notations{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.75rem;margin-top:1.8rem}
+    .nt{border:1px solid var(--hair);background:var(--paper-2);padding:1rem;display:flex;flex-direction:column;gap:.55rem}
+    .nt .k{font:700 .56rem/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--rust)}
+    .nt h3{font-size:1.05rem;margin:0}
+    .nt .show{min-height:96px;display:grid;place-items:center;background:var(--paper);border:1px solid var(--hair);padding:.5rem}
+    .nt .show svg{width:100%;height:auto}
+    .nt .glyphs{font-family:var(--zh);font-size:1.35rem;color:var(--wine);letter-spacing:.18em}
+    .nt .vert{display:flex;flex-direction:column;align-items:center;font-family:var(--zh);font-size:1.05rem;line-height:1.15;color:var(--wine)}
+    .nt .axis{font:400 .56rem/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--jade)}
+    .nt p{font-size:.84rem;line-height:1.45;color:#56463e;margin:0}
+    .wonder{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem;margin-top:2rem}
+    .wonder article{border:1px solid var(--hair);background:var(--paper-2);padding:1.1rem;border-top:4px solid var(--gold)}
+    .wonder .tag{font:700 .58rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+    .wonder h3{font-size:1.12rem;margin:.6rem 0 .45rem}
+    .wonder p{font-size:.88rem;line-height:1.48;color:#56463e;margin:0}
+    @media(max-width:1000px){.notations{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:860px){.lattice-wrap,.wonder{grid-template-columns:1fr}.facts{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:520px){.notations{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="yitop"><div class="in"><a href="../../index.html">↑ The Polymathic Learner</a><span class="now">钟 · companion · a side quest</span><span class="sp"></span><a href="yi-10-consonance-couplets.html">← back to 10</a></div></nav>
+
+<header class="hero" id="top">
+  <div class="hero-inner">
+    <div class="eyebrow">易 Yi · Companion · October 2026 · The instrument behind the listening</div>
+    <div class="hero-grid">
+      <div>
+        <h1><span>The bells</span><span class="second">of Zeng</span></h1>
+        <div class="sub">A side quest into the instrument we have been listening through.</div>
+        <p class="intro">Since note 07, every sound in these chapters has been a chime-bell modelled on the set buried with 曾侯乙, Marquis Yi of Zeng, in 433 BCE. The set is more than a sound. Each bell gives two tones. Its inscriptions name twelve pitches by stacking thirds on four roots, and they translate those names between the tuning systems of neighbouring states. Taken together, the set is an instrument, a treatise on tuning and a notation. This companion looks at how it was tuned, how its pitches map onto today's scales, and what kind of diagram its naming makes beside the Western staff and other Chinese notations.</p>
+      </div>
+      <aside class="hero-aside">
+        <div class="mark" aria-hidden="true">钟<i>zhōng</i></div>
+        <div>A side quest, off the main path of the 易 sequence. It explains the instrument and leaves the argument to the chapters.</div>
+        <strong>First question</strong>
+        How were these bells tuned, and how do they sit on a modern keyboard?
+        <strong>Then</strong>
+        What does each way of writing music actually draw?
+      </aside>
+    </div>
+    <div class="hero-nav" aria-label="Sections">
+      <a href="#set">The set</a><a href="#twotones">Two tones</a><a href="#names">Naming by thirds</a><a href="#states">Many states</a><a href="#notation">Notation as diagram</a><a href="#wonder">Still wondering</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="section" id="set">
+    <div class="section-head">
+      <div class="kicker">01 · The set</div>
+      <div>
+        <h2>Sixty-five bronzes on three tiers.</h2>
+        <p class="lede">Excavated at Suizhou in Hubei in 1978, the set hangs on an L-shaped rack of lacquered wood with bronze fittings. Sixty-four bells hang in eight groups across three tiers, with a sixty-fifth, a 镈 bell, given by King Hui of Chu after the marquis died.</p>
+      </div>
+    </div>
+    <div class="facts">
+      <div><b>65</b><span>bells: 19 on the top tier, 33 in the middle, 12 below, plus the 镈 of 楚惠王</span></div>
+      <div><b>C2–D7</b><span>range, about five octaves; fully chromatic through the middle</span></div>
+      <div><b>3,755</b><span>inscribed characters, mostly about pitch and tuning</span></div>
+      <div><b>2025</b><span>inscribed on UNESCO's Memory of the World register</span></div>
+    </div>
+    <div class="panel"><svg id="rackSvg" viewBox="0 0 980 330" role="img" aria-label="Schematic of the three tiers of bells"></svg></div>
+    <p class="cap">A schematic of the tiers, not to scale, with the group divisions left out. Strike a tier to hear its register: small 钮钟 above, 甬钟 in the middle and below.</p>
+    <div class="panel"><svg id="kbSvg" viewBox="0 0 980 150" role="img" aria-label="The set's range on a keyboard"></svg></div>
+    <p class="cap">The set's range laid over a modern keyboard. A piano spans A0 to C8; the Zeng bells cover C2 to D7, five octaves and a whole tone. The labelled C is 姑洗, the set's reference pitch, very close to our C.</p>
+  </section>
+
+  <div class="band" id="twotones">
+    <div class="band-inner">
+      <div class="section-head">
+        <div class="kicker">02 · One bell, two tones</div>
+        <div>
+          <h2>Two places to strike, and a third between them.</h2>
+          <p class="lede">Struck at the centre of its face, 正鼓, a bell sounds its a-tone. Struck near the side, 侧鼓, it sounds a b-tone a third higher. Of the 45 middle- and lower-tier bells that were played, 31 sound a minor third and 14 a major third.</p>
+        </div>
+      </div>
+      <div class="measure">
+        <p>The almond-shaped cross-section, 合瓦形, is what makes the two tones possible. A round bell rings on as one blur, but the flattened bronze damps quickly and holds two separate vibration patterns. The minor-third bells also let the set cover all twelve semitones economically. Six bells whose a-tones step by whole tones give one whole-tone scale from their faces and the other from their sides, so together they make the chromatic scale.</p>
+        <p>The listening chapters arrived at the same structure from the other direction. In note 10, the Yi's harmony held only when yin sat an odd number of semitones from yang, so that the two lived in complementary whole-tone scales. A minor-third bell is that relation cast in bronze: one whole-tone world on the face, the other on the side.</p>
+      </div>
+      <div class="row">
+        <button class="btn" type="button" data-two="face">Strike the faces · 正鼓</button>
+        <button class="btn" type="button" data-two="side">Strike the sides · 侧鼓</button>
+        <button class="btn" type="button" data-two="both">Both, bell by bell</button>
+      </div>
+      <div class="panel" style="background:#21120d;border-color:rgba(248,237,231,.2)"><svg id="twoSvg" viewBox="0 0 980 230" role="img" aria-label="Six minor-third bells covering the chromatic scale"></svg></div>
+      <div class="listen-note" style="color:#bba79e">You are hearing synthesised chime-bells modelled on the 曾侯乙编钟, tuned here in equal temperament with 姑洗 on C.</div>
+    </div>
+  </div>
+
+  <section class="section" id="names">
+    <div class="section-head">
+      <div class="kicker">03 · Naming by thirds</div>
+      <div>
+        <h2>Four roots and two kinds of third.</h2>
+        <p class="lede">The inscriptions name pitches with four roots, 宫 商 徵 羽, roughly do, re, sol, la. Two suffixes do the rest: <span class="zh">-角</span> adds one major third, and <span class="zh">-曾</span> adds two. Four roots times three forms gives all twelve pitches.</p>
+      </div>
+    </div>
+    <div class="measure">
+      <p>Mi has no root of its own. It is 宫角, a third above do. The suffix seems to have begun as the name of the scale's third degree before a theorist turned it into a general operator, "add a third". Three major thirds make an octave, so stacking a third on 宫曾 brings you back to 宫. The roots themselves form a chain of fifths, 宫 徵 商 羽, C G D A.</p>
+      <p>Drawn as a grid, the system is a lattice with fifths on one axis and major thirds on the other. Leonhard Euler drew that same lattice in 1739 and called it the Tonnetz, and nineteenth-century theorists made it a standard tool of Western harmony. Because thirds wrap after three steps and fifths after twelve, the lattice closes on itself into a torus, the same kind of surface that carried the sixty-four in note 06. Below, the fundamental block of twelve is outlined and its repeats are shown faintly, so the wrapping can be seen. Select any node to hear it.</p>
+    </div>
+    <div class="lattice-wrap">
+      <div class="panel" style="margin-top:0"><svg id="latSvg" viewBox="0 0 640 432" role="img" aria-label="The Zeng pitch names as a lattice of fifths and major thirds"></svg></div>
+      <div class="band" style="margin:0;padding:1.2rem 1.25rem" ><div class="readout" id="latRead"><div class="big">宫</div><div class="meta">C · do · the root</div><p>Select a node.</p></div></div>
+    </div>
+    <table class="names" aria-label="The twelve Zeng pitch names">
+      <thead><tr><th>Root</th><th>Root itself</th><th>-角 · one third up</th><th>-曾 · two thirds up</th></tr></thead>
+      <tbody id="namesBody"></tbody>
+    </table>
+    <p class="cap">With 姑洗 on C, following the reference pitch the inscriptions assume. One chime stone reads 宫曾 and sounds G♯ against a C reference, which fixes 姑洗 at C.</p>
+  </section>
+
+  <section class="section" id="states">
+    <div class="section-head">
+      <div class="kicker">04 · Many states, one pitch</div>
+      <div>
+        <h2>The inscriptions translate between tuning cultures.</h2>
+        <p class="lede">Beside each pitch name, many inscriptions give what that pitch is called in other systems: Zeng's own, Chu's, Zhou's and those of other states. The bells are a dictionary between musical languages.</p>
+      </div>
+    </div>
+    <div class="measure">
+      <p>Zeng used six standard pitch names spaced a whole tone apart. Chu used twelve, a semitone apart, and named six of them by flattening the others with the prefix 浊, "muddy". The same sound could carry a different name in each state. Where Zeng said 姑洗, Jin said 六墉. The lower-tier inscriptions go further and give each note several definitions at once, one for each key it might belong to, the way a modern musician knows that E is the 1 of E, the 2 of D and the 3 of C.</p>
+      <div class="note-jade">The Zeng standards are six whole-tone names, the same structure that note 10 heard in 乾, the 六律. The difference between whole-tone and semitone systems was a live question between neighbouring courts in the fifth century BCE, and the marquis had both written onto his bells.</div>
+    </div>
+  </section>
+
+  <section class="section" id="notation">
+    <div class="section-head">
+      <div class="kicker">05 · Notation as diagram</div>
+      <div>
+        <h2>Five ways to write one phrase.</h2>
+        <p class="lede">The same five notes, the rising pentatonic 宫 商 角 徵 羽, C D E G A, written five ways. Each notation is a diagram that keeps something different.</p>
+      </div>
+    </div>
+    <div class="row"><button class="lbtn" id="phrasePlay" type="button">▶ Strike the phrase on the bells</button></div>
+    <div class="notations">
+      <article class="nt"><div class="k">Europe · c. 1025</div><h3>The staff</h3><div class="show"><svg id="staffSvg" viewBox="0 0 220 96" aria-label="Five notes on a staff"></svg></div><div class="axis">Axes: time across, pitch up</div><p>Guido of Arezzo's lines make music a graph. Every note has coordinates: when it sounds, and how high. It records the sound itself.</p></article>
+      <article class="nt"><div class="k">China · Tang onward</div><h3>工尺谱</h3><div class="show"><div class="vert"><span>上</span><span>尺</span><span>工</span><span>六</span><span>五</span></div></div><div class="axis">One column of named degrees</div><p>Characters name scale degrees, read top to bottom, right to left. It records which step of the scale, and leaves the key movable.</p></article>
+      <article class="nt"><div class="k">China · late Tang</div><h3>减字谱</h3><div class="show"><svg id="jzSvg" viewBox="0 0 220 96" aria-label="Schematic of a composite qin tablature glyph"></svg></div><div class="axis">One composite glyph per action</div><p>The qin's tablature, credited to Cao Rou, builds each sign from fragments: which string, which stud, which finger, which stroke. It records the hand, not the pitch, and leaves the rhythm to the player. The glyph here is a schematic of how a sign is built, not a real character.</p></article>
+      <article class="nt"><div class="k">Rousseau 1742 · China 1900s</div><h3>简谱</h3><div class="show"><div class="glyphs" style="font-family:var(--mono);letter-spacing:.12em;white-space:nowrap">1 2 3 5 6</div></div><div class="axis">Numbered degrees, movable do</div><p>Numbers stand for degrees of whatever key is chosen. Proposed in France, it became China's everyday notation in the twentieth century.</p></article>
+      <article class="nt"><div class="k">Zeng · 433 BCE</div><h3>钟铭 · bell names</h3><div class="show"><div class="glyphs">宫 商 宫角 徵 羽</div></div><div class="axis">A lattice of relations</div><p>No melody is written down. Each note is placed by its relation to the others, a fifth here and a third there. It records where a pitch sits in the web, and how other states name the same place.</p></article>
+    </div>
+    <div class="measure" style="margin-top:1.8rem">
+      <p>Put side by side, each diagram answers a different question. The staff asks where in time and pitch. The 工尺 and numbered notations ask which step of the scale. 减字谱 asks what the hand does. The Zeng inscriptions ask what each pitch is to the others, and to the neighbours. The last is the closest to how these chapters have been listening: a hexagram heard as a relation among voices more than as a list of notes.</p>
+    </div>
+  </section>
+
+  <section class="section" id="wonder">
+    <div class="section-head">
+      <div class="kicker">06 · Still wondering</div>
+      <div><h2>Threads left open, on purpose.</h2></div>
+    </div>
+    <div class="wonder">
+      <article><div class="tag">Wondering</div><h3>Two tori</h3><p>The Zeng naming closes into a torus of fifths and thirds; the sixty-four close into a torus of lower and upper trigrams. Is there a map between the two surfaces, or only a family resemblance?</p></article>
+      <article><div class="tag">Wondering</div><h3>Thirds before fifths?</h3><p>Chinese tuning theory is usually told as a chain of fifths, 三分损益. The bells' names are built from thirds. Practice in bronze and theory on bamboo may have spoken different dialects.</p></article>
+      <article><div class="tag">Wondering</div><h3>A dictionary of tunings</h3><p>The inscriptions treat different tunings as translations of each other. That is close to this archive's working principle of holding tunings lightly.</p></article>
+      <article><div class="tag">Hold lightly</div><h3>The synthesis</h3><p>The bells heard here are an imitation built from published measurements, tuned in equal temperament. The real set is tuned by ear in bronze, within a few percent of its targets, and sounds like itself.</p></article>
+      <article><div class="tag">Return</div><h3>Back to the main path</h3><p>The next chapter goes back to the 易 sequence: the 包山 casts as a single bounded life.</p></article>
+      <article><div class="tag">Further</div><h3>Suspended Music</h3><p>Lothar von Falkenhausen's study of Bronze Age chime-bells remains the long-form companion to this short one.</p></article>
+    </div>
+
+    <details id="sources">
+      <summary>Sources, lineage and method</summary>
+      <div class="sources">
+        <div class="source"><b><a href="https://www.thebritishacademy.ac.uk/documents/2010/pba131p041.pdf">Robert Bagley, “The Prehistory of Chinese Music Theory”</a></b>Elsley Zeitlyn Lecture, <em>Proceedings of the British Academy</em> 131, 2005. The four roots, the -角 and -曾 suffixes as stacked major thirds, 姑洗 near C, Chu's 浊 names, Jin's 六墉.</div>
+        <div class="source"><b><a href="https://www.academia.edu/108386111/Music_in_the_age_of_Confucius">Jenny F. So, ed., <em>Music in the Age of Confucius</em></a></b>Freer and Sackler Galleries, 2000; chapter on percussion by Bagley. Two tones per bell; 31 minor-third and 14 major-third bells among the 45 played; transposition in the inscriptions.</div>
+        <div class="source"><b><a href="https://muse.jhu.edu/article/397425/summary">Lothar von Falkenhausen, <em>Suspended Music</em></a></b>University of California Press, 1993. Chime-bells in the culture of Bronze Age China.</div>
+        <div class="source"><b><a href="https://en.wikipedia.org/wiki/Bianzhong_of_Marquis_Yi_of_Zeng">Bianzhong of Marquis Yi of Zeng</a></b>Three tiers in eight groups; C2–D7; chromatic in the middle range.</div>
+        <div class="source"><b><a href="https://www.news.cn/politics/20250418/82ffeb186ca045deb28228c8366c5820/c.html">新华网, 2025</a></b>Memory of the World listing; 3,755 inscribed characters; correspondences with Chu, Zhou, Qi and Shen.</div>
+        <div class="source"><b><a href="https://val.npust.edu.tw/wp-content/uploads/2023/08/371-曾侯乙編鐘之聲音特性探討.pdf">王等《曾侯乙编钟之声音特性探讨》</a></b>2022. Partial ratios and decay used for the synthesis.</div>
+        <div class="source"><b><a href="https://www.redalyc.org/journal/3842/384275140008/movil/">Yukun Qiao, 2023</a></b>On the generation of the twelve names as a product of four roots and three suffixes, citing Richard Cohn.</div>
+        <div class="source"><b><a href="https://en.wikipedia.org/wiki/Chinese_musical_notation">Chinese musical notation</a></b>工尺谱, 减字谱 and 简谱.</div>
+        <div class="source"><b>Leonhard Euler, <em>Tentamen novae theoriae musicae</em></b>St Petersburg, 1739. The Tonnetz.</div>
+      </div>
+    </details>
+
+    <a class="next" href="yi-10-consonance-couplets.html">
+      <div><div class="label">Back to the sequence</div><h3>和 Consonance and couplets</h3></div><div class="arrow">←</div>
+    </a>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div><strong>易 Yi · Companion · The Bells of Zeng</strong><br>钟 · a side quest</div>
+    <div>Lin Wei 林威 — conceptual direction<br>with Claude<br>October 2026</div>
+  </div>
+</footer>
+
+<nav class="yinav"><div class="in">
+  <div class="yinav-lab">钟 · companion to the listening</div>
+  <div class="yinav-pair">
+    <a href="yi-10-consonance-couplets.html"><span class="dir">Back</span><span class="ttl">←  Consonance and couplets</span></a>
+    <a href="yi-07-field-and-song.html"><span class="dir">From the start of the listening</span><span class="ttl">The hexagram as field  →</span></a>
+  </div>
+  <div class="yinav-rail">
+    <span class="yinav-grp">the argument ›</span>
+    <a href="yi-00-inheritance.html"><span class="g">序</span>00 Inheritance</a>
+    <a href="yi-01-state-space.html"><span class="g">一</span>01 State space</a>
+    <a href="yi-02-motion.html"><span class="g">二</span>02 Motion</a>
+    <a href="yi-03-forces.html"><span class="g">三</span>03 Forces</a>
+    <span class="yinav-grp">the instruments ›</span>
+    <a href="yi-04-instrument.html"><span class="g">儀</span>04 Double cube</a>
+    <a href="yi-05-lantern.html"><span class="g">灯</span>05 Lantern</a>
+    <a href="yi-06-loom.html"><span class="g">織</span>06 Loom</a>
+    <a class="comp" href="yi-lantern-thinking.html"><span class="g">灯</span>— Companion</a>
+    <span class="yinav-grp">the listening ›</span>
+    <a href="yi-07-field-and-song.html"><span class="g">律</span>07 Field &amp; song</a>
+    <a href="yi-08-four-voices.html"><span class="g">九六</span>08 Four voices</a>
+    <a href="yi-09-held-notes.html"><span class="g">时</span>09 Held notes</a>
+    <a href="yi-10-consonance-couplets.html"><span class="g">和</span>10 Couplets</a>
+    <a href="yi-11-life-on-bamboo.html"><span class="g">竹</span>11 A life on bamboo</a>
+    <span class="here comp"><span class="g">钟</span>— Bells</span>
+  </div>
+  <div class="yinav-lab" style="margin:26px 0 0;opacity:.85">Lin Wei 林威 · with Claude and ChatGPT, and light touches of DeepSeek</div>
+  <a class="yinav-home" href="../../index.html">The whole 易 Yi sequence on the polymathic learner →</a>
+</div></nav>
+
+<script>
+/* YiAudio — one shared sound engine for the listening chapters: bronze chime-bells after the 曾侯乙编钟.
+   Each strike is an additive bell: a face-tone fundamental with the inharmonic partial clusters measured on
+   the Zeng bells (near 2.6–2.8× and 4.1–4.7×), a faint side-tone a third above, and a short mallet transient.
+   One playback at a time: starting anything stops whatever is sounding, and Stop silences at once.
+   Single strikes from the bell rack share one free-play channel, so they ring together like a struck set. */
+window.YiAudio=(function(){
+  var ctx=null,out=null,bus=null,tag=null,nodes=[],onStop=null,noiseBuf=null,pending=[],pump=null;
+  function init(){
+    if(!ctx){
+      ctx=new(window.AudioContext||window.webkitAudioContext)();
+      out=ctx.createGain();out.gain.value=0.85;
+      var comp=ctx.createDynamicsCompressor();comp.threshold.value=-16;comp.ratio.value=3;
+      var conv=ctx.createConvolver(),sr=ctx.sampleRate,len=Math.floor(sr*3.2),ir=ctx.createBuffer(2,len,sr);
+      for(var c=0;c<2;c++){var d=ir.getChannelData(c);for(var i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3.6);}
+      conv.buffer=ir;var wet=ctx.createGain();wet.gain.value=0.28;
+      out.connect(comp);out.connect(conv);conv.connect(wet);wet.connect(comp);comp.connect(ctx.destination);
+      noiseBuf=ctx.createBuffer(1,Math.floor(sr*0.06),sr);var nd=noiseBuf.getChannelData(0);for(var j=0;j<nd.length;j++)nd[j]=(Math.random()*2-1)*Math.pow(1-j/nd.length,2);
+    }
+    if(ctx.state==="suspended")ctx.resume();
+    return ctx;
+  }
+  function stop(){
+    if(bus&&ctx){var b=bus,t=ctx.currentTime;
+      try{b.gain.cancelScheduledValues(t);b.gain.setValueAtTime(b.gain.value,t);b.gain.linearRampToValueAtTime(0,t+0.06);}catch(e){}
+      nodes.forEach(function(n){try{n.stop(t+0.08);}catch(e){}});
+      setTimeout(function(){try{b.disconnect();}catch(e){}},300);}
+    bus=null;tag=null;nodes=[];pending=[];if(pump){clearInterval(pump);pump=null;}
+    var cb=onStop;onStop=null;if(cb)cb();
+  }
+  function begin(cb,t){
+    try{init();}catch(e){return null;}
+    if(t==="free"&&tag==="free"&&bus)return ctx;     // single strikes ring on together
+    stop();
+    bus=ctx.createGain();bus.gain.value=1;bus.connect(out);onStop=cb||null;tag=t||"song";
+    return ctx;
+  }
+  var PARTS=[[1,1,1],[1.25,0.10,0.55],[2.62,0.30,0.45],[2.81,0.18,0.38],[4.14,0.10,0.25],[4.62,0.06,0.2]];
+  function flush(){ if(!ctx)return; var lim=ctx.currentTime+0.6,keep=[];
+    pending.forEach(function(p){ if(p[1]<lim) strikeNow(p[0],p[1],p[2],p[3]); else keep.push(p); });
+    pending=keep; if(!pending.length&&pump){clearInterval(pump);pump=null;} }
+  function bell(f,when,dur,gain){
+    if(!bus)return;
+    if(when>ctx.currentTime+0.6){ pending.push([f,when,dur,gain]); if(!pump)pump=setInterval(flush,120); return; }
+    strikeNow(f,when,dur,gain);
+  }
+  function strikeNow(f,when,dur,gain){
+    if(!bus)return;
+    var T=Math.max(1.6,Math.min(7,5.2*Math.sqrt(220/f)));          // larger bells ring longer
+    if(dur!=null)T=Math.min(T,Math.max(1.2,dur+1.4));
+    PARTS.forEach(function(p,k){
+      if(f*p[0]>9000)return;
+      [-0.35,0.35].forEach(function(det,m){                         // a slight beating, as in cast bronze
+        var o=ctx.createOscillator(),g=ctx.createGain(),Tp=T*p[2];
+        o.type="sine";o.frequency.value=f*p[0]+det*(k+1)*0.5;
+        var a=gain*p[1]*0.5;
+        g.gain.setValueAtTime(0.0001,when);g.gain.exponentialRampToValueAtTime(Math.max(a,0.0002),when+0.004);
+        g.gain.exponentialRampToValueAtTime(0.0001,when+Tp);
+        o.connect(g);g.connect(bus);o.start(when);o.stop(when+Tp+0.05);nodes.push(o);
+      });
+    });
+    var n=ctx.createBufferSource(),bp=ctx.createBiquadFilter(),ng=ctx.createGain();   // the mallet
+    n.buffer=noiseBuf;bp.type="bandpass";bp.frequency.value=Math.min(6000,f*3);bp.Q.value=1.2;ng.gain.value=gain*0.35;
+    n.connect(bp);bp.connect(ng);ng.connect(bus);n.start(when);nodes.push(n);
+  }
+  // a note: strike f0; if the voice turns (f1), strike the bell again on its new tone at glideAt
+  function note(f0,f1,when,dur,gain,glideAt){
+    if(!bus)return;
+    bell(f0,when,dur,gain);
+    if(f1&&f1!==f0){bell(f1,when+dur*(glideAt==null?0.6:glideAt),dur*(1-(glideAt==null?0.6:glideAt))+0.8,gain*0.8);}
+  }
+  function strike(f,gain){ if(!begin(null,"free"))return; bell(f,ctx.currentTime+0.01,null,gain||0.3); }
+  return{begin:begin,stop:stop,note:note,bell:bell,strike:strike,now:function(){return ctx?ctx.currentTime:0;},playing:function(){return !!bus&&tag!=="free";}};
+})();
+</script>
+<script>
+(function(){
+  "use strict";
+  var NS="http://www.w3.org/2000/svg";
+  function el(t,a,p){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;}
+  function txt(p,x,y,s,a){var t=el("text",Object.assign({x:x,y:y},a||{}),p);t.textContent=s;return t;}
+  var C4=261.63;function hz(midi){return 440*Math.pow(2,(midi-69)/12);}
+  var WEST=["C","C♯","D","E♭","E","F","F♯","G","G♯","A","B♭","B"];
+  var ZENG={0:"宫",2:"商",7:"徵",9:"羽",4:"宫角",6:"商角",11:"徵角",1:"羽角",8:"宫曾",10:"商曾",3:"徵曾",5:"羽曾"};
+  var SOLF={0:"do",2:"re",7:"sol",9:"la"};
+  function strike(midis,gap,gain){var c=YiAudio.begin(null,"free");if(!c)return;var t=YiAudio.now()+0.02;midis.forEach(function(m,i){YiAudio.bell(hz(m),t+i*(gap||0),null,gain||0.28);});}
+
+  // ── rack schematic
+  (function(){var s=document.getElementById("rackSvg");
+    el("rect",{x:30,y:20,width:920,height:10,fill:"#5b2a1b"},s);el("rect",{x:30,y:110,width:920,height:10,fill:"#5b2a1b"},s);el("rect",{x:30,y:200,width:920,height:10,fill:"#5b2a1b"},s);
+    [40,940].forEach(function(x){el("rect",{x:x-6,y:20,width:12,height:290,fill:"#3b2f1d"},s);});
+    function bells(n,y,h,w,x0,x1,col){var step=(x1-x0)/(n-1);for(var i=0;i<n;i++){var cx=x0+i*step;el("line",{x1:cx,y1:y,x2:cx,y2:y+8,stroke:"#3b2f1d"},s);el("path",{d:"M"+(cx-w*0.32)+" "+(y+8)+" L"+(cx+w*0.32)+" "+(y+8)+" L"+(cx+w/2)+" "+(y+8+h)+" Q "+cx+" "+(y+h)+" "+(cx-w/2)+" "+(y+8+h)+" Z",fill:col,stroke:"#3b2f1d","stroke-width":.8},s);}}
+    bells(19,30,34,20,80,900,"#8e7a50");bells(33,120,52,22,70,910,"#7a6844");bells(12,210,82,52,90,890,"#6b5a3a");
+    el("path",{d:"M470 218 L510 218 L524 306 Q490 296 456 306 Z",fill:"#a6553a",stroke:"#3b2f1d"},s);
+    txt(s,490,322,"镈 · gift of 楚惠王",{"text-anchor":"middle","font-family":"Noto Serif SC, serif","font-size":12,fill:"#a6553a"});
+    [["Top · 19 钮钟",13,[84,96]],["Middle · 33 甬钟",103,[60,72]],["Bottom · 12 甬钟",194,[36,48]]].forEach(function(r,i){var g=el("g",{"class":"lat-node"},s);var bx=el("rect",{x:956-190,y:r[1]-60,width:0,height:0},g);
+      var b=el("text",{x:60,y:r[1],"text-anchor":"start","font-family":"Space Mono, monospace","font-size":11,fill:"#5b2a1b",style:"cursor:pointer;text-decoration:underline"},s);b.textContent="▶ "+r[0];
+      b.addEventListener("click",function(){var lo=r[2][0],hi=r[2][1],m=[];for(var k=lo;k<=hi;k+=2)m.push(k);strike(m,0.22,0.24);});});
+  })();
+
+  // ── keyboard
+  (function(){var s=document.getElementById("kbSvg"),lo=21,hi=108,wk=[];for(var m=lo;m<=hi;m++){if([1,3,6,8,10].indexOf(m%12)<0)wk.push(m);}
+    var W=950/wk.length,x0=15;
+    wk.forEach(function(m,i){var on=m>=36&&m<=98;el("rect",{x:x0+i*W,y:20,width:W-0.6,height:90,fill:on?"#f3e3d8":"#fcfaf7",stroke:"rgba(91,42,27,.35)","stroke-width":.6},s);
+      if(m%12===0)txt(s,x0+i*W+W/2,128,"C"+(Math.floor(m/12)-1),{"text-anchor":"middle","font-family":"Space Mono, monospace","font-size":9,fill:"#7d6d65"});
+      if(m===60){el("circle",{cx:x0+i*W+W/2,cy:98,r:4,fill:"#a6553a"},s);txt(s,x0+i*W+W/2,145,"姑洗",{"text-anchor":"middle","font-family":"Noto Serif SC, serif","font-size":11,fill:"#a6553a"});}});
+    for(var m2=lo;m2<=hi;m2++){if([1,3,6,8,10].indexOf(m2%12)>=0){var idx=wk.indexOf(m2-1);var on2=m2>=36&&m2<=98;el("rect",{x:x0+(idx+1)*W-W*0.32,y:20,width:W*0.64,height:56,fill:on2?"#7a4a2a":"#2c1d17"},s);}}
+    var a=wk.indexOf(36),b=wk.indexOf(98);el("rect",{x:x0+a*W,y:12,width:(b-a+1)*W,height:5,fill:"#b58d46"},s);
+    txt(s,x0+a*W,9,"C2",{"font-family":"Space Mono, monospace","font-size":9,fill:"#b58d46"});txt(s,x0+(b+1)*W,9,"D7",{"text-anchor":"end","font-family":"Space Mono, monospace","font-size":9,fill:"#b58d46"});
+  })();
+
+  // ── two tones
+  var A=[60,62,64,66,68,70],B=A.map(function(m){return m+3;});
+  function drawTwo(mode){var s=document.getElementById("twoSvg");while(s.firstChild)s.removeChild(s.firstChild);
+    var x0=60,step=72;
+    for(var k=0;k<=12;k++){var x=x0+k*step;el("line",{x1:x,y1:150,x2:x,y2:160,stroke:"rgba(248,237,231,.3)"},s);if(k<12)txt(s,x+step/2,182,WEST[k],{"text-anchor":"middle","font-family":"Space Mono, monospace","font-size":11,fill:"#bba79e"});}
+    el("line",{x1:x0,y1:155,x2:x0+12*step,y2:155,stroke:"rgba(248,237,231,.3)"},s);
+    A.forEach(function(m,i){var xa=x0+(m-60)*step+step/2,xb=x0+((m+3-60)%12)*step+step/2,wrap=(m+3-60)>=12,y=40+i*16;
+      var showA=mode!=="side",showB=mode!=="face";
+      el("path",{d:"M"+xa+" 150 Q "+(wrap?xa+70:(xa+xb)/2)+" "+(y)+" "+(wrap?x0+12*step+10:xb)+" "+(wrap?120:150),fill:"none",stroke:"rgba(228,180,95,.35)","stroke-width":1.2},s);
+      if(showA)el("circle",{cx:xa,cy:155,r:9,fill:"#f8ede7"},s);
+      if(showB)el("circle",{cx:xb,cy:155,r:9,fill:"#a6553a",stroke:"#f1b598"},s);});
+    txt(s,x0,214,"○ FACE TONES · 正鼓 · ONE WHOLE-TONE SCALE        ● SIDE TONES · 侧鼓 · A MINOR THIRD UP · THE OTHER",{"font-family":"Space Mono, monospace","font-size":10,fill:"#bba79e"});
+    txt(s,x0,24,"SIX BELLS, EACH A MINOR THIRD WIDE",{"font-family":"Space Mono, monospace","font-size":10,fill:"#e4b45f"});}
+  drawTwo("both");
+  document.querySelectorAll("[data-two]").forEach(function(b){b.addEventListener("click",function(){var m=b.dataset.two;drawTwo(m);
+    if(m==="face")strike(A,0.32);else if(m==="side")strike(B,0.32);else{var seq=[];A.forEach(function(a){seq.push(a,a+3);});strike(seq,0.3);}});});
+
+  // ── lattice of fifths × major thirds
+  (function(){var s=document.getElementById("latSvg"),ox=70,oy=380,dx=96,dy=-82,skew=48;
+    function pos(a,b){return[ox+a*dx+b*skew,oy+b*dy];}
+    for(var a=-1;a<=5;a++)for(var b=0;b<=4;b++){var p=pos(a,b),q=pos(a+1,b),r=pos(a,b+1);
+      if(a<5&&q[0]<630)el("line",{x1:p[0],y1:p[1],x2:q[0],y2:q[1],stroke:"rgba(91,42,27,.18)"},s);
+      if(b<4&&r[0]<630)el("line",{x1:p[0],y1:p[1],x2:r[0],y2:r[1],stroke:"rgba(166,85,58,.22)"},s);}
+    var dom=[pos(-0.5,-0.4),pos(3.5,-0.4),pos(3.5,2.5),pos(-0.5,2.5)];
+    el("path",{d:"M"+dom.map(function(p){return p.join(" ");}).join(" L")+" Z",fill:"rgba(181,141,70,.1)",stroke:"#b58d46","stroke-width":1.4,"stroke-dasharray":"4 4"},s);
+    for(var a2=-1;a2<=5;a2++)for(var b2=0;b2<=4;b2++){(function(a,b){var p=pos(a,b);if(p[0]<20||p[0]>620)return;
+      var pc=((7*a+4*b)%12+12)%12,core=(a>=0&&a<=3&&b>=0&&b<=2),g=el("g",{"class":"lat-node"},s);
+      el("circle",{cx:p[0],cy:p[1],r:core?24:18,fill:core?(ZENG[pc].length===1?"#5b2a1b":"#f3e3d8"):"#fcfaf7",stroke:"#5b2a1b","stroke-width":1.2,opacity:core?1:.45},g);
+      txt(g,p[0],p[1]+(core?2:4),ZENG[pc],{"text-anchor":"middle","font-family":"Noto Serif SC, serif","font-size":core?(ZENG[pc].length>1?12:16):11,fill:core&&ZENG[pc].length===1?"#f8ede7":"#2c1d17",opacity:core?1:.55});
+      if(core)txt(g,p[0],p[1]+15,WEST[pc],{"text-anchor":"middle","font-family":"Space Mono, monospace","font-size":9,fill:ZENG[pc].length===1?"#e4b45f":"#a6553a"});
+      g.addEventListener("click",function(){var midi=60+pc;strike([midi],0,0.32);var root=["宫","商","徵","羽"].filter(function(r){return ZENG[pc].indexOf(r)===0;})[0];
+        var add=ZENG[pc].indexOf("角")>0?"one major third above "+root:ZENG[pc].indexOf("曾")>0?"two major thirds above "+root:"a root";
+        document.getElementById("latRead").innerHTML="<div class='big'>"+ZENG[pc]+"</div><div class='meta'>"+WEST[pc]+(SOLF[pc]?" · "+SOLF[pc]:"")+" · "+add+"</div><p>Across, each step is a fifth. Upward, each step is a major third. Three thirds return to the same name, which is why the pattern repeats and the grid closes into a torus.</p>";});
+    })(a2,b2);}
+    txt(s,470,418,"→ FIFTHS",{"font-family":"Space Mono, monospace","font-size":10,fill:"#5b2a1b"});
+    txt(s,20,24,"↗ MAJOR THIRDS (-角, -曾)",{"font-family":"Space Mono, monospace","font-size":10,fill:"#a6553a"});
+  })();
+  (function(){var tb=document.getElementById("namesBody");[[0,"宫","do"],[2,"商","re"],[7,"徵","sol"],[9,"羽","la"]].forEach(function(r){var pc=r[0];
+    tb.insertAdjacentHTML("beforeend","<tr><td class='zh'>"+r[1]+"</td><td>"+r[1]+" · "+WEST[pc]+" · "+r[2]+"</td><td><span class='zh'>"+ZENG[(pc+4)%12]+"</span> · "+WEST[(pc+4)%12]+"</td><td><span class='zh'>"+ZENG[(pc+8)%12]+"</span> · "+WEST[(pc+8)%12]+"</td></tr>");});})();
+
+  // ── notations
+  (function(){var s=document.getElementById("staffSvg");for(var i=0;i<5;i++)el("line",{x1:10,y1:22+i*10,x2:212,y2:22+i*10,stroke:"#2c1d17","stroke-width":.8},s);
+    txt(s,14,58,"𝄞",{"font-size":40,fill:"#2c1d17","font-family":"serif"});
+    var steps=[-2,-1,0,2,3];steps.forEach(function(st,i){var x=72+i*30,y=62-st*5;if(st===-2)el("line",{x1:x-10,y1:72,x2:x+10,y2:72,stroke:"#2c1d17","stroke-width":.8},s);el("ellipse",{cx:x,cy:y,rx:6,ry:4.3,fill:"#5b2a1b",transform:"rotate(-20 "+x+" "+y+")"},s);el("line",{x1:x+5.6,y1:y-1,x2:x+5.6,y2:y-28,stroke:"#5b2a1b","stroke-width":1},s);});})();
+  (function(){var s=document.getElementById("jzSvg");el("rect",{x:70,y:8,width:80,height:80,fill:"none",stroke:"rgba(91,42,27,.25)","stroke-dasharray":"3 3"},s);
+    txt(s,110,34,"指",{"text-anchor":"middle","font-family":"Noto Serif SC, serif","font-size":18,fill:"#5b2a1b"});txt(s,110,58,"徽",{"text-anchor":"middle","font-family":"Noto Serif SC, serif","font-size":14,fill:"#a6553a"});txt(s,110,82,"弦",{"text-anchor":"middle","font-family":"Noto Serif SC, serif","font-size":16,fill:"#3f756b"});
+    txt(s,6,34,"finger",{"font-family":"Space Mono, monospace","font-size":9,fill:"#5b2a1b"});txt(s,6,58,"stud",{"font-family":"Space Mono, monospace","font-size":9,fill:"#a6553a"});txt(s,6,82,"string",{"font-family":"Space Mono, monospace","font-size":9,fill:"#3f756b"});
+    txt(s,158,34,"stroke",{"font-family":"Space Mono, monospace","font-size":9,fill:"#7d6d65"});})();
+  document.getElementById("phrasePlay").addEventListener("click",function(){strike([60,62,64,67,69],0.45,0.3);});
+})();
+</script>
+<script data-goatcounter="https://linwei.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
