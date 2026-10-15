@@ -965,19 +965,23 @@
 <style id="pml-nav-css">
   /* ─── NAVIGATION: a quiet mark at the top right, opening an index of the whole archive ─── */
   .section, .thread-head, header { scroll-margin-top: 24px; }
+  /* the mark takes the colour of the collection in view: white at the top, cinnabar in 易, and so on */
+  :root{--pnav-c:#ece7df}
   .pnav-btn{position:fixed;top:18px;right:18px;z-index:1200;width:46px;height:46px;display:grid;place-items:center;
-    background:rgba(8,8,8,.72);border:1px solid rgba(201,168,76,.28);color:var(--gold);cursor:pointer;
-    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:border-color .25s,background .25s}
-  .pnav-btn:hover{border-color:var(--gold);background:rgba(16,15,12,.9)}
-  .pnav-btn:focus-visible{outline:1px solid var(--gold);outline-offset:3px}
-  .pnav-btn i{display:block;width:18px;height:1px;background:currentColor;position:relative;transition:transform .3s,opacity .2s}
-  .pnav-btn i::before,.pnav-btn i::after{content:"";position:absolute;left:0;width:18px;height:1px;background:currentColor;transition:transform .3s}
+    background:rgba(8,8,8,.72);border:1px solid color-mix(in srgb,var(--pnav-c) 42%,transparent);color:var(--pnav-c);cursor:pointer;
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:border-color .6s,background .25s,color .6s}
+  .pnav-btn:hover{border-color:var(--pnav-c);background:rgba(16,15,12,.9)}
+  @property --pnav-c{syntax:"<color>";inherits:true;initial-value:#ece7df}
+  :root{transition:--pnav-c .6s ease}
+  .pnav-btn:focus-visible{outline:1px solid var(--pnav-c);outline-offset:3px}
+  .pnav-btn i{display:block;width:18px;height:1.5px;background:currentColor;position:relative;transition:transform .3s,opacity .2s}
+  .pnav-btn i::before,.pnav-btn i::after{content:"";position:absolute;left:0;width:18px;height:1.5px;background:currentColor;transition:transform .3s}
   .pnav-btn i::before{top:-6px} .pnav-btn i::after{top:6px}
   .pnav-open .pnav-btn i{background:transparent}
   .pnav-open .pnav-btn i::before{transform:translateY(6px) rotate(45deg)}
   .pnav-open .pnav-btn i::after{transform:translateY(-6px) rotate(-45deg)}
   .pnav-where{position:fixed;top:32px;right:78px;z-index:1199;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.26em;
-    text-transform:uppercase;color:var(--ash-light);opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;
+    text-transform:uppercase;color:var(--pnav-c);opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;
     background:rgba(8,8,8,.78);padding:6px 10px;margin-top:-6px}
   .pnav-scrolled .pnav-where{opacity:.8}
   .pnav-open .pnav-where{opacity:0}
@@ -1003,10 +1007,6 @@
   .pnav .sub a{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--paper-dim);padding:5px 0;transition:color .2s}
   .pnav .sub a:hover{color:var(--yi)}
   .pnav .sub a .g{font-family:'Noto Serif SC','Cormorant Garamond',serif;letter-spacing:0;font-size:12px;margin-right:8px;color:var(--yi-dim)}
-  .pnav .chapters{margin:6px 0 4px 34px;display:flex;flex-wrap:wrap;gap:6px}
-  .pnav .chapters a{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;color:var(--paper-dim);border:1px solid var(--yi-line);padding:6px 8px;transition:border-color .2s,color .2s}
-  .pnav .chapters a:hover{border-color:var(--yi);color:var(--yi)}
-  .pnav .chapters a .g{font-family:'Noto Serif SC',serif;font-size:11px;margin-right:5px;color:var(--yi)}
   .pnav-foot{margin-top:28px;padding-top:18px;border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;
     font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase}
   .pnav-foot a{color:var(--gold-dim)} .pnav-foot a:hover{color:var(--gold)}
@@ -1026,15 +1026,6 @@
         <a href="#yi-argument"><span class="g">序</span>The argument</a>
         <a href="#yi-instruments"><span class="g">儀</span>The instruments</a>
         <a href="#yi-listening"><span class="g">律</span>The listening</a>
-      </div>
-      <div class="chapters" aria-label="Listening chapters">
-        <a href="documents/yi/yi-07-field-and-song.html"><span class="g">律</span>07</a>
-        <a href="documents/yi/yi-08-four-voices.html"><span class="g">九六</span>08</a>
-        <a href="documents/yi/yi-09-held-notes.html"><span class="g">时</span>09</a>
-        <a href="documents/yi/yi-10-consonance-couplets.html"><span class="g">和</span>10</a>
-        <a href="documents/yi/yi-11-life-on-bamboo.html"><span class="g">竹</span>11</a>
-        <a href="documents/yi/yi-12-tuning-the-sixty-four.html"><span class="g">调</span>12</a>
-        <a href="documents/yi/yi-bells-companion.html"><span class="g">钟</span>bells</a>
       </div>
     </li>
     <li class="top-item warm" data-sec="speculative"><a href="#speculative"><span class="ix">I</span>Speculative &amp; Play<span class="ct" data-count="speculative"></span></a></li>
@@ -1059,11 +1050,15 @@
   document.querySelectorAll("[data-count]").forEach(function(c){var s=document.getElementById(c.dataset.count);if(s){var n=s.querySelectorAll("a.card").length;if(n)c.textContent=(n<10?"0":"")+n;}});
   // where the reader is: the section in view is marked in the index, and named beside the button
   var secs=["yi","speculative","geometry","representation","reflection"].map(function(id){return document.getElementById(id);}).filter(Boolean);
+  var cs=getComputedStyle(root),lastC=null;
+  function v(n,f){return (cs.getPropertyValue(n)||"").trim()||f;}
+  var COL={yi:v("--yi","#cf6b4d"),speculative:v("--gold","#c9a84c"),geometry:v("--geometry","#6fb2a2"),representation:v("--lavender","#9b8ec4"),reflection:v("--rose","#c48b93")};
   var names={yi:"易 iching",speculative:"I · Speculative & Play",geometry:"II · Geometry",representation:"III · Representation",reflection:"IV · Reflection & Method"};
   function spy(){var y=window.scrollY+window.innerHeight*0.3,cur=null;secs.forEach(function(s){if(s.offsetTop<=y)cur=s.id;});
     root.classList.toggle("pnav-scrolled",window.scrollY>window.innerHeight*0.6&&!!cur);
     where.textContent=cur?names[cur]:"";
-    nav.querySelectorAll(".top-item").forEach(function(li){li.classList.toggle("here",li.dataset.sec===cur);});}
+    nav.querySelectorAll(".top-item").forEach(function(li){li.classList.toggle("here",li.dataset.sec===cur);});
+    var c=cur&&window.scrollY>window.innerHeight*0.4?COL[cur]:"#ece7df";if(c!==lastC){root.style.setProperty("--pnav-c",c);lastC=c;}}
   window.addEventListener("scroll",spy,{passive:true});spy();
   });
 })();
