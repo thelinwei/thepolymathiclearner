@@ -962,8 +962,112 @@
     .footer-note { text-align: left; }
   }
 </style>
+<style id="pml-nav-css">
+  /* ─── NAVIGATION: a quiet mark at the top right, opening an index of the whole archive ─── */
+  .section, .thread-head, header { scroll-margin-top: 24px; }
+  .pnav-btn{position:fixed;top:18px;right:18px;z-index:1200;width:46px;height:46px;display:grid;place-items:center;
+    background:rgba(8,8,8,.72);border:1px solid rgba(201,168,76,.28);color:var(--gold);cursor:pointer;
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:border-color .25s,background .25s}
+  .pnav-btn:hover{border-color:var(--gold);background:rgba(16,15,12,.9)}
+  .pnav-btn:focus-visible{outline:1px solid var(--gold);outline-offset:3px}
+  .pnav-btn i{display:block;width:18px;height:1px;background:currentColor;position:relative;transition:transform .3s,opacity .2s}
+  .pnav-btn i::before,.pnav-btn i::after{content:"";position:absolute;left:0;width:18px;height:1px;background:currentColor;transition:transform .3s}
+  .pnav-btn i::before{top:-6px} .pnav-btn i::after{top:6px}
+  .pnav-open .pnav-btn i{background:transparent}
+  .pnav-open .pnav-btn i::before{transform:translateY(6px) rotate(45deg)}
+  .pnav-open .pnav-btn i::after{transform:translateY(-6px) rotate(-45deg)}
+  .pnav-where{position:fixed;top:32px;right:78px;z-index:1199;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.26em;
+    text-transform:uppercase;color:var(--ash-light);opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;
+    background:rgba(8,8,8,.78);padding:6px 10px;margin-top:-6px}
+  .pnav-scrolled .pnav-where{opacity:.8}
+  .pnav-open .pnav-where{opacity:0}
+  .pnav-veil{position:fixed;inset:0;z-index:1100;background:rgba(0,0,0,.55);opacity:0;pointer-events:none;transition:opacity .3s}
+  .pnav-open .pnav-veil{opacity:1;pointer-events:auto}
+  .pnav{position:fixed;top:0;right:0;bottom:0;z-index:1150;width:min(380px,88vw);background:var(--void-w);
+    border-left:1px solid rgba(201,168,76,.14);transform:translateX(100%);transition:transform .38s cubic-bezier(.2,.7,.2,1);
+    overflow-y:auto;padding:84px 34px 40px;visibility:hidden}
+  .pnav-open .pnav{transform:none;visibility:visible}
+  .pnav-lab{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-dim);margin:0 0 16px}
+  .pnav ol{list-style:none}
+  .pnav a{text-decoration:none;color:var(--paper);display:block}
+  .pnav .top-item{border-top:1px solid rgba(255,255,255,.06);padding:14px 0 12px}
+  .pnav .top-item > a{display:flex;align-items:baseline;gap:12px;font-family:'Cormorant Garamond',Georgia,serif;font-size:1.32rem;line-height:1.15;transition:color .2s}
+  .pnav .top-item > a .ix{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--ash-light);min-width:22px}
+  .pnav .top-item > a .ct{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;color:var(--ash)}
+  .pnav .top-item > a:hover{color:#fff}
+  .pnav .yi > a{color:var(--yi)} .pnav .warm > a:hover{color:var(--gold)} .pnav .geometry > a:hover{color:var(--geometry)}
+  .pnav .cool > a:hover{color:var(--lavender)} .pnav .rose > a:hover{color:var(--rose)}
+  .pnav .here > a .ix{color:var(--gold)}
+  .pnav .here > a::after{content:"";width:5px;height:5px;border-radius:50%;background:currentColor;align-self:center;margin-left:8px;opacity:.8}
+  .pnav .sub{margin:8px 0 2px 34px;display:grid;gap:2px}
+  .pnav .sub a{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--paper-dim);padding:5px 0;transition:color .2s}
+  .pnav .sub a:hover{color:var(--yi)}
+  .pnav .sub a .g{font-family:'Noto Serif SC','Cormorant Garamond',serif;letter-spacing:0;font-size:12px;margin-right:8px;color:var(--yi-dim)}
+  .pnav .chapters{margin:6px 0 4px 34px;display:flex;flex-wrap:wrap;gap:6px}
+  .pnav .chapters a{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;color:var(--paper-dim);border:1px solid var(--yi-line);padding:6px 8px;transition:border-color .2s,color .2s}
+  .pnav .chapters a:hover{border-color:var(--yi);color:var(--yi)}
+  .pnav .chapters a .g{font-family:'Noto Serif SC',serif;font-size:11px;margin-right:5px;color:var(--yi)}
+  .pnav-foot{margin-top:28px;padding-top:18px;border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;
+    font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase}
+  .pnav-foot a{color:var(--gold-dim)} .pnav-foot a:hover{color:var(--gold)}
+  @media (max-width:600px){.pnav-btn{top:12px;right:12px;width:42px;height:42px}.pnav-where{display:none}.pnav{padding:72px 24px 32px}}
+  @media print{.pnav-btn,.pnav,.pnav-veil,.pnav-where{display:none}}
+</style>
 </head>
 <body>
+<button class="pnav-btn" id="pnavBtn" type="button" aria-label="Open the index" aria-expanded="false" aria-controls="pnav"><i></i></button>
+<div class="pnav-where" id="pnavWhere" aria-hidden="true"></div>
+<div class="pnav-veil" id="pnavVeil"></div>
+<nav class="pnav" id="pnav" aria-label="Index of the archive">
+  <div class="pnav-lab">The Polymathic Learner · index</div>
+  <ol>
+    <li class="top-item yi" data-sec="yi"><a href="#yi"><span class="ix">易</span>iching<span class="ct" data-count="yi"></span></a>
+      <div class="sub">
+        <a href="#yi-argument"><span class="g">序</span>The argument</a>
+        <a href="#yi-instruments"><span class="g">儀</span>The instruments</a>
+        <a href="#yi-listening"><span class="g">律</span>The listening</a>
+      </div>
+      <div class="chapters" aria-label="Listening chapters">
+        <a href="documents/yi/yi-07-field-and-song.html"><span class="g">律</span>07</a>
+        <a href="documents/yi/yi-08-four-voices.html"><span class="g">九六</span>08</a>
+        <a href="documents/yi/yi-09-held-notes.html"><span class="g">时</span>09</a>
+        <a href="documents/yi/yi-10-consonance-couplets.html"><span class="g">和</span>10</a>
+        <a href="documents/yi/yi-11-life-on-bamboo.html"><span class="g">竹</span>11</a>
+        <a href="documents/yi/yi-12-tuning-the-sixty-four.html"><span class="g">调</span>12</a>
+        <a href="documents/yi/yi-bells-companion.html"><span class="g">钟</span>bells</a>
+      </div>
+    </li>
+    <li class="top-item warm" data-sec="speculative"><a href="#speculative"><span class="ix">I</span>Speculative &amp; Play<span class="ct" data-count="speculative"></span></a></li>
+    <li class="top-item geometry" data-sec="geometry"><a href="#geometry"><span class="ix">II</span>Geometry<span class="ct" data-count="geometry"></span></a></li>
+    <li class="top-item cool" data-sec="representation"><a href="#representation"><span class="ix">III</span>Representation<span class="ct" data-count="representation"></span></a></li>
+    <li class="top-item rose" data-sec="reflection"><a href="#reflection"><span class="ix">IV</span>Reflection &amp; Method<span class="ct" data-count="reflection"></span></a></li>
+  </ol>
+  <div class="pnav-foot"><a href="#top-of-page">↑ To the top</a><a href="https://github.com/thelinwei/thepolymathiclearner">Source</a></div>
+</nav>
+<script>
+(function(){
+  var root=document.documentElement,btn=document.getElementById("pnavBtn"),nav=document.getElementById("pnav"),veil=document.getElementById("pnavVeil"),where=document.getElementById("pnavWhere");
+  var hdr=document.querySelector("header");if(hdr&&!hdr.id)hdr.id="top-of-page";
+  function open(on){root.classList.toggle("pnav-open",on);btn.setAttribute("aria-expanded",on?"true":"false");btn.setAttribute("aria-label",on?"Close the index":"Open the index");
+    if(on){var f=nav.querySelector("a");if(f)f.focus({preventScroll:true});}}
+  btn.addEventListener("click",function(){open(!root.classList.contains("pnav-open"));});
+  veil.addEventListener("click",function(){open(false);});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"&&root.classList.contains("pnav-open")){open(false);btn.focus();}});
+  nav.addEventListener("click",function(e){var a=e.target.closest("a");if(a&&a.getAttribute("href").charAt(0)==="#")open(false);});
+  document.addEventListener("DOMContentLoaded",function(){
+  // how many documents each collection holds, counted from the page itself
+  document.querySelectorAll("[data-count]").forEach(function(c){var s=document.getElementById(c.dataset.count);if(s){var n=s.querySelectorAll("a.card").length;if(n)c.textContent=(n<10?"0":"")+n;}});
+  // where the reader is: the section in view is marked in the index, and named beside the button
+  var secs=["yi","speculative","geometry","representation","reflection"].map(function(id){return document.getElementById(id);}).filter(Boolean);
+  var names={yi:"易 iching",speculative:"I · Speculative & Play",geometry:"II · Geometry",representation:"III · Representation",reflection:"IV · Reflection & Method"};
+  function spy(){var y=window.scrollY+window.innerHeight*0.3,cur=null;secs.forEach(function(s){if(s.offsetTop<=y)cur=s.id;});
+    root.classList.toggle("pnav-scrolled",window.scrollY>window.innerHeight*0.6&&!!cur);
+    where.textContent=cur?names[cur]:"";
+    nav.querySelectorAll(".top-item").forEach(function(li){li.classList.toggle("here",li.dataset.sec===cur);});}
+  window.addEventListener("scroll",spy,{passive:true});spy();
+  });
+})();
+</script>
 
 <header>
   <div class="header-rule"></div>
@@ -1101,7 +1205,7 @@
   </div>
 
   <div class="header-meta">
-    <span class="meta-item">24 documents</span>
+    <span class="meta-item">31 documents</span>
     <div class="meta-divider"></div>
     <span class="meta-item">5 collections</span>
     <div class="meta-divider"></div>
@@ -1118,7 +1222,7 @@
     <div class="section-header section-header-yi">
       <span class="section-title section-title-yi">易 iching — Current Investigation</span>
       <span class="section-title-desc">the inheritance, then the argument, then the instruments</span>
-      <span class="section-count">04 argument · 03 instruments · in progress</span>
+      <span class="section-count">04 argument · 03 instruments · 06 listening · in progress</span>
     </div>
 
     <div class="sequence-note">
@@ -1151,12 +1255,14 @@
       <a class="seq-step" href="documents/yi/yi-10-consonance-couplets.html"><span class="seq-glyph">和</span> 10 couplets</a>
       <span class="seq-arrow">→</span>
       <a class="seq-step" href="documents/yi/yi-11-life-on-bamboo.html"><span class="seq-glyph">竹</span> 11 a life on bamboo</a>
+      <span class="seq-arrow">→</span>
+      <a class="seq-step" href="documents/yi/yi-12-tuning-the-sixty-four.html"><span class="seq-glyph">调</span> 12 tuning</a>
       <a class="seq-step" href="documents/yi/yi-bells-companion.html"><span class="seq-glyph">钟</span> companion</a>
     </div>
 
     <div class="grid">
 
-      <div class="thread-head">The argument · in order <span class="note">what was inherited, and what happens when it is given motion</span></div>
+      <div class="thread-head" id="yi-argument">The argument · in order <span class="note">what was inherited, and what happens when it is given motion</span></div>
 
       <a class="card card-yi" href="documents/yi/yi-00-inheritance.html">
         <div class="card-accent accent-yi"></div>
@@ -1198,7 +1304,7 @@
         <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
       </a>
 
-      <div class="thread-head">The instruments · any order <span class="note">the double cube completes the argument above; the lantern and loom ask what shape holds all sixty-four</span></div>
+      <div class="thread-head" id="yi-instruments">The instruments · any order <span class="note">the double cube completes the argument above; the lantern and loom ask what shape holds all sixty-four</span></div>
 
       <a class="card card-yi" href="documents/yi/yi-04-instrument.html">
         <div class="card-accent accent-yi"></div>
@@ -1240,7 +1346,7 @@
         <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
       </a>
 
-      <div class="thread-head">The listening · in order <span class="note">the sixty-four heard as fields, chords and songs, struck on the bells of 曾侯乙</span></div>
+      <div class="thread-head" id="yi-listening">The listening · in order <span class="note">the sixty-four heard as fields, chords and songs, struck on the bells of 曾侯乙</span></div>
 
       <a class="card card-yi" href="documents/yi/yi-07-field-and-song.html">
         <div class="card-accent accent-yi"></div>
@@ -1289,6 +1395,16 @@
         <h2>A Life<br>on Bamboo</h2>
         <p>Six milfoil casts for the Chu officer 邵𬊤, 318–316 BCE: two years of service, then four casts on a single day, then a bell.</p>
         <div class="card-note">Different numbers, the same reading — and one retraction, kept visible.</div>
+        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
+      </a>
+
+      <a class="card card-yi" href="documents/yi/yi-12-tuning-the-sixty-four.html">
+        <div class="card-accent accent-yi"></div>
+        <div class="card-number"><span class="num-glyph">调</span> 12 · TUNING</div>
+        <div class="card-tag tag-yi">易 iching · Field note and laboratory</div>
+        <h2>Tuning<br>the Sixty-four</h2>
+        <p>Every way of giving a hexagram a sound — one voice, two or six, on chromatic, harmonic and fifths rulers — played through eight received orderings and set against chance.</p>
+        <div class="card-note">A laboratory for the ear: listen, keep what rings true, take notes.</div>
         <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
       </a>
 
