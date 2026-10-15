@@ -1,0 +1,1016 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A field note and laboratory on assignment: every way of giving the sixty-four hexagrams a sound, one voice, two or six, on chromatic, harmonic and fifths rulers, played through eight received orderings and compared with chance, on the bells of 曾侯乙.">
+  <meta name="color-scheme" content="light">
+  <title>易 Yi · 12 — Tuning the Sixty-four</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..800,0..100,0..1;1,9..144,300..800,0..100,0..1&family=Newsreader:opsz,wght@6..72,200..700&family=Space+Mono:wght@400;700&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --paper:#fcfaf7;
+      --paper-2:#f3eee8;
+      --ink:#2c1d17;
+      --wine:#5b2a1b;
+      --rust:#a6553a;
+      --rust-dark:#4b1c12;
+      --rust-deep:#200d08;
+      --cream:#f8ede7;
+      --gold:#b58d46;
+      --jade:#3f756b;
+      --muted:#7d6d65;
+      --hair:rgba(91,42,27,.18);
+      --display:Fraunces,"Noto Serif SC",serif;
+      --serif:Newsreader,Georgia,"Noto Serif SC",serif;
+      --mono:"Space Mono",ui-monospace,Menlo,monospace;
+      --zh:"Noto Serif SC",serif;
+      --max:1110px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;background:var(--paper)}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.58}
+    a{color:inherit;text-decoration-color:rgba(166,85,58,.45);text-underline-offset:.2em}
+    a:hover{text-decoration-color:var(--rust)}
+    p{margin:.65rem 0 1rem}
+    strong{font-weight:650}
+    .zh{font-family:var(--zh)}
+    sup a{font:700 .62em/1 var(--mono);color:var(--rust);text-decoration:none}
+
+    /* hero */
+    .hero{color:var(--cream);background:
+      radial-gradient(115% 95% at 78% 8%,#a6553a 0,transparent 58%),
+      radial-gradient(90% 80% at 8% 92%,#38150d 0,transparent 62%),
+      linear-gradient(166deg,#5a2416,#34140c 62%,#200d08);padding:clamp(5.5rem,10vw,8.2rem) 1.25rem clamp(4.2rem,8vw,6rem);position:relative;overflow:hidden}
+    .hero::after{content:"律";position:absolute;right:-.05em;bottom:-.42em;font-family:var(--zh);font-size:clamp(25rem,52vw,48rem);line-height:1;color:rgba(248,237,231,.035);pointer-events:none}
+    .hero-inner{max-width:var(--max);margin:auto;position:relative;z-index:1}
+    .eyebrow{font:400 .66rem/1.5 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:#e1b9a9;border-bottom:1px solid rgba(248,237,231,.35);padding-bottom:1.1rem}
+    .hero-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:clamp(2rem,7vw,7rem);align-items:end;margin-top:2rem}
+    h1,h2,h3{font-family:var(--display)}
+    h1{font-size:clamp(3.8rem,8.4vw,7.4rem);line-height:.9;letter-spacing:-.055em;font-weight:520;margin:0}
+    h1 span{display:block}
+    h1 .second{margin-left:.75em}
+    .hero .sub{font-family:var(--display);font-size:clamp(1.35rem,2.5vw,2rem);font-style:italic;color:#efd7cd;margin:1.3rem 0 1.8rem}
+    .hero .intro{max-width:720px;font-family:"Times New Roman",Times,"Noto Serif SC",serif;font-size:clamp(1.08rem,1.7vw,1.28rem);line-height:1.5;color:#f1e4de}
+    .hero-aside{border-left:1px solid rgba(248,237,231,.32);padding-left:1.3rem;color:#d6c3bb;font-size:.95rem}
+    .hero-aside .mark{min-width:3.1rem;height:3.1rem;display:inline-grid;place-items:center;padding:0 .6rem;border:1px solid #e18b70;color:#ed9f87;font-size:1.45rem;margin-bottom:1.3rem}
+    .hero-aside .mark i{font-size:.8rem;margin-left:.4rem}
+    .hero-aside strong{display:block;font:700 .61rem/1.5 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#f7e6de;margin-top:1rem}
+    .hero-nav{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:2rem}
+    .hero-nav a{padding:.58rem .72rem;border:1px solid rgba(248,237,231,.32);font:400 .58rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:#eadbd4}
+    .hero-nav a:hover{background:var(--cream);color:var(--wine)}
+
+    /* sections */
+    main{max-width:var(--max);margin:auto;padding:0 1.25rem 4rem}
+    .section{padding:clamp(4.6rem,8vw,7.2rem) 0;border-top:1px solid var(--hair)}
+    .section:first-child{border-top:0}
+    .section-head{display:grid;grid-template-columns:180px minmax(0,1fr);gap:2rem;margin-bottom:2.4rem}
+    .kicker{font:700 .62rem/1.55 var(--mono);letter-spacing:.17em;text-transform:uppercase;color:var(--rust)}
+    h2{font-size:clamp(2.4rem,5vw,4.4rem);font-weight:480;letter-spacing:-.045em;line-height:.98;color:var(--wine);margin:0 0 .9rem}
+    h3{font-size:1.55rem;line-height:1.12;font-weight:540;margin:.1rem 0 .65rem;color:var(--wine)}
+    .lede{font-size:clamp(1.15rem,1.9vw,1.35rem);line-height:1.52;max-width:820px;color:#49362e}
+    .measure{max-width:790px}
+
+    .quote{display:grid;grid-template-columns:minmax(200px,auto) minmax(0,1fr);gap:2rem;align-items:center;margin:2.4rem 0;padding:2rem 0;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+    .quote .zh{font-size:clamp(1.7rem,3.4vw,3rem);color:var(--rust);line-height:1.25}
+    .quote blockquote{margin:0;font-family:var(--display);font-size:clamp(1.25rem,2.2vw,1.8rem);line-height:1.3;font-style:italic;color:var(--wine)}
+    .quote cite{display:block;font:400 .6rem/1.5 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:.8rem;font-style:normal}
+
+    .boundary{margin-top:1.1rem;padding:1rem 1.1rem;border-left:3px solid var(--gold);background:#f5efe4;color:#5b4b42;font-size:.94rem}
+    .note-jade{margin-top:1.2rem;padding:1.1rem 1.2rem;border-left:3px solid var(--jade);background:#eaf0ec;color:#435d56;font-size:.94rem}
+
+    /* readers */
+    .readers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair);margin-top:2rem}
+    .reader{background:var(--paper);padding:1.35rem 1.25rem 1.4rem}
+    .reader .who{font:700 .58rem/1.5 var(--mono);letter-spacing:.11em;text-transform:uppercase;color:var(--rust)}
+    .reader .where{font:400 .58rem/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+    .reader h3{font-size:1.2rem;margin:.8rem 0 .55rem}
+    .reader ul{margin:0;padding-left:1.05rem;font-size:.9rem;line-height:1.48;color:#56463e}
+    .reader li{margin:.3rem 0}
+    .brief{display:grid;grid-template-columns:auto minmax(0,1fr);gap:1.4rem;align-items:center;margin-top:1rem;padding:1.4rem 1.5rem;background:var(--wine);color:var(--cream)}
+    .brief .zh{font-size:2.6rem;color:#f1b598;line-height:1}
+    .brief .label{font:700 .58rem/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#e4ad92}
+    .brief p{margin:.35rem 0 0;font-size:1.05rem;color:#f4e3db}
+
+    /* four readings */
+    .readings{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin-top:2rem}
+    .reading{border:1px solid var(--hair);background:var(--paper-2);padding:1rem 1rem 1.2rem}
+    .reading svg{display:block;width:100%;height:auto;background:var(--paper);border:1px solid var(--hair)}
+    .reading .n{font:700 .56rem/1 var(--mono);letter-spacing:.1em;color:var(--rust);margin-top:.9rem}
+    .reading h3{font-size:1.12rem;margin:.45rem 0 .4rem}
+    .reading p{font-size:.86rem;line-height:1.46;color:var(--muted);margin:0}
+
+    /* dark band */
+    .band{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);background:#21120d;color:var(--cream)}
+    .band-inner{max-width:var(--max);margin:auto;padding:clamp(4.6rem,8vw,7rem) 1.25rem}
+    .band .kicker{color:#d59c78}
+    .band h2{color:var(--cream);max-width:900px}
+    .band .lede{color:#d9c6bd}
+    .band p{color:#d7c7bf}
+    .band .measure p{font-size:1rem}
+    .band strong{color:#f1caa9}
+
+    /* instrument */
+    .inst{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:1.6rem;margin-top:2.2rem;align-items:start}
+    .board{display:grid;grid-template-columns:22px repeat(8,minmax(0,1fr));gap:3px}
+    .board .lab{font:400 .55rem/1 var(--mono);color:#a99087;display:grid;place-items:center;text-transform:uppercase;letter-spacing:.06em}
+    .board .lab.zh{font-family:var(--zh);font-size:.8rem;color:#c9a898}
+    .cell{appearance:none;border:1px solid rgba(248,237,231,.14);background:#2d1912;color:#e9d7cf;padding:5px 2px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0;transition:background .18s,color .18s,border-color .18s}
+    .cell svg{width:58%;max-width:26px;height:auto;display:block}
+    .cell .nm{font-family:var(--zh);font-size:.62rem;line-height:1;white-space:nowrap;overflow:hidden;max-width:100%}
+    .cell.pos{background:#f3e3d8;color:#4b1c12;border-color:#f3e3d8}
+    .cell.neg{background:#5b2a1b;color:#f2d9cc;border-color:#7a3a26}
+    .cell.lis{background:#3f756b;color:#eaf4f0;border-color:#5d9a8e}
+    .cell.sel{outline:2px solid #e4b45f;outline-offset:1px;position:relative;z-index:2}
+    .cell:focus-visible{outline:2px solid #e4b45f;outline-offset:1px}
+    .side{border:1px solid rgba(248,237,231,.2);padding:1.2rem 1.25rem}
+    .side .glyph{display:flex;gap:1rem;align-items:center}
+    .side .glyph svg{width:46px;height:auto}
+    .side .big{font-family:var(--zh);font-size:2.4rem;color:#f5dccf;line-height:1}
+    .side .meta{font:400 .6rem/1.6 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#bba79e}
+    .side .read{margin-top:1rem;font-size:.96rem;line-height:1.5;color:#e6d4cb}
+    .side .read b{color:#f1caa9;font-weight:600}
+    .ctrls{display:flex;flex-wrap:wrap;gap:.4rem;margin:1rem 0 .2rem}
+    .btn{appearance:none;background:transparent;border:1px solid rgba(248,237,231,.32);color:#eadbd4;padding:.5rem .65rem;font:400 .58rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+    .btn:hover{background:rgba(248,237,231,.08)}
+    .btn.on{background:var(--cream);color:var(--wine);border-color:var(--cream)}
+    .btn:focus-visible{outline:2px solid #e4b45f;outline-offset:1px}
+    .legend{display:flex;flex-wrap:wrap;gap:1rem;margin-top:.9rem;font:400 .58rem/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#bba79e}
+    .legend i{display:inline-block;width:.8rem;height:.8rem;vertical-align:-2px;margin-right:.35rem;border:1px solid rgba(248,237,231,.3)}
+
+    .clocks{margin-top:2.2rem;border:1px solid rgba(248,237,231,.2);padding:1.2rem 1.25rem 1rem}
+    .clocks svg{display:block;width:100%;height:auto}
+    .clocks .row{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;justify-content:space-between}
+    .clocks .meta{font:400 .6rem/1.6 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#bba79e}
+
+    .facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:rgba(248,237,231,.18);border:1px solid rgba(248,237,231,.18);margin-top:2.2rem}
+    .fact{background:#21120d;padding:1.1rem 1.15rem}
+    .fact .n{font:700 .56rem/1 var(--mono);letter-spacing:.1em;color:#d9a16f}
+    .fact h3{font-family:var(--mono);font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;color:#f7e8df;margin:.75rem 0 .5rem}
+    .fact p{font-size:.88rem;line-height:1.48;color:#c9b7ae;margin:0}
+
+    /* song */
+    .bars{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair);margin-top:1.8rem}
+    .bar{background:var(--paper);padding:1rem .9rem 1.1rem;display:flex;flex-direction:column;gap:.5rem}
+    .bar .pos{font:700 .56rem/1 var(--mono);letter-spacing:.1em;color:var(--rust);text-transform:uppercase}
+    .bar .zh{font-size:1.15rem;color:var(--wine);line-height:1.3}
+    .bar .en{font-size:.82rem;line-height:1.4;color:var(--muted)}
+    .bar .h{height:6px;background:var(--rust);opacity:.25;margin-top:auto}
+    .tide{margin-top:2rem;border:1px solid var(--hair);background:var(--paper-2);padding:1rem}
+    .tide > svg{display:block;width:100%;height:auto}
+    .cap{font:400 .6rem/1.6 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:.7rem}
+
+    .dual{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2rem}
+    .register{padding:clamp(1.3rem,3vw,2rem);background:var(--paper-2);border:1px solid var(--hair)}
+    .register.a{border-top:4px solid var(--rust)}
+    .register.b{border-top:4px solid var(--jade)}
+    .register .label{font:700 .59rem/1.4 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+    .register h3{font-size:clamp(1.45rem,2.4vw,1.95rem);margin:.7rem 0 .8rem}
+    .register p{font-size:.96rem;color:#56463e}
+
+    /* score table */
+    .score{width:100%;border-collapse:collapse;margin-top:1.6rem}
+    .score th,.score td{text-align:left;vertical-align:top;padding:1rem .9rem;border-bottom:1px solid var(--hair)}
+    .score th{font:700 .59rem/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--rust)}
+    .score td{font-size:.93rem;color:#56463e}
+    .score td:first-child{color:var(--wine);font-weight:600;width:22%}
+    .score .kind{display:inline-block;font:700 .55rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:.35rem .45rem;border:1px solid currentColor;margin-bottom:.45rem}
+    .score .perf{color:var(--jade)}
+    .score .comp{color:var(--gold)}
+    .casts{width:100%;border-collapse:collapse;margin-top:1.4rem;font-size:.92rem}
+    .casts th,.casts td{text-align:left;padding:.65rem .8rem;border-bottom:1px solid var(--hair);vertical-align:top}
+    .casts th{font:700 .56rem/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+    .casts td.zh{color:var(--wine)}
+
+    /* ledger */
+    .ledger{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin-top:2rem}
+    .col{border:1px solid var(--hair);background:var(--paper-2);padding:1.1rem 1.1rem 1.2rem}
+    .col .tag{font:700 .58rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+    .col.est .tag{color:var(--jade)} .col.pro .tag{color:var(--gold)} .col.open .tag{color:var(--rust)} .col.next .tag{color:var(--wine)}
+    .col.est{border-top:4px solid var(--jade)} .col.pro{border-top:4px solid var(--gold)} .col.open{border-top:4px solid var(--rust)} .col.next{border-top:4px solid var(--wine)}
+    .col ul{margin:.8rem 0 0;padding-left:1rem;font-size:.86rem;line-height:1.46;color:#56463e}
+    .col li{margin:.4rem 0}
+
+    details{border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);padding:1rem 0;margin-top:3rem}
+    summary{cursor:pointer;font:700 .63rem/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--rust)}
+    .sources{display:grid;grid-template-columns:1fr 1fr;gap:.65rem 1.5rem;margin-top:1.2rem}
+    .source{font-size:.84rem;line-height:1.45;color:var(--muted)}
+    .source b{display:block;color:var(--ink);font-weight:600}
+
+    .next{margin-top:3rem;background:var(--wine);color:var(--cream);display:grid;grid-template-columns:1fr auto;align-items:center;gap:2rem;padding:clamp(1.4rem,4vw,2.5rem);text-decoration:none}
+    .next:hover{background:#6c301f}
+    .next .label{font:700 .58rem/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#e4ad92}
+    .next h3{font-size:clamp(1.6rem,3vw,2.3rem);color:var(--cream);margin:.4rem 0 0}
+    .next .arrow{font-size:2rem}
+
+    footer{background:var(--rust-deep);color:#bca9a0;padding:2.5rem 1.25rem}
+    .footer-inner{max-width:var(--max);margin:auto;display:flex;justify-content:space-between;gap:2rem;font:400 .59rem/1.7 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+    footer strong{color:var(--cream)}
+
+    @media(max-width:960px){
+      .inst{grid-template-columns:1fr}
+      .readings,.ledger{grid-template-columns:repeat(2,1fr)}
+      .bars{grid-template-columns:repeat(3,1fr)}
+    }
+    @media(max-width:720px){
+      .hero-grid,.section-head,.dual,.readers,.facts{grid-template-columns:1fr}
+      .hero-aside{border-left:0;border-top:1px solid rgba(248,237,231,.3);padding:1.2rem 0 0}
+      .quote{grid-template-columns:1fr;gap:.7rem}
+      .sources{grid-template-columns:1fr}
+      .score td:nth-child(3),.score th:nth-child(3){display:none}
+      .cell .nm{display:none}
+    }
+    @media(max-width:500px){
+      body{font-size:17px}
+      .hero{padding-top:4.5rem}
+      h1{font-size:clamp(3.2rem,16vw,4.6rem)}
+      h1 .second{margin-left:0}
+      .readings,.ledger,.bars{grid-template-columns:1fr}
+      .board{grid-template-columns:16px repeat(8,minmax(0,1fr));gap:2px}
+      .footer-inner{display:block}
+    }
+    @media print{
+      .yitop,.hero-nav,.ctrls,#play{display:none}
+      body{background:#fff}
+      .hero,.band{background:#fff;color:#000}
+      .hero::after{display:none}
+    }
+  </style>
+<style id="yinav-css">
+.yitop{border-bottom:1px solid var(--rule,#DFCEC5);background:var(--paper,#FCFAF7);
+ font-family:"Space Mono",ui-monospace,Menlo,monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase}
+.yitop .in{width:min(1120px,calc(100% - 34px));margin-inline:auto;display:flex;align-items:center;gap:16px;padding:12px 0;flex-wrap:wrap}
+.yitop a{color:var(--iris-mid,#8A4530);text-decoration:none;opacity:.72}
+.yitop a:hover{opacity:1;text-decoration:underline}
+.yitop .sp{flex:1 1 auto}
+.yitop .now{color:var(--lilac,#A89087)}
+.yinav{border-top:1px solid var(--rule,#DFCEC5);margin-top:clamp(40px,6vw,86px);
+ padding:clamp(30px,5vw,58px) 0 clamp(44px,6vw,84px);font-family:"Space Mono",ui-monospace,Menlo,monospace}
+.yinav .in{width:min(1120px,calc(100% - 34px));margin-inline:auto}
+.yinav-lab{font-size:.62rem;letter-spacing:.19em;text-transform:uppercase;color:var(--lilac,#A89087);margin-bottom:24px}
+.yinav-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:34px}
+.yinav-pair a,.yinav-pair .void{display:block;border:1px solid var(--rule,#DFCEC5);border-radius:3px;
+ padding:20px 22px;text-decoration:none;color:var(--iris,#5B2A1B);transition:border-color .2s,background .2s}
+.yinav-pair a:hover{border-color:var(--iris-mid,#8A4530);background:rgba(91,42,27,.035)}
+.yinav-pair .void{border-style:dotted;opacity:.4}
+.yinav-pair .dir{display:block;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--lilac,#A89087);margin-bottom:9px}
+.yinav-pair .ttl{font-family:"Fraunces","Newsreader",serif;font-size:1.05rem;line-height:1.28;letter-spacing:-.01em}
+.yinav-grp{font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--lilac,#A89087);
+ margin:0 4px 0 6px;white-space:nowrap}
+.yinav-rail{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.yinav-rail a,.yinav-rail .here{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
+ padding:8px 12px;border:1px solid var(--rule,#DFCEC5);border-radius:3px;color:var(--iris-mid,#8A4530);opacity:.72}
+.yinav-rail a:hover{opacity:1;border-color:var(--iris-mid,#8A4530)}
+.yinav-rail .here{background:var(--iris,#5B2A1B);border-color:var(--iris,#5B2A1B);color:#FAF1EC;opacity:1}
+.yinav-rail .g{font-family:"Noto Serif SC","Fraunces",serif;font-size:.86rem;letter-spacing:0;margin-right:7px}
+.yinav-rail .comp{border-style:dotted}
+.yinav-home{display:inline-block;margin-top:26px;font-size:.62rem;letter-spacing:.18em;
+ text-transform:uppercase;color:var(--brass,#9A7226);text-decoration:none;opacity:.85}
+.yinav-home:hover{opacity:1;text-decoration:underline}
+@media(max-width:680px){.yinav-pair{grid-template-columns:1fr}}
+</style>
+<style>
+    .hero::after{content:"调"}
+    .lbtn{appearance:none;background:transparent;border:1px solid var(--hair);color:var(--wine);padding:.5rem .65rem;font:400 .58rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+    .lbtn:hover{background:var(--paper-2)}
+    .lbtn.on{background:var(--wine);color:var(--cream);border-color:var(--wine)}
+    .lbtn:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+    .listen-note{font:400 .6rem/1.6 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:.5rem}
+
+    /* three ways */
+    .ways{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem;margin-top:2rem}
+    .way{border:1px solid var(--hair);background:var(--paper-2);padding:1.1rem 1.1rem 1.2rem;display:flex;flex-direction:column;gap:.55rem}
+    .way svg{display:block;width:100%;height:auto;background:var(--paper);border:1px solid var(--hair)}
+    .way .n{font:700 .56rem/1 var(--mono);letter-spacing:.1em;color:var(--rust);text-transform:uppercase}
+    .way h3{font-size:1.15rem;margin:0}
+    .way p{font-size:.88rem;line-height:1.48;color:#56463e;margin:0}
+
+    /* rulers */
+    .rulers{margin-top:2rem;border:1px solid var(--hair);background:var(--paper-2);padding:1rem}
+    .rulers svg{display:block;width:100%;height:auto}
+
+    /* catalogue */
+    .cat-group{margin-top:2.4rem}
+    .cat-group > .kicker{margin-bottom:.8rem}
+    .cat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.6rem}
+    .card12{border:1px solid var(--hair);background:var(--paper);padding:.95rem 1rem 1rem;display:flex;flex-direction:column;gap:.4rem;border-top:3px solid var(--rust)}
+    .card12.w{border-top-color:var(--gold)} .card12.r{border-top-color:var(--jade)} .card12.v{border-top-color:var(--wine)}
+    .card12 .id{font:700 .55rem/1 var(--mono);letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+    .card12 h3{font-size:1.06rem;margin:0}
+    .card12 p{font-size:.85rem;line-height:1.46;color:#56463e;margin:0}
+    .card12 .hear{font-size:.82rem;line-height:1.42;color:var(--wine);font-style:italic}
+    .card12 button{align-self:flex-start;margin-top:auto}
+
+    /* lab */
+    .lab{display:grid;grid-template-columns:minmax(0,1fr);gap:1.2rem;margin-top:2rem}
+    .panel{border:1px solid rgba(248,237,231,.2);padding:1rem 1.1rem}
+    .panel .h{font:700 .58rem/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#d59c78;margin-bottom:.55rem}
+    .ctl{display:grid;grid-template-columns:120px minmax(0,1fr);gap:.4rem 1rem;align-items:start;padding:.45rem 0;border-top:1px solid rgba(248,237,231,.1)}
+    .ctl:first-of-type{border-top:0}
+    .ctl .t{font:400 .58rem/1.5 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#bba79e;padding-top:.45rem}
+    .ctl .opts{display:flex;flex-wrap:wrap;gap:.35rem}
+    .ctl .opts .btn[disabled]{opacity:.3;cursor:default}
+    .labgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.2rem;align-items:start}
+    .board12{display:grid;grid-template-columns:22px repeat(8,minmax(0,1fr));gap:3px}
+    .board12 .lab2{font-family:var(--zh);font-size:.78rem;color:#c9a898;display:grid;place-items:center}
+    .hc{appearance:none;border:1px solid rgba(248,237,231,.12);padding:.3rem 0 .32rem;cursor:pointer;min-width:0;display:flex;flex-direction:column;align-items:center;gap:1px;color:#2c1d17}
+    .hc .nm{font-family:var(--zh);font-size:.74rem;line-height:1.1;white-space:nowrap;overflow:hidden;max-width:100%}
+    .hc .pt{font:400 .5rem/1 var(--mono);letter-spacing:.02em;white-space:nowrap;overflow:hidden;max-width:100%;opacity:.85}
+    .hc.now{outline:2px solid #e4b45f;outline-offset:1px;position:relative;z-index:2}
+    .hc:focus-visible{outline:2px solid #e4b45f;outline-offset:1px}
+    .readout{font-size:.95rem;line-height:1.5;color:#e6d4cb}
+    .readout .say{color:#f1e4de;margin:0 0 .8rem}
+    .stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:rgba(248,237,231,.15);border:1px solid rgba(248,237,231,.15);margin:.6rem 0}
+    .stat{background:#21120d;padding:.6rem .7rem}
+    .stat .k{font:400 .52rem/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#bba79e}
+    .stat .v{font-family:var(--display);font-size:1.35rem;color:#f5dccf;line-height:1.2}
+    .stat .v small{font:400 .55rem/1 var(--mono);color:#bba79e;letter-spacing:.06em;margin-left:.3rem}
+    .roll{border:1px solid rgba(248,237,231,.2);padding:.6rem .6rem .3rem;background:#1a0d09}
+    .roll svg{display:block;width:100%;height:auto}
+    .playrow{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:.2rem 0 .1rem}
+    .playrow .now{font:400 .6rem/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#e4b45f}
+    .btn.big{padding:.7rem 1rem;font-size:.66rem}
+
+    /* survey */
+    .survey-wrap{overflow-x:auto;margin-top:1.6rem;border:1px solid var(--hair)}
+    .survey{border-collapse:collapse;width:100%;min-width:900px;font-size:.82rem}
+    .survey th,.survey td{padding:.38rem .45rem;border-bottom:1px solid var(--hair);text-align:center;white-space:nowrap}
+    .survey thead th{font:700 .52rem/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--rust);cursor:pointer;vertical-align:bottom;background:var(--paper)}
+    .survey thead th.on{color:var(--wine);text-decoration:underline}
+    .survey td.row{text-align:left;font-size:.8rem;color:var(--wine);cursor:pointer;position:sticky;left:0;background:var(--paper);z-index:1}
+    .survey td.row small{display:block;font:400 .5rem/1.3 var(--mono);color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+    .survey td.sc{cursor:pointer;font:400 .66rem/1 var(--mono);color:#2c1d17;min-width:62px}
+    .survey td.sc:hover{outline:2px solid var(--wine);outline-offset:-2px}
+    .survey td.sc.hi{box-shadow:inset 0 0 0 2px var(--gold);font-weight:700}
+    .survey td.sc.lo{color:#8b7a72}
+    .survey tr.grp td{background:var(--paper-2);font:700 .55rem/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:left;position:static}
+    .slegend{display:flex;flex-wrap:wrap;gap:1.2rem;margin-top:.9rem;font:400 .58rem/1.5 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+    .slegend i{display:inline-block;width:.9rem;height:.9rem;vertical-align:-3px;margin-right:.35rem;border:1px solid var(--hair)}
+
+    /* notes */
+    .pins{display:grid;gap:.6rem;margin-top:1.4rem}
+    .pin{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.6rem 1rem;border:1px solid var(--hair);background:var(--paper-2);padding:.8rem .9rem;align-items:start}
+    .pin .lbl{font-size:.92rem;color:var(--wine)}
+    .pin .lbl small{display:block;font:400 .55rem/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+    .pin textarea{grid-column:1/-1;width:100%;min-height:3.2rem;font:inherit;font-size:.88rem;border:1px solid var(--hair);background:var(--paper);padding:.5rem;color:var(--ink)}
+    .pin .acts{display:flex;gap:.35rem}
+    .empty{font-size:.92rem;color:var(--muted);font-style:italic}
+    .export{width:100%;min-height:6rem;margin-top:.8rem;font:400 .72rem/1.5 var(--mono);border:1px solid var(--hair);background:var(--paper);padding:.6rem;color:var(--ink)}
+    .listenfor{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;margin-top:1.6rem}
+    .listenfor article{border:1px solid var(--hair);background:var(--paper);padding:1rem 1.1rem;border-left:3px solid var(--jade)}
+    .listenfor h3{font-size:1.05rem;margin:0 0 .35rem}
+    .listenfor p{font-size:.88rem;line-height:1.48;color:#56463e;margin:0}
+    .wonder{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem;margin-top:2rem}
+    .wonder article{border:1px solid var(--hair);background:var(--paper-2);padding:1.1rem;border-top:4px solid var(--gold)}
+    .wonder .tag{font:700 .58rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+    .wonder h3{font-size:1.12rem;margin:.6rem 0 .45rem}
+    .wonder p{font-size:.88rem;line-height:1.48;color:#56463e;margin:0}
+    @media(max-width:960px){.labgrid{grid-template-columns:1fr}.cat{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:720px){.ways,.wonder,.listenfor{grid-template-columns:1fr}.ctl{grid-template-columns:1fr}.ctl .t{padding-top:0}}
+    @media(max-width:560px){.cat{grid-template-columns:1fr}.hc .pt{display:none}.hc .nm{font-size:.62rem}.stats{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<nav class="yitop"><div class="in"><a href="../../index.html">↑ The Polymathic Learner</a><span class="now">12 · the listening continues</span><span class="sp"></span><a href="yi-11-life-on-bamboo.html">← previous</a></div></nav>
+
+<header class="hero" id="top">
+  <div class="hero-inner">
+    <div class="eyebrow">易 Yi · 12 · Field note and laboratory · October 2026 · Tuning</div>
+    <div class="hero-grid">
+      <div>
+        <h1><span>Tuning</span><span class="second">the sixty-four</span></h1>
+        <div class="sub">Which number should a line be? A laboratory of assignments, for the ear to decide.</div>
+        <p class="intro">Every chapter of the listening so far heard a hexagram one way: each line a bell, rising by whole tones after 郑玄's 爻辰, yang struck at the face and yin at the side. That assignment has a lineage, and it is one choice among many. This note lays the others out side by side. A hexagram can be one note, two, or six. Its lines can weigh as binary digits, as places in a received order, as harmonics, as steps along the chain of fifths. Each assignment is played through eight received orderings, and each is compared with the same hexagrams shuffled. Where an ordering sounds more resonant than its own shuffles, the resonance comes from the meeting of the order and the assignment. That is the quality this note listens for.</p>
+      </div>
+      <aside class="hero-aside">
+        <div class="mark" aria-hidden="true">调<i>diào</i></div>
+        <div>调 is a mode or key, and as <i>tiáo</i> it is to adjust, to bring into accord. The same character holds the tuning and the act of tuning.</div>
+        <strong>First question</strong>
+        How many ways can a hexagram be given a sound, and what does each make audible?
+        <strong>Then</strong>
+        Under which assignments does a received order ring truer than chance?
+      </aside>
+    </div>
+    <div class="hero-nav" aria-label="Sections">
+      <a href="#question">The question</a><a href="#ways">Three ways</a><a href="#rulers">Two rulers</a><a href="#catalogue">The catalogue</a><a href="#lab">The laboratory</a><a href="#survey">The survey</a><a href="#notes">Listening notes</a><a href="#wonder">Still wondering</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="section" id="question">
+    <div class="section-head">
+      <div class="kicker">00 · The question</div>
+      <div>
+        <h2>An assignment is a hypothesis you can hear.</h2>
+        <p class="lede">To sound a hexagram, something about it has to become a frequency. Whatever is chosen, its line positions, its place in an order, its count of yang, decides which relations between hexagrams the ear can follow.</p>
+      </div>
+    </div>
+    <div class="measure">
+      <p>Pitch is heard on a logarithmic ruler. Equal steps to the ear are equal ratios of frequency: an octave doubles, a semitone multiplies by the twelfth root of two. So asking for a chromatic assignment and asking for a logarithmic one are the same request. Each line is given a number of steps, and the steps are measured in ratios. The harmonic series counts the other way, in equal additions of frequency, and its steps narrow as they rise. Both rulers belong to the bronze: the chromatic one is how the Zeng bells were named and tuned, and the harmonic one is how every vibrating body sounds.</p>
+      <p>Any sequence can be made pleasant by snapping its notes to a scale, and that pleasantness says nothing about the sequence. This laboratory offers the snap only as a comparison. The quality it looks for is different: an assignment under which a received ordering, the 序卦, the 卦气 year, 京房's palaces, a man's last casts, sounds more resonant than the same hexagrams in random order. Resonance of that kind is found rather than imposed. It belongs to the relation between the ordering and the way of hearing it.</p>
+      <p>The measure of resonance is deliberately simple. For each step of an ordering, every pair of pitches sounding across the two neighbouring hexagrams is rated on the scale of consonance used in note 10: unisons and octaves fully open, fifths and fourths nearly so, thirds and sixths warm, whole tones mild, semitones and tritones tense. The average is the ordering's resonance under that assignment. Then the ordering is shuffled three hundred times and the same average taken, and the real ordering is placed among its shuffles as a percentile. A percentile near 100 means the received order finds the consonant joins far more often than chance. The number points the ear somewhere; the ear decides.</p>
+    </div>
+  </section>
+
+  <section class="section" id="ways">
+    <div class="section-head">
+      <div class="kicker">01 · Three ways</div>
+      <div>
+        <h2>One voice, two voices, six.</h2>
+        <p class="lede">A hexagram can be read whole, as a pair of trigrams, or line by line. Each reading gives a different instrument.</p>
+      </div>
+    </div>
+    <div class="ways" id="waysBox"></div>
+  </section>
+
+  <section class="section" id="rulers">
+    <div class="section-head">
+      <div class="kicker">02 · Two rulers and a spiral</div>
+      <div>
+        <h2>Sixty-four fits the bronze.</h2>
+        <p class="lede">Laid on the chromatic ruler, the sixty-four hexagrams span sixty-three semitones. The Zeng bells span sixty-two, from C2 to D7. Laid on the harmonic ruler, they are the first sixty-four harmonics of a single tone, exactly six octaves.</p>
+      </div>
+    </div>
+    <div class="rulers"><svg id="rulerSvg" viewBox="0 0 980 300" role="img" aria-label="The sixty-four hexagrams placed on three rulers: chromatic steps, harmonics, and the chain of fifths folded into two octaves"></svg></div>
+    <div class="cap">Each mark is one hexagram, valued with the bottom line finest (坤 = 0, 乾 = 63) and placed on a logarithmic axis of pitch from C1 to C8. Chromatic: evenly spaced. Harmonic: crowded at the top, spacious below. Fifths: sixty-four steps of a pure fifth, folded into two octaves, gather near the twelve notes and slowly drift from them.</div>
+    <div class="quote">
+      <div class="zh" style="font-size:clamp(1.3rem,2.3vw,1.9rem)">三分所生，益之一分以上生；<br>三分所生，去其一分以下生。</div>
+      <blockquote>Of what is made by thirds: add a third, and the pipe generates downward; take away a third, and it generates upward.<cite>《吕氏春秋 · 音律》 · the rule of 三分损益</cite></blockquote>
+    </div>
+    <div class="measure">
+      <p>The third ruler is the chain of fifths that 三分损益 builds. Twelve steps of a pure fifth come back almost, but not quite, to the starting note, missing by about a quarter of a semitone. 京房 in the Western Han carried the chain past twelve to sixty pitches, the 六十律, so that the small remainders could themselves be named and used. Sixty-four hexagrams on that chain sit close to his sixty, and the same 京房 is the name attached to the 卦气 calendar and the eight palaces that appear below as orderings. The fit is suggestive and nothing more; this note uses the chain as one ruler among three.</p>
+    </div>
+  </section>
+
+  <section class="section" id="catalogue">
+    <div class="section-head">
+      <div class="kicker">03 · The catalogue</div>
+      <div>
+        <h2>Every assignment, and what it lets you hear.</h2>
+        <p class="lede">One voice is built from two choices: how the lines weigh, and which ruler turns the weight into pitch. Two voices and six voices are built line by line. Each card opens the laboratory on that assignment.</p>
+      </div>
+    </div>
+    <div id="catBox"></div>
+  </section>
+
+  <section class="band" id="lab">
+    <div class="band-inner">
+      <div class="section-head">
+        <div class="kicker">04 · The laboratory</div>
+        <div>
+          <h2>Choose an assignment, choose a score, listen.</h2>
+          <p class="lede">The board shows every hexagram's sound under the current assignment. Tap any hexagram to strike it. The roll below draws the chosen ordering as it will be heard, and the readout places it among its shuffles.</p>
+        </div>
+      </div>
+      <div class="lab">
+        <div class="panel" id="ctlPanel">
+          <div class="h">Assignment</div>
+          <div class="ctl"><div class="t">Voices</div><div class="opts" id="optVoice"></div></div>
+          <div class="ctl" data-for="one"><div class="t">Line weights</div><div class="opts" id="optWeight"></div></div>
+          <div class="ctl" data-for="one"><div class="t">Ruler</div><div class="opts" id="optRuler"></div></div>
+          <div class="ctl" data-for="six"><div class="t">Six-voice tuning</div><div class="opts" id="optSix"></div></div>
+          <div class="ctl" data-for="one"><div class="t">Snap to a scale</div><div class="opts" id="optSnap"></div></div>
+          <div class="h" style="margin-top:1rem">Score and hearing</div>
+          <div class="ctl"><div class="t">Ordering</div><div class="opts" id="optScore"></div></div>
+          <div class="ctl" data-for="multi"><div class="t">Hearing</div><div class="opts" id="optHear"></div></div>
+          <div class="ctl"><div class="t">Pace</div><div class="opts" id="optPace"></div></div>
+          <div class="ctl"><div class="t">Between steps</div><div class="opts" id="optDamp"></div></div>
+        </div>
+        <div class="playrow"><button class="btn big" id="play" type="button">▶ Play the ordering</button><button class="btn big" id="pinBtn" type="button">☆ Keep this in my listening notes</button><span class="now" id="nowTxt"></span></div>
+        <div class="roll"><svg id="rollSvg" viewBox="0 0 980 280" role="img" aria-label="The chosen ordering drawn as pitch over time"></svg></div>
+        <div class="labgrid">
+          <div>
+            <div class="board12" id="board"></div>
+            <div class="listen-note" style="color:#bba79e" id="boardNote"></div>
+          </div>
+          <div class="readout">
+            <p class="say" id="say"></p>
+            <div class="stats" id="stats"></div>
+            <div class="listen-note" style="color:#bba79e">Resonance: mean consonance of every pair of pitches across neighbouring steps, 0 to 1. Against chance: the share of 300 shuffles of the same hexagrams that the real ordering beats.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="survey">
+    <div class="section-head">
+      <div class="kicker">05 · The survey</div>
+      <div>
+        <h2>Every assignment through every ordering.</h2>
+        <p class="lede">Each cell places a received ordering among three hundred shuffles of itself, under one assignment. Gold cells are orderings that beat at least 95 of every 100 shuffles. Tap a cell to load it in the laboratory and hear it.</p>
+      </div>
+    </div>
+    <div class="survey-wrap"><table class="survey" id="surveyTable"></table></div>
+    <div class="slegend"><span><i style="background:#f3e3d8"></i>low resonance</span><span><i style="background:#c98a68"></i>high resonance</span><span><i style="box-shadow:inset 0 0 0 2px #b58d46;background:#fcfaf7"></i>beats ≥ 95% of shuffles</span><span>numbers: percentile against chance</span></div>
+    <div class="measure" style="margin-top:1.6rem">
+      <p>Two cautions travel with the table. Some assignments make an ordering resonant by construction: weighting lines by their place in the 序卦 and then playing the 序卦 gives a rising chromatic scale, every step a semitone. Those rows are kept because the construction is itself worth hearing, and their percentiles should be read with that in mind. In the same way, orderings that change one line at a time, Gray, 先天 in long stretches, the palaces of 八宫 and the 消息 tide, keep five of six bells sounding from step to step, so under six voices they ring true almost by construction; the interesting cells there are the orderings that jump. The two-octave fold and the undertone series are left out of the table because the rating listens to intervals regardless of octave and direction: they score exactly as the chromatic ruler and the harmonic series do, though they sound different and are worth hearing in the laboratory. And the scale of consonance is one ear. A cell that is gold under it is a place to listen first, never a verdict.</p>
+      <p id="surveyFinding"></p>
+    </div>
+  </section>
+
+  <section class="section" id="notes">
+    <div class="section-head">
+      <div class="kicker">06 · Listening notes</div>
+      <div>
+        <h2>What your ear keeps.</h2>
+        <p class="lede">Anything kept from the laboratory appears here with room for a note. The notes stay in this browser. The box at the end gathers them as plain text, to copy out and bring back to the conversation.</p>
+      </div>
+    </div>
+    <div class="pins" id="pins"></div>
+    <textarea class="export" id="exportBox" readonly aria-label="All listening notes as text"></textarea>
+    <div class="listenfor">
+      <article><h3>Return</h3><p>Does a phrase come back? An ordering that revisits a pitch region after wandering gives the ear a home. The 卦气 year and the 消息 tide are built to return; listen for whether the assignment lets that be heard.</p></article>
+      <article><h3>Cadence</h3><p>Where does motion come to rest? In the couplets of the 序卦 the second hexagram often answers the first. Under some assignments the answer is a fall of a fifth, under others a leap, under others a repeated note.</p></article>
+      <article><h3>Distance</h3><p>A single moving line can be a semitone or two octaves, depending on which line it is and how the lines weigh. Listen to whether the size of a change matches its weight in the reading.</p></article>
+      <article><h3>Grain</h3><p>Some assignments make every hexagram distinct; others let many share one sound. When hexagrams collide, the ordering becomes a smaller tune in a larger cycle. Listen for which collisions feel like kinship.</p></article>
+    </div>
+  </section>
+
+  <section class="section" id="wonder">
+    <div class="section-head">
+      <div class="kicker">07 · Still wondering</div>
+      <div><h2>Open as the laboratory is left.</h2></div>
+    </div>
+    <div class="wonder">
+      <article><div class="tag">Wondering</div><h3>京房's two instruments</h3><p>The same name is attached to the sixty pitches, the 卦气 calendar and the eight palaces. Whether these were ever heard together, a calendar of hexagrams sounding on a chain of sixty fifths, is a question for the texts. The laboratory can at least play what that would sound like.</p></article>
+      <article><div class="tag">Wondering</div><h3>The bottom line or the top</h3><p>Weighting the bottom line finest reads a hexagram from its root; weighting the top finest reads it from its crown. The survey lets the two be compared through every ordering. If one consistently rings truer, it says something about where the tradition places the slow and the quick.</p></article>
+      <article><div class="tag">Wondering</div><h3>A tuning per ordering</h3><p>Perhaps no single assignment serves every score. The 卦气 year may want the chain of fifths, the 序卦 the harmonic series, a life on bamboo the six bells. If the ear lands there, the finding is that the orders were made for different instruments.</p></article>
+    </div>
+
+    <details>
+      <summary>Sources and method</summary>
+      <div class="sources">
+        <div class="source"><b>《吕氏春秋 · 音律》</b>The rule of 三分损益, generating the twelve pipes by alternately adding and removing a third of the length.</div>
+        <div class="source"><b>京房六十律</b>Recorded in the 律历志 of the 后汉书: the chain of fifths extended to sixty pitches. Used here as the third ruler, by analogy.</div>
+        <div class="source"><b>京房 八宫</b>Eight palaces of eight: the pure hexagram, five generations changing one line upward at a time, the wandering soul and the returning soul. Generated by rule here.</div>
+        <div class="source"><b>卦气</b>The year of sixty hexagrams from 中孚 at 冬至, as in note 09.</div>
+        <div class="source"><b>郑玄 爻辰</b>Lines assigned to the twelve pipes, the source of the whole-tone line bells used in notes 08–11.</div>
+        <div class="source"><b>Baoshan and 左传 casts</b>As in notes 11 and 09: each cast heard as its first hexagram followed by its second.</div>
+        <div class="source"><b>Consonance scale</b>Interval classes 0–6 rated 1, 0, 0.3, 0.7, 0.75, 0.9, 0.05, as in note 10. Pitches off the twelve notes are rounded to the nearest semitone for rating only; they sound unrounded.</div>
+        <div class="source"><b>Method</b>Resonance is the mean rating over all pairs of pitches in the union of each pair of neighbouring steps. The percentile compares the real ordering with 300 random shuffles of its own steps, using a fixed random seed so the table is the same on every visit.</div>
+      </div>
+    </details>
+
+    <a class="next" href="yi-11-life-on-bamboo.html">
+      <div><div class="label">Previous · Field note</div><h3>竹 A life on bamboo</h3></div><div class="arrow">←</div>
+    </a>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div><strong>易 Yi · 12 · Tuning the Sixty-four</strong><br>调 · field note and laboratory on assignment</div>
+    <div>Lin Wei 林威 — conceptual direction<br>with Claude<br>October 2026</div>
+  </div>
+</footer>
+
+<nav class="yinav"><div class="in">
+  <div class="yinav-lab">12 · the listening continues</div>
+  <div class="yinav-pair">
+    <a href="yi-11-life-on-bamboo.html"><span class="dir">Previous</span><span class="ttl">←  A life on bamboo</span></a>
+    <div class="void"><span class="dir">Next</span><span class="ttl">— another tuning</span></div>
+  </div>
+  <div class="yinav-rail">
+    <span class="yinav-grp">the argument ›</span>
+    <a href="yi-00-inheritance.html"><span class="g">序</span>00 Inheritance</a>
+    <a href="yi-01-state-space.html"><span class="g">一</span>01 State space</a>
+    <a href="yi-02-motion.html"><span class="g">二</span>02 Motion</a>
+    <a href="yi-03-forces.html"><span class="g">三</span>03 Forces</a>
+    <span class="yinav-grp">the instruments ›</span>
+    <a href="yi-04-instrument.html"><span class="g">儀</span>04 Double cube</a>
+    <a href="yi-05-lantern.html"><span class="g">灯</span>05 Lantern</a>
+    <a href="yi-06-loom.html"><span class="g">織</span>06 Loom</a>
+    <a class="comp" href="yi-lantern-thinking.html"><span class="g">灯</span>— Companion</a>
+    <span class="yinav-grp">the listening ›</span>
+    <a href="yi-07-field-and-song.html"><span class="g">律</span>07 Field &amp; song</a>
+    <a href="yi-08-four-voices.html"><span class="g">九六</span>08 Four voices</a>
+    <a href="yi-09-held-notes.html"><span class="g">时</span>09 Held notes</a>
+    <a href="yi-10-consonance-couplets.html"><span class="g">和</span>10 Couplets</a>
+    <a href="yi-11-life-on-bamboo.html"><span class="g">竹</span>11 A life on bamboo</a>
+    <span class="here"><span class="g">调</span>12 Tuning</span>
+    <a class="comp" href="yi-bells-companion.html"><span class="g">钟</span>— Bells</a>
+  </div>
+  <div class="yinav-lab" style="margin:26px 0 0;opacity:.85">Lin Wei 林威 · with Claude and ChatGPT, and light touches of DeepSeek</div>
+  <a class="yinav-home" href="../../index.html">The whole 易 Yi sequence on the polymathic learner →</a>
+</div></nav>
+
+<script>
+/* YiAudio — one shared sound engine for the listening chapters: bronze chime-bells after the 曾侯乙编钟.
+   Voiced from two sets of recorded strikes: excavated Zhou hand-bells (考古汇), and the lower tier of a 曾侯乙编钟
+   replica struck with poles in performance. Each strike starts at once with a knock and a bright flash of high modes, then a bronze clang (partials near 2.2, 2.4, 2.45, 3.15,
+   3.45 and 4.5 times the fundamental), a side-tone a minor third up, and a fundamental that blooms 0.1–0.2 s after
+   the strike and hums on: seconds for a small bell, 15–25 s for a great one. No beating pairs: the hum is steady.
+   One playback at a time: starting anything stops whatever is sounding, and Stop silences at once.
+   Single strikes from the bell rack share one free-play channel, so they ring together like a struck set. */
+window.YiAudio=(function(){
+  var ctx=null,out=null,bus=null,tag=null,nodes=[],onStop=null,noiseBuf=null,pending=[],pump=null,ringing={};
+  function init(){
+    if(!ctx){
+      ctx=new(window.AudioContext||window.webkitAudioContext)();
+      out=ctx.createGain();out.gain.value=0.7;
+      var comp=ctx.createDynamicsCompressor();comp.threshold.value=-18;comp.ratio.value=2.5;comp.attack.value=0.02;comp.release.value=0.4;
+      // a stone hall: 5 s tail, darker as it fades, with a short pre-delay
+      var sr=ctx.sampleRate,len=Math.floor(sr*5),ir=ctx.createBuffer(2,len,sr);
+      for(var c=0;c<2;c++){var d=ir.getChannelData(c),lp=0;
+        for(var i=0;i<len;i++){var u=i/len,k=0.55-0.47*u;lp=lp+k*((Math.random()*2-1)-lp);d[i]=(i<sr*0.022?0:lp*Math.pow(1-u,2.6));}}
+      var conv=ctx.createConvolver();conv.buffer=ir;
+      var wl=ctx.createBiquadFilter();wl.type="lowpass";wl.frequency.value=3200;
+      var wet=ctx.createGain();wet.gain.value=0.36;
+      out.connect(comp);out.connect(wl);wl.connect(conv);conv.connect(wet);wet.connect(comp);comp.connect(ctx.destination);
+      noiseBuf=ctx.createBuffer(1,Math.floor(sr*0.006),sr);var nd=noiseBuf.getChannelData(0);nd[0]=1;nd[1]=-0.6;for(var j=2;j<nd.length;j++)nd[j]=(Math.random()*2-1)*0.5*Math.exp(-j/(sr*0.0007));
+    }
+    if(ctx.state==="suspended"&&ctx.resume){try{var p=ctx.resume();if(p&&p.catch)p.catch(function(){});}catch(e){}}
+    return ctx;
+  }
+  function stop(){
+    if(bus&&ctx){var b=bus,t=ctx.currentTime;
+      try{b.gain.cancelScheduledValues(t);b.gain.setValueAtTime(b.gain.value,t);b.gain.linearRampToValueAtTime(0,t+0.12);}catch(e){}
+      nodes.forEach(function(n){try{n.stop(t+0.15);}catch(e){}});
+      setTimeout(function(){try{b.disconnect();}catch(e){}},400);}
+    bus=null;tag=null;nodes=[];pending=[];ringing={};if(pump){clearInterval(pump);pump=null;}
+    var cb=onStop;onStop=null;if(cb)cb();
+  }
+  function begin(cb,t){
+    try{init();}catch(e){return null;}
+    if(t==="free"&&tag==="free"&&bus)return ctx;     // single strikes ring on together
+    stop();
+    bus=ctx.createGain();bus.gain.value=1;bus.connect(out);onStop=cb||null;tag=t||"song";
+    return ctx;
+  }
+  // [ratio, level, decay as a share of the fundamental's ring, attack]
+  var PARTS=[[1,1,1,"bloom"],[1.2,0.13,0.6,"side"],[2.22,0.34,0.16,"fast"],[2.4,0.42,0.15,"fast"],[2.46,0.2,0.13,"fast"],[3.15,0.2,0.12,"fast"],[3.45,0.13,0.11,"fast"],[4.5,0.09,0.1,"fast"],
+             [5.3,0.12,0.06,"ping"],[6.1,0.09,0.05,"ping"],[7.2,0.07,0.04,"ping"],[8.4,0.05,0.035,"ping"]];   // the high modes that make the strike
+  function flush(){ if(!ctx)return; var lim=ctx.currentTime+0.6,keep=[];
+    pending.forEach(function(p){ if(p[0]<lim) p[1](); else keep.push(p); });
+    pending=keep; if(!pending.length&&pump){clearInterval(pump);pump=null;} }
+  function later(when,fn){ if(when>ctx.currentTime+0.6){ pending.push([when,fn]); if(!pump)pump=setInterval(flush,120); } else fn(); }
+  function bell(f,when,dur,gain){
+    if(!bus)return;
+    later(when,function(){strikeNow(f,when,dur,gain);});
+  }
+  // a hand laid on the bronze: everything ringing at `when` fades over about tau seconds
+  function damp(when,tau){
+    if(!bus)return;
+    later(when,function(){ Object.keys(ringing).forEach(function(k){ ringing[k].forEach(function(v){
+      try{v[1].gain.setTargetAtTime(0.0001,when,(tau||0.8)/3);}catch(e){} }); }); });
+  }
+  function strikeNow(f,when,dur,gain){
+    if(!bus)return;
+    // Ring time, from two sets of recorded strikes: about 3.5 s for a hand-bell near 1 kHz; the great bells of the
+    // Zeng set's lower tier, near 100–350 Hz, still sound 15–25 s after the pole strikes them.
+    var T=Math.max(3,Math.min(24,3.5*Math.pow(1000/f,1.2)));
+    var big=Math.min(2.6,Math.pow(1000/f,0.6));             // and their clang lingers longer too
+    var bloom=Math.min(0.2,Math.max(0.07,0.12*Math.pow(500/f,0.4)));
+    var key=Math.round(f*4), mine=[];
+    (ringing[key]||[]).forEach(function(v){                  // striking a bell again damps its earlier ring
+      try{v[1].gain.setTargetAtTime(0.0001,when,0.05);v[0].stop(when+0.4);}catch(e){} });
+    PARTS.forEach(function(p){
+      var fp=f*p[0]; if(fp>11000)return;
+      var o=ctx.createOscillator(),g=ctx.createGain(),Tp=T*p[2];
+      if(p[3]==="fast")Tp=Math.min(12,Tp*big);
+      if(p[3]==="ping")Tp=Math.min(0.5,Math.max(0.08,Tp*big));
+      o.type="sine";o.frequency.value=fp;
+      var a=gain*p[1]*(p[3]==="bloom"?0.62:0.5);
+      // the strike is instant: every mode starts at once, within a millisecond, as in the recordings
+      g.gain.setValueAtTime(0.0001,when);
+      if(p[3]==="bloom"){ g.gain.linearRampToValueAtTime(a*0.6,when+0.001); g.gain.linearRampToValueAtTime(a,when+bloom); g.gain.setTargetAtTime(0.0001,when+bloom,T/6.9); }
+      else { g.gain.linearRampToValueAtTime(a,when+0.0008); g.gain.setTargetAtTime(0.0001,when+0.0008,Tp/6.9); }
+      o.connect(g);g.connect(bus);o.start(when);o.stop(when+(p[3]==="bloom"?T:Tp)+0.3);nodes.push(o);mine.push([o,g]);
+    });
+    ringing[key]=mine;
+    var n=ctx.createBufferSource(),bp=ctx.createBiquadFilter(),ng=ctx.createGain();   // the knock of mallet or pole: a click of a few ms
+    n.buffer=noiseBuf;bp.type="lowpass";bp.frequency.value=Math.max(1800,Math.min(7000,f*6));bp.Q.value=0.5;ng.gain.value=gain*0.55;
+    n.connect(bp);bp.connect(ng);ng.connect(bus);n.start(when);nodes.push(n);
+  }
+  // a note: strike f0; if the voice turns (f1), strike the bell again on its new tone at glideAt
+  function note(f0,f1,when,dur,gain,glideAt){
+    if(!bus)return;
+    bell(f0,when,dur,gain);
+    if(f1&&f1!==f0){bell(f1,when+dur*(glideAt==null?0.6:glideAt),dur*(1-(glideAt==null?0.6:glideAt))+0.8,gain*0.8);}
+  }
+  function strike(f,gain){ if(!begin(null,"free"))return; bell(f,ctx.currentTime+0.01,null,gain||0.3); }
+  return{begin:begin,stop:stop,note:note,bell:bell,strike:strike,damp:damp,now:function(){return ctx?ctx.currentTime:0;},playing:function(){return !!bus&&tag!=="free";}};
+})();
+</script>
+<script>
+(function(){
+  var NS="http://www.w3.org/2000/svg";
+  function el(t,a,p){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;}
+  function txt(p,x,y,s,a){var t=el("text",Object.assign({x:x,y:y},a||{}),p);t.textContent=s;return t;}
+  function $(id){return document.getElementById(id);}
+
+  // ── hexagrams: bit i = line i+1 from the bottom, 1 = yang
+  var TRI={乾:7,兑:3,离:5,震:1,巽:6,坎:2,艮:4,坤:0},ORDER=["乾","兑","离","震","巽","坎","艮","坤"];
+  var NAMES={乾:["乾","履","同人","无妄","姤","讼","遁","否"],兑:["夬","兑","革","随","大过","困","咸","萃"],离:["大有","睽","离","噬嗑","鼎","未济","旅","晋"],震:["大壮","归妹","丰","震","恒","解","小过","豫"],巽:["小畜","中孚","家人","益","巽","涣","渐","观"],坎:["需","节","既济","屯","井","坎","蹇","比"],艮:["大畜","损","贲","颐","蛊","蒙","艮","剥"],坤:["泰","临","明夷","复","升","师","谦","坤"]};
+  var NAME=[],H={};ORDER.forEach(function(u){ORDER.forEach(function(l,j){var x=TRI[l]+8*TRI[u];NAME[x]=NAMES[u][j];H[NAMES[u][j]]=x;});});
+  function seqOf(s){return s.split(" ").map(function(n){if(!(n in H))throw new Error("unknown "+n);return H[n];});}
+  var KW=seqOf("乾 坤 屯 蒙 需 讼 师 比 小畜 履 泰 否 同人 大有 谦 豫 随 蛊 临 观 噬嗑 贲 剥 复 无妄 大畜 颐 大过 坎 离 咸 恒 遁 大壮 晋 明夷 家人 睽 蹇 解 损 益 夬 姤 萃 升 困 井 革 鼎 震 艮 渐 归妹 丰 旅 巽 兑 涣 节 中孚 小过 既济 未济");
+  var GQ=seqOf("中孚 复 屯 谦 睽 升 临 小过 蒙 益 渐 泰 需 随 晋 解 大壮 豫 讼 蛊 革 夬 旅 师 比 小畜 乾 大有 家人 井 咸 姤 鼎 丰 涣 履 遁 恒 节 同人 损 否 巽 萃 大畜 贲 观 归妹 无妄 明夷 困 剥 艮 既济 噬嗑 大过 坤 未济 蹇 颐");
+  var XX=seqOf("复 临 泰 大壮 夬 乾 姤 遁 否 观 剥 坤");
+  // 先天: 乾 to 坤, counting down with the bottom line most significant
+  var XT=[];for(var v=63;v>=0;v--){var h=0;for(var i=0;i<6;i++)if((v>>(5-i))&1)h|=1<<i;XT.push(h);}
+  // Gray: one line changes at each step, the bottom line fastest
+  var GRAY=[];for(var g=0;g<64;g++)GRAY.push(g^(g>>1));
+  // 京房 八宫: pure hexagram, five generations, wandering soul, returning soul
+  var JF=[];["乾","震","坎","艮","坤","巽","离","兑"].forEach(function(p){var b=TRI[p]*9,x=b;JF.push(x);
+    for(var i=0;i<5;i++){x^=1<<i;JF.push(x);} var you=x^(1<<3);JF.push(you); JF.push((you&56)|(b&7));});
+  var ZZ=seqOf("观 否 屯 比 大有 乾 归妹 睽 蛊 蛊 大有 睽 屯 豫 乾 否 复 复 艮 随 困 大过 明夷 谦 屯 比 坤 比 泰 需");
+  function bits(s){var b=0;for(var i=0;i<6;i++){if(s[5-i]==="1")b|=1<<i;}return b;}
+  var BS=["661666","611611","166811","666811","166116","165866","611661","161161","166861","111661","661118","816111"].map(bits);
+  var SCORES=[
+    {id:"kw",name:"序卦",long:"The received order, 乾 to 未济",seq:KW},
+    {id:"gq",name:"卦气 year",long:"Sixty hexagrams from 中孚 at the winter solstice",seq:GQ},
+    {id:"jf",name:"京房 八宫",long:"Eight palaces of eight",seq:JF},
+    {id:"xt",name:"先天",long:"乾 to 坤 in binary descent",seq:XT},
+    {id:"gr",name:"Gray",long:"One line changing at every step",seq:GRAY},
+    {id:"xx",name:"消息 tide ×2",long:"The twelve sovereign hexagrams, two years",seq:XX.concat(XX)},
+    {id:"zz",name:"左传 casts",long:"Fifteen casts, each 本卦 then 之卦",seq:ZZ},
+    {id:"bs",name:"Baoshan",long:"Six casts for 邵𬊤, each first then second",seq:BS}
+  ];
+
+  // ── line weights for one voice: each returns a step number for hexagram h
+  var KWI=[],JFI=[],GRI=[];KW.forEach(function(h,i){KWI[h]=i;});JF.forEach(function(h,i){JFI[h]=i;});GRAY.forEach(function(h,i){GRI[h]=i;});
+  function pop(h){var c=0;while(h){c+=h&1;h>>=1;}return c;}
+  var WEIGHTS=[
+    {id:"lo",name:"Binary · root finest",f:function(h){return h;},
+     d:"Line 1 is worth one step, line 2 two, line 3 four, up to line 6 worth thirty-two. 坤 is the lowest, 乾 the highest. Changing the bottom line moves the pitch least.",
+     hear:"Neighbours that differ only in their lower lines sit close together; the upper trigram sets the register."},
+    {id:"hi",name:"Binary · crown finest",f:function(h){var n=0;for(var i=0;i<6;i++)if(h>>i&1)n+=1<<(5-i);return n;},
+     d:"The reverse: line 6 is worth one step and line 1 thirty-two. This is the weighting of the 先天 sequence, which counts from the bottom line as the most significant.",
+     hear:"The lower trigram sets the register and the upper lines ornament it."},
+    {id:"gray",name:"Gray rank",f:function(h){return GRI[h];},
+     d:"The hexagram's position in the Gray sequence, where each step changes a single line. Steps on this ruler follow the path of least change.",
+     hear:"An ordering built from single-line changes moves mostly by small steps."},
+    {id:"kwr",name:"序卦 rank",f:function(h){return KWI[h];},
+     d:"The hexagram's number in the received order, minus one. 乾 is the lowest, 未济 the highest.",
+     hear:"Played in the 序卦, a rising scale; in any other order, a picture of how that order cuts across the received one."},
+    {id:"jfr",name:"八宫 rank",f:function(h){return JFI[h];},
+     d:"The hexagram's place in 京房's eight palaces: palace by palace, generation by generation.",
+     hear:"Each palace becomes a register; the souls that wander and return are its highest notes."},
+    {id:"yang",name:"Count of yang",f:function(h){return pop(h);},
+     d:"Only the number of yang lines counts, from 0 to 6. Sixty-four hexagrams share seven sounds.",
+     hear:"The tide of yang rising and falling, with every other distinction gone."}
+  ];
+  var C2=65.40639,G1=48.99943,C3=130.8128;
+  var RULERS=[
+    {id:"chr",name:"Chromatic",d:"One step is one semitone, from C2. Logarithmic: every step multiplies the frequency by the same ratio.",f:function(n){return C2*Math.pow(2,n/12);}},
+    {id:"fold",name:"Chromatic · two octaves",d:"One step is one semitone, folded into two octaves from C3. Hexagrams 24 steps apart share a pitch.",f:function(n){return C3*Math.pow(2,(n%24)/12);}},
+    {id:"harm",name:"Harmonic series",d:"Step n is the (n+1)th harmonic of G1. Linear in frequency: low steps are wide, high steps crowd together. Every pitch is a whole-number ratio of every other.",f:function(n){return G1*(n+1);}},
+    {id:"under",name:"Undertone series",d:"The mirror: step n divides a high G7 by n+1. Wide at the top, crowded below.",f:function(n){return G1*64/(n+1);}},
+    {id:"fifth",name:"Chain of fifths",d:"Step n is n pure fifths above C3, folded into two octaves: 三分损益 carried past twelve, as 京房 did to sixty.",f:function(n){var c=(n*701.955)%2400;return C3*Math.pow(2,c/1200);}}
+  ];
+  // ── six voices: each returns, for line i (0–5) and yang/yin, a frequency or null (silent)
+  var WT=[1,9/8,81/64,729/512,6561/4096,59049/32768],G3=196;
+  var PENT=[0,2,4,7,9,12];
+  var SIX=[
+    {id:"yc",name:"爻辰 bells · yin at the side",d:"Notes 08–11: lines rise by whole tones from G3 after 郑玄's 爻辰, the upper three an octave higher; yang strikes the face, yin the side a minor third up.",f:function(i,y){var f=G3*WT[i]*(i>=3?2:1);return y?f:f*6/5;}},
+    {id:"ycs",name:"爻辰 bells · yin silent",d:"The same bells, but only yang lines sound. A hexagram becomes the set of its strong lines.",f:function(i,y){return y?G3*WT[i]*(i>=3?2:1):null;}},
+    {id:"pent",name:"宫商角徵羽 · yin silent",d:"As in note 07: lines 1–6 on 宫 商 角 徵 羽 and the upper 宫, from C4. Yang sounds; yin rests.",f:function(i,y){return y?261.63*Math.pow(2,PENT[i]/12):null;}},
+    {id:"pents",name:"宫商角徵羽 · yin at the side",d:"The pentatonic lines, with yin struck at the side a minor third above.",f:function(i,y){var f=261.63*Math.pow(2,PENT[i]/12);return y?f:f*6/5;}},
+    {id:"ovt",name:"Overtones 4–9 · yin silent",d:"Line i is the (i+4)th harmonic of C2: C4 E4 G4 B♭4 C5 D5. Whatever lines are yang, the chord is part of one natural series.",f:function(i,y){return y?C2*(i+4):null;}},
+    {id:"pair",name:"Harmonic pairs",d:"Every line sounds. Yang takes an even harmonic of C2, yin the odd harmonic just below it: 4 or 3, 6 or 5, 8 or 7, up to 14 or 13.",f:function(i,y){var k=2*(i+2);return C2*(y?k:k-1);}},
+    {id:"ying",name:"应 in octaves",d:"Lines 1–3 are 宫 角 徵 from C3; lines 4–6 repeat them an octave higher, so each line and its 应 partner share a pitch class. Yang at the face, yin at the side.",f:function(i,y){var f=C3*Math.pow(2,[0,4,7][i%3]/12)*(i>=3?2:1);return y?f:f*6/5;}},
+    {id:"clu",name:"Chromatic cluster",d:"A reference for tension: line i is i semitones above C4, yang only. Any two neighbouring yang lines rub.",f:function(i,y){return y?261.63*Math.pow(2,i/12):null;}}
+  ];
+  var TWO={id:"tri",name:"Two voices · trigram and trigram",d:"The lower trigram chooses one of eight notes of the pentatonic from C3, the upper trigram one of eight from C4, each by the trigram's value with its bottom line finest. A hexagram is a dyad, a pair of voices.",
+    f:function(h){var P=[0,2,4,7,9,12,14,16];return [C3*Math.pow(2,P[h&7]/12),C3*2*Math.pow(2,P[h>>3]/12)];}};
+  var SNAPS=[{id:"none",name:"None",set:null},{id:"pent",name:"五声 pentatonic",set:[0,2,4,7,9]},{id:"hept",name:"七声 heptatonic",set:[0,2,4,5,7,9,11]}];
+
+  // ── state
+  var S={voice:"one",w:"lo",r:"chr",six:"yc",snap:"none",score:"kw",hear:"melody",pace:1,damp:"ring"};
+  try{var saved=JSON.parse(localStorage.getItem("yi12-state")||"null");if(saved)Object.keys(S).forEach(function(k){if(saved[k]!=null)S[k]=saved[k];});}catch(e){}
+  function save(){try{localStorage.setItem("yi12-state",JSON.stringify(S));}catch(e){}}
+
+  function semis(f){return 12*Math.log(f/C2)/Math.LN2;}
+  function snapF(f,set){if(!set)return f;var s=semis(f),o=Math.floor(s/12),best=null,bd=99;
+    for(var k=-1;k<=1;k++)set.forEach(function(p){var c=(o+k)*12+p,d=Math.abs(c-s);if(d<bd){bd=d;best=c;}});return C2*Math.pow(2,best/12);}
+  // the sound of hexagram h under assignment a: a list of [line or -1, frequency]
+  function voicesOf(h,a){
+    a=a||S;
+    if(a.voice==="one"){var w=WEIGHTS.filter(function(x){return x.id===a.w;})[0],r=RULERS.filter(function(x){return x.id===a.r;})[0];
+      var f=r.f(w.f(h));if(a.snap&&a.snap!=="none")f=snapF(f,SNAPS.filter(function(x){return x.id===a.snap;})[0].set);return [[-1,f]];}
+    if(a.voice==="two"){var p=TWO.f(h);return [[0,p[0]],[3,p[1]]];}
+    var sx=SIX.filter(function(x){return x.id===a.six;})[0],out=[];
+    for(var i=0;i<6;i++){var ff=sx.f(i,(h>>i)&1);if(ff)out.push([i,ff]);}return out;
+  }
+  // consonance of interval classes 0–6, as in note 10
+  var CONS=[1,0,0.3,0.7,0.75,0.9,0.05];
+  // A and B are lists of pitches in semitones
+  function joinS(A,B){var all=A.concat(B),s=0,n=0;
+    for(var i=0;i<all.length;i++)for(var j=i+1;j<all.length;j++){var d=Math.round(Math.abs(all[i]-all[j]))%12;if(d>6)d=12-d;s+=CONS[d];n++;}return n?s/n:1;}
+  function joinCons(A,B){return joinS(A.map(semis),B.map(semis));}
+  function table(a){var V=[],M=[];for(var h=0;h<64;h++)V[h]=voicesOf(h,a).map(function(v){return semis(v[1]);});
+    for(var x=0;x<64;x++){M[x]=new Float32Array(64);for(var y=0;y<64;y++)M[x][y]=joinS(V[x],V[y]);}return M;}
+  function reson(M,seq){var s=0;for(var t=1;t<seq.length;t++)s+=M[seq[t-1]][seq[t]];return s/(seq.length-1);}
+  function rng(seed){return function(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};}
+  function percentile(M,seq,N){var real=reson(M,seq),r=rng(12345),beat=0,a=seq.slice();
+    for(var k=0;k<N;k++){for(var i=a.length-1;i>0;i--){var j=Math.floor(r()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}if(reson(M,a)<real)beat++;}
+    return {real:real,pct:Math.round(100*beat/N)};}
+
+  // ── describe
+  function curName(a){a=a||S;if(a.voice==="one"){var w=WEIGHTS.filter(function(x){return x.id===a.w;})[0],r=RULERS.filter(function(x){return x.id===a.r;})[0];return w.name+" · "+r.name+(a.snap&&a.snap!=="none"?" · snapped to "+SNAPS.filter(function(x){return x.id===a.snap;})[0].name:"");}
+    if(a.voice==="two")return TWO.name;return "Six voices · "+SIX.filter(function(x){return x.id===a.six;})[0].name;}
+  function score(){return SCORES.filter(function(x){return x.id===S.score;})[0];}
+  var NN=["C","C♯","D","E♭","E","F","F♯","G","A♭","A","B♭","B"];
+  function noteName(f){var s=semis(f)+24,r=Math.round(s),c=Math.round((s-r)*100);return NN[((r%12)+12)%12]+(Math.floor(r/12))+(Math.abs(c)>=6?(c>0?"+":"−")+Math.abs(c)+"¢":"");}
+
+  // ── three ways (figures)
+  (function(){var box=$("waysBox");
+    var items=[
+      ["One voice","The hexagram as a single number","Its six lines are read as one value, and the value becomes one pitch. An ordering of hexagrams becomes a melody of single notes. Which lines weigh most, and on which ruler, are the two choices."],
+      ["Two voices","The hexagram as two trigrams","The lower and upper trigram each choose a note. An ordering becomes two voices moving against each other, the inner and outer, 内 and 外."],
+      ["Six voices","The hexagram as six bells","Each line is a bell, and yin and yang choose how it sounds or whether it sounds. An ordering becomes a sequence of chords, heard together, line by line, or only where lines change."]];
+    items.forEach(function(it,k){var a=document.createElement("article");a.className="way";
+      var s=el("svg",{viewBox:"0 0 240 120","aria-hidden":"true"});
+      var hx=0b101101;for(var i=0;i<6;i++){var y=100-i*14;if(hx>>i&1)el("rect",{x:18,y:y-3,width:54,height:6,fill:"#5b2a1b"},s);else{el("rect",{x:18,y:y-3,width:23,height:6,fill:"#5b2a1b"},s);el("rect",{x:49,y:y-3,width:23,height:6,fill:"#5b2a1b"},s);}}
+      el("path",{d:"M84 60 L104 60",stroke:"#a6553a","stroke-width":1.5,"marker-end":""},s);txt(s,94,54,"→",{"text-anchor":"middle","font-size":14,fill:"#a6553a"});
+      if(k===0){el("circle",{cx:170,cy:58,r:14,fill:"#a6553a"},s);txt(s,170,96,"one pitch",{"text-anchor":"middle","font-family":"Space Mono, monospace","font-size":10,fill:"#7d6d65"});el("line",{x1:72,y1:30,x2:150,y2:56,stroke:"#d8c3b8"},s);el("line",{x1:72,y1:100,x2:150,y2:62,stroke:"#d8c3b8"},s);}
+      if(k===1){el("rect",{x:14,y:62,width:62,height:44,fill:"none",stroke:"#3f756b","stroke-dasharray":"3 3"},s);el("rect",{x:14,y:20,width:62,height:42,fill:"none",stroke:"#b58d46","stroke-dasharray":"3 3"},s);
+        el("circle",{cx:170,cy:40,r:11,fill:"#b58d46"},s);el("circle",{cx:170,cy:84,r:11,fill:"#3f756b"},s);txt(s,196,44,"外",{"font-family":"Noto Serif SC, serif","font-size":13,fill:"#7d6d65"});txt(s,196,88,"内",{"font-family":"Noto Serif SC, serif","font-size":13,fill:"#7d6d65"});}
+      if(k===2){for(var j=0;j<6;j++){var yy=100-j*14,on=hx>>j&1;el("circle",{cx:150+j*14,cy:yy,r:5.5,fill:on?"#5b2a1b":"#fcfaf7",stroke:"#5b2a1b"},s);el("line",{x1:74,y1:yy,x2:142,y2:yy,stroke:"#eadfd8"},s);}}
+      a.appendChild(s);a.insertAdjacentHTML("beforeend","<div class='n'>"+["I","II","III"][k]+" · "+it[0]+"</div><h3>"+it[1]+"</h3><p>"+it[2]+"</p>");box.appendChild(a);});
+  })();
+
+  // ── rulers figure
+  (function(){var s=$("rulerSvg"),x0=110,x1=960,lo=semis(32.7),hi=semis(4186);
+    function X(f){return x0+(semis(f)-lo)/(hi-lo)*(x1-x0);}
+    for(var o=1;o<=8;o++){var x=X(32.7*Math.pow(2,o-1));el("line",{x1:x,y1:20,x2:x,y2:270,stroke:"rgba(91,42,27,.12)"},s);txt(s,x,288,"C"+o,{"text-anchor":"middle","font-family":"Space Mono, monospace","font-size":10,fill:"#7d6d65"});}
+    var zl=X(65.41),zh=X(2349.3);el("rect",{x:zl,y:30,width:zh-zl,height:6,fill:"#b58d46",opacity:.55},s);txt(s,zl,24,"曾侯乙 bells · C2–D7",{"font-family":"Space Mono, monospace","font-size":9,fill:"#9a7226"});
+    [["Chromatic",function(n){return C2*Math.pow(2,n/12);},75,"#a6553a"],["Harmonic",function(n){return G1*(n+1);},150,"#3f756b"],["Chain of fifths",function(n){return C3*Math.pow(2,((n*701.955)%2400)/1200);},225,"#5b2a1b"]].forEach(function(r){
+      txt(s,8,r[2]+4,r[0].toUpperCase(),{"font-family":"Space Mono, monospace","font-size":9.5,fill:r[3]});
+      el("line",{x1:x0,y1:r[2],x2:x1,y2:r[2],stroke:"rgba(91,42,27,.15)"},s);
+      for(var n=0;n<64;n++){var f=r[1](n),x=X(f),hgt=r[0]==="Chain of fifths"?6+(Math.floor(n/12))*4:14;el("line",{x1:x,y1:r[2]-hgt,x2:x,y2:r[2]+hgt,stroke:r[3],"stroke-width":n===0||n===63?2.4:1,opacity:n===0||n===63?1:.75},s);}
+      var f0=r[1](0),f63=r[1](63);txt(s,X(f0),r[2]+30,"坤",{"text-anchor":"middle","font-family":"Noto Serif SC, serif","font-size":11,fill:r[3]});txt(s,X(f63),r[2]+30,"乾",{"text-anchor":"middle","font-family":"Noto Serif SC, serif","font-size":11,fill:r[3]});});
+    txt(s,x1,258,"FIFTHS: LONGER MARKS ARE LATER ROUNDS OF TWELVE, DRIFTING BY THE COMMA",{"text-anchor":"end","font-family":"Space Mono, monospace","font-size":8.5,fill:"#a99087"});
+  })();
+
+  // ── catalogue
+  function catCard(cls,id,name,d,hear,assign){var a=document.createElement("article");a.className="card12 "+cls;
+    a.innerHTML="<div class='id'>"+id+"</div><h3>"+name+"</h3><p>"+d+"</p>"+(hear?"<p class='hear'>"+hear+"</p>":"");
+    var b=document.createElement("button");b.className="lbtn";b.type="button";b.textContent="Open in the laboratory";b.addEventListener("click",function(){Object.assign(S,assign);sync();location.hash="#lab";document.getElementById("lab").scrollIntoView({behavior:"smooth"});});a.appendChild(b);return a;}
+  (function(){var box=$("catBox");
+    function group(k,title,lede,cards){var g=document.createElement("div");g.className="cat-group";g.innerHTML="<div class='kicker'>"+k+"</div><h3>"+title+"</h3><p class='measure' style='font-size:.95rem;color:#56463e'>"+lede+"</p>";var c=document.createElement("div");c.className="cat";cards.forEach(function(x){c.appendChild(x);});g.appendChild(c);box.appendChild(g);}
+    group("One voice · how the lines weigh","Six weightings","Each turns a hexagram into a step number. The ruler below then turns the number into pitch.",
+      WEIGHTS.map(function(w,i){return catCard("w","W"+(i+1),w.name,w.d,w.hear,{voice:"one",w:w.id});}));
+    group("One voice · which ruler","Five rulers","Each turns a step number into a frequency. Three are logarithmic, two linear.",
+      RULERS.map(function(r,i){return catCard("r","R"+(i+1),r.name,r.d,"",{voice:"one",r:r.id});}));
+    group("Two voices","Inner and outer","The trigrams as two voices.",[catCard("v","T1",TWO.name,TWO.d,"Moving lines in the lower trigram move the low voice; in the upper, the high.",{voice:"two"})]);
+    group("Six voices · line by line","Eight tunings of the six bells","Each line is a bell. The tuning says what pitch it has, and what yin does to it.",
+      SIX.map(function(x,i){return catCard("v","B"+(i+1),x.name,x.d,"",{voice:"six",six:x.id});}));
+  })();
+
+  // ── controls
+  function opts(host,list,key,lab){var h=$(host);h.innerHTML="";list.forEach(function(o){var b=document.createElement("button");b.className="btn";b.type="button";b.textContent=lab?lab(o):o.name;b.dataset.v=o.id;
+    b.addEventListener("click",function(){YiAudio.stop();S[key]=o.id;sync();});h.appendChild(b);});}
+  opts("optVoice",[{id:"one",name:"One voice"},{id:"two",name:"Two voices"},{id:"six",name:"Six voices"}],"voice");
+  opts("optWeight",WEIGHTS,"w");opts("optRuler",RULERS,"r");opts("optSix",SIX,"six");opts("optSnap",SNAPS,"snap");
+  opts("optScore",SCORES,"score",function(o){return o.name+" · "+o.seq.length;});
+  opts("optHear",[{id:"melody",name:"Melody · line by line"},{id:"together",name:"Together · as chords"},{id:"changes",name:"Only the lines that change"}],"hear");
+  (function(){var h=$("optPace");[["Slow",1.5],["Walking",1],["Quick",0.6]].forEach(function(p){var b=document.createElement("button");b.className="btn";b.type="button";b.textContent=p[0];b.dataset.v=p[1];b.addEventListener("click",function(){YiAudio.stop();S.pace=p[1];sync();});h.appendChild(b);});})();
+  opts("optDamp",[{id:"ring",name:"Let the bells ring"},{id:"damp",name:"Damp by hand"}],"damp");
+
+  // ── board
+  var cells=[];
+  (function(){var b=$("board");b.appendChild(document.createElement("span"));
+    ORDER.slice().reverse().forEach(function(){});
+    var cols=ORDER;cols.forEach(function(l){var d=document.createElement("span");d.className="lab2";d.textContent=l;b.appendChild(d);});
+    ORDER.forEach(function(u){var d=document.createElement("span");d.className="lab2";d.textContent=u;b.appendChild(d);
+      cols.forEach(function(l){var x=TRI[l]+8*TRI[u],c=document.createElement("button");c.type="button";c.className="hc";c.innerHTML="<span class='nm'>"+NAME[x]+"</span><span class='pt'></span>";
+        c.addEventListener("click",function(){strikeOne(x);});cells[x]=c;b.appendChild(c);});});
+  })();
+  function mix(a,b,t){var A=[parseInt(a.slice(1,3),16),parseInt(a.slice(3,5),16),parseInt(a.slice(5,7),16)],B=[parseInt(b.slice(1,3),16),parseInt(b.slice(3,5),16),parseInt(b.slice(5,7),16)];
+    return "rgb("+A.map(function(v,i){return Math.round(v+(B[i]-v)*t);}).join(",")+")";}
+  function paintBoard(){var V=[],lo=1e9,hi=-1e9;
+    for(var h=0;h<64;h++){V[h]=voicesOf(h);V[h].forEach(function(v){var s=semis(v[1]);lo=Math.min(lo,s);hi=Math.max(hi,s);});}
+    for(var x=0;x<64;x++){var c=cells[x],v=V[x],pt=c.querySelector(".pt"),t;
+      if(S.voice==="one"){t=(semis(v[0][1])-lo)/Math.max(1,hi-lo);pt.textContent=noteName(v[0][1]);}
+      else{var fs=v.map(function(q){return q[1];});t=fs.length>1?joinCons(fs,[]):1;pt.textContent=S.voice==="two"?noteName(fs[0]).replace(/[+−].*/,"")+"·"+noteName(fs[1]).replace(/[+−].*/,""):(fs.length+" bells");}
+      c.style.background=mix("#2d1912","#f3d2bd",t);c.style.color=t>0.55?"#2c1d17":"#f2d9cc";}
+    $("boardNote").textContent=S.voice==="one"?"Colour: pitch, dark low to light high. Rows: upper trigram. Columns: lower trigram.":"Colour: consonance of the hexagram's own chord, dark tense to light open. Rows: upper trigram. Columns: lower trigram.";
+  }
+
+  // ── sound
+  function gainFor(n){return n>1?0.2/Math.sqrt(n):0.24;}
+  function stepDur(){var p=S.pace;if(S.voice==="one")return 0.42*p;if(S.hear==="together")return 1.5*p;if(S.hear==="changes")return 0.95*p;return (S.voice==="two"?2:6)*0.27*p+0.35*p;}
+  function sched(h,prev,t){var v=voicesOf(h),p=S.pace;
+    if(S.voice==="one"){YiAudio.bell(v[0][1],t,null,0.24);return;}
+    if(S.hear==="together"){v.forEach(function(q){YiAudio.bell(q[1],t,null,gainFor(v.length));});return;}
+    if(S.hear==="changes"&&prev!=null){var pv=voicesOf(prev),k=0;
+      v.forEach(function(q){var same=pv.some(function(r){return r[0]===q[0]&&Math.abs(r[1]-q[1])<0.01;});if(!same){YiAudio.bell(q[1],t+k*0.09,null,0.2);k++;}});return;}
+    v.forEach(function(q,i){YiAudio.bell(q[1],t+i*0.27*p,null,0.21);});}
+  function strikeOne(h){if(!YiAudio.begin(null,"free"))return;var t=YiAudio.now()+0.03;YiAudio.damp(t,0.4);var keep=S.hear;if(S.hear==="changes")S.hear="melody";sched(h,null,t+0.04);S.hear=keep;}
+
+  // ── roll
+  var playhead=null,rollX=null;
+  function drawRoll(){var s=$("rollSvg");while(s.firstChild)s.removeChild(s.firstChild);
+    var seq=score().seq,n=seq.length,x0=54,x1=966,top=18,bot=246,lo=1e9,hi=-1e9,V=seq.map(function(h){return voicesOf(h);});
+    V.forEach(function(v){v.forEach(function(q){var z=semis(q[1]);lo=Math.min(lo,z);hi=Math.max(hi,z);});});lo=Math.floor(lo)-1;hi=Math.ceil(hi)+1;
+    function Y(z){return bot-(z-lo)/Math.max(1,hi-lo)*(bot-top);}
+    var bw=(x1-x0)/n;rollX=function(i){return x0+i*bw;};
+    for(var c=Math.ceil(lo/12)*12;c<=hi;c+=12){var y=Y(c);el("line",{x1:x0,y1:y,x2:x1,y2:y,stroke:"rgba(248,237,231,.12)"},s);txt(s,x0-8,y+3,"C"+(c/12+2),{"text-anchor":"end","font-family":"Space Mono, monospace","font-size":9,fill:"#9c8a82"});}
+    var d="";V.forEach(function(v,i){var cx=x0+i*bw+bw/2;
+      if(S.voice==="one"){var y=Y(semis(v[0][1]));d+=(i?"L":"M")+cx.toFixed(1)+" "+y.toFixed(1)+" ";}
+      v.forEach(function(q){el("circle",{cx:cx,cy:Y(semis(q[1])),r:S.voice==="one"?3.2:2.3,fill:q[0]<0?"#e4b45f":["#f3d2bd","#e9b89c","#e4b45f","#d9825f","#c86a4a","#a6553a"][q[0]]},s);});});
+    if(d)el("path",{d:d,fill:"none",stroke:"rgba(228,180,95,.45)","stroke-width":1.2},s);
+    var lab=Math.max(1,Math.round(n/16));seq.forEach(function(h,i){if(i%lab===0)txt(s,x0+i*bw+bw/2,268,NAME[h],{"text-anchor":"middle","font-family":"Noto Serif SC, serif","font-size":10,fill:"#bba79e"});});
+    playhead=el("rect",{x:x0,y:top-6,width:Math.max(2,bw),height:bot-top+12,fill:"rgba(228,180,95,.18)",visibility:"hidden"},s);
+  }
+
+  // ── readout
+  var Mcache={};
+  function keyOf(a){return a.voice==="one"?("one|"+a.w+"|"+a.r+"|"+(a.snap||"none")):a.voice==="two"?"two":("six|"+a.six);}
+  function M(a){var k=keyOf(a);if(!Mcache[k])Mcache[k]=table(a);return Mcache[k];}
+  function readout(){var sc=score(),m=M(S),p=percentile(m,sc.seq,300),V=[];
+    for(var h=0;h<64;h++)V.push(voicesOf(h));
+    var distinct={};V.forEach(function(v){distinct[v.map(function(q){return q[1].toFixed(2);}).join(",")]=1;});
+    var all=[];sc.seq.forEach(function(h){voicesOf(h).forEach(function(q){all.push(semis(q[1]));});});
+    var range=all.length?Math.max.apply(null,all)-Math.min.apply(null,all):0,leap=0;
+    if(S.voice==="one"){for(var t=1;t<sc.seq.length;t++)leap+=Math.abs(semis(voicesOf(sc.seq[t])[0][1])-semis(voicesOf(sc.seq[t-1])[0][1]));leap/=(sc.seq.length-1);}
+    var desc=S.voice==="one"?WEIGHTS.filter(function(x){return x.id===S.w;})[0].d+" "+RULERS.filter(function(x){return x.id===S.r;})[0].d:S.voice==="two"?TWO.d:SIX.filter(function(x){return x.id===S.six;})[0].d;
+    $("say").innerHTML="<b>"+curName()+"</b>, playing the <b>"+sc.name+"</b> ("+sc.long+"). "+desc;
+    var st=[["Resonance",p.real.toFixed(3),""],["Against chance",p.pct,"/ 100 shuffles beaten"],["Distinct sounds",Object.keys(distinct).length,"of 64 hexagrams"],["Span",range.toFixed(1),"semitones"]];
+    if(S.voice==="one")st.push(["Mean leap",leap.toFixed(1),"semitones"]);
+    st.push(["Steps",sc.seq.length,"≈ "+Math.round(sc.seq.length*stepDur())+" s"]);
+    $("stats").innerHTML=st.map(function(x){return "<div class='stat'><div class='k'>"+x[0]+"</div><div class='v'>"+x[1]+"<small>"+x[2]+"</small></div></div>";}).join("");
+  }
+
+  // ── play
+  var timer=null;
+  function stopUI(){if(timer){clearInterval(timer);timer=null;}if(playhead)playhead.setAttribute("visibility","hidden");$("play").textContent="▶ Play the ordering";$("nowTxt").textContent="";cells.forEach(function(c){c.classList.remove("now");});}
+  $("play").addEventListener("click",function(){
+    if(timer){YiAudio.stop();return;}
+    if(!YiAudio.begin(stopUI))return;
+    var seq=score().seq,dt=stepDur(),t0=YiAudio.now()+0.15;
+    seq.forEach(function(h,i){var t=t0+i*dt;if(S.damp==="damp"&&i)YiAudio.damp(t-0.03,Math.min(0.6,dt*0.8));sched(h,i?seq[i-1]:null,t);});
+    $("play").textContent="■ Stop";var start=performance.now(),cur=-1;playhead.setAttribute("visibility","visible");
+    timer=setInterval(function(){var e=(performance.now()-start)/1000-0.15,k=Math.floor(e/dt);
+      if(k>=seq.length+Math.ceil(3/dt)){YiAudio.stop();return;}
+      if(k>=0&&k<seq.length&&k!==cur){cur=k;playhead.setAttribute("x",rollX(k).toFixed(1));cells.forEach(function(c,j){c.classList.toggle("now",j===seq[k]);});
+        $("nowTxt").textContent=(k+1)+" / "+seq.length+" · "+NAME[seq[k]]+(S.voice==="one"?" · "+noteName(voicesOf(seq[k])[0][1]):"");}},50);
+  });
+
+  // ── sync UI
+  function sync(){save();
+    [["optVoice","voice"],["optWeight","w"],["optRuler","r"],["optSix","six"],["optSnap","snap"],["optScore","score"],["optHear","hear"],["optDamp","damp"]].forEach(function(p){
+      $(p[0]).querySelectorAll(".btn").forEach(function(b){b.classList.toggle("on",b.dataset.v===S[p[1]]);});});
+    $("optPace").querySelectorAll(".btn").forEach(function(b){b.classList.toggle("on",+b.dataset.v===+S.pace);});
+    document.querySelectorAll(".ctl[data-for]").forEach(function(c){var f=c.dataset.for;c.style.display=(f==="one"&&S.voice==="one")||(f==="six"&&S.voice==="six")||(f==="multi"&&S.voice!=="one")?"":"none";});
+    paintBoard();drawRoll();readout();markSurvey();}
+
+  // ── survey: every assignment through every ordering
+  var ROWS=[];
+  WEIGHTS.forEach(function(w){["chr","harm","fifth"].forEach(function(r){ROWS.push({grp:"One voice · "+w.name,a:{voice:"one",w:w.id,r:r,snap:"none"},label:RULERS.filter(function(x){return x.id===r;})[0].name});});});
+  ROWS.push({grp:"Two voices",a:{voice:"two"},label:"Trigram and trigram"});
+  SIX.forEach(function(x){ROWS.push({grp:"Six voices",a:{voice:"six",six:x.id},label:x.name});});
+  var SURV=null,sortCol=null;
+  function buildSurvey(){SURV=ROWS.map(function(r){var m=M(r.a);return SCORES.map(function(sc){return percentile(m,sc.seq,300);});});renderSurvey();}
+  function renderSurvey(){var t=$("surveyTable"),rmin=1,rmax=0;SURV.forEach(function(r){r.forEach(function(c){rmin=Math.min(rmin,c.real);rmax=Math.max(rmax,c.real);});});
+    var h="<thead><tr><th style='text-align:left'>Assignment</th>"+SCORES.map(function(s,j){return "<th data-j='"+j+"' class='"+(sortCol===j?"on":"")+"' title='Sort by this ordering'>"+s.name+"</th>";}).join("")+"</tr></thead><tbody>";
+    var idx=ROWS.map(function(r,i){return i;});
+    if(sortCol!=null)idx.sort(function(a,b){return SURV[b][sortCol].pct-SURV[a][sortCol].pct||SURV[b][sortCol].real-SURV[a][sortCol].real;});
+    var lastG=null;idx.forEach(function(i){var r=ROWS[i];
+      if(sortCol==null&&r.grp!==lastG){h+="<tr class='grp'><td colspan='"+(SCORES.length+1)+"'>"+r.grp+"</td></tr>";lastG=r.grp;}
+      h+="<tr data-i='"+i+"'><td class='row' data-i='"+i+"'>"+r.label+(sortCol!=null||r.grp==="Six voices"||r.grp==="Two voices"?"<small>"+r.grp+"</small>":"")+"</td>";
+      SURV[i].forEach(function(c,j){var tt=(c.real-rmin)/Math.max(1e-6,rmax-rmin);h+="<td class='sc"+(c.pct>=95?" hi":"")+(c.pct<50?" lo":"")+"' data-i='"+i+"' data-j='"+j+"' style='background:"+mix("#f7ebe3","#c98a68",tt)+"' title='resonance "+c.real.toFixed(3)+"'>"+c.pct+"</td>";});
+      h+="</tr>";});
+    t.innerHTML=h+"</tbody>";
+    t.querySelectorAll("thead th[data-j]").forEach(function(th){th.addEventListener("click",function(){var j=+th.dataset.j;sortCol=sortCol===j?null:j;renderSurvey();markSurvey();});});
+    t.querySelectorAll("td.sc").forEach(function(td){td.addEventListener("click",function(){var r=ROWS[+td.dataset.i];Object.assign(S,r.a);S.score=SCORES[+td.dataset.j].id;sync();$("lab").scrollIntoView({behavior:"smooth"});});});
+    t.querySelectorAll("td.row").forEach(function(td){td.addEventListener("click",function(){Object.assign(S,ROWS[+td.dataset.i].a);sync();$("lab").scrollIntoView({behavior:"smooth"});});});
+    // a plain count of what the survey found
+    var gold=0,goldBy={};SURV.forEach(function(r,i){r.forEach(function(c,j){if(c.pct>=95){gold++;goldBy[SCORES[j].name]=(goldBy[SCORES[j].name]||0)+1;}});});
+    var best=Object.keys(goldBy).sort(function(a,b){return goldBy[b]-goldBy[a];});
+    $("surveyFinding").textContent=gold+" of "+(ROWS.length*SCORES.length)+" cells are gold. "+(best.length?"The orderings that most often beat their shuffles are "+best.slice(0,3).map(function(n){return n+" ("+goldBy[n]+" assignments)";}).join(", ")+".":"")+" Sort any column by tapping its heading.";
+  }
+  function markSurvey(){if(!SURV)return;var k=keyOf(S);$("surveyTable").querySelectorAll("td.sc").forEach(function(td){var r=ROWS[+td.dataset.i];td.style.outline=(keyOf(r.a)===k&&SCORES[+td.dataset.j].id===S.score)?"2px solid #5b2a1b":"";});}
+
+  // ── listening notes
+  function loadPins(){try{return JSON.parse(localStorage.getItem("yi12-pins")||"[]");}catch(e){return [];}}
+  function savePins(p){try{localStorage.setItem("yi12-pins",JSON.stringify(p));}catch(e){}}
+  function renderPins(){var P=loadPins(),box=$("pins");box.innerHTML="";
+    if(!P.length)box.innerHTML="<p class='empty'>Nothing kept yet. In the laboratory, “Keep this” saves the assignment and ordering you are hearing.</p>";
+    P.forEach(function(p,i){var d=document.createElement("div");d.className="pin";
+      d.innerHTML="<div class='lbl'>"+p.label+"<small>"+p.score+" · resonance "+p.real+" · beats "+p.pct+"% of shuffles</small></div>";
+      var acts=document.createElement("div");acts.className="acts";
+      var b1=document.createElement("button");b1.className="lbtn";b1.type="button";b1.textContent="Open";b1.addEventListener("click",function(){Object.assign(S,p.state);sync();$("lab").scrollIntoView({behavior:"smooth"});});
+      var b2=document.createElement("button");b2.className="lbtn";b2.type="button";b2.textContent="Remove";b2.addEventListener("click",function(){var Q=loadPins();Q.splice(i,1);savePins(Q);renderPins();});
+      acts.appendChild(b1);acts.appendChild(b2);d.appendChild(acts);
+      var ta=document.createElement("textarea");ta.placeholder="What do you hear?";ta.value=p.note||"";ta.addEventListener("input",function(){var Q=loadPins();if(Q[i]){Q[i].note=ta.value;savePins(Q);exportPins();}});d.appendChild(ta);box.appendChild(d);});
+    exportPins();}
+  function exportPins(){var P=loadPins();$("exportBox").value=P.length?P.map(function(p,i){return (i+1)+". "+p.label+" — "+p.score+" (resonance "+p.real+", beats "+p.pct+"% of shuffles)"+(p.note?"\n   "+p.note.replace(/\n/g,"\n   "):"");}).join("\n"):"";}
+  $("pinBtn").addEventListener("click",function(){var sc=score(),p=percentile(M(S),sc.seq,300),P=loadPins();
+    P.push({label:curName(),score:sc.name+(S.voice!=="one"?" · "+{melody:"melody",together:"together",changes:"changes only"}[S.hear]:""),real:p.real.toFixed(3),pct:p.pct,state:JSON.parse(JSON.stringify(S)),note:""});savePins(P);renderPins();
+    $("pinBtn").textContent="★ Kept below";setTimeout(function(){$("pinBtn").textContent="☆ Keep this in my listening notes";},1600);});
+
+  sync();renderPins();
+  setTimeout(function(){buildSurvey();markSurvey();},60);
+})();
+</script>
+
+<script data-goatcounter="https://linwei.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
