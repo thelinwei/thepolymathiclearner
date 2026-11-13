@@ -1,0 +1,1397 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="A field note and laboratory on the geometry of fields over the sixty-four hexagrams: the cube's standing waves, heat that melts a bead into a field, the three-coin and milfoil casts as lengths of time, flows split into slope (势) and tide, and fields that answer one another (感应).">
+  <meta name="color-scheme" content="light">
+  <title>易 Yi · 13 — The Shape of a Field</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..800,0..100,0..1;1,9..144,300..800,0..100,0..1&family=Newsreader:opsz,wght@6..72,200..700&family=Space+Mono:wght@400;700&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --paper:#fcfaf7;
+      --paper-2:#f3eee8;
+      --ink:#2c1d17;
+      --wine:#5b2a1b;
+      --rust:#a6553a;
+      --rust-dark:#4b1c12;
+      --rust-deep:#200d08;
+      --cream:#f8ede7;
+      --gold:#b58d46;
+      --jade:#3f756b;
+      --muted:#7d6d65;
+      --hair:rgba(91,42,27,.18);
+      --display:Fraunces,"Noto Serif SC",serif;
+      --serif:Newsreader,Georgia,"Noto Serif SC",serif;
+      --mono:"Space Mono",ui-monospace,Menlo,monospace;
+      --zh:"Noto Serif SC",serif;
+      --max:1110px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;background:var(--paper)}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.58}
+    a{color:inherit;text-decoration-color:rgba(166,85,58,.45);text-underline-offset:.2em}
+    a:hover{text-decoration-color:var(--rust)}
+    p{margin:.65rem 0 1rem}
+    strong{font-weight:650}
+    .zh{font-family:var(--zh)}
+    sup a{font:700 .62em/1 var(--mono);color:var(--rust);text-decoration:none}
+
+    /* hero */
+    .hero{color:var(--cream);background:
+      radial-gradient(115% 95% at 78% 8%,#a6553a 0,transparent 58%),
+      radial-gradient(90% 80% at 8% 92%,#38150d 0,transparent 62%),
+      linear-gradient(166deg,#5a2416,#34140c 62%,#200d08);padding:clamp(5.5rem,10vw,8.2rem) 1.25rem clamp(4.2rem,8vw,6rem);position:relative;overflow:hidden}
+    .hero::after{content:"势";position:absolute;right:-.05em;bottom:-.42em;font-family:var(--zh);font-size:clamp(25rem,52vw,48rem);line-height:1;color:rgba(248,237,231,.035);pointer-events:none}
+    .hero-inner{max-width:var(--max);margin:auto;position:relative;z-index:1}
+    .eyebrow{font:400 .66rem/1.5 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:#e1b9a9;border-bottom:1px solid rgba(248,237,231,.35);padding-bottom:1.1rem}
+    .hero-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:clamp(2rem,7vw,7rem);align-items:end;margin-top:2rem}
+    h1,h2,h3{font-family:var(--display)}
+    h1{font-size:clamp(3.8rem,8.4vw,7.4rem);line-height:.9;letter-spacing:-.055em;font-weight:520;margin:0}
+    h1 span{display:block}
+    h1 .second{margin-left:.75em}
+    .hero .sub{font-family:var(--display);font-size:clamp(1.35rem,2.5vw,2rem);font-style:italic;color:#efd7cd;margin:1.3rem 0 1.8rem}
+    .hero .intro{max-width:720px;font-family:"Times New Roman",Times,"Noto Serif SC",serif;font-size:clamp(1.08rem,1.7vw,1.28rem);line-height:1.5;color:#f1e4de}
+    .hero-aside{border-left:1px solid rgba(248,237,231,.32);padding-left:1.3rem;color:#d6c3bb;font-size:.95rem}
+    .hero-aside .mark{min-width:3.1rem;height:3.1rem;display:inline-grid;place-items:center;padding:0 .6rem;border:1px solid #e18b70;color:#ed9f87;font-size:1.45rem;margin-bottom:1.3rem}
+    .hero-aside .mark i{font-size:.8rem;margin-left:.4rem}
+    .hero-aside strong{display:block;font:700 .61rem/1.5 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#f7e6de;margin-top:1rem}
+    .hero-nav{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:2rem}
+    .hero-nav a{padding:.58rem .72rem;border:1px solid rgba(248,237,231,.32);font:400 .58rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:#eadbd4}
+    .hero-nav a:hover{background:var(--cream);color:var(--wine)}
+
+    /* sections */
+    main{max-width:var(--max);margin:auto;padding:0 1.25rem 4rem}
+    .section{padding:clamp(4.6rem,8vw,7.2rem) 0;border-top:1px solid var(--hair)}
+    .section:first-child{border-top:0}
+    .section-head{display:grid;grid-template-columns:180px minmax(0,1fr);gap:2rem;margin-bottom:2.4rem}
+    .kicker{font:700 .62rem/1.55 var(--mono);letter-spacing:.17em;text-transform:uppercase;color:var(--rust)}
+    h2{font-size:clamp(2.4rem,5vw,4.4rem);font-weight:480;letter-spacing:-.045em;line-height:.98;color:var(--wine);margin:0 0 .9rem}
+    h3{font-size:1.55rem;line-height:1.12;font-weight:540;margin:.1rem 0 .65rem;color:var(--wine)}
+    .lede{font-size:clamp(1.15rem,1.9vw,1.35rem);line-height:1.52;max-width:820px;color:#49362e}
+    .measure{max-width:790px}
+
+    .quote{display:grid;grid-template-columns:minmax(200px,auto) minmax(0,1fr);gap:2rem;align-items:center;margin:2.4rem 0;padding:2rem 0;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+    .quote .zh{font-size:clamp(1.7rem,3.4vw,3rem);color:var(--rust);line-height:1.25}
+    .quote blockquote{margin:0;font-family:var(--display);font-size:clamp(1.25rem,2.2vw,1.8rem);line-height:1.3;font-style:italic;color:var(--wine)}
+    .quote cite{display:block;font:400 .6rem/1.5 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:.8rem;font-style:normal}
+
+    .boundary{margin-top:1.1rem;padding:1rem 1.1rem;border-left:3px solid var(--gold);background:#f5efe4;color:#5b4b42;font-size:.94rem}
+    .note-jade{margin-top:1.2rem;padding:1.1rem 1.2rem;border-left:3px solid var(--jade);background:#eaf0ec;color:#435d56;font-size:.94rem}
+
+    /* readers */
+    .readers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair);margin-top:2rem}
+    .reader{background:var(--paper);padding:1.35rem 1.25rem 1.4rem}
+    .reader .who{font:700 .58rem/1.5 var(--mono);letter-spacing:.11em;text-transform:uppercase;color:var(--rust)}
+    .reader .where{font:400 .58rem/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+    .reader h3{font-size:1.2rem;margin:.8rem 0 .55rem}
+    .reader ul{margin:0;padding-left:1.05rem;font-size:.9rem;line-height:1.48;color:#56463e}
+    .reader li{margin:.3rem 0}
+    .brief{display:grid;grid-template-columns:auto minmax(0,1fr);gap:1.4rem;align-items:center;margin-top:1rem;padding:1.4rem 1.5rem;background:var(--wine);color:var(--cream)}
+    .brief .zh{font-size:2.6rem;color:#f1b598;line-height:1}
+    .brief .label{font:700 .58rem/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#e4ad92}
+    .brief p{margin:.35rem 0 0;font-size:1.05rem;color:#f4e3db}
+
+    /* four readings */
+    .readings{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin-top:2rem}
+    .reading{border:1px solid var(--hair);background:var(--paper-2);padding:1rem 1rem 1.2rem}
+    .reading svg{display:block;width:100%;height:auto;background:var(--paper);border:1px solid var(--hair)}
+    .reading .n{font:700 .56rem/1 var(--mono);letter-spacing:.1em;color:var(--rust);margin-top:.9rem}
+    .reading h3{font-size:1.12rem;margin:.45rem 0 .4rem}
+    .reading p{font-size:.86rem;line-height:1.46;color:var(--muted);margin:0}
+
+    /* dark band */
+    .band{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);background:#21120d;color:var(--cream)}
+    .band-inner{max-width:var(--max);margin:auto;padding:clamp(4.6rem,8vw,7rem) 1.25rem}
+    .band .kicker{color:#d59c78}
+    .band h2{color:var(--cream);max-width:900px}
+    .band .lede{color:#d9c6bd}
+    .band p{color:#d7c7bf}
+    .band .measure p{font-size:1rem}
+    .band strong{color:#f1caa9}
+
+    /* instrument */
+    .inst{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:1.6rem;margin-top:2.2rem;align-items:start}
+    .board{display:grid;grid-template-columns:22px repeat(8,minmax(0,1fr));gap:3px}
+    .board .lab{font:400 .55rem/1 var(--mono);color:#a99087;display:grid;place-items:center;text-transform:uppercase;letter-spacing:.06em}
+    .board .lab.zh{font-family:var(--zh);font-size:.8rem;color:#c9a898}
+    .cell{appearance:none;border:1px solid rgba(248,237,231,.14);background:#2d1912;color:#e9d7cf;padding:5px 2px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0;transition:background .18s,color .18s,border-color .18s}
+    .cell svg{width:58%;max-width:26px;height:auto;display:block}
+    .cell .nm{font-family:var(--zh);font-size:.62rem;line-height:1;white-space:nowrap;overflow:hidden;max-width:100%}
+    .cell.pos{background:#f3e3d8;color:#4b1c12;border-color:#f3e3d8}
+    .cell.neg{background:#5b2a1b;color:#f2d9cc;border-color:#7a3a26}
+    .cell.lis{background:#3f756b;color:#eaf4f0;border-color:#5d9a8e}
+    .cell.sel{outline:2px solid #e4b45f;outline-offset:1px;position:relative;z-index:2}
+    .cell:focus-visible{outline:2px solid #e4b45f;outline-offset:1px}
+    .side{border:1px solid rgba(248,237,231,.2);padding:1.2rem 1.25rem}
+    .side .glyph{display:flex;gap:1rem;align-items:center}
+    .side .glyph svg{width:46px;height:auto}
+    .side .big{font-family:var(--zh);font-size:2.4rem;color:#f5dccf;line-height:1}
+    .side .meta{font:400 .6rem/1.6 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#bba79e}
+    .side .read{margin-top:1rem;font-size:.96rem;line-height:1.5;color:#e6d4cb}
+    .side .read b{color:#f1caa9;font-weight:600}
+    .ctrls{display:flex;flex-wrap:wrap;gap:.4rem;margin:1rem 0 .2rem}
+    .btn{appearance:none;background:transparent;border:1px solid rgba(248,237,231,.32);color:#eadbd4;padding:.5rem .65rem;font:400 .58rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+    .btn:hover{background:rgba(248,237,231,.08)}
+    .btn.on{background:var(--cream);color:var(--wine);border-color:var(--cream)}
+    .btn:focus-visible{outline:2px solid #e4b45f;outline-offset:1px}
+    .legend{display:flex;flex-wrap:wrap;gap:1rem;margin-top:.9rem;font:400 .58rem/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#bba79e}
+    .legend i{display:inline-block;width:.8rem;height:.8rem;vertical-align:-2px;margin-right:.35rem;border:1px solid rgba(248,237,231,.3)}
+
+    .clocks{margin-top:2.2rem;border:1px solid rgba(248,237,231,.2);padding:1.2rem 1.25rem 1rem}
+    .clocks svg{display:block;width:100%;height:auto}
+    .clocks .row{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;justify-content:space-between}
+    .clocks .meta{font:400 .6rem/1.6 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#bba79e}
+
+    .facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:rgba(248,237,231,.18);border:1px solid rgba(248,237,231,.18);margin-top:2.2rem}
+    .fact{background:#21120d;padding:1.1rem 1.15rem}
+    .fact .n{font:700 .56rem/1 var(--mono);letter-spacing:.1em;color:#d9a16f}
+    .fact h3{font-family:var(--mono);font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;color:#f7e8df;margin:.75rem 0 .5rem}
+    .fact p{font-size:.88rem;line-height:1.48;color:#c9b7ae;margin:0}
+
+    /* song */
+    .bars{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair);margin-top:1.8rem}
+    .bar{background:var(--paper);padding:1rem .9rem 1.1rem;display:flex;flex-direction:column;gap:.5rem}
+    .bar .pos{font:700 .56rem/1 var(--mono);letter-spacing:.1em;color:var(--rust);text-transform:uppercase}
+    .bar .zh{font-size:1.15rem;color:var(--wine);line-height:1.3}
+    .bar .en{font-size:.82rem;line-height:1.4;color:var(--muted)}
+    .bar .h{height:6px;background:var(--rust);opacity:.25;margin-top:auto}
+    .tide{margin-top:2rem;border:1px solid var(--hair);background:var(--paper-2);padding:1rem}
+    .tide > svg{display:block;width:100%;height:auto}
+    .cap{font:400 .6rem/1.6 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:.7rem}
+
+    .dual{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2rem}
+    .register{padding:clamp(1.3rem,3vw,2rem);background:var(--paper-2);border:1px solid var(--hair)}
+    .register.a{border-top:4px solid var(--rust)}
+    .register.b{border-top:4px solid var(--jade)}
+    .register .label{font:700 .59rem/1.4 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+    .register h3{font-size:clamp(1.45rem,2.4vw,1.95rem);margin:.7rem 0 .8rem}
+    .register p{font-size:.96rem;color:#56463e}
+
+    /* score table */
+    .score{width:100%;border-collapse:collapse;margin-top:1.6rem}
+    .score th,.score td{text-align:left;vertical-align:top;padding:1rem .9rem;border-bottom:1px solid var(--hair)}
+    .score th{font:700 .59rem/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--rust)}
+    .score td{font-size:.93rem;color:#56463e}
+    .score td:first-child{color:var(--wine);font-weight:600;width:22%}
+    .score .kind{display:inline-block;font:700 .55rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:.35rem .45rem;border:1px solid currentColor;margin-bottom:.45rem}
+    .score .perf{color:var(--jade)}
+    .score .comp{color:var(--gold)}
+    .casts{width:100%;border-collapse:collapse;margin-top:1.4rem;font-size:.92rem}
+    .casts th,.casts td{text-align:left;padding:.65rem .8rem;border-bottom:1px solid var(--hair);vertical-align:top}
+    .casts th{font:700 .56rem/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+    .casts td.zh{color:var(--wine)}
+
+    /* ledger */
+    .ledger{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin-top:2rem}
+    .col{border:1px solid var(--hair);background:var(--paper-2);padding:1.1rem 1.1rem 1.2rem}
+    .col .tag{font:700 .58rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+    .col.est .tag{color:var(--jade)} .col.pro .tag{color:var(--gold)} .col.open .tag{color:var(--rust)} .col.next .tag{color:var(--wine)}
+    .col.est{border-top:4px solid var(--jade)} .col.pro{border-top:4px solid var(--gold)} .col.open{border-top:4px solid var(--rust)} .col.next{border-top:4px solid var(--wine)}
+    .col ul{margin:.8rem 0 0;padding-left:1rem;font-size:.86rem;line-height:1.46;color:#56463e}
+    .col li{margin:.4rem 0}
+
+    details{border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);padding:1rem 0;margin-top:3rem}
+    summary{cursor:pointer;font:700 .63rem/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--rust)}
+    .sources{display:grid;grid-template-columns:1fr 1fr;gap:.65rem 1.5rem;margin-top:1.2rem}
+    .source{font-size:.84rem;line-height:1.45;color:var(--muted)}
+    .source b{display:block;color:var(--ink);font-weight:600}
+
+    .next{margin-top:3rem;background:var(--wine);color:var(--cream);display:grid;grid-template-columns:1fr auto;align-items:center;gap:2rem;padding:clamp(1.4rem,4vw,2.5rem);text-decoration:none}
+    .next:hover{background:#6c301f}
+    .next .label{font:700 .58rem/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#e4ad92}
+    .next h3{font-size:clamp(1.6rem,3vw,2.3rem);color:var(--cream);margin:.4rem 0 0}
+    .next .arrow{font-size:2rem}
+
+    footer{background:var(--rust-deep);color:#bca9a0;padding:2.5rem 1.25rem}
+    .footer-inner{max-width:var(--max);margin:auto;display:flex;justify-content:space-between;gap:2rem;font:400 .59rem/1.7 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+    footer strong{color:var(--cream)}
+
+    @media(max-width:960px){
+      .inst{grid-template-columns:1fr}
+      .readings,.ledger{grid-template-columns:repeat(2,1fr)}
+      .bars{grid-template-columns:repeat(3,1fr)}
+    }
+    @media(max-width:720px){
+      .hero-grid,.section-head,.dual,.readers,.facts{grid-template-columns:1fr}
+      .hero-aside{border-left:0;border-top:1px solid rgba(248,237,231,.3);padding:1.2rem 0 0}
+      .quote{grid-template-columns:1fr;gap:.7rem}
+      .sources{grid-template-columns:1fr}
+      .score td:nth-child(3),.score th:nth-child(3){display:none}
+      .cell .nm{display:none}
+    }
+    @media(max-width:500px){
+      body{font-size:17px}
+      .hero{padding-top:4.5rem}
+      h1{font-size:clamp(3.2rem,16vw,4.6rem)}
+      h1 .second{margin-left:0}
+      .readings,.ledger,.bars{grid-template-columns:1fr}
+      .board{grid-template-columns:16px repeat(8,minmax(0,1fr));gap:2px}
+      .footer-inner{display:block}
+    }
+    @media print{
+      .yitop,.hero-nav,.ctrls,#play{display:none}
+      body{background:#fff}
+      .hero,.band{background:#fff;color:#000}
+      .hero::after{display:none}
+    }
+  
+    /* ── 13 · additions: plates, rack, dial, separator, coupling ── */
+    .measure em{font-style:italic;color:var(--wine)}
+    .itex math{font-size:1.04em}
+    .plate{position:relative;margin:2.4rem 0;padding:1.5rem clamp(1rem,3vw,1.8rem) 1.3rem;border:1px solid var(--hair);
+      background:
+        linear-gradient(var(--gold),var(--gold)) 0 0/16px 2px no-repeat,
+        linear-gradient(var(--gold),var(--gold)) 0 0/2px 16px no-repeat,
+        linear-gradient(var(--gold),var(--gold)) 100% 0/16px 2px no-repeat,
+        linear-gradient(var(--gold),var(--gold)) 100% 0/2px 16px no-repeat,
+        linear-gradient(var(--gold),var(--gold)) 0 100%/16px 2px no-repeat,
+        linear-gradient(var(--gold),var(--gold)) 0 100%/2px 16px no-repeat,
+        linear-gradient(var(--gold),var(--gold)) 100% 100%/16px 2px no-repeat,
+        linear-gradient(var(--gold),var(--gold)) 100% 100%/2px 16px no-repeat,
+        radial-gradient(110% 130% at 88% 0%,rgba(166,85,58,.14),transparent 62%),
+        radial-gradient(90% 120% at 0% 100%,rgba(181,141,70,.10),transparent 60%),
+        var(--paper-2)}
+    .plate .ptag{display:inline-block;font:700 .58rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--wine);border:1px solid var(--wine);padding:.42rem .55rem}
+    .plate .eq{margin:1.1rem 0 .9rem;color:var(--ink)}
+    .plate .eqline{margin:.55rem 0}
+    .plate math[display="block"]{font-size:1.22rem;margin:0}
+    .legendstrip{display:flex;flex-wrap:wrap;gap:.45rem 1.4rem;border-top:1px dotted rgba(91,42,27,.35);padding-top:.75rem;font-size:.86rem;line-height:1.4;color:#4a3a32}
+    .legendstrip b{font-family:var(--serif);font-weight:650;color:var(--ink);margin-right:.3rem}
+    .legendstrip b.r{color:var(--rust)} .legendstrip b.j{color:var(--jade)}
+    .howto{margin-top:1rem;border-top:2px solid var(--jade);padding-top:.75rem;font-size:.96rem;line-height:1.52;color:#3a2a22}
+    .howto .hl{display:block;font:700 .58rem/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--jade);margin-bottom:.35rem}
+
+    .band .board .cell{font-variant-numeric:tabular-nums}
+    .strip-wrap{margin-top:1.1rem;border-top:1px solid rgba(248,237,231,.18);padding-top:.9rem}
+    #strip{display:block;width:100%;height:auto}
+    #strip .ring{cursor:pointer}
+    #strip .ring:hover rect.hit{fill:rgba(248,237,231,.06)}
+    #strip .ring:focus-visible{outline:none}
+    #strip .ring:focus-visible rect.hit{stroke:#e4b45f;stroke-width:1.5}
+    .hint{font:400 .58rem/1.6 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#bba79e;margin-top:.6rem}
+    #answer .hint,#answer .cap{color:var(--muted)}
+    .listen-note{font:400 .58rem/1.6 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#bba79e;margin-top:1.4rem;max-width:880px}
+
+    .dial{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin:1.1rem 0 .3rem;font:400 .62rem/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#d7c7bf}
+    .dial b{color:#f5dccf;font-weight:700}
+    input[type=range]{width:100%;accent-color:#e4b45f;margin:.2rem 0 .4rem}
+    #spec2{display:block;width:100%;height:auto;margin-top:.8rem;border-top:1px solid rgba(248,237,231,.18);padding-top:.5rem}
+    .heat{position:relative}
+    .board .cell.heat svg{opacity:.9}
+
+    .flowwrap{margin:2rem auto 0;max-width:760px;border:1px solid rgba(248,237,231,.2);background:#1b0f0b;padding:.6rem}
+    #lan3{display:block;width:100%;height:auto}
+    #lan3 .bead{cursor:pointer}
+    #lan3 .bead:focus-visible circle.vis{stroke:#e4b45f;stroke-width:2.5}
+    .flowctl{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:1.6rem;margin-top:1.2rem;align-items:start}
+    .flowctl .meta,.couple .meta{font:400 .58rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#bba79e;align-self:center;margin-right:.3rem}
+    .mix{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.2rem .9rem;align-items:center;font:400 .62rem/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#d7c7bf}
+    .mix b{color:#f5dccf;margin-left:.3rem}
+    .mix .btn{grid-column:1/-1;justify-self:start;margin-top:.4rem}
+    .read.wide{max-width:880px;margin-top:1.3rem;font-size:.98rem;line-height:1.55;color:#e6d4cb}
+    .read.wide b{color:#f1caa9;font-weight:600}
+    .share{display:flex;height:10px;margin:.7rem 0 .2rem;border:1px solid rgba(248,237,231,.25);max-width:520px}
+    .share span{display:block;height:100%}
+
+    /* coupling, on paper */
+    .couple{margin-top:2.2rem;border:1px solid var(--hair);background:var(--paper-2);padding:clamp(1rem,3vw,1.6rem)}
+    .ctrls.light .btn{border-color:rgba(91,42,27,.35);color:var(--wine)}
+    .ctrls.light .btn:hover{background:rgba(91,42,27,.06)}
+    .ctrls.light .btn.on{background:var(--wine);color:var(--cream);border-color:var(--wine)}
+    .couple .meta{color:var(--muted)}
+    .lines{display:flex;flex-wrap:wrap;gap:1.2rem;align-items:flex-end;margin:1.2rem 0 .4rem}
+    .lineset{display:flex;flex-direction:column-reverse;gap:6px}
+    .lrow{display:flex;align-items:center;gap:.5rem}
+    .lrow .pos{font:700 .56rem/1 var(--mono);letter-spacing:.06em;color:var(--muted);width:1.6rem;text-align:right;font-family:var(--zh)}
+    .lbtn{appearance:none;border:0;background:transparent;padding:4px 0;cursor:pointer;display:flex;gap:10px;width:120px}
+    .lbtn i{display:block;height:9px;background:var(--wine);flex:1}
+    .lbtn.yin i{flex:1}
+    .lbtn.yang i+i{display:none}
+    .lbtn:focus-visible,.mbtn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+    .mbtn{appearance:none;width:26px;height:26px;border:1px solid rgba(91,42,27,.35);background:var(--paper);color:var(--rust);font:700 .8rem/1 var(--zh);cursor:pointer;display:grid;place-items:center}
+    .mbtn.on{background:var(--rust);color:var(--cream);border-color:var(--rust)}
+    .triple{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.2rem;margin-top:1.4rem}
+    .mini h4{display:flex;align-items:center;gap:.6rem;margin:0 0 .6rem;font:600 1.5rem/1 var(--zh);color:var(--wine)}
+    .mini h4 svg{width:30px;height:auto}
+    .mini h4 small{font:400 .56rem/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+    .mgrid{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:2px;aspect-ratio:1/1}
+    .mgrid span{display:block;background:#f8ede7;border:1px solid rgba(91,42,27,.2)}
+    .mgrid span.n{background:var(--wine);border-color:var(--wine)}
+    .mini.chg .mgrid span{background:#e7efe9;border-color:rgba(63,117,107,.3)}
+    .mini.chg .mgrid span.n{background:var(--jade);border-color:var(--jade)}
+    .mini .op:empty{display:none}
+    .mini .op{font:400 .56rem/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:.5rem}
+    .read.light{margin-top:1.2rem;font-size:.98rem;line-height:1.55;color:#3a2a22}
+    .read.light b{color:var(--rust);font-weight:600}
+
+    .coda{max-width:790px;border-left:3px solid var(--gold);padding-left:clamp(1rem,3vw,1.6rem)}
+    .coda p{font-family:var(--display);font-size:clamp(1.12rem,1.8vw,1.3rem);line-height:1.5;color:#3a2a22;font-style:italic}
+
+    @media(max-width:960px){ .flowctl{grid-template-columns:1fr} }
+    @media(max-width:720px){
+      .triple{gap:.6rem}
+      .mini h4{flex-wrap:wrap;font-size:1.1rem;gap:.3rem}
+      .mini h4 svg{width:20px}
+      .mini h4 small{flex-basis:100%;font-size:.5rem}
+      .mgrid{gap:1px}
+      .plate math[display="block"]{font-size:1.02rem}
+    }
+    @media(max-width:500px){
+      .plate math[display="block"]{font-size:.92rem}
+      .lbtn{width:96px}
+    }
+    .mgrid{grid-template-rows:repeat(8,minmax(0,1fr))}
+
+    .lanwrap{margin:2rem auto 0;max-width:780px;border:1px solid rgba(248,237,231,.2);background:radial-gradient(70% 60% at 50% 45%,#2a1711 0,#170c09 75%)}
+    .lanwrap.inset{margin-top:1.4rem;max-width:none}
+    .lanwrap canvas{display:block;width:100%;height:440px;touch-action:pan-y;cursor:grab}
+    .lanwrap canvas:active{cursor:grabbing}
+    .lancap{display:flex;flex-wrap:wrap;gap:.35rem 1.3rem;padding:.7rem .9rem .8rem;border-top:1px solid rgba(248,237,231,.14);font:400 .58rem/1.5 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:#d7c7bf}
+    .lancap i{display:inline-block;vertical-align:middle;margin-right:.45rem}
+    .lancap i.lg{width:.8rem;height:.8rem;border-radius:50%;background:radial-gradient(circle,#f6c478 0,rgba(225,120,80,.25) 70%,transparent 100%)}
+    .lancap i.sp{width:1.1rem;height:2px;background:linear-gradient(90deg,transparent,#f6e8dc)}
+    .boundary.dark{background:#2a1711;color:#e6d4cb;border-left-color:#e4b45f;max-width:880px}
+    .boundary.dark strong{color:#f6d79a}
+    .ctrls.bodysel{margin-top:1.6rem}
+    .ctrls.bodysel+.lanwrap{margin-top:.6rem}
+    .bodysel .meta{font:400 .58rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#bba79e;align-self:center;margin-right:.3rem}
+</style>
+<style id="yinav-css">
+.yitop{border-bottom:1px solid var(--rule,#DFCEC5);background:var(--paper,#FCFAF7);
+ font-family:"Space Mono",ui-monospace,Menlo,monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase}
+.yitop .in{width:min(1120px,calc(100% - 34px));margin-inline:auto;display:flex;align-items:center;gap:16px;padding:12px 0;flex-wrap:wrap}
+.yitop a{color:var(--iris-mid,#8A4530);text-decoration:none;opacity:.72}
+.yitop a:hover{opacity:1;text-decoration:underline}
+.yitop .sp{flex:1 1 auto}
+.yitop .now{color:var(--lilac,#A89087)}
+.yinav{border-top:1px solid var(--rule,#DFCEC5);margin-top:clamp(40px,6vw,86px);
+ padding:clamp(30px,5vw,58px) 0 clamp(44px,6vw,84px);font-family:"Space Mono",ui-monospace,Menlo,monospace}
+.yinav .in{width:min(1120px,calc(100% - 34px));margin-inline:auto}
+.yinav-lab{font-size:.62rem;letter-spacing:.19em;text-transform:uppercase;color:var(--lilac,#A89087);margin-bottom:24px}
+.yinav-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:34px}
+.yinav-pair a,.yinav-pair .void{display:block;border:1px solid var(--rule,#DFCEC5);border-radius:3px;
+ padding:20px 22px;text-decoration:none;color:var(--iris,#5B2A1B);transition:border-color .2s,background .2s}
+.yinav-pair a:hover{border-color:var(--iris-mid,#8A4530);background:rgba(91,42,27,.035)}
+.yinav-pair .void{border-style:dotted;opacity:.4}
+.yinav-pair .dir{display:block;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--lilac,#A89087);margin-bottom:9px}
+.yinav-pair .ttl{font-family:"Fraunces","Newsreader",serif;font-size:1.05rem;line-height:1.28;letter-spacing:-.01em}
+.yinav-grp{font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--lilac,#A89087);
+ margin:0 4px 0 6px;white-space:nowrap}
+.yinav-rail{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.yinav-rail a,.yinav-rail .here{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
+ padding:8px 12px;border:1px solid var(--rule,#DFCEC5);border-radius:3px;color:var(--iris-mid,#8A4530);opacity:.72}
+.yinav-rail a:hover{opacity:1;border-color:var(--iris-mid,#8A4530)}
+.yinav-rail .here{background:var(--iris,#5B2A1B);border-color:var(--iris,#5B2A1B);color:#FAF1EC;opacity:1}
+.yinav-rail .g{font-family:"Noto Serif SC","Fraunces",serif;font-size:.86rem;letter-spacing:0;margin-right:7px}
+.yinav-rail .comp{border-style:dotted}
+.yinav-home{display:inline-block;margin-top:26px;font-size:.62rem;letter-spacing:.18em;
+ text-transform:uppercase;color:var(--brass,#9A7226);text-decoration:none;opacity:.85}
+.yinav-home:hover{opacity:1;text-decoration:underline}
+@media(max-width:680px){.yinav-pair{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="yitop"><div class="in"><a href="../../index.html">↑ The Polymathic Learner</a><span class="now">13 · the field takes shape</span><span class="sp"></span><a href="yi-06-loom.html">← previous</a><a href="yi-07-field-and-song.html">next →</a></div></nav>
+
+<header class="hero" id="top">
+  <div class="hero-inner">
+    <div class="eyebrow">易 Yi · 13 · Field note and laboratory · November 2026 · Shape</div>
+    <div class="hero-grid">
+      <div>
+        <h1><span>The shape</span><span class="second">of a field</span></h1>
+        <div class="sub">How a bead becomes a field, and what a field can carry: pitch, slope, tide and answer.</div>
+        <p class="intro">Every hexagram can be given a field, a +1 or −1 laid over all sixty-four situations; note 07, which follows, works these fields out in full. This note asks what shape such fields have. The cube that holds the sixty-four rings like a struck body, and each of the sixty-four fields is one of its standing waves, pitched by the number of lines it listens to. Heat poured onto a single hexagram spreads into a field, and the three coins of a cast spread it for an exact, nameable length of time. A flow across the sixty-four parts cleanly into a slope and a tide, and the slope is 势. Two fields can answer one another, each becoming part of the other's ground, and that answer is a working form of 感应.</p>
+      </div>
+      <aside class="hero-aside">
+        <div class="mark" aria-hidden="true">势<i>shì</i></div>
+        <div>势 is the lie of the land: the shape of a situation, which carries whatever moves within it.</div>
+        <strong>First question</strong>
+        What shape does a field have, and how does a bead become one?
+        <strong>Then</strong>
+        Can propensity, tide and resonance each be read from a field, one at a time?
+      </aside>
+    </div>
+    <div class="hero-nav" aria-label="Sections">
+      <a href="#return">Opening</a><a href="#waves">Standing waves</a><a href="#bead">Bead to field</a><a href="#flow">Slope and tide</a><a href="#answer">Answering</a><a href="#ledger">Ledger</a><a href="#wonder">Still wondering</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- 00 RETURN -->
+  <section class="section" id="return">
+    <div class="section-head">
+      <div class="kicker">00 · Opening</div>
+      <div>
+        <h2>A field has a shape, and the shape can be read.</h2>
+        <p class="lede">The loom gave the sixty-four one body. This note looks at what lies across that body, the field, the way an architect looks at a site: its pitch, its slopes, its currents, and how it meets its neighbours. The listening chapters that follow hear the same fields as chords, tides and scores.</p>
+      </div>
+    </div>
+    <div class="measure">
+      <p>Graph theory sees the sixty-four as beads joined by threads: sixty-four vertices, each joined to the six that differ from it by one line. That picture holds every adjacency the earlier chapters relied on, and it says little about what lies across the beads. A field is what lies across them. It gives every situation a value at once, so it can have a slope, a ridge, a hollow and a current.</p>
+      <p>Mathematics has a mature way to carry fields onto a graph. Values on the beads are <em>potentials</em>. Values on the threads are <em>flows</em>. Values on the small squares that four beads make are <em>whirls</em>. Three operators move between them, the discrete cousins of gradient, divergence and curl, and with them the geometry of smooth fields arrives intact on a finite set of sixty-four. The sections below use those tools four times. First to hear the cube ring. Then to melt a bead into a field. Then to split a current into slope and tide. Then to let two fields answer.</p>
+    </div>
+    <div class="quote">
+      <div class="zh">形而上者谓之道，<br>形而下者谓之器。</div>
+      <blockquote>What is above form is called the Way; what is below form is called the vessel.<cite>《周易 · 系辞上》 · translation by the author</cite></blockquote>
+    </div>
+    <div class="measure">
+      <p>The fields of this note sit at that seam. They have shape, so they belong to form, and each one is a way of reading every situation together, which is closer to a way than to a thing.</p>
+    </div>
+  </section>
+
+  <!-- 01 STANDING WAVES -->
+  <section class="section" id="waves">
+    <div class="section-head">
+      <div class="kicker">01 · Standing waves</div>
+      <div>
+        <h2>The sixty-four fields are the cube's own vibrations.</h2>
+        <p class="lede">Strike a bell and it rings in a set of shapes that belong to the bronze. The six-line cube has such shapes too, and there are exactly sixty-four of them: the Walsh fields of note 07.</p>
+      </div>
+    </div>
+    <div class="measure">
+      <p>The instrument that finds a body's vibrations is its Laplacian. At every situation it asks how far the field there stands from the field at the six neighbouring situations, and adds up the differences. A field that the Laplacian only rescales, without changing its shape, is a standing wave, and the scale factor is its pitch.</p>
+      <p>On the cube the result is clean. The field of hexagram <span class="itex"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span></span> is a standing wave whose pitch is twice the number of its yang lines. The reason fits in a sentence: at every situation, exactly as many of its six neighbours read the opposite sign as there are lines that field listens to. 坤 listens to none and is the steady drone. 复, 师, 谦, 豫, 比 and 剥 each listen to one line and form the lowest audible band. 乾 listens to all six and sounds highest, flipping sign at every step.</p>
+    </div>
+    <figure class="plate" aria-label="Plate 1 · The cube's standing waves"><div class="ptag">Plate 1 · The cube's standing waves</div><div class="eq"><div class="eqline"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mo stretchy="false">(</mo><mi>L</mi><mi>f</mi><mo stretchy="false">)</mo><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mtext>  </mtext><mo>=</mo><mtext>  </mtext><munder><mo>∑</mo><mrow><mi>y</mi><mtext> </mtext><mo>∼</mo><mtext> </mtext><mi>x</mi></mrow></munder><mo fence="false" stretchy="true" minsize="1.2em" maxsize="1.2em">(</mo><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>−</mo><mi>f</mi><mo stretchy="false">(</mo><mi>y</mi><mo stretchy="false">)</mo><mo fence="false" stretchy="true" minsize="1.2em" maxsize="1.2em">)</mo></mrow><annotation encoding="application/x-tex">(Lf)(x) \;=\; \sum_{y\,\sim\,x} \big( f(x) - f(y) \big)</annotation></semantics></math></span></div><div class="eqline"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>L</mi><mtext> </mtext><mstyle mathcolor="#3f756b"><msub><mi>χ</mi><mi>k</mi></msub></mstyle><mtext>  </mtext><mo>=</mo><mtext>  </mtext><munder><munder><mrow><mn>2</mn><mtext> </mtext><mstyle mathcolor="#a6553a"><mi mathvariant="normal">∣</mi><mi>k</mi><mi mathvariant="normal">∣</mi></mstyle></mrow><mo stretchy="true">⏟</mo></munder><mtext>pitch</mtext></munder><mtext>  </mtext><mstyle mathcolor="#3f756b"><msub><mi>χ</mi><mi>k</mi></msub></mstyle></mrow><annotation encoding="application/x-tex">L\,\textcolor{#3f756b}{\chi_k} \;=\; \underbrace{2\,\textcolor{#a6553a}{|k|}}_{\text{pitch}}\;\textcolor{#3f756b}{\chi_k}</annotation></semantics></math></span></div></div><div class="legendstrip"><span><b class='j'>χ<sub>k</sub></b> the field of hexagram k, ±1 on every situation</span><span><b class='r'>|k|</b> the number of k's yang lines</span><span><b>y ∼ x</b> y differs from x in one line</span><span><b>L</b> the cube's Laplacian</span></div><div class="howto"><span class="hl">How to read it</span>L stands at each situation and measures how far the field there differs from its six neighbours. Most fields come out reshaped. The sixty-four Walsh fields come out unchanged in shape, only multiplied, and the multiplier is their pitch: twice the number of lines each listens to.</div></figure>
+  </section>
+
+  <div class="band" id="waves-lab">
+    <div class="band-inner">
+      <div class="section-head">
+        <div class="kicker">01 · The rack</div>
+        <div>
+          <h2>Seven bands, and the lantern is the score.</h2>
+          <p class="lede">Group the fields by pitch and the bands hold 1, 6, 15, 20, 15, 6 and 1. Those are the lantern's rings. The same seven rings count situations by their yang lines and count fields by their pitch.</p>
+        </div>
+      </div>
+      <div class="inst">
+        <div>
+          <div class="board" id="board1" role="group" aria-label="The sixty-four hexagrams, upper trigram by lower trigram; each cell shows the sign of the selected field"></div>
+          <div class="legend"><span><i style="background:#f3e3d8"></i>+1</span><span><i style="background:#5b2a1b"></i>−1</span><span><i style="outline:2px solid #e4b45f;background:transparent"></i>selected</span></div>
+        </div>
+        <div class="side">
+          <div class="glyph"><span id="g1"></span><div><div class="big" id="n1"></div><div class="meta" id="m1"></div></div></div>
+          <div class="read" id="r1"></div>
+          <div class="strip-wrap">
+            <svg id="strip" viewBox="0 0 400 236" role="img" aria-label="The lantern's seven rings as the seven bands of pitch; the selected hexagram is marked"></svg>
+          </div>
+          <div class="ctrls"><button class="btn" id="strike1" type="button">▶ Strike its band</button><button class="btn" id="rack1" type="button">▶ Strike all seven</button></div>
+          <div class="hint">Tap a ring to strike its bell. Tap a bead or a cell to choose a hexagram.</div>
+        </div>
+      </div>
+      <div class="listen-note">You are hearing chime-bells modelled on the 曾侯乙编钟 (Marquis Yi of Zeng, 433 BCE), struck singly or as a group. The seven bands are seven bells on 宫 商 角 徵 羽 and the 宫 and 商 above, 坤's drone the deepest. Struck together, they sound at once.</div>
+
+      <div class="facts">
+        <div class="fact"><div class="n">01 · computed</div><h3>Pitch counts lines</h3><p>For every hexagram <i>k</i> and every situation, exactly |<i>k</i>| of the six neighbours carry the opposite sign. The Laplacian returns the field multiplied by 2|<i>k</i>|, everywhere, all sixty-four at once.</p></div>
+        <div class="fact"><div class="n">02 · computed</div><h3>The lantern is the spectrum</h3><p>The bands hold 1, 6, 15, 20, 15, 6, 1 fields, the binomial row of six. Note 05 found the same numbers as rings of situations by yang count. One body serves as the elevation of the situations and the score of the fields.</p></div>
+        <div class="fact"><div class="n">03 · computed</div><h3>Two kinds of frequency</h3><p>复 and 剥 share a pitch on the cube: each listens to one line. Along note 07's thread of 64 beats, 复 turns once and 剥 turns sixty-three times. Space hears how many lines a field listens to; time hears which ones.</p></div>
+        <div class="fact"><div class="n">04 · computed</div><h3>坤 is the drone</h3><p>The constant field has pitch zero. Under any spreading, smoothing or forgetting that the cube allows, it is the one voice that never fades, and every other voice settles toward it.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 BEAD TO FIELD -->
+  <section class="section" id="bead">
+    <div class="section-head">
+      <div class="kicker">02 · From bead to field</div>
+      <div>
+        <h2>Pour heat on one hexagram, and wait.</h2>
+        <p class="lede">A single dial joins the old reading to the new. At time zero the hexagram is a bead, all weight on one situation. As time runs, the weight spreads along the lines and the bead becomes a field, with its peak still on the name it started from.</p>
+      </div>
+    </div>
+    <div class="measure">
+      <p>Heat on the cube is the gentlest way to spread. Each line, on its own clock, has some chance of having turned; the six lines turn independently, so the field at any moment is a product of six simple factors. In the spectrum the effect is a fade: every band loses amplitude at a rate set by its pitch, so the high bands go quiet first and 坤's drone stays at full strength. A sharp bead holds every pitch equally, like the click of a struck stick. A long-spread field is almost pure drone.</p>
+      <p>On level ground the peak never moves. For every moment after the start, the most likely situation is the one the heat was poured on, and the field falls away evenly with each line of difference. The name keeps its place at the summit while the field around it widens. That is one way to keep a threshold real inside a field: the named hexagram persists as the peak of a landscape that now reaches everywhere.</p>
+    </div>
+    <figure class="plate" aria-label="Plate 2 · Heat on the cube"><div class="ptag">Plate 2 · Heat on the cube</div><div class="eq"><div class="eqline"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>u</mi><mi>t</mi></msub><mtext>  </mtext><mo>=</mo><mtext>  </mtext><msup><mi>e</mi><mrow><mo>−</mo><mi>t</mi><mi>L</mi></mrow></msup><mtext> </mtext><msub><mi>δ</mi><mi>h</mi></msub></mrow><annotation encoding="application/x-tex">u_t \;=\; e^{-tL}\,\delta_h</annotation></semantics></math></span></div><div class="eqline"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>u</mi><mi>t</mi></msub><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mtext>  </mtext><mo>=</mo><mtext>  </mtext><msup><mrow><mo fence="true">(</mo><mstyle displaystyle="false" scriptlevel="0"><mfrac><mrow><mn>1</mn><mo>+</mo><msup><mi>e</mi><mrow><mo>−</mo><mn>2</mn><mi>t</mi></mrow></msup></mrow><mn>2</mn></mfrac></mstyle><mo fence="true">)</mo></mrow><mrow><mn>6</mn><mo>−</mo><mi>d</mi></mrow></msup><msup><mrow><mo fence="true">(</mo><mstyle mathcolor="#a6553a"><mstyle displaystyle="false" scriptlevel="0"><mfrac><mrow><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mn>2</mn><mi>t</mi></mrow></msup></mrow><mn>2</mn></mfrac></mstyle></mstyle><mo fence="true">)</mo></mrow><mi>d</mi></msup></mrow><annotation encoding="application/x-tex">u_t(x) \;=\; \left(\tfrac{1+e^{-2t}}{2}\right)^{6-d}\left(\textcolor{#a6553a}{\tfrac{1-e^{-2t}}{2}}\right)^{d}</annotation></semantics></math></span></div><div class="eqline"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mover accent="true"><msub><mi>u</mi><mi>t</mi></msub><mo stretchy="true">^</mo></mover><mo stretchy="false">(</mo><mi>k</mi><mo stretchy="false">)</mo><mtext>  </mtext><mo>=</mo><mtext>  </mtext><msub><mi>χ</mi><mi>k</mi></msub><mo stretchy="false">(</mo><mi>h</mi><mo stretchy="false">)</mo><mtext>  </mtext><mstyle mathcolor="#3f756b"><msup><mi>e</mi><mrow><mo>−</mo><mn>2</mn><mi mathvariant="normal">∣</mi><mi>k</mi><mi mathvariant="normal">∣</mi><mtext> </mtext><mi>t</mi></mrow></msup></mstyle></mrow><annotation encoding="application/x-tex">\widehat{u_t}(k) \;=\; \chi_k(h)\; \textcolor{#3f756b}{e^{-2|k|\,t}}</annotation></semantics></math></span></div></div><div class="legendstrip"><span><b>δ<sub>h</sub></b> all weight on hexagram h</span><span><b>d</b> the number of lines where x and h differ</span><span><b class='r'>(1 − e<sup>−2t</sup>)/2</b> the chance a single line has turned</span><span><b class='j'>e<sup>−2|k|t</sup></b> what remains of the band of pitch 2|k|</span></div><div class="howto"><span class="hl">How to read it</span>Start with everything on one hexagram and let it spread along the lines. The field at time t is a product over the six lines: each agrees with the start or has turned. Seen as a spectrum, every band fades at a rate set by its pitch. The highest fade first, and the drone of 坤, with k = 0, never fades.</div></figure>
+    <div class="measure">
+      <p>The three-coin cast turns out to be exactly this heat, run for a definite time. Three coins make each line move with chance one in four, independently of the others and of whether the line is yin or yang. The spread of possible 之卦 around a cast 本卦 is therefore the heat field at the moment when one line in four has turned: <span class="itex"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mi>ln</mi><mo>⁡</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">t = \tfrac12\ln 2</annotation></semantics></math></span></span>. At that moment every band's amplitude has halved once per line it listens to, so the spectrum descends in octaves, 1, ½, ¼, ⅛ and on.</p>
+      <p>The milfoil differs in a way the field makes visible. In the yarrow-stalk count a yang line moves with chance three in eight and a yin line with one in eight. Its rate of forgetting is the same as the coins': both per-line matrices have second eigenvalue one half, so the two methods cast for the same length of time. The milfoil's ground is tilted. Left to run, it would settle with yin three times as likely as yang in every line, which makes its change a diffusion down a gentle slope, the height of each situation rising by ln 3 for each yang line. The milfoil's change is all 势: a reversible spread on a landscape whose lowest point is 坤.</p>
+    </div>
+    <figure class="plate" aria-label="Plate 3 · Coins and milfoil"><div class="ptag">Plate 3 · Coins and milfoil</div><div class="eq"><div class="eqline"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>coins:</mtext><mspace width="1em"/><mstyle mathcolor="#a6553a"><mi>p</mi><mo>=</mo><mstyle displaystyle="false" scriptlevel="0"><mfrac><mn>1</mn><mn>4</mn></mfrac></mstyle></mstyle><mtext>  </mtext><mtext>  </mtext><mo>⟺</mo><mtext>  </mtext><mtext>  </mtext><msup><mi>e</mi><mrow><mo>−</mo><mn>2</mn><mi>t</mi></mrow></msup><mo>=</mo><mstyle displaystyle="false" scriptlevel="0"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mtext>  </mtext><mtext>  </mtext><mo>⟺</mo><mtext>  </mtext><mtext>  </mtext><mi>t</mi><mo>=</mo><mstyle displaystyle="false" scriptlevel="0"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mi>ln</mi><mo>⁡</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">\text{coins:}\quad \textcolor{#a6553a}{p = \tfrac14} \;\iff\; e^{-2t} = \tfrac12 \;\iff\; t = \tfrac12 \ln 2</annotation></semantics></math></span></div><div class="eqline"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>M</mi><mtext>milfoil</mtext></msub><mo>=</mo><mrow><mo fence="true">(</mo><mtable rowspacing="0.16em" columnalign="center center" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mn>7</mn><mi mathvariant="normal">/</mi><mn>8</mn></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mn>1</mn><mi mathvariant="normal">/</mi><mn>8</mn></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mn>3</mn><mi mathvariant="normal">/</mi><mn>8</mn></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mn>5</mn><mi mathvariant="normal">/</mi><mn>8</mn></mrow></mstyle></mtd></mtr></mtable><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">M_{\text{milfoil}} = \begin{pmatrix} 7/8 &amp; 1/8 \\ 3/8 &amp; 5/8 \end{pmatrix}</annotation></semantics></math></span></div><div class="eqline"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>λ</mi><mo>=</mo><mn>1</mn><mo separator="true">,</mo><mtext> </mtext><mstyle mathcolor="#3f756b"><mstyle displaystyle="false" scriptlevel="0"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle></mstyle><mspace width="2em"/><mi>π</mi><mo>=</mo><mo fence="false" stretchy="true" minsize="1.2em" maxsize="1.2em">(</mo><mstyle displaystyle="false" scriptlevel="0"><mfrac><mn>3</mn><mn>4</mn></mfrac></mstyle><mo separator="true">,</mo><mtext> </mtext><mstyle displaystyle="false" scriptlevel="0"><mfrac><mn>1</mn><mn>4</mn></mfrac></mstyle><mo fence="false" stretchy="true" minsize="1.2em" maxsize="1.2em">)</mo><mspace width="2em"/><mstyle mathcolor="#a6553a"><mi mathvariant="normal">Φ</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><mi mathvariant="normal">∣</mi><mi>x</mi><mi mathvariant="normal">∣</mi><mi>ln</mi><mo>⁡</mo><mn>3</mn></mstyle></mrow><annotation encoding="application/x-tex">\lambda = 1,\ \textcolor{#3f756b}{\tfrac12} \qquad \pi = \big(\tfrac34,\ \tfrac14\big) \qquad \textcolor{#a6553a}{\Phi(x) = |x| \ln 3}</annotation></semantics></math></span></div></div><div class="legendstrip"><span><b class='r'>p</b> a line's chance of moving under three coins</span><span><b>M</b> rows: from yin, from yang; columns: to yin, to yang</span><span><b class='j'>λ</b> the matrix's eigenvalues; ½ is its rate of forgetting, the same as the coins'</span><span><b>π</b> where it settles: yin three to one</span><span><b class='r'>Φ</b> the height of the milfoil's landscape; |x| counts yang lines</span></div><div class="howto"><span class="hl">How to read it</span>The coins make every line move with the same chance, a quarter, which is heat on level ground run for half the natural log of two. The milfoil moves yang lines three times as readily as yin lines. Its clock runs at the same rate, so both casts last the same time; its long-run settling point leans to yin, which is the same as heat flowing down a slope of ln 3 per yang line.</div></figure>
+  </section>
+
+  <div class="band" id="bead-lab">
+    <div class="band-inner">
+      <div class="section-head">
+        <div class="kicker">02 · The dial</div>
+        <div>
+          <h2>Turn the dial and the bead melts.</h2>
+          <p class="lede">Choose a hexagram, then move time forward. The board shows where the weight has gone, the loom shows it as a hill on one continuous skin, the bars show what remains of each band, and the bells sound the field as one chord.</p>
+        </div>
+      </div>
+      <div class="inst">
+        <div>
+          <div class="board" id="board2" role="group" aria-label="Heat spreading from the chosen hexagram across the sixty-four"></div>
+          <div class="legend"><span><i style="background:#2d1912"></i>no weight</span><span><i style="background:#f3e3d8"></i>most weight</span><span><i style="outline:2px solid #e4b45f;background:transparent"></i>start</span></div>
+          <div class="ctrls bodysel" role="group" aria-label="Body">
+            <span class="meta">Seen on</span>
+            <button class="btn on" data-bodyh="loom" type="button">織 Loom</button>
+            <button class="btn" data-bodyh="lantern" type="button">灯 Lantern</button>
+            <button class="btn" id="rollh" type="button">↻ Roll the weave</button>
+          </div>
+          <div class="lanwrap inset">
+            <canvas id="lanHeat" role="img" aria-label="The same heat field in three dimensions: a hill on the loom, or light on the lantern"></canvas>
+            <div class="lancap"><span>The same field in three dimensions · drag to turn · tap a hexagram to start there</span></div>
+          </div>
+        </div>
+        <div class="side">
+          <div class="ctrls" role="group" aria-label="Way of spreading">
+            <button class="btn on" data-m2="coin" type="button">Coins · level ground</button>
+            <button class="btn" data-m2="milfoil" type="button">Milfoil · tilted ground</button>
+          </div>
+          <label class="dial" for="t2"><span>Time <b id="tval">0.347</b></span><span id="pval">each line turned · 1 in 4</span></label>
+          <input id="t2" type="range" min="0" max="2" step="0.005" value="0.3466">
+          <div class="ctrls"><button class="btn" id="coinT" type="button">Cast time · t = ½ ln 2</button><button class="btn" id="strike2" type="button">▶ Strike the field</button></div>
+          <svg id="spec2" viewBox="0 0 360 170" role="img" aria-label="Amplitude remaining in each of the seven bands"></svg>
+          <div class="read" id="r2"></div>
+        </div>
+      </div>
+      <div class="listen-note">The chord is the field's spectrum: seven bells, one per band, each struck as loudly as its band still sounds, all at the same instant. A bead rings every bell; a spread field rings mostly the deep one. The listening is an illustration of the arithmetic; nothing measured is being played.</div>
+
+      <div class="facts">
+        <div class="fact"><div class="n">05 · computed</div><h3>Where the peak stays</h3><p>On level ground the starting hexagram carries the most weight for all time. On the milfoil's slope the peak holds through cast time and moves to 坤 once t passes ½ ln 3 ≈ 0.549, when a yang line becomes likelier to have turned than not.</p></div>
+        <div class="fact"><div class="n">06 · computed</div><h3>Three coins are a length of time</h3><p>The distribution of 之卦 under the coin cast equals heat on the cube at t = ½ ln 2 ≈ 0.347, exactly, for all sixty-four starting hexagrams. Each band's amplitude is 2<sup>−b</sup>.</p></div>
+        <div class="fact"><div class="n">07 · computed</div><h3>Milfoil and coins share a clock</h3><p>Per line, the coin matrix and the milfoil matrix both have eigenvalues 1 and ½. They forget at the same rate. They differ only in where forgetting leads.</p></div>
+        <div class="fact"><div class="n">08 · computed</div><h3>The milfoil's ground slopes</h3><p>The milfoil chain is reversible, with long-run odds of 3 : 1 for yin in each line. It is diffusion on a landscape of height ln 3 per yang line, pure slope with no circulation, lowest at 坤. Left to rest, its field is exactly the three-coin cast of 坤.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 SLOPE AND TIDE -->
+  <section class="section" id="flow">
+    <div class="section-head">
+      <div class="kicker">03 · Slope and tide</div>
+      <div>
+        <h2>Every current is a slope plus a tide.</h2>
+        <p class="lede">Put a flow on the threads, any flow at all: how readily situations pass into their neighbours. It splits in exactly one way into a part that runs downhill and a part that goes round. The first is 势. The second is the tide of the twelve 消息卦.</p>
+      </div>
+    </div>
+    <div class="measure">
+      <p>The split is the Hodge decomposition, and on the cube it has two parts. The <strong>gradient</strong> part is the flow you would get from a landscape alone, water finding its way down: a pure propensity, carried by the ground. The <strong>circulation</strong> part goes round the small squares of the cube and returns where it began; no landscape can make it, because water running downhill never comes back up to its source. The two parts are perpendicular, so every flow's strength divides cleanly between them, and neither can borrow from the other.</p>
+      <p>This settles something the earlier model only suspected. A single landscape cannot produce the returning tide of the 消息卦, 复 rising through 临, 泰, 大壮, 夬 to 乾, then 姤 falling through 遁, 否, 观, 剥 back to 坤. That tide is pure circulation: its slope part is exactly zero. A model that wants both the propensity and the return needs both parts, and the decomposition hands each one back separately, so either can be measured, drawn and heard on its own.</p>
+      <p>The tool is also kind to computation. The landscape hidden in any flow is found by solving one equation with the Laplacian of section 01, and because the Walsh fields are its standing waves, the solve is a Walsh transform, a division by pitch, and a transform back. The fields of note 07 are the natural coordinates of 势.</p>
+    </div>
+    <figure class="plate" aria-label="Plate 4 · Slope, tide and winding"><div class="ptag">Plate 4 · Slope, tide and winding</div><div class="eq"><div class="eqline"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>F</mi><mtext>  </mtext><mo>=</mo><mtext>  </mtext><munder><munder><mstyle mathcolor="#a6553a"><mi mathvariant="normal">∇</mi><mi mathvariant="normal">Φ</mi></mstyle><mo stretchy="true">⏟</mo></munder><mtext>slope</mtext></munder><mtext>  </mtext><mo>+</mo><mtext>  </mtext><munder><munder><mstyle mathcolor="#3f756b"><msup><mrow><mi mathvariant="normal">curl</mi><mo>⁡</mo></mrow><mo lspace="0em" rspace="0em">∗</mo></msup><mi mathvariant="normal">Ψ</mi></mstyle><mo stretchy="true">⏟</mo></munder><mtext>tide</mtext></munder><mtext>  </mtext><mo>+</mo><mtext>  </mtext><munder><munder><mi>H</mi><mo stretchy="true">⏟</mo></munder><mtext>winding</mtext></munder></mrow><annotation encoding="application/x-tex">F \;=\; \underbrace{\textcolor{#a6553a}{\nabla \Phi}}_{\text{slope}} \;+\; \underbrace{\textcolor{#3f756b}{\operatorname{curl}^{*}\Psi}}_{\text{tide}} \;+\; \underbrace{H}_{\text{winding}}</annotation></semantics></math></span></div><div class="eqline"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>L</mi><mtext> </mtext><mi mathvariant="normal">Φ</mi><mo>=</mo><mi mathvariant="normal">div</mi><mo>⁡</mo><mi>F</mi><mspace width="1em"/><mo>⟹</mo><mspace width="1em"/><mover accent="true"><mi mathvariant="normal">Φ</mi><mo stretchy="true">^</mo></mover><mo stretchy="false">(</mo><mi>k</mi><mo stretchy="false">)</mo><mo>=</mo><mfrac><mrow><mover accent="true"><mrow><mi mathvariant="normal">div</mi><mo>⁡</mo><mi>F</mi></mrow><mo stretchy="true">^</mo></mover><mo stretchy="false">(</mo><mi>k</mi><mo stretchy="false">)</mo></mrow><mrow><mn>2</mn><mi mathvariant="normal">∣</mi><mi>k</mi><mi mathvariant="normal">∣</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">L\,\Phi = \operatorname{div} F \quad\Longrightarrow\quad \widehat{\Phi}(k) = \frac{\widehat{\operatorname{div}F}(k)}{2|k|}</annotation></semantics></math></span></div><div class="eqline"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>cube: </mtext><mi>dim</mi><mo>⁡</mo><mi>H</mi><mo>=</mo><mn>0</mn><mspace width="2em"/><mtext>loom: </mtext><mi>dim</mi><mo>⁡</mo><mi>H</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">\text{cube: } \dim H = 0 \qquad \text{loom: } \dim H = 2</annotation></semantics></math></span></div></div><div class="legendstrip"><span><b>F</b> any flow on the 192 threads</span><span><b class='r'>∇Φ</b> the part made by a landscape Φ: 势</span><span><b class='j'>curl*Ψ</b> the part made by whirls Ψ on the 240 squares</span><span><b>H</b> what neither can make: windings around holes</span></div><div class="howto"><span class="hl">How to read it</span>Any flow divides into a landscape part, a whirling part and a winding part, uniquely, and the three are mutually perpendicular. The landscape is found by solving one equation with the Laplacian, which the Walsh fields turn into a division by pitch. On the cube the winding part is empty. On the loom it has two directions, one for each circle of the torus.</div></figure>
+    <div class="note-jade"><strong>A third part, on the loom.</strong> On the cube there is no third part, because the cube has no holes: every loop can be filled with squares. Drawn on note 06's torus, with the threads that run around it and its sixty-four squares, the same flows gain exactly two more directions, the windings around the torus's two circles. Those are the two winding rates that the torus dynamics measured, lower trigram and upper. Whether a returning current counts as a local whirl or a global winding depends on which squares are filled, and that is a choice of model the loom makes visible.</div>
+  </section>
+
+  <div class="band" id="flow-lab">
+    <div class="band-inner">
+      <div class="section-head">
+        <div class="kicker">03 · The separator</div>
+        <div>
+          <h2>Mix a slope and a tide, then pull them apart.</h2>
+          <p class="lede">The loom of note 06 and the lantern of note 05 return in three dimensions. Build a flow from a slope toward a chosen hexagram, the 消息 tide and some noise. The separator recovers the parts and shows each the way a field is seen: the landscape as a swelling, lit skin, and the flow as drift across it.</p>
+        </div>
+      </div>
+      <div class="ctrls bodysel" role="group" aria-label="Body">
+        <span class="meta">Seen on</span>
+        <button class="btn on" data-body3="loom" type="button">織 Loom · the field as a skin</button>
+        <button class="btn" data-body3="lantern" type="button">灯 Lantern · the field as light</button>
+        <button class="btn" id="roll3" type="button">↻ Roll the weave</button>
+      </div>
+      <div class="lanwrap">
+        <canvas id="lan3" role="img" aria-label="The sixty-four in three dimensions, on the loom or the lantern. Swelling and light show the landscape of 势; moving sparks show the flow."></canvas>
+        <div class="lancap"><span><i class="lg"></i>Swelling and light · the landscape, greatest where 势 gathers</span><span><i class="sp"></i>Sparks · the flow, moving the way it runs</span><span>Drag to turn · tap a hexagram to make 势 gather there</span></div>
+      </div>
+      <div class="flowctl">
+        <div>
+          <div class="ctrls" role="group" aria-label="View">
+            <button class="btn on" data-v3="all" type="button">Whole flow</button>
+            <button class="btn" data-v3="grad" type="button">势 · slope part</button>
+            <button class="btn" data-v3="curl" type="button">Tide · circulation part</button>
+            <button class="btn" id="pause3" type="button">❚❚ Hold still</button>
+          </div>
+          <div class="ctrls" role="group" aria-label="Slope toward">
+            <span class="meta">Slope toward</span>
+            <button class="btn on" data-tg="63" type="button">乾</button>
+            <button class="btn" data-tg="0" type="button">坤</button>
+            <button class="btn" data-tg="7" type="button">泰</button>
+            <button class="btn" data-tg="21" type="button">既济</button>
+          </div>
+          <div class="hint">Or tap any hexagram on the body to make it the place the slope runs to.</div>
+        </div>
+        <div class="mix">
+          <label for="a3">Slope <b id="a3v"></b></label><input id="a3" type="range" min="0" max="1" step="0.01" value="0.6">
+          <label for="b3">Tide <b id="b3v"></b></label><input id="b3" type="range" min="0" max="1" step="0.01" value="0.7">
+          <label for="c3">Noise <b id="c3v"></b></label><input id="c3" type="range" min="0" max="1" step="0.01" value="0.15">
+          <button class="btn" id="reseed" type="button">New noise</button>
+        </div>
+      </div>
+      <div class="read wide" id="r3"></div>
+      <div class="boundary dark"><strong>What kind of picture this is.</strong> A field here is a value on every one of the sixty-four at once, and the arithmetic lives on those sixty-four. The skin between them is drawn for the eye. The cube has six dimensions and these bodies three, so neither can set all six neighbours of every hexagram beside it. On the loom four of the six lie beside it, and the other two are chords, three places away round a ring; a spark on a chord skips over the weave, fainter. On the lantern fewer than three of the six sit among a bead's nearest, so a field there shows as scattered lights. The loom is the picture of the field. The lantern is the picture of its measure, and of the tide, which climbs it from 坤 to 乾 and returns.</div>
+    </div>
+  </div>
+
+  <!-- 04 ANSWERING -->
+  <section class="section" id="answer">
+    <div class="section-head">
+      <div class="kicker">04 · Answering</div>
+      <div>
+        <h2>Two fields answer by multiplying.</h2>
+        <p class="lede">感应 asks that situations feel one another. Fields can do this in a precise way: multiplied point by point, two Walsh fields always make a third, and the third is named by the lines where the first two differ.</p>
+      </div>
+    </div>
+    <div class="measure">
+      <p>Wherever two fields carry the same sign, their product is +1; wherever they part, −1. The product of hexagram <span class="itex"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span></span>'s field and hexagram <span class="itex"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi></mrow><annotation encoding="application/x-tex">b</annotation></semantics></math></span></span>'s is the field of the hexagram whose yang lines mark where <span class="itex"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span></span> and <span class="itex"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi></mrow><annotation encoding="application/x-tex">b</annotation></semantics></math></span></span> differ. In acoustics two tones heard together make sum and difference tones. In a binary world addition and subtraction coincide, so the sum tone and the difference tone are one tone, and it is this one.</p>
+      <p>Read through a cast, the rule has a direct meaning. Multiply the field of the 本卦 by the field of the 之卦 and the result is the field of the moving lines themselves, the change written as a hexagram. It reads +1 on the thirty-two situations where before and after agree and −1 on the thirty-two where they part. When no line moves, the product is 坤, the drone: before and after agree everywhere.</p>
+    </div>
+    <figure class="plate" aria-label="Plate 5 · How fields answer"><div class="ptag">Plate 5 · How fields answer</div><div class="eq"><div class="eqline"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>χ</mi><mi>a</mi></msub><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mtext> </mtext><msub><mi>χ</mi><mi>b</mi></msub><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mtext>  </mtext><mo>=</mo><mtext>  </mtext><msub><mi>χ</mi><mrow><mi>a</mi><mtext> </mtext><mo>⊕</mo><mtext> </mtext><mi>b</mi></mrow></msub><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\chi_a(x)\,\chi_b(x) \;=\; \chi_{a \,\oplus\, b}(x)</annotation></semantics></math></span></div><div class="eqline"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>χ</mi><mtext>本</mtext></msub><mo>⋅</mo><msub><mi>χ</mi><mtext>之</mtext></msub><mtext>  </mtext><mo>=</mo><mtext>  </mtext><mstyle mathcolor="#a6553a"><msub><mi>χ</mi><mrow><mtext> </mtext><mtext>moving lines</mtext></mrow></msub></mstyle></mrow><annotation encoding="application/x-tex">\chi_{\text{本}} \cdot \chi_{\text{之}} \;=\; \textcolor{#a6553a}{\chi_{\,\text{moving lines}}}</annotation></semantics></math></span></div></div><div class="legendstrip"><span><b>a ⊕ b</b> yang exactly where a and b differ</span><span><b>本 · 之</b> the cast hexagram and the hexagram it moves to</span><span><b class='r'>χ<sub>moving lines</sub></b> the change itself, as a field</span></div><div class="howto"><span class="hl">How to read it</span>Multiply two fields situation by situation. Where they agree the product is +1, where they part it is −1, and the result is always one of the sixty-four fields again: the one named by the lines where the two hexagrams differ. For a cast, that is the hexagram of its moving lines.</div></figure>
+
+    <div class="couple">
+      <div class="ctrls light" role="group" aria-label="Recorded casts">
+        <span class="meta">Recorded casts</span>
+        <button class="btn on" data-cast="17,16" type="button">屯 之 比</button>
+        <button class="btn" data-cast="48,56" type="button">观 之 否</button>
+        <button class="btn" data-cast="47,43" type="button">大有 之 睽</button>
+        <button class="btn" data-cast="36,25" type="button">艮 之 随</button>
+      </div>
+      <div class="lines" id="lines4" aria-label="Lines of the 本卦 and which of them move"></div>
+      <div class="triple" id="triple"></div>
+      <div class="read light" id="r4"></div>
+      <div class="cap">The third field is the first two multiplied, situation by situation. Casts from the 左传 and 国语 as listed in note 07. Tap a line to switch it between yin and yang; tap its marker to set it moving.</div>
+    </div>
+
+    <div class="measure" style="margin-top:2.6rem">
+      <p>Multiplication gives the vocabulary; a dynamics needs a mechanism. The one proposed here keeps 感应 inside the ground. Each situation carries a field of weight, as in section 02, spreading on a landscape, as in section 03. Let the landscape of one field include the other field, so that weight in one draws the other toward the same places. Then neither field forces the other from outside. Each becomes part of the other's ground, and they can fall into step together. The torus dynamics found no such falling into step, and it found the reason too: the 后天 context entered there as an outside push. Coupling through the ground is the change that opens the door.</p>
+    </div>
+    <figure class="plate" aria-label="Plate 6 · The field equation, proposed"><div class="ptag">Plate 6 · The field equation, proposed</div><div class="eq"><div class="eqline"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mover accent="true"><mi>f</mi><mo>˙</mo></mover><mtext>  </mtext><mo>=</mo><mtext>  </mtext><mo>−</mo><mtext> </mtext><mstyle mathcolor="#a6553a"><msub><mi>L</mi><msub><mi mathvariant="normal">Φ</mi><mi>f</mi></msub></msub></mstyle><mtext> </mtext><mi>f</mi><mtext>  </mtext><mo>+</mo><mtext>  </mtext><mstyle mathcolor="#3f756b"><mi>C</mi></mstyle><mtext> </mtext><mi>f</mi></mrow><annotation encoding="application/x-tex">\dot f \;=\; -\,\textcolor{#a6553a}{L_{\Phi_f}}\, f \;+\; \textcolor{#3f756b}{C}\, f</annotation></semantics></math></span></div><div class="eqline"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi mathvariant="normal">Φ</mi><mi>f</mi></msub><mo>=</mo><msub><mi mathvariant="normal">Φ</mi><mn>0</mn></msub><mo>−</mo><mi>κ</mi><mtext> </mtext><mi>g</mi><mspace width="2em"/><msub><mi mathvariant="normal">Φ</mi><mi>g</mi></msub><mo>=</mo><msub><mi mathvariant="normal">Φ</mi><mn>0</mn></msub><mo>−</mo><mi>κ</mi><mtext> </mtext><mi>f</mi></mrow><annotation encoding="application/x-tex">\Phi_f = \Phi_0 - \kappa\, g \qquad \Phi_g = \Phi_0 - \kappa\, f</annotation></semantics></math></span></div></div><div class="legendstrip"><span><b>f, g</b> two fields of weight over the sixty-four</span><span><b class='r'>L<sub>Φ</sub></b> heat that spreads downhill on landscape Φ, as the milfoil does</span><span><b class='j'>C</b> circulation, the tide</span><span><b>Φ<sub>0</sub></b> the shared ground, the 后天 context</span><span><b>κ</b> the strength of 感应</span></div><div class="howto"><span class="hl">How to read it</span>Each field spreads like heat on a landscape and is carried round by a tide. The landscape of each includes the other, scaled by κ, so weight in one makes the same places lower for the other. With κ = 0 the fields ignore one another and the earlier model returns. With κ > 0 they share a ground they are both shaping.</div></figure>
+    <div class="boundary"><strong>Status.</strong> The equation above is a proposal for version 2 of the model, written down so it can be tested. It has not yet been run. Its parts are each established on their own: heat on a landscape (section 02), circulation (section 03), and product coupling (this section).</div>
+  </section>
+
+  <!-- 05 LEDGER -->
+  <section class="section" id="ledger">
+    <div class="section-head">
+      <div class="kicker">05 · Ledger</div>
+      <div>
+        <h2>What this note establishes, and what it opens.</h2>
+        <p class="lede">Claims are sorted by what supports them. The computed ones were checked on 13 November 2026, by exact enumeration over all sixty-four situations.</p>
+      </div>
+    </div>
+    <div class="ledger">
+      <div class="col est"><div class="tag">Established</div><ul>
+        <li>Every Walsh field is a standing wave of the cube, with pitch twice its number of yang lines.</li>
+        <li>The pitch bands hold 1, 6, 15, 20, 15, 6, 1 fields, the lantern's rings.</li>
+        <li>Heat on the cube factorises line by line; on level ground its peak stays on the starting hexagram for all time, and on the milfoil's slope until t = ½ ln 3.</li>
+        <li>The coin cast's 之卦 distribution is heat at t = ½ ln 2 exactly.</li>
+        <li>Milfoil and coins forget at the same rate; the milfoil's chain is reversible, with a slope of ln 3 per yang line toward 坤, and its resting field equals the coin cast of 坤.</li>
+        <li>On the cube every flow is slope plus circulation, with no third part. The 消息 tide is pure circulation.</li>
+        <li>The product of 本 and 之 fields is the field of the moving lines.</li>
+        <li>On the loom, four of every hexagram's six neighbours lie beside it. On the lantern, 2.8 of the six, on average, sit among a bead's six nearest.</li>
+      </ul></div>
+      <div class="col pro"><div class="tag">Provisional</div><ul>
+        <li>Heat time as the dial between the hexagram as bead and as field.</li>
+        <li>The slope part of a flow as 势, and the circulation part as the tide.</li>
+        <li>The named hexagram as the peak of its field, which keeps thresholds real.</li>
+        <li>The loom's skin as the picture of a field, and the lantern as the picture of its measure.</li>
+        <li>感应 as mutual landscape, in the proposed field equation.</li>
+      </ul></div>
+      <div class="col open"><div class="tag">Open</div><ul>
+        <li>Whether the milfoil's three, the slope of ln 3, is the three the fifths need.</li>
+        <li>Whether 吉 and 凶 in the text form a landscape, a tide, or both.</li>
+        <li>Which squares a model should fill: cube or loom, whirl or winding.</li>
+        <li>What the coupling constant κ should be, and whether one value fits all pairs.</li>
+        <li>What a picture must give up. Three dimensions cannot set all six neighbours beside every hexagram; the loom keeps four.</li>
+      </ul></div>
+      <div class="col next"><div class="tag">Next</div><ul>
+        <li>Run the field equation inside the Part Four instrument, as version 2.</li>
+        <li>Fit a landscape to the 卦辞 and 爻辞 through their Walsh spectrum.</li>
+        <li>Decompose the recorded casts into slope and tide.</li>
+        <li>Test whether coupled fields entrain where forced ones did not.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- CODA -->
+  <section class="section" id="wonder">
+    <div class="section-head">
+      <div class="kicker">Still wondering</div>
+      <div>
+        <h2>Where the arithmetic stops, the wondering starts.</h2>
+        <p class="lede">What follows is reflection. It is fenced off from the ledger on purpose.</p>
+      </div>
+    </div>
+    <div class="coda">
+      <p>The milfoil's ground slopes toward 坤. Cast after cast, if its change were left to run, every line would lean three to one toward yin, and the field would gather at the receptive ground. 坤厚载物: the earth, thick enough to carry all things. A practice two and a half thousand years old has the shape of a landscape built into its arithmetic, and the coins, a later and simpler practice, levelled that landscape flat while keeping exactly the same clock. The two meet at one point: where the milfoil comes to rest is precisely the field the coins draw around 坤.</p>
+      <p>A name, on this reading, is the peak of a field. 屯 is where the weight is greatest, and the field of 屯 reaches every one of the sixty-four, thinner with each line of distance. The tradition's long habit of reading a cast through its neighbours, its 互卦, 错卦 and 综卦, its moving lines and the hexagram it moves toward, reads like a practice of feeling the field around the peak.</p>
+      <p>And the cube rings. Its seven bands are the lantern's seven rings, and its lowest voice, the one that never fades, is 坤. A situation struck sharply sounds every bell; a situation held long settles into the drone. Somewhere between the click and the hum is the time a cast takes, one half of the natural logarithm of two, during which one line in four has turned.</p>
+    </div>
+
+    <details id="sources">
+      <summary>Sources, lineage and method</summary>
+      <div class="sources">
+        <div class="source"><b>易 Yi · 07 · The hexagram as field, the Yi as song</b>The Walsh fields, their computed properties, and the recorded casts used in section 04. <a href="yi-07-field-and-song.html">Read note 07</a>.</div>
+        <div class="source"><b>Correspondence, October 2026</b>Readers' replies to the archive, paraphrased in note 07, whose questions about propensity and resonance this note continues. They will be acknowledged by name, with their permission.</div>
+        <div class="source"><b><a href="https://ctext.org/book-of-changes/xi-ci-shang">《周易·系辞上》</a></b>形而上者谓之道，形而下者谓之器. Primary text via the Chinese Text Project.</div>
+        <div class="source"><b>Fan Chung, <i>Spectral Graph Theory</i></b>American Mathematical Society, 1997. The graph Laplacian and its eigenvalues; the hypercube's spectrum.</div>
+        <div class="source"><b>Shuman, Narang, Frossard, Ortega &amp; Vandergheynst, “The emerging field of signal processing on graphs”</b><i>IEEE Signal Processing Magazine</i> 30, 2013. Fields on graphs, graph Fourier bases and heat kernels.</div>
+        <div class="source"><b>Persi Diaconis, <i>Group Representations in Probability and Statistics</i></b>IMS Lecture Notes 11, 1988. Random walks on the hypercube, analysed through its characters, the Walsh fields.</div>
+        <div class="source"><b>Lek-Heng Lim, “Hodge Laplacians on graphs”</b><i>SIAM Review</i> 62, 2020. Gradient, curl and harmonic parts of flows on graphs and cell complexes.</div>
+        <div class="source"><b>Jiang, Lim, Yao &amp; Ye, “Statistical ranking and combinatorial Hodge theory”</b><i>Mathematical Programming</i> 127, 2011. The decomposition used to separate consistent slope from cyclic tension.</div>
+        <div class="source"><b>Desbrun, Hirani, Leok &amp; Marsden, “Discrete exterior calculus”</b>2005. Potentials, flows and whirls as values on vertices, edges and faces.</div>
+        <div class="source"><b>François Jullien, <i>The Propensity of Things</i></b>Zone Books, 1995 (<i>La propension des choses</i>, 1992). 势 as the disposition carried by a configuration.</div>
+        <div class="source"><b>朱熹《周易本义 · 筮仪》</b>The yarrow-stalk procedure, from which the line probabilities 1/16, 5/16, 7/16, 3/16 for six, seven, eight and nine follow.</div>
+        <div class="source"><b>Method</b>All computed claims were checked by exact enumeration over the 64 situations, 192 threads and 240 squares of the six-cube: eigenvectors, heat kernels against the coin distribution, eigenvalues and reversibility of the milfoil chain, the first Betti number of the cube's squares, and the tide's slope part.</div>
+      </div>
+    </details>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div><strong>易 Yi · 13 · The Shape of a Field</strong><br>势 · field note and laboratory on the geometry of fields</div>
+    <div>Lin Wei 林威 — conceptual direction<br>with Claude<br>November 2026</div>
+  </div>
+</footer>
+
+<nav class="yinav"><div class="in">
+  <div class="yinav-lab">13 · the field takes shape</div>
+  <div class="yinav-pair">
+    <a href="yi-06-loom.html"><span class="dir">Previous</span><span class="ttl">←  Trigrams on a torus</span></a>
+    <a href="yi-07-field-and-song.html"><span class="dir">Next · the listening</span><span class="ttl">The hexagram as field, the Yi as song  →</span></a>
+  </div>
+  <div class="yinav-rail">
+    <span class="yinav-grp">the argument ›</span>
+    <a href="yi-00-inheritance.html"><span class="g">序</span>00 Inheritance</a>
+    <a href="yi-01-state-space.html"><span class="g">一</span>01 State space</a>
+    <a href="yi-02-motion.html"><span class="g">二</span>02 Motion</a>
+    <a href="yi-03-forces.html"><span class="g">三</span>03 Forces</a>
+    <span class="yinav-grp">the instruments ›</span>
+    <a href="yi-04-instrument.html"><span class="g">儀</span>04 Double cube</a>
+    <a href="yi-05-lantern.html"><span class="g">灯</span>05 Lantern</a>
+    <a href="yi-06-loom.html"><span class="g">織</span>06 Loom</a>
+    <span class="here"><span class="g">势</span>13 Shape of a field</span>
+    <a class="comp" href="yi-lantern-thinking.html"><span class="g">灯</span>— Companion</a>
+    <span class="yinav-grp">the listening ›</span>
+    <a href="yi-07-field-and-song.html"><span class="g">律</span>07 Field &amp; song</a>
+    <a href="yi-08-four-voices.html"><span class="g">九六</span>08 Four voices</a>
+    <a href="yi-09-held-notes.html"><span class="g">时</span>09 Held notes</a>
+    <a href="yi-10-consonance-couplets.html"><span class="g">和</span>10 Couplets</a>
+    <a href="yi-11-life-on-bamboo.html"><span class="g">竹</span>11 A life on bamboo</a>
+    <a href="yi-12-tuning-the-sixty-four.html"><span class="g">调</span>12 Tuning</a>
+    <a class="comp" href="yi-bells-companion.html"><span class="g">钟</span>— Bells</a>
+  </div>
+  <div class="yinav-lab" style="margin:26px 0 0;opacity:.85">Lin Wei 林威 · with Claude and ChatGPT, and light touches of DeepSeek</div>
+  <a class="yinav-home" href="../../index.html">The whole 易 Yi sequence on the polymathic learner →</a>
+</div></nav>
+
+<script>
+/* YiAudio — one shared sound engine for the listening chapters: bronze chime-bells after the 曾侯乙编钟.
+   Voiced from two sets of recorded strikes: excavated Zhou hand-bells (考古汇), and the lower tier of a 曾侯乙编钟
+   replica struck with poles in performance. Each strike starts at once with a knock and a bright flash of high modes, then a bronze clang (partials near 2.2, 2.4, 2.45, 3.15,
+   3.45 and 4.5 times the fundamental), a side-tone a minor third up, and a fundamental that blooms 0.1–0.2 s after
+   the strike and hums on: seconds for a small bell, 15–25 s for a great one. No beating pairs: the hum is steady.
+   One playback at a time: starting anything stops whatever is sounding, and Stop silences at once.
+   Single strikes from the bell rack share one free-play channel, so they ring together like a struck set. */
+window.YiAudio=(function(){
+  var ctx=null,out=null,bus=null,tag=null,nodes=[],onStop=null,noiseBuf=null,pending=[],pump=null,ringing={};
+  function init(){
+    if(!ctx){
+      ctx=new(window.AudioContext||window.webkitAudioContext)();
+      out=ctx.createGain();out.gain.value=0.7;
+      var comp=ctx.createDynamicsCompressor();comp.threshold.value=-18;comp.ratio.value=2.5;comp.attack.value=0.02;comp.release.value=0.4;
+      // a stone hall: 5 s tail, darker as it fades, with a short pre-delay
+      var sr=ctx.sampleRate,len=Math.floor(sr*5),ir=ctx.createBuffer(2,len,sr);
+      for(var c=0;c<2;c++){var d=ir.getChannelData(c),lp=0;
+        for(var i=0;i<len;i++){var u=i/len,k=0.55-0.47*u;lp=lp+k*((Math.random()*2-1)-lp);d[i]=(i<sr*0.022?0:lp*Math.pow(1-u,2.6));}}
+      var conv=ctx.createConvolver();conv.buffer=ir;
+      var wl=ctx.createBiquadFilter();wl.type="lowpass";wl.frequency.value=3200;
+      var wet=ctx.createGain();wet.gain.value=0.36;
+      out.connect(comp);out.connect(wl);wl.connect(conv);conv.connect(wet);wet.connect(comp);comp.connect(ctx.destination);
+      noiseBuf=ctx.createBuffer(1,Math.floor(sr*0.006),sr);var nd=noiseBuf.getChannelData(0);nd[0]=1;nd[1]=-0.6;for(var j=2;j<nd.length;j++)nd[j]=(Math.random()*2-1)*0.5*Math.exp(-j/(sr*0.0007));
+    }
+    if(ctx.state==="suspended"&&ctx.resume){try{var p=ctx.resume();if(p&&p.catch)p.catch(function(){});}catch(e){}}
+    return ctx;
+  }
+  function stop(){
+    if(bus&&ctx){var b=bus,t=ctx.currentTime;
+      try{b.gain.cancelScheduledValues(t);b.gain.setValueAtTime(b.gain.value,t);b.gain.linearRampToValueAtTime(0,t+0.12);}catch(e){}
+      nodes.forEach(function(n){try{n.stop(t+0.15);}catch(e){}});
+      setTimeout(function(){try{b.disconnect();}catch(e){}},400);}
+    bus=null;tag=null;nodes=[];pending=[];ringing={};if(pump){clearInterval(pump);pump=null;}
+    var cb=onStop;onStop=null;if(cb)cb();
+  }
+  function begin(cb,t){
+    try{init();}catch(e){return null;}
+    if(t==="free"&&tag==="free"&&bus)return ctx;     // single strikes ring on together
+    stop();
+    bus=ctx.createGain();bus.gain.value=1;bus.connect(out);onStop=cb||null;tag=t||"song";
+    return ctx;
+  }
+  // [ratio, level, decay as a share of the fundamental's ring, attack]
+  var PARTS=[[1,1,1,"bloom"],[1.2,0.13,0.6,"side"],[2.22,0.34,0.16,"fast"],[2.4,0.42,0.15,"fast"],[2.46,0.2,0.13,"fast"],[3.15,0.2,0.12,"fast"],[3.45,0.13,0.11,"fast"],[4.5,0.09,0.1,"fast"],
+             [5.3,0.12,0.06,"ping"],[6.1,0.09,0.05,"ping"],[7.2,0.07,0.04,"ping"],[8.4,0.05,0.035,"ping"]];   // the high modes that make the strike
+  function flush(){ if(!ctx)return; var lim=ctx.currentTime+0.6,keep=[];
+    pending.forEach(function(p){ if(p[0]<lim) p[1](); else keep.push(p); });
+    pending=keep; if(!pending.length&&pump){clearInterval(pump);pump=null;} }
+  function later(when,fn){ if(when>ctx.currentTime+0.6){ pending.push([when,fn]); if(!pump)pump=setInterval(flush,120); } else fn(); }
+  function bell(f,when,dur,gain){
+    if(!bus)return;
+    later(when,function(){strikeNow(f,when,dur,gain);});
+  }
+  // a hand laid on the bronze: everything ringing at `when` fades over about tau seconds
+  function damp(when,tau){
+    if(!bus)return;
+    later(when,function(){ Object.keys(ringing).forEach(function(k){ ringing[k].forEach(function(v){
+      try{v[1].gain.setTargetAtTime(0.0001,when,(tau||0.8)/3);}catch(e){} }); }); });
+  }
+  function strikeNow(f,when,dur,gain){
+    if(!bus)return;
+    // Ring time, from two sets of recorded strikes: about 3.5 s for a hand-bell near 1 kHz; the great bells of the
+    // Zeng set's lower tier, near 100–350 Hz, still sound 15–25 s after the pole strikes them.
+    var T=Math.max(3,Math.min(24,3.5*Math.pow(1000/f,1.2)));
+    var big=Math.min(2.6,Math.pow(1000/f,0.6));             // and their clang lingers longer too
+    var bloom=Math.min(0.2,Math.max(0.07,0.12*Math.pow(500/f,0.4)));
+    var key=Math.round(f*4), mine=[];
+    (ringing[key]||[]).forEach(function(v){                  // striking a bell again damps its earlier ring
+      try{v[1].gain.setTargetAtTime(0.0001,when,0.05);v[0].stop(when+0.4);}catch(e){} });
+    PARTS.forEach(function(p){
+      var fp=f*p[0]; if(fp>11000)return;
+      var o=ctx.createOscillator(),g=ctx.createGain(),Tp=T*p[2];
+      if(p[3]==="fast")Tp=Math.min(12,Tp*big);
+      if(p[3]==="ping")Tp=Math.min(0.5,Math.max(0.08,Tp*big));
+      o.type="sine";o.frequency.value=fp;
+      var a=gain*p[1]*(p[3]==="bloom"?0.62:0.5);
+      // the strike is instant: every mode starts at once, within a millisecond, as in the recordings
+      g.gain.setValueAtTime(0.0001,when);
+      if(p[3]==="bloom"){ g.gain.linearRampToValueAtTime(a*0.6,when+0.001); g.gain.linearRampToValueAtTime(a,when+bloom); g.gain.setTargetAtTime(0.0001,when+bloom,T/6.9); }
+      else { g.gain.linearRampToValueAtTime(a,when+0.0008); g.gain.setTargetAtTime(0.0001,when+0.0008,Tp/6.9); }
+      o.connect(g);g.connect(bus);o.start(when);o.stop(when+(p[3]==="bloom"?T:Tp)+0.3);nodes.push(o);mine.push([o,g]);
+    });
+    ringing[key]=mine;
+    var n=ctx.createBufferSource(),bp=ctx.createBiquadFilter(),ng=ctx.createGain();   // the knock of mallet or pole: a click of a few ms
+    n.buffer=noiseBuf;bp.type="lowpass";bp.frequency.value=Math.max(1800,Math.min(7000,f*6));bp.Q.value=0.5;ng.gain.value=gain*0.55;
+    n.connect(bp);bp.connect(ng);ng.connect(bus);n.start(when);nodes.push(n);
+  }
+  // a note: strike f0; if the voice turns (f1), strike the bell again on its new tone at glideAt
+  function note(f0,f1,when,dur,gain,glideAt){
+    if(!bus)return;
+    bell(f0,when,dur,gain);
+    if(f1&&f1!==f0){bell(f1,when+dur*(glideAt==null?0.6:glideAt),dur*(1-(glideAt==null?0.6:glideAt))+0.8,gain*0.8);}
+  }
+  function strike(f,gain){ if(!begin(null,"free"))return; bell(f,ctx.currentTime+0.01,null,gain||0.3); }
+  return{begin:begin,stop:stop,note:note,bell:bell,strike:strike,damp:damp,now:function(){return ctx?ctx.currentTime:0;},playing:function(){return !!bus&&tag!=="free";}};
+})();
+</script>
+<script>
+(function(){
+  "use strict";
+  // ── encoding (as in note 07): bit i (0..5) = line i+1 from the bottom; 1 = yang
+  var TRI = {乾:7, 兑:3, 离:5, 震:1, 巽:6, 坎:2, 艮:4, 坤:0};
+  var ORDER = ["乾","兑","离","震","巽","坎","艮","坤"]; // 先天 order
+  var NAMES = {
+    乾:["乾","履","同人","无妄","姤","讼","遁","否"],
+    兑:["夬","兑","革","随","大过","困","咸","萃"],
+    离:["大有","睽","离","噬嗑","鼎","未济","旅","晋"],
+    震:["大壮","归妹","丰","震","恒","解","小过","豫"],
+    巽:["小畜","中孚","家人","益","巽","涣","渐","观"],
+    坎:["需","节","既济","屯","井","坎","蹇","比"],
+    艮:["大畜","损","贲","颐","蛊","蒙","艮","剥"],
+    坤:["泰","临","明夷","复","升","师","谦","坤"]
+  };
+  var NAME = new Array(64);
+  ORDER.forEach(function(up){ ORDER.forEach(function(lo,j){ NAME[TRI[lo] + 8*TRI[up]] = NAMES[up][j]; }); });
+  var POS = ["初","二","三","四","五","上"];
+  var BELLS = [130.81,146.83,164.81,196.00,220.00,261.63,293.66]; // 宫 商 角 徵 羽 宫' 商' — band 0 deepest
+  var BANDNAME = ["宫","商","角","徵","羽","清宫","清商"];
+
+  function pc(v){ var c=0; while(v){ c+=v&1; v>>=1; } return c; }
+  function W(k,x){ return (pc(k&x)&1) ? -1 : 1; }
+  function rev6(v){ var r=0; for(var i=0;i<6;i++) if(v>>i&1) r|=1<<(5-i); return r; }
+  function wht(a){ // unnormalised Walsh–Hadamard transform, length 64
+    var b=a.slice(); for(var h=1;h<64;h<<=1) for(var i=0;i<64;i+=h<<1) for(var j=i;j<i+h;j++){ var x=b[j],y=b[j+h]; b[j]=x+y; b[j+h]=x-y; } return b; }
+  function yangList(k){ var a=[]; for(var i=0;i<6;i++) if(k>>i&1) a.push(POS[i]); return a; }
+
+  var NS="http://www.w3.org/2000/svg";
+  function el(tag,attrs,parent){ var e=document.createElementNS(NS,tag); for(var a in attrs) e.setAttribute(a,attrs[a]); if(parent) parent.appendChild(e); return e; }
+  function glyph(k,color){
+    var s=el("svg",{viewBox:"0 0 30 30","aria-hidden":"true"});
+    for(var i=0;i<6;i++){
+      var y=26-i*4.6, yang=(k>>i)&1, f=color||"currentColor";
+      if(yang) el("rect",{x:2,y:y-1.4,width:26,height:2.8,fill:f},s);
+      else { el("rect",{x:2,y:y-1.4,width:11,height:2.8,fill:f},s); el("rect",{x:17,y:y-1.4,width:11,height:2.8,fill:f},s); }
+    }
+    return s;
+  }
+  function setOn(sel,attr,val){ document.querySelectorAll(sel).forEach(function(b){ b.classList.toggle("on",b.getAttribute(attr)===String(val)); }); }
+
+  // rings: hexagrams by yang count, 息 side to the left (line 1 read as the highest digit)
+  var RINGS=[]; for(var b=0;b<7;b++) RINGS.push([]);
+  for(var x=0;x<64;x++) RINGS[pc(x)].push(x);
+  RINGS.forEach(function(r){ r.sort(function(a,b){ return rev6(b)-rev6(a); }); });
+
+  function buildBoard(host,onPick){
+    var cells=new Array(64);
+    host.appendChild(Object.assign(document.createElement("div"),{className:"lab"}));
+    ORDER.forEach(function(lo){ var d=document.createElement("div"); d.className="lab zh"; d.textContent=lo; d.title="lower trigram "+lo; host.appendChild(d); });
+    ORDER.forEach(function(up){
+      var lab=document.createElement("div"); lab.className="lab zh"; lab.textContent=up; lab.title="upper trigram "+up; host.appendChild(lab);
+      ORDER.forEach(function(lo){
+        var x=TRI[lo]+8*TRI[up];
+        var b=document.createElement("button"); b.className="cell"; b.type="button";
+        b.setAttribute("aria-label",NAME[x]+", upper "+up+", lower "+lo);
+        b.appendChild(glyph(x));
+        var nm=document.createElement("span"); nm.className="nm"; nm.textContent=NAME[x]; b.appendChild(nm);
+        b.addEventListener("click",function(){ onPick(x); });
+        host.appendChild(b); cells[x]=b;
+      });
+    });
+    return cells;
+  }
+
+  // ── threads of the cube, oriented from fewer yang lines to more
+  var E=[], EIDX=new Array(64*6);
+  (function(){ for(var x=0;x<64;x++) for(var i=0;i<6;i++) if(!(x>>i&1)){ EIDX[x*6+i]=E.length; E.push([x,x|(1<<i)]); }
+    for(var x2=0;x2<64;x2++) for(var i2=0;i2<6;i2++) if(x2>>i2&1) EIDX[x2*6+i2]=EIDX[(x2^(1<<i2))*6+i2]; })();
+  function outflow(F,v,i){ var f=F[EIDX[v*6+i]]; return (v>>i&1) ? -f : f; }
+
+  // ── two bodies from the earlier notes, in three dimensions
+  //    灯 lantern (note 05): 64 beads on one closed thread, height = number of yang lines,
+  //       radius = √(how many share that height). It shows measure.
+  //    織 loom (note 06): the 64 as an 8×8 torus, lower trigram round the long way, upper round the short way.
+  //       Four of every hexagram's six neighbours lie beside it, so a field can be drawn as a continuous skin.
+  var COMB=[1,6,15,20,15,6,1], RMAX=Math.sqrt(20), LP=new Array(64);
+  (function(){ for(var k=0;k<64;k++){ var g=k^(k>>1), hh=pc(g), ang=2*Math.PI*k/64, r=Math.sqrt(COMB[hh])/RMAX*1.15; LP[g]=[r*Math.cos(ang),(hh-3)/3*1.35,r*Math.sin(ang)]; } })();
+  var RING=[0,1,3,2,6,7,5,4], RPOS=[]; RING.forEach(function(t,i){ RPOS[t]=i; });
+  var TAU=6.283185307, TR=1.0, TR0=0.40, NU=64, NV=32, NQ=NU*NV;
+  var RAMP=[[0,52,26,18],[0.3,122,58,38],[0.6,204,116,82],[0.85,240,192,142],[1,250,234,208]];
+  function ramp(g,s){ var i=1; while(i<RAMP.length-1 && g>RAMP[i][0]) i++; var a=RAMP[i-1], b=RAMP[i], t=Math.max(0,Math.min(1,(g-a[0])/(b[0]-a[0])));
+    return "rgb("+Math.round((a[1]+(b[1]-a[1])*t)*s)+","+Math.round((a[2]+(b[2]-a[2])*t)*s)+","+Math.round((a[3]+(b[3]-a[3])*t)*s)+")"; }
+
+  function Field3D(cv,opts){
+    opts=opts||{};
+    var ctx=cv.getContext("2d");
+    var reduce=!!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    var L={ry:0.6,w:0,h:0,paused:false,body:opts.body||"loom"};
+    var TILT={lantern:-0.2,loom:-0.92}, rx=TILT[L.body], phi0=0, goRy=null, goPhi=null;
+    var glow=null, flow=null, col="246,232,220", fmax=1, spawnW=null, spawnTot=0, parts=[], steep=[], labels=[], marks={}, target=-1;
+    var drag=false,lx=0,ly=0,moved=0,hold=0,visible=true,last=0,raf=0,PR=new Array(64);
+    var GG=new Float32Array(64), mg=new Float32Array(NQ), mp=new Float32Array(NQ*3), sxy=new Float32Array(NQ*2), sz=new Float32Array(NQ), qg=new Float32Array(NQ), qn=new Float32Array(NQ*3);
+    var cyy=1,syy=0,cxx=1,sxx=0,SC=100,CX=0,CY=0;
+
+    function fit(){
+      var r=cv.getBoundingClientRect(); if(r.width<10) return false;
+      var dpr=Math.max(1,Math.min(2,window.devicePixelRatio||1));
+      var h=r.width<470 ? Math.round(r.width*1.02) : (opts.height||500);
+      var bw=Math.round(r.width*dpr), bh=Math.round(h*dpr);
+      if(cv.width!==bw || cv.height!==bh){ cv.style.height=h+"px"; cv.width=bw; cv.height=bh; }
+      L.w=r.width; L.h=h; ctx.setTransform(dpr,0,0,dpr,0,0); return true;
+    }
+    function cam(){
+      cyy=Math.cos(L.ry); syy=Math.sin(L.ry); cxx=Math.cos(rx); sxx=Math.sin(rx); CX=L.w/2; CY=L.h/2;
+      SC = L.body==="loom" ? Math.min(L.w*0.285,L.h*0.36) : Math.min(L.w*0.34,L.h*0.315);
+    }
+    function proj(p){
+      var x1=p[0]*cyy-p[2]*syy, z1=p[0]*syy+p[2]*cyy, y1=p[1]*cxx-z1*sxx, z2=p[1]*sxx+z1*cxx, f=1/(1+Math.max(-0.7,z2*0.11));
+      return [CX+x1*SC*f, CY-y1*SC*f, z2, f];
+    }
+    function rotN(nx,ny,nz){ var x1=nx*cyy-nz*syy, z1=nx*syy+nz*cyy; return [x1, ny*cxx-z1*sxx, ny*sxx+z1*cxx]; }
+    function lerp(a,b,t){ return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t]; }
+
+    // the loom's skin: the field read between the sixty-four, for the eye
+    function gAt(fu,fv){
+      if(!glow) return 0;
+      var a=fu-0.5, b=fv-0.5, i=Math.floor(a), j=Math.floor(b), s=a-i, t=b-j; s=s*s*(3-2*s); t=t*t*(3-2*t);
+      var i0=((i%8)+8)%8, i1=(i0+1)%8, j0=((j%8)+8)%8, j1=(j0+1)%8;
+      return (GG[i0*8+j0]*(1-s)+GG[i1*8+j0]*s)*(1-t)+(GG[i0*8+j1]*(1-s)+GG[i1*8+j1]*s)*t;
+    }
+    function skin(fu,fv,lift){ var th=fu/8*TAU, ph=fv/8*TAU+phi0, rr=TR0*(0.72+0.80*gAt(fu,fv))+(lift||0), c=TR+rr*Math.cos(ph); return [c*Math.cos(th), rr*Math.sin(ph), c*Math.sin(th)]; }
+    function nAt(fu,fv){ var th=fu/8*TAU, ph=fv/8*TAU+phi0; return rotN(Math.cos(ph)*Math.cos(th), Math.sin(ph), Math.cos(ph)*Math.sin(th)); }
+    function mesh(){
+      for(var u=0;u<8;u++) for(var v=0;v<8;v++) GG[u*8+v]=glow?glow[RING[u]|(RING[v]<<3)]:0;
+      for(var i=0;i<NU;i++) for(var j=0;j<NV;j++){ var k=i*NV+j, fu=i*8/NU, fv=j*8/NV, p=skin(fu,fv,0);
+        mg[k]=gAt(fu,fv); mp[k*3]=p[0]; mp[k*3+1]=p[1]; mp[k*3+2]=p[2];
+        var cu=(i+0.5)*8/NU, cw=(j+0.5)*8/NV, th=cu/8*TAU, ph=cw/8*TAU+phi0;
+        qg[k]=gAt(cu,cw); qn[k*3]=Math.cos(ph)*Math.cos(th); qn[k*3+1]=Math.sin(ph); qn[k*3+2]=Math.cos(ph)*Math.sin(th); }
+    }
+    function at(a,b,t){      // where a spark is, between situations a and b, on the active body
+      if(L.body==="lantern") return lerp(LP[a],LP[b],t);
+      var ua=RPOS[a&7], va=RPOS[a>>3], fu=ua+0.5, fv=va+0.5, lift=0.03, k;
+      if((a^b)<8){ k=((RPOS[b&7]-ua+12)%8)-4; fu+=k*t; } else { k=((RPOS[b>>3]-va+12)%8)-4; fv+=k*t; }
+      var ch=(k>1||k<-1); if(ch) lift+=0.10*Math.sin(Math.PI*t);   // a chord: the change skips over three places of the weave
+      var p=skin(fu,fv,lift); p.n=nAt(fu,fv)[2]; p.ch=ch; return p;
+    }
+
+    function chord(v,i){ var t = i<3 ? v&7 : v>>3, b = i<3 ? i : i-3, k=((RPOS[t^(1<<b)]-RPOS[t]+12)%8)-4; return k>1||k<-1; }
+    function step(p){
+      var v=p.a, tot=0, o=[];
+      for(var i=0;i<6;i++){ var f=outflow(flow,v,i); if(f>fmax*0.05){ o.push(i,f); tot+=f; } }
+      if(!tot){ p.dead=true; return; }
+      var r=Math.random()*tot, j=0; for(;j<o.length-2;j+=2){ r-=o[j+1]; if(r<=0) break; }
+      p.b=v^(1<<o[j]); p.f=o[j+1]/fmax; p.t=0; p.dead=false;
+    }
+    function spawn(p,scatter){
+      if(!spawnTot){ p.dead=true; return; }
+      var r=Math.random()*spawnTot, v=0; for(;v<63;v++){ r-=spawnW[v]; if(r<=0) break; }
+      p.a=v; p.hops=0; step(p); if(scatter) p.t=Math.random();
+    }
+    function advance(dt){
+      for(var n=0;n<parts.length;n++){ var p=parts[n];
+        if(p.dead){ spawn(p); continue; }
+        p.t+=dt*(0.45+1.1*p.f);
+        if(p.t>=1){ p.a=p.b; p.hops++; if(p.hops>30){ spawn(p); } else { step(p); if(p.dead) spawn(p); } } }
+    }
+    function sparkLine(x,q0,q1,al,wd){ x.strokeStyle="rgba("+col+","+al.toFixed(3)+")"; x.lineWidth=wd; x.beginPath(); x.moveTo(q0[0],q0[1]); x.lineTo(q1[0],q1[1]); x.stroke(); }
+    function comet(x,a,b,str,n){        // held still: a thin tail swelling to a bright head, pointing the way the flow runs
+      var prev=proj(at(a,b,0.12));
+      for(var s=1;s<=n;s++){ var t=0.12+0.76*s/n, q=proj(at(a,b,t)), w=s/n;
+        sparkLine(x,prev,q,(0.10+0.80*w*w)*(0.45+0.55*str),(0.5+2.1*w)*q[3]); prev=q; }
+    }
+    function names(x){
+      x.textAlign="center"; x.lineJoin="round";
+      labels.forEach(function(Lb){ var P=PR[Lb.h]; if(!P) return; var up = L.body==="loom" ? true : LP[Lb.h][1]>=0, ty=P[1]+(up?-11:20);
+        x.font='600 14px "Noto Serif SC",serif'; x.lineWidth=4; x.strokeStyle="#170c09"; x.strokeText(Lb.text,P[0],ty); x.fillStyle=Lb.col; x.fillText(Lb.text,P[0],ty); });
+    }
+
+    function drawLantern(x){
+      var h,i;
+      x.lineWidth=1; x.strokeStyle="rgba(248,237,231,.11)";
+      for(var l=0;l<7;l++){ var r=Math.sqrt(COMB[l])/RMAX*1.15, y=(l-3)/3*1.35; x.beginPath();
+        for(var a=0;a<=48;a++){ var th=TAU*a/48, q=proj([r*Math.cos(th),y,r*Math.sin(th)]); if(a) x.lineTo(q[0],q[1]); else x.moveTo(q[0],q[1]); } x.stroke(); }
+      for(h=0;h<64;h++) PR[h]=proj(LP[h]);
+      if(glow){ x.save(); x.globalCompositeOperation="lighter";
+        for(h=0;h<64;h++){ var g=glow[h]; if(g<0.015) continue; var P=PR[h], rad=(10+44*g)*P[3]*(L.w<470?0.72:1);
+          var gr=x.createRadialGradient(P[0],P[1],0,P[0],P[1],rad);
+          gr.addColorStop(0,"rgba(246,196,120,"+(0.10+0.55*g).toFixed(3)+")"); gr.addColorStop(0.45,"rgba(225,120,80,"+(0.05+0.20*g).toFixed(3)+")"); gr.addColorStop(1,"rgba(225,120,80,0)");
+          x.fillStyle=gr; x.beginPath(); x.arc(P[0],P[1],rad,0,TAU); x.fill(); }
+        x.restore(); }
+      if(flow && spawnTot){ x.save(); x.globalCompositeOperation="lighter"; x.lineCap="round";
+        if(!reduce && !L.paused){
+          for(i=0;i<parts.length;i++){ var p=parts[i]; if(p.dead) continue;
+            var q1=proj(at(p.a,p.b,p.t)), q0=proj(at(p.a,p.b,Math.max(0,p.t-0.26)));
+            sparkLine(x,q0,q1,(0.30+0.6*p.f)*(q1[2]>0?0.6:1),(1.1+1.3*p.f)*q1[3]); }
+        } else { for(i=0;i<steep.length;i++) comet(x,steep[i][0],steep[i][1],steep[i][2],3); }
+        x.restore(); }
+      var order=[]; for(h=0;h<64;h++) order.push(h); order.sort(function(p,q){ return PR[q][2]-PR[p][2]; });
+      for(i=0;i<64;i++){ h=order[i]; var P2=PR[h], g2=glow?glow[h]:0, rr=(2.2+3.4*g2)*P2[3];
+        x.beginPath(); x.arc(P2[0],P2[1],h===target?rr+2.2:rr,0,TAU);
+        x.fillStyle = marks[h] || (glow ? "rgb("+Math.round(122+124*g2)+","+Math.round(66+149*g2)+","+Math.round(46+108*g2)+")" : "#7a4230");
+        x.globalAlpha=P2[2]>0?0.75:1; x.fill();
+        if(h===target){ x.lineWidth=1.5; x.strokeStyle="#fff3d6"; x.stroke(); } }
+      x.globalAlpha=1;
+    }
+
+    function drawLoom(x){
+      var i,j,k,h,n, ids=[], zs=[], ex=[];
+      for(k=0;k<NQ;k++){ var px=mp[k*3],py=mp[k*3+1],pz=mp[k*3+2], x1=px*cyy-pz*syy, z1=px*syy+pz*cyy, y1=py*cxx-z1*sxx, z2=py*sxx+z1*cxx, f=1/(1+Math.max(-0.7,z2*0.11));
+        sxy[k*2]=CX+x1*SC*f; sxy[k*2+1]=CY-y1*SC*f; sz[k]=z2; }
+      for(i=0;i<NU;i++){ var i1=(i+1)%NU; for(j=0;j<NV;j++){ k=i*NV+j;
+        var nz=qn[k*3+1]*sxx+(qn[k*3]*syy+qn[k*3+2]*cyy)*cxx; if(nz>0.16) continue;
+        var j1=(j+1)%NV; ids.push(k); zs[k]=(sz[k]+sz[i1*NV+j]+sz[i1*NV+j1]+sz[i*NV+j1])/4; } }
+      // the sixty-four, as small marks on the skin
+      for(h=0;h<64;h++){ var fu=RPOS[h&7]+0.5, fv=RPOS[h>>3]+0.5; PR[h]=null;
+        if(nAt(fu,fv)[2]>0.22) continue;
+        var P=proj(skin(fu,fv,0.015)); PR[h]=P; ex.push({t:0,h:h,P:P}); ids.push(NQ+ex.length-1); zs[NQ+ex.length-1]=P[2]-0.06; }
+      // the flow
+      if(flow && spawnTot){
+        if(!reduce && !L.paused){
+          for(n=0;n<parts.length;n++){ var p=parts[n]; if(p.dead) continue;
+            var a1=at(p.a,p.b,p.t); if(a1.n>0.3) continue;
+            ex.push({t:1,q1:proj(a1),q0:proj(at(p.a,p.b,Math.max(0,p.t-(a1.ch?0.09:0.22)))),f:p.f,ch:a1.ch}); ids.push(NQ+ex.length-1); zs[NQ+ex.length-1]=ex[ex.length-1].q1[2]-0.1; }
+        } else {
+          for(n=0;n<steep.length;n++){ var m=at(steep[n][0],steep[n][1],0.5); if(m.n>0.3) continue;
+            ex.push({t:2,e:steep[n]}); ids.push(NQ+ex.length-1); zs[NQ+ex.length-1]=proj(m)[2]-0.1; }
+        }
+      }
+      ids.sort(function(a,b){ return zs[b]-zs[a]; });
+      x.lineJoin="round"; x.lineCap="round";
+      for(n=0;n<ids.length;n++){ var id=ids[n];
+        if(id<NQ){ i=(id/NV)|0; j=id-i*NV; var ia=((i+1)%NU)*NV, jb=(j+1)%NV, b1=ia+j, c1=ia+jb, d1=i*NV+jb;
+          var rn=rotN(qn[id*3],qn[id*3+1],qn[id*3+2]), sh=0.50+0.50*Math.max(0,-0.30*rn[0]+0.52*rn[1]-0.80*rn[2]);
+          var c=ramp(glow?qg[id]:0.16,sh);
+          x.fillStyle=c; x.strokeStyle=c; x.lineWidth=0.7;
+          x.beginPath(); x.moveTo(sxy[id*2],sxy[id*2+1]); x.lineTo(sxy[b1*2],sxy[b1*2+1]); x.lineTo(sxy[c1*2],sxy[c1*2+1]); x.lineTo(sxy[d1*2],sxy[d1*2+1]); x.closePath(); x.fill(); x.stroke();
+        } else { var o=ex[id-NQ];
+          if(o.t===0){ var g=glow?glow[o.h]:0, isT=o.h===target, rr=(isT?4.6:1.7)*o.P[3];
+            x.beginPath(); x.arc(o.P[0],o.P[1],rr,0,TAU); x.fillStyle = marks[o.h] || (g>0.62?"rgba(75,28,18,.75)":"rgba(248,237,231,.6)"); x.fill();
+            if(isT){ x.lineWidth=1.5; x.strokeStyle="#fff3d6"; x.stroke(); } }
+          else if(o.t===1){ sparkLine(x,o.q0,o.q1,(0.55+0.45*o.f)*(o.ch?0.5:1),(1.2+1.4*o.f)*o.q1[3]*(o.ch?0.7:1)); }
+          else { comet(x,o.e[0],o.e[1],o.e[2],6); }
+        } }
+    }
+
+    function draw(){
+      if(!fit()) return;
+      cam(); ctx.clearRect(0,0,L.w,L.h);
+      if(L.body==="loom") drawLoom(ctx); else drawLantern(ctx);
+      names(ctx);
+    }
+    function tick(ts){
+      raf=0; var dt=Math.min(0.05,(ts-(last||ts))/1000); last=ts;
+      if(goRy!==null){ var d1=wrap(goRy-L.ry), d2=wrap(goPhi-phi0), kx=Math.min(1,dt*3.2);
+        L.ry+=d1*kx; if(Math.abs(d2)>1e-4){ phi0+=d2*kx; mesh(); }
+        if(Math.abs(d1)<0.004 && Math.abs(d2)<0.004){ goRy=null; goPhi=null; } }
+      else if(!drag){ if(hold>0) hold-=dt; else if(!L.paused) L.ry+=dt*0.09; }
+      if(flow && !L.paused) advance(dt);
+      draw(); loop();
+    }
+    function wrap(d){ d=(d+Math.PI)%TAU; if(d<0) d+=TAU; return d-Math.PI; }
+    function loop(){ if(!raf && visible && !reduce) raf=requestAnimationFrame(tick); }
+    // turn the body so a hexagram faces the reader; on the loom, also roll the weave so it lies on top
+    L.face=function(h){
+      var ang, ph=phi0;
+      if(L.body==="loom"){ ang=(RPOS[h&7]+0.5)/8*TAU; ph=1.0-(RPOS[h>>3]+0.5)/8*TAU; } else { ang=Math.atan2(LP[h][2],LP[h][0]); }
+      var ry=-Math.PI/2-ang+0.35;
+      if(reduce){ L.ry=ry; phi0=ph; mesh(); draw(); } else { goRy=ry; goPhi=ph; hold=6; last=0; loop(); }
+    };
+    L.roll=function(){ goPhi=(goPhi!==null?goPhi:phi0)+TAU/4; if(goRy===null) goRy=L.ry; if(reduce){ phi0=goPhi; goRy=null; mesh(); draw(); } else { hold=6; last=0; loop(); } };
+    L.redraw=function(){ draw(); last=0; loop(); };
+    L.setBody=function(b){ L.body=b; rx=TILT[b]; goRy=null; goPhi=null; mesh(); L.redraw(); };
+    L.setGlow=function(g){ glow=g; mesh(); };
+    L.setLabels=function(a){ labels=a||[]; };
+    L.setMarks=function(m,t){ marks=m||{}; target=t; };
+    L.setPaused=function(b){ L.paused=b; last=0; draw(); loop(); };
+    L.setFlow=function(F,c){
+      flow=F; if(c) col=c; steep=[]; if(!F){ parts=[]; return; }
+      fmax=0; for(var i=0;i<F.length;i++) fmax=Math.max(fmax,Math.abs(F[i])); if(fmax<1e-9){ spawnTot=0; return; }
+      spawnW=new Array(64); spawnTot=0;
+      for(var v=0;v<64;v++){ var s=0, best=-1, bf=fmax*0.3;
+        for(var j=0;j<6;j++){ var f=outflow(F,v,j); if(f>fmax*0.05) s+=f; if(f>bf+1e-9 || (best>=0 && f>bf-1e-9 && chord(v,best) && !chord(v,j))){ bf=Math.max(bf,f); best=j; } }
+        spawnW[v]=s; spawnTot+=s; if(best>=0) steep.push([v,v^(1<<best),bf/fmax]); }   // each situation's steepest way on
+      var N=(L.w&&L.w<470)?150:240; if(parts.length!==N){ parts=[]; for(var n=0;n<N;n++) parts.push({dead:true}); }
+      parts.forEach(function(p){ spawn(p,true); });
+    };
+    cv.addEventListener("pointerdown",function(e){ drag=true; lx=e.clientX; ly=e.clientY; moved=0; });
+    cv.addEventListener("pointermove",function(e){ if(!drag) return;
+      var dx=e.clientX-lx, dy=e.clientY-ly; L.ry+=dx*0.008; goRy=null; goPhi=null;
+      if(e.pointerType==="mouse"){ if(L.body==="loom"){ phi0+=dy*0.008; mesh(); } else { rx=Math.max(-1.35,Math.min(0.3,rx+dy*0.006)); } }
+      moved+=Math.abs(dx)+Math.abs(dy); lx=e.clientX; ly=e.clientY; hold=5; if(reduce||L.paused) draw(); });
+    cv.addEventListener("pointerup",function(e){
+      if(drag && moved<8 && opts.onPick){ var r=cv.getBoundingClientRect(), px=e.clientX-r.left, py=e.clientY-r.top, best=-1, bd=24*24;
+        for(var h=0;h<64;h++){ if(!PR[h]) continue; var d=(PR[h][0]-px)*(PR[h][0]-px)+(PR[h][1]-py)*(PR[h][1]-py)+(PR[h][2]>0?60:0); if(d<bd){ bd=d; best=h; } }
+        if(best>=0){ hold=5; opts.onPick(best); } }
+      drag=false; });
+    ["pointercancel","pointerleave"].forEach(function(ev){ cv.addEventListener(ev,function(){ drag=false; }); });
+    window.addEventListener("resize",function(){ draw(); });
+    if(window.ResizeObserver){ try{ new ResizeObserver(function(){ draw(); }).observe(cv.parentNode); }catch(e){} }
+    if(window.IntersectionObserver){ try{ new IntersectionObserver(function(en){ visible=en[0].isIntersecting; last=0; if(visible){ draw(); loop(); } },{rootMargin:"120px"}).observe(cv); }catch(e){} }
+    // a phone can run this before first layout: keep trying until the canvas has a real size
+    var tries=0; (function poll(){ if(fit()){ draw(); loop(); } else if(++tries<40) setTimeout(poll,150); })();
+    if(document.fonts && document.fonts.ready && document.fonts.ready.then) document.fonts.ready.then(function(){ draw(); });
+    mesh();
+    return L;
+  }
+
+  // ═════ 01 · standing waves ═════
+  (function(){
+    var host=document.getElementById("board1"); if(!host) return;
+    var k=17;
+    var cells=buildBoard(host,function(x){ k=x; render(); });
+    var strip=document.getElementById("strip");
+    var W0=400, top=12, rowH=30, dots=[];
+    var rings=[];
+    for(var b=6;b>=0;b--){ (function(b){
+      var y=top+(6-b)*rowH+rowH/2;
+      var g=el("g",{class:"ring",tabindex:"0",role:"button","aria-label":"Band "+b+", pitch "+(2*b)+", "+RINGS[b].length+" fields. Strike its bell"},strip);
+      el("rect",{class:"hit",x:0,y:y-rowH/2+1,width:W0,height:rowH-2,fill:"transparent"},g);
+      var lab=el("text",{x:4,y:y+3.5,fill:"#bba79e","font-family":"Space Mono, monospace","font-size":"9"},g); lab.textContent="2·"+b;
+      var lab2=el("text",{x:W0-4,y:y+3.5,fill:"#bba79e","font-family":"Noto Serif SC, serif","font-size":"10","text-anchor":"end"},g); lab2.textContent=BANDNAME[b];
+      var n=RINGS[b].length, sp=Math.min(16,300/n), x0=W0/2-sp*(n-1)/2;
+      RINGS[b].forEach(function(h,i){
+        var c=el("circle",{cx:x0+i*sp,cy:y,r:4.6,fill:"#5b2a1b",stroke:"rgba(248,237,231,.35)","stroke-width":"1"},g);
+        c.addEventListener("click",function(ev){ ev.stopPropagation(); k=h; render(); });
+        dots[h]=c;
+      });
+      g.addEventListener("click",function(){ strikeBand(b); });
+      g.addEventListener("keydown",function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); strikeBand(b); } });
+      rings[b]=g;
+    })(b); }
+    function strikeBand(b){ if(window.YiAudio) YiAudio.strike(BELLS[b],0.34); }
+    document.getElementById("strike1").addEventListener("click",function(){ strikeBand(pc(k)); });
+    document.getElementById("rack1").addEventListener("click",function(){
+      if(!window.YiAudio) return; var ctx=YiAudio.begin(null,"song"); if(!ctx) return;
+      var t=YiAudio.now()+0.05; for(var b=0;b<7;b++) YiAudio.bell(BELLS[b],t,null,0.2);   // one instant, all seven
+    });
+    function render(){
+      var b=pc(k);
+      for(var x=0;x<64;x++){ var c=cells[x]; c.classList.toggle("pos",W(k,x)>0); c.classList.toggle("neg",W(k,x)<0); c.classList.toggle("sel",x===k); }
+      for(var h=0;h<64;h++){ var d=dots[h], same=pc(h)===b;
+        d.setAttribute("fill", h===k ? "#e4b45f" : (same ? "#a6553a" : "#5b2a1b"));
+        d.setAttribute("r", h===k ? 6 : 4.6); }
+      var g=document.getElementById("g1"); g.innerHTML=""; g.appendChild(glyph(k,"#f5dccf"));
+      document.getElementById("n1").textContent=NAME[k];
+      document.getElementById("m1").textContent="band "+b+" · pitch "+(2*b)+" · "+RINGS[b].length+" fields share it";
+      var lines=yangList(k);
+      document.getElementById("r1").innerHTML = b===0
+        ? "<b>坤 listens to no line.</b> Its field is +1 everywhere, the same as all its neighbours, so the Laplacian returns zero: pitch 0, the drone beneath every chord."
+        : "<b>"+NAME[k]+" listens to line"+(b>1?"s ":" ")+lines.join(" ")+".</b> At every one of the sixty-four situations, exactly "+b+" of the six neighbours read the opposite sign, so the Laplacian returns the field multiplied by "+(2*b)+". It shares its band, 「"+BANDNAME[b]+"」, with the "+(RINGS[b].length-1)+" other hexagram"+(RINGS[b].length-1===1?"":"s")+" that have "+b+" yang line"+(b>1?"s":"")+": the lantern's ring at height "+b+".";
+    }
+    render();
+  })();
+
+  // ═════ 02 · bead to field ═════
+  (function(){
+    var host=document.getElementById("board2"); if(!host) return;
+    var h=17, mode="coin", t=0.5*Math.log(2), u=new Array(64), spec=[];
+    var cells=buildBoard(host,function(x){ h=x; render(); });
+    cells.forEach(function(c){ c.classList.add("heat"); });
+    var slider=document.getElementById("t2");
+    slider.addEventListener("input",function(){ t=parseFloat(slider.value); render(); });
+    document.getElementById("coinT").addEventListener("click",function(){ t=0.5*Math.log(2); slider.value=t.toFixed(4); render(); });
+    document.querySelectorAll("[data-m2]").forEach(function(b){ b.addEventListener("click",function(){ mode=b.dataset.m2; setOn("[data-m2]","data-m2",mode); render(); }); });
+    document.getElementById("strike2").addEventListener("click",function(){
+      if(!window.YiAudio) return; var ctx=YiAudio.begin(null,"song"); if(!ctx) return;
+      var when=YiAudio.now()+0.05, mx=Math.max.apply(null,spec);
+      for(var b=0;b<7;b++){ var a=spec[b]/mx; if(a>0.02) YiAudio.bell(BELLS[b],when,null,0.34*a); }  // all bells on the same instant
+    });
+    function mix(a,b,s){ return Math.round(a+(b-a)*s); }
+    function col(s){ // dark cell → rust → cream
+      if(s<0.5){ var q=s/0.5; return "rgb("+mix(45,166,q)+","+mix(25,85,q)+","+mix(18,58,q)+")"; }
+      var r=(s-0.5)/0.5; return "rgb("+mix(166,243,r)+","+mix(85,227,r)+","+mix(58,216,r)+")"; }
+    var spec2=document.getElementById("spec2");
+    var hcv=document.getElementById("lanHeat"), hlan=hcv?Field3D(hcv,{height:420,body:"loom",onPick:function(x){ h=x; render(); }}):null, faced=-1;
+    var rollh=document.getElementById("rollh"); if(rollh) rollh.addEventListener("click",function(){ hlan.roll(); });
+    document.querySelectorAll("[data-bodyh]").forEach(function(b){ b.addEventListener("click",function(){ setOn("[data-bodyh]","data-bodyh",b.dataset.bodyh); hlan.setBody(b.dataset.bodyh); rollh.style.display=b.dataset.bodyh==="loom"?"":"none"; faced=-1; render(); }); });
+    function render(){
+      var e=Math.exp(-2*t);
+      // per-line chance that a line, starting yang or yin, now reads the other way
+      var pYang = mode==="coin" ? (1-e)/2 : 0.75*(1-e);
+      var pYin  = mode==="coin" ? (1-e)/2 : 0.25*(1-e);
+      for(var x=0;x<64;x++){ var p=1;
+        for(var i=0;i<6;i++){ var s=(h>>i)&1, d=((x>>i)&1)!==s, q=s?pYang:pYin; p*= d?q:(1-q); }
+        u[x]=p; }
+      var mx=Math.max.apply(null,u), arg=u.indexOf(mx);
+      for(var x2=0;x2<64;x2++){ var c=cells[x2], v=Math.sqrt(u[x2]/mx);
+        c.style.background=col(v); c.style.color = v>0.74 ? "#4b1c12" : "#fbefe8"; c.style.borderColor = v>0.74 ? "rgba(75,28,18,.25)" : "rgba(248,237,231,.14)";
+        c.classList.toggle("sel",x2===h); }
+      var U=wht(u); spec=[];
+      for(var b=0;b<7;b++){ var s2=0,n=0; for(var k=0;k<64;k++) if(pc(k)===b){ s2+=U[k]*U[k]; n++; } spec.push(Math.sqrt(s2/n)); }
+      // bars
+      spec2.innerHTML=""; var bw=40, gap=10, x0=12, base=130, H=110;
+      for(var b2=0;b2<7;b2++){ var hgt=Math.max(1,H*spec[b2]), xx=x0+b2*(bw+gap);
+        el("rect",{x:xx,y:base-H,width:bw,height:H,fill:"rgba(248,237,231,.05)"},spec2);
+        el("rect",{x:xx,y:base-hgt,width:bw,height:hgt,fill:b2===0?"#e4b45f":"#e18b70"},spec2);
+        var tx=el("text",{x:xx+bw/2,y:base+16,"text-anchor":"middle",fill:"#e6d4cb","font-family":"Noto Serif SC, serif","font-size":"12"},spec2); tx.textContent=BANDNAME[b2];
+        var tv=el("text",{x:xx+bw/2,y:base+31,"text-anchor":"middle",fill:"#bba79e","font-family":"Space Mono, monospace","font-size":"9"},spec2); tv.textContent=spec[b2].toFixed(2);
+      }
+      if(hlan){ hlan.setGlow(u.map(function(v){ return Math.sqrt(v/mx); })); var mk={}; mk[h]="#e4b45f"; hlan.setMarks(mk,h);
+        var lb=[{h:h,text:NAME[h],col:"#f6d79a"}]; if(hlan.body==="lantern"){ if(h!==0) lb.push({h:0,text:"坤",col:"#e6d4cb"}); if(h!==63) lb.push({h:63,text:"乾",col:"#e6d4cb"}); } else if(arg!==h) lb.push({h:arg,text:NAME[arg],col:"#e6d4cb"}); hlan.setLabels(lb); hlan.redraw(); if(faced!==h){ faced=h; hlan.face(h); } }
+      document.getElementById("tval").textContent=t.toFixed(3);
+      var atCast=Math.abs(t-0.5*Math.log(2))<0.004;
+      document.getElementById("pval").textContent = mode==="coin"
+        ? "each line turned · "+(pYang*100).toFixed(1)+"%"
+        : "yang turned "+(pYang*100).toFixed(1)+"% · yin "+(pYin*100).toFixed(1)+"%";
+      var nearRing=0; for(var y=0;y<64;y++) if(pc(y^h)===1) nearRing+=u[y];
+      var txt="<b>Peak: "+NAME[arg]+".</b> "+NAME[h]+" itself holds "+(u[h]*100).toFixed(1)+"% of the weight, its six neighbours "+(nearRing*100).toFixed(1)+"% between them. ";
+      if(t<0.004) txt+="At time zero the field is a bead, and every band sounds at full strength, like a click.";
+      else if(atCast && mode==="coin") txt+="<b>This is cast time.</b> The field is exactly the spread of possible 之卦 when "+NAME[h]+" is cast with three coins. Each band stands at a power of one half.";
+      else if(atCast) txt+="<b>This is cast time for the milfoil.</b> The field is the spread of 之卦 when "+NAME[h]+" is cast with yarrow stalks: its yang lines are three times as restless as its yin lines.";
+      else if(arg!==h) txt+="<b>The peak has moved from "+NAME[h]+" to "+NAME[arg]+".</b> Past t = ½ ln 3 ≈ 0.549 each yang line is likelier to have turned than not, and the milfoil's weight runs down its slope toward 坤."+(t>1.5?" Its field is now almost exactly a three-coin cast of 坤.":"");
+      else if(t>1.5) txt+= "Long after the cast, almost only the drone of 坤 remains: the field is close to level everywhere, with "+NAME[h]+" still faintly the highest point.";
+      else txt+="Higher bands fade faster; 坤's drone stays at full strength.";
+      document.getElementById("r2").innerHTML=txt;
+    }
+    render();
+  })();
+
+  // ═════ 03 · slope and tide, on the lantern in three dimensions ═════
+  (function(){
+    var cv=document.getElementById("lan3"); if(!cv) return;
+    var TIDE=[0,1,3,7,15,31,63,62,60,56,48,32,0];
+    var tideF=new Array(E.length).fill(0);
+    for(var s=0;s<12;s++){ var a=TIDE[s], b=TIDE[s+1], i=0; while(((a^b)>>i&1)===0) i++; tideF[EIDX[Math.min(a,b)*6+i]] += (b>a?1:-1); }
+    var target=63, view="all", seed=7, noise=[];
+    function rng(){ seed=(seed*1103515245+12345)&0x7fffffff; return seed/0x7fffffff; }
+    function gauss(){ var u1=Math.max(1e-9,rng()), u2=rng(); return Math.sqrt(-2*Math.log(u1))*Math.cos(2*Math.PI*u2); }
+    function reseed(){ noise=E.map(function(){ return gauss(); }); }
+    reseed();
+    var lan=Field3D(cv,{body:"loom",onPick:function(h){ setTarget(h); }});
+    document.querySelectorAll("[data-body3]").forEach(function(b){ b.addEventListener("click",function(){ setBody3(b.dataset.body3); render(); lan.face(target); }); });
+    var roll3=document.getElementById("roll3"); roll3.addEventListener("click",function(){ lan.roll(); });
+    ["a3","b3","c3"].forEach(function(id){ document.getElementById(id).addEventListener("input",render); });
+    document.getElementById("reseed").addEventListener("click",function(){ seed=(seed*7+13)&0xffff||5; reseed(); render(); });
+    document.querySelectorAll("[data-v3]").forEach(function(b){ b.addEventListener("click",function(){ view=b.dataset.v3; setOn("[data-v3]","data-v3",view);
+      setBody3(view==="curl"?"lantern":"loom"); render(); lan.face(view==="curl"?63:target); }); });   // the tide is one ring on the lantern; the landscape is a skin on the loom
+    function setBody3(b){ if(lan.body===b) return; setOn("[data-body3]","data-body3",b); lan.setBody(b); roll3.style.display=b==="loom"?"":"none"; }
+    document.querySelectorAll("[data-tg]").forEach(function(b){ b.addEventListener("click",function(){ setTarget(parseInt(b.dataset.tg,10)); }); });
+    var pb=document.getElementById("pause3");
+    pb.addEventListener("click",function(){ var p=!lan.paused; lan.setPaused(p); pb.textContent=p?"▶ Let it move":"❚❚ Hold still"; });
+    function setTarget(h){ target=h; setOn("[data-tg]","data-tg",h); render(); lan.face(h); }
+    function render(){
+      var A=parseFloat(document.getElementById("a3").value), B=parseFloat(document.getElementById("b3").value)*2, C=parseFloat(document.getElementById("c3").value)*0.6;
+      document.getElementById("a3v").textContent=A.toFixed(2); document.getElementById("b3v").textContent=(B/2).toFixed(2); document.getElementById("c3v").textContent=(C/0.6).toFixed(2);
+      // whole flow: slope toward the target (height = lines of difference), tide, noise. Positive = toward more yang lines.
+      var F=E.map(function(e,j){ var down=pc(e[0]^target)-pc(e[1]^target); return A*down + B*tideF[j] + C*noise[j]; });
+      // separator: L Φ = div F, solved through the Walsh fields (division by pitch)
+      var dv=new Array(64).fill(0);
+      E.forEach(function(e,j){ dv[e[1]]+=F[j]; dv[e[0]]-=F[j]; });
+      var D=wht(dv), Ph=D.map(function(v,k){ return k===0?0:v/(2*pc(k)); }), Phi=wht(Ph).map(function(v){ return v/64; });
+      var G=E.map(function(e){ return Phi[e[1]]-Phi[e[0]]; });
+      var R=F.map(function(v,j){ return v-G[j]; });
+      var eF=0,eG=0,eR=0; for(var j=0;j<E.length;j++){ eF+=F[j]*F[j]; eG+=G[j]*G[j]; eR+=R[j]*R[j]; }
+      var mn=Math.min.apply(null,Phi), mx=Math.max.apply(null,Phi), has=(mx-mn)>1e-9;
+      var glow=has ? Phi.map(function(v){ return Math.pow((v-mn)/(mx-mn),1.6); }) : null;
+      var rank=Phi.map(function(v,h){ return [v,h]; }).sort(function(p,q){ return q[0]-p[0]; });
+      var gather=rank[0][1];
+      var labels = lan.body==="lantern" ? [{h:0,text:"坤",col:"#e6d4cb"},{h:63,text:"乾",col:"#e6d4cb"}] : [], marks={};
+      if(view==="curl"){ TIDE.forEach(function(h){ marks[h]="#7cc4b3"; }); lan.setGlow(null); lan.setFlow(R,"124,196,179"); }
+      else { lan.setGlow(glow); lan.setFlow(view==="grad"?G:F, view==="grad"?"246,176,140":"246,232,220");
+        if(has && gather!==0 && gather!==63 && gather!==target) labels.push({h:gather,text:NAME[gather],col:"#f6d79a"}); }
+      if(lan.body==="loom" || (target!==0 && target!==63)) labels.push({h:target,text:NAME[target],col:"#f6d79a"});
+      marks[target]=marks[target]||"#e4b45f";
+      lan.setMarks(marks,target); lan.setLabels(labels); lan.redraw();
+      var sG=eF?eG/eF:0, sR=eF?eR/eF:0;
+      var tideBack = view==="curl" && C===0 && B>0;
+      document.getElementById("r3").innerHTML =
+        '<div class="share" aria-hidden="true"><span style="width:'+(sG*100).toFixed(1)+'%;background:#e18b70"></span><span style="width:'+(sR*100).toFixed(1)+'%;background:#7cc4b3"></span></div>'+
+        "<b>势 · slope part: "+(sG*100).toFixed(1)+"%</b> of the flow's strength. <b>Tide · circulation: "+(sR*100).toFixed(1)+"%.</b> Winding: none is possible on the cube. "+
+        (has ? "The recovered 势 gathers at <b>"+NAME[gather]+"</b>, then "+NAME[rank[1][1]]+" and "+NAME[rank[2][1]]+": that is where the field swells and brightens. " : "There is no landscape in this flow, so the body stays dark and level. ")+
+        (tideBack ? "With no noise, the circulation part is the 消息 tide returned exactly: twelve threads, one closed ring of sparks." :
+         (view==="curl" ? "The sparks hold the tide and whatever of the noise goes round. No landscape lies under them, so the body stays level." :
+          (view==="grad" ? "Every spark runs toward the brightest ground and none returns: a landscape has no tide in it." : "The swelling, lit ground is the landscape; sparks are the whole flow, slope and tide together.")));
+    }
+    setTarget(63);
+  })();
+
+  // ═════ 04 · answering ═════
+  (function(){
+    var host=document.getElementById("lines4"); if(!host) return;
+    var ben=17, mv=1;
+    var set=document.createElement("div"); set.className="lineset"; host.appendChild(set);
+    var lb=[], mb=[];
+    for(var i=0;i<6;i++){ (function(i){
+      var row=document.createElement("div"); row.className="lrow";
+      var p=document.createElement("span"); p.className="pos"; p.textContent=POS[i]; row.appendChild(p);
+      var l=document.createElement("button"); l.type="button"; l.className="lbtn"; l.innerHTML="<i></i><i></i>";
+      l.addEventListener("click",function(){ ben^=1<<i; clearCast(); render(); });
+      var m=document.createElement("button"); m.type="button"; m.className="mbtn"; m.textContent="变";
+      m.addEventListener("click",function(){ mv^=1<<i; clearCast(); render(); });
+      row.appendChild(l); row.appendChild(m); set.appendChild(row); lb[i]=l; mb[i]=m; })(i); }
+    var tri=document.getElementById("triple");
+    function mini(cls){ var d=document.createElement("div"); d.className="mini "+cls; d.innerHTML='<h4></h4><div class="mgrid"></div><div class="op"></div>'; tri.appendChild(d);
+      var g=d.querySelector(".mgrid"), sp=new Array(64);
+      ORDER.forEach(function(up){ ORDER.forEach(function(lo){ var x=TRI[lo]+8*TRI[up], s=document.createElement("span"); g.appendChild(s); sp[x]=s; }); });
+      return {h:d.querySelector("h4"),op:d.querySelector(".op"),sp:sp}; }
+    var A=mini("ben"), B=mini("zhi"), Cm=mini("chg");
+    function fill(M,k,title,sub,op){ M.h.innerHTML=""; M.h.appendChild(glyph(k)); M.h.insertAdjacentHTML("beforeend",'<span>'+title+'</span><small>'+sub+'</small>');
+      M.op.textContent=op; for(var x=0;x<64;x++) M.sp[x].classList.toggle("n",W(k,x)<0); }
+    document.querySelectorAll("[data-cast]").forEach(function(b){ b.addEventListener("click",function(){
+      var v=b.dataset.cast.split(",").map(Number); ben=v[0]; mv=v[0]^v[1]; setOn("[data-cast]","data-cast",b.dataset.cast); render(); }); });
+    function clearCast(){ document.querySelectorAll("[data-cast]").forEach(function(b){ b.classList.toggle("on", b.dataset.cast===ben+","+(ben^mv)); }); }
+    function render(){
+      var zhi=ben^mv, n=pc(mv);
+      for(var i=0;i<6;i++){ var y=(ben>>i)&1; lb[i].className="lbtn "+(y?"yang":"yin"); lb[i].setAttribute("aria-label",POS[i]+" line, "+(y?"yang":"yin")+"; tap to switch");
+        mb[i].classList.toggle("on",!!(mv>>i&1)); mb[i].setAttribute("aria-label",POS[i]+" line "+((mv>>i&1)?"moves":"holds")+"; tap to change"); mb[i].setAttribute("aria-pressed",(mv>>i&1)?"true":"false"); }
+      fill(A,ben,NAME[ben],"本卦 · its field","");
+      fill(B,zhi,NAME[zhi],"之卦 · its field","");
+      fill(Cm,mv,NAME[mv],"本 × 之","");
+      var agree=0; for(var x=0;x<64;x++) if(W(ben,x)===W(zhi,x)) agree++;
+      document.getElementById("r4").innerHTML = n===0
+        ? "<b>No line moves.</b> The two fields agree on all sixty-four situations, and their product is 坤, the constant field, the drone."
+        : "<b>"+NAME[ben]+" 之 "+NAME[zhi]+".</b> The moving line"+(n>1?"s are ":" is ")+yangList(mv).join(" ")+", and the hexagram with yang on exactly those lines is <b>"+NAME[mv]+"</b>. Its field reads +1 on the "+agree+" situations where "+NAME[ben]+" and "+NAME[zhi]+" give the same sign and −1 on the "+(64-agree)+" where they part. It sits in band "+n+": the more lines move, the higher the change sounds.";
+    }
+    clearCast(); render();
+  })();
+})();
+</script>
+<script data-goatcounter="https://linwei.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
+
+</body></html>
