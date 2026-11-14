@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Board as Body</title>
+<meta name="description" content="The weiqi board drawn as four bodies: plane, cylinder, torus and sphere. What the ground gives before any seed, what a seed does on each, and the hexagram bent into a ring. PML 易 study, v0.1.">
+<!--
+  PML · 易 sequence · weiqi × 易 strand · study: Board as Body (方圆之间) · v0.4 · 15 Nov 2026
+  Lin Wei with Claude. Self-contained: no libraries. Web fonts are optional; the page reads without them.
+  Companion to "Hexagram Field Board v0.1" (14 Nov 2026). This one is for looking, with no game rules.
+
+  CODE MAP
+    script#engine   pure logic, no DOM. Bodies as graphs (nodes, neighbours, 3D positions, all-pairs distance),
+                    the field (damped harmonic relaxation), ground measures (hold, reach), six-ring margins,
+                    hexagram lookup, necklace classes of the ringed hexagram.
+    script#ui       state, 3D canvas (rotate, project, depth-sort, pick), controls, readouts, ring cards, error box.
+
+  SOURCE HEADER: what is measured, what is asserted
+    ASSERTED  LAMBDA = 0.9   damping of the field per step. Chosen, never fitted. Hold and reach peaks move with it
+                             (checked at 0.8, 0.9, 0.95 on 13 and 19 lines: hold peaks on line 2 throughout,
+                             reach peaks on line 2, 3 and 4-5 respectively).
+    ASSERTED  hold           mean field at distance 1-2 from a lone seed.   reach: total field from a lone seed.
+    ASSERTED  ring edges     0, 1, 2, 4, 7 on the 13-line bodies; 0, 1, 2, 4, 6 on the sphere. Line 6 is the whole body.
+    ASSERTED  white = yang   convention.
+    BY COUNT  14 ring classes of the 64 (rotations of six lines). Enumerated in code, checked in node.
+    BY COUNT  cube-sphere, 4 divisions: 98 points, 8 of them with three neighbours.
+    v0.4      order-memory figures restated with a seed registering at once on placement (65, 25, 4 of 169),
+              to match 易 Yi note 15. Companion to notes 14 and 15 of the 易 sequence.
+    MEASURED  v0.3: symmetry spectrum ('symmetry spectrum test.py') and order memory ('order memory test.js'); fixed text.
+    MEASURED  v0.2: ring and mirror test on the 384 line statements. Figures in the test section are fixed text,
+              produced by 'ring and mirror test.py' on 'yi lines reconciled.json' (seed 20261115).
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Black Iris: white paper, iris-plum ink, grey-lilac rules, iris-yellow for yang, rose for 位.
+     Layout: one column on a phone; body left, readout right from 920px. */
+  --paper:#fbfaf7; --ink:#221733; --plum:#4a2f73; --lilac:#b9b1c8; --wash:#efecf4; --gold:#b0820c; --rose:#a8455c;
+  --display:"Fraunces",Georgia,"Songti SC","Noto Serif SC",serif;
+  --body:"Newsreader",Georgia,"Songti SC","Noto Serif SC",serif;
+  --mono:"Space Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.6}
+.wrap{max-width:1120px;margin:0 auto;padding:0 18px}
+.mast{border-bottom:3px double var(--ink);padding:14px 0 10px;display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:space-between;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.mast b{color:var(--plum)}
+h1{font-family:var(--display);font-weight:600;font-size:clamp(2.1rem,7vw,3.6rem);line-height:1.05;margin:26px 0 4px;text-wrap:balance;letter-spacing:-.01em}
+.cn{font-family:var(--display);font-size:1.25rem;color:var(--plum);letter-spacing:.2em;margin:0 0 14px}
+.deck{font-family:var(--display);font-style:italic;font-size:1.22rem;line-height:1.45;max-width:38em;margin:0 0 10px}
+p{margin:0 0 .9em;max-width:38em}
+h2{font-family:var(--display);font-weight:600;font-size:1.55rem;line-height:1.2;margin:0 0 10px;text-wrap:balance}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--plum);margin:0 0 6px}
+section{padding:26px 0;border-top:1px solid var(--lilac)}
+#err{background:var(--rose);color:#fff;padding:12px 14px;font-family:var(--mono);font-size:13px;margin:14px 0}
+.controls{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:flex-end;margin:6px 0 14px}
+.ctl{display:flex;flex-direction:column;gap:4px}
+.ctl>span{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase}
+.seg{display:flex;flex-wrap:wrap;border:1.5px solid var(--ink)}
+.seg button,.btn{font-family:var(--mono);font-size:13px;color:var(--ink);background:var(--paper);border:0;padding:9px 11px;min-height:40px;cursor:pointer;border-radius:0}
+.seg button+button{border-left:1.5px solid var(--ink)}
+.seg button[aria-pressed="true"],.btn[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.btn{border:1.5px solid var(--ink)}
+button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.bench{display:grid;gap:22px;grid-template-columns:1fr}
+@media(min-width:920px){.bench{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:start}}
+#stage{width:100%;display:block;background:#fff;border:1.5px solid var(--ink);touch-action:none;cursor:grab}
+.cap{font-family:var(--mono);font-size:11.5px;line-height:1.5;margin:8px 0 0;max-width:none}
+#msg{color:var(--rose)}
+.panel{border:1.5px solid var(--ink);background:#fff;padding:14px}
+.panel+.panel{margin-top:14px}
+.hexhead{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+.hexname{font-family:var(--display);font-size:2.4rem;line-height:1;font-weight:600}
+.hexsub{font-family:var(--mono);font-size:12.5px}
+.lines{margin:12px 0 6px;display:grid;gap:7px}
+.ln{display:grid;grid-template-columns:50px 78px minmax(0,1fr) 52px;gap:8px;align-items:center;font-family:var(--mono);font-size:11.5px}
+.yao{height:9px;display:flex;gap:8px}
+.yao i{display:block;flex:1;background:var(--ink)}
+.yao.un i{background:none;border-top:2px dotted var(--lilac);margin-top:4px}
+.track{height:9px;background:var(--wash);position:relative}
+.track:before{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:1.5px;background:var(--ink)}
+.track u{position:absolute;top:0;bottom:0;text-decoration:none}
+.ln.near{outline:2px solid var(--rose);outline-offset:3px}
+.ln .v{text-align:right;font-variant-numeric:tabular-nums}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+.three div{border:1px solid var(--lilac);padding:8px;text-align:center}
+.three div.on{border:2px solid var(--ink);background:var(--wash)}
+.three b{display:block;font-family:var(--display);font-size:1.35rem;line-height:1.2}
+.three span{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase}
+.big{font-family:var(--display);font-size:1.9rem;line-height:1.1;font-weight:600}
+.rows{display:grid;gap:6px;margin-top:8px}
+.row{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) minmax(0,1fr);gap:8px;font-family:var(--mono);font-size:12px;padding:6px 0;border-top:1px solid var(--lilac);font-variant-numeric:tabular-nums}
+.row.h{border-top:0;letter-spacing:.08em;text-transform:uppercase;font-size:10.5px;color:var(--plum)}
+.row.on{background:var(--wash)}
+.cross{display:grid;gap:12px;grid-template-columns:1fr}
+@media(min-width:760px){.cross{grid-template-columns:1fr 1fr}}
+.card{border:1.5px solid var(--ink);padding:14px;background:#fff}
+.card h3{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin:0 0 8px;display:inline-block;padding:3px 7px;background:var(--ink);color:var(--paper)}
+.card.out h3{background:none;color:var(--ink);border:1.5px solid var(--ink)}
+.card p,.card li{font-size:16.5px;line-height:1.5}
+.card p{margin:0 0 .5em}
+.card ul{margin:0;padding-left:1.1em}
+.card li{margin:0 0 .5em}
+.card .k{font-family:var(--display);font-size:1.3rem;font-weight:600;display:block;margin-bottom:2px}
+.rings{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px;margin-top:12px}
+.ring{border:1px solid var(--lilac);background:#fff;padding:10px;text-align:center}
+.ring svg{width:84px;height:84px;display:block;margin:0 auto 4px}
+.ring b{font-family:var(--mono);font-size:11px;letter-spacing:.08em;display:block;color:var(--plum)}
+.ring span{font-family:var(--display);font-size:15px;line-height:1.35;display:block}
+.marg{font-family:var(--mono);font-size:11.5px;color:var(--plum);border-left:3px solid var(--gold);padding-left:10px;margin:14px 0 0;max-width:none}
+footer{border-top:3px double var(--ink);padding:14px 0 40px;font-family:var(--mono);font-size:11.5px;display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:space-between}
+@media(max-width:480px){.ln{grid-template-columns:42px 66px minmax(0,1fr) 46px;font-size:10.5px}body{font-size:17px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="mast"><span><b>PML</b> / The Polymathic Learner</span><span>易 · weiqi strand · v0.4 · 15 Nov 2026</span></div>
+
+<header>
+<h1>Board as Body</h1>
+<p class="cn" lang="zh-Hans">方圆之间 · 位与子</p>
+<p class="deck">The board gives position before any seed lands. Bend the board and that gift changes. Close it completely and position has to be made by the seeds themselves.</p>
+<p>Four bodies carry the same grid: plane, cylinder, torus and sphere. Turn each one, look at what its ground offers, then drop seeds and watch the field form. The last section does the same thing to a hexagram.</p>
+</header>
+
+<div id="err" hidden></div>
+<noscript><p><strong>The bodies need JavaScript to draw.</strong> The reading and notebook sections further down are plain text.</p></noscript>
+
+<section aria-label="The bodies">
+<div class="controls">
+  <div class="ctl"><span>Body 体</span><div class="seg" data-k="body">
+    <button type="button" data-v="plane">方 Plane</button><button type="button" data-v="cylinder">筒 Cylinder</button><button type="button" data-v="torus">环 Torus</button><button type="button" data-v="sphere">球 Sphere</button></div></div>
+  <div class="ctl"><span>Show</span><div class="seg" data-k="show">
+    <button type="button" data-v="hold">地 Hold</button><button type="button" data-v="reach">势 Reach</button><button type="button" data-v="field">子 Seeds</button></div></div>
+  <div class="ctl"><span>Tap to</span><div class="seg" data-k="mode">
+    <button type="button" data-v="seed">下子 Seed</button><button type="button" data-v="read">读 Read</button></div></div>
+  <button type="button" class="btn" id="turn" aria-pressed="false">Turn</button>
+  <button type="button" class="btn" id="clear">Clear seeds</button>
+</div>
+<div class="bench">
+  <div>
+    <canvas id="stage" role="img" aria-label="The board drawn as a three-dimensional body"></canvas>
+    <p class="cap" id="legend"></p>
+    <p class="cap" id="msg" aria-live="polite"></p>
+  </div>
+  <div>
+    <div class="panel" id="readout"></div>
+    <div class="panel" id="ground"></div>
+  </div>
+</div>
+</section>
+
+<section aria-label="Reading across">
+<p class="eyebrow">Reading across · 围棋 ↔ 易</p>
+<h2>What each body keeps of 位</h2>
+<div class="cross">
+  <div class="card"><h3>方 Plane</h3><span class="k">位 is given</span><p>Corners, sides and belly differ before play begins. A hexagram's six places work the same way: 初 has nothing beneath it, 上 nothing above, and lines three and four sit at the seam between trigrams. The seed is judged by its place: 当位.</p></div>
+  <div class="card"><h3>筒 Cylinder</h3><span class="k">位 × 时</span><p>One direction keeps its two edges, the other closes into a cycle. The 十二消息卦 have this shape: a bounded climb from 初 to 上, carried round the turning year.</p></div>
+  <div class="card"><h3>环 Torus</h3><span class="k">Only relation</span><p>Every point is the same place. Nothing can be 当位. What remains is how seeds stand to each other: 应, 比, 承, 乘. The first seed chooses nothing and creates an origin.</p></div>
+  <div class="card"><h3>球 Sphere</h3><span class="k">位 gathered into points</span><p>A closed surface with curvature cannot spread position evenly on a square grid. This one gathers it into eight points with three neighbours each, sitting where a cube's corners were: the eight vertices of the three-line cube.</p></div>
+</div>
+<p class="marg">棋经: 局方而静，棋圆而动. Square ground, still; round seeds, moving. Wrapping the board makes the ground round as well.</p>
+</section>
+
+<section aria-label="The ringed hexagram">
+<p class="eyebrow">The same bend, in one dimension</p>
+<h2>Ring the hexagram and sixty-four become fourteen</h2>
+<p>A hexagram is a board six points long with two ends. Join 上 back to 初 and it becomes a ring with no first place and no last. Hexagrams that differ only in where their pattern sits become one figure.</p>
+<p id="ringsum"></p>
+<div class="rings" id="rings"></div>
+<p>Allow the ring to be turned over as well and the fourteen become thirteen. ChatGPT added this in the margin, and the count checks. Exactly one pair of rings are mirror images of each other: 蛊 噬嗑 困 渐 丰 节 on one, 随 贲 井 归妹 旅 涣 on the other. Those twelve hexagrams are six neighbours in the received order: 随蛊, 噬嗑贲, 困井, 渐归妹, 丰旅, 涣节.</p>
+<p class="cap">Each ring reads from the marked bead, anticlockwise. Filled is yang, open is yin. The names beneath are the hexagrams that share the ring.</p>
+</section>
+
+<section aria-label="Test against the text">
+<p class="eyebrow">Tested against the received text · 15 Nov 2026</p>
+<h2>The text remembers the mirror and forgets the ring</h2>
+<p>If 位 were only a convention, hexagrams that share a ring would carry similar line statements. I coded all 384 line statements by their verdict words, 吉 counting for and 凶 against, and compared ring-mates with shuffled lines.</p>
+<div class="cross">
+  <div class="card"><h3>Place decides</h3><svg viewBox="0 0 320 172" role="img" aria-label="Lines containing 吉 and 凶 at each of the six places" style="width:100%;max-width:460px;height:auto;display:block;margin:8px 0"><line x1="8" y1="134" x2="312" y2="134" stroke="#221733" stroke-width="1.2"/><rect x="18" y="62.0" width="18" height="72.0" fill="#b0820c"/><text x="27" y="58.0" text-anchor="middle" font-family="Space Mono,monospace" font-size="10" fill="#221733">20</text><rect x="38" y="101.6" width="18" height="32.4" fill="#4a2f73"/><text x="47" y="97.6" text-anchor="middle" font-family="Space Mono,monospace" font-size="10" fill="#221733">9</text><text x="37" y="152" text-anchor="middle" font-size="14" fill="#221733">初</text><rect x="68" y="36.8" width="18" height="97.2" fill="#b0820c"/><text x="77" y="32.8" text-anchor="middle" font-family="Space Mono,monospace" font-size="10" fill="#221733">27</text><rect x="88" y="112.4" width="18" height="21.6" fill="#4a2f73"/><text x="97" y="108.4" text-anchor="middle" font-family="Space Mono,monospace" font-size="10" fill="#221733">6</text><text x="87" y="152" text-anchor="middle" font-size="14" fill="#221733">二</text><rect x="118" y="112.4" width="18" height="21.6" fill="#b0820c"/><text x="127" y="108.4" text-anchor="middle" font-family="Space Mono,monospace" font-size="10" fill="#221733">6</text><rect x="138" y="87.2" width="18" height="46.8" fill="#4a2f73"/><text x="147" y="83.2" text-anchor="middle" font-family="Space Mono,monospace" font-size="10" fill="#221733">13</text><text x="137" y="152" text-anchor="middle" font-size="14" fill="#221733">三</text><rect x="168" y="65.6" width="18" height="68.4" fill="#b0820c"/><text x="177" y="61.6" text-anchor="middle" font-family="Space Mono,monospace" font-size="10" fill="#221733">19</text><rect x="188" y="119.6" width="18" height="14.4" fill="#4a2f73"/><text x="197" y="115.6" text-anchor="middle" font-family="Space Mono,monospace" font-size="10" fill="#221733">4</text><text x="187" y="152" text-anchor="middle" font-size="14" fill="#221733">四</text><rect x="218" y="29.6" width="18" height="104.4" fill="#b0820c"/><text x="227" y="25.6" text-anchor="middle" font-family="Space Mono,monospace" font-size="10" fill="#221733">29</text><rect x="238" y="123.2" width="18" height="10.8" fill="#4a2f73"/><text x="247" y="119.2" text-anchor="middle" font-family="Space Mono,monospace" font-size="10" fill="#221733">3</text><text x="237" y="152" text-anchor="middle" font-size="14" fill="#221733">五</text><rect x="268" y="72.8" width="18" height="61.2" fill="#b0820c"/><text x="277" y="68.8" text-anchor="middle" font-family="Space Mono,monospace" font-size="10" fill="#221733">17</text><rect x="288" y="72.8" width="18" height="61.2" fill="#4a2f73"/><text x="297" y="68.8" text-anchor="middle" font-family="Space Mono,monospace" font-size="10" fill="#221733">17</text><text x="287" y="152" text-anchor="middle" font-size="14" fill="#221733">上</text><rect x="18" y="160" width="9" height="9" fill="#b0820c"/><text x="31" y="168" font-family="Space Mono,monospace" font-size="10" fill="#221733">lines with 吉</text><rect x="128" y="160" width="9" height="9" fill="#4a2f73"/><text x="141" y="168" font-family="Space Mono,monospace" font-size="10" fill="#221733">lines with 凶</text></svg><p>Mean verdict by place: 初 +0.17, 二 +0.33, 三 −0.11, 四 +0.23, 五 +0.41, 上 0.00. Shuffling the places produces a spread this wide about once in ten thousand tries.</p><p>The pattern repeats in each trigram: bottom fair, middle best, top worst. 系辞 says 二多誉，三多凶，五多功. The count agrees.</p></div>
+  <div class="card"><h3>The ring leaves no trace</h3><p>Lines that sit on the same bead of the same ring are no more alike than shuffled lines, in verdict (p = 0.63) or in shared imagery (p = 0.84). Fifty-four hexagrams in rings of six, 324 lines.</p><span class="k" style="margin-top:10px">The mirror does</span><p>综 pairs, a hexagram and its reversal, share imagery far above chance (p = 0.0005). The three strongest echoes the search found unaided are 损五 with 益二, 夬四 with 姤三, and 既济三 with 未济四: each line answering its mirror place. Verdicts lean the same way weakly (r = 0.11 to 0.15), which I hold as suggestive only.</p></div>
+  <div class="card"><h3>Which symmetries the text keeps</h3><p>The ring has six rotations and six reflections. With 错, the exchange of yin and yang, that makes 23 ways to carry one hexagram onto another. I measured shared imagery along each, against chance.</p>
+  <div class="rows"><div class="row h"><span>Symmetry</span><span>Echo</span><span>p</span></div>
+  <div class="row on"><span>综 reversal</span><span>2.7×</span><span>0.001</span></div>
+  <div class="row"><span>错 complement</span><span>2.3×</span><span>0.003</span></div>
+  <div class="row"><span>错, sequence partners set aside</span><span>0.7×</span><span>0.76</span></div>
+  <div class="row"><span>交 trigram swap</span><span>0.85×</span><span>0.65</span></div>
+  <div class="row"><span>Other rotations (4)</span><span>0.8–1.4×</span><span>&gt; 0.06</span></div>
+  <div class="row"><span>Other reflections (5)</span><span>0.4–1.0×</span><span>&gt; 0.4</span></div>
+  <div class="row"><span>The rest, with 错 (10)</span><span>0.6–1.4×</span><span>&gt; 0.15</span></div></div>
+  <p style="margin-top:8px">One line survives: the pairing of the received order, which is 综 wherever reversal changes the hexagram and 错 in the four pairs where it does not. Every 综 pair is also a pair in the sequence, so this test cannot say whether the echo belongs to the geometry or to the editors who set the pairs side by side.</p></div>
+  <div class="card out"><h3>当位 is silent, 中 speaks</h3><p>Lines in their proper place (yang on odd, yin on even) score 0.172. Lines out of place score 0.172. The middle places, two and five, score 0.37 against 0.07 for the rest.</p></div>
+  <div class="card out"><h3>Reading</h3><p>A board with edges keeps its mirror symmetries and loses its translations. A torus keeps its translations. By this test the received text is a board with edges.</p><p>综 is also the plainest weiqi fact there is: the same position, seen from the opponent's seat.</p></div>
+</div>
+<p class="cap">Method. Text from two public datasets (npm: iching-divination, taoism-sdk). Both had faults; one had every 综 pair's lines exchanged. After reconciling, 369 of 384 lines matched exactly and 15 were settled by hand, two of them substantive. This is the received text as those datasets carry it, short of a critical edition. A second, graded coding with 悔 吝 厉 咎 利 亨 gave the same outcomes. Tests shuffle lines within their place, 10,000 times. The ring test first removes the average for each place and polarity.</p>
+</section>
+
+<section aria-label="Three kinds of position">
+<p class="eyebrow">A challenge accepted · 15 Nov 2026</p>
+<h2>Position by ground, by relation, by history</h2>
+<p>ChatGPT, reading the first version, separated three ways a place can come to mean something: where it sits in a structure that was already there, how it stands to everything else, and how it came to stand there. It then pointed out that this model has no memory. Two different orders of play that end in the same arrangement give the same reading.</p>
+<p>That is correct, and it changes one of my claims. On the torus the first seed makes an origin, which is position by relation. I had called it position by history. In this model the order of the seeds leaves nothing behind.</p>
+<div class="cross">
+  <div class="card"><h3>Giving the field a settling time</h3><p>History enters the moment the field is allowed to lag. I placed the same eight seeds on the 13-line torus in two opposite orders and let the field settle only partly between moves.</p>
+  <div class="rows"><div class="row h"><span>Settling per move</span><span>Differ at last seed</span><span>Gone after</span></div>
+  <div class="row"><span>1 step</span><span>65 of 169</span><span>about 20 steps</span></div>
+  <div class="row"><span>3 steps</span><span>25 of 169</span><span>about 20 steps</span></div>
+  <div class="row"><span>10 steps</span><span>4 of 169</span><span>about 20 steps</span></div></div>
+  <p style="margin-top:8px">Left alone, both boards arrive at the same reading. History is the part of the field that has yet to settle.</p></div>
+  <div class="card out"><h3>State, process, moment</h3><p>A reading taken at rest describes a state. A reading taken in the middle of play describes a moment within a process, and carries the order of what came before.</p><p>Both traditions already keep one step of memory. A cast is read as a pair, 本卦 and 之卦: where it stands and where it came from. And the ko rule forbids recreating the position of one move ago, the single place where the rules of weiqi remember.</p><p>In the 易 model the six lines have six time constants. Here they would be six settling rates, one per ring, and history would fade from the near lines first.</p></div>
+</div>
+</section>
+
+<section aria-label="Notebook">
+<p class="eyebrow">Lab notebook · 15 Nov 2026</p>
+<h2>What stands, what is provisional, what comes next</h2>
+<div class="cross">
+  <div class="card"><h3>Established</h3><ul>
+    <li id="e1"></li>
+    <li id="e2"></li>
+    <li id="e3"></li>
+    <li>Rotating six lines sorts the 64 hexagrams into 14 rings: two of size one, one of size two, two of size three and nine of size six.</li>
+    <li>The received text carries no memory of the ring and a clear memory of the mirror (see the test section). In the text, 位 is doing the work.</li>
+    <li>Of 23 symmetries of the ring with 错, the text echoes along one: the pairing of the received order.</li>
+    <li>The 14 rings become 13 when the ring may be turned over. The one mirror pair of rings is made of six neighbours in the received order.</li>
+  </ul></div>
+  <div class="card out"><h3>Provisional</h3><ul>
+    <li>Hold and reach come from one simple field with damping 0.9. The holding line stayed on line two at dampings 0.8, 0.9 and 0.95; the reaching line moved between line two and line five. Weiqi teaching names the third line for territory and the fourth for influence. The ground here separates the two roles, one line further out than the teaching puts them.</li>
+    <li>The three-earth-human-heaven reading of edge, third and fourth lines, and centre is a cross-reference of mine. No classical source states it.</li>
+    <li>Seeds here follow no rules of capture. They are interventions on a field.</li>
+    <li>Line six is the whole body, shared by every point. So at most 32 of the 64 hexagrams can be present at once. ChatGPT pointed this out on reading the Field Board. Making line six the farthest ring would lift the limit and give up the shared sky.</li>
+  </ul></div>
+  <div class="card out"><h3>Open</h3><ul>
+    <li>The mirror result on verdicts is weak. A cleaner coding of the judgement words, or a critical text, could settle whether verdicts follow k ↔ 7−k.</li>
+    <li>Why does the top of each trigram fare worst? Lines three and six are both tops; the seam and the edge may be one phenomenon.</li>
+    <li>Is the 综 echo geometry or editing? A test needs pairs that are reversals and were never neighbours, and the received order has none. The Mawangdui order arranges the hexagrams differently and could separate the two.</li>
+    <li>With six settling rates, one per line, does history fade from the lower lines first?</li>
+  </ul></div>
+  <div class="card out"><h3>Withdrawn</h3><ul>
+    <li>"On the torus, position is made by history." It is made by relation. The field depends only on the arrangement, so order leaves no mark unless the field is given a settling time. Raised by ChatGPT; confirmed by the two-order test.</li>
+  </ul></div>
+  <div class="card"><h3>Next</h3><ul>
+    <li>Replay a recorded game on plane and torus side by side and follow one group's hexagram through both.</li>
+    <li>A second sphere, the pentagon and hexagon one from the 2021 patent, where every point has three neighbours.</li>
+  </ul></div>
+</div>
+</section>
+
+<footer><span>PML · 易 sequence · Board as Body v0.4</span><span>Lin Wei with Claude · static HTML, no libraries</span></footer>
+</div>
+
+<script id="engine">
+var YB=(function(){
+"use strict";
+var TRI=["坤","艮","坎","巽","震","离","兑","乾"];
+var NAMES=[
+["坤","剥","比","观","豫","晋","萃","否"],
+["谦","艮","蹇","渐","小过","旅","咸","遁"],
+["师","蒙","坎","涣","解","未济","困","讼"],
+["升","蛊","井","巽","恒","鼎","大过","姤"],
+["复","颐","屯","益","震","噬嗑","随","无妄"],
+["明夷","贲","既济","家人","丰","离","革","同人"],
+["临","损","节","中孚","归妹","睽","兑","履"],
+["泰","大畜","需","小畜","大壮","大有","夬","乾"]];
+var LAMBDA=0.9,EPS=1e-6,N=13,K=4,TAU=Math.PI*2;
+var cache={};
+function allDist(nb){
+  var n=nb.length,D=new Uint8Array(n*n),s,h,j;
+  for(s=0;s<n;s++){
+    var d=new Int16Array(n),q=[s];for(j=0;j<n;j++)d[j]=-1;d[s]=0;
+    for(h=0;h<q.length;h++){var l=nb[q[h]];for(j=0;j<l.length;j++)if(d[l[j]]<0){d[l[j]]=d[q[h]]+1;q.push(l[j]);}}
+    for(j=0;j<n;j++)D[s*n+j]=d[j];
+  }
+  return D;
+}
+function gridBody(topo){
+  var wx=topo!=="plane",wy=topo==="torus",n=N*N,nb=[],pos=new Float64Array(n*3),c=(N-1)/2,x,y;
+  var DD=[[1,0],[-1,0],[0,1],[0,-1]];
+  for(y=0;y<N;y++)for(x=0;x<N;x++){
+    var l=[];
+    for(var d=0;d<4;d++){var nx=x+DD[d][0],ny=y+DD[d][1];
+      if(nx<0||nx>=N){if(!wx)continue;nx=(nx+N)%N;}
+      if(ny<0||ny>=N){if(!wy)continue;ny=(ny+N)%N;}
+      l.push(ny*N+nx);}
+    nb.push(l);
+    var p=(y*N+x)*3;
+    if(topo==="plane"){var s=1.8/(N-1);pos[p]=(x-c)*s;pos[p+1]=(c-y)*s;pos[p+2]=0;}
+    else if(topo==="cylinder"){var th=TAU*(x-c)/N;pos[p]=0.6*Math.sin(th);pos[p+1]=(c-y)*1.7/(N-1);pos[p+2]=0.6*Math.cos(th);}
+    else{var T=TAU*(y-c)/N,ph=TAU*(x-c)/N,R=0.66+0.3*Math.cos(ph);pos[p]=R*Math.sin(T);pos[p+1]=0.3*Math.sin(ph);pos[p+2]=R*Math.cos(T);}
+  }
+  return {kind:topo,grid:true,n:n,nb:nb,pos:pos,R:[0,1,2,4,7]};
+}
+function sphereBody(){
+  var pts=[],idx={},i,j,l,nb=[];
+  for(i=0;i<=K;i++)for(j=0;j<=K;j++)for(l=0;l<=K;l++)
+    if(i===0||i===K||j===0||j===K||l===0||l===K){idx[i+","+j+","+l]=pts.length;pts.push([i,j,l]);}
+  var n=pts.length,pos=new Float64Array(n*3);
+  for(i=0;i<n;i++){
+    var a=pts[i],list=[],d,s;
+    for(d=0;d<3;d++)for(s=-1;s<=1;s+=2){var b=a.slice();b[d]+=s;var k=idx[b.join(",")];if(k!==undefined)list.push(k);}
+    nb.push(list);
+    var vx=a[0]-K/2,vy=a[1]-K/2,vz=a[2]-K/2,r=Math.sqrt(vx*vx+vy*vy+vz*vz);
+    pos[i*3]=0.92*vx/r;pos[i*3+1]=0.92*vy/r;pos[i*3+2]=0.92*vz/r;
+  }
+  return {kind:"sphere",grid:false,n:n,nb:nb,pos:pos,R:[0,1,2,4,6],pts:pts,idx:idx};
+}
+function body(kind){
+  if(cache[kind])return cache[kind];
+  var B=kind==="sphere"?sphereBody():gridBody(kind);
+  B.dist=allDist(B.nb);
+  return cache[kind]=B;
+}
+function val(s){return s===2?1:(s===1?-1:0);}
+function field(B,stones,sweeps){
+  var n=B.n,f=new Float64Array(n),h=new Float64Array(n),i,s,j,t;sweeps=sweeps||240;
+  for(i=0;i<n;i++)f[i]=val(stones[i]);
+  for(s=0;s<sweeps;s++){
+    for(i=0;i<n;i++){
+      if(stones[i]){h[i]=val(stones[i]);continue;}
+      var l=B.nb[i],sum=0;for(j=0;j<l.length;j++)sum+=f[l[j]];
+      h[i]=LAMBDA*sum/l.length;
+    }
+    t=f;f=h;h=t;
+  }
+  return f;
+}
+function ground(B){
+  if(B.hold)return B;
+  var n=B.n,hold=new Float64Array(n),reach=new Float64Array(n),st=new Uint8Array(n),p,i;
+  for(p=0;p<n;p++){
+    st[p]=2;var f=field(B,st,160);st[p]=0;
+    var r=0,hs=0,hc=0;
+    for(i=0;i<n;i++){r+=f[i];var d=B.dist[p*n+i];if(d>=1&&d<=2){hs+=f[i];hc++;}}
+    reach[p]=r;hold[p]=hs/hc;
+  }
+  B.hold=hold;B.reach=reach;return B;
+}
+function margins(B,f){
+  var n=B.n,R=B.R,m=new Float64Array(n*6),a,b,k,tot=0;
+  for(a=0;a<n;a++)tot+=f[a];
+  for(a=0;a<n;a++){
+    var s=[0,0,0,0,0],c=[0,0,0,0,0];
+    for(b=0;b<n;b++){var d=B.dist[a*n+b];
+      for(k=0;k<5;k++)if(d<=R[k]&&(k===0||d>R[k-1])){s[k]+=f[b];c[k]++;}}
+    for(k=0;k<5;k++)m[a*6+k]=c[k]?s[k]/c[k]:0;
+    m[a*6+5]=tot/n;
+  }
+  return m;
+}
+function bit(v){return v>EPS?1:(v<-EPS?0:-1);}
+function read(m,a){
+  var b=[],k;for(k=0;k<6;k++)b.push(bit(m[a*6+k]));
+  var lo=(b[0]<0||b[1]<0||b[2]<0)?-1:b[0]*4+b[1]*2+b[2];
+  var hi=(b[3]<0||b[4]<0||b[5]<0)?-1:b[3]*4+b[4]*2+b[5];
+  var ok=lo>=0&&hi>=0;
+  return {bits:b,lo:lo,hi:hi,name:ok?NAMES[lo][hi]:null,none:b.join("")==="-1-1-1-1-1-1"};
+}
+function nameOf(b){return NAMES[b[0]*4+b[1]*2+b[2]][b[3]*4+b[4]*2+b[5]];}
+function necklaces(){
+  var seen={},out=[],c,r,k;
+  for(c=0;c<64;c++){
+    var b=[];for(k=0;k<6;k++)b.push((c>>(5-k))&1);
+    var best=null,members=[];
+    for(r=0;r<6;r++){var rot=b.slice(r).concat(b.slice(0,r)),key=rot.join("");
+      if(best===null||key<best)best=key;}
+    if(seen[best])continue;seen[best]=1;
+    var got={};
+    for(r=0;r<6;r++){var rt=b.slice(r).concat(b.slice(0,r)),ky=rt.join("");if(!got[ky]){got[ky]=1;members.push(nameOf(rt));}}
+    var rep=best.split("").map(Number),yang=rep.reduce(function(x,y){return x+y;},0);
+    out.push({rep:rep,yang:yang,members:members});
+  }
+  out.sort(function(a,b){return a.yang-b.yang||a.members.length-b.members.length;});
+  return out;
+}
+function cornerPreset(){
+  var st=new Uint8Array(N*N),c=(N-1)/2,sx=c+3,sy=c+3;
+  function put(x,y,col){st[y*N+x]=col;}
+  put(2,2,1);put(3,2,1);put(2,3,1);
+  put(sx-2,sy-2,2);put(sx-3,sy-2,2);put(sx-2,sy-3,2);
+  return st;
+}
+return {TRI:TRI,NAMES:NAMES,N:N,K:K,EPS:EPS,body:body,field:field,ground:ground,margins:margins,bit:bit,read:read,
+  necklaces:necklaces,cornerPreset:cornerPreset};
+})();
+if(typeof module!=="undefined")module.exports=YB;
+</script>
+
+<script id="ui">
+(function(){
+"use strict";
+function $(id){return document.getElementById(id);}
+var errBox=$("err");
+function fail(msg){errBox.hidden=false;errBox.textContent="The drawing stopped: "+msg+". Reload the page. The reading and notebook sections below are unaffected.";}
+window.addEventListener("error",function(e){fail(e.message+" (line "+e.lineno+")");});
+
+var GRID=["plane","cylinder","torus"],ALL=["plane","cylinder","torus","sphere"];
+var LABEL={plane:"方 Plane",cylinder:"筒 Cylinder",torus:"环 Torus",sphere:"球 Sphere"};
+var YAONAME=["初","二","三","四","五","上"];
+var PLUM=[74,47,115],GOLD=[176,130,12],INK=[34,23,51],LILAC=[185,177,200],ROSE=[168,69,92];
+var N=YB.N;
+var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var S={body:"plane",show:"hold",mode:"seed",turn:!reduce,yaw:0.55,pitch:0.6,
+  seeds:{grid:YB.cornerPreset(),sphere:null},next:{grid:1,sphere:1},sel:{grid:2*N+2,sphere:0},
+  F:{},cur:null,from:null,t0:0,drag:null,raf:0,proj:null};
+
+var cv=$("stage"),ctx=cv.getContext("2d");
+function fam(){return S.body==="sphere"?"sphere":"grid";}
+function B(k){return YB.body(k||S.body);}
+function rgb(c,a){return "rgba("+c[0]+","+c[1]+","+c[2]+","+a.toFixed(3)+")";}
+function mix(a,b,t){return [Math.round(a[0]+(b[0]-a[0])*t),Math.round(a[1]+(b[1]-a[1])*t),Math.round(a[2]+(b[2]-a[2])*t)];}
+
+function recompute(){
+  ALL.forEach(function(k){var b=B(k),st=k==="sphere"?S.seeds.sphere:S.seeds.grid,f=YB.field(b,st);S.F[k]={f:f,m:YB.margins(b,f)};});
+}
+function size(){
+  var w=cv.clientWidth||340,h=Math.round(Math.min(w,460)),d=window.devicePixelRatio||1;
+  cv.style.height=h+"px";cv.width=Math.round(w*d);cv.height=Math.round(h*d);S.w=w;S.h=h;S.d=d;
+}
+function positions(now){
+  var to=B().pos;
+  if(S.from&&S.from.length===to.length){
+    var t=Math.min(1,(now-S.t0)/700);t=t*t*(3-2*t);
+    if(t>=1){S.from=null;return to;}
+    var o=new Float64Array(to.length);for(var i=0;i<to.length;i++)o[i]=S.from[i]+(to[i]-S.from[i])*t;
+    return o;
+  }
+  S.from=null;return to;
+}
+function render(now){
+  var b=B(),n=b.n,P=positions(now||0),w=S.w,h=S.h,d=S.d,i,j;
+  S.cur=P;
+  var ca=Math.cos(S.yaw),sa=Math.sin(S.yaw),cb=Math.cos(S.pitch),sb=Math.sin(S.pitch);
+  var sc=Math.min(w,h)*0.43,X=new Float64Array(n),Y=new Float64Array(n),Z=new Float64Array(n),K=new Float64Array(n);
+  for(i=0;i<n;i++){
+    var x=P[i*3],y=P[i*3+1],z=P[i*3+2];
+    var x1=x*ca+z*sa,z1=-x*sa+z*ca,y2=y*cb-z1*sb,z2=y*sb+z1*cb,k=3.2/(3.2-z2);
+    X[i]=w/2+sc*x1*k;Y[i]=h/2-sc*y2*k;Z[i]=z2;K[i]=k;
+  }
+  S.proj={X:X,Y:Y,Z:Z};
+  var items=[];
+  for(i=0;i<n;i++){items.push({z:Z[i],n:i});var l=b.nb[i];for(j=0;j<l.length;j++)if(l[j]>i)items.push({z:(Z[i]+Z[l[j]])/2-0.001,a:i,b:l[j]});}
+  items.sort(function(p,q){return p.z-q.z;});
+  ctx.setTransform(d,0,0,d,0,0);ctx.clearRect(0,0,w,h);ctx.fillStyle="#fff";ctx.fillRect(0,0,w,h);
+  var F=S.F[S.body],st=fam()==="sphere"?S.seeds.sphere:S.seeds.grid,sel=S.sel[fam()];
+  var gv=null,gmin=0,gmax=1;
+  if(S.show!=="field"){gv=S.show==="hold"?b.hold:b.reach;gmin=Infinity;gmax=-Infinity;for(i=0;i<n;i++){if(gv[i]<gmin)gmin=gv[i];if(gv[i]>gmax)gmax=gv[i];}}
+  var flat=gv&&(gmax-gmin)<1e-6*gmax;
+  var unit=sc*(b.grid?1.8/(N-1):0.36);
+  for(i=0;i<items.length;i++){
+    var it=items[i],near=Math.max(0,Math.min(1,(it.z+1)/2)),fade=0.35+0.65*near;
+    if(it.n===undefined){
+      ctx.strokeStyle=rgb(mix(LILAC,INK,near),1);ctx.lineWidth=0.6+0.7*near;
+      ctx.beginPath();ctx.moveTo(X[it.a],Y[it.a]);ctx.lineTo(X[it.b],Y[it.b]);ctx.stroke();
+      continue;
+    }
+    var p=it.n,r=unit*K[p];
+    if(gv){
+      var v=flat?0.5:(gv[p]-gmin)/(gmax-gmin);
+      ctx.fillStyle=rgb(ROSE,(0.18+0.8*v)*fade);ctx.beginPath();ctx.arc(X[p],Y[p],r*(0.16+0.3*v),0,7);ctx.fill();
+    }else{
+      var f=F.f[p];
+      if(st[p]){
+        ctx.beginPath();ctx.arc(X[p],Y[p],r*0.44,0,7);
+        ctx.fillStyle=st[p]===1?rgb(mix([255,255,255],INK,fade),1):"#fff";ctx.fill();
+        ctx.strokeStyle=rgb(INK,1);ctx.lineWidth=1.3;ctx.stroke();
+      }else if(Math.abs(f)>YB.EPS){
+        ctx.fillStyle=rgb(f>0?GOLD:PLUM,(0.1+0.75*Math.min(1,Math.sqrt(Math.abs(f))))*fade);
+        ctx.beginPath();ctx.arc(X[p],Y[p],r*0.36,0,7);ctx.fill();
+      }
+    }
+    if(p===sel){ctx.strokeStyle=rgb(ROSE,1);ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(X[p],Y[p],r*0.56,0,7);ctx.stroke();}
+  }
+}
+function tick(now){
+  S.raf=0;
+  if(S.turn&&!S.drag)S.yaw+=0.004;
+  render(now);
+  if(S.turn||S.from)S.raf=requestAnimationFrame(tick);
+}
+function kick(){if(!S.raf)S.raf=requestAnimationFrame(tick);}
+
+function label(p){
+  var b=B();
+  if(b.grid)return (p%N+1)+"–"+(((p-p%N)/N)+1);
+  var a=b.pts[p],e=0;for(var i=0;i<3;i++)if(a[i]===0||a[i]===YB.K)e++;
+  return e===3?"a corner point":e===2?"an edge point":"a face point";
+}
+function fmt(v){return Math.abs(v)<YB.EPS?"0":(v>=0?"+":"−")+Math.abs(v).toFixed(3);}
+function base(k){var t=YB.body(k==="sphere"?"sphere":"torus");
+  if(k!=="sphere")return {hold:t.hold[0],reach:t.reach[0]};
+  var hs=Array.prototype.slice.call(t.hold).sort(),rs=Array.prototype.slice.call(t.reach).sort();
+  return {hold:hs[hs.length>>1],reach:rs[rs.length>>1]};}
+function drawReadout(){
+  var b=B(),p=S.sel[fam()],h="",k;
+  if(S.show!=="field"){
+    var bs=base(S.body);
+    h+='<p class="eyebrow">'+LABEL[S.body]+' · point '+label(p)+' · '+b.nb[p].length+' neighbours</p>';
+    h+='<p class="big">'+(b.hold[p]/bs.hold).toFixed(2)+'× hold · '+(b.reach[p]/bs.reach).toFixed(2)+'× reach</p>';
+    h+='<p class="cap">A lone seed here, measured against '+(b.grid?"the torus, where every point is equal":"this sphere's typical point")+'. Hold is how firmly it keeps the points beside it. Reach is how much of the whole body it colours.</p>';
+    h+='<p class="cap">This is the ground before any seed. Switch to 子 Seeds to place some.</p>';
+    $("readout").innerHTML=h;return;
+  }
+  var R=S.F[S.body],rd=YB.read(R.m,p),st=(fam()==="sphere"?S.seeds.sphere:S.seeds.grid)[p];
+  var near=-1,best=9;
+  for(k=0;k<6;k++){var av=Math.abs(R.m[p*6+k]);if(rd.bits[k]>=0&&av<best){best=av;near=k;}}
+  h+='<p class="eyebrow">'+LABEL[S.body]+' · point '+label(p)+' · '+(st===1?"black seed":st===2?"white seed":"empty")+'</p>';
+  h+='<div class="hexhead"><span class="hexname">'+(rd.name||(rd.none?"无极":"未成"))+'</span><span class="hexsub">'+(rd.name?("上"+YB.TRI[rd.hi]+" 下"+YB.TRI[rd.lo]):(rd.none?"no seeds, no lines":"a line sits in exact balance"))+'</span></div><div class="lines">';
+  for(k=5;k>=0;k--){
+    var v=R.m[p*6+k],bt=rd.bits[k],wd=Math.min(50,Math.abs(v)*50),rr=b.R;
+    h+='<div class="ln'+(k===near?" near":"")+'"><div class="yao'+(bt<0?" un":"")+'">'+(bt===0?"<i></i><i></i>":"<i></i>")+'</div>';
+    h+='<span>'+YAONAME[k]+' · '+(k===0?"point":k===5?"body":(rr[k]-rr[k-1]===1?"r="+rr[k]:"r "+(rr[k-1]+1)+"–"+rr[k]))+'</span>';
+    h+='<div class="track"><u style="'+(v>=0?"left:50%":"right:50%")+';width:'+wd.toFixed(1)+'%;background:'+(v>=0?"var(--gold)":"var(--plum)")+'"></u></div><span class="v">'+fmt(v)+'</span></div>';
+  }
+  h+='</div>';
+  if(near>=0)h+='<p class="cap">变爻 in waiting: line '+YAONAME[near]+', '+best.toFixed(3)+' from the threshold.</p>';
+  if(b.grid){
+    h+='<p class="eyebrow" style="margin-top:12px">Same point, same seeds, three bodies</p><div class="three">';
+    GRID.forEach(function(t){var r=YB.read(S.F[t].m,p);h+='<div class="'+(t===S.body?"on":"")+'"><b>'+(r.name||(r.none?"无极":"未成"))+'</b><span>'+t+'</span></div>';});
+    h+='</div>';
+  }
+  $("readout").innerHTML=h;
+}
+function spread(a){var mn=Infinity,mx=-Infinity;for(var i=0;i<a.length;i++){if(a[i]<mn)mn=a[i];if(a[i]>mx)mx=a[i];}return mx/mn;}
+function drawGround(){
+  var h='<p class="eyebrow">How uneven is the ground · highest ÷ lowest</p><div class="rows"><div class="row h"><span>Body</span><span>地 Hold</span><span>势 Reach</span></div>';
+  ALL.forEach(function(k){var b=YB.body(k);h+='<div class="row'+(k===S.body?" on":"")+'"><span>'+LABEL[k]+'</span><span>'+spread(b.hold).toFixed(2)+'×</span><span>'+spread(b.reach).toFixed(2)+'×</span></div>';});
+  h+='</div><p class="cap">1.00× means every point is the same place.</p>';
+  $("ground").innerHTML=h;
+}
+function drawButtons(){
+  var segs=document.querySelectorAll(".seg"),i,j;
+  for(i=0;i<segs.length;i++){var k=segs[i].getAttribute("data-k"),bs=segs[i].querySelectorAll("button");
+    for(j=0;j<bs.length;j++)bs[j].setAttribute("aria-pressed",String(S[k]===bs[j].getAttribute("data-v")));}
+  $("turn").setAttribute("aria-pressed",String(S.turn));
+  $("legend").textContent=(S.show==="field"?"Plum leans black (yin), yellow leans white (yang). ":"Larger, darker dots mark points where a lone seed "+(S.show==="hold"?"holds its neighbours more firmly. ":"reaches more of the body. "))+"Drag to turn the body."+(S.show==="field"?(S.mode==="seed"?" Tap an empty point to seed it, a seed to lift it.":" Tap a point to read it."):" Tap a point to read it.");
+}
+function draw(){drawButtons();drawReadout();drawGround();render(performance.now());kick();}
+
+function pick(mx,my){
+  var pr=S.proj,best=-1,bz=-9,i;if(!pr)return -1;
+  for(i=0;i<pr.X.length;i++){var dx=pr.X[i]-mx,dy=pr.Y[i]-my;if(dx*dx+dy*dy<18*18&&pr.Z[i]>bz){bz=pr.Z[i];best=i;}}
+  return best;
+}
+function tap(p){
+  var f=fam();$("msg").textContent="";S.sel[f]=p;
+  if(S.show==="field"&&S.mode==="seed"){
+    var st=f==="sphere"?S.seeds.sphere:S.seeds.grid;
+    if(st[p])st[p]=0;else{st[p]=S.next[f];S.next[f]=3-S.next[f];}
+    recompute();
+  }
+  draw();
+}
+cv.addEventListener("pointerdown",function(e){S.drag={x:e.clientX,y:e.clientY,moved:false};try{cv.setPointerCapture(e.pointerId);}catch(x){}});
+cv.addEventListener("pointermove",function(e){
+  if(!S.drag)return;var dx=e.clientX-S.drag.x,dy=e.clientY-S.drag.y;
+  if(!S.drag.moved&&dx*dx+dy*dy<36)return;
+  S.drag.moved=true;S.yaw+=dx*0.01;S.pitch=Math.max(-1.45,Math.min(1.45,S.pitch+dy*0.01));S.drag.x=e.clientX;S.drag.y=e.clientY;
+  if(!S.raf)render(performance.now());
+});
+cv.addEventListener("pointerup",function(e){
+  var dg=S.drag;S.drag=null;if(!dg||dg.moved)return;
+  var r=cv.getBoundingClientRect(),p=pick(e.clientX-r.left,e.clientY-r.top);
+  if(p>=0)tap(p);else $("msg").textContent="No point there. Tap closer to a crossing.";
+});
+cv.addEventListener("pointercancel",function(){S.drag=null;});
+document.addEventListener("click",function(e){
+  var t=e.target,b=t.closest?t.closest(".seg button"):null;
+  if(b){
+    var k=b.parentNode.getAttribute("data-k"),v=b.getAttribute("data-v");
+    if(k==="body"&&v!==S.body){
+      var was=S.body;
+      if(was!=="sphere"&&v!=="sphere"&&S.cur){S.from=new Float64Array(S.cur);S.t0=performance.now();}else S.from=null;
+    }
+    S[k]=v;draw();return;
+  }
+  if(t.id==="turn"){S.turn=!S.turn;draw();}
+  if(t.id==="clear"){var f=fam(),st=f==="sphere"?S.seeds.sphere:S.seeds.grid;for(var i=0;i<st.length;i++)st[i]=0;S.next[f]=1;recompute();S.show="field";draw();}
+});
+window.addEventListener("resize",function(){size();render(performance.now());});
+
+function rings(){
+  var L=YB.necklaces(),h="",i,k,sizes={};
+  for(i=0;i<L.length;i++){
+    var c=L[i],s='<svg viewBox="0 0 84 84" role="img" aria-label="ring of six lines"><circle cx="42" cy="42" r="27" fill="none" stroke="#b9b1c8" stroke-width="1.2"/>';
+    for(k=0;k<6;k++){var a=Math.PI/2+k*Math.PI/3,x=42+27*Math.cos(a),y=42+27*Math.sin(a);
+      s+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="7.5" fill="'+(c.rep[k]?"#221733":"#fff")+'" stroke="#221733" stroke-width="1.6"/>';
+      if(k===0)s+='<circle cx="'+x.toFixed(1)+'" cy="'+(y+13).toFixed(1)+'" r="1.8" fill="#a8455c"/>';}
+    s+='</svg>';
+    h+='<div class="ring">'+s+'<b>'+c.yang+' yang · '+c.members.length+(c.members.length===1?" hexagram":" hexagrams")+'</b><span>'+c.members.join(" ")+'</span></div>';
+    sizes[c.members.length]=(sizes[c.members.length]||0)+1;
+  }
+  $("rings").innerHTML=h;
+  $("ringsum").textContent="Counted here: "+L.length+" rings hold all 64. The six hexagrams with a single yang line (复 师 谦 豫 比 剥) become one ring: one yang, somewhere. So "+(64-L.length)+" of the 64 distinctions are distinctions of place alone.";
+}
+function notebook(){
+  var pl=YB.body("plane"),to=YB.body("torus"),sp=YB.body("sphere"),c=(N-1)/2,k,bh=0,br=0;
+  for(k=0;k<=c;k++){if(pl.hold[c*N+k]>pl.hold[c*N+bh])bh=k;if(pl.reach[c*N+k]>pl.reach[c*N+br])br=k;}
+  $("e1").textContent="On the 13-line plane a lone seed holds its neighbours most firmly on line "+(bh+1)+" and reaches furthest on line "+(br+1)+", measured along the middle of a side. The first line is the weakest for reach ("+(pl.reach[c*N]/to.reach[0]).toFixed(2)+"× the torus value). The ground separates holding from reaching before any seed is played.";
+  $("e2").textContent="On the torus hold and reach are identical at all "+to.n+" points (spread "+spread(to.hold).toFixed(2)+"× and "+spread(to.reach).toFixed(2)+"×). There is no 位 for a seed to occupy.";
+  var d3=0,i;for(i=0;i<sp.n;i++)if(sp.nb[i].length===3)d3++;
+  $("e3").textContent="The sphere has "+sp.n+" points and "+d3+" of them have three neighbours. Position returns there as "+d3+" singular points (hold spread "+spread(sp.hold).toFixed(2)+"×).";
+}
+try{
+  var sp=YB.body("sphere");S.seeds.sphere=new Uint8Array(sp.n);
+  S.seeds.sphere[sp.idx["0,0,"+YB.K]]=1;S.seeds.sphere[sp.idx[(YB.K/2)+","+(YB.K/2)+","+YB.K]]=2;S.sel.sphere=sp.idx["0,0,"+YB.K];
+  ALL.forEach(function(k){YB.ground(YB.body(k));});
+  recompute();size();rings();notebook();draw();
+}catch(e){fail(e.message);}
+})();
+</script>
+</body>
+</html>

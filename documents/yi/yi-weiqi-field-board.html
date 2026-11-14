@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hexagram Field Board</title>
+<meta name="description" content="A weiqi board on a plane, cylinder or torus where every point carries a six-line reading of the field around it. PML 易 instrument, v0.1.">
+<!--
+  PML · 易 sequence · instrument: Hexagram Field Board (势卦盘) · v0.1 · 14 Nov 2026
+  Lin Wei with Claude. Self-contained: no libraries. Web fonts are optional; the page reads without them.
+
+  CODE MAP
+    script#engine         pure logic, no DOM. geometry (adjacency + distance per surface), weiqi rules,
+                          the field (damped harmonic relaxation), six-scale margins, hexagram lookup, presets.
+    script#ui             state, drawing (SVG strings), controls, readout, census, error box.
+
+  SOURCE HEADER: what is measured, what is asserted
+    ASSERTED  LAMBDA = 0.9      damping of the field per step of distance. Chosen, never fitted.
+    ASSERTED  radii(N)          ring edges 0, 1, 2, N/3, N/2, then the whole board. Line k averages the ring
+                                between edge k-1 and edge k. The line-to-scale assignment is a free choice.
+    ASSERTED  white = yang      convention. Swapping it complements every hexagram.
+    ASSERTED  EPS = 1e-6        below this a line is drawn as unformed.
+    BY RULE   adjacency, capture, suicide, simple ko. Tested in node before release.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Black Iris: white paper, iris-plum ink, grey-lilac rules, iris-yellow for yang.
+     Layout: one column on a phone; board left, readout right from 920px. */
+  --paper:#fbfaf7; --ink:#221733; --plum:#4a2f73; --lilac:#b9b1c8; --wash:#efecf4; --gold:#b0820c; --rose:#a8455c;
+  --display:"Fraunces",Georgia,"Songti SC","Noto Serif SC",serif;
+  --body:"Newsreader",Georgia,"Songti SC","Noto Serif SC",serif;
+  --mono:"Space Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.6}
+.wrap{max-width:1120px;margin:0 auto;padding:0 18px}
+.mast{border-bottom:3px double var(--ink);padding:14px 0 10px;display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:space-between;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.mast b{color:var(--plum)}
+h1{font-family:var(--display);font-weight:600;font-size:clamp(2.1rem,7vw,3.6rem);line-height:1.05;margin:26px 0 4px;text-wrap:balance;letter-spacing:-.01em}
+.cn{font-family:var(--display);font-size:1.25rem;color:var(--plum);letter-spacing:.2em;margin:0 0 14px}
+.deck{font-family:var(--display);font-style:italic;font-size:1.22rem;line-height:1.45;max-width:38em;margin:0 0 10px}
+p{margin:0 0 .9em;max-width:38em}
+h2{font-family:var(--display);font-weight:600;font-size:1.55rem;line-height:1.2;margin:0 0 10px;text-wrap:balance}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--plum);margin:0 0 6px}
+section{padding:26px 0;border-top:1px solid var(--lilac)}
+#err{background:var(--rose);color:#fff;padding:12px 14px;font-family:var(--mono);font-size:13px;margin:14px 0}
+.controls{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:flex-end;margin:6px 0 14px}
+.ctl{display:flex;flex-direction:column;gap:4px}
+.ctl>span{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase}
+.seg{display:flex;border:1.5px solid var(--ink)}
+.seg button,.btn,select{font-family:var(--mono);font-size:13px;color:var(--ink);background:var(--paper);border:0;padding:9px 11px;min-height:40px;cursor:pointer;border-radius:0}
+.seg button+button{border-left:1.5px solid var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.btn,select{border:1.5px solid var(--ink)}
+button:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.bench{display:grid;gap:22px;grid-template-columns:1fr}
+@media(min-width:920px){.bench{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:start}}
+#board{width:100%;height:auto;display:block;background:#fff;border:1.5px solid var(--ink);touch-action:manipulation}
+.turn{font-family:var(--mono);font-size:12.5px;margin:8px 0 0;display:flex;flex-wrap:wrap;gap:4px 14px;justify-content:space-between}
+#msg{color:var(--rose);min-height:1.3em}
+.panel{border:1.5px solid var(--ink);background:#fff;padding:14px}
+.panel+.panel{margin-top:14px}
+.hexhead{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+.hexname{font-family:var(--display);font-size:2.6rem;line-height:1;font-weight:600}
+.hexsub{font-family:var(--mono);font-size:12.5px}
+.lines{margin:12px 0 6px;display:grid;gap:7px}
+.ln{display:grid;grid-template-columns:54px 86px minmax(0,1fr) 54px;gap:8px;align-items:center;font-family:var(--mono);font-size:11.5px}
+.yao{height:9px;display:flex;gap:8px}
+.yao i{display:block;flex:1;background:var(--ink)}
+.yao.un i{background:none;border-top:2px dotted var(--lilac);margin-top:4px}
+.track{height:9px;background:var(--wash);position:relative}
+.track:before{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:1.5px;background:var(--ink)}
+.track u{position:absolute;top:0;bottom:0;text-decoration:none}
+.ln.near{outline:2px solid var(--rose);outline-offset:3px}
+.ln .v{text-align:right;font-variant-numeric:tabular-nums}
+.split{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--plum);border-top:1px dashed var(--lilac);padding-top:6px}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+.three div{border:1px solid var(--lilac);padding:8px;text-align:center}
+.three div.on{border:2px solid var(--ink);background:var(--wash)}
+.three b{display:block;font-family:var(--display);font-size:1.4rem;line-height:1.2}
+.three span{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase}
+.stat{font-family:var(--mono);font-size:12.5px;margin:0 0 8px;max-width:none}
+.stat b{font-size:1.25rem;font-family:var(--display)}
+.bars{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;align-items:end;height:74px;margin:6px 0 2px}
+.bars div{background:var(--plum);min-height:2px}
+.barlab{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;font-family:var(--mono);font-size:10.5px;text-align:center}
+#spark{width:100%;height:46px;display:block;background:var(--wash)}
+.census{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:2px;margin-top:8px}
+.census div{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--display);font-size:clamp(10px,2.9vw,15px);line-height:1.05;border:1px solid var(--lilac);background:#fff}
+.census div small{font-family:var(--mono);font-size:9px}
+.census div.sel{outline:2.5px solid var(--rose);outline-offset:-1px}
+.cap{font-family:var(--mono);font-size:11.5px;line-height:1.5;margin:8px 0 0;max-width:none}
+.note{display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:760px){.note{grid-template-columns:1fr 1fr}}
+.card{border:1.5px solid var(--ink);padding:14px;background:#fff}
+.card h3{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin:0 0 8px;display:inline-block;padding:3px 7px;background:var(--ink);color:var(--paper)}
+.card.out h3{background:none;color:var(--ink);border:1.5px solid var(--ink)}
+.card ul{margin:0;padding-left:1.1em}
+.card li{margin:0 0 .5em;font-size:16.5px;line-height:1.5}
+.marg{font-family:var(--mono);font-size:11.5px;color:var(--plum);border-left:3px solid var(--gold);padding-left:10px;margin:14px 0 0;max-width:none}
+footer{border-top:3px double var(--ink);padding:14px 0 40px;font-family:var(--mono);font-size:11.5px;display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:space-between}
+@media(max-width:480px){.ln{grid-template-columns:44px 70px minmax(0,1fr) 46px;font-size:10.5px}body{font-size:17px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="mast"><span><b>PML</b> / The Polymathic Learner</span><span>易 instrument · v0.1 · 14 Nov 2026</span></div>
+
+<header>
+<h1>Hexagram Field Board</h1>
+<p class="cn">势卦盘 · 围棋与易</p>
+<p class="deck">Place a stone and the whole board answers. Every point, occupied or empty, carries six lines that say which way the field leans at six distances, from the point itself out to the whole board.</p>
+<p>Switch the surface between plane, cylinder and torus and the same stones give different readings. The difference is what the edge contributes.</p>
+</header>
+
+<div id="err" hidden></div>
+<noscript><p><strong>This instrument needs JavaScript.</strong> Without it, the notes at the bottom of the page still describe what it does and what it found.</p></noscript>
+
+<section aria-label="Instrument">
+<div class="controls">
+  <div class="ctl"><span>Surface 面</span><div class="seg" data-k="topo">
+    <button type="button" data-v="plane">平 Plane</button><button type="button" data-v="cylinder">筒 Cylinder</button><button type="button" data-v="torus">环 Torus</button></div></div>
+  <div class="ctl"><span>Tap to</span><div class="seg" data-k="mode">
+    <button type="button" data-v="play">落子 Play</button><button type="button" data-v="read">读 Read</button></div></div>
+  <div class="ctl"><span>Show</span><div class="seg" data-k="layer">
+    <button type="button" data-v="field">势 Field</button><button type="button" data-v="hex">卦 Lines</button><button type="button" data-v="plain">Stones</button></div></div>
+  <div class="ctl"><span>Size</span><div class="seg" data-k="N">
+    <button type="button" data-v="9">9</button><button type="button" data-v="13">13</button><button type="button" data-v="19">19</button></div></div>
+  <div class="ctl"><label for="preset"><span style="font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase">Position</span></label>
+    <select id="preset"><option value="corner">角与腹 Corner and belly</option><option value="walls">两道墙 Two walls</option><option value="empty">空盘 Empty board</option></select></div>
+  <button type="button" class="btn" id="undo">Undo</button>
+</div>
+
+<div class="bench">
+  <div>
+    <svg id="board" role="img" aria-label="Weiqi board"></svg>
+    <p class="turn"><span id="turn"></span><span id="msg" aria-live="polite"></span></p>
+    <p class="cap" id="legend"></p>
+  </div>
+  <div>
+    <div class="panel" id="readout"></div>
+    <div class="panel" id="stats"></div>
+  </div>
+</div>
+</section>
+
+<section aria-label="Census">
+<p class="eyebrow">Census · 先天方图</p>
+<h2>Which of the sixty-four are on the board now</h2>
+<p>Rows are the lower trigram, columns the upper, in the 先天 order 坤 艮 坎 巽 震 离 兑 乾. A darker square means more points currently read as that hexagram. The outlined square is the selected point.</p>
+<div class="census" id="census"></div>
+<p class="cap" id="censuscap"></p>
+</section>
+
+<section aria-label="How to read it">
+<p class="eyebrow">How to read it</p>
+<h2>Six lines, six distances</h2>
+<p>Under the stones sits a field. A white stone holds its point at +1, a black stone at −1, and every empty point settles to nine-tenths of the average of its neighbours. Influence fades with distance and pools where the surface gives it nowhere to leak.</p>
+<p>Each line of a point's hexagram is the sign of that field averaged over a ring at a growing distance. The first line is the point alone, the second its four neighbours, and so on outward. The sixth is the whole board, so every point shares it. White-leaning reads yang, black-leaning reads yin. The lower trigram is the point and what touches it; the upper trigram is its surroundings.</p>
+<p>The bar beside each line shows how far the average sits from zero. The line closest to zero is outlined: it is the 变爻 in waiting, the scale at which this point is nearest to changing sides.</p>
+<p>An empty board has no lines at all. A position in exact balance cannot form its top line. Both are drawn as dotted.</p>
+</section>
+
+<section aria-label="Notebook">
+<p class="eyebrow">Lab notebook · 14 Nov 2026</p>
+<h2>What stands, what is provisional, what comes next</h2>
+<div class="note">
+  <div class="card"><h3>Established</h3><ul id="est">
+    <li>On the torus every point has four neighbours, so corner, side and centre are the same place.</li>
+    <li>Corner and belly, 9 × 9: the same six stones read differently by surface. <span id="m1"></span></li>
+    <li>Two walls, 9 × 9: on the plane each wall owns the strip behind it. On the cylinder and torus the two strips join into one contested band. <span id="m2"></span></li>
+  </ul></div>
+  <div class="card out"><h3>Provisional</h3><ul>
+    <li>The field is a damped harmonic relaxation with damping 0.9. It stands in for an engine's ownership estimate and has no reading of life and death.</li>
+    <li>The ring distances and which line gets which ring are choices. Rings replaced nested discs during the build: discs overlap, so their lines agreed by construction and a board showed only a handful of hexagrams. The same warning as the τ ordering applies: a pattern produced by the assignment proves nothing about the assignment.</li>
+    <li>White as yang is a convention. Swap it and every hexagram becomes its complement.</li>
+    <li>Changing the surface keeps every stone in place and does not re-judge captures until the next move.</li>
+  </ul></div>
+  <div class="card out"><h3>Testable</h3><ul>
+    <li>Coherence: do readings change in connected patches from move to move, or scatter? The per-line flip bars and the move history are the first instrument for this.</li>
+    <li>Do the lower lines turn more often than the upper ones across a real game? If so, 爻位 as scale gives the same cascade that 爻位 as timescale gave.</li>
+  </ul></div>
+  <div class="card"><h3>Next</h3><ul>
+    <li>Replace the field with a real ownership estimate and replay recorded games as a score.</li>
+    <li>A 16 × 16 torus with dyadic radii, so the six lines become a sign-wavelet of the field.</li>
+    <li>The 4 × 4 × 4 three-torus, where each point is a hexagram and each of its six liberties is one 变爻.</li>
+  </ul></div>
+</div>
+<p class="marg">Margin, 14 Nov: the edge behaves as 后天. The torus is the uncalibrated surface; the plane is the torus plus a fixed background that favours whoever sits near the boundary.</p>
+</section>
+
+<footer><span>PML · 易 sequence · Hexagram Field Board v0.1</span><span>Lin Wei with Claude · static HTML, no libraries</span></footer>
+</div>
+
+<script id="engine">
+var YW=(function(){
+"use strict";
+var TRI=["坤","艮","坎","巽","震","离","兑","乾"];
+var NAMES=[
+["坤","剥","比","观","豫","晋","萃","否"],
+["谦","艮","蹇","渐","小过","旅","咸","遁"],
+["师","蒙","坎","涣","解","未济","困","讼"],
+["升","蛊","井","巽","恒","鼎","大过","姤"],
+["复","颐","屯","益","震","噬嗑","随","无妄"],
+["明夷","贲","既济","家人","丰","离","革","同人"],
+["临","损","节","中孚","归妹","睽","兑","履"],
+["泰","大畜","需","小畜","大壮","大有","夬","乾"]];
+var LAMBDA=0.9,SWEEPS=240,EPS=1e-6;
+var TOPOS=["plane","cylinder","torus"];
+var cache={};
+function geom(N,topo){
+  var key=N+topo;if(cache[key])return cache[key];
+  var wx=topo!=="plane",wy=topo==="torus",n=N*N,nb=new Array(n),x,y,a,b;
+  var D=[[1,0],[-1,0],[0,1],[0,-1]];
+  for(y=0;y<N;y++)for(x=0;x<N;x++){
+    var list=[];
+    for(var d=0;d<4;d++){
+      var nx=x+D[d][0],ny=y+D[d][1];
+      if(nx<0||nx>=N){if(!wx)continue;nx=(nx+N)%N;}
+      if(ny<0||ny>=N){if(!wy)continue;ny=(ny+N)%N;}
+      list.push(ny*N+nx);
+    }
+    nb[y*N+x]=list;
+  }
+  var dist=new Uint8Array(n*n);
+  for(a=0;a<n;a++){var ax=a%N,ay=(a-ax)/N;
+    for(b=0;b<n;b++){var bx=b%N,by=(b-bx)/N,dx=Math.abs(ax-bx),dy=Math.abs(ay-by);
+      if(wx)dx=Math.min(dx,N-dx);if(wy)dy=Math.min(dy,N-dy);dist[a*n+b]=dx+dy;}}
+  return cache[key]={nb:nb,dist:dist,n:n};
+}
+function radii(N){return [0,1,2,Math.round(N/3),Math.round(N/2),Infinity];}
+function val(s){return s===2?1:(s===1?-1:0);}
+function field(N,topo,stones){
+  var g=geom(N,topo),n=g.n,f=new Float64Array(n),h=new Float64Array(n),i,s,j,t;
+  for(i=0;i<n;i++)f[i]=val(stones[i]);
+  for(s=0;s<SWEEPS;s++){
+    for(i=0;i<n;i++){
+      if(stones[i]){h[i]=val(stones[i]);continue;}
+      var l=g.nb[i],sum=0;for(j=0;j<l.length;j++)sum+=f[l[j]];
+      h[i]=LAMBDA*sum/l.length;
+    }
+    t=f;f=h;h=t;
+  }
+  return f;
+}
+function margins(N,topo,f){
+  var g=geom(N,topo),n=g.n,R=radii(N),m=new Float64Array(n*6),a,b,k,tot=0;
+  for(a=0;a<n;a++)tot+=f[a];
+  var gm=tot/n;
+  for(a=0;a<n;a++){
+    var s=[0,0,0,0,0],c=[0,0,0,0,0];
+    for(b=0;b<n;b++){var d=g.dist[a*n+b],v=f[b];
+      for(k=0;k<5;k++)if(d<=R[k]&&(k===0||d>R[k-1])){s[k]+=v;c[k]++;}}
+    for(k=0;k<5;k++)m[a*6+k]=c[k]?s[k]/c[k]:0;
+    m[a*6+5]=gm;
+  }
+  return m;
+}
+function bit(v){return v>EPS?1:(v<-EPS?0:-1);}
+function read(m,a){
+  var b=[],k;for(k=0;k<6;k++)b.push(bit(m[a*6+k]));
+  var lo=(b[0]<0||b[1]<0||b[2]<0)?-1:b[0]*4+b[1]*2+b[2];
+  var hi=(b[3]<0||b[4]<0||b[5]<0)?-1:b[3]*4+b[4]*2+b[5];
+  var ok=lo>=0&&hi>=0;
+  return {bits:b,lo:lo,hi:hi,code:ok?lo*8+hi:-1,name:ok?NAMES[lo][hi]:null,key:b.join(""),key5:b.slice(0,5).join("")};
+}
+function newGame(N){return {N:N,stones:new Uint8Array(N*N),toPlay:1,ko:-1,caps:[0,0,0],last:-1,undo:[]};}
+function group(stones,nb,p){
+  var col=stones[p],seen={},stack=[p],pts=[],libs={},nl=0;seen[p]=1;
+  while(stack.length){var q=stack.pop();pts.push(q);var l=nb[q];
+    for(var j=0;j<l.length;j++){var r=l[j];
+      if(stones[r]===0){if(!libs[r]){libs[r]=1;nl++;}}
+      else if(stones[r]===col&&!seen[r]){seen[r]=1;stack.push(r);}}}
+  return {pts:pts,libs:nl};
+}
+function play(G,topo,p){
+  if(G.stones[p]||p===G.ko)return false;
+  var g=geom(G.N,topo),c=G.toPlay,o=3-c,l=g.nb[p],j,i;
+  var snap={stones:G.stones.slice(),toPlay:c,ko:G.ko,caps:G.caps.slice(),last:G.last};
+  G.stones[p]=c;var captured=[];
+  for(j=0;j<l.length;j++){var q=l[j];
+    if(G.stones[q]===o){var gr=group(G.stones,g.nb,q);
+      if(gr.libs===0)for(i=0;i<gr.pts.length;i++){G.stones[gr.pts[i]]=0;captured.push(gr.pts[i]);}}}
+  var own=group(G.stones,g.nb,p);
+  if(own.libs===0){G.stones=snap.stones;return false;}
+  G.ko=(captured.length===1&&own.pts.length===1&&own.libs===1)?captured[0]:-1;
+  G.caps[c]+=captured.length;G.toPlay=o;G.last=p;G.undo.push(snap);
+  return true;
+}
+function undo(G){var s=G.undo.pop();if(!s)return false;
+  G.stones=s.stones;G.toPlay=s.toPlay;G.ko=s.ko;G.caps=s.caps;G.last=s.last;return true;}
+function preset(name,N){
+  var st=new Uint8Array(N*N),c=(N-1)/2|0,i;
+  function put(x,y,col){st[y*N+x]=col;}
+  if(name==="corner"){
+    /* black L in the corner; white is its point reflection, sitting in the belly */
+    put(2,2,1);put(3,2,1);put(2,3,1);
+    var sx=c+3,sy=c+3;
+    put(sx-2,sy-2,2);put(sx-3,sy-2,2);put(sx-2,sy-3,2);
+  }else if(name==="walls"){
+    for(i=0;i<N;i++){put(2,i,1);put(N-3,i,2);}
+  }
+  return st;
+}
+return {TRI:TRI,NAMES:NAMES,TOPOS:TOPOS,EPS:EPS,LAMBDA:LAMBDA,geom:geom,radii:radii,field:field,margins:margins,
+  bit:bit,read:read,newGame:newGame,group:group,play:play,undo:undo,preset:preset};
+})();
+if(typeof module!=="undefined")module.exports=YW;
+</script>
+
+<script id="ui">
+(function(){
+"use strict";
+function $(id){return document.getElementById(id);}
+var errBox=$("err");
+function fail(msg){errBox.hidden=false;errBox.textContent="The instrument stopped: "+msg+". Reload the page. The notes below still describe what it does.";}
+window.addEventListener("error",function(e){fail(e.message+" (line "+e.lineno+")");});
+
+var S={N:9,topo:"plane",layer:"field",mode:"play",preset:"corner",sel:0,G:null,R:{},hist:[],flips:null,changed:0};
+var TOPONAME={plane:"平 Plane",cylinder:"筒 Cylinder",torus:"环 Torus"};
+var YAONAME=["初","二","三","四","五","上"];
+var PLUM="#4a2f73",GOLD="#b0820c",INK="#221733",LILAC="#b9b1c8",ROSE="#a8455c";
+
+function recompute(){
+  YW.TOPOS.forEach(function(t){var f=YW.field(S.N,t,S.G.stones);S.R[t]={f:f,m:YW.margins(S.N,t,f)};});
+}
+function load(){
+  S.G=YW.newGame(S.N);S.G.stones.set(YW.preset(S.preset,S.N));
+  S.hist=[];S.flips=null;S.changed=0;
+  var c=(S.N-1)/2|0;
+  S.sel=S.preset==="corner"?0:(S.preset==="walls"?c*S.N:c*S.N+c);
+  recompute();draw();
+}
+function coord(p){var x=p%S.N,y=(p-x)/S.N;return (x+1)+"–"+(y+1);}
+
+function onPoint(p){
+  $("msg").textContent="";
+  if(S.mode==="read"){S.sel=p;draw();return;}
+  var before=S.R[S.topo].m;
+  if(!YW.play(S.G,S.topo,p)){
+    $("msg").textContent=S.G.stones[p]?"That point is taken. Switch to 读 Read to inspect it.":(p===S.G.ko?"Ko: play elsewhere first.":"No liberties there.");
+    return;
+  }
+  S.sel=p;recompute();
+  var after=S.R[S.topo].m,n=S.N*S.N,fl=[0,0,0,0,0,0],ch=0,a,k;
+  for(a=0;a<n;a++){var any=false;
+    for(k=0;k<6;k++)if(YW.bit(before[a*6+k])!==YW.bit(after[a*6+k])){fl[k]++;any=true;}
+    if(any)ch++;}
+  S.flips=fl;S.changed=ch;S.hist.push(ch/n);
+  draw();
+}
+
+function yaoSVG(cx,cy,w,bits,col){
+  var s="",gap=w*0.19,h=w*0.1,k;
+  for(k=0;k<6;k++){
+    var y=cy+(2.5-k)*gap-h/2,b=bits[k];
+    if(b===1)s+='<rect x="'+(cx-w/2)+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="'+col+'"/>';
+    else if(b===0)s+='<rect x="'+(cx-w/2)+'" y="'+y+'" width="'+(w*0.4)+'" height="'+h+'" fill="'+col+'"/><rect x="'+(cx+w*0.1)+'" y="'+y+'" width="'+(w*0.4)+'" height="'+h+'" fill="'+col+'"/>';
+    else s+='<circle cx="'+cx+'" cy="'+(y+h/2)+'" r="'+(h*0.45)+'" fill="'+LILAC+'"/>';
+  }
+  return s;
+}
+function drawBoard(){
+  var N=S.N,c=40,W=c*(N+1),wx=S.topo!=="plane",wy=S.topo==="torus",R=S.R[S.topo],s="",i,x,y,p;
+  var lo=c,hi=c*N,ext=c*0.62;
+  if(S.layer==="field")for(p=0;p<N*N;p++){
+    var v=R.f[p];if(Math.abs(v)<YW.EPS)continue;
+    x=p%N;y=(p-x)/N;
+    s+='<rect x="'+(c*(x+0.5))+'" y="'+(c*(y+0.5))+'" width="'+c+'" height="'+c+'" fill="'+(v>0?GOLD:PLUM)+'" opacity="'+(0.07+0.6*Math.min(1,Math.abs(v))).toFixed(3)+'"/>';
+  }
+  for(i=1;i<=N;i++){
+    s+='<line x1="'+lo+'" y1="'+(c*i)+'" x2="'+hi+'" y2="'+(c*i)+'" stroke="'+INK+'" stroke-width="1"/>';
+    s+='<line x1="'+(c*i)+'" y1="'+lo+'" x2="'+(c*i)+'" y2="'+hi+'" stroke="'+INK+'" stroke-width="1"/>';
+    if(wx)s+='<line x1="'+(lo-ext)+'" y1="'+(c*i)+'" x2="'+lo+'" y2="'+(c*i)+'" stroke="'+ROSE+'" stroke-width="1.4" stroke-dasharray="3 3"/><line x1="'+hi+'" y1="'+(c*i)+'" x2="'+(hi+ext)+'" y2="'+(c*i)+'" stroke="'+ROSE+'" stroke-width="1.4" stroke-dasharray="3 3"/>';
+    if(wy)s+='<line x1="'+(c*i)+'" y1="'+(lo-ext)+'" x2="'+(c*i)+'" y2="'+lo+'" stroke="'+ROSE+'" stroke-width="1.4" stroke-dasharray="3 3"/><line x1="'+(c*i)+'" y1="'+hi+'" x2="'+(c*i)+'" y2="'+(hi+ext)+'" stroke="'+ROSE+'" stroke-width="1.4" stroke-dasharray="3 3"/>';
+  }
+  for(p=0;p<N*N;p++){
+    x=c*(p%N+1);y=c*(((p-p%N)/N)+1);var st=S.G.stones[p];
+    if(st===1)s+='<circle cx="'+x+'" cy="'+y+'" r="'+(c*0.45)+'" fill="'+INK+'"/>';
+    if(st===2)s+='<circle cx="'+x+'" cy="'+y+'" r="'+(c*0.44)+'" fill="#fff" stroke="'+INK+'" stroke-width="1.6"/>';
+    if(S.layer==="hex"){
+      var rd=YW.read(R.m,p);
+      if(!st)s+='<rect x="'+(x-c*0.3)+'" y="'+(y-c*0.34)+'" width="'+(c*0.6)+'" height="'+(c*0.68)+'" fill="#fff" opacity="0.86"/>';
+      s+=yaoSVG(x,y,c*0.5,rd.bits,st===1?"#fff":INK);
+    }
+    if(p===S.G.last&&S.layer!=="hex")s+='<circle cx="'+x+'" cy="'+y+'" r="'+(c*0.13)+'" fill="'+(st===1?"#fff":INK)+'"/>';
+  }
+  x=c*(S.sel%N+1);y=c*(((S.sel-S.sel%N)/N)+1);
+  s+='<rect x="'+(x-c*0.5)+'" y="'+(y-c*0.5)+'" width="'+c+'" height="'+c+'" fill="none" stroke="'+ROSE+'" stroke-width="3"/>';
+  for(p=0;p<N*N;p++)s+='<rect data-p="'+p+'" x="'+(c*(p%N+0.5))+'" y="'+(c*(((p-p%N)/N)+0.5))+'" width="'+c+'" height="'+c+'" fill="#fff" fill-opacity="0"/>';
+  var b=$("board");b.setAttribute("viewBox","0 0 "+W+" "+W);b.innerHTML=s;
+  $("turn").textContent=(S.G.toPlay===1?"● Black":"○ White")+" to play · captured: ● "+S.G.caps[2]+"  ○ "+S.G.caps[1];
+  $("legend").textContent=(S.layer==="field"?"Field: plum leans black (yin), yellow leans white (yang); stronger tint, stronger lean. ":S.layer==="hex"?"Each point shows its six lines, first line at the bottom. ":"")+(wx?"Dashed stubs mark edges that join the opposite side.":"");
+}
+function fmt(v){return Math.abs(v)<YW.EPS?"0":(v>=0?"+":"−")+Math.abs(v).toFixed(3);}
+function drawReadout(){
+  var R=S.R[S.topo],rd=YW.read(R.m,S.sel),rad=YW.radii(S.N),k,h="";
+  var near=-1,best=9;
+  for(k=0;k<6;k++){var av=Math.abs(R.m[S.sel*6+k]);if(rd.bits[k]>=0&&av<best){best=av;near=k;}}
+  var st=S.G.stones[S.sel];
+  h+='<p class="eyebrow">Point '+coord(S.sel)+' · '+(st===1?"black stone":st===2?"white stone":"empty")+' · '+TOPONAME[S.topo]+'</p>';
+  h+='<div class="hexhead"><span class="hexname">'+(rd.name||(rd.key==="-1-1-1-1-1-1"?"无极":"未成"))+'</span><span class="hexsub">';
+  h+=rd.name?("上"+YW.TRI[rd.hi]+" 下"+YW.TRI[rd.lo]):(rd.key==="-1-1-1-1-1-1"?"no stones, no lines":"a line sits in exact balance");
+  h+='</span></div><div class="lines">';
+  for(k=5;k>=0;k--){
+    var v=R.m[S.sel*6+k],b=rd.bits[k],w=Math.min(50,Math.abs(v)*50);
+    if(k===2)h+='<div class="split">↑ surroundings 上卦 · ↓ the point and its touch 下卦</div>';
+    h+='<div class="ln'+(k===near?" near":"")+'"><div class="yao'+(b<0?" un":"")+'">'+(b===0?"<i></i><i></i>":"<i></i>")+'</div>';
+    h+='<span>'+YAONAME[k]+' · '+(k===0?"point":k===5?"board":(rad[k]-rad[k-1]===1?"r="+rad[k]:"r "+(rad[k-1]+1)+"–"+rad[k]))+'</span>';
+    h+='<div class="track"><u style="'+(v>=0?"left:50%":"right:50%")+';width:'+w.toFixed(1)+'%;background:'+(v>=0?GOLD:PLUM)+'"></u></div>';
+    h+='<span class="v">'+fmt(v)+'</span></div>';
+  }
+  h+='</div>';
+  if(near>=0)h+='<p class="cap">变爻 in waiting: line '+YAONAME[near]+', '+best.toFixed(3)+' from the threshold.</p>';
+  h+='<p class="eyebrow" style="margin-top:12px">Same point, same stones, three surfaces</p><div class="three">';
+  YW.TOPOS.forEach(function(t){var r=YW.read(S.R[t].m,S.sel);
+    h+='<div class="'+(t===S.topo?"on":"")+'"><b>'+(r.name||"未成")+'</b><span>'+t+'</span></div>';});
+  h+='</div>';
+  $("readout").innerHTML=h;
+}
+function diffFromTorus(t){
+  var n=S.N*S.N,d=0,a;
+  for(a=0;a<n;a++)if(YW.read(S.R[t].m,a).key5!==YW.read(S.R.torus.m,a).key5)d++;
+  return d;
+}
+function drawStats(){
+  var n=S.N*S.N,h="",k;
+  h+='<p class="eyebrow">What the edge contributes</p>';
+  h+='<p class="stat"><b>'+diffFromTorus("plane")+'</b> of '+n+' points have different lower five lines on the plane than on the torus · <b>'+diffFromTorus("cylinder")+'</b> on the cylinder.</p>';
+  h+='<p class="stat">Top line 上, shared by every point: ';
+  YW.TOPOS.forEach(function(t,i){var v=S.R[t].m[5],b=YW.bit(v);h+=(i?" · ":"")+t+" "+(b===1?"yang":b===0?"yin":"unformed")+" ("+fmt(v)+")";});
+  h+='</p>';
+  h+='<p class="eyebrow" style="margin-top:12px">Last move · lines turned, by line</p>';
+  if(S.flips){
+    h+='<div class="bars">';
+    for(k=0;k<6;k++)h+='<div style="height:'+Math.max(2,100*S.flips[k]/n).toFixed(1)+'%" title="'+S.flips[k]+'"></div>';
+    h+='</div><div class="barlab">';
+    for(k=0;k<6;k++)h+='<span>'+YAONAME[k]+'<br>'+S.flips[k]+'</span>';
+    h+='</div><p class="stat" style="margin-top:8px"><b>'+S.changed+'</b> of '+n+' points changed hexagram.</p>';
+  }else h+='<p class="cap">Play a stone to see which lines turn and how many points change.</p>';
+  h+='<p class="eyebrow" style="margin-top:12px">Share of points changed, move by move</p><svg id="spark" viewBox="0 0 200 46" preserveAspectRatio="none" role="img" aria-label="History of change per move">';
+  var H=S.hist.slice(-40),bw=200/40;
+  for(k=0;k<H.length;k++)h+='<rect x="'+(k*bw+0.5)+'" y="'+(46-Math.max(1,H[k]*44))+'" width="'+(bw-1)+'" height="'+Math.max(1,H[k]*44)+'" fill="'+(k===H.length-1?ROSE:PLUM)+'"/>';
+  h+='</svg>';
+  $("stats").innerHTML=h;
+}
+function drawCensus(){
+  var n=S.N*S.N,cnt=new Array(64),a,i,max=0,un=0,kinds=0,h="";
+  for(i=0;i<64;i++)cnt[i]=0;
+  for(a=0;a<n;a++){var r=YW.read(S.R[S.topo].m,a);if(r.code<0)un++;else cnt[r.code]++;}
+  for(i=0;i<64;i++){if(cnt[i]>max)max=cnt[i];if(cnt[i])kinds++;}
+  var selCode=YW.read(S.R[S.topo].m,S.sel).code;
+  for(i=0;i<64;i++){
+    var lo=i>>3,hi=i&7,al=cnt[i]?(0.12+0.78*cnt[i]/max):0;
+    h+='<div class="'+(i===selCode?"sel":"")+'" style="background:rgba(74,47,115,'+al.toFixed(2)+');color:'+(al>0.5?"#fff":INK)+'">'+YW.NAMES[lo][hi]+(cnt[i]?'<small>'+cnt[i]+'</small>':'')+'</div>';
+  }
+  $("census").innerHTML=h;
+  $("censuscap").textContent=kinds+" of 64 hexagrams present on the "+S.topo+(un?" · "+un+" points unformed":"")+".";
+}
+function drawButtons(){
+  var segs=document.querySelectorAll(".seg"),i,j;
+  for(i=0;i<segs.length;i++){var k=segs[i].getAttribute("data-k"),bs=segs[i].querySelectorAll("button");
+    for(j=0;j<bs.length;j++)bs[j].setAttribute("aria-pressed",String(String(S[k])===bs[j].getAttribute("data-v")));}
+  $("preset").value=S.preset;
+}
+function draw(){drawButtons();drawBoard();drawReadout();drawStats();drawCensus();}
+
+/* Notebook figures are measured at load on the fixed 9 x 9 presets, so the text never drifts from the code. */
+function notebook(){
+  function run(name){
+    var st=YW.preset(name,9),o={};
+    YW.TOPOS.forEach(function(t){var f=YW.field(9,t,st);o[t]={f:f,m:YW.margins(9,t,f)};});
+    return o;
+  }
+  function diff(o,t){var d=0,a;for(a=0;a<81;a++)if(YW.read(o[t].m,a).key5!==YW.read(o.torus.m,a).key5)d++;return d;}
+  var c=run("corner"),w=run("walls");
+  $("m1").textContent="Measured: "+diff(c,"plane")+" of 81 points differ in their lower five lines between plane and torus, "+diff(c,"cylinder")+" between cylinder and torus. On the torus the two groups are mirror images, the whole-board lean is "+fmt(c.torus.m[5])+" and the top line cannot form. On the plane the lean is "+c.plane.m[5].toFixed(4)+", toward white: the corner holds a small region firmly while the belly reaches further.";
+  $("m2").textContent="Measured at the point behind black's wall (1–5): "+fmt(w.plane.f[36])+" on the plane, "+fmt(w.cylinder.f[36])+" on the cylinder.";
+}
+
+document.addEventListener("click",function(e){
+  var t=e.target;
+  if(t.closest&&t.closest("#board")){var hit=t.getAttribute("data-p");if(hit!==null)onPoint(+hit);return;}
+  var b=t.closest?t.closest(".seg button"):null;
+  if(b){
+    var k=b.parentNode.getAttribute("data-k"),v=b.getAttribute("data-v");
+    if(k==="N"){S.N=+v;load();return;}
+    S[k]=v;
+    if(k==="topo"){S.G.ko=-1;S.flips=null;}
+    draw();return;
+  }
+  if(t.id==="undo"){if(YW.undo(S.G)){S.hist.pop();S.flips=null;recompute();draw();}else $("msg").textContent="Nothing to undo.";}
+});
+$("preset").addEventListener("change",function(){S.preset=this.value;load();});
+try{load();notebook();}catch(e){fail(e.message);}
+})();
+</script>
+</body>
+</html>
