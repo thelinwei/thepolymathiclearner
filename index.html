@@ -1012,9 +1012,27 @@
   .pnav-foot a{color:var(--gold-dim)} .pnav-foot a:hover{color:var(--gold)}
   @media (max-width:600px){.pnav-btn{top:12px;right:12px;width:42px;height:42px}.pnav-where{display:none}.pnav{padding:72px 24px 32px}}
   @media print{.pnav-btn,.pnav,.pnav-veil,.pnav-where{display:none}}
+  /* 易 strand marks: instruments · listening · board */
+  .yi-ico{display:inline-block;flex:none;width:26px;height:26px;color:var(--yi)}
+  .thread-head{font-size:13px;letter-spacing:.24em;opacity:1;margin:clamp(54px,6vw,84px) 0 16px;align-items:center;gap:16px}
+  .thread-head:first-child{margin-top:26px}
+  .thread-head .yi-ico{margin-right:-2px}
+  .pnav .sub a{display:flex;align-items:center;gap:9px}
+  .pnav .sub a .yi-ico,.pnav .sub a .yi-gap{width:17px;height:17px;flex:none;opacity:.85}
+  @media (max-width:760px){
+    .thread-head{flex-wrap:wrap;gap:8px 12px;font-size:12px}
+    .thread-head span.note{flex-basis:100%}
+    .thread-head::after{display:none}
+  }
 </style>
 </head>
 <body>
+<svg xmlns="http://www.w3.org/2000/svg" id="yi-icons" width="0" height="0" style="position:absolute" aria-hidden="true">
+  <!-- 易 strand marks · 24-unit grid · line work plus one bead · inherit colour from the text around them -->
+  <symbol id="ico-dyn" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h6M15 12h6"/><path d="M4.5 20C9 20 11 15.5 12 12S14.5 5.2 17.6 4.4"/></g><circle cx="19" cy="4.2" r="2.5" fill="currentColor"/></symbol>
+  <symbol id="ico-snd" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="M8.5 6h7l3.2 14.5Q12 15.5 5.3 20.5Z"/></g><circle cx="12" cy="12" r="1.5" fill="currentColor"/></symbol>
+  <symbol id="ico-qi" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 2v20M2 18h20M14.5 2v1.4M14.5 15.6V22M2 9.5h6.4M20.6 9.5H22"/></g><circle cx="14.5" cy="9.5" r="4" fill="currentColor"/></symbol>
+</svg>
 <button class="pnav-btn" id="pnavBtn" type="button" aria-label="Open the index" aria-expanded="false" aria-controls="pnav"><i></i></button>
 <div class="pnav-where" id="pnavWhere" aria-hidden="true"></div>
 <div class="pnav-veil" id="pnavVeil"></div>
@@ -1023,9 +1041,10 @@
   <ol>
     <li class="top-item yi" data-sec="yi"><a href="#yi"><span class="ix">易</span>iching<span class="ct" data-count="yi"></span></a>
       <div class="sub">
-        <a href="#yi-argument"><span class="g">序</span>The argument</a>
-        <a href="#yi-instruments"><span class="g">儀</span>The instruments</a>
-        <a href="#yi-listening"><span class="g">律</span>The listening</a>
+        <a href="#yi-argument"><span class="yi-gap"></span>The argument</a>
+        <a href="#yi-instruments"><svg class="yi-ico" aria-hidden="true"><use href="#ico-dyn"/></svg>The instruments</a>
+        <a href="#yi-listening"><svg class="yi-ico" aria-hidden="true"><use href="#ico-snd"/></svg>The listening</a>
+        <a href="#yi-board"><svg class="yi-ico" aria-hidden="true"><use href="#ico-qi"/></svg>The board</a>
       </div>
     </li>
     <li class="top-item warm" data-sec="speculative"><a href="#speculative"><span class="ix">I</span>Speculative &amp; Play<span class="ct" data-count="speculative"></span></a></li>
@@ -1140,14 +1159,14 @@
     </svg>
 
     <div class="super-title-rule"></div>
-    <div class="super-sub">A visual learning archive where design, mathematics, geometry, speculative thought and AI meet: a record of learning by making. Abstractions are given forms that can be turned, tested and broken, and computation works as a companion to inquiry.</div>
+    <div class="super-sub">A visual learning archive where design, mathematics, geometry, speculative thought and AI meet — a record of learning by making. Abstractions are given forms that can be turned, tested and broken; computation is treated as a companion for inquiry rather than an oracle.</div>
   </div>
 
   <div class="preface">
     <div class="preface-eyebrow">Why this archive exists</div>
-    <p>Every document here began as something not yet understood. The method is to build: an abstraction is given a body that can be turned, tested and broken, and understanding arrives through the handling. <em>What accumulates is a set of instruments.</em></p>
-    <p>The register is closer to art than to engineering: research as speculative play. The questions are chosen because they are strange enough to be worth living inside for a while: what mathematics other civilisations might have grown, what shapes know that proofs do not, and what a three-thousand-year-old book about change would look like if it could actually move.</p>
-    <p>The work is published while still in motion. <em>易 iching, a working model of change</em>, is the current strand. Its retractions and open questions stay visible on purpose, because an archive about learning should show the edge as it really looks.</p>
+    <p>Every document here began as something not understood. Rather than reading a way toward comprehension, the method is to build: an abstraction is given a body that can be turned, tested and broken, and the understanding arrives through the handling. <em>What accumulates is not a shelf of explanations but a set of instruments.</em></p>
+    <p>The register is closer to art than to engineering — research as speculative play. Nothing here is trying to become a product. The questions are chosen because they are strange enough to be worth living inside for a while: what mathematics other civilisations might have grown, what shapes know that proofs do not, and what a three-thousand-year-old book about change would look like if it could actually move.</p>
+    <p>The work is published while still in motion. <em>易 iching — a working model of change</em> is the current strand, and its retractions and unresolved questions are left visible on purpose; an archive about learning should show the edge as the edge actually looks.</p>
   </div>
 
   <div class="title-lead">
@@ -1156,7 +1175,7 @@
       <span class="h1-main">易 iching</span>
       <span class="h1-sub h1-sub-yi">A working model of change.</span>
     </h1>
-    <p class="title-lead-desc">易 <em>yi</em> is a living inheritance: 阴阳, 五行 and 八卦 are still carried in Chinese memory as a working grammar of relation, so this strand begins there. Divination was a way of thinking under uncertainty long before computers. Rebuilt with dynamical systems, geometry and sound, it becomes a model of change that can be run, tested and heard.</p>
+    <p class="title-lead-desc">易 <em>yi</em> is not an abandoned machine waiting to be switched back on. 阴阳, 五行 and 八卦 are carried in Chinese memory as a working grammar of relation, so this begins with the inheritance. Then a second question: divination was thinking under uncertainty before there were computers — what happens when it is rebuilt with instruments its makers did not have?</p>
     <a class="lead-link" href="#yi"><span>Open the sequence</span><span class="arrow-icon">»»</span></a>
   </div>
 
@@ -1200,7 +1219,7 @@
   </div>
 
   <div class="header-meta">
-    <span class="meta-item">32 documents</span>
+    <span class="meta-item">36 documents</span>
     <div class="meta-divider"></div>
     <span class="meta-item">5 collections</span>
     <div class="meta-divider"></div>
@@ -1216,8 +1235,8 @@
   <div class="section" id="yi">
     <div class="section-header section-header-yi">
       <span class="section-title section-title-yi">易 iching — Current Investigation</span>
-      <span class="section-title-desc">the inheritance, then the argument, then the instruments</span>
-      <span class="section-count">04 argument · 04 instruments · 06 listening · in progress</span>
+      <span class="section-title-desc">the inheritance, the argument, the instruments, the listening, the board</span>
+      <span class="section-count">04 argument · 04 instruments · 06 listening · 02 board · in progress</span>
     </div>
 
     <div class="sequence-note">
@@ -1256,16 +1275,25 @@
       <a class="seq-step" href="documents/yi/yi-bells-companion.html"><span class="seq-glyph">钟</span> companion</a>
     </div>
 
+    <div class="sequence-note" style="padding-top:0">
+      <span class="seq-lead">The board, in order —</span>
+      <a class="seq-step" href="documents/yi/yi-14-the-board-and-the-book.html"><span class="seq-glyph">弈</span> 14 board &amp; book</a>
+      <span class="seq-arrow">→</span>
+      <a class="seq-step" href="documents/yi/yi-15-what-the-board-gives.html"><span class="seq-glyph">位</span> 15 what the board gives</a>
+      <a class="seq-step" href="documents/yi/yi-weiqi-field-board.html"><span class="seq-glyph">势</span> field board</a>
+      <a class="seq-step" href="documents/yi/yi-weiqi-board-as-body.html"><span class="seq-glyph">体</span> board as body</a>
+    </div>
+
     <div class="grid">
 
-      <div class="thread-head" id="yi-argument">The argument · in order <span class="note">what was inherited, and what happens when it is given motion</span></div>
+      <div class="thread-head" id="yi-argument">The argument <span class="note">what was inherited, and what happens when it is given motion</span></div>
 
       <a class="card card-yi" href="documents/yi/yi-00-inheritance.html">
         <div class="card-accent accent-yi"></div>
         <div class="card-number"><span class="num-glyph">序</span> 00 · INHERITANCE</div>
         <div class="card-tag tag-yi">易 iching · Where this begins</div>
         <h2>The Inheritance<br>of Change</h2>
-        <p>Two genealogies held side by side: the lineage the tradition tells about itself, and what texts and archaeology can demonstrate. Both are kept in view.</p>
+        <p>Two genealogies held side by side: the lineage the tradition tells about itself, and what texts and archaeology can demonstrate. Neither erases the other.</p>
         <div class="card-note">Divination was thinking under uncertainty before there were computers. Everything after depends on establishing that first.</div>
         <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
       </a>
@@ -1275,8 +1303,8 @@
         <div class="card-number"><span class="num-glyph">一</span> 01 · STATE SPACE</div>
         <div class="card-tag tag-yi">易 iching · State Space</div>
         <h2>From One Line<br>to Two Cubes</h2>
-        <p>A 爻 <i>yao</i> line becomes a dial: six continuous numbers, and the sixty-four as regions of a six-dimensional cube, drawn exactly as two.</p>
-        <div class="card-note">The tradition knew its notation had a gap, and 变爻 <i>bianyao</i> marks it. The gap is structural, and it can be filled.</div>
+        <p>A 爻 <i>yao</i> line becomes a dial, not a switch: six continuous numbers, and the sixty-four as regions of a six-dimensional cube — drawn honestly as two.</p>
+        <div class="card-note">The tradition knew what its notation could not hold — that is what 变爻 <i>bianyao</i> is for. The gap is structural, not mystical.</div>
         <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
       </a>
 
@@ -1295,12 +1323,12 @@
         <div class="card-number"><span class="num-glyph">三</span> 03 · FORCES</div>
         <div class="card-tag tag-yi">易 iching · Dynamics</div>
         <h2>What Moves It</h2>
-        <p>五行 <i>wuxing</i> read as five verbs (store, branch, amplify, couple, prune) becomes a vector field over the whole space.</p>
-        <div class="card-note">Eight counts configurations; five counts transformations. A map’s legend and its compass rose can differ.</div>
+        <p>五行 <i>wuxing</i> read as five verbs rather than substances — store, branch, amplify, couple, prune — becomes a vector field over the whole space.</p>
+        <div class="card-note">Eight counts configurations; five counts transformations. A map’s legend need not match its compass rose.</div>
         <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
       </a>
 
-      <div class="thread-head" id="yi-instruments">The instruments · any order <span class="note">the double cube completes the argument above; the lantern and loom ask what shape holds all sixty-four, and the field asks what shape each one has</span></div>
+      <div class="thread-head" id="yi-instruments"><svg class="yi-ico" aria-hidden="true"><use href="#ico-dyn"/></svg>The instruments <span class="note">the double cube completes the argument above; the lantern and loom ask what shape holds all sixty-four, and the field asks what shape each one has</span></div>
 
       <a class="card card-yi" href="documents/yi/yi-04-instrument.html">
         <div class="card-accent accent-yi"></div>
@@ -1308,7 +1336,7 @@
         <div class="card-tag tag-yi">易 iching · Instrument · v0.8</div>
         <h2>The Double Cube</h2>
         <p>兩儀 <i>liǎngyí</i>, the two forms. Bounded dynamics, a self-turning five-phase mix, an inverse solver over all sixty-four, and a reach-versus-foresight frontier.</p>
-        <div class="card-note">Two of its own claims retracted in this pass. That is the instrument doing its job.</div>
+        <div class="card-note">Two of its own claims retracted in this pass — the instrument working, not failing.</div>
         <div class="card-btn"><span>Open the instrument</span><span class="arrow-icon">»»</span></div>
       </a>
 
@@ -1318,7 +1346,7 @@
         <div class="card-tag tag-yi">易 iching · One Body</div>
         <h2>The Lantern</h2>
         <p>Sixty-four beads on one closed curve. Height is the yang count: 坤 <i>kun</i> a point at the base, 乾 <i>qian</i> at the apex, the balanced twenty as the widest ring.</p>
-        <div class="card-note">Four candidates counted before anything was drawn. Two died on collisions. Beauty has to survive a count.</div>
+        <div class="card-note">Four candidates counted before anything was drawn. Two died on collisions — beauty has to survive a count.</div>
         <div class="card-btn"><span>Open the instrument</span><span class="arrow-icon">»»</span></div>
       </a>
 
@@ -1327,7 +1355,7 @@
         <div class="card-number"><span class="num-glyph">織</span> 06 · LOOM</div>
         <div class="card-tag tag-yi">易 iching · The Loom</div>
         <h2>The Loom</h2>
-        <p>Two circulations, each trigram a ring of eight. The thread was expected to knot; it becomes a shuttle. The torus turns out to be a loom.</p>
+        <p>Two circulations, each trigram a ring of eight. The thread was expected to knot; it becomes a shuttle. The torus is not a doughnut — it is a loom.</p>
         <div class="card-note">Newest work, unfinished on purpose. The computations and open questions are stated at the end of the document.</div>
         <div class="card-btn"><span>Open the instrument</span><span class="arrow-icon">»»</span></div>
       </a>
@@ -1337,7 +1365,7 @@
         <div class="card-number"><span class="num-glyph">势</span> 13 · SHAPE</div>
         <div class="card-tag tag-yi">易 iching · Field note and laboratory</div>
         <h2>The Shape<br>of a Field</h2>
-        <p>The cube rings like a struck body, and each hexagram is one of its standing waves. Heat melts a bead into a field, a cast spreads it for a nameable length of time, and a flow parts into slope and tide. The slope is 势.</p>
+        <p>The cube rings like a struck body, and each hexagram is one of its standing waves. Heat melts a bead into a field, a cast spreads it for a nameable length of time, and a flow parts into slope and tide — the slope is 势.</p>
         <div class="card-note">Two fields that answer one another: a working form of 感应, drawn on the loom.</div>
         <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
       </a>
@@ -1347,19 +1375,19 @@
         <div class="card-number"><span class="num-glyph">灯</span> — · COMPANION</div>
         <div class="card-tag tag-yi">易 iching · Method</div>
         <h2>How the Lantern<br>Was Arrived At</h2>
-        <p>Five bodies tried and rejected, then a shape that fell out of two facts about the number sixty-four.</p>
+        <p>Five bodies tried and rejected — and a shape that was not designed at all, but fell out of two facts about the number sixty-four.</p>
         <div class="card-note">The objection was that it was ugly. The ugliness carried information: the eye caught a structural lie before the argument could.</div>
         <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
       </a>
 
-      <div class="thread-head" id="yi-listening">The listening · in order <span class="note">the sixty-four heard as fields, chords and songs, struck on the bells of 曾侯乙</span></div>
+      <div class="thread-head" id="yi-listening"><svg class="yi-ico" aria-hidden="true"><use href="#ico-snd"/></svg>The listening <span class="note">the sixty-four heard as fields, chords and songs, struck on the bells of 曾侯乙</span></div>
 
       <a class="card card-yi" href="documents/yi/yi-07-field-and-song.html">
         <div class="card-accent accent-yi"></div>
         <div class="card-number"><span class="num-glyph">律</span> 07 · FIELD &amp; SONG</div>
         <div class="card-tag tag-yi">易 iching · Field note</div>
         <h2>The Hexagram as Field,<br>the Yi as Song</h2>
-        <p>Each hexagram read as a field over all sixty-four, using the sixty-four Walsh functions, and the Yi heard as keys in a bounded song.</p>
+        <p>Each hexagram read as a field over all sixty-four — the sixty-four Walsh functions — and the Yi heard as keys in a bounded song.</p>
         <div class="card-note">Where the readers’ questions led: transitions, propensity and meaning, held inside the dynamics.</div>
         <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
       </a>
@@ -1409,7 +1437,7 @@
         <div class="card-number"><span class="num-glyph">调</span> 12 · TUNING</div>
         <div class="card-tag tag-yi">易 iching · Field note and laboratory</div>
         <h2>Tuning<br>the Sixty-four</h2>
-        <p>Every way of giving a hexagram a sound (one voice, two or six, on chromatic, harmonic and fifths rulers), played through eight received orderings and set against chance.</p>
+        <p>Every way of giving a hexagram a sound — one voice, two or six, on chromatic, harmonic and fifths rulers — played through eight received orderings and set against chance.</p>
         <div class="card-note">A laboratory for the ear: listen, keep what rings true, take notes.</div>
         <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
       </a>
@@ -1419,9 +1447,51 @@
         <div class="card-number"><span class="num-glyph">钟</span> — · COMPANION</div>
         <div class="card-tag tag-yi">易 iching · The instrument</div>
         <h2>The Bells<br>of Zeng</h2>
-        <p>How the 曾侯乙 set of 433 BCE was tuned, named by thirds, translated between states, with five notations compared as diagrams.</p>
+        <p>How the 曾侯乙 set of 433 BCE was tuned, named by thirds, translated between states — and five notations compared as diagrams.</p>
         <div class="card-note">A side quest into the instrument the listening is played on.</div>
         <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
+      </a>
+
+      <div class="thread-head" id="yi-board"><svg class="yi-ico" aria-hidden="true"><use href="#ico-qi"/></svg>The board <span class="note">weiqi beside the 易: two thousand years of readers, then the board itself bent to ask where position comes from</span></div>
+
+      <a class="card card-yi" href="documents/yi/yi-14-the-board-and-the-book.html">
+        <div class="card-accent accent-yi"></div>
+        <div class="card-number"><span class="num-glyph">弈</span> 14 · BOARD &amp; BOOK</div>
+        <div class="card-tag tag-yi">易 iching · Field note</div>
+        <h2>The Board<br>and the Book</h2>
+        <p>Ban Gu, the Song classic of weiqi, Lu Jiuyuan, Lin Yinglong, Wu Qingyuan, and a 2005 patent for chess on the sixty-four hexagrams: what each reader saw in a grid of black and white stones.</p>
+        <div class="card-note">The board was seventeen lines before it was nineteen. The game came first, and each age read its cosmos into the board it had.</div>
+        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
+      </a>
+
+      <a class="card card-yi" href="documents/yi/yi-15-what-the-board-gives.html">
+        <div class="card-accent accent-yi"></div>
+        <div class="card-number"><span class="num-glyph">位</span> 15 · WHAT THE BOARD GIVES</div>
+        <div class="card-tag tag-yi">易 iching · Field note and laboratory</div>
+        <h2>What the<br>Board Gives</h2>
+        <p>A board that reads itself in six lines, then the same stones on a cylinder, a torus and a sphere. Three experiments for the hand: move one yang through six places, change the ground under the stones, play one arrangement in two orders.</p>
+        <div class="card-note">位 <i>wei</i>, place. A stone means what it does through the ground, the stones around it, the reading, and the moment.</div>
+        <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
+      </a>
+
+      <a class="card card-yi" href="documents/yi/yi-weiqi-field-board.html">
+        <div class="card-accent accent-yi"></div>
+        <div class="card-number"><span class="num-glyph">势</span> — · COMPANION</div>
+        <div class="card-tag tag-yi">易 iching · Instrument</div>
+        <h2>Hexagram<br>Field Board</h2>
+        <p>The flat board, playable: capture and ko, edges that join into a cylinder or a torus, and a hexagram read at every point as the stones arrive.</p>
+        <div class="card-note">The instrument behind the second experiment of note 15.</div>
+        <div class="card-btn"><span>Open the instrument</span><span class="arrow-icon">»»</span></div>
+      </a>
+
+      <a class="card card-yi" href="documents/yi/yi-weiqi-board-as-body.html">
+        <div class="card-accent accent-yi"></div>
+        <div class="card-number"><span class="num-glyph">体</span> — · COMPANION</div>
+        <div class="card-tag tag-yi">易 iching · Instrument</div>
+        <h2>Board<br>as Body</h2>
+        <p>Plane, cylinder, torus and sphere carrying one grid, to be turned in the hand. 地 hold and 势 reach are shown as the terrain of each body before any stone lands.</p>
+        <div class="card-note">Carries the full lab notebook and the detailed tests on the received text.</div>
+        <div class="card-btn"><span>Open the instrument</span><span class="arrow-icon">»»</span></div>
       </a>
     </div>
   </div>
@@ -1442,8 +1512,8 @@
         <div class="card-number">01</div>
         <div class="card-tag tag-gold">算學 · Alternative Histories</div>
         <h2>算學 — An Alternative Mathematics</h2>
-        <p>What if mathematics had grown from the abacus as well as the axiom? A speculative reconstruction of a Chinese-rooted formal tradition, as a second root of the same mathematics.</p>
-        <div class="card-note">Rebuilding mathematics from another civilisation shows which parts of knowledge are necessary and which are inherited, and how much each tradition adds to the other.</div>
+        <p>What if mathematics had grown from the abacus, not the axiom? A speculative reconstruction of a Chinese-rooted formal tradition.</p>
+        <div class="card-note">Rebuilding mathematics from another civilisation loosens any certainty about which parts of knowledge are necessary — and which are merely inherited.</div>
         <div class="card-arrow"><span>Open document</span><span class="arrow-icon">»»</span></div>
       </a>
 
