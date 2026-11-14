@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>算學 — An Alternative Mathematics</title>
+<title>算学 — An Alternative Mathematics</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Noto+Serif+SC:wght@400;600&display=swap');
 
   :root {
     --ink: #1a1208;
@@ -58,7 +58,7 @@
   }
 
   .hero::after {
-    content: '算學';
+    content: '算学';
     position: absolute;
     right: -2vw;
     top: 50%;
@@ -474,38 +474,127 @@
     stroke: var(--red);
     fill: var(--red);
   }
+
+/* phone fit: let grid columns shrink to the screen */
+.two-col > * { min-width: 0; }
+@media (max-width: 700px) { .compare-table { width: 100%; font-size: 0.8rem; } .rod-grid { flex-wrap: wrap; } }
+
+  /* ── 方程 BOARD (rebuilt) ── */
+  .fc { margin-top: 2.4rem; background: #fbf6ee; border: 1px solid rgba(139,94,60,0.3); padding: 1.6rem; position: relative; z-index: 1; }
+  .fc-head { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+  .fc-src { font-family: 'Space Mono', monospace; font-size: .7rem; letter-spacing: .12em; color: var(--accent); }
+  .fc-views { display: flex; border: 1px solid rgba(139,94,60,0.35); }
+  .fc-views button, .fc-ctrl button { font-family: 'Space Mono', monospace; font-size: .66rem; letter-spacing: .08em; background: transparent; border: 0; color: var(--ink); padding: .45rem .7rem; cursor: pointer; }
+  .fc-views button + button { border-left: 1px solid rgba(139,94,60,0.35); }
+  .fc-views button.on { background: var(--ink); color: var(--paper); }
+  .fc-problem { border-left: 3px solid var(--accent); padding: .2rem 0 .2rem 1rem; margin-bottom: 1.4rem; }
+  .fc-zh { font-family: 'Noto Serif SC', 'Songti SC', serif; font-size: .95rem; line-height: 1.9; }
+  .fc-en { font-size: .82rem; color: var(--muted); font-style: italic; line-height: 1.7; margin-top: .3rem; }
+  .fc-stage { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 15rem); gap: 1.4rem; align-items: start; }
+  .fc-board { display: grid; grid-template-columns: 3.2rem repeat(3, minmax(0, 1fr)); border: 1px solid rgba(26,18,8,0.55); background: #fffdf8; }
+  .fc-board .h, .fc-board .rl, .fc-board .c { border-right: 1px solid rgba(26,18,8,0.18); border-bottom: 1px solid rgba(26,18,8,0.18); display: flex; align-items: center; justify-content: center; text-align: center; }
+  .fc-board .h { font-family: 'Noto Serif SC', serif; font-size: 1rem; padding: .5rem .2rem .3rem; flex-direction: column; line-height: 1.2; }
+  .fc-board .h small { font-family: 'Space Mono', monospace; font-size: .55rem; color: var(--muted); letter-spacing: .05em; }
+  .fc-board .rl { font-family: 'Noto Serif SC', serif; font-size: .82rem; color: var(--muted); background: rgba(139,94,60,0.05); }
+  .fc-board .c { min-height: 3.6rem; padding: .3rem; transition: background .35s, box-shadow .35s; position: relative; }
+  .fc-board .c.shi { border-top: 1.5px solid rgba(26,18,8,0.55); }
+  .fc-board .rl.shi { border-top: 1.5px solid rgba(26,18,8,0.55); }
+  .fc-board .c.zero::after { content: ''; width: 1.4rem; height: 1.4rem; border: 1px dashed rgba(122,101,82,0.45); border-radius: 50%; }
+  .fc-board .c.chg { background: rgba(192,57,43,0.1); box-shadow: inset 0 0 0 1.5px var(--red); }
+  .fc-board .col-src { background: rgba(139,94,60,0.08); }
+  .fc-board .c svg { height: 1.9rem; width: auto; max-width: 100%; }
+  .fc-board .num { font-family: 'Space Mono', monospace; font-size: 1.15rem; }
+  .fc-board .eq { grid-column: 2 / -1; }
+  .fc-eqs { grid-column: 1 / -1; padding: 1rem 1.1rem; font-family: 'Space Mono', monospace; font-size: .82rem; line-height: 2.1; }
+  .fc-eqs div.chg { color: var(--red); }
+  .fc-eqs span { color: var(--muted); font-size: .7rem; margin-left: .6rem; }
+  .fc-regs { font-family: 'Space Mono', monospace; font-size: .74rem; line-height: 1.75; border: 1px solid rgba(139,94,60,0.3); padding: .9rem 1rem; background: rgba(232,217,196,0.35); min-height: 100%; }
+  .fc-regs .t { font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: .5rem; }
+  .fc-regs .r { display: flex; justify-content: space-between; gap: .6rem; border-bottom: 1px dotted rgba(139,94,60,0.3); padding: .15rem 0; }
+  .fc-regs .r b { font-family: 'Noto Serif SC', serif; font-weight: 600; }
+  .fc-regs .r.lit { color: var(--red); }
+  .fc-regs .calc { margin-top: .7rem; color: var(--muted); font-size: .68rem; white-space: pre-wrap; }
+  .fc-step { margin-top: 1.3rem; min-height: 8.5rem; }
+  .fc-count { font-family: 'Space Mono', monospace; font-size: .62rem; letter-spacing: .2em; color: var(--accent); text-transform: uppercase; }
+  .fc-step-zh { font-family: 'Noto Serif SC', 'Songti SC', serif; font-size: 1.3rem; line-height: 1.6; margin-top: .3rem; }
+  .fc-step-en { font-size: .9rem; line-height: 1.7; margin-top: .2rem; }
+  .fc-step-op { font-family: 'Space Mono', monospace; font-size: .74rem; color: var(--muted); margin-top: .35rem; }
+  .fc-ctrl { display: flex; align-items: center; gap: .6rem; margin-top: .8rem; flex-wrap: wrap; }
+  .fc-ctrl button { border: 1px solid rgba(26,18,8,0.4); }
+  .fc-ctrl button:disabled { opacity: .3; cursor: default; }
+  .fc-ctrl .fc-play { background: var(--ink); color: var(--paper); }
+  .fc-dots { display: flex; gap: 5px; flex: 1; flex-wrap: wrap; justify-content: center; }
+  .fc-dots i { width: 9px; height: 9px; border-radius: 50%; border: 1px solid var(--accent); cursor: pointer; }
+  .fc-dots i.on { background: var(--red); border-color: var(--red); }
+  .fc-dots i.done { background: rgba(139,94,60,0.45); }
+  .fc-note { font-size: .74rem; color: var(--muted); line-height: 1.7; margin-top: 1.1rem; }
+  .fc-note a { color: var(--accent); }
+
+  /* ── INSTRUCTION SET + PROGRAM ── */
+  .abacus-lang { margin-top: 2.4rem; position: relative; z-index: 1; }
+  .ops { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .6rem; }
+  .op { background: rgba(255,255,255,0.6); border-top: 3px solid var(--accent); padding: .9rem .8rem; display: flex; flex-direction: column; gap: .25rem; }
+  .op b { font-family: 'Noto Serif SC', serif; font-size: 1.5rem; font-weight: 600; line-height: 1.2; }
+  .op .py { font-family: 'Space Mono', monospace; font-size: .62rem; color: var(--accent); }
+  .op .mean { font-size: .78rem; line-height: 1.5; }
+  .op code { font-family: 'Space Mono', monospace; font-size: .66rem; color: var(--red); margin-top: auto; padding-top: .4rem; }
+  .prog { list-style: none; counter-reset: ln; padding: 0; margin: 0; }
+  .prog li { counter-increment: ln; display: grid; grid-template-columns: 2rem minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; padding: .75rem .6rem; border-bottom: 1px solid rgba(139,94,60,0.2); cursor: pointer; transition: background .2s; }
+  .prog li::before { content: counter(ln, decimal-leading-zero); font-family: 'Space Mono', monospace; font-size: .62rem; color: var(--accent); padding-top: .2rem; }
+  .prog li:hover, .prog li.on { background: rgba(255,255,255,0.65); }
+  .prog li.on::before { color: var(--red); }
+  .prog .zh { font-family: 'Noto Serif SC', 'Songti SC', serif; font-size: .95rem; line-height: 1.8; }
+  .prog code { font-family: 'Space Mono', monospace; font-size: .7rem; line-height: 1.8; white-space: pre-wrap; color: var(--ink); background: rgba(255,255,255,0.55); border-left: 2px solid var(--accent); padding: .3rem .7rem; align-self: start; }
+  @media (max-width: 860px) {
+    .ops { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .fc-stage { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 700px) {
+    .fc { padding: 1rem; }
+    .prog li { grid-template-columns: 1.6rem minmax(0, 1fr); }
+    .prog code { grid-column: 2; }
+    .fc-board { grid-template-columns: 2.4rem repeat(3, minmax(0, 1fr)); }
+    .fc-step-zh { font-size: 1.1rem; }
+    .op:last-child { grid-column: 1 / -1; }
+  }
+  @media (max-width: 860px) {
+    .fc { display: flex; flex-direction: column; }
+    .fc-stage { display: contents; }
+    .fc-head { order: 1; } .fc-problem { order: 2; } .fc-board { order: 3; } .fc-step { order: 4; }
+    .fc-ctrl { order: 5; } .fc-regs { order: 6; margin-top: 1.2rem; } .fc-note { order: 7; }
+  }
 </style>
 </head>
 <body>
 
 <!-- HERO -->
 <section class="hero">
-  <span class="hero-label">Counterfactual Mathematics · 算學</span>
-  <h1>What if mathematics had grown<br>from <em>the abacus,</em><br>not the axiom?</h1>
-  <p class="hero-sub">A visual exploration of an indigenous Chinese mathematical tradition — equally rigorous, radically different in its foundations.</p>
+  <span class="hero-label">Counterfactual Mathematics · 算学</span>
+  <h1>What if mathematics had grown<br>from <em>the abacus</em><br>as well as the axiom?</h1>
+  <p class="hero-sub">A visual thought experiment. China's procedural tradition of counting rods and algorithms, followed as far as it might have gone, sits beside Euclid's axioms as a second root of the same mathematics.</p>
 </section>
 
 <hr class="divider">
 
 <!-- SECTION 1: PHILOSOPHICAL GROUND -->
 <section class="section reveal">
-  <span class="section-number">01 · 術 shù</span>
-  <h2>Procedure over Proof <span class="zh">以術代理</span></h2>
+  <span class="section-number">01 · 术 shù</span>
+  <h2>Procedure over Proof <span class="zh">以术代理</span></h2>
   <div class="two-col">
     <div>
-      <p>Western mathematics rests on axioms and deductive chains going back to Euclid. Its foundational question: <em>"Does this hold, from first principles?"</em></p>
-      <p>Chinese mathematics was built on <strong>shù</strong> — method, procedure, algorithm. Its foundational question: <em>"Does this procedure always yield the correct result?"</em></p>
-      <p>Rigour exists in both traditions. But its source is different: not a fixed bedrock of axioms, but the <strong>operational invariance</strong> of a method across all valid inputs. Closer, in spirit, to what we now call a correctness proof for a program.</p>
+      <p>The axiomatic line, from Euclid onward, builds on axioms and chains of deduction. Its guiding question: <em>"Does this hold, from first principles?"</em></p>
+      <p>The procedural line, from the 九章算术 onward, builds on <strong>shù</strong>: method, procedure, algorithm. Its guiding question: <em>"Does this procedure always yield the correct result?"</em></p>
+      <p>Both lines are rigorous, and they find rigour in different places. The procedural line finds it in the <strong>operational invariance</strong> of a method across all valid inputs, much like a correctness proof for a computer program today. Modern mathematics uses both every day.</p>
     </div>
     <div>
       <table class="compare-table">
         <tr>
-          <th>Concept</th><th>Western</th><th>Chinese 算學</th>
+          <th>Concept</th><th>Axiomatic line</th><th>Procedural line 算学</th>
         </tr>
-        <tr><td>Foundation</td><td>Axiom</td><td>術 Shù (procedure)</td></tr>
-        <tr><td>Validation</td><td>Deductive proof</td><td>驗 Yàn (verification)</td></tr>
+        <tr><td>Foundation</td><td>Axiom</td><td>术 Shù (procedure)</td></tr>
+        <tr><td>Validation</td><td>Deductive proof</td><td>验 Yàn (verification)</td></tr>
         <tr><td>Truth-carrier</td><td>Proposition</td><td>理 Lǐ (operative principle)</td></tr>
-        <tr><td>Basic tool</td><td>Compass & rule</td><td>算籌 Counting rods</td></tr>
+        <tr><td>Basic tool</td><td>Compass & rule</td><td>算筹 Counting rods</td></tr>
         <tr><td>Logic unit</td><td>Proposition</td><td>Transformation on structure</td></tr>
         <tr><td>Infinity</td><td>Completed set</td><td>Potential process</td></tr>
       </table>
@@ -517,12 +606,12 @@
 
 <!-- SECTION 2: NOTATION -->
 <section class="section reveal">
-  <span class="section-number">02 · 算籌 suàn chóu</span>
-  <h2>A Grid-Based Notation <span class="zh">算籌符號</span></h2>
+  <span class="section-number">02 · 算筹 suàn chóu</span>
+  <h2>A Grid-Based Notation <span class="zh">算筹符号</span></h2>
   <div class="two-col">
     <div>
-      <p>Without Arabic numerals or Latin letters, the native foundation would be <strong>counting-rod notation</strong> — a base-10 positional system using vertical and horizontal rod arrangements, placed on a physical grid.</p>
-      <p>Each cell position carries the semantic weight. The <em>layout itself</em> is the syntax. Unknowns are not labelled <em>x</em> or <em>y</em> — they are <strong>positions in an array</strong>.</p>
+      <p>On this road the foundation is <strong>counting-rod notation</strong>: a base-10 positional system using vertical and horizontal rod arrangements, placed on a physical grid.</p>
+      <p>Each cell position carries the semantic weight. The <em>layout itself</em> is the syntax. Unknowns are <strong>positions in an array</strong>, where symbolic algebra would write <em>x</em> or <em>y</em>.</p>
       <p>Hover over the cells below to feel how the grid operates.</p>
     </div>
     <div class="rod-demo">
@@ -540,18 +629,51 @@
 
 <!-- SECTION 3: ARRAY ALGEBRA -->
 <section class="section reveal">
-  <span class="section-number">03 · 方程術 fāngchéng shù</span>
-  <h2>Array Algebra <span class="zh">方程術</span></h2>
-  <p>Rather than equations written as strings of symbols, polynomial systems are represented as <strong>column arrays on a grid</strong>. Each column is a polynomial; the rows are coefficient degrees. This is not a metaphor — it is the literal notation of the 13th-century <em>Tianyuan</em> algebra.</p>
-  <p>What we call Gaussian elimination, they called <em>fāngchéng shù</em> — "the procedure of rectangular arrays." It preceded the European method by centuries.</p>
-
-  <div class="matrix-vis reveal" style="margin-top:2rem;">
-    <span class="label">Solving 3x + 2y = 12, x − y = 1 · via column operations</span>
-    <div id="array-demo"></div>
-    <div style="font-family:'Space Mono',monospace; font-size:0.7rem; color:rgba(245,237,224,0.5); margin-top:1.5rem; line-height:2;">
-      Red values = negative (black rods → red rods on the physical board)<br>
-      Column operations proceed rightward · pivot column highlighted
+  <span class="section-number">03 · 方程术 fāngchéng shù</span>
+  <h2>Array Algebra <span class="zh">方程术</span></h2>
+  <div class="two-col">
+    <div>
+      <p>On the counting board a system of equations is laid out as <strong>columns of rods</strong>. Each column is one condition. Reading down a column you meet the count of each unknown in turn, and at the foot the total, called 实 <em>shí</em>. The first condition sits on the right, and the columns are read from right to left.</p>
+      <p>The board is then worked like a matrix. Whole columns are multiplied and subtracted from one another until a staircase of empty places appears and the last unknown can be read off. The 九章算术, compiled by around the first century CE, sets this out as <em>fāngchéng shù</em>, "the procedure of rectangular arrays", the method now called Gaussian elimination.</p>
     </div>
+    <div>
+      <p>European mathematicians arrived at the same method independently, from Newton to Gauss. The two routes now meet in every linear-algebra library, and in every spreadsheet that solves a system of equations.</p>
+      <p>Below is the first problem of the chapter, worked exactly as the text instructs. Step through it to see the board change one move at a time. Every number stays a whole number until the very last step.</p>
+    </div>
+  </div>
+
+  <div class="fc reveal" id="fangcheng">
+    <div class="fc-head">
+      <span class="fc-src">《九章算术》卷八 · 方程 · 第一题</span>
+      <div class="fc-views" role="tablist" aria-label="Notation">
+        <button class="on" data-view="rods">算筹 rods</button><button data-view="nums">数字 numerals</button><button data-view="eqs">equations</button>
+      </div>
+    </div>
+
+    <div class="fc-problem">
+      <p class="fc-zh">今有上禾三秉，中禾二秉，下禾一秉，实三十九斗；上禾二秉，中禾三秉，下禾一秉，实三十四斗；上禾一秉，中禾二秉，下禾三秉，实二十六斗。问上、中、下禾实一秉各几何？</p>
+      <p class="fc-en">Three bundles of top-grade grain, two of middle and one of low yield 39 <i>dou</i>. Two, three and one yield 34. One, two and three yield 26. How much does one bundle of each grade yield?</p>
+    </div>
+
+    <div class="fc-stage">
+      <div class="fc-board" id="fc-board" aria-live="polite"></div>
+      <div class="fc-regs" id="fc-regs"></div>
+    </div>
+
+    <div class="fc-step">
+      <div class="fc-count" id="fc-count"></div>
+      <p class="fc-step-zh" id="fc-zh"></p>
+      <p class="fc-step-en" id="fc-en"></p>
+      <p class="fc-step-op" id="fc-op"></p>
+    </div>
+
+    <div class="fc-ctrl">
+      <button id="fc-prev" aria-label="Previous step">← back</button>
+      <div class="fc-dots" id="fc-dots"></div>
+      <button id="fc-next" aria-label="Next step">next →</button>
+      <button id="fc-play" class="fc-play">play</button>
+    </div>
+    <p class="fc-note">Units are written with upright rods and tens with lying rods, alternating place by place; an empty place is a zero. The answer the text gives: top grade 9¼ <i>dou</i>, middle 4¼, low 2¾. Source: <a href="https://ctext.org/nine-chapters/fang-cheng/zhs" target="_blank" rel="noopener">《九章算术·方程》, Chinese Text Project</a>.</p>
   </div>
 </section>
 
@@ -559,13 +681,13 @@
 
 <!-- SECTION 4: TRANSFORMATION PROOFS -->
 <section class="section reveal">
-  <span class="section-number">04 · 出入相補 chūrù xiāng bǔ</span>
-  <h2>Proof by Transformation <span class="zh">出入相補</span></h2>
+  <span class="section-number">04 · 出入相补 chūrù xiāng bǔ</span>
+  <h2>Proof by Transformation <span class="zh">出入相补</span></h2>
   <div class="two-col">
     <div>
-      <p>Liu Hui's principle: <em>"What goes out must equal what comes in."</em> A geometric identity is proved by dissecting and rearranging — until the equality becomes visually self-evident.</p>
-      <p>This is not informal hand-waving. It is a formal rewrite system: each dissection step is constrained by rules of area-preservation, and the final arrangement constitutes the proof.</p>
-      <p>In a matured tradition, this evolves into a <strong>transformation logic</strong> — where the unit of reasoning is an area-preserving operation on a structure, rather than a logical implication between propositions.</p>
+      <p>Liu Hui's principle: <em>"What goes out must equal what comes in."</em> A geometric identity is proved by dissecting and rearranging until the equality becomes visually self-evident.</p>
+      <p>It works as a formal rewrite system: each dissection step is constrained by rules of area-preservation, and the final arrangement constitutes the proof.</p>
+      <p>Matured, this becomes a <strong>transformation logic</strong>, whose unit of reasoning is an area-preserving operation on a structure. It complements deductive logic, whose unit is an implication between propositions.</p>
     </div>
     <div class="proof-canvas">
       <span class="label">Pythagoras / Gougu · by dissection</span>
@@ -579,9 +701,9 @@
 <!-- SECTION 5: CONSTRUCTIVE CALCULUS -->
 <section class="section reveal">
   <span class="section-number">05 · 穷竭 qióng jié</span>
-  <h2>Constructive Calculus <span class="zh">算法微積</span></h2>
-  <p>No limits, no infinitesimals. Instead: <strong>exhaustion as explicit algorithm</strong>. A derivative is not a static limit — it is the procedure "take the difference quotient, then narrow the interval." A real number is not a Dedekind cut (a completed infinite set) but a program that can generate any desired decimal digit on demand.</p>
-  <p>Zu Chongzhi computed π to 3.14159265 in the 5th century — not via abstract analysis, but by running the polygon-inscribing procedure further. In an unbroken tradition, this becomes the natural foundation for all of analysis.</p>
+  <h2>Constructive Calculus <span class="zh">算法微积</span></h2>
+  <p>Here the limit is an explicit procedure: <strong>exhaustion as algorithm</strong>. A derivative is the procedure "take the difference quotient, then narrow the interval." A real number is a program that can generate any desired decimal digit on demand. This is the constructive view that modern computable analysis also takes, alongside the Dedekind cut of classical analysis.</p>
+  <p>In the 5th century Zu Chongzhi placed π between 3.1415926 and 3.1415927 by running Liu Hui's polygon-inscribing procedure further. Carried forward, the same procedure is a natural foundation for analysis.</p>
 
   <div class="converge-vis reveal" style="margin-top:2rem;">
     <span class="label">π as iterative procedure · inscribed polygon exhaustion</span>
@@ -594,31 +716,54 @@
 
 <!-- SECTION 6: ABACUS LANGUAGE -->
 <section class="section reveal">
-  <span class="section-number">06 · 算板語言</span>
-  <h2>The Abacus as Programming Language <span class="zh">算板語言</span></h2>
+  <span class="section-number">06 · 算板语言</span>
+  <h2>The Abacus as Programming Language <span class="zh">算板语言</span></h2>
   <div class="two-col">
     <div>
-      <p>If the grid-layout is the syntax, and rod-movements are operations, then the abacus board is literally a two-dimensional programming language. Each "computation" is a sequence of legal moves on the grid.</p>
-      <p>What we call a function is a <strong>術 shù</strong> — a named procedure. What we call a variable is a <strong>column position</strong>. What we call a proof is a demonstration that a sequence of moves always produces the desired configuration.</p>
-      <p>This tradition, developed further, would have arrived at <strong>formal rewriting systems</strong>, symbolic computation, and something very close to combinatory logic — centuries before Schönfinkel.</p>
+      <p>If the grid layout is the syntax and rod movements are the operations, the counting board is a two-dimensional programming language. Each computation is a sequence of legal moves on the grid.</p>
+      <p>What we call a function is a <strong>术 shù</strong>, a named procedure. What we call a variable is a <strong>column position</strong>. What we call a proof is a demonstration that a sequence of moves always produces the desired configuration.</p>
     </div>
-    <div class="abacus-lang">
-      <span class="label">術 · Shù — A Polynomial Root Procedure (Qin Jiushao, 1247 CE)</span>
-      <div class="code-block">
-<span class="cm">// Find root of f(x) = x³ − 15x − 126</span>
-<span class="cm">// using repeated interval halving (jiǎn bàn shù)</span>
-
-<span class="kw">shù</span> find-root(array: <span class="num">[1, 0, −15, −126]</span>, interval: [<span class="num">4</span>, <span class="num">6</span>]):
-  mid ← <span class="kw">bisect</span>(interval)
-  val ← <span class="kw">horner-eval</span>(array, mid)   <span class="cm">// 秦九韶術</span>
-  <span class="kw">if</span> val = <span class="num">○</span>  → <span class="kw">return</span> mid
-  <span class="kw">if</span> val &gt; <span class="num">○</span>  → <span class="kw">recurse</span>(array, [interval.lo, mid])
-  <span class="kw">if</span> val &lt; <span class="num">○</span>  → <span class="kw">recurse</span>(array, [mid, interval.hi])
-
-<span class="cm">// ○ = zero (empty position on the rod board)</span>
-<span class="cm">// Terminates when error &lt; any given limit 限</span>
-      </div>
+    <div>
+      <p>The board has a small instruction set, and the 方程术 from section 03 is a short program written in it. Set out line by line, the classical sentence and the modern line describe the same moves. Tap a line to watch it run on the board above.</p>
+      <p>Developed further, this tradition points toward <strong>formal rewriting systems</strong>, symbolic computation and something close to combinatory logic: the territory that Schönfinkel, Church and Turing mapped from the logical side in the twentieth century. The procedural and axiomatic roads meet in the modern computer.</p>
     </div>
+  </div>
+
+  <div class="abacus-lang reveal">
+    <span class="label">The instruction set of the counting board</span>
+    <div class="ops">
+      <div class="op"><b>置</b><span class="py">zhì</span><span class="mean">place numbers on the board</span><code>assign</code></div>
+      <div class="op"><b>遍乘</b><span class="py">biàn chéng</span><span class="mean">multiply every place in a column</span><code>scale a column</code></div>
+      <div class="op"><b>直除</b><span class="py">zhí chú</span><span class="mean">subtract one column from another, again and again</span><code>loop: subtract</code></div>
+      <div class="op"><b>法 · 实</b><span class="py">fǎ · shí</span><span class="mean">the divisor and the dividend, held apart</span><code>two registers</code></div>
+      <div class="op"><b>如法而一</b><span class="py">rú fǎ ér yī</span><span class="mean">divide the 实 by the 法</span><code>divide</code></div>
+    </div>
+
+    <span class="label" style="margin-top:2.2rem">The program · 方程术, line by line</span>
+    <ol class="prog" id="prog">
+      <li data-step="0"><span class="zh">置上禾三秉，中禾二秉，下禾一秉，实三十九斗，于右方。中、左禾列如右方。</span><code>place right  ← [3, 2, 1, 39]
+place middle ← [2, 3, 1, 34]
+place left   ← [1, 2, 3, 26]</code></li>
+      <li data-step="1"><span class="zh">以右行上禾遍乘中行</span><code>middle ← middle × right.top</code></li>
+      <li data-step="3"><span class="zh">而以直除。</span><code>while middle.top ≠ 0:
+    middle ← middle − right</code></li>
+      <li data-step="5"><span class="zh">又乘其次，亦以直除。</span><code>left ← left × right.top
+while left.top ≠ 0:
+    left ← left − right</code></li>
+      <li data-step="10"><span class="zh">然以中行中禾不尽者遍乘左行而以直除。</span><code>left ← left × middle.mid
+while left.mid ≠ 0:
+    left ← left − middle</code></li>
+      <li data-step="11"><span class="zh">左方下禾不尽者，上为法，下为实。实即下禾之实。</span><code>法 ← left.low       # 36
+实_low ← left.shi   # 99</code></li>
+      <li data-step="12"><span class="zh">求中禾，以法乘中行下实，而除下禾之实。余如中禾秉数而一，即中禾之实。</span><code>实_mid ← 法 × middle.shi
+       − middle.low × 实_low
+实_mid ← 实_mid ÷ middle.mid</code></li>
+      <li data-step="13"><span class="zh">求上禾，亦以法乘右行下实，而除下禾、中禾之实。余如上禾秉数而一，即上禾之实。</span><code>实_top ← 法 × right.shi
+       − right.low × 实_low
+       − right.mid × 实_mid
+实_top ← 实_top ÷ right.top</code></li>
+      <li data-step="14"><span class="zh">实皆如法，各得一斗。</span><code>each ← 实 ÷ 法</code></li>
+    </ol>
   </div>
 </section>
 
@@ -627,36 +772,36 @@
 <!-- SECTION 7: WHAT IS GAINED / LOST -->
 <section class="section reveal">
   <span class="section-number">07 · 得失</span>
-  <h2>What Is Gained. What Is Lost. <span class="zh">得失</span></h2>
+  <h2>What Each Road Brings <span class="zh">得失</span></h2>
   <div class="two-col">
     <div>
-      <p style="font-family:'Space Mono',monospace; font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); margin-bottom:1rem;">Gained</p>
+      <p style="font-family:'Space Mono',monospace; font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); margin-bottom:1rem;">Natural on the procedural road</p>
       <ul style="list-style:none; padding:0;">
-        <li style="padding:0.6rem 0; border-bottom:1px solid rgba(139,94,60,0.15); font-size:0.9rem;">Computation and reasoning are <em>unified from the start</em> — the symbol is executable.</li>
+        <li style="padding:0.6rem 0; border-bottom:1px solid rgba(139,94,60,0.15); font-size:0.9rem;">Computation and reasoning are <em>unified from the start</em>: the symbol is executable.</li>
         <li style="padding:0.6rem 0; border-bottom:1px solid rgba(139,94,60,0.15); font-size:0.9rem;">Linear algebra, polynomial systems, and combinatorics share a natural common notation (the array).</li>
-        <li style="padding:0.6rem 0; border-bottom:1px solid rgba(139,94,60,0.15); font-size:0.9rem;">Constructive mathematics is the default — no set-theoretic foundations crisis in 1900.</li>
+        <li style="padding:0.6rem 0; border-bottom:1px solid rgba(139,94,60,0.15); font-size:0.9rem;">Constructive mathematics is the default, so the foundations debates of 1900 would take a different shape.</li>
         <li style="padding:0.6rem 0; border-bottom:1px solid rgba(139,94,60,0.15); font-size:0.9rem;">Symbolic computation as a natural extension of traditional methods.</li>
-        <li style="padding:0.6rem 0; font-size:0.9rem;">A geometric language of transformation and invariance, rather than of definitions and deduction.</li>
+        <li style="padding:0.6rem 0; font-size:0.9rem;">A geometric language of transformation and invariance.</li>
       </ul>
     </div>
     <div>
-      <p style="font-family:'Space Mono',monospace; font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:1rem;">Absent or Late</p>
+      <p style="font-family:'Space Mono',monospace; font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:1rem;">Natural on the axiomatic road</p>
       <ul style="list-style:none; padding:0;">
         <li style="padding:0.6rem 0; border-bottom:1px solid rgba(139,94,60,0.15); font-size:0.9rem; color:var(--muted);">Set theory and the concept of actual infinity.</li>
         <li style="padding:0.6rem 0; border-bottom:1px solid rgba(139,94,60,0.15); font-size:0.9rem; color:var(--muted);">The axiomatic method and the idea of a mathematical "structure" defined by relations.</li>
-        <li style="padding:0.6rem 0; border-bottom:1px solid rgba(139,94,60,0.15); font-size:0.9rem; color:var(--muted);">A sharp separation between geometry and number — they remain fused as "computable shapes."</li>
+        <li style="padding:0.6rem 0; border-bottom:1px solid rgba(139,94,60,0.15); font-size:0.9rem; color:var(--muted);">A sharp separation between geometry and number, which the procedural road keeps fused as "computable shapes."</li>
         <li style="padding:0.6rem 0; font-size:0.9rem; color:var(--muted);">Formal logic as an independent discipline.</li>
       </ul>
     </div>
   </div>
 
   <p style="margin-top:3rem; font-family:'IM Fell English',serif; font-size:1.15rem; font-style:italic; max-width:700px; border-left:3px solid var(--accent); padding-left:1.5rem; color:var(--ink);">
-    "An entirely native Chinese mathematics would not be a stunted version of the Western tradition. It would be an alternative edifice — equally rigorous, but operating differently throughout. In it, <em>operation and proof are inseparable</em>, and the abacus board, not the straight-edge and compass, is the ultimate instrument of abstract thought."
+    A fully grown Chinese mathematics would be an edifice of its own, as rigorous as Euclid's and built on different ground. In it, <em>operation and proof are inseparable</em>, and the abacus board stands beside the straight-edge and compass as an instrument of abstract thought. Mathematics today already runs on both roads: proofs rest on the axiom, computers on the procedure. Holding the two together gives a fuller picture of what mathematical thinking can be.
   </p>
 </section>
 
 <footer class="footer">
-  <span>算學 · Suàn Xué · The Study of Computation</span>
+  <span>算学 · Suàn Xué · The Study of Computation</span>
   <span>Source: Nine Chapters · Tianyuan Algebra · Liu Hui · Zu Chongzhi · Qin Jiushao</span>
 </footer>
 
@@ -692,71 +837,134 @@ if (grid) {
   grid.appendChild(z);
 }
 
-// ── ARRAY DEMO ──
-const arrayDemo = document.getElementById('array-demo');
-if (arrayDemo) {
-  const steps = [
-    {
-      label: "Initial array — columns are equations",
-      cols: [
-        { cells: ['3','2','12'], label: 'eq 1', pivots: [] },
-        { cells: ['1','−1','1'], label: 'eq 2', pivots: [] },
-      ]
-    },
-    {
-      label: "Subtract 3× col 2 from col 1",
-      cols: [
-        { cells: ['○','5','9'], label: 'eq 1 reduced', pivots: [0] },
-        { cells: ['1','−1','1'], label: 'eq 2', pivots: [] },
-      ]
-    },
-    {
-      label: "Solve: y = 9/5... wait, integer system",
-      cols: [
-        { cells: ['○','5','9'], label: '→ 5y = 9', pivots: [0] },
-        { cells: ['1','−1','1'], label: 'x − y = 1', pivots: [] },
-      ]
+// ── 方程术 BOARD: 九章算术 卷八 第一题, worked as the text instructs ──
+(function () {
+  const root = document.getElementById('fangcheng');
+  if (!root) return;
+  const INK = '#1a1208';
+
+  // one rod digit; upright (纵) for units, hundreds…; lying (横) for tens, thousands…
+  function rodDigit(d, upright, x0) {
+    const L = (x1, y1, x2, y2) => `<line x1="${x0 + x1}" y1="${y1}" x2="${x0 + x2}" y2="${y2}" stroke="${INK}" stroke-width="2.2" stroke-linecap="round"/>`;
+    let s = '';
+    if (upright) {
+      const n = d > 5 ? d - 5 : d, top = d > 5 ? 11 : 3;
+      if (d > 5) s += L(2, 5, 20, 5);
+      for (let i = 0; i < n; i++) { const x = n === 1 ? 11 : 3 + i * (16 / Math.max(n - 1, 1)); s += L(x, top, x, 29); }
+    } else {
+      const n = d > 5 ? d - 5 : d, top = d > 5 ? 15 : 7;
+      if (d > 5) s += L(11, 3, 11, 13);
+      for (let i = 0; i < n; i++) { const y = n === 1 ? (d > 5 ? 22 : 16) : top + i * ((29 - top) / Math.max(n - 1, 1)); s += L(2, y, 20, y); }
     }
-  ];
-
-  let step = 0;
-  function renderArray() {
-    const s = steps[step];
-    arrayDemo.innerHTML = '';
-    const sys = document.createElement('div');
-    sys.className = 'array-system';
-
-    s.cols.forEach((col, ci) => {
-      const colDiv = document.createElement('div');
-      col.cells.forEach((v, i) => {
-        const cell = document.createElement('div');
-        cell.className = 'array-cell' + (v.includes('−') ? ' red' : '') + (col.pivots.includes(i) ? ' pivot' : '');
-        cell.textContent = v;
-        colDiv.appendChild(cell);
-      });
-      const lbl = document.createElement('div');
-      lbl.className = 'array-label';
-      lbl.textContent = col.label;
-      colDiv.appendChild(lbl);
-      sys.appendChild(colDiv);
-
-      if (ci < s.cols.length - 1) {
-        const sep = document.createElement('div');
-        sep.style.cssText = 'width:1px;background:rgba(245,237,224,0.15);align-self:stretch;margin:0 0.5rem;';
-        sys.appendChild(sep);
-      }
+    return s;
+  }
+  function rods(n) {
+    const ds = String(n).split('').map(Number);
+    let x = 0, body = '';
+    ds.forEach((d, i) => {
+      const place = ds.length - 1 - i;            // 0 = units
+      if (d) body += rodDigit(d, place % 2 === 0, x);
+      x += 24;
     });
-
-    const info = document.createElement('div');
-    info.style.cssText = 'font-family:"Space Mono",monospace;font-size:0.7rem;color:rgba(245,237,224,0.6);margin-top:1.5rem;width:100%;position:relative;z-index:1;display:flex;align-items:center;gap:1rem;';
-    info.innerHTML = `<span style="flex:1">${s.label}</span><button onclick="nextStep()" style="background:rgba(245,237,224,0.1);border:1px solid rgba(245,237,224,0.3);color:rgba(245,237,224,0.8);padding:0.3rem 0.8rem;cursor:pointer;font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;">NEXT STEP →</button>`;
-    arrayDemo.appendChild(sys);
-    arrayDemo.appendChild(info);
+    return `<svg viewBox="-1 0 ${x} 32" role="img" aria-label="${n}">${body}</svg>`;
   }
 
-  window.nextStep = () => { step = (step + 1) % steps.length; renderArray(); };
-  renderArray();
-}
+  const ROWS = ['上禾', '中禾', '下禾', '实'];
+  const S = [];
+  const add = (o) => S.push(o);
+  // columns stored as [top, middle, low, shi]
+  let R = [3, 2, 1, 39], M = [2, 3, 1, 34], Lf = [1, 2, 3, 26];
+  const cp = (a) => a.slice();
+  add({ zh: '置上禾三秉，中禾二秉，下禾一秉，实三十九斗，于右方。中、左禾列如右方。', en: 'Place the first condition on the right: 3, 2, 1 bundles and a yield of 39. Set out the middle and left columns the same way.', op: 'three columns, three conditions', R: cp(R), M: cp(M), L: cp(Lf), chg: { R: [0,1,2,3], M: [0,1,2,3], L: [0,1,2,3] } });
+  M = M.map(v => v * 3);
+  add({ zh: '以右行上禾遍乘中行', en: 'Multiply every place in the middle column by the top number of the right column, 3.', op: 'middle × 3', R: cp(R), M: cp(M), L: cp(Lf), chg: { M: [0,1,2,3] }, src: 'R' });
+  M = M.map((v, i) => v - R[i]);
+  add({ zh: '而以直除', en: 'Then subtract the right column from it, place by place.', op: 'middle − right', R: cp(R), M: cp(M), L: cp(Lf), chg: { M: [0,1,2,3] }, src: 'R' });
+  M = M.map((v, i) => v - R[i]);
+  add({ zh: '而以直除', en: 'Subtract again. The top place is now empty: the first unknown has left the middle column.', op: 'middle − right  → top cleared', R: cp(R), M: cp(M), L: cp(Lf), chg: { M: [0,1,2,3] }, src: 'R' });
+  Lf = Lf.map(v => v * 3);
+  add({ zh: '又乘其次', en: 'Do the same to the next column: multiply the left column by 3.', op: 'left × 3', R: cp(R), M: cp(M), L: cp(Lf), chg: { L: [0,1,2,3] }, src: 'R' });
+  Lf = Lf.map((v, i) => v - R[i]);
+  add({ zh: '亦以直除', en: 'Subtract the right column once. The left column’s top place empties too.', op: 'left − right  → top cleared', R: cp(R), M: cp(M), L: cp(Lf), chg: { L: [0,1,2,3] }, src: 'R' });
+  Lf = Lf.map(v => v * M[1]);
+  add({ zh: '然以中行中禾不尽者遍乘左行', en: 'Take what remains of the middle grain in the middle column, 5, and multiply the left column by it.', op: 'left × 5', R: cp(R), M: cp(M), L: cp(Lf), chg: { L: [1,2,3] }, src: 'M' });
+  for (let k = 1; k <= 4; k++) {
+    Lf = Lf.map((v, i) => v - M[i]);
+    add({ zh: '而以直除', en: k < 4 ? `Subtract the middle column from the left, time ${k} of 4.` : 'Fourth subtraction. The middle place of the left column is empty. The board is now a staircase.', op: k < 4 ? `left − middle  (${k})` : 'left − middle  (4)  → staircase', R: cp(R), M: cp(M), L: cp(Lf), chg: { L: [1,2,3] }, src: 'M' });
+  }
+  add({ zh: '左方下禾不尽者，上为法，下为实。实即下禾之实。', en: 'In the left column only the low grain remains. Its upper number, 36, becomes the divisor 法; its lower number, 99, the dividend 实. This is the yield of the low grain, waiting to be divided.', op: '法 = 36   下禾之实 = 99', R: cp(R), M: cp(M), L: cp(Lf), chg: { L: [2,3] }, regs: { fa: 36, low: 99 }, lit: ['fa', 'low'], calc: 'low grain = 99 ÷ 36' });
+  add({ zh: '求中禾，以法乘中行下实，而除下禾之实。余如中禾秉数而一，即中禾之实。', en: 'For the middle grain: multiply the middle column’s yield by the divisor, take away the low grain’s share, and divide by the middle grain’s count.', op: '(36 × 24 − 1 × 99) ÷ 5 = 153', R: cp(R), M: cp(M), L: cp(Lf), chg: { M: [1,2,3] }, regs: { fa: 36, low: 99, mid: 153 }, lit: ['mid'], calc: '36 × 24 = 864\n864 − 99 = 765\n765 ÷ 5 = 153' });
+  add({ zh: '求上禾，亦以法乘右行下实，而除下禾、中禾之实。余如上禾秉数而一，即上禾之实。', en: 'For the top grain: multiply the right column’s yield by the divisor, take away the shares of the low and middle grain, and divide by the top grain’s count.', op: '(36 × 39 − 1 × 99 − 2 × 153) ÷ 3 = 333', R: cp(R), M: cp(M), L: cp(Lf), chg: { R: [0,1,2,3] }, regs: { fa: 36, low: 99, mid: 153, top: 333 }, lit: ['top'], calc: '36 × 39 = 1404\n1404 − 99 − 306 = 999\n999 ÷ 3 = 333' });
+  add({ zh: '实皆如法，各得一斗。', en: 'Divide each yield by the divisor. Top grain 9¼ dou a bundle, middle 4¼, low 2¾, exactly the answer in the book.', op: '333 ÷ 36 = 9¼   153 ÷ 36 = 4¼   99 ÷ 36 = 2¾', R: cp(R), M: cp(M), L: cp(Lf), regs: { fa: 36, low: 99, mid: 153, top: 333, done: true }, lit: ['ans'], calc: 'top    9¼ dou\nmiddle 4¼ dou\nlow    2¾ dou' });
+
+  const board = root.querySelector('#fc-board'), regsEl = root.querySelector('#fc-regs');
+  const zhEl = root.querySelector('#fc-zh'), enEl = root.querySelector('#fc-en'), opEl = root.querySelector('#fc-op'), countEl = root.querySelector('#fc-count');
+  const dots = root.querySelector('#fc-dots'), prev = root.querySelector('#fc-prev'), next = root.querySelector('#fc-next'), play = root.querySelector('#fc-play');
+  let step = 0, view = 'rods', timer = null;
+
+  S.forEach((_, i) => { const d = document.createElement('i'); d.title = 'step ' + (i + 1); d.onclick = () => go(i); dots.appendChild(d); });
+
+  function eqText(col) {
+    const v = ['x', 'y', 'z'];
+    const terms = col.slice(0, 3).map((c, i) => c ? (c === 1 ? '' : c) + v[i] : null).filter(Boolean);
+    return (terms.length ? terms.join(' + ') : '0') + ' = ' + col[3];
+  }
+
+  function render() {
+    const s = S[step];
+    const cols = [['L', '左', 'left', s.L], ['M', '中', 'middle', s.M], ['R', '右', 'right', s.R]];
+    let h = '<div class="h"></div>';
+    cols.forEach(([k, zh, en]) => { h += `<div class="h${s.src === k ? ' col-src' : ''}">${zh}<small>${en}</small></div>`; });
+    if (view === 'eqs') {
+      h += '<div class="fc-eqs">' + [['R', 'right', s.R], ['M', 'middle', s.M], ['L', 'left', s.L]].map(([k, en, c]) =>
+        `<div class="${s.chg && s.chg[k] ? 'chg' : ''}">${eqText(c)}<span>${en} column</span></div>`).join('') + '<div style="color:var(--muted);font-size:.7rem;margin-top:.4rem">x, y, z: yield per bundle of top, middle and low grain</div></div>';
+    } else {
+      ROWS.forEach((r, ri) => {
+        const shi = ri === 3 ? ' shi' : '';
+        h += `<div class="rl${shi}">${r}</div>`;
+        cols.forEach(([k, , , col]) => {
+          const v = col[ri], ch = s.chg && s.chg[k] && s.chg[k].includes(ri) ? ' chg' : '', src = s.src === k ? ' col-src' : '';
+          const inner = v === 0 ? '' : (view === 'rods' ? rods(v) : `<span class="num">${v}</span>`);
+          h += `<div class="c${shi}${ch}${src}${v === 0 ? ' zero' : ''}">${inner}</div>`;
+        });
+      });
+    }
+    board.innerHTML = h;
+
+    const g = s.regs || {}, lit = s.lit || [];
+    const row = (key, zh, en, val) => `<div class="r${lit.includes(key) ? ' lit' : ''}"><span><b>${zh}</b> ${en}</span><span>${val === undefined ? '—' : val}</span></div>`;
+    regsEl.innerHTML = '<span class="t">registers · 法 and 实</span>' +
+      row('fa', '法', 'divisor', g.fa) + row('low', '下禾之实', 'low', g.low) + row('mid', '中禾之实', 'middle', g.mid) + row('top', '上禾之实', 'top', g.top) +
+      (g.done ? `<div class="r lit"><span><b>答</b> answer</span><span>9¼ · 4¼ · 2¾</span></div>` : '') +
+      `<div class="calc">${s.calc || 'Elimination first. The registers fill once the board is a staircase.'}</div>`;
+
+    countEl.textContent = `step ${step + 1} of ${S.length}`;
+    zhEl.textContent = s.zh; enEl.textContent = s.en; opEl.textContent = s.op;
+    [...dots.children].forEach((d, i) => d.className = i === step ? 'on' : (i < step ? 'done' : ''));
+    prev.disabled = step === 0; next.disabled = step === S.length - 1;
+    document.querySelectorAll('#prog li').forEach(li => {
+      const st = +li.dataset.step, nxt = li.nextElementSibling ? +li.nextElementSibling.dataset.step : 1e9;
+      li.classList.toggle('on', step >= (li.previousElementSibling ? +li.previousElementSibling.dataset.step + 1 : 0) && step <= st && step < nxt);
+    });
+  }
+  function go(i) { step = Math.max(0, Math.min(S.length - 1, i)); render(); }
+  function stop() { clearInterval(timer); timer = null; play.textContent = 'play'; }
+  prev.onclick = () => { stop(); go(step - 1); };
+  next.onclick = () => { stop(); go(step + 1); };
+  play.onclick = () => {
+    if (timer) return stop();
+    if (step === S.length - 1) go(0);
+    play.textContent = 'pause';
+    timer = setInterval(() => { if (step >= S.length - 1) return stop(); go(step + 1); }, 2200);
+  };
+  root.querySelectorAll('.fc-views button').forEach(b => b.onclick = () => {
+    root.querySelectorAll('.fc-views button').forEach(x => x.classList.toggle('on', x === b)); view = b.dataset.view; render();
+  });
+  document.querySelectorAll('#prog li').forEach(li => li.onclick = () => {
+    stop(); go(+li.dataset.step); root.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  render();
+})();
 
 // ── GOUGU (PYTHAGOREAN) PROOF BY DISSECTION ──
 const proofCanvas = document.getElementById('proof-canvas');
@@ -833,7 +1041,7 @@ if (proofCanvas) {
     ctx.fillText('a² + b² = c²', W - 130, 30);
     ctx.fillStyle = 'rgba(139,94,60,0.5)';
     ctx.font = `10px "Space Mono", monospace`;
-    ctx.fillText('出入相補', W - 100, 48);
+    ctx.fillText('出入相补', W - 100, 48);
     ctx.fillText('"what goes out = what comes in"', 10, H - 8);
   }
 
