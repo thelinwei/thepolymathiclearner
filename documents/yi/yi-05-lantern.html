@@ -219,9 +219,9 @@ h1 .en{display:block;font-family:"Fraunces","Noto Serif SC",serif;font-size:clam
   <div class="wrap">
     <div class="kicker">易 Yi · geometry hunt · iteration four · one body, nothing hidden</div>
     <div class="rules"></div>
-    <h1>灯 dēng<span class="en">The lantern — sixty-four beads on a single closed curve</span></h1>
-    <p class="deck">Two cubes were two bodies. The conjugate pair was two bodies with a better excuse. Both were rejected, and this iteration accepts the constraint in full: <b>one object, everything on its surface, and not a grid.</b></p>
-    <p class="deck" style="margin-top:12px">Four candidates were tested. Two died on collisions. The two that survived turned out to be the same object seen twice, and together they make a form whose <b>height is the number of yang lines</b> — 坤 kun a point at the base, 乾 qian a point at the apex, and the twenty balanced hexagrams as the widest ring at the equator.</p>
+    <h1>灯 dēng<span class="en">The lantern · sixty-four beads on a single closed curve</span></h1>
+    <p class="deck">Two cubes were two bodies. The conjugate pair was also two bodies, with a better justification. Both were set aside, and this iteration accepts the constraint in full: <b>one object, with everything on its surface, shaped by something other than a grid.</b></p>
+    <p class="deck" style="margin-top:12px">Four candidates were tested. Two died on collisions. The two that survived turned out to be the same object seen twice, and together they make a form whose <b>height is the number of yang lines</b>. 坤 kun is a point at the base, 乾 qian a point at the apex, and the twenty balanced hexagrams form the widest ring at the equator.</p>
     <a class="yijump" href="#figLantern">See the model first ↓</a>
   </div>
 </header>
@@ -233,13 +233,13 @@ h1 .en{display:block;font-family:"Fraunces","Noto Serif SC",serif;font-size:clam
   <div class="wrap col">
     <div class="head">
       <div class="step"><b>One</b>Rejected first</div>
-      <h2>Two candidates that looked promising and are not.</h2>
+      <h2>Two promising candidates that failed.</h2>
     </div>
     <p>Both were tested before anything was drawn, because the whole point of the audit method is that beauty has to survive a count.</p>
 
     <div class="g2" style="margin:22px 0">
-      <div class="card dead"><span class="n">49 / 64</span><h3>The Petrie mandala</h3><p>Projecting the six-cube onto its Coxeter plane gives the famous twelve-fold rosette — a single flat figure, architecturally the most natural thing here, essentially a plan. But <b>fifteen states collide</b>: only forty-nine distinct points come out, and the minimum separation is exactly zero. As a plan it is a lie in the same way the nested cube was.</p></div>
-      <div class="card dead"><span class="n">32 / 64</span><h3>Normalising onto a sphere</h3><p>The obvious cure for the zonotope's hidden interior: keep the direction, discard the radius, and every state lands on the surface. It halves the model. Thirty-two directions for sixty-four states — the radius <i>was</i> the information, and throwing it away merges each state with another.</p></div>
+      <div class="card dead"><span class="n">49 / 64</span><h3>The Petrie mandala</h3><p>Projecting the six-cube onto its Coxeter plane gives the famous twelve-fold rosette. It is a single flat figure and, to an architect, the most natural option here, because it is essentially a plan. Yet <b>fifteen states collide</b>: only forty-nine distinct points come out, and the minimum separation is exactly zero. As a plan it misleads in the same way the nested cube did.</p></div>
+      <div class="card dead"><span class="n">32 / 64</span><h3>Normalising onto a sphere</h3><p>The obvious cure for the zonotope's hidden interior is to keep each state's direction and discard its radius, so every state lands on the surface. That halves the model: thirty-two directions for sixty-four states. The radius carried the information, and discarding it merges each state with another.</p></div>
     </div>
 
     <div class="plate"><span class="ptag">Plate 08 · the count that decides</span>
@@ -262,32 +262,32 @@ h1 .en{display:block;font-family:"Fraunces","Noto Serif SC",serif;font-size:clam
       <h2>Height is the yang count. The curve is the change.</h2>
     </div>
     <p>Two ideas survived the tests, and they fit together so exactly that they are better read as one.</p>
-    <p><b>The first is a height.</b> Counting the yang lines in a hexagram gives a number from zero to six. There is exactly one hexagram with none — 坤 — and exactly one with all six — 乾. In between the counts are six, fifteen, twenty, fifteen, six. Use that count as elevation and the widths give a silhouette on their own: a point at the bottom, a point at the top, widest in the middle.</p>
+    <p><b>The first is a height.</b> Counting the yang lines in a hexagram gives a number from zero to six. Exactly one hexagram has none, 坤, and exactly one has all six, 乾. In between the counts are six, fifteen, twenty, fifteen, six. Use that count as elevation and the widths give a silhouette on their own: a point at the bottom, a point at the top, widest in the middle.</p>
 
     <div class="prof" id="profile"></div>
 
-    <div class="plate"><span class="ptag">Plate 09 · the silhouette is not a design choice</span>
+    <div class="plate"><span class="ptag">Plate 09 · the silhouette is set by the numbers</span>
       <div class="tex fallback" data-tex="\begin{aligned}
 h(s)&amp;=\textstyle\sum_i s_i \;=\; \#\,\text{yang}\\
 r(h)&amp;=\sqrt{\tbinom{6}{h}}\\
 \tbinom{6}{h}&amp;:\;1,\,6,\,15,\,20,\,15,\,6,\,1
 \end{aligned}">h(s) = sum_i s_i = #yang,    r(h) = sqrt( C(6,h) ),    C(6,h) : 1, 6, 15, 20, 15, 6, 1</div>
-      <div class="read"><b>How to read it</b>The radius at each level is set by how many hexagrams live there, so the shape is drawn by the binomial coefficients rather than by taste. The spindle profile is what the sixty-four look like when they are no longer arranged and are simply left to stack.</div>
+      <div class="read"><b>How to read it</b>The radius at each level is set by how many hexagrams live there, so the binomial coefficients draw the shape. The spindle profile is what the sixty-four look like when they are simply left to stack.</div>
       <div class="legend"><span>h elevation, 0 to 6</span><span>坤 the base point</span><span>乾 the apex point</span><span>20 balanced at the equator</span></div>
     </div>
 
-    <p><b>The second is a thread.</b> There exists a closed ordering of all sixty-four hexagrams in which every consecutive pair differs in exactly one line — a Hamiltonian cycle on the six-cube, which is what a Gray code is. Verified: sixty-four beads, every step a single 变爻, and the sequence closes back on itself.</p>
+    <p><b>The second is a thread.</b> There exists a closed ordering of all sixty-four hexagrams in which every consecutive pair differs in exactly one line: a Hamiltonian cycle on the six-cube, which is what a Gray code is. This has been verified: sixty-four beads, every step a single 变爻, and the sequence closes back on itself.</p>
 
     <div class="plate"><span class="ptag">Plate 10 · one thread through all sixty-four</span>
       <div class="tex fallback" data-tex="\begin{aligned}
 g(k)&amp;=k\oplus\lfloor k/2\rfloor,\quad k=0,\dots,63\\
 \Longrightarrow\; d_{\mathrm H}\big(g(k),g(k{+}1)\big)&amp;=1 \quad \forall k \bmod 64
 \end{aligned}">g(k) = k XOR floor(k/2),  k = 0..63    ⟹   Hamming( g(k), g(k+1) ) = 1  for all k mod 64</div>
-      <div class="read"><b>How to read it</b>A closed loop visiting every hexagram exactly once, where each step turns exactly one line. The traditional King Wen sequence does not have this property; this ordering does, and it is a better circle on the tradition's own terms — the terms being change.</div>
+      <div class="read"><b>How to read it</b>A closed loop visiting every hexagram exactly once, where each step turns exactly one line. This ordering has a property the traditional King Wen sequence lacks, and so it makes a better circle on the tradition's own terms, which are the terms of change.</div>
       <div class="legend"><span>⊕ exclusive or</span><span>d<sub>H</sub> Hamming distance</span><span>64 beads, 64 steps, closed</span></div>
     </div>
 
-    <p>Now put them together. Because each step of the thread turns one line, the yang count changes by exactly one at every step — so <span class="hl">the thread cannot help but rise and fall through the levels</span>, and it never stalls. Measured: the longest run at any single height is one. It is always moving.</p>
+    <p>Now put them together. Because each step of the thread turns one line, the yang count changes by exactly one at every step. So <span class="hl">the thread rises and falls through the levels at every bead</span>. Measured: the longest run at any single height is one. It is always moving.</p>
 
     <div class="plate"><span class="ptag">Plate 11 · one step, three descriptions</span>
       <div class="tex fallback" data-tex="\begin{aligned}
@@ -295,8 +295,8 @@ g(k)&amp;=k\oplus\lfloor k/2\rfloor,\quad k=0,\dots,63\\
 &amp;=\; \Delta\theta = 5.625^\circ\\
 &amp;=\; h \to h \pm 1
 \end{aligned}">one 变爻  =  one bead along the curve (Δθ = 5.625°)  =  one level up or down</div>
-      <div class="read"><b>How to read it</b>The same event read three ways: a line turning, a step along the thread, and a change of elevation. In the two-cube view a changing line was a jump between boxes; here it is a single stitch.</div>
-      <div class="legend"><span>5.625° = 360°/64</span><span>h → h ± 1 always</span><span>never two steps at one height</span></div>
+      <div class="read"><b>How to read it</b>The same event read three ways: a line turning, a step along the thread, and a change of elevation. In the two-cube view a changing line was a jump between boxes. Here it is a single stitch.</div>
+      <div class="legend"><span>5.625° = 360°/64</span><span>h → h ± 1 always</span><span>one step per height</span></div>
     </div>
 
     <figure id="figLantern">
@@ -325,7 +325,7 @@ g(k)&amp;=k\oplus\lfloor k/2\rfloor,\quad k=0,\dots,63\\
           <div class="readout" id="rLan"></div>
         </div>
       </div>
-      <figcaption><b>Labels</b> cycles four ways. <i>Levels only</i> tags each ring with its yang count and how many hexagrams live there — 1, 6, 15, 20, 15, 6, 1 — so the silhouette can be read off the form itself. The further modes name the beads: trigram pair, or the six-bit word. Bead labels are culled to the near half and faded with depth so the far side does not print through, and the selected bead names itself from either side. <b>Walk the thread</b> now advances four times more slowly.<br><br>Sixty-four beads on one closed thread, wound once around. Height is the yang count, so the thread climbs and falls a level at every bead and the profile fills out into a vessel. Slide <b>rings ⇄ thread</b> to redistribute the beads into even rings per level and back — the same sixty-four, arranged two ways. <b>The other four neighbours</b> draws the Q₆ edges that the thread does not use: two of a hexagram's six neighbours lie along the thread, four are chords.</figcaption>
+      <figcaption><b>Labels</b> cycles four ways. <i>Levels only</i> tags each ring with its yang count and how many hexagrams live there (1, 6, 15, 20, 15, 6, 1), so the silhouette can be read off the form itself. The further modes name the beads by trigram pair or by six-bit word. Bead labels are limited to the near half and faded with depth so the far side stays clear, and the selected bead names itself from either side. <b>Walk the thread</b> now advances four times more slowly.<br><br>Sixty-four beads on one closed thread, wound once around. Height is the yang count, so the thread climbs and falls a level at every bead and the profile fills out into a vessel. Slide <b>rings ⇄ thread</b> to redistribute the beads into even rings per level and back: the same sixty-four, arranged two ways. <b>The other four neighbours</b> draws the remaining Q₆ edges. Two of a hexagram's six neighbours lie along the thread, and four are chords.</figcaption>
     </figure>
 
     <div class="pull">A changing line stops being a jump between boxes and becomes a single stitch in one continuous seam.</div>
@@ -339,27 +339,27 @@ g(k)&amp;=k\oplus\lfloor k/2\rfloor,\quad k=0,\dots,63\\
       <div class="step"><b>Three</b>What it costs</div>
       <h2>Every body chooses what to make visible.</h2>
     </div>
-    <p>The lantern is one object, holds all sixty-four distinctly, hides nothing inside, and is not a grid. It also gives up something real, and the pattern across four iterations is now clear enough to state as a rule.</p>
+    <p>The lantern is one object. It holds all sixty-four distinctly, keeps everything on its surface, and takes its shape from the numbers. It also gives up something real, and the pattern across four iterations is now clear enough to state as a rule.</p>
 
     <table>
       <thead><tr><th>body</th><th>makes legible</th><th>hides</th><th>verdict</th></tr></thead>
       <tbody>
         <tr><td class="g">two cubes</td><td>lower / upper trigrams, and the octant structure</td><td>that it is one space; 土's pairing across the two</td><td>honest, inelegant</td></tr>
         <tr><td class="g">zonotope · τ</td><td>icosahedral symmetry; the extremes</td><td>32 states inside, including 14 of the 20 balanced</td><td>beautiful, half-blind</td></tr>
-        <tr><td class="g">conjugate pair</td><td>everything, between the two</td><td>nothing — but it is still two bodies</td><td>proven, rejected on form</td></tr>
-        <tr><td class="g">四象 cube</td><td>the three paired axes; 土 as an axis</td><td>nothing — but cubic and orderly</td><td>exact, unexciting</td></tr>
-        <tr style="background:var(--paper2)"><td class="g"><b>灯 · the lantern</b></td><td><b>yang count as height; 变爻 as one stitch; 坤 and 乾 as poles; balance as the widest ring</b></td><td><b>the trigram decomposition entirely — and so 土's pairing again</b></td><td><b>one body, nothing hidden</b></td></tr>
+        <tr><td class="g">conjugate pair</td><td>everything, between the two</td><td>little; the cost is that it is still two bodies</td><td>proven, rejected on form</td></tr>
+        <tr><td class="g">四象 cube</td><td>the three paired axes; 土 as an axis</td><td>little; the cost is a cubic, orderly look</td><td>exact, unexciting</td></tr>
+        <tr style="background:var(--paper2)"><td class="g"><b>灯 · the lantern</b></td><td><b>yang count as height; 变爻 as one stitch; 坤 and 乾 as poles; balance as the widest ring</b></td><td><b>the trigram decomposition entirely, and with it 土's pairing</b></td><td><b>one body, nothing hidden</b></td></tr>
       </tbody>
     </table>
 
     <p class="big">There may be no single body that shows everything.</p>
-    <p>Six dimensions do not fit in three, and each honest projection chooses a different three things to keep. The two-cube view keeps the trigram structure and loses the unity. The zonotope keeps the symmetry and loses half the states. The lantern keeps the unity, the change and the yang-count and loses the trigrams. That is not a failure of any of them; it is what projection <i>is</i>.</p>
-    <p>Which suggests the actual answer is not one body but <b>one body and one plan</b> — the architect's own convention. Elevation and plan are not two objects; they are two drawings of one. The lantern is the elevation: it shows change and level. The 四象 cube, flattened, is the plan: it shows the trigram pairing. Neither pretends to be the whole, and together they do not read as a pair of rival solids — which was the original objection.</p>
+    <p>Six dimensions have to be squeezed into three, and each faithful projection chooses a different three things to keep. The two-cube view keeps the trigram structure and loses the unity. The zonotope keeps the symmetry and loses half the states. The lantern keeps the unity, the change and the yang-count and loses the trigrams. That is simply what projection <i>is</i>.</p>
+    <p>This suggests the answer is <b>one body and one plan</b>, the architect's own convention. Elevation and plan are two drawings of a single object. The lantern is the elevation, showing change and level. The 四象 cube, flattened, is the plan, showing the trigram pairing. Each shows its part honestly, and together they read as one object drawn twice, which answers the original objection to two rival solids.</p>
 
     <div class="g3" style="margin-top:24px">
-      <div class="card"><span class="n">灯</span><h3>Next, for this form</h3><p>Wrap the thread on a torus rather than a cylinder of revolution, so the curve closes with curvature instead of a seam. Then the lantern becomes a knot, and the knot type is an invariant of the ordering rather than of the geometry.</p></div>
-      <div class="card"><span class="n">爻</span><h3>The unresolved one</h3><p>Whether any embedding can show both the yang count and the trigram pairing at once. My guess is no in three dimensions, and that guess should be tested rather than trusted — the last four guesses did not survive.</p></div>
-      <div class="card"><span class="n">相</span><h3>Still untested</h3><p>The phason reading of 变爻 from the quasicrystal lead. Asserted two iterations ago, never checked. On this project's record it is probably wrong.</p></div>
+      <div class="card"><span class="n">灯</span><h3>Next, for this form</h3><p>Wrap the thread on a torus, so the curve closes smoothly with curvature and no seam. Then the lantern becomes a knot, and the knot type is an invariant of the ordering rather than of the geometry.</p></div>
+      <div class="card"><span class="n">爻</span><h3>The unresolved one</h3><p>Whether any embedding can show both the yang count and the trigram pairing at once. My guess is no in three dimensions. That guess needs testing, since the last four guesses did not survive.</p></div>
+      <div class="card"><span class="n">相</span><h3>Still untested</h3><p>The phason reading of 变爻 from the quasicrystal lead. Asserted two iterations ago and still unchecked. On this project's record it is probably wrong.</p></div>
     </div>
   </div>
 </section>
@@ -369,8 +369,8 @@ g(k)&amp;=k\oplus\lfloor k/2\rfloor,\quad k=0,\dots,63\\
 <footer>
   <div class="wrap col">
     <div class="kicker">iteration four · one body · no build step</div>
-    <p class="big" style="margin-top:14px">Beauty is an elegant representation of truth — so the representation is what gets counted, not admired.</p>
-    <p class="cap" style="margin-top:14px">All counts computed rather than asserted: Petrie plane 49 distinct points of 64, minimum separation zero; sphere normalisation 32 distinct directions; Gray cycle verified Hamiltonian and closed with unit Hamming steps throughout; level widths 1, 6, 15, 20, 15, 6, 1 summing to 64; longest run at one height is 1; mean chords per bead 4.0. Maths via KaTeX with plain-text fallback. 16 Aug 2026.</p>
+    <p class="big" style="margin-top:14px">Beauty is an elegant representation of truth, so the representation is the thing we count.</p>
+    <p class="cap" style="margin-top:14px">All counts computed: Petrie plane 49 distinct points of 64, minimum separation zero; sphere normalisation 32 distinct directions; Gray cycle verified Hamiltonian and closed with unit Hamming steps throughout; level widths 1, 6, 15, 20, 15, 6, 1 summing to 64; longest run at one height is 1; mean chords per bead 4.0. Maths via KaTeX with plain-text fallback. 16 Aug 2026.</p>
   </div>
 </footer>
 
@@ -732,6 +732,7 @@ document.documentElement.classList.add("ready");
     <a href="yi-09-held-notes.html"><span class="g">时</span>09 Held notes</a>
     <a href="yi-10-consonance-couplets.html"><span class="g">和</span>10 Couplets</a>
     <a href="yi-11-life-on-bamboo.html"><span class="g">竹</span>11 A life on bamboo</a>
+    <a href="yi-12-tuning-the-sixty-four.html"><span class="g">调</span>12 Tuning</a>
     <a class="comp" href="yi-bells-companion.html"><span class="g">钟</span>— Bells</a>
   </div>
   <div class="yinav-lab" style="margin:26px 0 0;opacity:.85">Lin Wei 林威 · with Claude and ChatGPT, and light touches of DeepSeek</div>

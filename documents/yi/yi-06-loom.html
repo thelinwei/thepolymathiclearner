@@ -207,9 +207,9 @@ h1 .en{display:block;font-family:"Fraunces","Noto Serif SC",serif;font-size:clam
   <div class="wrap">
     <div class="kicker">易 Yi · geometry hunt · iteration five · the torus</div>
     <div class="rules"></div>
-    <h1>織 zhī<span class="en">The loom — the sixty-four on a torus, and what the thread turned out to be</span></h1>
-    <p class="deck">The lantern held everything except the trigrams. The torus fixes exactly that, and does it without adding a second body — because a torus has <b>two circulations</b>, and the lower and upper trigrams are each a closed ring of eight.</p>
-    <p class="deck" style="margin-top:14px">The thread was expected to become a knot. It does not. What it becomes is <b>a shuttle</b>: the lower trigram advances once around and never reverses while the upper runs back and forth across it, seven passes to every advance. The torus is not a doughnut. It is a loom.</p>
+    <h1>織 zhī<span class="en">The loom · the sixty-four on a torus, and what the thread turned out to be</span></h1>
+    <p class="deck">The lantern held everything except the trigrams. The torus restores them within a single body, because a torus has <b>two circulations</b>, and the lower and upper trigrams are each a closed ring of eight.</p>
+    <p class="deck" style="margin-top:14px">The thread was expected to become a knot. It becomes <b>a shuttle</b> instead: the lower trigram advances once around, always forward, while the upper runs back and forth across it, seven passes to every advance. The torus turns out to be a loom.</p>
     <a class="yijump" href="#figLoom">See the model first ↓</a>
   </div>
 </header>
@@ -220,9 +220,9 @@ h1 .en{display:block;font-family:"Fraunces","Noto Serif SC",serif;font-size:clam
 <section>
   <div class="wrap col">
     <div class="ch"><div class="num">I</div><div>
-      <h2>Why a torus, and not just a nicer cylinder.</h2>
-      <p class="lead">The lantern's single failure was specific: it made the yang count, the change and the poles legible, and it hid the trigram structure completely. There was nowhere in it to see that lines one to three form a lower figure and four to six an upper one — and so nowhere to see the pairing between a line and its partner three places up.</p>
-      <p>A torus has exactly two independent circulations, a major and a minor. If each trigram can be laid out as a genuine <em>closed ring</em>, then the two trigrams become the two directions of one surface — and the split that forced two cubes becomes two ways of going around a single body.</p>
+      <h2>Why a torus.</h2>
+      <p class="lead">The lantern's single failure was specific: it made the yang count, the change and the poles legible, and it hid the trigram structure completely. Nothing in it showed that lines one to three form a lower figure and four to six an upper one, and so nothing showed the pairing between a line and its partner three places up.</p>
+      <p>A torus has exactly two independent circulations, a major and a minor. If each trigram can be laid out as a genuine <em>closed ring</em>, then the two trigrams become the two directions of one surface. The split that once needed two cubes becomes two ways of going around a single body.</p>
       <p>The question is whether eight trigrams can be arranged in a ring where each step turns one line. They can. It is the same Gray-code argument as the lantern, one dimension down.</p>
 
       <div class="plate"><span class="ptag">Plate 1 · the eight, as a closed ring</span>
@@ -239,10 +239,10 @@ h1 .en{display:block;font-family:"Fraunces","Noto Serif SC",serif;font-size:clam
 \varphi &amp;\leftarrow \text{upper trigram}\\[3pt]
 8\times 8 &amp;= 64 \ \text{on } T^2
 \end{aligned}">θ ← lower trigram · φ ← upper trigram · 8 × 8 = 64 on T²</div>
-        <div class="read"><b>How to read it</b>Major angle from the lower trigram, minor angle from the upper. Verified bijective: sixty-four cells, sixty-four hexagrams, nothing doubled and nothing hidden — every state sits on the visible surface.</div>
+        <div class="read"><b>How to read it</b>Major angle from the lower trigram, minor angle from the upper. Verified one-to-one: sixty-four cells for sixty-four hexagrams, and every state sits on the visible surface.</div>
       </div>
 
-      <p>And the adjacency behaves. Each trigram has three neighbours in the cube, and on the ring they land at offsets ±1 and one chord at ±3 — so a hexagram's six neighbours are <b>four adjacent cells and two chords</b>, three in each direction. Nothing is lost; two of the six are simply drawn as short arcs across the surface rather than as steps to the next cell.</p>
+      <p>And the adjacency behaves. Each trigram has three neighbours in the cube, and on the ring they land at offsets ±1 plus one chord at ±3. So a hexagram's six neighbours are <b>four adjacent cells and two chords</b>, three in each direction. All six are kept; two are simply drawn as short arcs across the surface.</p>
 
       <div class="plate"><span class="ptag">Plate 3 · the six neighbours</span>
         <div class="tex fallback" data-tex="\begin{aligned}
@@ -250,7 +250,7 @@ h1 .en{display:block;font-family:"Fraunces","Noto Serif SC",serif;font-size:clam
 \text{along }\varphi &amp;:\; \pm1,\ \text{chord } \pm3\\[3pt]
 &amp;\;4\ \text{adjacent} + 2\ \text{chords}
 \end{aligned}">along θ: ±1 and a chord at ±3 · along φ: ±1 and a chord at ±3 · total 4 adjacent + 2 chords</div>
-        <div class="read"><b>How to read it</b>Verified for all sixty-four hexagrams with zero exceptions: three neighbours along each circulation. The chords are three steps around, not diameters, so they stay local — they read as a weave rather than as wires across a void.</div>
+        <div class="read"><b>How to read it</b>Verified for all sixty-four hexagrams with zero exceptions: three neighbours along each circulation. The chords span three steps around the ring, so they stay local and read as part of the weave.</div>
       </div>
     </div></div>
   </div>
@@ -261,9 +261,9 @@ h1 .en{display:block;font-family:"Fraunces","Noto Serif SC",serif;font-size:clam
   <div class="wrap col">
     <div class="ch"><div class="num">II</div><div>
       <h2>A knot was expected. That was wrong.</h2>
-      <p>The lantern's thread — the closed circuit through all sixty-four where every step turns one line — can be drawn on this surface. When the torus was proposed the thread was said to become a knot, and its knot type to be a property of the ordering rather than of the drawing. That was a nice sentence and it is false.</p>
-      <p>Computed: the thread winds <b>once</b> around the major circle and <b>zero</b> times around the minor. Homotopy class (1, 0). It is an unknot — a loop that can be shrunk on the surface without cutting. No knot, no invariant, nothing to classify.</p>
-      <p>But the reason it comes out that way is the interesting part, and it was not visible until the numbers came back.</p>
+      <p>The lantern's thread, the closed circuit through all sixty-four where every step turns one line, can be drawn on this surface. When the torus was proposed, the thread was predicted to become a knot whose type would belong to the ordering itself. That was an attractive sentence, and it turned out false.</p>
+      <p>Computed: the thread winds <b>once</b> around the major circle and <b>zero</b> times around the minor. Homotopy class (1, 0). It is an unknot: a loop that can be shrunk on the surface without cutting.</p>
+      <p>The reason it comes out that way is the interesting part, and it only became visible when the numbers came back.</p>
 
       <div class="plate"><span class="ptag">Plate 4 · what the thread actually does</span>
         <div class="tex fallback" data-tex="\begin{aligned}
@@ -272,17 +272,17 @@ h1 .en{display:block;font-family:"Fraunces","Noto Serif SC",serif;font-size:clam
 &amp;\;\;\;28\uparrow + 28\downarrow\\[3pt]
 (p,q)&amp;=(1,0)
 \end{aligned}">warp: 8 advances of θ, never reversing · weft: 56 passes of φ, 28 up + 28 down · (p,q) = (1,0)</div>
-        <div class="read"><b>How to read it</b>Of the sixty-four steps, eight move the lower trigram and fifty-six move the upper. The eight lower advances are evenly spaced — one every eight steps — and every one of them goes <i>forward</i>. The lower trigram never backtracks. The upper accounts for all the reversing: twenty-eight forward, twenty-eight back, netting zero, which is why the minor winding is zero.</div>
+        <div class="read"><b>How to read it</b>Of the sixty-four steps, eight move the lower trigram and fifty-six move the upper. The eight lower advances are evenly spaced, one every eight steps, and every one goes <i>forward</i>. The upper accounts for all the reversing: twenty-eight forward and twenty-eight back, netting zero, which is why the minor winding is zero.</div>
       </div>
 
       <p class="big">The lower trigram is the warp. The upper trigram is the weft. The Gray ordering is the weaving pattern.</p>
-      <p>Eight advances against fifty-six passes: a ratio of one to seven. The warp is drawn taut around the major circle once and never reverses, and the shuttle runs across it seven times for each advance. That is not a metaphor imported to make the form sound nicer — it is what the step counts are, and it is why the winding class is (1,0) rather than a knot. A knot would require the thread to wander in both directions. A weave requires precisely that it does not.</p>
+      <p>Eight advances against fifty-six passes: a ratio of one to seven. The warp is drawn taut once around the major circle, always moving forward, and the shuttle runs across it seven times for each advance. The loom is a literal description of the step counts, and it is why the winding class is (1,0). A knot would need the thread to wander in both directions. A weave needs it to hold one direction steady.</p>
 
       <div class="aside">
         <span class="tag">an unexpected corroboration</span>
         <p>Counting the steps also showed how often each individual line turns over one full circuit. The answer is a doubling cascade: <b>2, 2, 4, 8, 16, 32</b> from the bottom line to the top.</p>
-        <p>Which is the conjecture from Part Two — that the six positions run at six different speeds, sluggish at the base and twitchy at the top — arriving here <i>unbidden</i>, from a completely different direction. There it was asserted and fitted to nothing. Here it falls out of the Gray ordering as a matter of arithmetic. The bottom line turns twice per circuit; the top line turns thirty-two times.</p>
-        <p>That was not built in — but the ordering that produces it was chosen, and Section IV shows that the choice is doing all the work. Read this box as a description of the reflected Gray code, not as evidence for the conjecture.</p>
+        <p>This is the conjecture from Part Two, that the six positions run at six different speeds, slow at the base and quick at the top, arriving here <i>unbidden</i> from a completely different direction. There it was asserted and still unfitted. Here it falls out of the Gray ordering as arithmetic. The bottom line turns twice per circuit, and the top line thirty-two times.</p>
+        <p>The ordering that produces it was chosen, though, and Section IV shows that the choice does all the work. Read this box as a description of the reflected Gray code. It is a property of that code, and it adds no evidence for the conjecture.</p>
       </div>
     </div></div>
   </div>
@@ -329,7 +329,7 @@ h1 .en{display:block;font-family:"Fraunces","Noto Serif SC",serif;font-size:clam
           <div class="readout" id="rLoom"></div>
         </div>
       </div>
-      <figcaption><b>Labels</b> cycles through five modes. <i>Axes only</i> prints the eight trigram glyphs once around each circulation — sixteen marks, from which any cell can be decoded by reading its two coordinates. The further modes add glyphs at the cells themselves, culled to the near half of the surface and faded with depth so the far side does not print through; the selected cell keeps its full name on either side. Depth ordering was also inverted until this pass — far beads were painting over near ones — so occlusion now reads correctly.<br><br>The major circulation is the lower trigram, the minor is the upper. <b>Warp</b> and <b>weft</b> draw the two families of rings that make the surface a weave rather than a grid — the curvature is doing the work a flat 8×8 square cannot. <b>The thread</b> draws the single Gray circuit; <b>walk the thread</b> follows it bead by bead, so the shuttle can be seen running across the warp and back.</figcaption>
+      <figcaption><b>Labels</b> cycles through five modes. <i>Axes only</i> prints the eight trigram glyphs once around each circulation: sixteen marks, from which any cell can be decoded by reading its two coordinates. The further modes add glyphs at the cells themselves, limited to the near half of the surface and faded with depth so the far side stays clear. The selected cell keeps its full name on either side. Depth ordering has also been corrected in this pass, so near beads now sit in front of far ones.<br><br>The major circulation is the lower trigram, the minor is the upper. <b>Warp</b> and <b>weft</b> draw the two families of rings that make the surface a weave. The curvature does work a flat 8×8 square cannot. <b>The thread</b> draws the single Gray circuit; <b>walk the thread</b> follows it bead by bead, so the shuttle can be seen running across the warp and back.</figcaption>
     </figure>
   </div>
 </section>
@@ -339,24 +339,24 @@ h1 .en{display:block;font-family:"Fraunces","Noto Serif SC",serif;font-size:clam
   <div class="wrap col">
     <div class="ch"><div class="num">IV</div><div>
       <h2>The surface is settled. The ordering is the choice.</h2>
-      <p class="lead">With the torus fixed, one thing is still free: the order in which the sixty-four beads are threaded. That looked like a detail. It is the whole remaining design space, and four things came out of testing it — two of which correct claims made earlier on this page.</p>
+      <p class="lead">With the torus fixed, one thing is still free: the order in which the sixty-four beads are threaded. That looked like a detail. It is the whole remaining design space, and testing it produced four results, two of which correct claims made earlier on this page.</p>
 
       <h3>One · the chords are forced</h3>
       <p>Enumerated exhaustively: the cube graph has exactly <b>six</b> Hamiltonian cycles up to rotation and reflection, and every one of them puts the two chords at ±3. There is no kinder ring to be found. The weave must have those two diagonal stitches per cell.</p>
 
-      <h3>Two · the frequency cascade is this project's, not the book's</h3>
-      <p>The cascade 2, 2, 4, 8, 16, 32 was presented as the timescale conjecture arriving unbidden. It arrives because the reflected Gray code was chosen, and a reflected Gray code is <i>defined</i> by that doubling. Across 2,197 sampled orderings the spread in turn counts ran 12 to 26, median 18 — and <b>not one</b> was as skewed as the reflected code's 30. It sits at the extreme edge of the space.</p>
+      <h3>Two · the frequency cascade comes from this project's choice of ordering</h3>
+      <p>The cascade 2, 2, 4, 8, 16, 32 was presented as the timescale conjecture arriving unbidden. It arrives because the reflected Gray code was chosen, and a reflected Gray code is <i>defined</i> by that doubling. Across 2,197 sampled orderings the spread in turn counts ran 12 to 26, median 18, and <b>none</b> was as skewed as the reflected code's 30. It sits at the extreme edge of the space.</p>
       <p>So the corroboration was circular. The hierarchy is a property of the ordering, and there are orderings where all six lines turn at nearly equal rates. Use the <b>balanced</b> button above and watch the warp disappear.</p>
 
       <h3>Three · the thread cannot knot</h3>
-      <p>A knotted ordering was said to exist, and a (2,3) trefoil named. Wrong, because the condition that matters had not been checked: a curve only <i>has</i> a knot type if it does not cross itself. That trefoil crosses itself five times, so it has no knot type at all.</p>
-      <p>And the pattern is much stronger than one counterexample. Only about <b>4%</b> of orderings are embedded — crossing-free — at all. Among 144 embedded ones, <b>not a single one knots</b>: every winding class has min(|p|, |q|) ≤ 1, including cases like (3, 1) and (−4, 1) where one winding grows large and the other never does.</p>
+      <p>An earlier draft named a (2,3) trefoil ordering. That was wrong, because one condition had been skipped: a curve has a knot type only when it lies without crossing itself. That trefoil crosses itself five times, so it has no knot type.</p>
+      <p>And the pattern is much stronger than one counterexample. Only about <b>4%</b> of orderings are embedded, that is, crossing-free. Among 144 embedded ones, <b>every single one is unknotted</b>: every winding class has min(|p|, |q|) ≤ 1, including cases like (3, 1) and (−4, 1) where one winding grows large while the other stays at one.</p>
       <p class="big">Conjecture: an embedded thread through all sixty-four cannot knot on this torus.</p>
-      <p>One hundred and forty-four out of one hundred and forty-four is suggestive, not a proof, and the proof is still wanted. But the knot idea is dead as an aspiration — which is a relief, because it was the last piece of this hunt wanted for its own sake rather than because the mathematics offered it.</p>
+      <p>One hundred and forty-four out of one hundred and forty-four is strongly suggestive, and a proof is still wanted. The knot idea can now be set down, which is a relief: it was the last part of this hunt pursued for its own sake, ahead of what the mathematics offered.</p>
 
       <h3>Four · and the reflected code earns its place differently than expected</h3>
-      <p>The genuine virtue of the reflected Gray code is not its skew. It is that it has <b>zero self-crossings</b> — it lies flat on the surface and never passes over itself, which puts it in that rare 4%. This had never been checked and never claimed; it is the best property the loom has, and it turned up by accident while trying to disprove something else.</p>
-      <p>There was also a brief belief in a trade-off — that a clean weave had to be an uneven one, since the first balanced ordering found crossed itself nine times. That was one sample mistaken for a frontier. Mapping it properly turns up an <b>embedded ordering with the optimal spread of 2</b>: turns 10, 10, 12, 10, 12, 10, no crossings, warp and weft exactly 32 each. Balance and cleanliness are compatible, so the reflected code's extremity buys nothing that evenness could not also have.</p>
+      <p>The genuine virtue of the reflected Gray code is that it has <b>zero self-crossings</b>. It lies flat on the surface without ever passing over itself, which puts it in that rare 4%. This is the best property the loom has, and it turned up by accident while testing something else.</p>
+      <p>There was also a brief belief in a trade-off: that a clean weave had to be an uneven one, since the first balanced ordering found crossed itself nine times. That was one sample mistaken for a rule. Mapping it properly turns up an <b>embedded ordering with the optimal spread of 2</b>: turns 10, 10, 12, 10, 12, 10, no crossings, warp and weft exactly 32 each. Balance and cleanliness are compatible, so evenness can have everything the reflected code's extremity offers.</p>
 
       <table>
         <thead><tr><th>ordering</th><th>turns per line</th><th>spread</th><th>crossings</th><th>class</th><th>warp : weft</th></tr></thead>
@@ -365,7 +365,7 @@ h1 .en{display:block;font-family:"Fraunces","Noto Serif SC",serif;font-size:clam
           <tr style="background:var(--paper2)"><td class="g">balanced</td><td>10, 10, 12, 10, 12, 10</td><td><b>2</b></td><td class="yes">0</td><td>(−1, 2)</td><td><b>32 : 32</b></td></tr>
         </tbody>
       </table>
-      <p>Both are shipped in the figure above with the numbers they were measured with. The reflected one is a loom: a warp drawn once around, a shuttle crossing it seven times per advance. The balanced one is a plain weave — no warp, no shuttle, no privileged direction, winding twice one way and once the other. Same surface, same sixty-four cells, same six neighbours each. Only the thread differs.</p>
+      <p>Both are shipped in the figure above with the numbers they were measured with. The reflected one is a loom: a warp drawn once around, a shuttle crossing it seven times per advance. The balanced one is a plain weave with every direction equal, winding twice one way and once the other. Same surface, same sixty-four cells, same six neighbours each. Only the thread differs.</p>
       <div class="pull">The ordering looked like a detail. It is the only thing left that is a decision.</div>
     </div></div>
   </div>
@@ -389,15 +389,15 @@ h1 .en{display:block;font-family:"Fraunces","Noto Serif SC",serif;font-size:clam
         </tbody>
       </table>
 
-      <p>What it gives up relative to the lantern is the <b>silhouette</b>. In the lantern the yang count was elevation, so 坤 and 乾 were the poles of the form and balance was its equator — the whole distribution could be read from the outline. On the torus the yang count is not a direction at all; it becomes a colouring, and the profile says nothing. That is a real loss and it is why <i>colour by yang</i> is in the controls rather than being the default.</p>
-      <p>So the pair actually worth keeping is not lantern-or-loom. It is <b>灯 for the distribution, 織 for the structure</b> — and unlike every earlier pair, these two are not rival solids competing to be the object. They are one surface and one section through it.</p>
+      <p>What it gives up relative to the lantern is the <b>silhouette</b>. In the lantern the yang count was elevation, so 坤 and 乾 were the poles of the form and balance was its equator — the whole distribution could be read from the outline. On the torus the yang count becomes a colouring, and the profile carries none of it. That is a real loss, and it is why <i>colour by yang</i> sits in the controls as an option.</p>
+      <p>So the pair worth keeping is <b>灯 for the distribution and 織 for the structure</b>. Unlike every earlier pair, these two work together as one surface and one section through it.</p>
 
-      <div class="pull">A knot would need the thread to wander both ways. A weave needs precisely that it does not.</div>
+      <div class="pull">A knot needs the thread to wander both ways. A weave needs it to hold one direction.</div>
 
       <h3>What to test next</h3>
       <div class="g2" style="margin-top:18px">
-        <div class="card"><span class="n">織</span><h3>Is the chord placement forced?</h3><p>The two chords land at ±3 because of the particular Gray ring chosen for the eight trigrams. There are other Hamiltonian cycles on the cube graph. Whether any of them puts the chords somewhere kinder — or whether ±3 is forced for all of them — is a small, finite, checkable question, and the answer decides how clean the weave can be.</p></div>
-        <div class="card"><span class="n">爻</span><h3>Does the cascade survive a different ring?</h3><p>The 2, 2, 4, 8, 16, 32 cascade came out of the standard reflected Gray code. A different Hamiltonian circuit through the sixty-four would give a different frequency profile — and if some circuit gives a cleaner geometric progression, that circuit is a better candidate for the timescale conjecture than the one Part Two assumed.</p></div>
+        <div class="card"><span class="n">織</span><h3>Is the chord placement forced?</h3><p>The two chords land at ±3 because of the particular Gray ring chosen for the eight trigrams. There are other Hamiltonian cycles on the cube graph. Whether any of them puts the chords somewhere kinder, or whether ±3 is forced for all of them, is a small, finite, checkable question, and the answer decides how clean the weave can be.</p></div>
+        <div class="card"><span class="n">爻</span><h3>Does the cascade survive a different ring?</h3><p>The 2, 2, 4, 8, 16, 32 cascade came out of the standard reflected Gray code. A different Hamiltonian circuit through the sixty-four would give a different frequency profile, and if some circuit gives a cleaner geometric progression, that circuit is a better candidate for the timescale conjecture than the one Part Two assumed.</p></div>
       </div>
     </div></div>
   </div>
@@ -409,7 +409,7 @@ h1 .en{display:block;font-family:"Fraunces","Noto Serif SC",serif;font-size:clam
   <div class="wrap col">
     <div class="kicker">iteration five · one surface, two circulations</div>
     <p class="big" style="margin-top:16px">The split that forced two bodies became two ways of going around one.</p>
-    <p class="cap" style="margin-top:16px">Computed, not asserted: the eight trigrams form a closed Gray ring with unit steps at all eight transitions; the 8 × 8 torus map is bijective over all 64 hexagrams; every hexagram has exactly three neighbours along each circulation, at offsets ±1 and one chord at ±3, verified with zero exceptions; the Gray-64 thread has winding class (1, 0), using 8 forward advances of the lower trigram — evenly spaced every eight steps, never reversing — and 56 passes of the upper, 28 up and 28 down; per-line turn counts over one circuit are 2, 2, 4, 8, 16, 32 from bottom to top. Maths set with KaTeX, plain-text fallback. 16 August 2026.</p>
+    <p class="cap" style="margin-top:16px">All computed: the eight trigrams form a closed Gray ring with unit steps at all eight transitions; the 8 × 8 torus map is bijective over all 64 hexagrams; every hexagram has exactly three neighbours along each circulation, at offsets ±1 and one chord at ±3, verified with zero exceptions; the Gray-64 thread has winding class (1, 0), using 8 forward advances of the lower trigram (evenly spaced every eight steps, always forward) and 56 passes of the upper, 28 up and 28 down; per-line turn counts over one circuit are 2, 2, 4, 8, 16, 32 from bottom to top. Maths set with KaTeX, plain-text fallback. 16 August 2026.</p>
   </div>
 </footer>
 
@@ -820,6 +820,7 @@ document.documentElement.classList.add("ready");
     <a href="yi-09-held-notes.html"><span class="g">时</span>09 Held notes</a>
     <a href="yi-10-consonance-couplets.html"><span class="g">和</span>10 Couplets</a>
     <a href="yi-11-life-on-bamboo.html"><span class="g">竹</span>11 A life on bamboo</a>
+    <a href="yi-12-tuning-the-sixty-four.html"><span class="g">调</span>12 Tuning</a>
     <a class="comp" href="yi-bells-companion.html"><span class="g">钟</span>— Bells</a>
   </div>
   <div class="yinav-lab" style="margin:26px 0 0;opacity:.85">Lin Wei 林威 · with Claude and ChatGPT, and light touches of DeepSeek</div>
