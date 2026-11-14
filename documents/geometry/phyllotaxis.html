@@ -376,14 +376,11 @@
     </div>
     <p>
       In Cartesian coordinates this becomes <code>x = r·cos(θ)</code>, <code>y = r·sin(θ)</code>.
-      The <em>√n</em> rule for radius is not arbitrary — it ensures that elements pack with
-      roughly equal area per seed, so density stays uniform across the whole disc.
+      The <em>√n</em> rule for radius ensures that elements pack with roughly equal area per seed, so density stays uniform across the whole disc.
       If radius grew linearly with <em>n</em>, the centre would be overcrowded and the edge sparse.
     </p>
     <p>
-      The single free parameter is <em>α</em>, the divergence angle. Everything else —
-      the number of visible spiral arms, the packing density, the aesthetic character —
-      flows from that one choice.
+      The single free parameter is <em>α</em>, the divergence angle. Everything else, from the number of visible spiral arms to the packing density and the overall character, flows from that one choice.
     </p>
   </div>
 
@@ -395,16 +392,13 @@
     <h2>Why the golden angle?</h2>
     <p>
       Most angles produce visible spokes. <em>α = 90°</em> produces four radial arms;
-      <em>α = 120°</em> produces three. Even irrational angles like <em>π radians</em>
-      eventually produce near-repetitions because rational approximations accumulate. The slider
-      makes this tangible — small deviations from 137.508° immediately bleed spokes into the disc.
+      <em>α = 120°</em> produces three. Even an irrational fraction of a turn, such as <em>1/π of a turn</em> (about 114.6°), eventually produces near-repetitions, because good rational approximations exist (here, close to 7/22). The slider makes this tangible: small deviations from 137.508° quickly bleed spokes into the disc.
     </p>
 
     <div class="compare" id="compareCanvases"></div>
 
     <p>
-      The golden angle is immune to this because it is derived from the <em>most irrational</em>
-      number — the golden ratio φ. A number is "most irrational" in the precise sense that its
+      The golden angle resists this because it is derived from the <em>most irrational</em> number, the golden ratio φ. A number is "most irrational" in the precise sense that its
       continued fraction expansion consists entirely of 1s, making it maximally hard to approximate
       by any rational p/q:
     </p>
@@ -413,9 +407,7 @@
       golden angle α = 360° × (1 − 1/φ) = 360° / φ² ≈ <strong>137.5077…°</strong>
     </div>
     <p>
-      Because no rational fraction ever closely approximates <em>α/360°</em>,
-      successive elements never nearly overlap — each new seed lands in the
-      largest available gap, indefinitely.
+      Because every rational fraction stays comparatively far from <em>α/360°</em>, successive elements stay well apart, and each new seed lands in one of the largest available gaps, indefinitely.
     </p>
   </div>
 
@@ -426,8 +418,7 @@
     <div class="section-label">§ 3</div>
     <h2>Fibonacci spirals as a consequence</h2>
     <p>
-      The visible spiral arms — parastichies — are an <em>optical</em> phenomenon, not written
-      directly into the rule. The visual system connects dots that are nearest neighbours.
+      The visible spiral arms, called parastichies, are an <em>optical</em> phenomenon that emerges from the rule. The visual system connects dots that are nearest neighbours.
       At the golden angle, the nearest neighbours always number a Fibonacci pair.
     </p>
     <p>
@@ -443,9 +434,7 @@
       in sunflower heads.
     </p>
     <div class="callout">
-      <p>A sunflower with 55 clockwise and 89 counter-clockwise spirals is not exhibiting
-      a biological preference for Fibonacci numbers. It is exhibiting a preference
-      for maximal packing — and Fibonacci numbers are the arithmetic shadow of that geometry.</p>
+      <p>A sunflower with 55 clockwise and 89 counter-clockwise spirals is expressing a preference for maximal packing, and Fibonacci numbers are the arithmetic shadow of that geometry.</p>
       <cite>— a consequence of continued fraction convergents</cite>
     </div>
   </div>
@@ -464,16 +453,13 @@
       <span class="comment">// notation: x = [a₀; a₁, a₂, a₃, …]</span>
     </div>
     <p>
-      The <em>convergents</em> p<sub>k</sub>/q<sub>k</sub> — formed by truncating the expansion
-      at depth <em>k</em> — are the best rational approximations to <em>x</em>.
+      The <em>convergents</em> p<sub>k</sub>/q<sub>k</sub>, formed by truncating the expansion at depth <em>k</em>, are the best rational approximations to <em>x</em>.
       A large coefficient a<sub>k</sub> means the next convergent is much better than expected:
-      the number has a "near-rational" value at that scale, which in phyllotaxis means a near-repetition
-      of angular positions — i.e. a visible spoke.
+      the number has a "near-rational" value at that scale, which in phyllotaxis means a near-repetition of angular positions, seen as a visible spoke.
     </p>
     <p>
-      φ = [1; 1, 1, 1, …] has all coefficients equal to 1 — the smallest possible.
-      This means its convergents improve as <em>slowly as possible</em>, so the angular positions
-      never cluster, and no spokes form at any scale. This is the precise mathematical reason
+      φ = [1; 1, 1, 1, …] has all coefficients equal to 1, the smallest possible.
+      This means its convergents improve as <em>slowly as possible</em>, so the angular positions stay evenly spread and no spokes form at any scale. This is the precise mathematical reason
       the golden angle produces the densest, most uniform packing.
     </p>
     <div class="formula">
@@ -490,21 +476,15 @@
     <div class="section-label">§ 5</div>
     <h2>How plants compute this</h2>
     <p>
-      Plants do not know about φ. The golden angle emerges from a local biochemical rule:
-      each new primordium grows as far as possible from existing ones in the apical meristem —
-      the tiny dome of dividing cells at the shoot tip.
+      The golden angle emerges from a local biochemical rule: each new primordium grows as far as possible from existing ones in the apical meristem, the tiny dome of dividing cells at the shoot tip. The plant needs no knowledge of φ.
     </p>
     <p>
       The signalling molecule <em>auxin</em> (indole-3-acetic acid) creates inhibition fields
       around existing primordia. Each new bud forms at the point of lowest local auxin concentration.
-      Computer simulations of this reaction-diffusion process reliably produce the golden angle
-      without any explicit reference to φ — the mathematics is not imposed by the plant,
-      but <em>selected</em> by evolution because maximal packing maximises light capture,
-      seed dispersal area, and structural integrity.
+      Computer simulations of this reaction-diffusion process reliably produce the golden angle with no reference to φ at all. Evolution <em>selects</em> the mathematics, because maximal packing improves light capture, seed dispersal and structural integrity.
     </p>
     <p>
-      The spiral visible in the canvas above is, at root, an optimisation surface —
-      the attractor of a packing problem solved freshly by every growing meristem,
+      The spiral visible in the canvas above is, at root, an optimisation surface: the attractor of a packing problem solved afresh by every growing meristem,
       every spring, in every sunflower field.
     </p>
   </div>

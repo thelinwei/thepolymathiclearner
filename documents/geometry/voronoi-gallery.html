@@ -420,8 +420,7 @@ footer {
   <p class="hero-eyebrow">Five geometries · One idea</p>
   <h1>The <em>Voronoi</em><br>Universe</h1>
   <p class="hero-desc">
-    A single question — which seed owns each point in space? —
-    gives rise to five entirely different geometries depending on
+    A single question, which seed owns each point in space, gives rise to five entirely different geometries depending on
     how distance is measured, how the seeds are weighted, or how the surface is curved.
   </p>
   <div class="hero-formula">V_i = { x | ‖x − p_i‖ ≤ ‖x − p_j‖ for all j ≠ i }</div>
@@ -446,7 +445,7 @@ footer {
       <div class="section-tag">Dual graph · Circumcircles</div>
       <h2 class="section-title">Delaunay<br><em>Triangulation</em></h2>
       <p class="section-body">
-        The exact <strong>dual</strong> of Voronoi — connect every pair of seeds whose cells share a border.
+        The exact <strong>dual</strong> of Voronoi: connect every pair of seeds whose cells share a border.
         The result is the triangulation that <strong>maximises the minimum angle</strong>,
         avoiding sliver triangles. Drag seeds to watch edges flip in real time.
         Toggle circumcircles to see the defining property: <strong>no seed lies inside any triangle's circumcircle</strong>.
@@ -474,7 +473,7 @@ footer {
       </div>
       <div class="logic-item">
         <span class="logic-key">Max-min angle</span>
-        <span class="logic-val">Among all triangulations of the same point set, Delaunay <strong>maximises the minimum angle</strong> — it avoids slivers. Optimal for interpolation and mesh generation.</span>
+        <span class="logic-val">Among all triangulations of the same point set, Delaunay <strong>maximises the minimum angle</strong>, so it avoids slivers. Optimal for interpolation and mesh generation.</span>
       </div>
     </div>
     <div class="math-divider"></div>
@@ -506,8 +505,7 @@ footer {
       <div class="section-tag">Weighted Voronoi · Bubbles</div>
       <h2 class="section-title">Power<br><em>Diagram</em></h2>
       <p class="section-body">
-        Each seed has a <strong>weight (radius)</strong>. The boundary shifts toward the weaker seed —
-        larger seeds claim more territory. The boundary equation becomes
+        Each seed has a <strong>weight (radius)</strong>. The boundary shifts toward the weaker seed, so larger seeds claim more territory. The boundary equation becomes
         <strong>‖x − pᵢ‖² − wᵢ = ‖x − pⱼ‖² − wⱼ</strong>.
         Used in foam simulation, protein structure analysis, and urban planning.
         Drag seeds; scroll-wheel to resize them.
@@ -530,7 +528,7 @@ footer {
       </div>
       <div class="logic-item">
         <span class="logic-key">Boundary equation</span>
-        <span class="logic-val">The boundary between $p_i$ and $p_j$ is where $\|x-p_i\|^2 - w_i = \|x-p_j\|^2 - w_j$ — still a <strong>straight line</strong>, but shifted toward the lighter seed.</span>
+        <span class="logic-val">The boundary between $p_i$ and $p_j$ is where $\|x-p_i\|^2 - w_i = \|x-p_j\|^2 - w_j$ : still a <strong>straight line</strong>, now shifted toward the lighter seed.</span>
       </div>
       <div class="logic-item">
         <span class="logic-key">Equal weights</span>
@@ -543,7 +541,7 @@ footer {
     </div>
     <div class="math-divider"></div>
     <div class="math-insight">
-      A seed can even have <strong>zero territory</strong> if it is too light relative to its neighbours — it gets entirely swallowed. Scrolling a seed down to a tiny radius shows this happening.
+      A seed can even have <strong>zero territory</strong> if it is too light relative to its neighbours, and then it is swallowed entirely. Scrolling a seed down to a tiny radius shows this happening.
     </div>
   </div>
 
@@ -572,7 +570,7 @@ footer {
       <p class="section-body">
         Swap the Euclidean ruler for <strong>city-block distance</strong>:
         d(x,p) = |x₁−p₁| + |x₂−p₂|.
-        Cells become <strong>rotated squares and diamonds</strong> rather than polygons.
+        Cells take on <strong>rotated squares and diamonds</strong>.
         Slide between L¹ (Manhattan), L² (Euclidean), and L∞ (Chebyshev) to morph the geometry continuously.
       </p>
     </div>
@@ -586,7 +584,7 @@ footer {
     <div class="math-logic">
       <div class="logic-item">
         <span class="logic-key">L¹ · Manhattan ($p=1$)</span>
-        <span class="logic-val">$d_1 = |x_1-q_1| + |x_2-q_2|$. Distance is the sum of axis-aligned steps — like navigating a city grid. Cells become <strong>rotated squares (diamonds)</strong>.</span>
+        <span class="logic-val">$d_1 = |x_1-q_1| + |x_2-q_2|$. Distance is the sum of axis-aligned steps, like navigating a city grid. Cells become <strong>rotated squares (diamonds)</strong>.</span>
       </div>
       <div class="logic-item">
         <span class="logic-key">L² · Euclidean ($p=2$)</span>
@@ -603,7 +601,7 @@ footer {
     </div>
     <div class="math-divider"></div>
     <div class="math-insight">
-      Drag the slider continuously from $p=1$ to $p=\infty$ to watch the unit ball morph — and with it, every cell boundary in the diagram. The transition is <strong>smooth and monotone</strong>.
+      Drag the slider continuously from $p=1$ to $p=\infty$ to watch the unit ball morph, and every cell boundary in the diagram with it. The transition is <strong>smooth and monotone</strong>.
     </div>
   </div>
 
@@ -634,8 +632,7 @@ footer {
       <h2 class="section-title">Apollonius<br><em>Diagram</em></h2>
       <p class="section-body">
         Multiplicative weighting: boundary between pᵢ and pⱼ satisfies
-        <strong>‖x−pᵢ‖/wᵢ = ‖x−pⱼ‖/wⱼ</strong> — an Apollonius circle.
-        Equal weights → straight line. Unequal weights → <strong>curved hyperbolic arcs</strong>.
+        <strong>‖x−pᵢ‖/wᵢ = ‖x−pⱼ‖/wⱼ</strong>, an Apollonius circle. Equal weights → straight line. Unequal weights → <strong>circular arcs</strong>.
         The geometry looks organic, biological, like cell membranes or soap films under tension.
       </p>
     </div>
@@ -649,11 +646,11 @@ footer {
     <div class="math-logic">
       <div class="logic-item">
         <span class="logic-key">Boundary locus</span>
-        <span class="logic-val">The boundary between $p_i$ and $p_j$ satisfies $\frac{\|x-p_i\|}{\|x-p_j\|} = \frac{w_i}{w_j} = k$. This is the <strong>Apollonius circle</strong> — the locus of points with a fixed distance ratio to two foci.</span>
+        <span class="logic-val">The boundary between $p_i$ and $p_j$ satisfies $\frac{\|x-p_i\|}{\|x-p_j\|} = \frac{w_i}{w_j} = k$. This is the <strong>Apollonius circle</strong>: the locus of points with a fixed distance ratio to two foci.</span>
       </div>
       <div class="logic-item">
         <span class="logic-key">Equal weights → straight line</span>
-        <span class="logic-val">When $w_i = w_j$, the ratio $k=1$ and the Apollonius circle degenerates to the <strong>perpendicular bisector</strong> — recovering standard Voronoi.</span>
+        <span class="logic-val">When $w_i = w_j$, the ratio $k=1$ and the Apollonius circle degenerates to the <strong>perpendicular bisector</strong>, recovering standard Voronoi.</span>
       </div>
       <div class="logic-item">
         <span class="logic-key">Curved boundaries</span>
@@ -693,8 +690,7 @@ footer {
       <h2 class="section-title">Voronoi on<br><em>a Sphere</em></h2>
       <p class="section-body">
         Same logic, curved surface. Distance is now <strong>great-circle arc length</strong>.
-        Cells become spherical polygons — like <strong>tectonic plates</strong> dividing a globe.
-        All cells are topologically equivalent; no seed is privileged by being "at the edge".
+        Cells become spherical polygons, like <strong>tectonic plates</strong> dividing a globe. All cells are topologically equivalent, and every seed sits in open territory.
         Click and drag to rotate.
       </p>
     </div>
@@ -711,7 +707,7 @@ footer {
     <div class="math-logic">
       <div class="logic-item">
         <span class="logic-key">What changed?</span>
-        <span class="logic-val">The ambient space is now the unit sphere $\mathbb{S}^2$ rather than $\mathbb{R}^2$. Distance is the <strong>great-circle arc length</strong> — computed via dot product of unit vectors.</span>
+        <span class="logic-val">The ambient space is now the unit sphere $\mathbb{S}^2$. Distance is the <strong>great-circle arc length</strong>, computed from the dot product of unit vectors.</span>
       </div>
       <div class="logic-item">
         <span class="logic-key">Cell boundaries</span>
@@ -719,7 +715,7 @@ footer {
       </div>
       <div class="logic-item">
         <span class="logic-key">No privileged edge</span>
-        <span class="logic-val">Unlike the flat case, <strong>no seed is at the boundary</strong> of the domain. Every seed is topologically equivalent — the sphere has no corners, no edges, no boundary.</span>
+        <span class="logic-val">On the sphere <strong>every seed is interior</strong>. The sphere is a closed surface with no corners, edges or boundary, so every seed is topologically equivalent.</span>
       </div>
       <div class="logic-item">
         <span class="logic-key">Euler's formula</span>
@@ -728,7 +724,7 @@ footer {
     </div>
     <div class="math-divider"></div>
     <div class="math-insight">
-      Earth's tectonic plates are an approximate spherical Voronoi diagram. The <strong>Lloyd relaxation</strong> on a sphere drives seeds toward equal-area plates — the most energetically uniform partition of the globe.
+      Earth's tectonic plates loosely resemble a spherical Voronoi diagram. The <strong>Lloyd relaxation</strong> on a sphere drives seeds toward equal-area plates, the most energetically uniform partition of the globe.
     </div>
   </div>
 

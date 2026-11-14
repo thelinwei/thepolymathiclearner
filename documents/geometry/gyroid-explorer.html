@@ -493,7 +493,7 @@ input[type=range].red::-webkit-slider-thumb { background: var(--red); }
   <div class="panel-section">
     <div class="section-label">About</div>
     <div class="info-block">
-      The <strong>gyroid</strong> is a triply periodic minimal surface — zero mean curvature everywhere, no self-intersections. Discovered by Alan Schoen in 1970.<br><br>
+      The <strong>gyroid</strong> is a triply periodic minimal surface: zero mean curvature everywhere, with no self-intersections. Discovered by Alan Schoen in 1970.<br><br>
       Varying <em>t</em> interpolates between the two interlocking channel networks that partition space. At <em>t</em> = 0 the surface is perfectly balanced; near ±√2 the channels close.
     </div>
   </div>
@@ -520,8 +520,7 @@ input[type=range].red::-webkit-slider-thumb { background: var(--red); }
       <p class="math-kicker">Mathematical Anatomy</p>
       <h2 class="math-title">The Gyroid: <em>geometry, topology, and physics</em></h2>
       <p class="math-deck">
-        A triply periodic minimal surface discovered by Alan Schoen in 1970 — born from differential geometry,
-        residing at the intersection of materials science, soft matter physics, and computational topology.
+        A triply periodic minimal surface discovered by Alan Schoen in 1970. It comes from differential geometry and now sits where materials science, soft-matter physics and computational topology meet.
       </p>
     </div>
 
@@ -565,18 +564,16 @@ input[type=range].red::-webkit-slider-thumb { background: var(--red); }
         </p>
         <div class="formula-card primary">
           <div class="formula-main">H = (κ₁ + κ₂) / 2 = 0</div>
-          <div class="formula-label">minimality condition — equal and opposite principal curvatures everywhere</div>
+          <div class="formula-label">minimality condition: equal and opposite principal curvatures everywhere</div>
         </div>
         <p class="block-prose">
-          This is equivalent to saying the surface is a critical point of the area functional — it locally minimises area for any compactly supported variation of the embedding.
+          This is equivalent to saying the surface is a critical point of the area functional: it locally minimises area for any compactly supported variation of the embedding.
           The Euler–Lagrange equation for the area functional is precisely <span class="inline-math">H = 0</span>.
-          For the gyroid, <span class="inline-math">κ₁ = −κ₂</span> at every point, so despite the surface curving in every direction, it does so in
-          perfectly balanced saddle geometry. The Gaussian curvature <span class="inline-math">K = κ₁κ₂ &lt; 0</span> is strictly negative —
-          the gyroid is everywhere hyperbolic (saddle-shaped).
+          For the gyroid, <span class="inline-math">κ₁ = −κ₂</span> at every point, so although the surface curves in every direction, it does so in perfectly balanced saddle geometry. The Gaussian curvature <span class="inline-math">K = κ₁κ₂ ≤ 0</span> is negative everywhere except at isolated flat points, so the gyroid is saddle-shaped throughout.
         </p>
         <div class="formula-card accent-teal">
           <div class="formula-main">K = κ₁ · κ₂ &lt; 0 &nbsp;&nbsp;(hyperbolic everywhere)</div>
-          <div class="formula-label">negative Gaussian curvature — no elliptic (bowl-shaped) patches exist</div>
+          <div class="formula-label">non-positive Gaussian curvature: every patch is a saddle, with isolated flat points</div>
         </div>
       </div>
     </div>
@@ -601,11 +598,7 @@ input[type=range].red::-webkit-slider-thumb { background: var(--red); }
           </div>
         </div>
         <p class="block-prose">
-          The space group <strong>Ia3̄d</strong> has order 96, containing screw axes, glide planes, and improper rotations.
-          Crucially, it has no mirror planes — the gyroid is <em>chiral</em>. Its mirror image (the left-handed gyroid)
-          cannot be superimposed on the right-handed form by any rigid motion, making it one of the few known
-          embedded minimal surfaces with this property. This chirality drives the optical activity observed in
-          gyroid-structured butterfly wing scales and block-copolymer thin films.
+          The space group <strong>Ia3̄d</strong> has 96 operations per cubic cell, including screw axes, glide planes, inversion centres and other improper rotations. The surface as a whole is therefore achiral. Its handedness lives in the two channel networks it separates: they are mirror images of each other, one left-handed and one right-handed (each with the chiral space group I4₁32). Fill one channel and leave the other empty, and the result, the <em>single gyroid</em>, is chiral. That chirality drives the optical activity observed in gyroid-structured butterfly wing scales and block-copolymer thin films.
         </p>
       </div>
     </div>
@@ -765,8 +758,7 @@ input[type=range].red::-webkit-slider-thumb { background: var(--red); }
           <div class="implication-card">
             <div class="implication-icon" style="color:var(--gold)">⬡</div>
             <h4>Soft Matter &amp; Self-Assembly</h4>
-            <p>Block copolymers — two chemically incompatible polymer chains joined end-to-end — spontaneously
-            self-assemble into gyroid morphology at specific volume fractions (~35% minority phase).
+            <p>Block copolymers, two chemically incompatible polymer chains joined end-to-end, spontaneously self-assemble into gyroid morphology at specific volume fractions (~35% minority phase).
             The gyroid minimises interfacial area while maximising connectivity of both channels,
             making it thermodynamically stable. This explains why gyroid nanostructures appear in
             shampoo, cell membranes, and butterfly wing scales without any external templating.</p>
@@ -775,18 +767,17 @@ input[type=range].red::-webkit-slider-thumb { background: var(--red); }
             <div class="implication-icon" style="color:var(--teal)">◈</div>
             <h4>Topology &amp; Euler Characteristic</h4>
             <p>The gyroid's two interlocking channel networks are each topologically equivalent to a
-            3-periodic triply connected graph — neither is simply connected. The Euler characteristic
+            3-periodic triply connected graph, and neither is simply connected. The Euler characteristic
             of the fundamental domain (one unit cell) satisfies <span class="inline-math">χ = −8</span>,
             connecting the gyroid to the genus-5 surface in the classification of compact 2-manifolds.
-            This topology is what makes each channel labyrinthine and non-trivially knotted with respect to the other.</p>
+            This topology makes each channel a labyrinth, threaded through the other.</p>
           </div>
           <div class="implication-card">
             <div class="implication-icon" style="color:var(--lavender)">∿</div>
             <h4>Photonics &amp; Structural Colour</h4>
             <p>A gyroid with lattice period <span class="inline-math">a ≈ 300 nm</span> has photonic bandgaps
             in the visible spectrum. This is why the green wing scales of <em>Callophrys rubi</em> (the
-            Green Hairstreak butterfly) produce iridescent colour without pigment — a purely structural
-            optical effect arising from Bragg-like scattering in the chiral gyroid lattice. The single-network
+            Green Hairstreak butterfly) produce iridescent colour without pigment: a purely structural optical effect arising from Bragg-like scattering in the chiral gyroid lattice. The single-network
             gyroid (one channel filled) breaks inversion symmetry, producing different bandgap behaviour for
             left- and right-circularly polarised light.</p>
           </div>
@@ -798,8 +789,7 @@ input[type=range].red::-webkit-slider-thumb { background: var(--red); }
             For a given enclosed volume the gyroid achieves near-optimal stiffness-to-weight ratio.
             In additive manufacturing, gyroid infill patterns outperform rectilinear and honeycomb
             patterns in isotropic compression tests. In architecture, gyroid-derived facades and
-            partition systems offer acoustic damping, thermal mass, and visual porosity simultaneously —
-            three properties rarely coexistent in flat assemblies.</p>
+            partition systems offer acoustic damping, thermal mass and visual porosity at once, a combination flat assemblies rarely achieve.</p>
           </div>
         </div>
       </div>
