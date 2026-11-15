@@ -124,7 +124,7 @@ footer{border-top:3px double var(--ink);padding:14px 0 40px;font-family:var(--mo
 <h1>Board as Body</h1>
 <p class="cn" lang="zh-Hans">方圆之间 · 位与子</p>
 <p class="deck">The board gives position before any seed lands. Bend the board and that gift changes. Close it completely and position has to be made by the seeds themselves.</p>
-<p>Four bodies carry the same grid: plane, cylinder, torus and sphere. Turn each one, look at what its ground offers, then drop seeds and watch the field form. The last section does the same thing to a hexagram.</p>
+<p>Four bodies carry the same grid: plane, cylinder, torus and sphere. Spin each one, look at what its ground offers, then drop seeds and watch the field form. The last section does the same thing to a hexagram.</p>
 </header>
 
 <div id="err" hidden></div>
@@ -138,7 +138,7 @@ footer{border-top:3px double var(--ink);padding:14px 0 40px;font-family:var(--mo
     <button type="button" data-v="hold">地 Hold</button><button type="button" data-v="reach">势 Reach</button><button type="button" data-v="field">子 Seeds</button></div></div>
   <div class="ctl"><span>Tap to</span><div class="seg" data-k="mode">
     <button type="button" data-v="seed">下子 Seed</button><button type="button" data-v="read">读 Read</button></div></div>
-  <button type="button" class="btn" id="turn" aria-pressed="false">Turn</button>
+  <button type="button" class="btn" id="turn" aria-pressed="false">Spin</button>
   <button type="button" class="btn" id="clear">Clear seeds</button>
 </div>
 <div class="bench">
@@ -535,7 +535,7 @@ function drawButtons(){
   var segs=document.querySelectorAll(".seg"),i,j;
   for(i=0;i<segs.length;i++){var k=segs[i].getAttribute("data-k"),bs=segs[i].querySelectorAll("button");
     for(j=0;j<bs.length;j++)bs[j].setAttribute("aria-pressed",String(S[k]===bs[j].getAttribute("data-v")));}
-  $("turn").setAttribute("aria-pressed",String(S.turn));
+  $("turn").setAttribute("aria-pressed",String(S.turn));$("turn").textContent=S.turn?"Stop":"Spin";
   $("legend").textContent=(S.show==="field"?"Plum leans black (yin), yellow leans white (yang). ":"Larger, darker dots mark points where a lone seed "+(S.show==="hold"?"holds its neighbours more firmly. ":"reaches more of the body. "))+"Drag to turn the body."+(S.show==="field"?(S.mode==="seed"?" Tap an empty point to seed it, a seed to lift it.":" Tap a point to read it."):" Tap a point to read it.");
 }
 function draw(){drawButtons();drawReadout();drawGround();render(performance.now());kick();}

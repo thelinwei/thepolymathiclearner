@@ -61,6 +61,11 @@
     .hero-nav{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:2rem}
     .hero-nav a{padding:.58rem .72rem;border:1px solid rgba(248,237,231,.32);font:400 .58rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:#eadbd4}
     .hero-nav a:hover{background:var(--cream);color:var(--wine)}
+    .hero-jump{display:inline-flex;align-items:center;gap:.7rem;margin-top:2.2rem;padding:.85rem 1.15rem;background:var(--cream);color:var(--wine);text-decoration:none;font:700 .64rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--cream)}
+    .hero-jump .zh{font-family:var(--zh);font-size:1.05rem;letter-spacing:0;font-weight:400}
+    .hero-jump:hover{background:transparent;color:var(--cream)}
+    .hero-jump + .hero-nav{margin-top:1rem}
+    #round{scroll-margin-top:3.2rem}
 
     /* sections */
     main{max-width:var(--max);margin:auto;padding:0 1.25rem 4rem}
@@ -188,8 +193,8 @@
     .ledger{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin-top:2rem}
     .col{border:1px solid var(--hair);background:var(--paper-2);padding:1.1rem 1.1rem 1.2rem}
     .col .tag{font:700 .58rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
-    .col.est .tag{color:var(--jade)} .col.pro .tag{color:var(--gold)} .col.open .tag{color:var(--rust)} .col.next .tag{color:var(--wine)}
-    .col.est{border-top:4px solid var(--jade)} .col.pro{border-top:4px solid var(--gold)} .col.open{border-top:4px solid var(--rust)} .col.next{border-top:4px solid var(--wine)}
+    .col.est .tag{color:var(--jade)} .col.pro .tag{color:var(--gold)} .col.open .tag{color:var(--rust)} .col.wd .tag{color:var(--wine)}
+    .col.est{border-top:4px solid var(--jade)} .col.pro{border-top:4px solid var(--gold)} .col.open{border-top:4px solid var(--rust)} .col.wd{border-top:4px solid var(--wine)}
     .col ul{margin:.8rem 0 0;padding-left:1rem;font-size:.86rem;line-height:1.46;color:#56463e}
     .col li{margin:.4rem 0}
 
@@ -232,7 +237,7 @@
       .footer-inner{display:block}
     }
     @media print{
-      .yitop,.hero-nav,.ctrls,#play{display:none}
+      .yitop,.hero-nav,.hero-jump,.ctrls,#play{display:none}
       body{background:#fff}
       .hero,.band{background:#fff;color:#000}
       .hero::after{display:none}
@@ -485,6 +490,7 @@
         <div>A place gets its meaning from three sources, and the experiments pull them apart: the ground it sits on, the relations it enters, and the moment at which it is read.</div>
       </aside>
     </div>
+    <a class="hero-jump" href="#round"><span class="zh">体</span>Go straight to the 3D board ↓</a>
     <div class="hero-nav"><a href="#opening">Opening</a><a href="#oneyang">One yang</a><a href="#flat">The flat board</a><a href="#round">In the round</a><a href="#ring">The ring</a><a href="#time">Two histories</a><a href="#text">The text</a><a href="#means">What it means</a></div>
   </div>
 </header>
@@ -578,14 +584,14 @@
           <div class="kicker">03 · In the round</div>
           <div>
             <h2>The board as a body.</h2>
-            <p class="lede">Four bodies carry the same grid. Turn each one. First look at the ground alone, before any stone, then switch to seeds and drop some.</p>
+            <p class="lede">Four bodies carry the same grid. Spin each one, or drag to turn it by hand. First look at the ground alone, before any stone, then switch to seeds and drop some.</p>
           </div>
         </div>
         <div class="ctrls bodysel" id="bd-body"><span class="meta">Body</span><button type="button" class="btn" data-v="plane">方 Plane</button><button type="button" class="btn" data-v="cylinder">筒 Cylinder</button><button type="button" class="btn" data-v="torus">环 Torus</button><button type="button" class="btn" data-v="sphere">球 Sphere</button></div>
         <div class="lanwrap inset"><canvas id="bd-cv" role="img" aria-label="The board drawn as a three-dimensional body"></canvas>
           <div class="lancap" id="bd-hint"></div></div>
         <div class="ctrls" id="bd-show"><button type="button" class="btn" data-v="hold">地 Hold</button><button type="button" class="btn" data-v="reach">势 Reach</button><button type="button" class="btn" data-v="seeds">子 Seeds</button></div>
-        <div class="ctrls"><button type="button" class="btn" id="bd-turn">Turn</button><button type="button" class="btn" id="bd-tilt">Tilt</button><button type="button" class="btn" id="bd-clear">Clear seeds</button></div>
+        <div class="ctrls"><button type="button" class="btn" id="bd-turn">Spin</button><button type="button" class="btn" id="bd-tilt">Tilt</button><button type="button" class="btn" id="bd-clear">Clear seeds</button></div>
         <div class="inst" style="margin-top:1.2rem">
           <div class="side" id="bd-read"></div>
           <div class="side"><div class="meta">How uneven is the ground · highest ÷ lowest</div><div class="rows" id="bd-ground"></div><div class="hint">1.00× means every point is the same place.</div></div>
@@ -699,7 +705,7 @@
       <div class="col est"><div class="tag">Established</div><ul><li>On a torus every point has the same hold and reach. On a plane they differ, and peak on different lines.</li><li>The same six stones give different readings at 37 of 81 points when a nine-line plane becomes a torus.</li><li>The 64 hexagrams form 14 rings under rotation and 13 if the ring may be turned over.</li><li>In our working text, verdicts follow place, with the middle of each trigram most favoured.</li></ul></div>
       <div class="col pro"><div class="tag">Provisional</div><ul><li>The field is a simple damped relaxation. It knows nothing of life and death.</li><li>Which ring feeds which line is a choice. So is white as yang.</li><li>The sixth line is shared by the whole board, so at most 32 hexagrams can appear at once. A different sixth line would lift that.</li><li>The text counts rest on a rough corpus and have not been set against the scholarship.</li></ul></div>
       <div class="col open"><div class="tag">Open</div><ul><li>Does the six-line reading of a board mean anything to a player? Untested.</li><li>Is the echo between reversal pairs geometry or editing?</li><li>Why does the top of each trigram fare worst? The seam and the edge may be one thing.</li></ul></div>
-      <div class="col next"><div class="tag">Withdrawn</div><ul><li>"On the torus, position is made by history." It is made by relation. Order leaves a mark only while the field is unsettled.</li><li>"The corner group tips the board toward black." It tips slightly toward white. The corner holds; the belly reaches.</li><li>Nested discs for the six lines. They agreed by construction and showed two hexagrams on a whole board. Rings replaced them.</li></ul></div>
+      <div class="col wd"><div class="tag">Withdrawn</div><ul><li>"On the torus, position is made by history." It is made by relation. Order leaves a mark only while the field is unsettled.</li><li>"The corner group tips the board toward black." It tips slightly toward white. The corner holds; the belly reaches.</li><li>Nested discs for the six lines. They agreed by construction and showed two hexagrams on a whole board. Rings replaced them.</li></ul></div>
     </div>
 
     <div class="coda" style="margin-top:3rem"><p>The board strand rests here. It began with a patent and a hunch, passed through two instruments and a night of counting, and comes back with one idea that the rest of the sequence can use: that a place is an edge condition before it is anything else.</p></div>
@@ -1043,7 +1049,7 @@ try{(function(){
     $("bd-ground").innerHTML=g;
     $("bd-hint").textContent=(S.show==="seeds"?"Gold leans white, green leans black. Tap an empty point to seed it, a seed to lift it. ":"Larger, brighter dots mark points where a lone seed "+(S.show==="hold"?"holds its neighbours more firmly. ":"reaches more of the body. ")+"Tap a point to read it. ")+"Drag sideways to turn.";
   }
-  function draw(){press($("bd-body"),S.body);press($("bd-show"),S.show);$("bd-turn").classList.toggle("on",S.turn);readout();render(performance.now());kick();}
+  function draw(){press($("bd-body"),S.body);press($("bd-show"),S.show);$("bd-turn").classList.toggle("on",S.turn);$("bd-turn").textContent=S.turn?"Stop":"Spin";readout();render(performance.now());kick();}
   function pick(mx,my){var pr=S.proj,best=-1,bz=-9,i;if(!pr)return -1;for(i=0;i<pr.X.length;i++){var dx=pr.X[i]-mx,dy=pr.Y[i]-my;if(dx*dx+dy*dy<18*18&&pr.Z[i]>bz){bz=pr.Z[i];best=i;}}return best;}
   cv.addEventListener("pointerdown",function(e){S.drag={x:e.clientX,y:e.clientY,moved:false};});
   cv.addEventListener("pointermove",function(e){if(!S.drag)return;var dx=e.clientX-S.drag.x;if(!S.drag.moved&&Math.abs(dx)<6)return;S.drag.moved=true;S.yaw+=dx*0.01;S.drag.x=e.clientX;if(!S.raf)render(performance.now());});
