@@ -70,7 +70,7 @@ as the edge actually looks.
 
 | Collection | Focus | Folder |
 |---|---|---|
-| **I — Speculative & Play** | Epistemic plurality: 算學 *suanxue*, Daoist relationality, xenomathematics, game theory beside Sun Tzu | [`documents/speculative-play/`](documents/speculative-play/) |
+| **I — Speculative & Play** | Epistemic plurality: 算學 *suanxue*, Daoist relationality, xenomathematics, game theory beside Sun Tzu, and the Three Tables experiments | [`documents/speculative-play/`](documents/speculative-play/) |
 | **II — Geometry** | Instruments for thinking-through-making: minimal surfaces, phyllotaxis, Voronoi, Penrose tiling | [`documents/geometry/`](documents/geometry/) |
 | **III — Representation** | Formal ideas given interactive form: Calabi–Yau manifolds, modelling, higher-dimensional epistemology | [`documents/representation/`](documents/representation/) |
 | **IV — Reflection & Method** | Reflection as a designed condition; the limits of formal self-knowledge; second-order cybernetics | [`documents/reflection-method/`](documents/reflection-method/) |
@@ -81,8 +81,10 @@ as the edge actually looks.
 **I — Speculative & Play** — [`documents/speculative-play/`](documents/speculative-play/)
 - [`alien-math.html`](documents/speculative-play/alien-math.html) — xenomathematics: what other civilisations might have grown
 - [`chinese-math-reimagined.html`](documents/speculative-play/chinese-math-reimagined.html) — Daoist relationality as a mathematical register
+- [`doubling-the-square.html`](documents/speculative-play/doubling-the-square.html) — Three Tables 01: √2 put to Greek, Śulba and 算學 mathematicians
 - [`neumann-suntzu.html`](documents/speculative-play/neumann-suntzu.html) — game theory read beside Sun Tzu
 - [`ramanujan-suanxue.html`](documents/speculative-play/ramanujan-suanxue.html) — 算學 *suanxue* and Ramanujan's intuitive number theory
+- [`squaring-the-circle.html`](documents/speculative-play/squaring-the-circle.html) — Three Tables 02: the circle squared, bounded and cut by the same three traditions
 
 **II — Geometry** — [`documents/geometry/`](documents/geometry/)
 - [`catalan-angle-explorer.html`](documents/geometry/catalan-angle-explorer.html)
