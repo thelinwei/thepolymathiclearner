@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doubling the Square · 三家倍方 — Greek, Śulba, 算學</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600&family=Tiro+Devanagari+Sanskrit:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<style>
+:root{
+  --paper:#f5f0e6; --paper2:#ece4d4; --card:#fbf8f2;
+  --ink:#1d1814; --ink2:#3a3029; --rule:#d8cbb6; --rule2:#b9a88e;
+  /* the three tables — validated categorical trio */
+  --gr:#b23a2a;  --gr-t:#8a2a1d;  --gr-w:rgba(178,58,42,.08);
+  --ve:#b07d00;  --ve-t:#7a5600;  --ve-w:rgba(176,125,0,.09);
+  --zh:#00897b;  --zh-t:#00665c;  --zh-w:rgba(0,137,123,.08);
+  --zhu:#c8402e; --qing:#2a7d74; --huang:#d6a51f;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --serif:'EB Garamond','GFS Didot','Noto Serif',Georgia,serif;
+  --sc:'Noto Serif SC','Songti SC','STSong',serif;
+  --deva:'Tiro Devanagari Sanskrit','Noto Serif Devanagari',serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:19px;line-height:1.62;overflow-x:hidden}
+img,svg{max-width:100%;display:block}
+a{color:inherit}
+.wrap{width:min(760px,calc(100% - 36px));margin-inline:auto}
+.zh{font-family:var(--sc)} .dv{font-family:var(--deva)} .el{font-family:var(--serif)}
+em,i{font-style:italic}
+
+/* top strip */
+.top{border-bottom:1px solid var(--rule);background:var(--paper)}
+.top .wrap{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;padding:11px 0;font-family:var(--mono);font-size:11.5px;letter-spacing:.04em}
+.top a{text-decoration:none;color:var(--ink2)} .top a:hover{text-decoration:underline}
+.top .sp{flex:1}
+
+/* hero */
+.hero{padding:44px 0 34px;border-bottom:1px solid var(--rule)}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
+h1{font-weight:500;font-size:clamp(44px,11vw,84px);line-height:.95;letter-spacing:-.01em;margin:14px 0 6px}
+h1 .zh{display:block;font-weight:600;font-size:.46em;letter-spacing:.18em;margin-top:12px;color:var(--ink2)}
+.deck{font-size:21px;font-style:italic;line-height:1.5;margin-top:18px;color:var(--ink)}
+.tri-words{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:20px;font-size:17px}
+.tri-words span{padding:3px 10px;border:1px solid var(--rule2);border-radius:2px;background:var(--card)}
+.tri-words .g{border-color:var(--gr);color:var(--gr-t)} .tri-words .v{border-color:var(--ve);color:var(--ve-t)} .tri-words .c{border-color:var(--zh);color:var(--zh-t)}
+.hero-fig{margin:30px auto 0;max-width:420px}
+
+/* sections */
+section{padding:46px 0 10px}
+.sec-head{display:flex;gap:14px;align-items:baseline;border-top:2px solid var(--ink);padding-top:12px;margin-bottom:22px}
+.sec-num{font-family:var(--mono);font-size:12px;letter-spacing:.12em}
+h2{font-weight:500;font-size:clamp(30px,6.4vw,42px);line-height:1.1}
+h2 small{display:block;font-size:.5em;font-style:italic;color:var(--ink2);margin-top:6px;font-weight:400}
+h3{font-weight:600;font-size:23px;line-height:1.25;margin:32px 0 10px}
+p{margin:0 0 16px}
+.lead::first-letter{float:left;font-size:4.1em;line-height:.82;padding:6px 10px 0 0;font-weight:500}
+.sec-g .sec-head{border-color:var(--gr)} .sec-v .sec-head{border-color:var(--ve)} .sec-c .sec-head{border-color:var(--zh)}
+.sec-g h2{color:var(--gr-t)} .sec-v h2{color:var(--ve-t)} .sec-c h2{color:var(--zh-t)}
+.where{font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--ink2);margin:-8px 0 20px}
+
+/* result cards */
+.verdicts{display:grid;gap:14px;margin:8px 0 24px}
+.vcard{background:var(--card);border:1px solid var(--rule);border-left:5px solid;padding:16px 18px 14px}
+.vcard.g{border-left-color:var(--gr)} .vcard.v{border-left-color:var(--ve)} .vcard.c{border-left-color:var(--zh)}
+.vcard .tag{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.vcard.g .tag{color:var(--gr-t)} .vcard.v .tag{color:var(--ve-t)} .vcard.c .tag{color:var(--zh-t)}
+.vcard .says{font-size:23px;line-height:1.3;margin:8px 0 8px}
+.vcard p{font-size:17px;margin:0}
+.finding{background:var(--ink);color:#f5f0e6;padding:22px 22px 8px;margin:10px 0 18px}
+.finding .tag{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#e9d9b8;margin-bottom:10px}
+.finding p{font-size:18.5px}
+.finding b{font-weight:600;color:#fff}
+
+/* quotes: native text blocks */
+.native{margin:22px 0;padding:18px 18px 14px;background:var(--card);border:1px solid var(--rule);position:relative}
+.native::before,.native::after{content:"";position:absolute;width:12px;height:12px;border:2px solid var(--rule2)}
+.native::before{top:-2px;left:-2px;border-right:0;border-bottom:0}
+.native::after{bottom:-2px;right:-2px;border-left:0;border-top:0}
+.native .src{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);margin-bottom:10px}
+.native .orig{font-size:22px;line-height:1.55}
+.native .orig.zh{font-size:21px;letter-spacing:.04em;line-height:1.85}
+.native .orig.dv{font-size:23px;line-height:1.7}
+.native .translit{font-style:italic;font-size:17px;color:var(--ink2);margin-top:6px}
+.native .tr{font-size:17.5px;border-top:1px dotted var(--rule2);margin-top:10px;padding-top:10px}
+.sec-g .native{border-top:3px solid var(--gr)} .sec-v .native{border-top:3px solid var(--ve)} .sec-c .native{border-top:3px solid var(--zh)}
+.composed{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--ink2);margin-top:8px}
+
+/* gloss */
+.gloss{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:16.5px;margin:12px 0 4px}
+.gloss dt{font-style:italic;font-weight:500;color:var(--ve-t)}
+.gloss dd{margin:0}
+
+/* interactive figures */
+.fig{margin:24px 0 26px;background:var(--card);border:1px solid var(--rule);padding:14px 14px 12px}
+.fig-cap{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);margin-bottom:10px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.fig svg{width:100%;height:auto;touch-action:manipulation}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.btn{font-family:var(--mono);font-size:12px;letter-spacing:.03em;padding:8px 12px;border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer;border-radius:2px;min-height:38px}
+.btn:hover{background:var(--ink);color:var(--paper)}
+.btn.on{background:var(--ink);color:var(--paper)}
+.readout{font-size:17.5px;margin-top:12px;min-height:3.2em;border-top:1px dotted var(--rule2);padding-top:10px}
+.readout b{font-weight:600}
+.readout .zh{font-size:18px}
+
+/* ladder table → cards on phone */
+.ladder{width:100%;border-collapse:collapse;font-size:16.5px;margin-top:6px}
+.ladder th{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;text-align:left;color:var(--ink2);border-bottom:1px solid var(--ink);padding:6px 6px}
+.ladder td{border-bottom:1px solid var(--rule);padding:6px 6px;vertical-align:top}
+.ladder .gk{font-size:19px;color:var(--gr-t)}
+.ladder tr.hit td{background:var(--ve-w)}
+.ladder tr.hit td:first-child{box-shadow:inset 4px 0 0 var(--ve)}
+.ladder .num{font-variant-numeric:tabular-nums}
+@media (max-width:520px){
+  .ladder thead{display:none}
+  .ladder,.ladder tbody,.ladder tr,.ladder td{display:block;width:100%}
+  .ladder tr{border-bottom:1px solid var(--rule);padding:8px 0;display:grid;grid-template-columns:1fr 1fr;gap:4px 10px}
+  .ladder td{border:0;padding:1px 4px;display:block}
+  .ladder td:first-child{grid-column:1 / -1;font-weight:600}
+  .ladder td::before{content:attr(data-l);display:block;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);font-weight:400}
+}
+
+/* rod board */
+.board{background:#efe5cf;border:1px solid var(--rule2);padding:10px 8px;overflow:hidden}
+.board-row{display:grid;grid-template-columns:44px 1fr;align-items:center;gap:6px;min-height:40px;border-bottom:1px dashed rgba(0,0,0,.12)}
+.board-row:last-child{border-bottom:0}
+.board-row .lab{font-family:var(--sc);font-size:17px;text-align:center;color:var(--ink2)}
+.board-row svg{height:34px;width:auto;max-width:100%;justify-self:end}
+
+/* plates */
+.plate{position:relative;margin:24px 0;padding:22px 18px 16px;background:linear-gradient(180deg,#fbf8f2,#f3ecdf);border:1px solid var(--rule)}
+.plate .ptag{position:absolute;top:-11px;left:14px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:3px 8px}
+.plate i.tk{position:absolute;width:14px;height:14px;border:2px solid var(--c,var(--rule2))}
+.plate i.tl{top:6px;left:6px;border-right:0;border-bottom:0} .plate i.tr{top:6px;right:6px;border-left:0;border-bottom:0}
+.plate i.bl{bottom:6px;left:6px;border-right:0;border-top:0} .plate i.br{bottom:6px;right:6px;border-left:0;border-top:0}
+.plate.g{--c:var(--gr)} .plate.v{--c:var(--ve)} .plate.c{--c:var(--zh)} .plate.k{--c:var(--ink)}
+.tex{font-family:var(--mono);font-size:15px;text-align:center;margin:10px 0;overflow-x:auto;overflow-y:hidden;padding:4px 0}
+.tex .katex{font-size:1.18em}
+.itex{font-family:var(--mono);font-size:.86em}
+.read{border-top:2px solid var(--c,var(--rule2));margin-top:12px;padding-top:9px;font-size:16.5px}
+.read b{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;display:block;margin-bottom:3px}
+
+/* chart */
+.chart-wrap{position:relative}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:11.5px;line-height:1.45;padding:7px 9px;border-radius:2px;opacity:0;transition:opacity .12s;max-width:230px;z-index:3}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-family:var(--mono);font-size:11.5px;margin:4px 0 8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:50%;display:inline-block}
+details.tbl{margin-top:10px;font-size:15.5px}
+details.tbl summary{font-family:var(--mono);font-size:11.5px;cursor:pointer;color:var(--ink2)}
+details.tbl table{border-collapse:collapse;margin-top:8px;width:100%}
+details.tbl td,details.tbl th{border-bottom:1px solid var(--rule);padding:4px 5px;text-align:left;font-variant-numeric:tabular-nums}
+details.tbl th{font-family:var(--mono);font-size:10.5px;font-weight:500;text-transform:uppercase}
+
+/* dialogue */
+.dialogue{margin:18px 0}
+.line{display:grid;grid-template-columns:92px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--rule)}
+.line .who{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding-top:5px}
+.line.g .who{color:var(--gr-t)} .line.v .who{color:var(--ve-t)} .line.c .who{color:var(--zh-t)}
+.line p{margin:0;font-size:18px}
+@media (max-width:460px){.line{grid-template-columns:1fr;gap:2px}}
+
+/* coda fence */
+.fence{margin:30px 0 10px;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);padding:6px 0}
+.fence .fl{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;text-align:center;color:var(--ink2)}
+.coda{font-size:20px;line-height:1.6}
+.coda p{margin-bottom:18px}
+.verbs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:20px 0}
+.verbs div{text-align:center;padding:14px 6px;border:1px solid var(--rule2);background:var(--card)}
+.verbs b{display:block;font-size:26px;font-weight:500}
+.verbs span{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase}
+.verbs .g b{color:var(--gr-t)} .verbs .v b{color:var(--ve-t)} .verbs .c b{color:var(--zh-t)}
+
+/* further */
+.further{list-style:none;margin:10px 0 0}
+.further li{padding:10px 0;border-bottom:1px solid var(--rule);font-size:17px}
+.further li .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);display:block}
+.further a{text-decoration-color:var(--rule2);text-underline-offset:3px}
+
+footer{margin-top:50px;border-top:2px solid var(--ink);padding:20px 0 50px;font-size:15px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
+footer strong{font-weight:600}
+
+.note{font-size:15.5px;color:var(--ink2);font-style:italic}
+.hl-g{color:var(--gr-t);font-weight:500} .hl-v{color:var(--ve-t);font-weight:500} .hl-c{color:var(--zh-t);font-weight:500}
+@media (max-width:520px){ body{font-size:18px} .deck{font-size:19px} .native .orig{font-size:20px} .vcard .says{font-size:21px} .verbs b{font-size:21px} }
+</style>
+</head>
+<body>
+
+<nav class="top"><div class="wrap">
+  <a href="../../index.html">↑ The Polymathic Learner</a>
+  <span>I · Speculative &amp; Play · 05 · Three Tables 01</span>
+  <span class="sp"></span>
+  <a href="#result">Result</a><a href="#athens">Athens</a><a href="#altar">Altar</a><a href="#board">Board</a><a href="#maths">Maths</a>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <div class="eyebrow">Three Tables · experiment 01 · one problem, three traditions</div>
+  <h1>Doubling<br>the Square<span class="zh">三家倍方</span></h1>
+  <p class="deck">A Greek geometer, a Vedic altar-builder and a Chinese calculator are each handed the same square and asked for one twice its size. All three find the line. Each gives it a different kind of answer.</p>
+  <div class="tri-words">
+    <span class="g el">διπλάσιον χωρίον</span>
+    <span class="v dv">द्विकरणी</span>
+    <span class="c zh">倍幂</span>
+  </div>
+  <svg class="hero-fig" viewBox="0 0 400 300" aria-label="A unit square, its diagonal, and the square built on the diagonal">
+    <g transform="translate(130,40)">
+      <polygon points="0,110 110,0 220,110 110,220" fill="none" stroke="#1d1814" stroke-width="1.2" stroke-dasharray="4 4"/>
+      <rect x="0" y="0" width="110" height="110" fill="rgba(178,58,42,.10)" stroke="#1d1814" stroke-width="1.6"/>
+      <line x1="0" y1="110" x2="110" y2="0" stroke="#1d1814" stroke-width="2.4"/>
+      <circle cx="0" cy="110" r="5" fill="#b23a2a"/><circle cx="110" cy="0" r="5" fill="#00897b"/>
+      <circle cx="55" cy="55" r="4" fill="#b07d00"/>
+      <text x="-14" y="64" font-family="EB Garamond,serif" font-size="18" fill="#1d1814" text-anchor="end">1</text>
+      <text x="64" y="58" font-family="EB Garamond,serif" font-style="italic" font-size="20" fill="#1d1814">?</text>
+      <text x="168" y="186" font-family="IBM Plex Mono,monospace" font-size="11" fill="#3a3029">area 2</text>
+      <text x="38" y="86" font-family="IBM Plex Mono,monospace" font-size="11" fill="#3a3029">area 1</text>
+    </g>
+  </svg>
+</div></header>
+
+<!-- ══ 0 RESULT ══ -->
+<section id="result"><div class="wrap">
+  <div class="sec-head"><span class="sec-num">00</span><h2>The result<small>outcome first, the story after</small></h2></div>
+
+  <p>The problem: <b>here is a square; make one exactly twice its area.</b> Today we write the answer in two symbols, <span class="itex" data-tex="\sqrt{2}">√2</span>, and move on. Three older mathematical cultures met this same square, and what they handed back tells you as much about them as about the number.</p>
+
+  <div class="verdicts">
+    <div class="vcard g">
+      <div class="tag">Athens · Plato's Meno, c. 385 BCE · Pythagorean arithmetic</div>
+      <div class="says">“Build it on the diagonal.” The line is exact, and it has no number.</div>
+      <p>The diagonal is shown, then proved to be <i>incommensurable</i> with the side: no whole-number ratio fits it. The Greeks then built a ladder of fractions, the side-and-diameter numbers, that closes in on it from both sides, rung after rung.</p>
+    </div>
+    <div class="vcard v">
+      <div class="tag">Altar ground · Baudhāyana &amp; Āpastamba Śulbasūtra, 1st millennium BCE</div>
+      <div class="says">“Stretch the cord across.” On a twelve-finger brick: seventeen fingers, less one sesame seed.</div>
+      <p>A recipe in one breath: the measure, plus its third, plus that third's fourth, less a thirty-fourth of that fourth. The rule names itself <i class="dv">saviśeṣa</i>, “with a little over.” Carried onto a twelve-finger brick, it is off by less than a thousandth of a sesame seed.</p>
+    </div>
+    <div class="vcard c">
+      <div class="tag">Counting board · 九章算术, Han · 刘徽注, 263 CE</div>
+      <div class="says"><span class="zh">一尺四寸一分四厘二毫……</span> and the rods can keep going.</div>
+      <p>The answer is a procedure, run digit by digit on counting rods. When it never ends, Liu Hui gives two honest choices: <span class="zh">以面命之</span>, name the number by its side, or <span class="zh">求其微数</span>, keep extracting ever-finer decimal parts.</p>
+    </div>
+  </div>
+
+  <div class="finding">
+    <div class="tag">What the experiment found</div>
+    <p><b>All three agree to five decimal places, 1.41421.</b> The Vedic rule's value is <b>577 / 408</b>. That same fraction turns up independently on the eighth rung of the Greek ladder, and again as the second step of Heron of Alexandria's averaging rule. Three routes, one fraction.</p>
+    <p>Liu Hui's commentary reads almost like a review of that fraction. He describes the same kind of fractional patch the Śulba rule uses and judges it <span class="zh">虽粗相近，不可用也</span>: close, but not for use, because the true value cannot be pinned by it. The Śulba authors had already flagged the same thing in a single word, <i>saviśeṣa</i>.</p>
+    <p>Each answer has the shape of how its makers knew things. <b>The Greek answer is a line you can see. The Vedic answer is a cord you can make. The Chinese answer is a procedure you can keep running.</b></p>
+  </div>
+
+  <p class="note">How this was run. The same problem went to each tradition, and each answers with its own surviving texts, tools and numerals. The texts are quoted in Greek, Sanskrit and classical Chinese. Where a text is silent (how Baudhāyana reached his 1/34, for instance), the reconstruction is marked as one. The imagined exchange near the end is play, and is labelled as such.</p>
+</div></section>
+
+<!-- ══ 1 ATHENS ══ -->
+<section id="athens" class="sec-g"><div class="wrap">
+  <div class="sec-head"><span class="sec-num">01</span><h2>Table I · Athens<small>a stick, some sand, and a boy who gets it wrong twice</small></h2></div>
+  <div class="where">Plato, Meno 82b–85b · c. 385 BCE · then Pythagorean arithmetic as reported by Theon of Smyrna, c. 100 CE</div>
+
+  <p class="lead">Socrates wants to prove a point about learning, so he calls over one of Meno's household slaves, a boy who has never studied geometry, and draws in the sand. A square, two feet on each side, so four square feet. Now, he asks: what square is twice as big, eight square feet? How long is its side?</p>
+  <p>The boy answers the way almost anyone would. Double the area, so double the side: four feet. Socrates draws it, and they count. The square has grown to sixteen, four times the original. The boy tries again, splitting the difference at three feet. That gives nine, still too big. Now he is stuck, and Socrates is pleased, because being stuck is where the learning starts. Then comes the move. Inside the four-foot square, Socrates draws a diagonal across each of the four small squares, and the four diagonals close into a tilted square.</p>
+
+  <div class="fig" id="meno">
+    <div class="fig-cap"><span>Fig. 1 · The boy's three answers</span><span>tap through</span></div>
+    <svg id="menoSvg" viewBox="0 0 320 300" role="img" aria-label="Meno diagram"></svg>
+    <div class="btns">
+      <button class="btn on" data-m="0">The square · 2 ft</button>
+      <button class="btn" data-m="1">Guess 1 · 4 ft</button>
+      <button class="btn" data-m="2">Guess 2 · 3 ft</button>
+      <button class="btn" data-m="3">Socrates · the diagonal</button>
+    </div>
+    <div class="readout" id="menoOut"></div>
+  </div>
+
+  <p>Each tilted side cuts a two-by-two square exactly in half, and four halves of four is eight. The doubled square stands on the diagonal. The boy agrees, and Socrates hands the answer its name:</p>
+
+  <div class="native">
+    <div class="src">Plato, Meno 85b · Greek</div>
+    <div class="orig el">Καλοῦσιν δέ γε ταύτην διάμετρον οἱ σοφισταί· ὥστ᾿ εἰ ταύτῃ διάμετρος ὄνομα, ἀπὸ τῆς διαμέτρου ἄν, ὡς σὺ φῄς, ὦ παῖ Μένωνος, γίγνοιτ᾿ ἂν τὸ διπλάσιον χωρίον.</div>
+    <div class="tr">“The experts call this line the <i>diameter</i>. So if <i>diameter</i> is its name, then the double space would come, as you say, boy of Meno, from the diameter.”</div>
+  </div>
+
+  <p>Notice what Socrates never says: how long it is. He gives no number at all. The answer is a <i>construction</i>, a line you can point at. For Plato that is the whole point: the boy has seen, with his own eyes, a relation that was already true.</p>
+
+  <h3>Then the floor gives way</h3>
+  <p>Somewhere in the Pythagorean circle, perhaps a generation or two before Plato, someone tried to measure that diagonal against the side using a common unit, some small length that fits a whole number of times into both. There isn't one. However small the unit, it never fits both. The Greek word for this was <i class="el">ἀσύμμετρος</i>, “without common measure.” The ratio itself was later called <i class="el">ἄλογος</i>, which means both “without ratio” and “unspeakable.”</p>
+  <p>Aristotle passes the argument along as a textbook example of proof by contradiction. If the diagonal were commensurable with the side, odd numbers would equal even ones. In modern clothes it runs like this.</p>
+
+  <div class="plate g"><span class="ptag">Plate G1 · the odd-even argument</span><i class="tk tl"></i><i class="tk tr"></i><i class="tk bl"></i><i class="tk br"></i>
+    <div class="tex" data-tex="\begin{gathered}\frac{d}{s}=\frac{p}{q}\ \text{in lowest terms}\\ \Longrightarrow\; p^2 = 2q^2 \;\Longrightarrow\; p=2r\\ \Longrightarrow\; q^2 = 2r^2 \;\Longrightarrow\; q \text{ even too}\end{gathered}">d/s = p/q in lowest terms ⟹ p² = 2q² ⟹ p even, p = 2r ⟹ q² = 2r² ⟹ q even</div>
+    <div class="read"><b>How to read it</b>Suppose diagonal-to-side is a fraction <span class="itex" data-tex="p/q">p/q</span> already cancelled down. The square on the diagonal is twice the square on the side, so <span class="itex" data-tex="p^2">p²</span> is even, which makes <span class="itex" data-tex="p">p</span> even. Feed that back in and <span class="itex" data-tex="q">q</span> comes out even too. A cancelled fraction with both parts even cannot exist, so there was never a fraction to begin with.</div>
+  </div>
+
+  <h3>The Greeks counted anyway: the side-and-diameter ladder</h3>
+  <p>Proving that no fraction is exact did not stop anyone from wanting good ones. The Pythagorean <i class="el">πλευρικοὶ καὶ διαμετρικοὶ ἀριθμοί</i>, side numbers and diameter numbers, are reported by Theon of Smyrna. They work like a growing staircase. Start with a side of 1 and a diameter of 1. For the next rung, the new side is <b>side + diameter</b>, and the new diameter is <b>twice the side + diameter</b>. Each rung's diameter over side is a fraction for √2, alternately a little under and a little over, and each pair misses the perfect relation by exactly one unit.</p>
+
+  <div class="fig">
+    <div class="fig-cap"><span>Fig. 2 · Side and diameter numbers, in Greek numerals</span><span>climb</span></div>
+    <table class="ladder" id="ladder">
+      <thead><tr><th>Rung</th><th>Side · Diameter</th><th>Greek</th><th>Diameter ÷ side</th><th>d² − 2s²</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <div class="btns"><button class="btn" id="ladNext">Next rung ↓</button><button class="btn" id="ladAll">To rung 9</button><button class="btn" id="ladReset">Reset</button></div>
+    <div class="readout" id="ladOut">A Greek wrote numbers with letters: α = 1, ι = 10, ρ = 100. So <span class="el">ιζʹ</span> is 17, and <span class="el">φοζʹ</span> is 577.</div>
+  </div>
+
+  <p>Look at rung eight: <b>577 over 408</b>, written <span class="el">φοζʹ</span> over <span class="el">υηʹ</span>. Hold on to that pair. It is about to walk in from the other side of the world.</p>
+</div></section>
+
+<!-- ══ 2 ALTAR ══ -->
+<section id="altar" class="sec-v"><div class="wrap">
+  <div class="sec-head"><span class="sec-num">02</span><h2>Table II · The altar ground<small>a cord, two pegs, and a brick that must be right</small></h2></div>
+  <div class="where">Baudhāyana Śulbasūtra and Āpastamba Śulbasūtra · late Vedic Sanskrit · roughly 800–400 BCE</div>
+
+  <p class="lead">The Śulbasūtras, “rules of the cord,” are construction manuals for fire altars. An altar might need to be rebuilt at twice the area, or reshaped from a square into a falcon without changing its area by a grain. The tools are a rope (<i>rajju</i>), pegs (<i>śaṅku</i>) and fired bricks of fixed sizes. The units are bodily: the <i>aṅgula</i>, a finger's breadth, and below it the <i>tila</i>, a sesame seed. Baudhāyana sets thirty-four sesame seeds, laid side by side, to one finger.</p>
+  <p>For the doubling problem the rope gives the answer at once, just as the sand did in Athens:</p>
+
+  <div class="native">
+    <div class="src">Āpastamba Śulbasūtra 1.5 · parallel in Baudhāyana</div>
+    <div class="orig dv">समचतुरश्रस्याक्ष्णयारज्जुर्द्विस्तावतीं भूमिं करोति ।</div>
+    <div class="translit">samacaturaśrasyākṣṇayārajjur dvistāvatīṃ bhūmiṃ karoti</div>
+    <div class="tr">“The cord stretched across the diagonal of an equal-sided square makes ground of twice that size.”</div>
+  </div>
+
+  <p>Up to here, Athens and the altar agree. The difference is what comes next. An altar is built from bricks, and a brick has to be cut to a length. So the sūtra goes on and gives the diagonal a <i>measure</i>, in the most compressed sentence of the whole experiment:</p>
+
+  <div class="native">
+    <div class="src">Baudhāyana Śulbasūtra (i.61–62 in Thibaut's numbering) · Āpastamba 1.6</div>
+    <div class="orig dv">समस्य द्विकरणी । प्रमाणं तृतीयेन वर्धयेत् तच्चतुर्थेनात्मचतुस्त्रिंशोनेन सविशेषः ॥</div>
+    <div class="translit">samasya dvikaraṇī. pramāṇaṃ tṛtīyena vardhayet tac caturthenātmacatustriṃśonena saviśeṣaḥ</div>
+    <div class="tr">“The double-maker of the square: increase the measure by its third, and that third by its own fourth less the thirty-fourth part of that fourth. This is <i>saviśeṣa</i>, with a little over.”</div>
+    <dl class="gloss">
+      <dt>dvi-karaṇī</dt><dd>“the two-maker”: the line whose square makes two</dd>
+      <dt>pramāṇa</dt><dd>the measure, the side you start from</dd>
+      <dt>tṛtīyena vardhayet</dt><dd>let one increase it by a third</dd>
+      <dt>tac caturthena</dt><dd>and that third by its fourth</dd>
+      <dt>ātma-catus-triṃśa-ūnena</dt><dd>less its own thirty-fourth</dd>
+      <dt>sa-viśeṣa</dt><dd>“with a remainder, with a little extra”</dd>
+    </dl>
+  </div>
+
+  <p>Read in the altar-builder's own units, the rule becomes a cord you can actually lay out. Take the twelve-finger brick, the <i>prādeśa</i>, and walk the rule along a rope:</p>
+
+  <div class="fig" id="cordFig">
+    <div class="fig-cap"><span>Fig. 3 · The rule laid out on a twelve-aṅgula side</span><span>step</span></div>
+    <svg id="cordSvg" viewBox="0 0 340 210" role="img" aria-label="Cord measured in angulas"></svg>
+    <div class="btns">
+      <button class="btn on" data-c="0">pramāṇa · 12</button>
+      <button class="btn" data-c="1">+ its third</button>
+      <button class="btn" data-c="2">+ that third's fourth</button>
+      <button class="btn" data-c="3">− a 34th of the fourth</button>
+    </div>
+    <div class="readout" id="cordOut"></div>
+  </div>
+
+  <p>That last step is the wonder. A thirty-fourth of an aṅgula is exactly one sesame seed. The whole rule, on the standard brick, comes to <b>seventeen fingers less one sesame seed</b>. The true diagonal is shorter than that cord by less than a thousandth of a seed's width. Georg Thibaut, who first edited Baudhāyana in the 1870s, suspected that the odd count of thirty-four seeds to the finger was chosen to fit this rule. A later commentator on Āpastamba works the same rule in fingers and seeds and lands on “forty-two aṅgulas joined with fourteen tilas,” which is the rule applied to a side of thirty aṅgulas.</p>
+
+  <h3>Where might 1/3, 1/12 and 1/408 come from?</h3>
+  <p>The sūtra gives no derivation. It is a rule to be remembered and used. A reconstruction going back to Thibaut and developed by Bibhutibhusan Datta uses only the moves the sūtras already teach elsewhere: cutting bricks into strips and wrapping them around a square as an L-shaped band (a gnomon). Step through it below. Each step is something you could do with real bricks on the ground.</p>
+
+  <div class="fig" id="gnoFig">
+    <div class="fig-cap"><span>Fig. 4 · Two squares into one, by strips · <i>reconstruction</i></span><span>step</span></div>
+    <svg id="gnoSvg" viewBox="0 0 340 280" role="img" aria-label="Gnomon reconstruction"></svg>
+    <div class="btns">
+      <button class="btn" id="gnoPrev">← back</button>
+      <button class="btn" id="gnoNext">next →</button>
+    </div>
+    <div class="readout" id="gnoOut"></div>
+  </div>
+
+  <p>The final shave is the subtle one. Taking a strip of width <i>x</i> off two sides removes almost exactly <span class="itex" data-tex="2\cdot\tfrac{17}{12}\,x">2·(17/12)·x</span> of area. It also removes one tiny corner square, <span class="itex" data-tex="x^2">x²</span>, twice over, and the rule quietly ignores that. That ignored speck is why the result is a hair too long, and why the sūtra names it, without apology, <i>saviśeṣa</i>.</p>
+</div></section>
+
+<!-- ══ 3 BOARD ══ -->
+<section id="board" class="sec-c"><div class="wrap">
+  <div class="sec-head"><span class="sec-num">03</span><h2>Table III · The counting board<small>rods, columns, and a procedure that keeps going</small></h2></div>
+  <div class="where">九章算术 Nine Chapters, compiled by the 1st c. CE · 刘徽注 Liu Hui's commentary, 263 CE</div>
+
+  <p class="lead">The Chinese calculator sits at a board marked into columns and lays out bamboo counting rods. Numbers are place-value from the start: units upright, tens lying flat, hundreds upright again, so neighbouring columns never blur. Zero is an empty column. The Nine Chapters are organised as problems, answers and <span class="zh">术</span>, procedures. Our problem would sit in two places. First, in the right-triangle chapter:</p>
+
+  <div class="native">
+    <div class="src">九章算术 · 卷九 勾股</div>
+    <div class="orig zh">勾股术曰：勾股各自乘，并，而开方除之，即弦。</div>
+    <div class="tr">“The procedure for base and height: multiply each by itself, add them, and extract the square root. That is the hypotenuse.”</div>
+  </div>
+
+  <p>Our square has base 1 and height 1, so the doubled square stands on the <span class="zh">弦</span>. Liu Hui then shows <i>why</i> the procedure holds, by colour and rearrangement. The square on the base is painted vermilion (<span class="zh">朱方</span>), the square on the height blue-green (<span class="zh">青方</span>), and their pieces are moved, <span class="zh">出入相补</span>, out of one place and into another, until they exactly fill the square on the hypotenuse.</p>
+
+  <div class="native">
+    <div class="src">刘徽注 · 勾股术</div>
+    <div class="orig zh">勾自乘为朱方，股自乘为青方，令出入相补，各从其类，因就其余不动也，合成弦方之幂。开方除之，即弦也。</div>
+    <div class="tr">“The base times itself makes the vermilion square; the height times itself, the blue-green square. Let what goes out and what comes in make up for each other, each kind to its kind, leaving the rest unmoved, and together they form the area of the hypotenuse square. Extract its root, and that is the hypotenuse.”</div>
+  </div>
+
+  <div class="fig" id="cxFig">
+    <div class="fig-cap"><span>Fig. 5 · 出入相补 · out and in, the pieces make up the whole</span><span>tap</span></div>
+    <svg id="cxSvg" viewBox="-1.35 -1.35 3.7 3.7" role="img" aria-label="Liu Hui out-in complementary dissection"></svg>
+    <div class="btns"><button class="btn" id="cxGo">出入 · move the pieces</button><button class="btn" id="cxBack">还原 · put them back</button></div>
+    <div class="readout" id="cxOut">朱方 1 + 青方 1. Four half-squares, cut on the diagonal.</div>
+  </div>
+
+  <p>The geometry is settled. But the Nine Chapters always want the number as well, and for that the board has the <span class="zh">开方术</span>, the root-extraction procedure in chapter four. It is one of the oldest written square-root algorithms anywhere:</p>
+
+  <div class="native">
+    <div class="src">九章算术 · 卷四 少广 · 开方术</div>
+    <div class="orig zh">开方术曰：置积为实。借一算，步之，超一等。议所得，以一乘所借一算为法，而以除。除已，倍法为定法。其复除，折法而下。</div>
+    <div class="tr">“Set the area as the dividend (<span class="zh">实</span>). Borrow one rod and step it along, skipping a column each time. Estimate the digit; multiply the borrowed rod by it to make the divisor (<span class="zh">法</span>), and subtract. That done, double the divisor to make the fixed divisor (<span class="zh">定法</span>). To subtract again, shift the divisor down a column …”</div>
+  </div>
+
+  <p>Here is our problem, posed the way the Nine Chapters pose things, and run on a simplified board:</p>
+  <div class="native">
+    <div class="src">posed in the manner of the Nine Chapters, for this experiment</div>
+    <div class="orig zh">今有方一尺，欲倍其幂。问方几何？</div>
+    <div class="tr">“Here is a square of one <i>chi</i> on a side. We want to double its area. What is the side?”</div>
+    <div class="composed">COMPOSED FOR THIS PAGE · NOT A QUOTATION</div>
+  </div>
+
+  <div class="fig" id="rodFig">
+    <div class="fig-cap"><span>Fig. 6 · 开方 on the rods · √2, one digit per pass</span><span>step</span></div>
+    <div class="board" id="rodBoard"></div>
+    <div class="btns"><button class="btn" id="rodNext">议 · next digit</button><button class="btn" id="rodReset">重置 · reset</button></div>
+    <div class="readout" id="rodOut"></div>
+  </div>
+
+  <p>The rods never run out of work. The remainder never reaches zero, and the text has a sentence ready for that case: <span class="zh">若开之不尽者，为不可开，当以面命之</span>. If the extraction does not come out even, the number “cannot be opened,” and one should name it by its side, <span class="zh">面</span>. Liu Hui's commentary on that sentence is one of the finest passages in the whole tradition:</p>
+
+  <div class="native">
+    <div class="src">刘徽注 · 开方术</div>
+    <div class="orig zh">术或有以借算加定法而命分者，虽粗相近，不可用也。……其数不可得而定。故惟以面命之，为不失耳。……不以面命之，加定法如前，求其微数。微数无名者以为分子，其一退以十为母，其再退以百为母。退之弥下，其分弥细，则朱幂虽有所弃之数，不足言之也。</div>
+    <div class="tr">“Some procedures add the borrowed rod to the fixed divisor and name a fraction. Roughly close, but not for use. … Its number cannot be fixed. So only naming it by its side loses nothing. … Or, without naming it by its side, add to the fixed divisor as before and seek its <i>fine numbers</i>. Fine numbers without a unit name become numerators: one step down takes ten as denominator, two steps down a hundred. The further down, the finer the parts, until what is discarded from the vermilion area is not worth speaking of.”</div>
+  </div>
+
+  <p>Liu Hui offers two answers to an endless number, and both are honest. <span class="zh">以面命之</span> keeps it exact by keeping it as “the side of 2,” much as we write √2. <span class="zh">求其微数</span> runs the rods on into tenths, hundredths, thousandths of the last unit, which is a decimal expansion some thirteen centuries before Simon Stevin. In the readout above, every digit past the <span class="zh">毫</span> is written exactly by his rule: <span class="zh">十分毫之一，百分毫之三</span>, “one part in ten of a <i>hao</i>, three parts in a hundred.”</p>
+</div></section>
+
+<!-- ══ 4 MATHS ══ -->
+<section id="maths"><div class="wrap">
+  <div class="sec-head"><span class="sec-num">04</span><h2>The maths, side by side<small>the same number, three engines</small></h2></div>
+
+  <p>Put into one modern notation, the three tables are doing recognisably related things, each with its own engine underneath.</p>
+
+  <div class="plate g"><span class="ptag">Plate G2 · Greek · a two-term recurrence</span><i class="tk tl"></i><i class="tk tr"></i><i class="tk bl"></i><i class="tk br"></i>
+    <div class="tex" data-tex="\begin{gathered}s_{n+1}=s_n+d_n\\ d_{n+1}=2s_n+d_n\\ \textcolor{#8a2a1d}{d_n^{\,2}-2s_n^{\,2}=\pm 1}\end{gathered}">s(n+1) = s + d, d(n+1) = 2s + d, d² − 2s² = ±1</div>
+    <div class="read"><b>How to read it</b>Each rung is built from the last by adding. The highlighted identity is the engine: every pair misses “diameter squared equals twice side squared” by exactly one, switching sign each time. As the numbers grow, that fixed miss of one becomes a vanishing share, so the ratio <span class="itex" data-tex="d_n/s_n">d/s</span> homes in on √2, alternately from below and above. This is the same equation later called Pell's, <span class="itex" data-tex="x^2-2y^2=\pm1">x² − 2y² = ±1</span>.</div>
+  </div>
+
+  <div class="plate v"><span class="ptag">Plate V · Śulba · a correction on a correction</span><i class="tk tl"></i><i class="tk tr"></i><i class="tk bl"></i><i class="tk br"></i>
+    <div class="tex" data-tex="\sqrt2 \approx 1+\frac13+\frac{1}{3\cdot4}-\frac{1}{3\cdot4\cdot34}=\textcolor{#7a5600}{\frac{577}{408}}">√2 ≈ 1 + 1/3 + 1/(3·4) − 1/(3·4·34) = 577/408</div>
+    <div class="tex" data-tex="\begin{gathered}\Big(\tfrac{17}{12}\Big)^2 = 2+\tfrac{1}{144}\\ 2\cdot\tfrac{17}{12}\,x\approx\tfrac{1}{144}\;\Rightarrow\; x=\tfrac{1}{408}\end{gathered}">(17/12)² = 2 + 1/144 ⟹ 2·(17/12)·x ≈ 1/144 ⟹ x = 1/408</div>
+    <div class="tex" data-tex="\Big(\tfrac{577}{408}\Big)^2 = 2+\underbrace{\tfrac{1}{166464}}_{\text{saviśeṣa}}">(577/408)² = 2 + 1/166464 (saviśeṣa)</div>
+    <div class="read"><b>How to read it</b>The first three terms give 17/12, whose square overshoots 2 by 1/144. The gnomon shave removes a strip of width <span class="itex" data-tex="x">x</span> from two sides, area about <span class="itex" data-tex="2\cdot\frac{17}{12}x">2·(17/12)·x</span>. Setting that equal to the overshoot gives exactly 1/408, which is 1/(3·4·34). The neglected corner is why the square of the answer still exceeds 2 by a sliver, the <i>saviśeṣa</i>.</div>
+  </div>
+
+  <div class="plate c"><span class="ptag">Plate C · 算學 · one digit per pass</span><i class="tk tl"></i><i class="tk tr"></i><i class="tk bl"></i><i class="tk br"></i>
+    <div class="tex" data-tex="(10a+b)^2 = 100a^2 + \underbrace{(\textcolor{#00665c}{20a}+b)\,b}_{\text{the new L-shaped band}}">(10a + b)² = 100a² + (20a + b)·b</div>
+    <div class="tex" data-tex="\sqrt{a^2+r}\;\approx\; a+\frac{r}{2a}\quad\text{or}\quad a+\frac{r}{2a+1}">√(a² + r) ≈ a + r/(2a) or a + r/(2a+1)</div>
+    <div class="read"><b>How to read it</b>Line one is the whole <span class="zh">开方术</span>. With root-so-far <span class="itex" data-tex="a">a</span>, the next digit <span class="itex" data-tex="b">b</span> must fit inside the remainder as a band of width <span class="itex" data-tex="b">b</span> wrapped around the square: <span class="itex" data-tex="20a">20a</span> is the doubled divisor <span class="zh">定法</span> shifted a column, and <span class="itex" data-tex="b">b</span> is the newly estimated digit <span class="zh">议</span>. It is the same L-shaped band as the Vedic gnomon, cut to a decimal width. Line two shows the two fractional patches Liu Hui rejects, one lying above the true value and one below. The Śulba step 17/12 → 577/408 is the first kind, <span class="itex" data-tex="a+\frac{r}{2a}">a + r/(2a)</span>, applied with a negative remainder.</div>
+  </div>
+
+  <div class="plate k"><span class="ptag">Plate K · the engine under two of them</span><i class="tk tl"></i><i class="tk tr"></i><i class="tk bl"></i><i class="tk br"></i>
+    <div class="tex" data-tex="\begin{gathered}x_{k+1}=\tfrac12\Big(x_k+\tfrac{2}{x_k}\Big)\\ 1\to\tfrac32\to\tfrac{17}{12}\to\textcolor{#7a5600}{\tfrac{577}{408}}\to\tfrac{665857}{470832}\end{gathered}">x(k+1) = (x + 2/x)/2: 1 → 3/2 → 17/12 → 577/408 → 665857/470832</div>
+    <div class="read"><b>How to read it</b>Average a guess with 2 divided by that guess. Heron of Alexandria wrote this rule down in the 1st century CE, and today it is Newton's method. Run it from 3/2 and the second step is Baudhāyana's 577/408. Its iterates are exactly rungs 2, 4, 8 and 16 of the Greek ladder. The Vedic rule, the Greek ladder and Heron's averaging are one family, each moving at its own pace.</div>
+  </div>
+
+  <h3>Three speeds</h3>
+  <p>How fast does each table close in? The chart counts correct decimal places after each step of work. The steps are not equal labour. A rung is two additions, a Heron step is a division, a rod pass is one digit. Still, the shapes tell the story: the ladder climbs steadily, the rods add one place per pass, and the averaging rule roughly doubles its correct places each time.</p>
+
+  <div class="fig">
+    <div class="fig-cap"><span>Fig. 7 · Correct decimal places of √2, by step</span><span>hover / tap a dot</span></div>
+    <div class="legend">
+      <span><i style="background:var(--gr)"></i>Greek ladder (rungs)</span>
+      <span><i style="background:var(--ve)"></i>Śulba / Heron (corrections)</span>
+      <span><i style="background:var(--zh)"></i>开方术 rods (passes)</span>
+    </div>
+    <div class="chart-wrap" id="chartWrap"><svg id="chart" viewBox="0 0 340 230" role="img" aria-label="Convergence chart"></svg><div class="tip" id="tip"></div></div>
+    <details class="tbl"><summary>Show as a table</summary><div id="chartTbl"></div></details>
+  </div>
+</div></section>
+
+<!-- ══ 5 DIALOGUE ══ -->
+<section id="exchange"><div class="wrap">
+  <div class="sec-head"><span class="sec-num">05</span><h2>If the three tables met<small>an imagined exchange · play, built from real lines</small></h2></div>
+  <p class="note">None of these people met. Where a line is in quotation marks it is their own text; the rest is staging.</p>
+  <div class="dialogue">
+    <div class="line v"><div class="who">Altar</div><p>Your square of eight feet: the cord says its side is seventeen fingers less one sesame seed, if the small square is a twelve-finger brick. We laid such bricks by the thousand.</p></div>
+    <div class="line g"><div class="who">Athens</div><p>Seventeen to twelve, corrected by one part in four hundred and eight. We have that fraction too, on the eighth rung. It is beautiful, and it is not the diagonal. Nothing written with numbers is. The diagonal is <span class="el">ἀσύμμετρος</span> to the side.</p></div>
+    <div class="line v"><div class="who">Altar</div><p>We never said it was. Read the last word of the rule: <i class="dv">saviśeṣa</i>. With a little over. The cord is long by less than a thousandth of a seed. The fire does not notice.</p></div>
+    <div class="line c"><div class="who">Board</div><p><span class="zh">“虽粗相近，不可用也。”</span> Close, but not for use, as a <i>definition</i>. Your fraction overshoots, and its kin undershoots. <span class="zh">“其数不可得而定。”</span></p></div>
+    <div class="line g"><div class="who">Athens</div><p>Then you agree with me. It has no number.</p></div>
+    <div class="line c"><div class="who">Board</div><p>It has a name, <span class="zh">面</span>, the side of two, and it has as many digits as you have patience for. Put down your stick and hand me the rods. <span class="zh">“退之弥下，其分弥细。”</span></p></div>
+  </div>
+</div></section>
+
+<!-- ══ 6 CODA ══ -->
+<section id="coda"><div class="wrap">
+  <div class="fence"><div class="fl">Here the rigour ends and the wondering begins</div></div>
+  <div class="coda">
+    <p>Set side by side, the three tables give three verbs for what it means to have an answer.</p>
+    <div class="verbs">
+      <div class="g"><b>to see</b><span>Athens · the line</span></div>
+      <div class="v"><b>to make</b><span>Altar · the cord</span></div>
+      <div class="c"><b>to proceed</b><span>Board · the rods</span></div>
+    </div>
+    <p>In Athens, knowing means seeing a relation that holds forever, so the most honest answer is a line together with a proof that no number fits it. On the altar ground, knowing means being able to build it on time and to tolerance, so the best answer is a recipe that names its own slack in a word. At the counting board, knowing means having a procedure that can always take one more step, so the answer is the procedure itself, and the number is whatever you choose to stop at.</p>
+    <p>What delights here is the overlap. A Vedic recipe, a Pythagorean ladder and Heron's averaging rule all reach 577/408. The Chinese band <span class="itex" data-tex="(20a+b)\,b">(20a+b)b</span> and the Vedic gnomon are the same L-shape, cut to different widths. Liu Hui and the Śulba authors both say plainly that their number is not the last word. These are three dialects of one geometry, each saying something the other two leave unsaid.</p>
+    <p>An uninvited fourth guest makes the point. A small Old Babylonian clay tablet at Yale, YBC 7289, shows a square with its diagonals and the value 1;24,51,10 in base sixty, about 1.41421296. Earlier than all three tables, and correct to six places.</p>
+  </div>
+</div></section>
+
+<!-- ══ GO FURTHER ══ -->
+<section id="further"><div class="wrap">
+  <div class="sec-head"><span class="sec-num">→</span><h2>Go further</h2></div>
+  <ul class="further">
+    <li><span class="k">Greek · primary</span><a href="https://cts.perseids.org/read/greekLit/tlg0059/tlg024/perseus-eng2/85">Plato, <i>Meno</i> 82b–85b, in W. R. M. Lamb's translation (Perseids)</a>. The whole slave-boy scene, in about three pages.</li>
+    <li><span class="k">Greek · secondary</span><a href="https://en.wikipedia.org/wiki/Theon_of_Smyrna">Theon of Smyrna</a>. Where the side-and-diameter numbers survive; Heath's <i>History of Greek Mathematics</i> covers them in depth.</li>
+    <li><span class="k">Vedic · primary</span><a href="https://www.wisdomlib.org/hinduism/book/apastamba-sulba-sutra-sanskrit/d/doc630541.html">Āpastamba Śulbasūtra 1.6 with the commentaries of Kapardin, Karavinda and Sundararāja</a>. The Sanskrit of the dvikaraṇī rule, and the “42 aṅgulas and 14 tilas.”</li>
+    <li><span class="k">Vedic · secondary</span><a href="https://sanskrit.uohyd.ac.in/Algorithms_in_Ancient_India/7-3-2018/cornell_sulbh.pdf">David W. Henderson, “Square Roots in the Śulbasūtra”</a>. The brick-diagonal reading: one prādeśa plus five aṅgulas, less one sesame seed.</li>
+    <li><span class="k">Vedic · secondary</span><a href="https://arxiv.org/pdf/2006.10285">“Kātyāyana Śulvasūtra: Some Observations” (arXiv)</a>. Units, and Thibaut's hypothesis tying the tila to the 1/34.</li>
+    <li><span class="k">Vedic · reconstruction</span><a href="https://personal.math.ubc.ca/~cass/courses/m309-01a/kong/sulbasutra_geometry.htm">Śulbasūtra geometry notes (UBC)</a>. The gnomon derivation of 1/3, 1/12 and 1/408 laid out step by step.</li>
+    <li><span class="k">Chinese · primary</span><a href="https://www.diancang.xyz/xueshuzaji/16970/326387.html">《九章算术》卷第四 少广, with Liu Hui's commentary and annotations</a>. The <span class="zh">开方术</span>, <span class="zh">以面命之</span> and <span class="zh">求其微数</span> in full.</li>
+    <li><span class="k">Chinese · commentary</span><a href="https://zhuanlan.zhihu.com/p/92512514">数的分流(8)——退之弥下，其分弥细</a>. A patient Chinese-language walk through Liu Hui's root extraction and his two kinds of answer.</li>
+  </ul>
+</div></section>
+
+<section><div class="wrap"><div class="finding" style="margin-top:0"><div class="tag">Next at the three tables</div><p><a href="squaring-the-circle.html" style="color:#fff"><b>Experiment 02 · Squaring the Circle · 三家方圆 →</b></a><br>The same three tables, a harder problem. The altar balances, the Greek bounds, the board cuts.</p></div></div></section>
+
+<footer><div class="wrap">
+  <div><strong>Doubling the Square · 三家倍方</strong><br>Three Tables, experiment 01 · one problem put to three mathematical traditions</div>
+  <div>Lin Wei 林威 — conceptual direction<br>with Claude<br>November 2026</div>
+</div></footer>
+
+<script>
+(function(){
+const NS='http://www.w3.org/2000/svg';
+function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;}
+function txt(parent,x,y,s,attrs){const t=el('text',Object.assign({x,y},attrs||{}),parent);t.textContent=s;return t;}
+const C={gr:'#b23a2a',ve:'#b07d00',zh:'#00897b',ink:'#1d1814',ink2:'#3a3029',rule:'#d8cbb6',zhu:'#c8402e',qing:'#2a7d74',paper:'#fbf8f2'};
+function setOn(group,btn){group.forEach(b=>b.classList.toggle('on',b===btn));}
+
+/* ── KaTeX ── */
+function renderTex(){
+  if(!window.katex)return;
+  document.querySelectorAll('[data-tex]').forEach(n=>{
+    try{katex.render(n.dataset.tex,n,{displayMode:n.classList.contains('tex'),throwOnError:false,strict:'ignore',trust:false});}catch(e){}
+  });
+}
+window.addEventListener('load',renderTex);
+
+/* ── Fig 1 · Meno ── */
+(function(){
+  const svg=document.getElementById('menoSvg'),out=document.getElementById('menoOut');
+  const u=60,ox=40,oy=30;
+  const msgs=[
+    'The given square: side <b>2 feet</b>, area <b>4</b>. The task is a square of area <b>8</b>.',
+    'Double the side to <b>4 feet</b>: the area becomes <b>16</b>, four times the original, not twice. ✗',
+    'Split the difference at <b>3 feet</b>: area <b>9</b>. Still more than 8. The boy is stuck. ✗',
+    'Draw the diagonal of each 2-foot square. They close into a tilted square made of <b>four halves of four</b> = <b>8</b>. Its side is the diagonal. ✓'
+  ];
+  function draw(m){
+    svg.innerHTML='';
+    const g=el('g',{transform:`translate(${ox},${oy})`},svg);
+    for(let i=0;i<=4;i++){el('line',{x1:0,y1:i*u,x2:4*u,y2:i*u,stroke:C.rule,'stroke-width':1},g);el('line',{x1:i*u,y1:0,x2:i*u,y2:4*u,stroke:C.rule,'stroke-width':1},g);}
+    if(m===1) el('rect',{x:0,y:0,width:4*u,height:4*u,fill:'rgba(178,58,42,.14)',stroke:C.gr,'stroke-width':2},g);
+    if(m===2) el('rect',{x:0,y:u,width:3*u,height:3*u,fill:'rgba(178,58,42,.14)',stroke:C.gr,'stroke-width':2},g);
+    if(m===3){
+      for(let i=0;i<2;i++)for(let j=0;j<2;j++) el('rect',{x:i*2*u,y:j*2*u,width:2*u,height:2*u,fill:'none',stroke:C.ink2,'stroke-width':1.2},g);
+      el('polygon',{points:`${2*u},0 ${4*u},${2*u} ${2*u},${4*u} 0,${2*u}`,fill:'rgba(178,58,42,.16)',stroke:C.gr,'stroke-width':2.4},g);
+    }
+    el('rect',{x:0,y:2*u,width:2*u,height:2*u,fill:m===0?'rgba(29,24,20,.10)':'rgba(29,24,20,.06)',stroke:C.ink,'stroke-width':2.2},g);
+    if(m===3) el('line',{x1:0,y1:2*u,x2:2*u,y2:4*u,stroke:C.ink,'stroke-width':2.4},g);
+    const lab=['area 4','area 16','area 9','area 8'][m];
+    txt(svg,ox+4*u,oy+4*u+24,lab,{'font-family':'IBM Plex Mono,monospace','font-size':13,'text-anchor':'end',fill:C.ink});
+    txt(svg,ox,oy+4*u+24,'1 cell = 1 sq ft',{'font-family':'IBM Plex Mono,monospace','font-size':11,fill:C.ink2});
+    out.innerHTML=msgs[m];
+  }
+  const btns=[...document.querySelectorAll('#meno [data-m]')];
+  btns.forEach(b=>b.addEventListener('click',()=>{setOn(btns,b);draw(+b.dataset.m);}));
+  draw(0);
+})();
+
+/* ── Greek numerals ── */
+function greek(n){
+  const U=['','α','β','γ','δ','ε','ϛ','ζ','η','θ'],T=['','ι','κ','λ','μ','ν','ξ','ο','π','ϟ'],H=['','ρ','σ','τ','υ','φ','χ','ψ','ω','ϡ'];
+  let s='';const th=Math.floor(n/1000);if(th)s+='͵'+U[th];n%=1000;
+  s+=H[Math.floor(n/100)]+T[Math.floor(n%100/10)]+U[n%10];return s+'ʹ';
+}
+
+/* ── Fig 2 · ladder ── */
+(function(){
+  const tb=document.querySelector('#ladder tbody'),out=document.getElementById('ladOut');
+  const rungs=[];let s=1,d=1;for(let i=0;i<9;i++){rungs.push([s,d]);[s,d]=[s+d,2*s+d];}
+  let shown=0;
+  function row(i){
+    const [s,d]=rungs[i];const tr=document.createElement('tr');if(i===7)tr.className='hit';
+    const pm=d*d-2*s*s;
+    tr.innerHTML=`<td data-l="Rung">${i+1}</td><td data-l="Side · Diam." class="num">${s} · ${d}</td><td data-l="Greek" class="gk">${greek(d)} / ${greek(s)}</td><td data-l="d ÷ s" class="num">${(d/s).toFixed(7)}</td><td data-l="d² − 2s²" class="num">${pm>0?'+1 · over':'−1 · under'}</td>`;
+    tb.appendChild(tr);
+  }
+  function next(){if(shown<9){row(shown);shown++;
+    if(shown===8)out.innerHTML='Rung 8: <b>577 / 408 = 1.4142157</b>, written <span class="el">φοζʹ / υηʹ</span>. Keep this pair in mind for the altar ground.';
+    else if(shown>=2)out.innerHTML=`Rung ${shown}: ${rungs[shown-1][1]}/${rungs[shown-1][0]}. True √2 = 1.4142136. The ladder alternates under, over, under, over.`;}}
+  function reset(){tb.innerHTML='';shown=0;next();next();out.innerHTML='A Greek wrote numbers with letters: α = 1, ι = 10, ρ = 100. So <span class="el">ιζʹ</span> is 17, and <span class="el">φοζʹ</span> is 577.';}
+  document.getElementById('ladNext').onclick=next;
+  document.getElementById('ladAll').onclick=()=>{while(shown<9)next();};
+  document.getElementById('ladReset').onclick=reset;
+  reset();
+})();
+
+/* ── Fig 3 · cord in angulas ── */
+(function(){
+  const svg=document.getElementById('cordSvg'),out=document.getElementById('cordOut');
+  const L=18,x0=14,sc=17;   // 18 angulas across, 17px each
+  const msgs=[
+    'The side of a <i>prādeśa</i> brick: <b>12 aṅgulas</b>, twelve fingers.',
+    'Increase the measure by its third: 12 + 4 = <b>16 aṅgulas</b>.',
+    'Increase that third by its own fourth: 4 ÷ 4 = 1, so 16 + 1 = <b>17 aṅgulas</b>.',
+    'Less the thirty-fourth part of that fourth: 1 ÷ 34 aṅgula, exactly <b>one tila</b>. The cord: <b>17 aṅgulas less one sesame seed</b> = 16.970588… The true diagonal is 16.970563…, shorter by under a thousandth of a seed.'
+  ];
+  function draw(c){
+    svg.innerHTML='';
+    const yb=58;
+    for(let i=0;i<=L;i++){const x=x0+i*sc;el('line',{x1:x,y1:yb-(i%4===0?14:8),x2:x,y2:yb,stroke:C.ink2,'stroke-width':i%4===0?1.4:.8},svg);
+      if(i%4===0)txt(svg,x,yb-18,String(i),{'font-family':'IBM Plex Mono,monospace','font-size':10,'text-anchor':'middle',fill:C.ink2});}
+    el('line',{x1:x0,y1:yb,x2:x0+L*sc,y2:yb,stroke:C.ink2,'stroke-width':1},svg);
+    txt(svg,x0+L*sc,yb-30,'aṅgula',{'font-family':'IBM Plex Mono,monospace','font-size':10,'text-anchor':'end',fill:C.ink2});
+    const segs=[[0,12,'#1d1814','pramāṇa 12','middle',6],[12,16,C.ve,'+⅓ → 16','middle',14],[16,17,'#d29a1e','+1 → 17','end',17]];
+    const y=78;
+    segs.slice(0,Math.min(c+1,3)).forEach((s,i)=>{
+      el('rect',{x:x0+s[0]*sc,y:y,width:(s[1]-s[0])*sc,height:12,fill:s[2],rx:2},svg);
+      txt(svg,x0+s[5]*sc,y+28+(i===2?14:0),s[3],{'font-family':'IBM Plex Mono,monospace','font-size':10,'text-anchor':s[4],fill:C.ink});
+    });
+    if(c>=3){
+      // magnifier on the last angula
+      const mx=x0+16*sc, my=78;
+      el('rect',{x:mx,y:my-3,width:sc,height:18,fill:'none',stroke:C.gr,'stroke-width':1.4},svg);
+      const bx=96,by=148,bw=228,bh=52;
+      el('line',{x1:mx,y1:my+15,x2:bx,y2:by,stroke:C.gr,'stroke-width':.8},svg);
+      el('line',{x1:mx+sc,y1:my+15,x2:bx+bw,y2:by,stroke:C.gr,'stroke-width':.8},svg);
+      el('rect',{x:bx,y:by,width:bw,height:bh,fill:'#fffdf8',stroke:C.gr,'stroke-width':1.2},svg);
+      const sw=bw/34;
+      for(let k=0;k<34;k++){
+        const cx=bx+sw*(k+.5),cy=by+20;
+        const e=el('ellipse',{cx,cy,rx:sw*.42,ry:6.5,fill:k===33?'none':'#d9c39a',stroke:k===33?C.gr:'#8a6b3a','stroke-width':k===33?1.2:.6,'stroke-dasharray':k===33?'2 2':''},svg);
+      }
+      txt(svg,bx+6,by+46,'34 tila = 1 aṅgula · one seed removed',{'font-family':'IBM Plex Mono,monospace','font-size':9.5,fill:C.ink});
+    } else {
+      txt(svg,x0,150,'1 aṅgula ≈ a finger’s breadth · 12 aṅgula = 1 prādeśa',{'font-family':'IBM Plex Mono,monospace','font-size':10,fill:C.ink2});
+    }
+    out.innerHTML=msgs[c];
+  }
+  const btns=[...document.querySelectorAll('#cordFig [data-c]')];
+  btns.forEach(b=>b.addEventListener('click',()=>{setOn(btns,b);draw(+b.dataset.c);}));
+  draw(0);
+})();
+
+/* ── Fig 4 · gnomon reconstruction ── */
+(function(){
+  const svg=document.getElementById('gnoSvg'),out=document.getElementById('gnoOut');
+  const U=150, ox=20, oy=250; // y up from oy
+  const A='rgba(29,24,20,.10)', B='rgba(176,125,0,.30)', B2='rgba(176,125,0,.55)';
+  const R=(x,y,w,h,f,st)=>el('rect',{x:ox+x*U,y:oy-(y+h)*U,width:w*U,height:h*U,fill:f,stroke:st||C.ink,'stroke-width':1},svg);
+  const steps=[
+    ['Two equal squares, A and B. We want one square holding both.',()=>{R(0,0,1,1,A);R(1.05,0,1,1,B);lbl(0.5,0.5,'A');lbl(1.55,0.5,'B');}],
+    ['Cut B into three strips, each a third wide.',()=>{R(0,0,1,1,A);for(let i=0;i<3;i++)R(1.05+i/3*1.0,0,1/3,1,B);}],
+    ['Lay two strips along two sides of A. The side is now 1 + ⅓, with a small square missing at the corner.',()=>{R(0,0,1,1,A);R(1,0,1/3,1,B);R(0,1,1,1/3,B);R(1.45,0,1/3,1,B);dash(1,1,1/3,1/3);}],
+    ['Cut the third strip into three little squares. One fills the corner. Two are left over, area 2/9.',()=>{R(0,0,1,1,A);R(1,0,1/3,1,B);R(0,1,1,1/3,B);R(1,1,1/3,1/3,B2);R(1.5,0,1/3,1/3,B2);R(1.5,0.4,1/3,1/3,B2);}],
+    ['Slice the two leftovers into eight strips, each 1/12 wide, and wrap them round as a thin band. Side: 1 + ⅓ + 1/12 = 17/12. A tiny corner of (1/12)², that is 1/144, is still missing.',()=>{R(0,0,1,1,A);R(1,0,1/3,1,B);R(0,1,1,1/3,B);R(1,1,1/3,1/3,B2);const s=4/3,t=1/12;R(s,0,t,s,'rgba(176,125,0,.75)');R(0,s,s,t,'rgba(176,125,0,.75)');dash(s,s,t,t);}],
+    ['The 17/12 square is too big by that 1/144. Shave a strip of width x from two sides, so that 2·(17/12)·x = 1/144, which gives x = 1/408. Side: 17/12 − 1/408 = 577/408, saviśeṣa.',()=>{R(0,0,1,1,A);R(1,0,1/3,1,B);R(0,1,1,1/3,B);R(1,1,1/3,1/3,B2);const s=4/3,t=1/12;R(s,0,t,s,'rgba(176,125,0,.75)');R(0,s,s,t,'rgba(176,125,0,.75)');      const S=17/12,x=0.04; // exaggerated for visibility
+      el('rect',{x:ox+(S-x)*U,y:oy-S*U,width:x*U,height:S*U,fill:'rgba(178,58,42,.35)',stroke:'none'},svg);
+      el('rect',{x:ox,y:oy-S*U,width:S*U,height:x*U,fill:'rgba(178,58,42,.35)',stroke:'none'},svg);
+      txt(svg,ox+S*U-4,oy-S*U-6,'shave x (drawn ×16)',{'font-family':'IBM Plex Mono,monospace','font-size':10,'text-anchor':'end',fill:C.gr});}]
+  ];
+  function lbl(x,y,s){txt(svg,ox+x*U,oy-y*U+6,s,{'font-family':'EB Garamond,serif','font-size':20,'text-anchor':'middle',fill:C.ink});}
+  function dash(x,y,w,h){el('rect',{x:ox+x*U,y:oy-(y+h)*U,width:w*U,height:h*U,fill:'none',stroke:C.gr,'stroke-width':1.2,'stroke-dasharray':'3 2'},svg);}
+  let i=0;
+  function draw(){svg.innerHTML='';steps[i][1]();out.innerHTML=`<b>Step ${i+1} of ${steps.length}.</b> ${steps[i][0]}`;}
+  document.getElementById('gnoNext').onclick=()=>{i=Math.min(steps.length-1,i+1);draw();};
+  document.getElementById('gnoPrev').onclick=()=>{i=Math.max(0,i-1);draw();};
+  draw();
+})();
+
+/* ── Fig 5 · 出入相补 ── */
+(function(){
+  const svg=document.getElementById('cxSvg'),out=document.getElementById('cxOut');
+  // math coords y-up → svg: flip y
+  const P=(x,y)=>[x,-y+1];
+  const S=[ // right-angle vertex, leg u, leg v, colour
+    {p:[1,0],u:[-1,0],v:[0,-1],c:C.zhu},
+    {p:[0,-1],u:[0,1],v:[1,0],c:C.zhu},
+    {p:[0,1],u:[0,-1],v:[-1,0],c:C.qing},
+    {p:[-1,0],u:[1,0],v:[0,1],c:C.qing}];
+  const T=[{p:[1,1],u:[1,0],v:[0,-1]},{p:[1,1],u:[-1,0],v:[0,-1]},{p:[1,1],u:[-1,0],v:[0,1]},{p:[1,1],u:[1,0],v:[0,1]}];
+  const map=[3,0,1,2];
+  const cross=(a,b)=>a[0]*b[1]-a[1]*b[0];
+  const ang=a=>Math.atan2(a[1],a[0]);
+  const plan=S.map((s,i)=>{let t=Object.assign({},T[map[i]]);if(Math.sign(cross(s.u,s.v))!==Math.sign(cross(t.u,t.v))){t={p:t.p,u:t.v,v:t.u};}
+    let a0=ang(s.u),a1=ang(t.u);let d=a1-a0;while(d>Math.PI)d-=2*Math.PI;while(d<-Math.PI)d+=2*Math.PI;
+    return{s,t,a0,d,sg:Math.sign(cross(s.u,s.v))};});
+  // static frame
+  const fr=el('g',{},svg);
+  const line=(a,b,st,w,da)=>{const A=P(...a),B=P(...b);el('line',{x1:A[0],y1:A[1],x2:B[0],y2:B[1],stroke:st,'stroke-width':w,'stroke-dasharray':da||''},fr);};
+  // hypotenuse square outline
+  [[1,0],[2,1],[1,2],[0,1]].forEach((q,i,arr)=>line(q,arr[(i+1)%4],C.ink2,.02,'.05 .04'));
+  line([0,0],[1,0],C.ink,.035);line([0,0],[0,1],C.ink,.035);line([1,0],[0,1],C.ink,.045);
+  const tri=[];plan.forEach(()=>tri.push(el('polygon',{stroke:'#fbf8f2','stroke-width':.025,'fill-opacity':.85},svg)));
+  const labs=el('g',{'font-family':'Noto Serif SC,serif','font-size':.2,fill:C.ink},svg);
+  const L=(x,y,s)=>{const q=P(x,y);const t=el('text',{x:q[0],y:q[1],'text-anchor':'middle'},labs);t.textContent=s;};
+  L(.5,.08,'勾');L(-.1,.45,'股');L(.62,.55,'弦');
+  function place(k){plan.forEach((pl,i)=>{
+    const p=[pl.s.p[0]+(pl.t.p[0]-pl.s.p[0])*k,pl.s.p[1]+(pl.t.p[1]-pl.s.p[1])*k];
+    const a=pl.a0+pl.d*k;const u=[Math.cos(a),Math.sin(a)];const v=pl.sg>0?[-u[1],u[0]]:[u[1],-u[0]];
+    const pts=[p,[p[0]+u[0],p[1]+u[1]],[p[0]+v[0],p[1]+v[1]]].map(q=>P(...q).join(',')).join(' ');
+    tri[i].setAttribute('points',pts);tri[i].setAttribute('fill',pl.s.c);});}
+  let k=0,anim=null;
+  function go(to){cancelAnimationFrame(anim);const k0=k,t0=performance.now();
+    (function f(t){const r=Math.min(1,(t-t0)/1100);const e=r<.5?2*r*r:1-Math.pow(-2*r+2,2)/2;k=k0+(to-k0)*e;place(k);if(r<1)anim=requestAnimationFrame(f);
+      else out.innerHTML=to?'弦方 = 2. The two squares, moved out and in, exactly fill the square on the hypotenuse. <span class="zh">合成弦方之幂</span>.':'朱方 1 + 青方 1. Four half-squares, cut on the diagonal.';})(t0);}
+  document.getElementById('cxGo').onclick=()=>go(1);
+  document.getElementById('cxBack').onclick=()=>go(0);
+  place(0);
+})();
+
+/* ── Fig 6 · rod board ── */
+(function(){
+  const board=document.getElementById('rodBoard'),out=document.getElementById('rodOut');
+  const CN='〇一二三四五六七八九';
+  function rods(numStr){ // returns svg of rod numerals, alternating 纵/横 from the right
+    const w=17,h=30,n=numStr.length;const svg=el('svg',{viewBox:`0 0 ${Math.max(n,1)*w} ${h}`,width:Math.max(n,1)*w,height:h});
+    for(let i=0;i<n;i++){
+      const d=+numStr[i];const pos=n-1-i;const vert=pos%2===0;const x=i*w;const g=el('g',{stroke:'#2b241c','stroke-width':2.1,'stroke-linecap':'round'},svg);
+      el('rect',{x:x+1,y:1,width:w-2,height:h-2,fill:'none',stroke:'rgba(0,0,0,.08)','stroke-width':1},svg);
+      if(d===0)continue;
+      const five=d>=6,r=five?d-5:d;
+      if(vert){ // 纵式
+        const top=five?10:5;
+        if(five)el('line',{x1:x+3,y1:6,x2:x+w-3,y2:6},g);
+        const sp=(w-6)/Math.max(r,1);for(let k=0;k<r;k++){const xx=x+3+sp*(k+.5);el('line',{x1:xx,y1:top,x2:xx,y2:h-5},g);}
+      } else { // 横式
+        if(five)el('line',{x1:x+w/2,y1:4,x2:x+w/2,y2:12},g);
+        const y0=five?14:6,sp=(h-y0-4)/Math.max(r,1);for(let k=0;k<r;k++){const yy=y0+sp*(k+.5);el('line',{x1:x+3,y1:yy,x2:x+w-3,y2:yy},g);}
+      }
+    }
+    return svg;
+  }
+  const UN=['尺','寸','分','厘','毫'];
+  let a=0n,R=2n,step=0;const digits=[];let lastB=null;
+  function reading(){
+    let s='';digits.forEach((d,i)=>{if(i<5){if(d)s+=CN[d]+UN[i];}else{const den=['十','百','千','万','十万'][i-5]||'';if(d)s+=`，${den}分毫之${CN[d]}`;}});return s||'—';
+  }
+  function row(lab,str,hi){const r=document.createElement('div');r.className='board-row';const l=document.createElement('div');l.className='lab';l.textContent=lab;r.appendChild(l);const s=rods(str);if(hi)s.style.filter='drop-shadow(0 0 0 #000)';r.appendChild(s);return r;}
+  function render(){
+    board.innerHTML='';
+    board.appendChild(row('商',digits.length?digits.join(''):'0'));
+    board.appendChild(row('实',R.toString()));
+    board.appendChild(row('定法',(2n*a).toString()));
+    board.appendChild(row('议',lastB===null?'0':String(lastB)));
+    const dec=digits.length?(digits[0]+(digits.length>1?'.'+digits.slice(1).join(''):'')):'—';
+    out.innerHTML= step===0? 'Place 2 as the <span class="zh">实</span> (the area, 2 square <i>chi</i>). Press <span class="zh">议</span> to estimate the first digit.'
+      : `<b>${dec}</b> · <span class="zh">${reading()}</span>${step>=6?'<br><span class="note">Past the <span class="zh">毫</span> the units run out, so each further digit becomes a numerator over ten, a hundred, a thousand: Liu Hui’s <span class="zh">微数</span>.</span>':''}${step>=8?'<br>The <span class="zh">实</span> never empties. <span class="zh">开之不尽</span>, the procedure could go on forever.':''}`;
+  }
+  function next(){
+    if(step>=10)return;
+    if(step>0)R=R*100n;
+    let b=9n;while((20n*a+b)*b>R)b--;
+    R-= (20n*a+b)*b; a=a*10n+b; digits.push(Number(b)); lastB=Number(b); step++; render();
+  }
+  function reset(){a=0n;R=2n;step=0;digits.length=0;lastB=null;render();}
+  document.getElementById('rodNext').onclick=next;
+  document.getElementById('rodReset').onclick=reset;
+  reset();
+})();
+
+/* ── Fig 7 · convergence chart ── */
+(function(){
+  const svg=document.getElementById('chart'),tip=document.getElementById('tip'),wrap=document.getElementById('chartWrap');
+  const SQ=1.4142135623730951;
+  const cd=e=>Math.min(16,-Math.log10(Math.abs(e)));
+  const series=[];
+  {let s=1,d=1;const pts=[];for(let i=1;i<=10;i++){pts.push({x:i,y:cd(d/s-SQ),lab:`rung ${i}: ${d}/${s}`});[s,d]=[s+d,2*s+d];}series.push({n:'Greek ladder',c:C.gr,pts});}
+  {const fr=[[3,2],[17,12],[577,408],[665857,470832]];series.push({n:'Śulba / Heron',c:C.ve,pts:fr.map((f,i)=>({x:i+1,y:cd(f[0]/f[1]-SQ),lab:`step ${i+1}: ${f[0]}/${f[1]}`+(i===2?' · Śulba rule':'')}))});}
+  {const ds='14142135623';const pts=[];for(let k=1;k<=10;k++){const v=+(ds[0]+'.'+ds.slice(1,k));pts.push({x:k,y:cd(v-SQ),lab:`pass ${k}: ${ds[0]}.${ds.slice(1,k)}`});}series.push({n:'开方术 rods',c:C.zh,pts});}
+  const W=340,H=230,m={l:34,r:12,t:12,b:34};
+  const X=x=>m.l+(x-1)/(10-1)*(W-m.l-m.r), Y=y=>H-m.b-(y/12)*(H-m.t-m.b);
+  for(let y=0;y<=12;y+=3){el('line',{x1:m.l,y1:Y(y),x2:W-m.r,y2:Y(y),stroke:'#e4d9c6','stroke-width':1},svg);txt(svg,m.l-6,Y(y)+3.5,String(y),{'font-family':'IBM Plex Mono,monospace','font-size':10,'text-anchor':'end',fill:C.ink2});}
+  for(let x=1;x<=10;x++)txt(svg,X(x),H-m.b+15,String(x),{'font-family':'IBM Plex Mono,monospace','font-size':10,'text-anchor':'middle',fill:C.ink2});
+  txt(svg,W-m.r,H-4,'step →',{'font-family':'IBM Plex Mono,monospace','font-size':10,'text-anchor':'end',fill:C.ink2});
+  txt(svg,m.l,m.t-2+8,'correct places',{'font-family':'IBM Plex Mono,monospace','font-size':10,fill:C.ink2,dx:4});
+  series.forEach(s=>{
+    const vis=s.pts.filter(p=>p.y<=12.5);
+    el('polyline',{points:vis.map(p=>X(p.x)+','+Y(p.y)).join(' '),fill:'none',stroke:s.c,'stroke-width':2,'stroke-linejoin':'round'},svg);
+    vis.forEach(p=>{
+      const dot=el('circle',{cx:X(p.x),cy:Y(p.y),r:4.5,fill:s.c,stroke:'#fbf8f2','stroke-width':2},svg);
+      const hit=el('circle',{cx:X(p.x),cy:Y(p.y),r:12,fill:'transparent',style:'cursor:pointer'},svg);
+      const show=()=>{const r=wrap.getBoundingClientRect(),k=r.width/W;tip.innerHTML=`${s.n}<br>${p.lab}<br>${p.y.toFixed(1)} correct places`;tip.style.left=Math.min(r.width-170,Math.max(0,X(p.x)*k-60))+'px';tip.style.top=Math.max(0,Y(p.y)*k-64)+'px';tip.style.opacity=1;};
+      hit.addEventListener('mouseenter',show);hit.addEventListener('click',show);hit.addEventListener('mouseleave',()=>tip.style.opacity=0);
+    });
+  });
+  // annotate 577/408
+  const v=series[1].pts[2];
+  txt(svg,X(v.x)+8,Y(v.y)-8,'577/408',{'font-family':'IBM Plex Mono,monospace','font-size':10,fill:C.ink});
+  // table
+  let h='<table><tr><th>step</th>'+series.map(s=>`<th>${s.n}</th>`).join('')+'</tr>';
+  for(let i=1;i<=10;i++){h+=`<tr><td>${i}</td>`+series.map(s=>{const p=s.pts.find(q=>q.x===i);return `<td>${p?p.y.toFixed(1):'—'}</td>`;}).join('')+'</tr>';}
+  document.getElementById('chartTbl').innerHTML=h+'</table>';
+})();
+})();
+</script>
+<script data-goatcounter="https://linwei.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

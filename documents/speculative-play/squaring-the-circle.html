@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Squaring the Circle · 三家方圆 — Śulba, Greek, 算學</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600&family=Tiro+Devanagari+Sanskrit:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<style>
+:root{
+  --paper:#f5f0e6; --paper2:#ece4d4; --card:#fbf8f2;
+  --ink:#1d1814; --ink2:#3a3029; --rule:#d8cbb6; --rule2:#b9a88e;
+  /* the three tables — validated categorical trio */
+  --gr:#b23a2a;  --gr-t:#8a2a1d;  --gr-w:rgba(178,58,42,.08);
+  --ve:#b07d00;  --ve-t:#7a5600;  --ve-w:rgba(176,125,0,.09);
+  --zh:#00897b;  --zh-t:#00665c;  --zh-w:rgba(0,137,123,.08);
+  --zhu:#c8402e; --qing:#2a7d74; --huang:#d6a51f;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --serif:'EB Garamond','GFS Didot','Noto Serif',Georgia,serif;
+  --sc:'Noto Serif SC','Songti SC','STSong',serif;
+  --deva:'Tiro Devanagari Sanskrit','Noto Serif Devanagari',serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:19px;line-height:1.62;overflow-x:hidden}
+img,svg{max-width:100%;display:block}
+a{color:inherit}
+.wrap{width:min(760px,calc(100% - 36px));margin-inline:auto}
+.zh{font-family:var(--sc)} .dv{font-family:var(--deva)} .el{font-family:var(--serif)}
+em,i{font-style:italic}
+
+/* top strip */
+.top{border-bottom:1px solid var(--rule);background:var(--paper)}
+.top .wrap{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;padding:11px 0;font-family:var(--mono);font-size:11.5px;letter-spacing:.04em}
+.top a{text-decoration:none;color:var(--ink2)} .top a:hover{text-decoration:underline}
+.top .sp{flex:1}
+
+/* hero */
+.hero{padding:44px 0 34px;border-bottom:1px solid var(--rule)}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
+h1{font-weight:500;font-size:clamp(44px,11vw,84px);line-height:.95;letter-spacing:-.01em;margin:14px 0 6px}
+h1 .zh{display:block;font-weight:600;font-size:.46em;letter-spacing:.18em;margin-top:12px;color:var(--ink2)}
+.deck{font-size:21px;font-style:italic;line-height:1.5;margin-top:18px;color:var(--ink)}
+.tri-words{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:20px;font-size:17px}
+.tri-words span{padding:3px 10px;border:1px solid var(--rule2);border-radius:2px;background:var(--card)}
+.tri-words .g{border-color:var(--gr);color:var(--gr-t)} .tri-words .v{border-color:var(--ve);color:var(--ve-t)} .tri-words .c{border-color:var(--zh);color:var(--zh-t)}
+.hero-fig{margin:30px auto 0;max-width:420px}
+
+/* sections */
+section{padding:46px 0 10px}
+.sec-head{display:flex;gap:14px;align-items:baseline;border-top:2px solid var(--ink);padding-top:12px;margin-bottom:22px}
+.sec-num{font-family:var(--mono);font-size:12px;letter-spacing:.12em}
+h2{font-weight:500;font-size:clamp(30px,6.4vw,42px);line-height:1.1}
+h2 small{display:block;font-size:.5em;font-style:italic;color:var(--ink2);margin-top:6px;font-weight:400}
+h3{font-weight:600;font-size:23px;line-height:1.25;margin:32px 0 10px}
+p{margin:0 0 16px}
+.lead::first-letter{float:left;font-size:4.1em;line-height:.82;padding:6px 10px 0 0;font-weight:500}
+.sec-g .sec-head{border-color:var(--gr)} .sec-v .sec-head{border-color:var(--ve)} .sec-c .sec-head{border-color:var(--zh)}
+.sec-g h2{color:var(--gr-t)} .sec-v h2{color:var(--ve-t)} .sec-c h2{color:var(--zh-t)}
+.where{font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--ink2);margin:-8px 0 20px}
+
+/* result cards */
+.verdicts{display:grid;gap:14px;margin:8px 0 24px}
+.vcard{background:var(--card);border:1px solid var(--rule);border-left:5px solid;padding:16px 18px 14px}
+.vcard.g{border-left-color:var(--gr)} .vcard.v{border-left-color:var(--ve)} .vcard.c{border-left-color:var(--zh)}
+.vcard .tag{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.vcard.g .tag{color:var(--gr-t)} .vcard.v .tag{color:var(--ve-t)} .vcard.c .tag{color:var(--zh-t)}
+.vcard .says{font-size:23px;line-height:1.3;margin:8px 0 8px}
+.vcard p{font-size:17px;margin:0}
+.finding{background:var(--ink);color:#f5f0e6;padding:22px 22px 8px;margin:10px 0 18px}
+.finding .tag{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#e9d9b8;margin-bottom:10px}
+.finding p{font-size:18.5px}
+.finding b{font-weight:600;color:#fff}
+
+/* quotes: native text blocks */
+.native{margin:22px 0;padding:18px 18px 14px;background:var(--card);border:1px solid var(--rule);position:relative}
+.native::before,.native::after{content:"";position:absolute;width:12px;height:12px;border:2px solid var(--rule2)}
+.native::before{top:-2px;left:-2px;border-right:0;border-bottom:0}
+.native::after{bottom:-2px;right:-2px;border-left:0;border-top:0}
+.native .src{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);margin-bottom:10px}
+.native .orig{font-size:22px;line-height:1.55}
+.native .orig.zh{font-size:21px;letter-spacing:.04em;line-height:1.85}
+.native .orig.dv{font-size:23px;line-height:1.7}
+.native .translit{font-style:italic;font-size:17px;color:var(--ink2);margin-top:6px}
+.native .tr{font-size:17.5px;border-top:1px dotted var(--rule2);margin-top:10px;padding-top:10px}
+.sec-g .native{border-top:3px solid var(--gr)} .sec-v .native{border-top:3px solid var(--ve)} .sec-c .native{border-top:3px solid var(--zh)}
+.composed{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--ink2);margin-top:8px}
+
+/* gloss */
+.gloss{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:16.5px;margin:12px 0 4px}
+.gloss dt{font-style:italic;font-weight:500;color:var(--ve-t)}
+.gloss dd{margin:0}
+
+/* interactive figures */
+.fig{margin:24px 0 26px;background:var(--card);border:1px solid var(--rule);padding:14px 14px 12px}
+.fig-cap{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);margin-bottom:10px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.fig svg{width:100%;height:auto;touch-action:manipulation}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.btn{font-family:var(--mono);font-size:12px;letter-spacing:.03em;padding:8px 12px;border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer;border-radius:2px;min-height:38px}
+.btn:hover{background:var(--ink);color:var(--paper)}
+.btn.on{background:var(--ink);color:var(--paper)}
+.readout{font-size:17.5px;margin-top:12px;min-height:3.2em;border-top:1px dotted var(--rule2);padding-top:10px}
+.readout b{font-weight:600}
+.readout .zh{font-size:18px}
+
+/* ladder table → cards on phone */
+.ladder{width:100%;border-collapse:collapse;font-size:16.5px;margin-top:6px}
+.ladder th{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;text-align:left;color:var(--ink2);border-bottom:1px solid var(--ink);padding:6px 6px}
+.ladder td{border-bottom:1px solid var(--rule);padding:6px 6px;vertical-align:top}
+.ladder .gk{font-size:19px;color:var(--gr-t)}
+.ladder tr.hit td{background:var(--ve-w)}
+.ladder tr.hit td:first-child{box-shadow:inset 4px 0 0 var(--ve)}
+.ladder .num{font-variant-numeric:tabular-nums}
+@media (max-width:520px){
+  .ladder thead{display:none}
+  .ladder,.ladder tbody,.ladder tr,.ladder td{display:block;width:100%}
+  .ladder tr{border-bottom:1px solid var(--rule);padding:8px 0;display:grid;grid-template-columns:1fr 1fr;gap:4px 10px}
+  .ladder td{border:0;padding:1px 4px;display:block}
+  .ladder td:first-child{grid-column:1 / -1;font-weight:600}
+  .ladder td::before{content:attr(data-l);display:block;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);font-weight:400}
+}
+
+/* rod board */
+.board{background:#efe5cf;border:1px solid var(--rule2);padding:10px 8px;overflow:hidden}
+.board-row{display:grid;grid-template-columns:44px 1fr;align-items:center;gap:6px;min-height:40px;border-bottom:1px dashed rgba(0,0,0,.12)}
+.board-row:last-child{border-bottom:0}
+.board-row .lab{font-family:var(--sc);font-size:17px;text-align:center;color:var(--ink2)}
+.board-row svg{height:34px;width:auto;max-width:100%;justify-self:end}
+
+/* plates */
+.plate{position:relative;margin:24px 0;padding:22px 18px 16px;background:linear-gradient(180deg,#fbf8f2,#f3ecdf);border:1px solid var(--rule)}
+.plate .ptag{position:absolute;top:-11px;left:14px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:3px 8px}
+.plate i.tk{position:absolute;width:14px;height:14px;border:2px solid var(--c,var(--rule2))}
+.plate i.tl{top:6px;left:6px;border-right:0;border-bottom:0} .plate i.tr{top:6px;right:6px;border-left:0;border-bottom:0}
+.plate i.bl{bottom:6px;left:6px;border-right:0;border-top:0} .plate i.br{bottom:6px;right:6px;border-left:0;border-top:0}
+.plate.g{--c:var(--gr)} .plate.v{--c:var(--ve)} .plate.c{--c:var(--zh)} .plate.k{--c:var(--ink)}
+.tex{font-family:var(--mono);font-size:15px;text-align:center;margin:10px 0;overflow-x:auto;overflow-y:hidden;padding:4px 0}
+.tex .katex{font-size:1.18em}
+.itex{font-family:var(--mono);font-size:.86em}
+.read{border-top:2px solid var(--c,var(--rule2));margin-top:12px;padding-top:9px;font-size:16.5px}
+.read b{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;display:block;margin-bottom:3px}
+
+/* chart */
+.chart-wrap{position:relative}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:11.5px;line-height:1.45;padding:7px 9px;border-radius:2px;opacity:0;transition:opacity .12s;max-width:230px;z-index:3}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-family:var(--mono);font-size:11.5px;margin:4px 0 8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:50%;display:inline-block}
+details.tbl{margin-top:10px;font-size:15.5px}
+details.tbl summary{font-family:var(--mono);font-size:11.5px;cursor:pointer;color:var(--ink2)}
+details.tbl table{border-collapse:collapse;margin-top:8px;width:100%}
+details.tbl td,details.tbl th{border-bottom:1px solid var(--rule);padding:4px 5px;text-align:left;font-variant-numeric:tabular-nums}
+details.tbl th{font-family:var(--mono);font-size:10.5px;font-weight:500;text-transform:uppercase}
+
+/* dialogue */
+.dialogue{margin:18px 0}
+.line{display:grid;grid-template-columns:92px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--rule)}
+.line .who{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding-top:5px}
+.line.g .who{color:var(--gr-t)} .line.v .who{color:var(--ve-t)} .line.c .who{color:var(--zh-t)}
+.line p{margin:0;font-size:18px}
+@media (max-width:460px){.line{grid-template-columns:1fr;gap:2px}}
+
+/* coda fence */
+.fence{margin:30px 0 10px;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);padding:6px 0}
+.fence .fl{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;text-align:center;color:var(--ink2)}
+.coda{font-size:20px;line-height:1.6}
+.coda p{margin-bottom:18px}
+.verbs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:20px 0}
+.verbs div{text-align:center;padding:14px 6px;border:1px solid var(--rule2);background:var(--card)}
+.verbs b{display:block;font-size:26px;font-weight:500}
+.verbs span{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase}
+.verbs .g b{color:var(--gr-t)} .verbs .v b{color:var(--ve-t)} .verbs .c b{color:var(--zh-t)}
+
+/* further */
+.further{list-style:none;margin:10px 0 0}
+.further li{padding:10px 0;border-bottom:1px solid var(--rule);font-size:17px}
+.further li .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);display:block}
+.further a{text-decoration-color:var(--rule2);text-underline-offset:3px}
+
+footer{margin-top:50px;border-top:2px solid var(--ink);padding:20px 0 50px;font-size:15px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
+footer strong{font-weight:600}
+
+.note{font-size:15.5px;color:var(--ink2);font-style:italic}
+.hl-g{color:var(--gr-t);font-weight:500} .hl-v{color:var(--ve-t);font-weight:500} .hl-c{color:var(--zh-t);font-weight:500}
+@media (max-width:520px){ body{font-size:18px} .deck{font-size:19px} .native .orig{font-size:20px} .vcard .says{font-size:21px} .verbs b{font-size:21px} }
+
+.slab{font-family:var(--mono);font-size:12px;display:flex;align-items:center;gap:10px;flex:1}
+.slab input{flex:1;accent-color:#1d1814;min-width:120px}
+.sval{font-family:var(--mono);font-size:12px;align-self:center;min-width:28px}
+.trip{margin-top:12px}
+</style>
+</head>
+<body>
+
+<nav class="top"><div class="wrap">
+  <a href="../../index.html">↑ The Polymathic Learner</a>
+  <span>I · Speculative &amp; Play · 06 · Three Tables 02</span>
+  <span class="sp"></span>
+  <a href="#result">Result</a><a href="#altar">Altar</a><a href="#syracuse">Syracuse</a><a href="#board">Board</a><a href="#maths">Maths</a>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <div class="eyebrow">Three Tables · experiment 02 · one problem, three traditions</div>
+  <h1>Squaring<br>the Circle<span class="zh">三家方圆</span></h1>
+  <p class="deck">The same three tables, a harder problem. Here is a circle; make a square of exactly the same area. The Vedic builder needs it for an altar, the Greek wants it as a proof, the Chinese calculator wants the field measured. None of them can do it exactly, and each finds a different way to live with that.</p>
+  <div class="tri-words">
+    <span class="g el">τετραγωνισμός</span>
+    <span class="v dv">मण्डलं चतुरश्रं</span>
+    <span class="c zh">割圆</span>
+  </div>
+  <svg class="hero-fig" viewBox="0 0 400 260" aria-label="A circle and a square of equal area">
+    <g transform="translate(200,130)">
+      <circle r="98" fill="rgba(0,137,123,.10)" stroke="#1d1814" stroke-width="1.6"/>
+      <rect x="-86.85" y="-86.85" width="173.7" height="173.7" fill="rgba(176,125,0,.10)" stroke="#1d1814" stroke-width="1.6" stroke-dasharray="5 4"/>
+      <polygon points="98,0 49,84.9 -49,84.9 -98,0 -49,-84.9 49,-84.9" fill="none" stroke="#b23a2a" stroke-width="1.3"/>
+      <circle r="3.5" fill="#1d1814"/>
+      <text x="0" y="122" font-family="IBM Plex Mono,monospace" font-size="11" fill="#3a3029" text-anchor="middle">circle = square · same area · side ≈ 0.8862 × diameter</text>
+    </g>
+  </svg>
+</div></header>
+
+<!-- ══ 0 RESULT ══ -->
+<section id="result"><div class="wrap">
+  <div class="sec-head"><span class="sec-num">00</span><h2>The result<small>outcome first, the story after</small></h2></div>
+
+  <p>The problem: <b>here is a circle; make a square with exactly its area.</b> Today we know the side must be <span class="itex" data-tex="\tfrac{\sqrt{\pi}}{2}\,d">(√π/2)·d</span>, and that since 1882 no ruler-and-compass construction can produce it. None of our three tables had that verdict. Each still had to answer, and each answered in its own way.</p>
+
+  <div class="verdicts">
+    <div class="vcard v">
+      <div class="tag">Altar ground · Baudhāyana Śulbasūtra I.58–60 · 1st millennium BCE</div>
+      <div class="says">Two rules, circle to square and square to circle, that agree with each other to five places.</div>
+      <p>The round household altar and the square offering altar must have the same area. The sūtra gives a cord recipe each way, and never names a ratio like π. The two recipes are near-perfect inverses, so a circle built from a square and squared again returns almost exactly. The circle they build is about 1.7% too large.</p>
+    </div>
+    <div class="vcard g">
+      <div class="tag">Syracuse · Archimedes, Measurement of a Circle · c. 250 BCE</div>
+      <div class="says">A circle equals a triangle, and its ratio lies between <span class="el">γ ιʹ/οαʹ</span> and <span class="el">γ ζʹ</span>.</div>
+      <p>The square itself stays out of reach. Archimedes proves the circle equal to a right triangle (radius × circumference) and then traps the ratio between two fractions using 96-sided polygons: 223/71 below, 22/7 above. The answer is a proved interval.</p>
+    </div>
+    <div class="vcard c">
+      <div class="tag">Counting board · 九章 圆田术 · 刘徽 割圆术, 263 CE · 祖冲之, 5th c.</div>
+      <div class="says"><span class="zh">割之弥细，所失弥少</span>: cut finer, lose less, and the number arrives.</div>
+      <p>The Nine Chapters already say the circle's area is half the circumference times half the diameter. Liu Hui then cuts the circle from 6 to 192 sides with nothing but the 勾股 rule, reaching 3.14 and later 3.1416. Two centuries on, 祖冲之 pins it between 3.1415926 and 3.1415927.</p>
+    </div>
+  </div>
+
+  <div class="finding">
+    <div class="tag">What the experiment found</div>
+    <p><b>Archimedes and Liu Hui computed the same number.</b> Archimedes' lower bound from the 96-gon's perimeter and Liu Hui's area of the 192-gon are one quantity, 3.14103…, reached from opposite ends of the world, 500 years apart. They had to agree: both rest on the identity <i>circle = half circumference × radius</i>, which the Greek text proves and the Nine Chapters state as a working rule, <span class="zh">半周半径相乘得积步</span>.</p>
+    <p><b>The Vedic rules were tuned for agreement between altars.</b> Their implied ratio, 3.088, misses π by 1.7%, but their two directions match each other to five decimal places. The fit that mattered was between the round earth-altar and the square heaven-altar.</p>
+    <p>And Archimedes' upper bound 22/7 is exactly 祖冲之's 约率, his "rough ratio," held next to his "close ratio" 355/113. <b>The Greek answer is an interval you can prove. The Vedic answer is a pair of rules that keep the altars in balance. The Chinese answer is a cut you can always make finer.</b></p>
+  </div>
+
+  <p class="note">How this was run. Same method as <a href="doubling-the-square.html">experiment 01</a>: each tradition answers with its surviving texts, tools and numerals. The numbers in the figures are computed live from each method. Where the texts are silent, the page says so, and the closing exchange is labelled as play.</p>
+</div></section>
+
+<!-- ══ 1 ALTAR ══ -->
+<section id="altar" class="sec-v"><div class="wrap">
+  <div class="sec-head"><span class="sec-num">01</span><h2>Table I · The altar ground<small>earth is round, heaven is square, and both must hold the same fire</small></h2></div>
+  <div class="where">Baudhāyana Śulbasūtra I.58–60 (Thibaut numbering) · Āpastamba III · Śatapatha Brāhmaṇa VII</div>
+
+  <p class="lead">This time the altar ground goes first, because it is the one place where the problem was not optional. On the ritual ground an east–west line is staked out. At its western end sits the household fire, the <i>gārhapatya</i>, which stands for this world. At the eastern end sits the offering fire, the <i>āhavanīya</i>, which stands for heaven. The Śatapatha Brāhmaṇa explains why the western hearth is round: the womb is round, and this world is round. The eastern altar is square. Some schools allowed the household altar to be square as well, and Baudhāyana records both customs. Where it is round, it must hold exactly the area of the square.</p>
+
+  <p>So the cord has to work in both directions. First, from square to circle:</p>
+
+  <div class="native">
+    <div class="src">Baudhāyana Śulbasūtra I.58 · circling the square</div>
+    <div class="orig dv">चतुरश्रं मण्डलं चिकीर्षन्नक्ष्णयार्धं मध्यात्प्राचीमभ्यापातयेत् । यदतिशिष्यते तस्य सह तृतीयेन मण्डलं परिलिखेत् ॥</div>
+    <div class="translit">caturaśraṃ maṇḍalaṃ cikīrṣann akṣṇayārdhaṃ madhyāt prācīm abhyāpātayet | yad atiśiṣyate tasya saha tṛtīyena maṇḍalaṃ parilikhet</div>
+    <div class="tr">“Wishing to make a square into a circle, swing half the diagonal from the centre down to the east line. Take what lies outside the square, and with a third of it, together with the rest, draw the circle.”</div>
+  </div>
+
+  <div class="fig" id="circFig">
+    <div class="fig-cap"><span>Fig. 1 · The square becomes a circle · cord and pegs</span><span>step</span></div>
+    <svg id="circSvg" viewBox="0 0 340 300" role="img" aria-label="Circling the square"></svg>
+    <div class="btns">
+      <button class="btn on" data-k="0">the square</button>
+      <button class="btn" data-k="1">swing the half-diagonal</button>
+      <button class="btn" data-k="2">a third of the excess</button>
+      <button class="btn" data-k="3">draw the circle</button>
+    </div>
+    <div class="readout" id="circOut"></div>
+  </div>
+
+  <p>Then back, from circle to square. Baudhāyana gives two rules. One is short: cut the diameter into fifteen parts and drop two. The other is one of the strangest sentences in early mathematics:</p>
+
+  <div class="native">
+    <div class="src">Baudhāyana Śulbasūtra I.59 · squaring the circle</div>
+    <div class="orig dv">मण्डलं चतुरश्रं चिकीर्षन्विष्कम्भमष्टौ भागान्कृत्वा भागमेकोनत्रिंशधा विभज्याष्टाविंशतिभागानुद्धरेत् भागस्य च षष्ठमष्टमभागोनम् ॥</div>
+    <div class="translit">maṇḍalaṃ caturaśraṃ cikīrṣan viṣkambham aṣṭau bhāgān kṛtvā bhāgam ekonatriṃśadhā vibhajyāṣṭāviṃśatibhāgān uddharet bhāgasya ca ṣaṣṭham aṣṭamabhāgonam</div>
+    <div class="tr">“Wishing to make a circle into a square, make the diameter eight parts. Divide one part into twenty-nine, and take away twenty-eight of them, and also a sixth of a part, less its own eighth.”</div>
+  </div>
+
+  <p>Unpacked, the side of the square is <span class="itex" data-tex="d\big(1-\tfrac18+\tfrac{1}{8\cdot29}-\tfrac{1}{8\cdot29\cdot6}+\tfrac{1}{8\cdot29\cdot6\cdot8}\big)">d(1 − 1/8 + 1/(8·29) − 1/(8·29·6) + 1/(8·29·6·8))</span>. It is the same telescoping style as the √2 rule of experiment 01: a whole, then corrections, each a fraction of the one before. Historians have long argued that I.59 was made by running I.58 backwards. The figure below tests that claim directly by running both rules on a real altar, there and back.</p>
+
+  <div class="fig" id="tripFig">
+    <div class="fig-cap"><span>Fig. 2 · There and back · does the round trip close?</span><span>run</span></div>
+    <div class="btns" style="margin-top:0">
+      <button class="btn on" data-r="long">I.59 · the long rule</button>
+      <button class="btn" data-r="short">I.60 · the 13/15 rule</button>
+    </div>
+    <table class="ladder trip" id="tripTbl"><thead><tr><th>Trip</th><th>Square → circle (I.58)</th><th>Circle → square</th><th>Drift</th></tr></thead><tbody></tbody></table>
+    <div class="readout" id="tripOut"></div>
+  </div>
+
+  <p>Run the long rule and the square comes back the same size, to about one part in four hundred thousand. Run the short rule and it shrinks by about 1.4 percent on every trip. The long rule exists to undo the circling rule. Its makers tuned it to the other altar, and that is the property the ritual needed: the household fire and the offering fire can be laid out from each other, in either order, and still match.</p>
+  <p>Against the true circle, the pair is off. The ratio hidden in both is about 3.088, so the round altar comes out about 1.7% larger than the square it should equal. Nothing in the sūtras names that ratio or checks it against the circumference. The Vedic table asked how to turn one shape into the other and back again, and it answered that question with remarkable care.</p>
+</div></section>
+
+<!-- ══ 2 SYRACUSE ══ -->
+<section id="syracuse" class="sec-g"><div class="wrap">
+  <div class="sec-head"><span class="sec-num">02</span><h2>Table II · Syracuse<small>the problem they could not solve, and the one they solved instead</small></h2></div>
+  <div class="where">Archimedes, Κύκλου μέτρησις, Measurement of a Circle · c. 250 BCE</div>
+
+  <p class="lead">For the Greeks, “square the circle” had a precise meaning: with straightedge and compass alone, in finitely many steps, draw a square equal to a given circle. Hippocrates of Chios squared some curved shapes, his lunes, and raised hopes. Others tried inscribing polygons and claiming that the last one <i>was</i> the circle. Aristophanes was already making jokes about circle-squarers on the Athenian stage. Nobody managed it, because it cannot be done. The proof came only in 1882, when Lindemann showed that π is transcendental.</p>
+  <p>Archimedes did the next best thing, twice. First he showed what the circle is equal to, in shapes a Greek could handle:</p>
+
+  <div class="native">
+    <div class="src">Archimedes, Measurement of a Circle, Prop. 1 · Greek</div>
+    <div class="orig el">Πᾶς κύκλος ἴσος ἐστὶ τριγώνῳ ὀρθογωνίῳ, οὗ ἡ μὲν ἐκ τοῦ κέντρου ἴση μιᾷ τῶν περὶ τὴν ὀρθήν, ἡ δὲ περίμετρος τῇ βάσει.</div>
+    <div class="tr">“Every circle is equal to a right-angled triangle in which the radius equals one of the sides about the right angle, and the circumference equals the base.”</div>
+  </div>
+
+  <p>The proof is a double trap, the method later called exhaustion. Suppose the circle were bigger than the triangle: inscribe polygons until one is also bigger than the triangle, and reach a contradiction. Suppose it were smaller: circumscribe polygons, and reach another. So it must be equal. This turns the area problem into a length problem. Square the triangle (easy) once you know the circumference. Then he went after the circumference.</p>
+
+  <div class="fig" id="unrollFig">
+    <div class="fig-cap"><span>Fig. 3 · Circle into triangle · and into Liu Hui's rectangle</span><span>slide</span></div>
+    <svg id="unrollSvg" viewBox="0 0 340 250" role="img" aria-label="Circle sectors rearranged"></svg>
+    <div class="btns"><label class="slab">slices <input type="range" id="unrollN" min="3" max="48" value="6" step="1"></label><span class="sval" id="unrollV">12</span></div>
+    <div class="readout" id="unrollOut"></div>
+  </div>
+
+  <p>Starting from the hexagon, Archimedes doubled the sides of an inscribed polygon and of a circumscribed one, to 12, 24, 48 and 96. The circle's perimeter is caught between the two. Every step needed a square root by hand, and he gives no account of how he got his remarkably sharp bounds for √3 at the start. He kept every rounding on the safe side, so the trap never leaks.</p>
+
+  <div class="fig" id="archFig">
+    <div class="fig-cap"><span>Fig. 4 · Inside and outside · doubling from the hexagon</span><span>tap</span></div>
+    <svg id="archSvg" viewBox="-1.25 -1.25 2.5 2.5" role="img" aria-label="Inscribed and circumscribed polygons"></svg>
+    <div class="btns" id="archBtns"></div>
+    <div class="readout" id="archOut"></div>
+  </div>
+
+  <div class="native">
+    <div class="src">Measurement of a Circle, Prop. 3 · the verdict</div>
+    <div class="orig el">τριπλασίων … καὶ ἔτι ὑπερέχει ἐλάσσονι μὲν ἢ ἑβδόμῳ μέρει, μείζονι δὲ ἢ δέκα ἑβδομηκοστομόνοις</div>
+    <div class="tr">“The circumference of any circle is three times the diameter and exceeds it by less than one seventh part, but by more than ten seventy-firsts.” That is, <b>3 10/71 &lt; π &lt; 3 1/7</b>. In Greek numerals, between <span class="el">σκγʹ</span>/<span class="el">οαʹ</span> (223/71) and <span class="el">κβʹ</span>/<span class="el">ζʹ</span> (22/7).</div>
+  </div>
+
+  <p>That is the Greek answer: no square, no single number, but two fractions with a proof that the truth lies between them. Archimedes stopped at 96 sides because the bounds were already good enough to settle the question he cared about, the circle's size to within a hair, proved.</p>
+</div></section>
+
+<!-- ══ 3 BOARD ══ -->
+<section id="board" class="sec-c"><div class="wrap">
+  <div class="sec-head"><span class="sec-num">03</span><h2>Table III · The counting board<small>a field to measure, an old ratio to fix, and a knife</small></h2></div>
+  <div class="where">九章算术 卷一 方田 · 刘徽注 263 CE · 祖冲之 (429–500), recorded in 《隋书·律历志》</div>
+
+  <p class="lead">The Nine Chapters meet the circle as a field, <span class="zh">圆田</span>, to be measured for tax and harvest. They give the area four ways, and the first is the deep one:</p>
+
+  <div class="native">
+    <div class="src">九章算术 · 卷一 方田 · 圆田术</div>
+    <div class="orig zh">术曰：半周半径相乘得积步。又术曰：周径相乘，四而一。又术曰：径自相乘，三之，四而一。又术曰：周自相乘，十二而一。</div>
+    <div class="tr">“Procedure: multiply half the circumference by half the diameter to get the area. Another: multiply circumference by diameter, and divide by four. Another: square the diameter, triple it, divide by four. Another: square the circumference, divide by twelve.”</div>
+  </div>
+
+  <p>The first rule is Archimedes' Proposition 1, stated as a working procedure: half circumference times radius. The last two quietly assume the old ratio <span class="zh">周三径一</span>, circumference three, diameter one. Liu Hui's first move as commentator is to point out what that ratio really measures. Three diameters is the perimeter of the inscribed hexagon, a shape whose corners touch the circle. The circle itself is longer. To find out how much longer, he starts cutting.</p>
+
+  <div class="native">
+    <div class="src">刘徽注 · 圆田术 · 割圆</div>
+    <div class="orig zh">割之弥细，所失弥少。割之又割，以至于不可割，则与圆周合体而无所失矣。</div>
+    <div class="tr">“Cut it finer and finer, and less and less is lost. Cut and cut again until it can be cut no more, and it becomes one body with the circle, and nothing is lost.”</div>
+  </div>
+
+  <p>His only tool is the 勾股 rule from experiment 01. From any polygon's side, half the side is a <span class="zh">勾</span>; the radius is the <span class="zh">弦</span>; the 勾股 rule gives the <span class="zh">股</span>; what is left of the radius beyond it is a small 勾 of a new, smaller triangle, whose 弦 is the side of the polygon with twice as many sides. Repeat. Each pass is one 开方 on the board.</p>
+
+  <div class="fig" id="liuFig">
+    <div class="fig-cap"><span>Fig. 5 · 割圆 · from 6 sides to 192 (and on)</span><span>cut</span></div>
+    <svg id="liuSvg" viewBox="-1.12 -1.12 2.24 2.24" role="img" aria-label="Liu Hui polygon cutting"></svg>
+    <div class="btns"><button class="btn" id="liuNext">割 · cut again</button><button class="btn" id="liuReset">还原 · reset</button></div>
+    <div class="readout" id="liuOut"></div>
+  </div>
+
+  <p>Liu Hui also had an upper bound, and his was cleverer than it first looks. Each cut adds small triangles, and the difference between two successive polygons, the <span class="zh">差幂</span>, bounds what is still missing. So the circle sits between the 192-gon and the 192-gon plus one more such difference. On a circle of radius one <i>chi</i> (ten <i>cun</i>), that squeezes the area between 314 64/625 and 314 169/625 square <i>cun</i>. He took 3.14, the <span class="zh">徽率</span> 157/50, then pushed on to 3072 sides for 3927/1250, which is 3.1416.</p>
+  <p>Two centuries later 祖冲之 went much further. His own book of methods, the <span class="zh">缀术</span>, is lost, but the <i>Book of Sui</i> records his result: π lies between 3.1415926 and 3.1415927. Keep cutting Liu Hui's way to 24,576 sides and the squeeze gives exactly those two numbers, so the figure above can reach his result. He gave two fractions for use: the <span class="zh">约率</span> (rough ratio) 22/7, and the <span class="zh">密率</span> (close ratio) 355/113, correct to six decimals. Europe found that fraction again only in the sixteenth century.</p>
+</div></section>
+
+<!-- ══ 4 MATHS ══ -->
+<section id="maths"><div class="wrap">
+  <div class="sec-head"><span class="sec-num">04</span><h2>The maths, side by side<small>one identity, three uses</small></h2></div>
+
+  <div class="plate v"><span class="ptag">Plate V · Śulba · two rules, one hidden ratio</span><i class="tk tl"></i><i class="tk tr"></i><i class="tk bl"></i><i class="tk br"></i>
+    <div class="tex" data-tex="\begin{gathered} r=\frac s2+\frac13\Big(\frac{\sqrt2\,s}{2}-\frac s2\Big)=\frac{2+\sqrt2}{6}\,s \\ \pi_{\text{implied}}=\frac{s^2}{r^2}=\frac{36}{(2+\sqrt2)^2}\approx \textcolor{#7a5600}{3.0883}\end{gathered}">r = s/2 + (√2 s/2 − s/2)/3 = (2 + √2)s/6, implied π = 36/(2 + √2)² ≈ 3.0883</div>
+    <div class="tex" data-tex="\begin{gathered}\frac{s}{d}\Big|_{\text{I.59}}=1-\tfrac18+\tfrac1{8\cdot29}-\tfrac1{8\cdot29\cdot6}+\tfrac1{8\cdot29\cdot48}\\ =\tfrac{9785}{11136}\approx0.878682\\ \frac{s}{d}\Big|_{\text{I.58 reversed}}=\frac{3}{2+\sqrt2}\approx0.878680\end{gathered}">s/d (I.59) = 9785/11136 ≈ 0.878682; s/d (I.58 reversed) = 3/(2+√2) ≈ 0.878680</div>
+    <div class="read"><b>How to read it</b>Line one is the circling rule as algebra: the radius is the half-side plus a third of the overshoot of the half-diagonal. Turned into a ratio, it says π ≈ 3.088. Lines two and three set the long squaring rule beside the circling rule run backwards. They agree to six places, so I.59 really is I.58 inverted. The 13/15 rule (0.8667) is a quick field version, and it doesn't match.</div>
+  </div>
+
+  <div class="plate g"><span class="ptag">Plate G · Archimedes · the doubling trap</span><i class="tk tl"></i><i class="tk tr"></i><i class="tk bl"></i><i class="tk br"></i>
+    <div class="tex" data-tex="\begin{gathered} A_{\text{circle}}=\tfrac12\,C\,r \\ P_{2n}=\frac{2\,p_n P_n}{p_n+P_n},\qquad p_{2n}=\sqrt{p_n\,P_{2n}} \\ \textcolor{#8a2a1d}{\tfrac{223}{71}<\pi<\tfrac{22}{7}}\quad(n=96)\end{gathered}">A = ½Cr; P(2n) = 2pP/(p+P), p(2n) = √(p·P(2n)); 223/71 < π < 22/7</div>
+    <div class="read"><b>How to read it</b>Proposition 1 converts area into length. The doubling step uses <span class="itex" data-tex="p_n">p</span> for the inscribed perimeter and <span class="itex" data-tex="P_n">P</span> for the circumscribed one: the new outer perimeter is the harmonic mean of the old two, and the new inner one is the geometric mean of the old inner and the new outer. Archimedes did not write it as a formula. He reasoned with angle bisectors and similar triangles, which comes to the same thing. Four doublings from the hexagon give 96 sides and the famous interval.</div>
+  </div>
+
+  <div class="plate c"><span class="ptag">Plate C · 刘徽 · 勾股, again and again</span><i class="tk tl"></i><i class="tk tr"></i><i class="tk bl"></i><i class="tk br"></i>
+    <div class="tex" data-tex="\begin{gathered} a=\tfrac{\ell_n}{2},\quad b=\sqrt{r^2-a^2} \\ c=r-b,\quad \ell_{2n}=\sqrt{a^2+c^2} \\ S_{2n}=\tfrac12\, n\,\ell_n\, r \\ \textcolor{#00665c}{S_{2n}<S<S_{2n}+\big(S_{2n}-S_n\big)}\end{gathered}">a = ℓ/2, b = √(r² − a²), c = r − b, ℓ(2n) = √(a² + c²); S(2n) = ½ n ℓ r; S(2n) < S < S(2n) + (S(2n) − S(n))</div>
+    <div class="read"><b>How to read it</b>Line one is one cut: half a side (<span class="zh">勾</span>), the radius (<span class="zh">弦</span>), the <span class="zh">股</span> by root extraction, the leftover small <span class="zh">勾</span>, and the new side. Line two is the trick that saves work: the area of the doubled polygon is half its parent's perimeter times the radius, which is 半周半径 applied to polygons. Line three is the 差幂 squeeze. The circle lies between the polygon and the polygon plus the last gain.</div>
+  </div>
+
+  <div class="plate k"><span class="ptag">Plate K · why two tables got one number</span><i class="tk tl"></i><i class="tk tr"></i><i class="tk bl"></i><i class="tk br"></i>
+    <div class="tex" data-tex="\begin{gathered}\frac{S_{192}}{r^2}=\frac{96\,\ell_{96}\,r}{2r^2}\\ =\frac{p_{96}}{d}=3.14103195\ldots\end{gathered}">S(192)/r² = 96·ℓ(96)·r / 2r² = p(96)/d = 3.14103195…</div>
+    <div class="read"><b>How to read it</b>Liu Hui's 192-gon area, divided by the radius squared, and Archimedes' inscribed 96-gon perimeter, divided by the diameter, are algebraically the same expression. Both stand on half circumference × radius. One table measured fields and the other proved theorems, and both still got 3.14103195.</div>
+  </div>
+
+  <h3>Every value, on one line</h3>
+  <p>Zoom in on the number line to see how close each table got, and in what form. Some values are single numbers, some are intervals, and two are rules that only imply a ratio.</p>
+
+  <div class="fig">
+    <div class="fig-cap"><span>Fig. 6 · Values for π, by table</span><span>zoom · tap a mark</span></div>
+    <div class="legend">
+      <span><i style="background:var(--ve)"></i>Śulba (implied)</span>
+      <span><i style="background:var(--gr)"></i>Greek</span>
+      <span><i style="background:var(--zh)"></i>Chinese</span>
+    </div>
+    <div class="chart-wrap" id="lineWrap"><svg id="lineSvg" viewBox="0 0 340 268" role="img" aria-label="Number line of pi values"></svg><div class="tip" id="tip"></div></div>
+    <div class="btns" id="zoomBtns">
+      <button class="btn on" data-z="0">2.95 – 3.20</button>
+      <button class="btn" data-z="1">3.138 – 3.145</button>
+      <button class="btn" data-z="2">3.14155 – 3.14165</button>
+    </div>
+    <details class="tbl"><summary>Show as a table</summary><div id="lineTbl"></div></details>
+  </div>
+</div></section>
+
+<!-- ══ 5 DIALOGUE ══ -->
+<section id="exchange"><div class="wrap">
+  <div class="sec-head"><span class="sec-num">05</span><h2>If the three tables met<small>an imagined exchange · play, built from real lines</small></h2></div>
+  <p class="note">Staged, as before. Quoted lines are the traditions' own.</p>
+  <div class="dialogue">
+    <div class="line g"><div class="who">Syracuse</div><p>Your round altar is too big, friend. By my bounds the ratio is above 3 10/71. Yours implies 3.088.</p></div>
+    <div class="line v"><div class="who">Altar</div><p>Too big compared with what? Build the square from the circle by our rule and you get the square we began with. Earth and heaven hold the same fire. That is the measure the rite asks for.</p></div>
+    <div class="line c"><div class="who">Board</div><p>The tax-collector asks for a different measure. A field reckoned with <span class="zh">周三径一</span> is a hexagon, not a field. <span class="zh">“割之弥细，所失弥少。”</span></p></div>
+    <div class="line g"><div class="who">Syracuse</div><p>Then we agree on the method. Polygons inside, polygons outside, and the circle trapped between. At 96 sides I stopped.</p></div>
+    <div class="line c"><div class="who">Board</div><p>At 192 I had your exact number, from areas instead of perimeters. Then I went to 3072. <span class="zh">“以至于不可割，则与圆周合体而无所失矣。”</span></p></div>
+    <div class="line g"><div class="who">Syracuse</div><p>“Until it cannot be cut” is the step I will not take. No polygon is ever the circle. That is why I give you two numbers and a proof.</p></div>
+    <div class="line v"><div class="who">Altar</div><p>And we give you two cords that agree. Everyone here gave two of something.</p></div>
+  </div>
+</div></section>
+
+<!-- ══ 6 CODA ══ -->
+<section id="coda"><div class="wrap">
+  <div class="fence"><div class="fl">Here the rigour ends and the wondering begins</div></div>
+  <div class="coda">
+    <p>Put the two experiments side by side and a pattern holds. With the square, the three tables answered <i>see</i>, <i>make</i>, <i>proceed</i>. With the circle the verbs shift a little, but the characters stay the same.</p>
+    <div class="verbs">
+      <div class="v"><b>to balance</b><span>Altar · two cords</span></div>
+      <div class="g"><b>to bound</b><span>Syracuse · two fractions</span></div>
+      <div class="c"><b>to cut</b><span>Board · ever finer</span></div>
+    </div>
+    <p>The altar-builders cared about a relation between two shapes that had to stand in for earth and heaven. So their best rule is the one that makes the relation reversible, and the circle's own ratio never needed a name. Archimedes cared about what can be proved. So he gives a window, closed at both ends, and the most honest thing he can say about the number is where it cannot be. Liu Hui cared about a procedure that anyone at a board can continue. So his answer comes with its own refinement built in, and 祖冲之 could pick it up two hundred years later and keep cutting.</p>
+    <p>The shared ground is just as striking. Half circumference times radius sits under both Syracuse and the Nine Chapters. Both started at the hexagon and doubled. They met at 3.14103195 without ever knowing the other existed. And the fraction the Greek wrote as his upper bound, the Chinese kept as their rough ratio.</p>
+  </div>
+</div></section>
+
+<!-- ══ GO FURTHER ══ -->
+<section id="further"><div class="wrap">
+  <div class="sec-head"><span class="sec-num">→</span><h2>Go further</h2></div>
+  <ul class="further">
+    <li><span class="k">Vedic · primary + reading</span><a href="https://web3.arxiv.org/pdf/2507.03658">“Textual analysis of ancient Indian mathematics” (arXiv 2507.03658)</a>. The Sanskrit of Baudhāyana I.59, its translation, and the case that it inverts I.58.</li>
+    <li><span class="k">Vedic · the altars</span><a href="https://www.maa.org/book/export/html/672548">“Ancient Indian Rope Geometry in the Classroom” (MAA Convergence)</a>. The east–west line, the square āhavanīya and the round gārhapatya, with constructions to try by hand.</li>
+    <li><span class="k">Vedic · Baudhāyana translation</span><a href="https://vishvasa.github.io/vedAH_yajuH/taittirIyam/sUtram/baudhAyanaH/shulba-sUtrANi/sarva-prastutiH/07">Baudhāyana Śulbasūtra, Sanskrit with English (Sen &amp; Bag)</a>. Includes the note that the gārhapatya is square by one tradition and round by another.</li>
+    <li><span class="k">Greek · primary</span><a href="https://myria.math.aegean.gr/elements/KyklouMetrisis.pdf">Κύκλου μέτρησις, ancient text with a modern Greek rendering (Univ. of the Aegean)</a>. All three propositions in the original.</li>
+    <li><span class="k">Greek · reading</span><a href="https://www.cs.miami.edu/home/burt/manuscripts/archimedes/meas_circle.pdf">Burton Rosenberg, “Archimedes and Pi”</a>. A clear walk through Prop. 3, lemma by lemma, with his √3 bounds.</li>
+    <li><span class="k">Chinese · overview</span><a href="https://www.thepaper.cn/newsDetail_forward_17121212">数学家如何计算圆周率? (澎湃)</a>. Liu Hui's 割圆 to 3.1416, and 祖冲之's 约率 and 密率.</li>
+    <li><span class="k">Experiment 01</span><a href="doubling-the-square.html">Doubling the Square · 三家倍方</a>. The 勾股 rule, the √2 sūtra, and the side-and-diameter ladder this page builds on.</li>
+  </ul>
+</div></section>
+
+<section><div class="wrap"><div class="finding" style="margin-top:0"><div class="tag">Back to the first table</div><p><a href="doubling-the-square.html" style="color:#fff"><b>← Experiment 01 · Doubling the Square · 三家倍方</b></a><br>Where the three stances first showed themselves: a line to see, a cord to make, a procedure to keep running.</p></div></div></section>
+
+<footer><div class="wrap">
+  <div><strong>Squaring the Circle · 三家方圆</strong><br>Three Tables, experiment 02 · one problem put to three mathematical traditions</div>
+  <div>Lin Wei 林威 — conceptual direction<br>with Claude<br>November 2026</div>
+</div></footer>
+
+<script>
+(function(){
+const NS='http://www.w3.org/2000/svg';
+function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;}
+function txt(parent,x,y,s,attrs){const t=el('text',Object.assign({x,y},attrs||{}),parent);t.textContent=s;return t;}
+const C={gr:'#b23a2a',ve:'#b07d00',zh:'#00897b',ink:'#1d1814',ink2:'#3a3029',rule:'#d8cbb6',zhu:'#c8402e',qing:'#2a7d74'};
+const MONO={'font-family':'IBM Plex Mono,monospace'};
+function setOn(group,btn){group.forEach(b=>b.classList.toggle('on',b===btn));}
+const PI=Math.PI;
+
+/* KaTeX */
+window.addEventListener('load',()=>{if(!window.katex)return;document.querySelectorAll('[data-tex]').forEach(n=>{try{katex.render(n.dataset.tex,n,{displayMode:n.classList.contains('tex'),throwOnError:false,strict:'ignore'});}catch(e){}});});
+
+/* ── Fig 1 · circling the square ── */
+(function(){
+  const svg=document.getElementById('circSvg'),out=document.getElementById('circOut');
+  const cx=150,cy=150,h=90; // half side
+  const hd=h*Math.SQRT2, ex=hd-h, r=h+ex/3;
+  const msgs=[
+    'The square offering altar, centre marked, on the east–west line (<i>prācī</i>). Side <b>1</b>, area <b>1</b>.',
+    'Swing half the diagonal from the centre down onto the east line. It reaches past the square by <b>(√2 − 1)/2 ≈ 0.207</b> of the side.',
+    'Take <b>one third</b> of that overshoot, ≈ 0.069, and keep it with the half-side.',
+    'Draw the circle with radius <b>½ + ⅓·overshoot ≈ 0.569</b>. Its area is <b>≈ 1.017</b>: the round altar comes out about 1.7% larger than the square.'
+  ];
+  function draw(k){
+    svg.innerHTML='';
+    el('line',{x1:20,y1:cy,x2:320,y2:cy,stroke:C.rule,'stroke-width':1},svg);
+    txt(svg,318,cy-6,'east →',Object.assign({'font-size':10,'text-anchor':'end',fill:C.ink2},MONO));
+    txt(svg,22,cy-6,'west',Object.assign({'font-size':10,fill:C.ink2},MONO));
+    el('rect',{x:cx-h,y:cy-h,width:2*h,height:2*h,fill:'rgba(176,125,0,.10)',stroke:C.ink,'stroke-width':1.6},svg);
+    el('circle',{cx,cy,r:3,fill:C.ink},svg);
+    if(k>=1){
+      el('line',{x1:cx,y1:cy,x2:cx+h,y2:cy-h,stroke:C.ink2,'stroke-width':1,'stroke-dasharray':'3 3'},svg);
+      const a0=-PI/4;el('path',{d:`M ${cx+hd*Math.cos(a0)} ${cy+hd*Math.sin(a0)} A ${hd} ${hd} 0 0 1 ${cx+hd} ${cy}`,fill:'none',stroke:C.ve,'stroke-width':1.6},svg);
+      el('line',{x1:cx,y1:cy,x2:cx+hd,y2:cy,stroke:C.ve,'stroke-width':2.4},svg);
+      el('line',{x1:cx+h,y1:cy+6,x2:cx+hd,y2:cy+6,stroke:C.gr,'stroke-width':3},svg);
+      txt(svg,cx+h+ex/2,cy+22,'overshoot',Object.assign({'font-size':9.5,'text-anchor':'middle',fill:C.gr},MONO));
+    }
+    if(k>=2){el('line',{x1:cx+h,y1:cy-8,x2:cx+h+ex/3,y2:cy-8,stroke:C.ink,'stroke-width':3},svg);txt(svg,cx+h+ex/6,cy-14,'⅓',{'font-size':13,'text-anchor':'middle',fill:C.ink,'font-family':'EB Garamond,serif'});}
+    if(k>=3){el('circle',{cx,cy,r,fill:'rgba(0,137,123,.10)',stroke:C.zh,'stroke-width':2},svg);}
+    out.innerHTML=msgs[k];
+  }
+  const btns=[...document.querySelectorAll('#circFig [data-k]')];
+  btns.forEach(b=>b.onclick=()=>{setOn(btns,b);draw(+b.dataset.k);});
+  draw(0);
+})();
+
+/* ── Fig 2 · round trip ── */
+(function(){
+  const tb=document.querySelector('#tripTbl tbody'),out=document.getElementById('tripOut');
+  const circ=s=>s*(2+Math.SQRT2)/3;            // diameter from square side (I.58)
+  const LONG=9785/11136, SHORT=13/15;
+  function run(mode){
+    const f=mode==='long'?LONG:SHORT;let s=120;tb.innerHTML='';
+    for(let t=1;t<=3;t++){
+      const d=circ(s),s2=d*f;const drift=(s2/120-1)*100;
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td data-l="Trip">${t}</td><td data-l="Circle diameter" class="num">${d.toFixed(4)} aṅg.</td><td data-l="Square side" class="num">${s2.toFixed(4)} aṅg.</td><td data-l="Drift vs 120" class="num">${drift>=0?'+':''}${drift.toFixed(mode==='long'?5:2)}%</td>`;
+      tb.appendChild(tr);s=s2;
+    }
+    out.innerHTML=mode==='long'
+      ?'Start from a square of <b>120 aṅgulas</b> (one puruṣa). Three round trips with I.58 and I.59: the square comes back within <b>a thousandth of an aṅgula</b>, about a thirtieth of a sesame seed. The two rules are inverses.'
+      :'Same start with the short 13/15 rule: the square loses about <b>1.4% per trip</b>. A quick field rule, made for the circle-to-square direction alone.';
+  }
+  const btns=[...document.querySelectorAll('#tripFig [data-r]')];
+  btns.forEach(b=>b.onclick=()=>{setOn(btns,b);run(b.dataset.r);});
+  run('long');
+})();
+
+/* ── Fig 3 · unroll sectors ── */
+(function(){
+  const svg=document.getElementById('unrollSvg'),inp=document.getElementById('unrollN'),val=document.getElementById('unrollV'),out=document.getElementById('unrollOut');
+  const R=52;
+  function draw(){
+    const N=+inp.value, M=2*N, th=2*PI/M; val.textContent=M;
+    svg.innerHTML='';
+    // circle with sectors
+    const ccx=70,ccy=70;
+    for(let i=0;i<M;i++){const a0=i*th-PI/2,a1=a0+th;
+      el('path',{d:`M${ccx},${ccy} L${ccx+R*Math.cos(a0)},${ccy+R*Math.sin(a0)} A${R},${R} 0 0 1 ${ccx+R*Math.cos(a1)},${ccy+R*Math.sin(a1)} Z`,fill:i%2?'rgba(0,137,123,.28)':'rgba(178,58,42,.22)',stroke:'#fbf8f2','stroke-width':.8},svg);}
+    txt(svg,150,40,'cut the circle into '+M+' slices',Object.assign({'font-size':10,fill:C.ink2},MONO));
+    txt(svg,150,56,'and lay them head-to-tail',Object.assign({'font-size':10,fill:C.ink2},MONO));
+    // rearranged
+    const y0=150,step=R*Math.sin(th/2);const x0=(340-M*step)/2;
+    for(let i=0;i<M;i++){
+      const up=i%2===0;const ax=x0+step*(i+ (up?0.5:0.5)) + (up?0:0);const ay=up?y0:y0+R;
+      let d=`M${ax},${ay}`;const K=6;
+      for(let j=0;j<=K;j++){const f=-th/2+th*j/K;const px=ax+R*Math.sin(f),py=up?ay+R*Math.cos(f):ay-R*Math.cos(f);d+=` L${px},${py}`;}
+      d+=' Z';
+      el('path',{d,fill:up?'rgba(178,58,42,.22)':'rgba(0,137,123,.28)',stroke:'#fbf8f2','stroke-width':.8},svg);
+    }
+    const W=PI*R;
+    el('rect',{x:(340-W)/2,y:y0,width:W,height:R,fill:'none',stroke:C.ink,'stroke-width':1,'stroke-dasharray':'3 3'},svg);
+    txt(svg,170,y0+R+18,'≈ half circumference × radius',Object.assign({'font-size':10.5,'text-anchor':'middle',fill:C.ink},MONO));
+    txt(svg,(340-W)/2-6,y0+R/2+4,'r',{'font-size':15,'text-anchor':'end',fill:C.ink,'font-family':'EB Garamond,serif','font-style':'italic'});
+    txt(svg,170,y0-8,'½ C',{'font-size':15,'text-anchor':'middle',fill:C.ink,'font-family':'EB Garamond,serif','font-style':'italic'});
+    out.innerHTML=`With <b>${M}</b> slices the pieces already lean into a strip of height <i>r</i> and length half the circumference. Archimedes proves the circle equals the right triangle with legs <i>r</i> and <i>C</i>, the same area. The Nine Chapters say it as a rule: <span class="zh">半周半径相乘得积步</span>.`;
+  }
+  inp.oninput=draw;draw();
+})();
+
+/* ── Fig 4 · Archimedes polygons ── */
+(function(){
+  const svg=document.getElementById('archSvg'),out=document.getElementById('archOut'),bx=document.getElementById('archBtns');
+  const ns=[6,12,24,48,96];
+  function poly(n,R,rot){const p=[];for(let i=0;i<n;i++){const a=2*PI*i/n+rot;p.push((R*Math.cos(a)).toFixed(4)+','+(R*Math.sin(a)).toFixed(4));}return p.join(' ');}
+  function draw(n){
+    svg.innerHTML='';
+    el('circle',{cx:0,cy:0,r:1,fill:'rgba(0,0,0,.03)',stroke:C.ink,'stroke-width':.012},svg);
+    el('polygon',{points:poly(n,1/Math.cos(PI/n),PI/n),fill:'none',stroke:C.gr,'stroke-width':.012,'stroke-dasharray':'.03 .02'},svg);
+    el('polygon',{points:poly(n,1,PI/n),fill:'rgba(178,58,42,.10)',stroke:C.gr,'stroke-width':.014},svg);
+    const lo=n*Math.sin(PI/n),hi=n*Math.tan(PI/n);
+    out.innerHTML=`<b>${n} sides.</b> Inscribed perimeter ÷ diameter = <b>${lo.toFixed(5)}</b>; circumscribed = <b>${hi.toFixed(5)}</b>. The circle is trapped between.`+(n>=48?' At this size the gap between the polygons is thinner than the drawn line.':'')+(n===96?'<br>Archimedes rounds outward, always on the safe side: <b>3 10/71 = 3.14085 &lt; π &lt; 3.14286 = 3 1/7</b>.':'');
+  }
+  const btns=ns.map(n=>{const b=document.createElement('button');b.className='btn';b.textContent=n+'-gon';b.onclick=()=>{setOn(btns,b);draw(n);};bx.appendChild(b);return b;});
+  btns[0].classList.add('on');draw(6);
+})();
+
+/* ── Fig 5 · Liu Hui 割圆 ── */
+(function(){
+  const svg=document.getElementById('liuSvg'),out=document.getElementById('liuOut');
+  const S=n=>n/2*Math.sin(2*PI/n);
+  let n=6;
+  function poly(n){const p=[];for(let i=0;i<n;i++){const a=2*PI*i/n-PI/2;p.push((Math.cos(a)).toFixed(5)+','+(Math.sin(a)).toFixed(5));}return p.join(' ');}
+  function draw(){
+    svg.innerHTML='';
+    el('circle',{cx:0,cy:0,r:1,fill:'none',stroke:C.ink,'stroke-width':.012},svg);
+    el('polygon',{points:poly(Math.min(n,400)),fill:'rgba(0,137,123,.10)',stroke:C.zh,'stroke-width':.01},svg);
+    if(n<=48){
+      const a0=-PI/2,a1=a0+2*PI/n,am=(a0+a1)/2;
+      const A=[Math.cos(a0),Math.sin(a0)],B=[Math.cos(a1),Math.sin(a1)],M=[(A[0]+B[0])/2,(A[1]+B[1])/2],Cc=[Math.cos(am),Math.sin(am)];
+      const L=(p,q,c,w)=>el('line',{x1:p[0],y1:p[1],x2:q[0],y2:q[1],stroke:c,'stroke-width':w},svg);
+      L([0,0],Cc,C.ink2,.008);L(A,M,C.zhu,.03);L([0,0],M,C.qing,.022);L(M,Cc,C.zhu,.022);L(A,Cc,C.ink,.02);
+      [A,B,Cc].forEach(p=>el('circle',{cx:p[0],cy:p[1],r:.02,fill:C.ink},svg));
+    }
+    const area=S(n)*100, prev=S(n/2)*100, up=area+(area-prev);
+    let extra='';
+    if(n===192) extra='<br>Liu Hui: <span class="zh">三百一十四寸六百二十五分寸之六十四</span> (314 64/625), and he takes π ≈ <b>3.14 = 157/50</b>, the <span class="zh">徽率</span>.';
+    if(n===3072) extra='<br>Liu Hui pushes on to here and settles on <b>3927/1250 = 3.1416</b>.';
+    if(n===24576) extra='<br>The squeeze now reads <b>3.1415926 &lt; π &lt; 3.1415927</b>, exactly 祖冲之\'s bounds in the <i>Book of Sui</i>.';
+    out.innerHTML=`<b>${n} sides.</b> Area on a radius of 10 <span class="zh">寸</span>: <b>${area.toFixed(4)}</b> <span class="zh">寸</span>². 差幂 squeeze: <b>${area.toFixed(4)} &lt; S &lt; ${up.toFixed(4)}</b>. So π lies in [${(area/100).toFixed(7)}, ${(up/100).toFixed(7)}].`+(n<=48?'<br><span class="note">Red: half-side 勾 and the small 勾 left over; green: the 股. The black chord is the next side.</span>':'')+extra;
+  }
+  document.getElementById('liuNext').onclick=()=>{if(n<24576){n*=2;draw();}};
+  document.getElementById('liuReset').onclick=()=>{n=6;draw();};
+  draw();
+})();
+
+/* ── Fig 6 · number line ── */
+(function(){
+  const svg=document.getElementById('lineSvg'),tip=document.getElementById('tip'),wrap=document.getElementById('lineWrap');
+  const items=[
+    {t:'v',n:'Baudhāyana I.60 (13/15)',a:3.0044444},
+    {t:'v',n:'Baudhāyana I.58 / I.59',a:3.0883118},
+    {t:'c',n:'周三径一 · old ratio',a:3},
+    {t:'g',n:'Archimedes · 96-gons',a:223/71,b:22/7},
+    {t:'c',n:'刘徽 · 192-gon squeeze',a:3.1410320,b:3.1427137},
+    {t:'c',n:'徽率 157/50',a:3.14},
+    {t:'c',n:'3927/1250',a:3.1416},
+    {t:'c',n:'祖冲之 · bounds',a:3.1415926,b:3.1415927},
+    {t:'c',n:'密率 355/113',a:355/113},
+    {t:'c',n:'约率 22/7 (= Archimedes’ upper)',a:22/7}
+  ];
+  const ranges=[[2.95,3.20],[3.138,3.145],[3.14155,3.14165]];
+  const col={v:C.ve,g:C.gr,c:C.zh};
+  const W=340,L=12,Rr=12,top=10,rowH=21;
+  function draw(z){
+    const [lo,hi]=ranges[z];svg.innerHTML='';
+    const X=v=>L+(v-lo)/(hi-lo)*(W-L-Rr);
+    const yEnd=top+items.length*rowH;
+    // pi line
+    el('line',{x1:X(PI),y1:top-4,x2:X(PI),y2:yEnd,stroke:C.ink,'stroke-width':1.2,'stroke-dasharray':'2 2'},svg);
+    txt(svg,X(PI),yEnd+12,'π',{'font-size':14,'text-anchor':'middle',fill:C.ink,'font-family':'EB Garamond,serif','font-style':'italic'});
+    // axis ticks
+    for(let i=0;i<=4;i++){const v=lo+(hi-lo)*i/4;const x=X(v);el('line',{x1:x,y1:yEnd+18,x2:x,y2:yEnd+22,stroke:C.ink2},svg);txt(svg,x,yEnd+33,v.toFixed(z===0?2:z===1?3:5),Object.assign({'font-size':8.5,'text-anchor':i===0?'start':i===4?'end':'middle',fill:C.ink2},MONO));}
+    items.forEach((it,i)=>{
+      const y=top+i*rowH+10;const c=col[it.t];
+      el('line',{x1:L,y1:y,x2:W-Rr,y2:y,stroke:'#ece3d2','stroke-width':1},svg);
+      const inA=it.a>=lo&&it.a<=hi, b=it.b||it.a, inB=b>=lo&&b<=hi;
+      let labelX, anchor='start';
+      if(!inA&&!inB&&(b<lo||it.a>hi)){ // fully outside
+        const left=b<lo;const x=left?L+2:W-Rr-2;
+        txt(svg,x,y+4,(left?'◂ ':'')+it.n+' · '+it.a.toFixed(4)+(left?'':' ▸'),Object.assign({'font-size':9,'text-anchor':left?'start':'end',fill:C.ink2},MONO));
+        return;
+      }
+      const xa=X(Math.max(it.a,lo)),xb=X(Math.min(b,hi));
+      if(it.b){el('rect',{x:xa,y:y-3,width:Math.max(2,xb-xa),height:6,rx:2,fill:c,opacity:.85},svg);}
+      else el('circle',{cx:xa,cy:y,r:4.5,fill:c,stroke:'#fbf8f2','stroke-width':1.5},svg);
+      const mid=(xa+xb)/2; if(mid>W/2){labelX=Math.min(xa,xb)-7;anchor='end';}else{labelX=Math.max(xa,xb)+7;}
+      txt(svg,labelX,y+3.5,it.n,Object.assign({'font-size':9,'text-anchor':anchor,fill:C.ink},MONO));
+      const hit=el('rect',{x:Math.min(xa,xb)-10,y:y-9,width:Math.abs(xb-xa)+20,height:18,fill:'transparent',style:'cursor:pointer'},svg);
+      const show=()=>{const r=wrap.getBoundingClientRect(),k=r.width/W;tip.innerHTML=it.n+'<br>'+(it.b?it.a.toFixed(7)+' – '+it.b.toFixed(7):it.a.toFixed(7))+'<br>error '+(it.b?'interval holds π':((it.a-PI)>0?'+':'')+(it.a-PI).toExponential(1));tip.style.left=Math.min(r.width-180,Math.max(0,mid*k-60))+'px';tip.style.top=Math.max(0,y*k-62)+'px';tip.style.opacity=1;};
+      hit.addEventListener('mouseenter',show);hit.addEventListener('click',show);hit.addEventListener('mouseleave',()=>tip.style.opacity=0);
+    });
+  }
+  const btns=[...document.querySelectorAll('#zoomBtns [data-z]')];
+  btns.forEach(b=>b.onclick=()=>{setOn(btns,b);tip.style.opacity=0;draw(+b.dataset.z);});
+  draw(0);
+  let h='<table><tr><th>value</th><th>low</th><th>high</th></tr>';items.forEach(it=>{h+=`<tr><td>${it.n}</td><td>${it.a.toFixed(7)}</td><td>${(it.b||it.a).toFixed(7)}</td></tr>`;});
+  document.getElementById('lineTbl').innerHTML=h+'</table>';
+})();
+})();
+</script>
+<script data-goatcounter="https://linwei.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
